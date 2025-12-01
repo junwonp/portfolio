@@ -1,11 +1,11 @@
 import type {
-  IntroductionProps,
-  WorkExperienceProps,
-  OtherExperienceProps,
-  CertificateProps,
-  SkillProps,
-  EducationProps,
   ArchiveProps,
+  CertificateProps,
+  EducationProps,
+  IntroductionProps,
+  OtherExperienceProps,
+  SkillProps,
+  WorkExperienceProps,
 } from '../../types/about';
 
 export const introduction: IntroductionProps = {

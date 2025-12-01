@@ -1,10 +1,11 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+
+  import { page } from '$app/state';
   import Github from '$lib/components/Icon/Github.svelte';
   import Period from '$lib/components/Period.svelte';
-  import { page } from '$app/state';
-  import type { Language } from '$lib/utils/language';
   import { getLabels } from '$lib/data/labels';
+  import type { Language } from '$lib/utils/language';
 
   interface Props {
     children?: Snippet;

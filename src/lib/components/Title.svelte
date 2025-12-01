@@ -1,12 +1,12 @@
 <script lang="ts">
   import { browser } from '$app/environment';
   import { invalidateAll } from '$app/navigation';
-  import Github from '$lib/components/Icon/Github.svelte';
-  import Linkedin from '$lib/components/Icon/Linkedin.svelte';
-  import Globe from '$lib/components/Icon/Globe.svelte';
-  import type { Language } from '$lib/utils/language';
   import { page } from '$app/state';
+  import Github from '$lib/components/Icon/Github.svelte';
+  import Globe from '$lib/components/Icon/Globe.svelte';
+  import Linkedin from '$lib/components/Icon/Linkedin.svelte';
   import { getLabels } from '$lib/data/labels';
+  import type { Language } from '$lib/utils/language';
 
   interface Props {
     githubLink?: string;

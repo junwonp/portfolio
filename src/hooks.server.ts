@@ -1,4 +1,5 @@
 import type { Handle } from '@sveltejs/kit';
+
 import { detectLanguageFromHeader } from '$lib/utils/language';
 
 const LANGUAGE_COOKIE = 'preferred-language';

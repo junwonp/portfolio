@@ -1,6 +1,8 @@
 import { json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
+
 import type { Language } from '$lib/utils/language';
+
+import type { RequestHandler } from './$types';
 
 const LANGUAGE_COOKIE = 'preferred-language';
 

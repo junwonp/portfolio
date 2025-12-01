@@ -1,15 +1,15 @@
 import type {
-  IntroductionProps,
-  WorkExperienceProps,
-  OtherExperienceProps,
-  CertificateProps,
-  SkillProps,
-  EducationProps,
   ArchiveProps,
+  CertificateProps,
+  EducationProps,
+  IntroductionProps,
+  OtherExperienceProps,
+  SkillProps,
+  WorkExperienceProps,
 } from '../../types/about';
-import * as koData from './resume.ko';
-import * as enData from './resume.en';
 import type { Language } from '../utils/language';
+import * as enData from './resume.en';
+import * as koData from './resume.ko';
 
 export interface ResumeData {
   introduction: IntroductionProps;

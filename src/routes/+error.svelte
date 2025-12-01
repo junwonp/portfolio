@@ -1,9 +1,9 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { page } from '$app/state';
-  import type { Language } from '$lib/utils/language';
-  import { getLabels } from '$lib/data/labels';
   import { resolve } from '$app/paths';
+  import { page } from '$app/state';
+  import { getLabels } from '$lib/data/labels';
+  import type { Language } from '$lib/utils/language';
 
   const errorStatus = page.status || 500;
 

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+
   import Period from './Period.svelte';
 
   interface Props {

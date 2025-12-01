@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from '$app/state';
-  import type { Language } from '$lib/utils/language';
   import { getLabels } from '$lib/data/labels';
+  import type { Language } from '$lib/utils/language';
 
   const locale = $derived((page.data.locale as Language | undefined) ?? 'en');
   const labels = $derived(getLabels(locale));

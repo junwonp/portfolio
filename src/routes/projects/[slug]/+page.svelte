@@ -1,6 +1,7 @@
 <script lang="ts">
   import Title from '$lib/components/Title.svelte';
   import { getLabels } from '$lib/data/labels';
+
   import type { PageData } from './$types';
 
   let { data }: { data: PageData } = $props();

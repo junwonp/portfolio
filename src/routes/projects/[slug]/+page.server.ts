@@ -1,7 +1,9 @@
 import { error } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
 import type { Component } from 'svelte';
+
 import type { Language } from '$lib/utils/language';
+
+import type { PageServerLoad } from './$types';
 
 export const prerender = false;
 

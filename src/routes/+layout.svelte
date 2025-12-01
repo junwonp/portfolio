@@ -3,10 +3,12 @@
   import '../app.css';
   import '$lib/styles/prism-gruvbox-light.css';
   import '$lib/styles/prism-gruvbox-dark.css';
-  import favicon from '$lib/assets/favicon.svg';
-  import { onMount } from 'svelte';
-  import { browser } from '$app/environment';
+
   import type { Snippet } from 'svelte';
+  import { onMount } from 'svelte';
+
+  import { browser } from '$app/environment';
+  import favicon from '$lib/assets/favicon.svg';
   import Footer from '$lib/components/Footer.svelte';
   import type { Language } from '$lib/utils/language';
   import { getMetadata } from '$lib/utils/metadata';

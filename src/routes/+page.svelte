@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { getResumeData } from '$lib/data/resume';
-  import Title from '$lib/components/Title.svelte';
   import Project from '$lib/components/Project.svelte';
-  import SideList from '$lib/components/SideList.svelte';
   import Row from '$lib/components/Row.svelte';
-  import { parseMarkdownBold } from '$lib/utils/markdown';
+  import SideList from '$lib/components/SideList.svelte';
+  import Title from '$lib/components/Title.svelte';
+  import { getResumeData } from '$lib/data/resume';
   import type { Language } from '$lib/utils/language';
+  import { parseMarkdownBold } from '$lib/utils/markdown';
 
   let { data }: { data: { locale: Language } } = $props();
 
