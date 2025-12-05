@@ -9,6 +9,7 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 
 <script>
   import ImageDescription from '$lib/components/ImageDescription.svelte';
+  import ImageGallery from '$lib/components/ImageGallery.svelte';
 </script>
 
 ## 💡 프로젝트 소개
@@ -33,9 +34,9 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 
 ### 1. 단일 코드로 앱과 웹 동시 지원 (크로스 플랫폼)
 
-<ImageDescription src="/images/aira/aira_desktop_main.webp" alt="aira Desktop Main Screen"/>
+<ImageDescription src="/images/aira/desktop_main.webp" alt="aira Desktop Main Screen"/>
 
-<ImageDescription src="/images/aira/aira_desktop_chat.webp" alt="aira Desktop Chat Screen"/>
+<ImageDescription src="/images/aira/desktop_chat.webp" alt="aira Desktop Chat Screen"/>
 
 효율적인 리소스 관리를 위해 **Expo Router**를 기반으로 하나의 소스 코드에서 **Android, iOS 앱과 Web 페이지를 모두 지원**하는 구조를 구축했습니다.
 
@@ -60,7 +61,10 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 
 ### 5. 대량 데이터 렌더링 성능 최적화
 
-<ImageDescription src="/images/aira/aira_mobile_flashlist.gif" alt="aira Mobile Flashlist Demo"/>
+<ImageGallery>
+  <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat Flashlist Demo"/>
+  <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home Flashlist Demo"/>
+</ImageGallery>
 
 이미지와 텍스트가 섞인 수만 건의 채팅 로그를 저사양 기기에서도 부드럽게 보여주는 것이 과제였습니다.
 
@@ -69,7 +73,11 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 
 ### 6. 사용자 경험을 해치지 않는 광고
 
-<ImageDescription src="/images/aira/aira_mobile_native_ads.webp" alt="aira Mobile Native Ads Demo"/>
+<ImageGallery>
+  <ImageDescription src="/images/aira/home_ads.webp" alt="aira Home Ads Demo"/>
+  <ImageDescription src="/images/aira/chat_ads.webp" alt="aira Chat Ads Demo"/>
+  <ImageDescription src="/images/aira/reward_ads.webp" alt="aira Reward Ads Demo"/>
+</ImageGallery>
 
 수익화를 위해 광고를 도입해야 했지만, 채팅 경험을 방해하고 싶지는 않았습니다.
 채팅 화면 맨 위에 **'AD' 표시와 제목만 얇게 한 줄로 노출**되는 **네이티브 광고(Native Ads)** 형식을 직접 디자인하여 적용했습니다. 이를 통해 화면 공간을 최소한으로 차지하면서도 콘텐츠와 이질감 없이 어우러지도록 구현했습니다.
@@ -83,7 +91,7 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 
 ### 숏폼(Shorts) 스타일의 탐색 경험과 iOS 26 Liquid Glass
 
-<ImageDescription src="/images/aira/aira_v2_home.mp4" alt="aira V2 Shorts UI and Liquid Glass demo"/>
+<ImageDescription src="/images/aira/v2_home.mp4" alt="aira V2 Shorts UI and Liquid Glass demo"/>
 
 사용자가 캐릭터를 콘텐츠처럼 즐길 수 있도록 **풀스크린 스와이프 UI**를 도입했습니다.
 

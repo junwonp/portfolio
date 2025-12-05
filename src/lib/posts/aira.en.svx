@@ -33,9 +33,9 @@ I focused on designing a **combined Local-Server architecture** to prevent data 
 
 ### 1. Supporting App and Web with a Single Codebase (Cross-Platform)
 
-<ImageDescription src="/images/aira/aira_desktop_main.webp" alt="aira Desktop Main Screen"/>
+<ImageDescription src="/images/aira/desktop_main.webp" alt="aira Desktop Main Screen"/>
 
-<ImageDescription src="/images/aira/aira_desktop_chat.webp" alt="aira Desktop Chat Screen"/>
+<ImageDescription src="/images/aira/desktop_chat.webp" alt="aira Desktop Chat Screen"/>
 
 To manage resources efficiently, I built a structure supporting **Android, iOS apps, and Web pages from a single codebase** based on **Expo Router**.
 
@@ -60,7 +60,7 @@ I relied on the compiler for most optimizations to maintain **highly readable co
 
 ### 5. Optimizing Rendering Performance for Large Datasets
 
-<ImageDescription src="/images/aira/aira_mobile_flashlist.gif" alt="aira Mobile Flashlist Demo"/>
+<ImageDescription src="/images/aira/mobile_flashlist.gif" alt="aira Mobile Flashlist Demo"/>
 
 The challenge was to smoothly display tens of thousands of chat logs mixed with images and text on low-end devices.
 
@@ -69,7 +69,7 @@ The challenge was to smoothly display tens of thousands of chat logs mixed with 
 
 ### 6. UX-Friendly Advertising (Native Ads)
 
-<ImageDescription src="/images/aira/aira_mobile_native_ads.webp" alt="aira Mobile Native Ads Demo"/>
+<ImageDescription src="/images/aira/mobile_native_ads.webp" alt="aira Mobile Native Ads Demo"/>
 
 I needed to introduce ads for monetization but didn't want to disrupt the chat experience.
 I directly designed and applied a **Native Ads** format where only the **'AD' tag and title are displayed in a thin line** at the top of the chat screen. This implementation minimized screen space usage and blended seamlessly with the content without feeling out of place.
@@ -83,7 +83,7 @@ For service enhancement, I developed a **V2 version** implementing a **new inter
 
 ### Shorts-style Navigation & iOS 26 Liquid Glass
 
-<ImageDescription src="/images/aira/aira_v2_home.mp4" alt="aira V2 Shorts UI and Liquid Glass demo"/>
+<ImageDescription src="/images/aira/v2_home.mp4" alt="aira V2 Shorts UI and Liquid Glass demo"/>
 
 I introduced a **Full-screen Swipe UI** so users can enjoy characters like content.
 
