@@ -8,10 +8,19 @@
   }
 
   let { src, alt, children }: Props = $props();
+
+  const videoExtensions = ['.mp4', '.webm', '.mov', '.avi', '.m4v'];
+  const isVideo = videoExtensions.some((ext) => src.toLowerCase().endsWith(ext.toLowerCase()));
 </script>
 
 <figure class="image-description">
-  <img {src} {alt} loading="lazy" />
+  {#if isVideo}
+    <video {src} title={alt} autoplay loop muted playsinline>
+      <source {src} type={`video/${src.split('.').pop() ?? 'mp4'}`} />
+    </video>
+  {:else}
+    <img {src} {alt} loading="lazy" />
+  {/if}
   {#if children}
     <figcaption>{@render children()}</figcaption>
   {/if}
@@ -27,7 +36,8 @@
     align-items: center;
   }
 
-  .image-description img {
+  .image-description img,
+  .image-description video {
     max-width: 100%;
     max-height: 60vh;
     height: auto;

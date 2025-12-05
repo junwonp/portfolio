@@ -83,7 +83,7 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 
 ### 숏폼(Shorts) 스타일의 탐색 경험과 iOS 26 Liquid Glass
 
-<ImageDescription src="/images/aira/aira_v2_main.gif" alt="aira V2 Shorts UI and Liquid Glass demo"/>
+<ImageDescription src="/images/aira/aira_v2_main.MP4" alt="aira V2 Shorts UI and Liquid Glass demo"/>
 
 사용자가 캐릭터를 콘텐츠처럼 즐길 수 있도록 **풀스크린 스와이프 UI**를 도입했습니다.
 

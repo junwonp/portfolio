@@ -83,7 +83,7 @@ For service enhancement, I developed a **V2 version** implementing a **new inter
 
 ### Shorts-style Navigation & iOS 26 Liquid Glass
 
-<ImageDescription src="/images/aira/aira_v2_main.gif" alt="aira V2 Shorts UI and Liquid Glass demo"/>
+<ImageDescription src="/images/aira/aira_v2_main.MP4" alt="aira V2 Shorts UI and Liquid Glass demo"/>
 
 I introduced a **Full-screen Swipe UI** so users can enjoy characters like content.
 
