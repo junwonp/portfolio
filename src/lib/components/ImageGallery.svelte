@@ -17,6 +17,7 @@
   let isDragging = $state(false);
   let itemCount = $state(0);
   let dragOffset = $state(0);
+  let detachTouch: (() => void) | undefined;
 
   onMount(() => {
     const checkMobile = () => {
@@ -26,6 +27,7 @@
     window.addEventListener('resize', checkMobile);
     return () => {
       window.removeEventListener('resize', checkMobile);
+      detachTouch?.();
     };
   });
 
@@ -71,10 +73,35 @@
     dragOffset = 0;
   };
 
+  const handleDragStart = (e: DragEvent) => {
+    e.preventDefault();
+  };
+
+  const attachTouchListeners = () => {
+    if (!sliderContainer) return;
+    const el = sliderContainer;
+    const opts: AddEventListenerOptions = { passive: false };
+    el.addEventListener('touchstart', handleTouchStart as EventListener, opts);
+    el.addEventListener('touchmove', handleTouchMove as EventListener, opts);
+    el.addEventListener('touchend', handleTouchEnd as EventListener, opts);
+    el.addEventListener('touchcancel', handleTouchEnd as EventListener, opts);
+    return () => {
+      el.removeEventListener('touchstart', handleTouchStart as EventListener, opts);
+      el.removeEventListener('touchmove', handleTouchMove as EventListener, opts);
+      el.removeEventListener('touchend', handleTouchEnd as EventListener, opts);
+      el.removeEventListener('touchcancel', handleTouchEnd as EventListener, opts);
+    };
+  };
+
   $effect(() => {
-    if (sliderContainer) {
-      setTimeout(updateItemCount, 100);
-    }
+    detachTouch?.();
+    if (!sliderContainer) return;
+    detachTouch = attachTouchListeners();
+    setTimeout(updateItemCount, 100);
+    return () => {
+      detachTouch?.();
+      detachTouch = undefined;
+    };
   });
 </script>
 
@@ -86,10 +113,8 @@
         class:dragging={isDragging}
         bind:this={sliderContainer}
         style="transform: translateX(calc(-{currentIndex} * 100% + {dragOffset}px))"
-        ontouchstart={handleTouchStart}
-        ontouchmove={handleTouchMove}
-        ontouchend={handleTouchEnd}
-        ontouchcancel={handleTouchEnd}
+        ondragstart={handleDragStart}
+        role="presentation"
       >
         {@render children()}
       </div>
@@ -118,9 +143,17 @@
     flex-wrap: nowrap;
     justify-content: flex-start;
     padding: 0;
-    margin: 0;
+    margin: 2rem -2rem;
     position: relative;
     touch-action: none;
+    width: calc(100% + 4rem);
+  }
+
+  @media (max-width: 576px) {
+    .image-gallery.mobile {
+      margin: 2rem -1.5rem;
+      width: calc(100% + 3rem);
+    }
   }
 
   .image-gallery.mobile .slider-container {
@@ -143,6 +176,14 @@
     max-width: 100%;
     margin: 0;
     scroll-snap-align: start;
+  }
+
+  .image-gallery.mobile .slider-container :global(img),
+  .image-gallery.mobile .slider-container :global(video) {
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    pointer-events: none;
   }
 
   .image-gallery.mobile .pager {
