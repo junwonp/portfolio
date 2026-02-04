@@ -5,7 +5,7 @@
   import type { PageData } from './$types';
 
   let { data }: { data: PageData } = $props();
-  const { component: Component, metadata, slug, locale } = data;
+  const { component: Component, metadata, slug, locale } = $derived(data);
   const labels = $derived(getLabels(locale));
 </script>
 
