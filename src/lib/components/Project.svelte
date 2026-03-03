@@ -81,11 +81,13 @@
     </div>
   {/if}
 
-  {#if skills && !other}
-    <h4>{labels.techStack}</h4>
+  {#if skills}
+    {#if !other}
+      <h4>{labels.techStack}</h4>
+    {/if}
     <ul class="skill-list">
       {#each skills as s (s)}
-        <li class="skill-chip">{s}</li>
+        <li class={`skill-chip ${other ? 'other' : ''}`}>{s}</li>
       {/each}
     </ul>
   {/if}
@@ -113,7 +115,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin: 0 0 1rem 0;
+    margin: 1rem 0 1rem 0;
   }
 
   .skill-chip {
@@ -124,6 +126,11 @@
     font-size: 0.9rem;
     padding: 0.4rem 0.8rem;
     position: relative;
+  }
+
+  .other .skill-chip {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.4rem;
   }
 
   .skill-chip:before {

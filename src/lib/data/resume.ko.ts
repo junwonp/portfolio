@@ -143,16 +143,50 @@ export const otherExperiences: OtherExperienceProps[] = [
   {
     project: [
       {
-        title: '2021 우리은행 해커톤 본선 진출',
+        title: '한줄 은행 — 2021 우리은행 해커톤 출품작 리빌드',
+        dateFrom: '2026-02',
+        dateTo: '2026-03',
+        description:
+          '2021년 우리은행 해커톤 출품작을 최신 기술 스택으로 전면 재작성한 개인 프로젝트입니다. 당시 빠른 러닝커브로 작성했던 JavaScript 코드를 TypeScript와 현대적인 라이브러리로 복각했습니다.',
+        detail: [
+          '**[기술 현대화]** JavaScript → TypeScript 전면 전환 및 **Expo Router** 기반 파일 시스템 라우팅으로 아키텍처 재설계',
+          '**[핵심 기능]** 채팅 텍스트 파싱을 통해 은행명·계좌번호·금액을 자동 인식하는 자연어 송금 처리 로직 구현',
+          '**[서버 상태 관리]** **TanStack Query v5** + **Async Storage Persister** 도입으로 쿼리 캐싱 및 오프라인 대응',
+          '**[폼 & 검증]** **TanStack Form v1** + **Zod v4** 조합으로 타입 안전한 입력 유효성 처리',
+          '**[목업 API]** 현재 차단된 우리은행 오픈 API를 대체하기 위해 **Expo API Route**로 목업 서버를 구현하여 동일한 금융 트랜잭션 플로우 재현',
+          '**[스타일링]** **NativeWind v5**(Tailwind CSS 기반)를 도입하여 유틸리티 클래스 기반의 일관된 디자인 시스템 적용',
+        ],
+        githubLink: `${GITHUB_PROFILE}/OnelineBank`,
+        skills: [
+          'React Native',
+          'TypeScript',
+          'Expo Router',
+          'TanStack Query',
+          'TanStack Form',
+          'Zustand',
+          'NativeWind(Tailwind CSS)',
+          'Zod',
+          'MMKV',
+          'Firebase',
+          'Reanimated',
+        ],
+      },
+    ],
+  },
+  {
+    project: [
+      {
+        title: '한줄 은행 (2021 우리은행 해커톤 본선 진출)',
         dateFrom: '2021-04',
+        dateTo: '2021-05',
         description:
           '5일간 React Native를 빠른 러닝 커브로 습득하여 송금 및 생체 인증 기능이 있는 핀테크 앱을 기획부터 개발까지 전담하여 본선에 진출했습니다.',
         detail: [
           '**[대화형 인터페이스]** 텍스트 파싱을 통한 자연어 송금 처리 로직 구현',
           '**[보안 및 API]** 생체 인증(Biometrics) 및 우리은행 오픈 API 연동을 통한 실제 금융 트랜잭션 처리',
         ],
-        detailLink: '/projects/oneline-bank',
-        githubLink: `${GITHUB_PROFILE}/OnelineBank`,
+        detailLink: '/projects/oneline-bank-legacy',
+        githubLink: `${GITHUB_PROFILE}/OnelineBank-legacy`,
         skills: ['React Native', 'JavaScript', 'Firebase', 'Expo'],
       },
     ],

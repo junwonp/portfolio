@@ -1,9 +1,9 @@
 ---
-title: 한줄뱅크
+title: 한줄뱅크 (Legacy)
 description: 2021 우리은행 온(On)택트 해커톤 본선 진출작 - 대화형 송금 핀테크 앱
 date: '2021-06-05'
 image: '/images/oneline-bank/1.webp'
-githubLink: 'OnelineBank'
+githubLink: 'OnelineBank-legacy'
 techStack: ['React Native', 'Expo', 'Firebase', 'Woori Bank API']
 ---
 

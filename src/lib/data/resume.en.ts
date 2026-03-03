@@ -144,16 +144,50 @@ export const otherExperiences: OtherExperienceProps[] = [
   {
     project: [
       {
-        title: '2021 Woori Bank Hackathon Finalist',
+        title: 'OnelineBank — 2021 Woori Bank Hackathon Rebuild',
+        dateFrom: '2026-02',
+        dateTo: '2026-03',
+        description:
+          'A personal project fully rewriting the 2021 Woori Bank Hackathon submission with a modern tech stack. The original JavaScript codebase, written rapidly under time pressure, was rebuilt from scratch in TypeScript with current libraries.',
+        detail: [
+          '**[Tech Modernization]** Full JavaScript → TypeScript migration and architecture redesign with **Expo Router** file-based routing',
+          '**[Core Feature]** Implemented natural language remittance processing logic that auto-parses bank name, account number, and amount from chat text',
+          '**[Server State]** Adopted **TanStack Query v5** + **Async Storage Persister** for query caching and offline support',
+          '**[Form & Validation]** Type-safe input handling via **TanStack Form v1** + **Zod v4** combination',
+          '**[Mock API]** Built a mock server using **Expo API Routes** to replicate the full financial transaction flow, replacing the now-blocked Woori Bank Open API',
+          '**[Styling]** Applied a consistent utility-first design system using **NativeWind v5** (Tailwind CSS-based)',
+        ],
+        githubLink: `${GITHUB_PROFILE}/OnelineBank`,
+        skills: [
+          'React Native',
+          'TypeScript',
+          'Expo Router',
+          'TanStack Query',
+          'TanStack Form',
+          'Zustand',
+          'NativeWind(Tailwind CSS)',
+          'Zod',
+          'MMKV',
+          'Firebase',
+          'Reanimated',
+        ],
+      },
+    ],
+  },
+  {
+    project: [
+      {
+        title: 'OnelineBank (2021 Woori Bank Hackathon Finalist)',
         dateFrom: '2021-04',
+        dateTo: '2021-05',
         description:
           'Advanced to the finals by independently planning and developing a fintech app with remittance and biometric authentication features, learning React Native with a rapid learning curve in 5 days.',
         detail: [
           '**[Conversational Interface]** Implemented natural language remittance processing logic via text parsing.',
           '**[Security & API]** Processed actual financial transactions through Biometrics and Woori Bank Open API integration.',
         ],
-        detailLink: '/projects/oneline-bank',
-        githubLink: `${GITHUB_PROFILE}/OnelineBank`,
+        detailLink: '/projects/oneline-bank-legacy',
+        githubLink: `${GITHUB_PROFILE}/OnelineBank-legacy`,
         skills: ['React Native', 'JavaScript', 'Firebase', 'Expo'],
       },
     ],
