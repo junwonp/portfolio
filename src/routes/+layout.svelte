@@ -10,13 +10,26 @@
   import { browser } from '$app/environment';
   import favicon from '$lib/assets/favicon.svg';
   import Footer from '$lib/components/Footer.svelte';
+  import { GITHUB_PROFILE, LINKEDIN_PROFILE, PORTFOLIO_URL } from '$lib/data/constants';
   import type { Language } from '$lib/utils/language';
   import { getMetadata } from '$lib/utils/metadata';
 
   let { children, data }: { children: Snippet; data: { locale: Language } } = $props();
 
   const currentLang = $derived(data.locale);
-  let metadata = $derived(getMetadata(currentLang));
+  const metadata = $derived(getMetadata(currentLang));
+  const jsonLd = $derived(
+    JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Junwon Park',
+      jobTitle: 'Front-end Developer',
+      url: PORTFOLIO_URL,
+      sameAs: [PORTFOLIO_URL, LINKEDIN_PROFILE],
+      image: `${PORTFOLIO_URL}/images/preview.webp`,
+      description: metadata.schemaDescription,
+    }),
+  );
 
   $effect(() => {
     if (browser) {
@@ -53,17 +66,17 @@
   <meta name="description" content={metadata.description} />
 
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://junuuon.github.io" />
+  <link rel="canonical" href={PORTFOLIO_URL} />
 
-  <link rel="alternate" hreflang="ko" href="https://junuuon.github.io" />
-  <link rel="alternate" hreflang="en" href="https://junuuon.github.io" />
-  <link rel="alternate" hreflang="x-default" href="https://junuuon.github.io" />
+  <link rel="alternate" hreflang="ko" href={PORTFOLIO_URL} />
+  <link rel="alternate" hreflang="en" href={PORTFOLIO_URL} />
+  <link rel="alternate" hreflang="x-default" href={PORTFOLIO_URL} />
 
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://junuuon.github.io" />
+  <meta property="og:url" content={PORTFOLIO_URL} />
   <meta property="og:title" content={metadata.ogTitle} />
   <meta property="og:description" content={metadata.ogDescription} />
-  <meta property="og:image" content="https://junuuon.github.io/images/preview.webp" />
+  <meta property="og:image" content={`${PORTFOLIO_URL}/images/preview.webp`} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:type" content="image/webp" />
@@ -72,12 +85,12 @@
   <meta property="og:locale" content={metadata.locale} />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://junuuon.github.io" />
+  <meta name="twitter:url" content={PORTFOLIO_URL} />
   <meta name="twitter:title" content={metadata.twitterTitle} />
   <meta name="twitter:description" content={metadata.twitterDescription} />
-  <meta name="twitter:image" content="https://junuuon.github.io/images/preview.webp" />
+  <meta name="twitter:image" content={`${PORTFOLIO_URL}/images/preview.webp`} />
   <meta name="twitter:image:alt" content={metadata.imageAlt} />
-  <meta name="twitter:site" content="@junuuon" />
+  <meta name="twitter:site" content={`@${GITHUB_PROFILE.split('/').pop() ?? 'junwon'}`} />
 
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d1116" />
@@ -91,19 +104,8 @@
     fetchpriority="high"
   />
 
-  <!-- prettier-ignore -->
-  <script type="application/ld+json">
-    {JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Person',
-      name: 'Junwon Park',
-      jobTitle: 'Front-end Developer',
-      url: 'https://junuuon.github.io',
-      sameAs: ['https://github.com/junuuon', 'https://www.linkedin.com/in/junuuon/'],
-      image: 'https://junuuon.github.io/images/preview.webp',
-      description: metadata.schemaDescription,
-    })}
-  </script>
+  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+  {@html '<script type="application/ld+json">' + jsonLd + '<' + '/script>'}
 </svelte:head>
 
 <a href="#main-content" class="skip-link">{metadata.skipLink}</a>

@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { Component } from 'svelte';
 
+import { GITHUB_PROFILE } from '$lib/data/constants';
 import type { Language } from '$lib/utils/language';
 
 import type { PageServerLoad } from './$types';
@@ -60,6 +61,10 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 
   const postModule = posts[langSpecificPath];
   const metadata: PostMetadata = postModule.metadata || {};
+
+  if (metadata.githubLink && !metadata.githubLink.startsWith('http')) {
+    metadata.githubLink = `${GITHUB_PROFILE}/${metadata.githubLink}`;
+  }
 
   return {
     metadata,

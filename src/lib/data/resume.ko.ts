@@ -7,13 +7,14 @@ import type {
   SkillProps,
   WorkExperienceProps,
 } from '../../types/about';
+import { GITHUB_PROFILE, LINKEDIN_PROFILE } from './constants';
 
 export const introduction: IntroductionProps = {
   name: '박준원',
   role: 'Frontend Engineer',
   tagline: '제품의 시작부터 성장까지 직접 경험한 프론트엔드 엔지니어',
-  githubLink: 'https://github.com/junuuon',
-  linkedinLink: 'https://www.linkedin.com/in/junuuon/',
+  githubLink: GITHUB_PROFILE,
+  linkedinLink: LINKEDIN_PROFILE,
   briefing: [
     '아이디어 단계에서 시작해 실제 2.3만 명의 사용자(MAU)가 활동하는 서비스로 키워낸 경험이 있습니다. 기획부터 개발, 배포, 운영의 전 과정을 직접 겪으며 안정적인 서비스를 만드는 법을 익혔습니다.',
     '공식 문서를 집요하게 파고들어 원리를 이해하고, 라이브러리에만 의존하기보다 필요한 기능을 직접 구현하는 것을 선호합니다. 독자적인 UI 시스템을 설계하고 렌더링 성능을 극한으로 최적화해본 경험이 있습니다.',
@@ -151,7 +152,7 @@ export const otherExperiences: OtherExperienceProps[] = [
           '**[보안 및 API]** 생체 인증(Biometrics) 및 우리은행 오픈 API 연동을 통한 실제 금융 트랜잭션 처리',
         ],
         detailLink: '/projects/oneline-bank',
-        githubLink: 'https://github.com/junuuon/OnelineBank',
+        githubLink: `${GITHUB_PROFILE}/OnelineBank`,
         skills: ['React Native', 'JavaScript', 'Firebase', 'Expo'],
       },
     ],
@@ -169,7 +170,7 @@ export const otherExperiences: OtherExperienceProps[] = [
           '**[반응형 디자인]** 모바일과 PC 환경 각각에 최적화된 UI/UX를 CSS Variables로 직접 설계',
         ],
         detailLink: '/projects/sveltekit-portfolio',
-        githubLink: 'https://github.com/junuuon/junuuon.github.io',
+        githubLink: `${GITHUB_PROFILE}/junuuon.github.io`,
         skills: ['Svelte', 'SvelteKit', 'TypeScript', 'Mdsvex', 'Cloudflare Pages'],
       },
     ],
@@ -256,7 +257,7 @@ export const archives: ArchiveProps[] = [
           '**[컴포넌트 설계]** React 및 styled-components를 활용하여 재사용 가능한 컴포넌트 계층 구조 디자인',
         ],
         detailLink: '/projects/election-aggregator',
-        githubLink: 'https://github.com/junuuon/ITE3068_team8',
+        githubLink: `${GITHUB_PROFILE}/ITE3068_team8`,
         skills: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components'],
       },
     ],

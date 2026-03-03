@@ -3,7 +3,7 @@ title: Election News Aggregator
 description: AWS Serverless-based Election Information Aggregator
 date: '2021-12-30'
 image: '/images/election-aggregator/1.webp'
-githubLink: 'https://github.com/junuuon/ITE3068_team8'
+githubLink: 'ITE3068_team8'
 techStack: ['React', 'AWS Amplify', 'Recharts', 'MUI', 'Styled Components']
 ---
 

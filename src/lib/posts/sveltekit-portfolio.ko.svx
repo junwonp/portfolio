@@ -5,7 +5,7 @@ date: '2025-11-27'
 image: '/images/sveltekit-portfolio/1.webp'
 techStack: ['Svelte 5', 'SvelteKit', 'TypeScript', 'Mdsvex', 'Cloudflare Pages']
 productLink: 'https://junwon.pages.dev'
-githubLink: 'https://github.com/junuuon/junuuon.github.io'
+githubLink: 'portfolio'
 ---
 
 <script>

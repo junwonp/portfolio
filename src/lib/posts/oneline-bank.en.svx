@@ -3,7 +3,7 @@ title: OnelineBank
 description: 2021 Woori Bank Hackathon Finalist - Conversational Fintech App
 date: '2021-06-05'
 image: '/images/oneline-bank/1.webp'
-githubLink: 'https://github.com/junuuon/OnelineBank'
+githubLink: 'OnelineBank'
 techStack: ['React Native', 'Expo', 'Firebase', 'Woori Bank API']
 ---
 

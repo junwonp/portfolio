@@ -3,7 +3,7 @@ title: 대선 뉴스 모아보기
 description: AWS Serverless 기반의 대선 정보 애그리게이터
 date: '2021-12-30'
 image: '/images/election-aggregator/1.webp'
-githubLink: 'https://github.com/junuuon/ITE3068_team8'
+githubLink: 'ITE3068_team8'
 techStack: ['React', 'AWS Amplify', 'Recharts', 'MUI', 'Styled Components']
 ---
 

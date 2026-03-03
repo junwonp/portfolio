@@ -7,13 +7,14 @@ import type {
   SkillProps,
   WorkExperienceProps,
 } from '../../types/about';
+import { GITHUB_PROFILE, LINKEDIN_PROFILE } from './constants';
 
 export const introduction: IntroductionProps = {
   name: 'Junwon Park',
   role: 'Frontend Engineer',
   tagline: 'Frontend Engineer experienced in the entire product lifecycle from inception to growth',
-  githubLink: 'https://github.com/junuuon',
-  linkedinLink: 'https://www.linkedin.com/in/junuuon/',
+  githubLink: GITHUB_PROFILE,
+  linkedinLink: LINKEDIN_PROFILE,
   briefing: [
     'Experienced in growing a service from the idea stage to 23k MAU. I have learned how to build stable services by directly experiencing the entire process of planning, development, deployment, and operation.',
     'I prefer deep technical exploration—implementing necessary features directly rather than relying solely on libraries—and understanding principles by diving deep into official documentation. I have experience designing proprietary UI systems and optimizing rendering performance to the limit.',
@@ -152,7 +153,7 @@ export const otherExperiences: OtherExperienceProps[] = [
           '**[Security & API]** Processed actual financial transactions through Biometrics and Woori Bank Open API integration.',
         ],
         detailLink: '/projects/oneline-bank',
-        githubLink: 'https://github.com/junuuon/OnelineBank',
+        githubLink: `${GITHUB_PROFILE}/OnelineBank`,
         skills: ['React Native', 'JavaScript', 'Firebase', 'Expo'],
       },
     ],
@@ -170,7 +171,7 @@ export const otherExperiences: OtherExperienceProps[] = [
           '**[Responsive Design]** Directly designed UI/UX optimized for both Mobile and PC environments using CSS Variables.',
         ],
         detailLink: '/projects/sveltekit-portfolio',
-        githubLink: 'https://github.com/junuuon/junuuon.github.io',
+        githubLink: `${GITHUB_PROFILE}/junuuon.github.io`,
         skills: ['Svelte', 'SvelteKit', 'TypeScript', 'Mdsvex', 'Cloudflare Pages'],
       },
     ],
@@ -257,7 +258,7 @@ export const archives: ArchiveProps[] = [
           '**[Component Design]** Designed a reusable component hierarchy using React and styled-components.',
         ],
         detailLink: '/projects/election-aggregator',
-        githubLink: 'https://github.com/junuuon/ITE3068_team8',
+        githubLink: `${GITHUB_PROFILE}/ITE3068_team8`,
         skills: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components'],
       },
     ],

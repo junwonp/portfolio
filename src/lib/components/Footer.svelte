@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
+  import { GITHUB_PROFILE } from '$lib/data/constants';
   import { getLabels } from '$lib/data/labels';
   import type { Language } from '$lib/utils/language';
 
@@ -9,13 +10,13 @@
 
 <footer class="wrapper">
   <a
-    href="https://github.com/junuuon"
+    href={GITHUB_PROFILE}
     target="_blank"
     rel="author me external noopener noreferrer"
     aria-label={labels.goToGithubProfile}
     title={labels.goToGithubProfile}
   >
-    <p class="link-text">@junuuon</p>
+    <p class="link-text">{`@${GITHUB_PROFILE.split('/').pop() ?? ''}`}</p>
   </a>
 </footer>
 
