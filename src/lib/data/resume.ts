@@ -6,8 +6,8 @@ import type {
   OtherExperienceProps,
   SkillProps,
   WorkExperienceProps,
-} from '../../types/about';
-import type { Language } from '../utils/language';
+} from '$lib/types/about';
+import type { Language } from '$lib/utils/language';
 import * as enData from './resume.en';
 import * as koData from './resume.ko';
 

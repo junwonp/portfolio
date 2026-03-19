@@ -4,10 +4,11 @@
   import SideList from '$lib/components/SideList.svelte';
   import Title from '$lib/components/Title.svelte';
   import { getResumeData } from '$lib/data/resume';
-  import type { Language } from '$lib/utils/language';
   import { parseMarkdownBold } from '$lib/utils/markdown';
 
-  let { data }: { data: { locale: Language } } = $props();
+  import type { PageData } from './$types';
+
+  let { data }: { data: PageData } = $props();
 
   const resumeData = $derived(getResumeData(data.locale));
 

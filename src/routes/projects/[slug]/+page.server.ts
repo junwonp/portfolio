@@ -2,17 +2,22 @@ import { error } from '@sveltejs/kit';
 import type { Component } from 'svelte';
 
 import { GITHUB_PROFILE } from '$lib/data/constants';
-import type { Language } from '$lib/utils/language';
+import type { PostMetadata } from '$lib/types/post';
 
 import type { PageServerLoad } from './$types';
 
 export const prerender = false;
 
-export const entries = () => {
-  const posts = import.meta.glob<PostModule>('/src/lib/posts/*.svx', {
-    eager: true,
-  });
+interface PostModule {
+  default: Component;
+  metadata?: PostMetadata;
+}
 
+const posts: Record<string, PostModule> = import.meta.glob<PostModule>('/src/lib/posts/*.svx', {
+  eager: true,
+});
+
+export const entries = () => {
   const slugs = new Set<string>();
 
   Object.keys(posts).forEach((path) => {
@@ -25,33 +30,11 @@ export const entries = () => {
   return Array.from(slugs).map((slug) => ({ slug }));
 };
 
-export interface PostMetadata {
-  name?: string;
-  title?: string;
-  description?: string;
-  role?: string;
-  tagline?: string;
-  date?: string;
-  image?: string;
-  githubLink?: string;
-  productLink?: string;
-  [key: string]: unknown;
-}
-
-interface PostModule {
-  default: Component;
-  metadata?: PostMetadata;
-}
-
-const posts: Record<string, PostModule> = import.meta.glob<PostModule>('/src/lib/posts/*.svx', {
-  eager: true,
-});
-
 export const load: PageServerLoad = async ({ params, parent }) => {
   const { slug } = params;
 
   const parentData = await parent();
-  const locale = parentData.locale as Language;
+  const locale = parentData.locale;
 
   const langSpecificPath = `/src/lib/posts/${slug}.${locale}.svx`;
 
@@ -60,7 +43,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
   }
 
   const postModule = posts[langSpecificPath];
-  const metadata: PostMetadata = postModule.metadata || {};
+  const metadata: PostMetadata = postModule.metadata ?? {};
 
   if (metadata.githubLink && !metadata.githubLink.startsWith('http')) {
     metadata.githubLink = `${GITHUB_PROFILE}/${metadata.githubLink}`;

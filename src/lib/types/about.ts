@@ -20,6 +20,7 @@ interface ProjectProps {
     title: string;
   }[];
 }
+
 export interface WorkExperienceProps extends ProjectProps {
   additional?: {
     label: string;
