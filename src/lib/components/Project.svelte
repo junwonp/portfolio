@@ -1,11 +1,9 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
 
-  import { page } from '$app/state';
   import Github from '$lib/components/Icon/Github.svelte';
   import Period from '$lib/components/Period.svelte';
-  import { getLabels } from '$lib/data/labels';
-  import type { Language } from '$lib/utils/language';
+  import { getPageLabels } from '$lib/utils/locale';
 
   interface Props {
     children?: Snippet;
@@ -30,8 +28,7 @@
     title,
   }: Props = $props();
 
-  const locale = $derived((page.data.locale as Language | undefined) ?? 'en');
-  const labels = $derived(getLabels(locale));
+  const labels = $derived(getPageLabels());
 </script>
 
 <div class="block" class:other>
@@ -97,8 +94,8 @@
   .header {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-sm);
   }
 
   .title {

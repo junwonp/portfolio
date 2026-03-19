@@ -1,11 +1,8 @@
 <script lang="ts">
-  import { page } from '$app/state';
-  import { GITHUB_PROFILE } from '$lib/data/constants';
-  import { getLabels } from '$lib/data/labels';
-  import type { Language } from '$lib/utils/language';
+  import { GITHUB_PROFILE, GITHUB_USERNAME } from '$lib/data/constants';
+  import { getPageLabels } from '$lib/utils/locale';
 
-  const locale = $derived((page.data.locale as Language | undefined) ?? 'en');
-  const labels = $derived(getLabels(locale));
+  const labels = $derived(getPageLabels());
 </script>
 
 <footer class="wrapper">
@@ -16,7 +13,7 @@
     aria-label={labels.goToGithubProfile}
     title={labels.goToGithubProfile}
   >
-    <p class="link-text">{`@${GITHUB_PROFILE.split('/').pop() ?? ''}`}</p>
+    <p class="link-text">{`@${GITHUB_USERNAME}`}</p>
   </a>
 </footer>
 
@@ -24,11 +21,11 @@
   .wrapper {
     display: flex;
     border-top: 1px solid var(--color-bg-divider);
-    padding: 10px;
+    padding: var(--space-sm);
     justify-content: center;
   }
 
   .link-text {
-    margin: 0px 20px;
+    margin: 0 var(--space-lg);
   }
 </style>
