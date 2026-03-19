@@ -1,10 +1,12 @@
 import type { Component } from 'svelte';
 
+import type { PostMetadata } from '$lib/types/post';
+
 import type { PageLoad } from './$types';
 
 interface PostModule {
   default: Component;
-  metadata?: unknown;
+  metadata?: PostMetadata;
 }
 
 const posts = import.meta.glob<PostModule>('/src/lib/posts/*.svx');

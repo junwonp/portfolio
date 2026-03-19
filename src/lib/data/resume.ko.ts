@@ -6,7 +6,7 @@ import type {
   OtherExperienceProps,
   SkillProps,
   WorkExperienceProps,
-} from '../../types/about';
+} from '$lib/types/about';
 import { GITHUB_PROFILE, LINKEDIN_PROFILE } from './constants';
 
 export const introduction: IntroductionProps = {

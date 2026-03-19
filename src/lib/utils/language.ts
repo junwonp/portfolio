@@ -1,5 +1,9 @@
 export type Language = 'ko' | 'en';
 
+export const isValidLanguage = (value: unknown): value is Language => {
+  return value === 'ko' || value === 'en';
+};
+
 export const detectLanguageFromHeader = (acceptLanguage: string | null): Language => {
   if (!acceptLanguage) {
     return 'en';
