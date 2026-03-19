@@ -7,6 +7,7 @@
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
   import { getLabels } from '$lib/data/labels';
   import type { Language } from '$lib/utils/language';
+  import { getPageLocale } from '$lib/utils/locale';
 
   interface Props {
     githubLink?: string;
@@ -28,7 +29,7 @@
     isHome = false,
   }: Props = $props();
 
-  const locale = $derived((page.data.locale as Language | undefined) ?? 'en');
+  const locale = $derived(getPageLocale());
   const labels = $derived(getLabels(locale));
 
   const toggleLanguage = async () => {
@@ -161,8 +162,8 @@
   .lang-toggle {
     background: transparent;
     border-radius: 8px;
-    border: 1px solid var(--color-main, #e0e0e0);
-    color: var(--color-main, #333);
+    border: 1px solid var(--color-main);
+    color: var(--color-main);
     cursor: pointer;
     font-family: inherit;
     font-size: 0.875rem;
@@ -171,7 +172,7 @@
   }
 
   .icon {
-    padding: 10px;
+    padding: var(--space-sm);
   }
 
   @media (max-width: 960px) {

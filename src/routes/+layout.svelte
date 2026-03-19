@@ -9,7 +9,7 @@
   import { browser } from '$app/environment';
   import favicon from '$lib/assets/favicon.svg';
   import Footer from '$lib/components/Footer.svelte';
-  import { GITHUB_PROFILE, LINKEDIN_PROFILE, PORTFOLIO_URL } from '$lib/data/constants';
+  import { GITHUB_USERNAME, LINKEDIN_PROFILE, PORTFOLIO_URL } from '$lib/data/constants';
   import type { Language } from '$lib/utils/language';
   import { getMetadata } from '$lib/utils/metadata';
 
@@ -94,7 +94,7 @@
   <meta name="twitter:description" content={metadata.twitterDescription} />
   <meta name="twitter:image" content={`${PORTFOLIO_URL}/images/preview.webp`} />
   <meta name="twitter:image:alt" content={metadata.imageAlt} />
-  <meta name="twitter:site" content={`@${GITHUB_PROFILE.split('/').pop() ?? 'junwon'}`} />
+  <meta name="twitter:site" content={`@${GITHUB_USERNAME}`} />
 
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d1116" />
