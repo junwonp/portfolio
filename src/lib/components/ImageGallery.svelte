@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { onMount } from 'svelte';
 
   interface Props {
     children?: Snippet;
@@ -19,7 +18,7 @@
   let dragOffset = $state(0);
   let detachTouch: (() => void) | undefined;
 
-  onMount(() => {
+  $effect(() => {
     const checkMobile = () => {
       isMobile = window.innerWidth < 768;
     };

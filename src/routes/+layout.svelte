@@ -5,7 +5,6 @@
   import '$lib/styles/prism-gruvbox-dark.css';
 
   import type { Snippet } from 'svelte';
-  import { onMount } from 'svelte';
 
   import { browser } from '$app/environment';
   import favicon from '$lib/assets/favicon.svg';
@@ -37,25 +36,30 @@
     }
   });
 
-  onMount(() => {
-    if (browser) {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  $effect(() => {
+    if (!browser) return;
 
-      const handleChange = (mediaQuery: MediaQueryListEvent) => {
-        if (mediaQuery.matches) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      };
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-      handleChange(mediaQuery as unknown as MediaQueryListEvent);
-      mediaQuery.addEventListener('change', handleChange);
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    };
 
-      return () => {
-        mediaQuery.removeEventListener('change', handleChange);
-      };
+    if (mediaQuery.matches) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
+
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
   });
 </script>
 
