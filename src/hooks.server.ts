@@ -1,19 +1,21 @@
 import type { Handle } from '@sveltejs/kit';
 
-import { detectLanguageFromHeader } from '$lib/utils/language';
-
-const LANGUAGE_COOKIE = 'preferred-language';
+import { COOKIE_MAX_AGE, LANGUAGE_COOKIE } from '$lib/data/constants';
+import { detectLanguageFromHeader, isValidLanguage } from '$lib/utils/language';
 
 export const handle: Handle = async ({ event, resolve }) => {
-  let locale = event.cookies.get(LANGUAGE_COOKIE) as 'ko' | 'en' | undefined;
+  const cookieLocale = event.cookies.get(LANGUAGE_COOKIE);
+  let locale;
 
-  if (!locale) {
+  if (isValidLanguage(cookieLocale)) {
+    locale = cookieLocale;
+  } else {
     const acceptLanguage = event.request.headers.get('accept-language');
     locale = detectLanguageFromHeader(acceptLanguage);
 
     event.cookies.set(LANGUAGE_COOKIE, locale, {
       path: '/',
-      maxAge: 60 * 60 * 24 * 365,
+      maxAge: COOKIE_MAX_AGE,
       sameSite: 'lax',
       secure: event.url.protocol === 'https:',
     });
