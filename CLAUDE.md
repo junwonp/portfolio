@@ -74,16 +74,6 @@ All components use Svelte 5 runes exclusively — do not use Svelte 4 patterns:
 
 All types live in `src/lib/types/`. `about.ts` defines resume data types — `WorkExperienceProps` and `OtherExperienceProps` extend `ProjectProps`, which contains an inline array of project objects. `post.ts` defines post-related types. Dates are `YYYY-MM` strings; absent `dateTo` means present/ongoing.
 
-## Commit Process
-
-When asked to commit, always follow these steps in order:
-
-1. **Run `pnpm lint` and `pnpm check`** — fix any errors before proceeding.
-2. **Review all diffs** — check for errors, typos, and style violations.
-3. **Group diffs by logical task** — split into atomic units (one concern per commit).
-4. **Present groups and proposed commit messages** — wait for approval.
-5. **Commit each group separately**.
-
 ## Code Style
 
 - Always add an empty line between sibling declarations (interfaces, exported constants, functions).
