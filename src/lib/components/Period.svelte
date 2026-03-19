@@ -5,8 +5,11 @@
   }
   const { dateFrom, dateTo }: Props = $props();
 
-  const timeFormatter = (time?: string) =>
-    time ? `${time.split('-')[0]}. ${time.split('-')[1] ?? ''}` : '';
+  const timeFormatter = (time?: string) => {
+    if (!time) return '';
+    const [year, month = ''] = time.split('-');
+    return `${year}. ${month}`;
+  };
 </script>
 
 <span>

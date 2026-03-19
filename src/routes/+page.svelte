@@ -11,35 +11,28 @@
   let { data }: { data: PageData } = $props();
 
   const resumeData = $derived(getResumeData(data.locale));
-
-  const introduction = $derived(resumeData.introduction);
-  const workExperiences = $derived(resumeData.workExperiences);
-  const otherExperiences = $derived(resumeData.otherExperiences);
-  const education = $derived(resumeData.education);
-  const skills = $derived(resumeData.skills);
-  const archives = $derived(resumeData.archives);
 </script>
 
 <article>
   <Title
     isHome
-    githubLink={introduction.githubLink}
-    linkedinLink={introduction.linkedinLink}
-    name={introduction.name}
-    role={introduction.role}
-    tagline={introduction.tagline}
+    githubLink={resumeData.introduction.githubLink}
+    linkedinLink={resumeData.introduction.linkedinLink}
+    name={resumeData.introduction.name}
+    role={resumeData.introduction.role}
+    tagline={resumeData.introduction.tagline}
   />
 
   <div class="content-wrapper">
     <div>
-      {#each introduction.briefing as line, index (index)}
+      {#each resumeData.introduction.briefing as line, index (index)}
         <p>{line}</p>
       {/each}
     </div>
 
     <h2>Work Experience</h2>
-    {#if workExperiences}
-      {#each workExperiences as experience, experienceIndex (experienceIndex)}
+    {#if resumeData.workExperiences}
+      {#each resumeData.workExperiences as experience, experienceIndex (experienceIndex)}
         <Row
           companyName={experience.companyName}
           role={experience.role}
@@ -77,24 +70,24 @@
             </Project>
           {/each}
         </Row>
-        {#if experienceIndex < workExperiences.length - 1}
+        {#if experienceIndex < resumeData.workExperiences.length - 1}
           <hr class="row-divider" aria-hidden="true" />
         {/if}
       {/each}
     {/if}
 
     <h2>Skills Set</h2>
-    {#if skills}
+    {#if resumeData.skills}
       <div class="skills-wrapper">
-        {#each skills as skill (skill.title)}
+        {#each resumeData.skills as skill (skill.title)}
           <SideList title={skill.title} list={skill.list} />
         {/each}
       </div>
     {/if}
 
     <h2>Awards & Projects</h2>
-    {#if otherExperiences}
-      {#each otherExperiences as experience, experienceIndex (experienceIndex)}
+    {#if resumeData.otherExperiences}
+      {#each resumeData.otherExperiences as experience, experienceIndex (experienceIndex)}
         {#if experience.companyName && experience.dateFrom && experience.role}
           <Row
             companyName={experience.companyName}
@@ -111,13 +104,13 @@
               </Project>
             {/each}
           </Row>
-          {#if experienceIndex < otherExperiences.length - 1}
+          {#if experienceIndex < resumeData.otherExperiences.length - 1}
             <hr class="row-divider" aria-hidden="true" />
           {/if}
         {:else}
           {#each experience.project as singleProject (singleProject.title)}
             <Project {...singleProject} other />
-            {#if experienceIndex < otherExperiences.length - 1}
+            {#if experienceIndex < resumeData.otherExperiences.length - 1}
               <hr class="row-divider" aria-hidden="true" />
             {/if}
           {/each}
@@ -145,18 +138,18 @@
     {/if} -->
 
     <h2>Education</h2>
-    {#if education}
-      {#each education as education, educationIndex (educationIndex)}
+    {#if resumeData.education}
+      {#each resumeData.education as education, educationIndex (educationIndex)}
         <Row {...education} companyName={education.school} role={education.major ?? ''} />
       {/each}
     {/if}
 
     <h2>Archives</h2>
-    {#if archives}
-      {#each archives as archive, archiveIndex (archiveIndex)}
+    {#if resumeData.archives}
+      {#each resumeData.archives as archive, archiveIndex (archiveIndex)}
         {#each archive.project as singleProject (singleProject.title)}
           <Project {...singleProject} other />
-          {#if archiveIndex < archives.length - 1}
+          {#if archiveIndex < resumeData.archives.length - 1}
             <hr class="row-divider" aria-hidden="true" />
           {/if}
         {/each}
