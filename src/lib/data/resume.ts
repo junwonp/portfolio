@@ -8,6 +8,7 @@ import type {
   WorkExperienceProps,
 } from '$lib/types/about';
 import type { Language } from '$lib/utils/language';
+
 import * as enData from './resume.en';
 import * as koData from './resume.ko';
 

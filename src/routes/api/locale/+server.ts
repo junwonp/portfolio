@@ -8,7 +8,10 @@ const LANGUAGE_COOKIE = 'preferred-language';
 
 export const POST: RequestHandler = async ({ request, cookies, url }) => {
   const body: unknown = await request.json();
-  const locale = typeof body === 'object' && body !== null ? (body as Record<string, unknown>).locale : undefined;
+  const locale =
+    typeof body === 'object' && body !== null
+      ? (body as Record<string, unknown>).locale
+      : undefined;
 
   if (!isValidLanguage(locale)) {
     return json({ error: 'Invalid locale' }, { status: 400 });
