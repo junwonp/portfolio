@@ -20,6 +20,7 @@ SvelteKit 2 + Svelte 5 personal portfolio site with bilingual support (Korean/En
 ### i18n System
 
 Language is resolved server-side in `src/hooks.server.ts`:
+
 1. Check `preferred-language` cookie (persisted 1 year)
 2. Fall back to `Accept-Language` header via `src/lib/utils/language.ts`
 3. Stored in `event.locals.locale` and injected into `%lang%` in `app.html`
@@ -42,18 +43,36 @@ To add a new project: create `src/lib/posts/[slug].en.svx` and `src/lib/posts/[s
 
 All components use Svelte 5 runes exclusively — do not use Svelte 4 patterns:
 
-| Svelte 4 | Svelte 5 |
-|----------|----------|
-| `export let x` | `let { x } = $props()` |
-| `$: x = ...` | `const x = $derived(...)` |
-| `$: { ... }` | `$effect(() => { ... })` |
-| `onMount(...)` | `$effect(...)` |
-| `<slot>` | `{@render children()}` |
-| `on:click` | `onclick` |
+| Svelte 4       | Svelte 5                  |
+| -------------- | ------------------------- |
+| `export let x` | `let { x } = $props()`    |
+| `$: x = ...`   | `const x = $derived(...)` |
+| `$: { ... }`   | `$effect(() => { ... })`  |
+| `onMount(...)` | `$effect(...)`            |
+| `<slot>`       | `{@render children()}`    |
+| `on:click`     | `onclick`                 |
 
 ### Types
 
-All types live in `src/types/`. `about.ts` defines resume data types — `WorkExperienceProps` and `OtherExperienceProps` extend `ProjectProps`, which contains an inline array of project objects. `post.ts` defines post-related types. Dates are `YYYY-MM` strings; absent `dateTo` means present/ongoing.
+All types live in `src/lib/types/`. `about.ts` defines resume data types — `WorkExperienceProps` and `OtherExperienceProps` extend `ProjectProps`, which contains an inline array of project objects. `post.ts` defines post-related types. Dates are `YYYY-MM` strings; absent `dateTo` means present/ongoing.
+
+Always import types using `$lib` absolute paths (e.g. `$lib/types/about`), never relative paths.
+
+## Code Style
+
+- Always add an empty line between sibling declarations (interfaces, exported constants, functions).
+- Do NOT add empty lines between properties inside the same object literal or type definition.
+- Use `$lib` absolute imports throughout — no relative paths like `../../types/...`.
+
+### Import Order (enforced by ESLint)
+
+1. Side-effect imports
+2. Svelte / SvelteKit packages (`svelte`, `@sveltejs/*`) — always first among libraries
+3. Other external npm packages — alphabetical
+4. _(empty line)_
+5. Internal `$lib`, `$app` and other `$` path aliases — alphabetical
+6. Same-directory relative (`./`) — alphabetical
+7. Parent-directory relative (`../`) — alphabetical
 
 ### Caching (hooks.server.ts)
 

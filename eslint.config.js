@@ -39,7 +39,23 @@ export default defineConfig(
           ignoreLinks: true,
         },
       ],
-      'simple-import-sort/imports': 'error',
+      'simple-import-sort/imports': [
+        'error',
+        {
+          groups: [
+            // Side-effect imports (e.g. import 'normalize.css')
+            ['^\\u0000'],
+            // External npm packages — svelte/sveltekit first (@ sorts before letters)
+            ['^svelte', '^@sveltejs/', '^@?\\w'],
+            // Internal $lib, $app and other $ path aliases
+            ['^\\$'],
+            // Same-directory relative: ./
+            ['^\\.(?!\\.)'],
+            // Parent-directory relative: ../
+            ['^\\.\\./'],
+          ],
+        },
+      ],
       'simple-import-sort/exports': 'error',
     },
   },

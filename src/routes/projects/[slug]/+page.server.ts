@@ -1,5 +1,5 @@
-import { error } from '@sveltejs/kit';
 import type { Component } from 'svelte';
+import { error } from '@sveltejs/kit';
 
 import { GITHUB_PROFILE } from '$lib/data/constants';
 import type { PostMetadata } from '$lib/types/post';
