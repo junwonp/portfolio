@@ -1,10 +1,9 @@
 import { json } from '@sveltejs/kit';
 
+import { COOKIE_MAX_AGE, LANGUAGE_COOKIE } from '$lib/data/constants';
 import { isValidLanguage } from '$lib/utils/language';
 
 import type { RequestHandler } from './$types';
-
-const LANGUAGE_COOKIE = 'preferred-language';
 
 export const POST: RequestHandler = async ({ request, cookies, url }) => {
   const body: unknown = await request.json();
@@ -19,7 +18,7 @@ export const POST: RequestHandler = async ({ request, cookies, url }) => {
 
   cookies.set(LANGUAGE_COOKIE, locale, {
     path: '/',
-    maxAge: 60 * 60 * 24 * 365,
+    maxAge: COOKIE_MAX_AGE,
     sameSite: 'lax',
     secure: url.protocol === 'https:',
   });
