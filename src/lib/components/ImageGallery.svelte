@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import { tick } from 'svelte';
 
   interface Props {
     children?: Snippet;
@@ -7,32 +8,34 @@
 
   let { children }: Props = $props();
 
-  let container: HTMLDivElement;
   let sliderContainer = $state<HTMLDivElement | undefined>(undefined);
+  let galleryContainer = $state<HTMLDivElement | undefined>(undefined);
   let isMobile = $state(false);
   let currentIndex = $state(0);
-  let touchStartX = 0;
-  let touchCurrentX = 0;
   let isDragging = $state(false);
   let itemCount = $state(0);
   let dragOffset = $state(0);
-  let detachTouch: (() => void) | undefined;
 
-  $effect(() => {
-    const checkMobile = () => {
-      isMobile = window.innerWidth < 768;
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-      detachTouch?.();
-    };
-  });
+  let touchStartX = 0;
+  let touchCurrentX = 0;
+  let mouseStartX = 0;
+  let mouseCurrentX = 0;
 
-  const updateItemCount = () => {
-    if (sliderContainer) {
-      itemCount = sliderContainer.children.length;
+  const prev = () => {
+    if (currentIndex > 0) currentIndex--;
+  };
+
+  const next = () => {
+    if (currentIndex < itemCount - 1) currentIndex++;
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      prev();
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      next();
     }
   };
 
@@ -56,14 +59,10 @@
     if (!isMobile || !isDragging) return;
     e.stopPropagation();
     const diff = touchCurrentX - touchStartX;
-    const threshold = 50;
 
-    if (Math.abs(diff) > threshold) {
-      if (diff > 0 && currentIndex > 0) {
-        currentIndex--;
-      } else if (diff < 0 && currentIndex < itemCount - 1) {
-        currentIndex++;
-      }
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) prev();
+      else next();
     }
 
     isDragging = false;
@@ -72,39 +71,91 @@
     dragOffset = 0;
   };
 
-  const handleDragStart = (e: DragEvent) => {
-    e.preventDefault();
+  const handleMouseStart = (e: MouseEvent) => {
+    mouseStartX = e.clientX;
+    mouseCurrentX = mouseStartX;
+    isDragging = true;
+    dragOffset = 0;
   };
 
-  const attachTouchListeners = () => {
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging) return;
+    mouseCurrentX = e.clientX;
+    dragOffset = mouseCurrentX - mouseStartX;
+  };
+
+  const handleMouseEnd = () => {
+    if (!isDragging) return;
+    const diff = mouseCurrentX - mouseStartX;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) prev();
+      else next();
+    }
+
+    isDragging = false;
+    mouseStartX = 0;
+    mouseCurrentX = 0;
+    dragOffset = 0;
+  };
+
+  $effect(() => {
+    const checkMobile = () => {
+      isMobile = window.innerWidth < 768;
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  });
+
+  $effect(() => {
     if (!sliderContainer) return;
+
     const el = sliderContainer;
     const opts: AddEventListenerOptions = { passive: false };
+
     el.addEventListener('touchstart', handleTouchStart as EventListener, opts);
     el.addEventListener('touchmove', handleTouchMove as EventListener, opts);
     el.addEventListener('touchend', handleTouchEnd as EventListener, opts);
     el.addEventListener('touchcancel', handleTouchEnd as EventListener, opts);
+    el.addEventListener('mousedown', handleMouseStart as EventListener);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseEnd);
+
+    void tick().then(() => {
+      itemCount = el.children.length;
+    });
+
     return () => {
       el.removeEventListener('touchstart', handleTouchStart as EventListener, opts);
       el.removeEventListener('touchmove', handleTouchMove as EventListener, opts);
       el.removeEventListener('touchend', handleTouchEnd as EventListener, opts);
       el.removeEventListener('touchcancel', handleTouchEnd as EventListener, opts);
+      el.removeEventListener('mousedown', handleMouseStart as EventListener);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseEnd);
     };
-  };
+  });
 
   $effect(() => {
-    detachTouch?.();
-    if (!sliderContainer) return;
-    detachTouch = attachTouchListeners();
-    setTimeout(updateItemCount, 100);
+    if (!galleryContainer || !isMobile || itemCount <= 1) return;
+
+    const el = galleryContainer;
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-label', 'Image gallery');
+    el.addEventListener('keydown', handleKeyDown);
+
     return () => {
-      detachTouch?.();
-      detachTouch = undefined;
+      el.removeAttribute('tabindex');
+      el.removeAttribute('aria-label');
+      el.removeEventListener('keydown', handleKeyDown);
     };
   });
 </script>
 
-<div class="image-gallery" class:mobile={isMobile} bind:this={container}>
+<div class="image-gallery" class:mobile={isMobile} role="group" bind:this={galleryContainer}>
   {#if children}
     {#if isMobile}
       <div
@@ -112,13 +163,20 @@
         class:dragging={isDragging}
         bind:this={sliderContainer}
         style="transform: translateX(calc(-{currentIndex} * 100% + {dragOffset}px))"
-        ondragstart={handleDragStart}
+        draggable={false}
         role="presentation"
       >
         {@render children()}
       </div>
       {#if itemCount > 1}
-        <div class="pager">{currentIndex + 1}/{itemCount}</div>
+        <div
+          class="pager"
+          aria-live="polite"
+          aria-atomic="true"
+          aria-label="Image {currentIndex + 1} of {itemCount}"
+        >
+          {currentIndex + 1}/{itemCount}
+        </div>
       {/if}
     {:else}
       {@render children()}
@@ -146,6 +204,11 @@
     position: relative;
     touch-action: none;
     width: calc(100% + 4rem);
+  }
+
+  .image-gallery.mobile:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 
   @media (max-width: 576px) {
