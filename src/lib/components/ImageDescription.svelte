@@ -18,6 +18,7 @@
   {#if isVideo}
     <video {src} title={alt} autoplay loop muted playsinline>
       <source {src} type={`video/${src.split('.').pop() ?? 'mp4'}`} />
+      <track kind="captions" src="/captions/empty.vtt" label="No dialogue" default />
     </video>
   {:else}
     <img
