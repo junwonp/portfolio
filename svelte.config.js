@@ -8,6 +8,21 @@ const config = {
   // for more information about preprocessors
   preprocess: [vitePreprocess(), mdsvex()],
   kit: {
+    csp: {
+      mode: 'nonce',
+      directives: {
+        'default-src': ['none'],
+        'script-src': ['self'],
+        'style-src': ['self', 'unsafe-inline'],
+        'img-src': ['self'],
+        'font-src': ['self'],
+        'media-src': ['self'],
+        'connect-src': ['self'],
+        'frame-ancestors': ['none'],
+        'object-src': ['none'],
+        'base-uri': ['self'],
+      },
+    },
     adapter: adapter({
       pages: 'build',
       assets: 'build',
