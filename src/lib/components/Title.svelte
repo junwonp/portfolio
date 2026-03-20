@@ -31,7 +31,10 @@
   const locale = $derived(getPageLocale());
   const labels = $derived(getLabels(locale));
 
+  let errorMessage = $state('');
+
   const toggleLanguage = async () => {
+    errorMessage = '';
     if (browser) {
       const newLang: Language = locale === 'ko' ? 'en' : 'ko';
 
@@ -46,9 +49,12 @@
 
         if (response.ok) {
           await invalidateAll();
+        } else {
+          errorMessage = labels.languageToggleError;
         }
       } catch (error) {
         console.error('Failed to update locale:', error);
+        errorMessage = labels.languageToggleError;
       }
     }
   };
@@ -62,9 +68,14 @@
       <h1 class="title">{name}</h1>
       <div class="icons">
         {#if isHome}
-          <button class="lang-toggle" onclick={toggleLanguage} aria-label={labels.toggleLanguage}>
-            {langDisplay}
-          </button>
+          <div class="lang-toggle-wrapper">
+            <button class="lang-toggle" onclick={toggleLanguage} aria-label={labels.toggleLanguage}>
+              {langDisplay}
+            </button>
+            {#if errorMessage}
+              <span class="lang-toggle-error" role="alert">{errorMessage}</span>
+            {/if}
+          </div>
         {/if}
         {#if productLink}
           <div class="icon">
@@ -157,6 +168,13 @@
     word-break: keep-all;
   }
 
+  .lang-toggle-wrapper {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
   .lang-toggle {
     background: transparent;
     border-radius: 8px;
@@ -167,6 +185,11 @@
     font-size: 0.875rem;
     padding: 0.5rem 1rem;
     transition: all 0.2s;
+  }
+
+  .lang-toggle-error {
+    color: var(--color-error, #e53e3e);
+    font-size: 0.75rem;
   }
 
   .icon {

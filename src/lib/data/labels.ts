@@ -9,6 +9,7 @@ export interface Labels {
   goToGithubProfile: string;
   goToLinkedinPage: string;
   goToProductPage: string;
+  languageToggleError: string;
   pageNotFound: string;
   project: string;
   projectNotFound: string;
@@ -28,6 +29,7 @@ export const labelsMap: Record<Language, Labels> = {
     goToGithubProfile: 'GitHub 프로필로 이동',
     goToLinkedinPage: 'Linkedin 페이지로 이동',
     goToProductPage: '제품 페이지로 이동',
+    languageToggleError: '언어 전환에 실패했습니다.',
     pageNotFound: '페이지를 찾을 수 없습니다',
     project: '프로젝트',
     projectNotFound: '프로젝트를 찾을 수 없습니다.',
@@ -45,6 +47,7 @@ export const labelsMap: Record<Language, Labels> = {
     goToGithubProfile: 'Go to Github profile',
     goToLinkedinPage: 'Go to Linkedin page',
     goToProductPage: 'Go to product page',
+    languageToggleError: 'Failed to switch language.',
     pageNotFound: 'Page not found',
     project: 'Project',
     projectNotFound: 'Project not found.',
