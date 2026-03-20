@@ -27,21 +27,29 @@ export const handle: Handle = async ({ event, resolve }) => {
     transformPageChunk: ({ html }) => html.replace('%lang%', locale),
   });
 
-  response.headers.set('X-Robots-Tag', 'noindex, nofollow');
-  response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
-  response.headers.set('X-Frame-Options', 'DENY');
+  const headers = new Headers(response.headers);
+  const contentType = headers.get('content-type');
+  const cacheControl = getCacheControlHeader(event.url.pathname, contentType);
 
-  const cacheControl = getCacheControlHeader(
-    event.url.pathname,
-    response.headers.get('content-type'),
-  );
+  headers.set('X-Robots-Tag', 'noindex, nofollow');
+  headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  headers.set('Cross-Origin-Opener-Policy', 'same-origin');
+  headers.set('X-Frame-Options', 'DENY');
 
   if (cacheControl) {
-    return withCacheHeaders(response, cacheControl, locale);
+    headers.set('Cache-Control', cacheControl);
+
+    if (cacheControl === PAGE_CACHE_HEADER) {
+      headers.set('Vary', 'Accept-Language, Cookie');
+      headers.set('X-Locale', locale);
+    }
   }
 
-  return response;
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 };
 
 const ASSET_CACHE_PATHS = [/^\/fonts\//, /^\/images\//, /^\/certificates\//];
@@ -58,20 +66,4 @@ const getCacheControlHeader = (pathname: string, contentType: string | null) => 
   }
 
   return null;
-};
-
-const withCacheHeaders = (response: Response, cacheControl: string, locale: string) => {
-  const headers = new Headers(response.headers);
-  headers.set('Cache-Control', cacheControl);
-
-  if (cacheControl === PAGE_CACHE_HEADER) {
-    headers.set('Vary', 'Accept-Language, Cookie');
-    headers.set('X-Locale', locale);
-  }
-
-  return new Response(response.body, {
-    status: response.status,
-    statusText: response.statusText,
-    headers,
-  });
 };
