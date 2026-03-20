@@ -1,7 +1,6 @@
 <script lang="ts">
   import { browser } from '$app/environment';
   import { invalidateAll } from '$app/navigation';
-  import { page } from '$app/state';
   import Github from '$lib/components/Icon/Github.svelte';
   import Globe from '$lib/components/Icon/Globe.svelte';
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
@@ -47,7 +46,6 @@
 
         if (response.ok) {
           await invalidateAll();
-          window.location.href = page.url.href;
         }
       } catch (error) {
         console.error('Failed to update locale:', error);
