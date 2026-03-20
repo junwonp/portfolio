@@ -1,10 +1,9 @@
 <script lang="ts">
-  import Project from '$lib/components/Project.svelte';
+  import ProjectList from '$lib/components/ProjectList.svelte';
   import Row from '$lib/components/Row.svelte';
   import SideList from '$lib/components/SideList.svelte';
   import Title from '$lib/components/Title.svelte';
   import { getResumeData } from '$lib/data/resume';
-  import { parseMarkdownBold } from '$lib/utils/markdown';
 
   import type { PageData } from './$types';
 
@@ -52,23 +51,7 @@
               </a>
             {/if}
           {/snippet}
-          {#each experience.project as singleProject (singleProject.title)}
-            <Project {...singleProject}>
-              <ul>
-                {#each singleProject.detail as line, detailIndex (detailIndex)}
-                  <li>
-                    {#each parseMarkdownBold(line) as part, partIndex (partIndex)}
-                      {#if part.bold}
-                        <strong>{part.text}</strong>
-                      {:else}
-                        {part.text}
-                      {/if}
-                    {/each}
-                  </li>
-                {/each}
-              </ul>
-            </Project>
-          {/each}
+          <ProjectList projects={experience.project} bold />
         </Row>
         {#if experienceIndex < resumeData.workExperiences.length - 1}
           <hr class="row-divider" aria-hidden="true" />
@@ -94,26 +77,16 @@
             dateFrom={experience.dateFrom}
             role={experience.role}
           >
-            {#each experience.project as singleProject (singleProject.title)}
-              <Project {...singleProject}>
-                <ul>
-                  {#each singleProject.detail as line, detailIndex (detailIndex)}
-                    <li>{line}</li>
-                  {/each}
-                </ul>
-              </Project>
-            {/each}
+            <ProjectList projects={experience.project} />
           </Row>
           {#if experienceIndex < resumeData.otherExperiences.length - 1}
             <hr class="row-divider" aria-hidden="true" />
           {/if}
         {:else}
-          {#each experience.project as singleProject (singleProject.title)}
-            <Project {...singleProject} other />
-            {#if experienceIndex < resumeData.otherExperiences.length - 1}
-              <hr class="row-divider" aria-hidden="true" />
-            {/if}
-          {/each}
+          <ProjectList projects={experience.project} other />
+          {#if experienceIndex < resumeData.otherExperiences.length - 1}
+            <hr class="row-divider" aria-hidden="true" />
+          {/if}
         {/if}
       {/each}
     {/if}
@@ -147,12 +120,10 @@
     <h2>Archives</h2>
     {#if resumeData.archives}
       {#each resumeData.archives as archive, archiveIndex (archiveIndex)}
-        {#each archive.project as singleProject (singleProject.title)}
-          <Project {...singleProject} other />
-          {#if archiveIndex < resumeData.archives.length - 1}
-            <hr class="row-divider" aria-hidden="true" />
-          {/if}
-        {/each}
+        <ProjectList projects={archive.project} other />
+        {#if archiveIndex < resumeData.archives.length - 1}
+          <hr class="row-divider" aria-hidden="true" />
+        {/if}
       {/each}
     {/if}
   </div>
