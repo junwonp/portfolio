@@ -28,6 +28,9 @@ export const handle: Handle = async ({ event, resolve }) => {
   });
 
   response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+  response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
+  response.headers.set('X-Frame-Options', 'DENY');
 
   const cacheControl = getCacheControlHeader(
     event.url.pathname,
