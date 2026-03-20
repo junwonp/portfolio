@@ -33,7 +33,7 @@ I migrated this project to **Cloudflare Pages** to adopt a **Hybrid Strategy**: 
 
 ### 1. Hybrid UX (Resume + Portfolio)
 
-<ImageDescription src="/images/sveltekit-portfolio/1.webp" alt="Main page" priority />
+<ImageDescription src="/images/sveltekit-portfolio/1.webp" mobileSrc="/images/sveltekit-portfolio/1_mobile.jpg" alt="Main page" priority width={3338} height={1924} />
 
 Combined the information density of a Resume with the visual experience of a Portfolio.
 The home screen is designed as a **'Resume'** to deliver core information quickly, while clicking 'View Details' transitions to a **'Project Retrospective'** page.
