@@ -54,8 +54,8 @@
           href={githubLink}
           target="_blank"
           rel="external noopener noreferrer"
-          aria-label={labels.goToGithubPage}
-          title={labels.goToGithubPage}
+          aria-label={`${title} — ${labels.goToGithubPage}`}
+          title={`${title} — ${labels.goToGithubPage}`}
         >
           <Github />
         </a>
