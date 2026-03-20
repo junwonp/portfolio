@@ -32,7 +32,7 @@ When a user expresses their intent to transfer money in everyday language, the a
 
 ### 1. Splash & Intro
 
-<ImageDescription src='/images/oneline-bank/1.webp' alt="Splash page"/>
+<ImageDescription src='/images/oneline-bank/1.webp' alt="Splash page" priority />
 
 Intuitive logo and intro screen showcasing the app's identity.
 

@@ -32,7 +32,7 @@ techStack: ['React', 'AWS Amplify', 'Recharts', 'MUI', 'Styled Components']
 
 ### 1. 메인 대시보드 UI
 
-<ImageDescription src="/images/election-aggregator/1.webp" alt="Main page"/>
+<ImageDescription src="/images/election-aggregator/1.webp" alt="Main page" priority />
 
 사용자가 가장 먼저 접하는 대시보드입니다.
 

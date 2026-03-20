@@ -32,7 +32,7 @@ techStack: ['React Native', 'Expo', 'Firebase', 'Woori Bank API']
 
 ### 1. 스플래쉬 & 인트로
 
-<ImageDescription src='/images/oneline-bank/1.webp' alt="Splash page">
+<ImageDescription src='/images/oneline-bank/1.webp' alt="Splash page" priority>
   앱의 정체성을 보여주는 직관적인 로고와 인트로 화면입니다.
 </ImageDescription>
 
