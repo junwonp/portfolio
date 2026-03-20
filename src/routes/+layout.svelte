@@ -7,6 +7,7 @@
   import type { Snippet } from 'svelte';
 
   import { browser } from '$app/environment';
+  import { page } from '$app/state';
   import favicon from '$lib/assets/favicon.svg';
   import Footer from '$lib/components/Footer.svelte';
   import { GITHUB_USERNAME, LINKEDIN_PROFILE, PORTFOLIO_URL } from '$lib/data/constants';
@@ -17,6 +18,7 @@
 
   const currentLang = $derived(data.locale);
   const metadata = $derived(getMetadata(currentLang));
+  const canonicalUrl = $derived(`${PORTFOLIO_URL}${page.url.pathname}`);
   const jsonLd = $derived(
     JSON.stringify({
       '@context': 'https://schema.org',
@@ -70,14 +72,14 @@
   <meta name="description" content={metadata.description} />
 
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href={PORTFOLIO_URL} />
+  <link rel="canonical" href={canonicalUrl} />
 
-  <link rel="alternate" hreflang="ko" href={PORTFOLIO_URL} />
-  <link rel="alternate" hreflang="en" href={PORTFOLIO_URL} />
-  <link rel="alternate" hreflang="x-default" href={PORTFOLIO_URL} />
+  <link rel="alternate" hreflang="ko" href={canonicalUrl} />
+  <link rel="alternate" hreflang="en" href={canonicalUrl} />
+  <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
 
   <meta property="og:type" content="website" />
-  <meta property="og:url" content={PORTFOLIO_URL} />
+  <meta property="og:url" content={canonicalUrl} />
   <meta property="og:title" content={metadata.ogTitle} />
   <meta property="og:description" content={metadata.ogDescription} />
   <meta property="og:image" content={`${PORTFOLIO_URL}/images/preview.webp`} />
@@ -89,7 +91,7 @@
   <meta property="og:locale" content={metadata.locale} />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content={PORTFOLIO_URL} />
+  <meta name="twitter:url" content={canonicalUrl} />
   <meta name="twitter:title" content={metadata.twitterTitle} />
   <meta name="twitter:description" content={metadata.twitterDescription} />
   <meta name="twitter:image" content={`${PORTFOLIO_URL}/images/preview.webp`} />
