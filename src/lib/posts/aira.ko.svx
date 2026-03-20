@@ -34,7 +34,7 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 
 ### 1. 단일 코드로 앱과 웹 동시 지원 (크로스 플랫폼)
 
-<ImageDescription src="/images/aira/desktop_main.webp" alt="aira Desktop Main Screen"/>
+<ImageDescription src="/images/aira/desktop_main.webp" alt="aira Desktop Main Screen" priority />
 
 <ImageDescription src="/images/aira/desktop_chat.webp" alt="aira Desktop Chat Screen"/>
 

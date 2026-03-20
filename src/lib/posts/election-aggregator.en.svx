@@ -32,7 +32,7 @@ I adopted **AWS Amplify (Serverless)** to efficiently build Authentication and B
 
 ### 1. Main Dashboard UI
 
-<ImageDescription src="/images/election-aggregator/1.webp" alt="Main page"/>
+<ImageDescription src="/images/election-aggregator/1.webp" alt="Main page" priority />
 
 The first dashboard users encounter.
 

@@ -4,10 +4,11 @@
   interface Props {
     src: string;
     alt: string;
+    priority?: boolean;
     children?: Snippet;
   }
 
-  let { src, alt, children }: Props = $props();
+  let { src, alt, priority = false, children }: Props = $props();
 
   const videoExtensions = ['.mp4', '.webm', '.mov', '.avi', '.m4v'];
   const isVideo = videoExtensions.some((ext) => src.toLowerCase().endsWith(ext.toLowerCase()));
@@ -19,7 +20,12 @@
       <source {src} type={`video/${src.split('.').pop() ?? 'mp4'}`} />
     </video>
   {:else}
-    <img {src} {alt} loading="lazy" />
+    <img
+      {src}
+      {alt}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+    />
   {/if}
   {#if children}
     <figcaption>{@render children()}</figcaption>

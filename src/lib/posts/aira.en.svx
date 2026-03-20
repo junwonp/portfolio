@@ -33,7 +33,7 @@ I focused on designing a **combined Local-Server architecture** to prevent data 
 
 ### 1. Supporting App and Web with a Single Codebase (Cross-Platform)
 
-<ImageDescription src="/images/aira/desktop_main.webp" alt="aira Desktop Main Screen"/>
+<ImageDescription src="/images/aira/desktop_main.webp" alt="aira Desktop Main Screen" priority />
 
 <ImageDescription src="/images/aira/desktop_chat.webp" alt="aira Desktop Chat Screen"/>
 
