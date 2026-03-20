@@ -120,7 +120,9 @@
         {/if}
       </div>
     </div>
-    <h2 class="role">{role}</h2>
+    {#if role}
+      <h2 class="role">{role}</h2>
+    {/if}
     <h3 class="tagline">{tagline}</h3>
   </header>
 </div>
