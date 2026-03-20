@@ -1,5 +1,5 @@
 {
-  "name": "svelte-blog",
+  "name": "portfolio",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -13,10 +13,7 @@
     "format": "prettier --write .",
     "lint": "prettier --check . && eslint .",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "predeploy": "npm run build && npm run create-nojekyll",
-    "create-nojekyll": "touch build/.nojekyll",
-    "deploy": "gh-pages -d build"
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@eslint/compat": "^2.0.2",
@@ -31,10 +28,10 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-svelte": "^3.14.0",
-    "gh-pages": "^6.3.0",
     "globals": "^16.5.0",
     "jsdom": "^29.0.0",
     "mdsvex": "^0.12.6",
+    "normalize.css": "^8.0.1",
     "prettier": "^3.8.1",
     "prettier-plugin-svelte": "^3.4.1",
     "svelte": "^5.49.1",
@@ -43,8 +40,5 @@
     "typescript-eslint": "^8.54.0",
     "vite": "^7.3.1",
     "vitest": "^4.1.0"
-  },
-  "dependencies": {
-    "normalize.css": "^8.0.1"
   }
 }
