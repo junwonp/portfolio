@@ -7,18 +7,20 @@ export interface IntroductionProps {
   linkedinLink: string;
 }
 
+export interface ProjectItem {
+  dateFrom: string;
+  dateTo?: string;
+  description: string;
+  detail: string[];
+  detailLink?: string;
+  githubLink?: string;
+  productLink?: string;
+  skills?: string[];
+  title: string;
+}
+
 interface ProjectProps {
-  project: {
-    dateFrom: string;
-    dateTo?: string;
-    description: string;
-    detail: string[];
-    detailLink?: string;
-    githubLink?: string;
-    productLink?: string;
-    skills?: string[];
-    title: string;
-  }[];
+  project: ProjectItem[];
 }
 
 export interface WorkExperienceProps extends ProjectProps {
