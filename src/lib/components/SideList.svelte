@@ -17,6 +17,6 @@
 
 <style>
   .wrapper {
-    margin: 10px;
+    margin: var(--space-xs);
   }
 </style>

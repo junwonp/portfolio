@@ -37,15 +37,11 @@
     padding: var(--space-row-padding) 0;
 
     @media (max-width: 960px) {
-      -ms-flex-direction: column;
-      -webkit-box-direction: normal;
-      -webkit-box-orient: vertical;
       flex-direction: column;
     }
   }
 
   .left {
-    -ms-flex-negative: 0;
     display: flex;
     flex-basis: 18rem;
     flex-direction: column;
@@ -53,7 +49,6 @@
     padding-right: 1rem;
 
     @media (max-width: 960px) {
-      -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
       padding-bottom: 1rem;
       padding-right: 0;
@@ -66,8 +61,6 @@
   }
 
   .right {
-    -ms-flex-positive: 1;
-    -webkit-box-flex: 1;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
