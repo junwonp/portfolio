@@ -33,7 +33,7 @@ githubLink: 'portfolio'
 
 ### 1. 하이브리드 UX (Resume + Portfolio)
 
-<ImageDescription src="/images/sveltekit-portfolio/1.webp" alt="Main page" priority />
+<ImageDescription src="/images/sveltekit-portfolio/1.webp" mobileSrc="/images/sveltekit-portfolio/1_mobile.jpg" alt="Main page" priority width={3338} height={1924} />
 
 이력서의 정보 전달력과 포트폴리오의 시각적 경험을 결합했습니다.
 

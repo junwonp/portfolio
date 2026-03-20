@@ -2,13 +2,14 @@
 title: aira
 description: Global AI Character Chat Service achieving 23k MAU
 date: '2024-01-01'
-image: '/images/aira/aira_main.webp'
+image: '/images/aira/v2_main.webp'
 productLink: 'https://aira.gg'
 techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 ---
 
 <script>
   import ImageDescription from '$lib/components/ImageDescription.svelte';
+  import ImageGallery from '$lib/components/ImageGallery.svelte';
 </script>
 
 ## 💡 Project Overview
@@ -33,9 +34,9 @@ I focused on designing a **combined Local-Server architecture** to prevent data 
 
 ### 1. Supporting App and Web with a Single Codebase (Cross-Platform)
 
-<ImageDescription src="/images/aira/desktop_main.webp" alt="aira Desktop Main Screen" priority />
+<ImageDescription src="/images/aira/desktop_main.webp" mobileSrc="/images/aira/desktop_main_mobile.jpg" alt="aira Desktop Main Screen" priority width={3338} height={1924} />
 
-<ImageDescription src="/images/aira/desktop_chat.webp" alt="aira Desktop Chat Screen"/>
+<ImageDescription src="/images/aira/desktop_chat.webp" mobileSrc="/images/aira/desktop_chat_mobile.jpg" alt="aira Desktop Chat Screen" width={3338} height={1924} />
 
 To manage resources efficiently, I built a structure supporting **Android, iOS apps, and Web pages from a single codebase** based on **Expo Router**.
 
@@ -60,7 +61,10 @@ I relied on the compiler for most optimizations to maintain **highly readable co
 
 ### 5. Optimizing Rendering Performance for Large Datasets
 
-<ImageDescription src="/images/aira/mobile_flashlist.gif" alt="aira Mobile Flashlist Demo"/>
+<ImageGallery>
+  <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat Flashlist Demo"/>
+  <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home Flashlist Demo"/>
+</ImageGallery>
 
 The challenge was to smoothly display tens of thousands of chat logs mixed with images and text on low-end devices.
 
@@ -69,7 +73,11 @@ The challenge was to smoothly display tens of thousands of chat logs mixed with 
 
 ### 6. UX-Friendly Advertising (Native Ads)
 
-<ImageDescription src="/images/aira/mobile_native_ads.webp" alt="aira Mobile Native Ads Demo"/>
+<ImageGallery>
+  <ImageDescription src="/images/aira/home_ads.webp" alt="aira Home Ads Demo"/>
+  <ImageDescription src="/images/aira/chat_ads.webp" alt="aira Chat Ads Demo"/>
+  <ImageDescription src="/images/aira/reward_ads.webp" alt="aira Reward Ads Demo"/>
+</ImageGallery>
 
 I needed to introduce ads for monetization but didn't want to disrupt the chat experience.
 I directly designed and applied a **Native Ads** format where only the **'AD' tag and title are displayed in a thin line** at the top of the chat screen. This implementation minimized screen space usage and blended seamlessly with the content without feeling out of place.

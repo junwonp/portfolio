@@ -4,26 +4,73 @@
   interface Props {
     src: string;
     alt: string;
+    mobileSrc?: string;
     priority?: boolean;
+    width?: number;
+    height?: number;
     children?: Snippet;
   }
 
-  let { src, alt, priority = false, children }: Props = $props();
+  let { src, alt, mobileSrc, priority = false, width, height, children }: Props = $props();
 
   const videoExtensions = ['.mp4', '.webm', '.mov', '.avi', '.m4v'];
   const isVideo = videoExtensions.some((ext) => src.toLowerCase().endsWith(ext.toLowerCase()));
+
+  let videoEl = $state<HTMLVideoElement | undefined>(undefined);
+
+  $effect(() => {
+    if (!videoEl) return;
+
+    const el = videoEl;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            if (!el.src) {
+              el.src = src;
+              el.load();
+            }
+            el.play().catch(() => {});
+          } else {
+            el.pause();
+          }
+        }
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
+  });
 </script>
 
 <figure class="image-description">
   {#if isVideo}
-    <video {src} title={alt} autoplay loop muted playsinline>
-      <source {src} type={`video/${src.split('.').pop() ?? 'mp4'}`} />
+    <video bind:this={videoEl} title={alt} loop muted playsinline preload="none">
       <track kind="captions" src="/captions/empty.vtt" label="No dialogue" default />
     </video>
+  {:else if mobileSrc}
+    <picture>
+      <source media="(max-width: 768px)" srcset={mobileSrc} />
+      <img
+        {src}
+        {alt}
+        {width}
+        {height}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={priority ? 'high' : 'auto'}
+      />
+    </picture>
   {:else}
     <img
       {src}
       {alt}
+      {width}
+      {height}
       loading={priority ? 'eager' : 'lazy'}
       fetchpriority={priority ? 'high' : 'auto'}
     />

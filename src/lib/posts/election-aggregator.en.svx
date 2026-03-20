@@ -32,7 +32,7 @@ I adopted **AWS Amplify (Serverless)** to efficiently build Authentication and B
 
 ### 1. Main Dashboard UI
 
-<ImageDescription src="/images/election-aggregator/1.webp" alt="Main page" priority />
+<ImageDescription src="/images/election-aggregator/1.webp" mobileSrc="/images/election-aggregator/1_mobile.jpg" alt="Main page" priority width={2560} height={1309} />
 
 The first dashboard users encounter.
 
@@ -40,23 +40,23 @@ Utilizing **MUI's Grid System**, I organized the D-Day counter, daily headlines,
 
 ### 2. AWS Amplify-based Authentication
 
-<ImageDescription src="/images/election-aggregator/2.webp" alt="Login page"/>
+<ImageDescription src="/images/election-aggregator/2.webp" mobileSrc="/images/election-aggregator/2_mobile.jpg" alt="Login page" width={2560} height={1310} />
 
 Integrated **AWS Amplify Auth** to implement secure sign-up and login session management without the overhead of building a separate backend server.
 
-<ImageDescription src="/images/election-aggregator/3.webp" alt="Signup page"/>
+<ImageDescription src="/images/election-aggregator/3.webp" mobileSrc="/images/election-aggregator/3_mobile.jpg" alt="Signup page" width={2560} height={1310} />
 
 Implemented custom login and sign-up modals to provide a seamless user experience.
 
 ### 3. Personalization (Bookmarks)
 
-<ImageDescription src="/images/election-aggregator/5.webp" alt="Reading list"/>
+<ImageDescription src="/images/election-aggregator/5.webp" mobileSrc="/images/election-aggregator/5_mobile.jpg" alt="Reading list" width={2583} height={1334} />
 
 Users can bookmark articles of interest, which are synchronized to their personal storage via **Amplify API (GraphQL)**.
 
 ### 4. News Curation & Visualization
 
-<ImageDescription src="/images/election-aggregator/11.webp" alt="Election news page"/>
+<ImageDescription src="/images/election-aggregator/11.webp" mobileSrc="/images/election-aggregator/11_mobile.jpg" alt="Election news page" width={2560} height={1308} />
 
 Displays processed data collected via Naver News API in card format.
 
@@ -64,7 +64,7 @@ Enhanced information delivery by visualizing metadata (thumbnails, summaries) us
 
 ### 5. Poll Charts
 
-<ImageDescription src="/images/election-aggregator/13.webp" alt="Election poll page"/>
+<ImageDescription src="/images/election-aggregator/13.webp" mobileSrc="/images/election-aggregator/13_mobile.jpg" alt="Election poll page" width={2560} height={1308} />
 
 Visualized complex approval rating trends into intuitive line and bar charts using the **Recharts** library.
 

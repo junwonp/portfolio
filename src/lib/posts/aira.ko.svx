@@ -2,7 +2,7 @@
 title: 아이라
 description: 2.3만 MAU를 달성한 글로벌 AI 캐릭터 채팅 서비스
 date: '2024-01-01'
-image: '/images/aira/aira_main.webp'
+image: '/images/aira/v2_main.webp'
 productLink: 'https://aira.gg'
 techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 ---
@@ -34,9 +34,9 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 
 ### 1. 단일 코드로 앱과 웹 동시 지원 (크로스 플랫폼)
 
-<ImageDescription src="/images/aira/desktop_main.webp" alt="aira Desktop Main Screen" priority />
+<ImageDescription src="/images/aira/desktop_main.webp" mobileSrc="/images/aira/desktop_main_mobile.jpg" alt="aira Desktop Main Screen" priority width={3338} height={1924} />
 
-<ImageDescription src="/images/aira/desktop_chat.webp" alt="aira Desktop Chat Screen"/>
+<ImageDescription src="/images/aira/desktop_chat.webp" mobileSrc="/images/aira/desktop_chat_mobile.jpg" alt="aira Desktop Chat Screen" width={3338} height={1924} />
 
 효율적인 리소스 관리를 위해 **Expo Router**를 기반으로 하나의 소스 코드에서 **Android, iOS 앱과 Web 페이지를 모두 지원**하는 구조를 구축했습니다.
 
