@@ -25,6 +25,8 @@
   {/if}
 </svelte:head>
 
+<a href="/" class="back-link">{labels.goBack}</a>
+
 <Title
   githubLink={metadata.githubLink || ''}
   productLink={metadata.productLink || ''}
@@ -39,3 +41,17 @@
     <p>{labels.contentLoadError}</p>
   {/if}
 </article>
+
+<style>
+  .back-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    margin-bottom: var(--space-md);
+  }
+
+  @media print {
+    .back-link {
+      display: none;
+    }
+  }
+</style>

@@ -10,6 +10,17 @@
   let { data }: { data: PageData } = $props();
 
   const resumeData = $derived(getResumeData(data.locale));
+
+  $effect(() => {
+    const handleBeforePrint = () => {
+      location.href = '/print?auto=1';
+    };
+
+    window.addEventListener('beforeprint', handleBeforePrint);
+    return () => {
+      window.removeEventListener('beforeprint', handleBeforePrint);
+    };
+  });
 </script>
 
 <article>
@@ -18,6 +29,7 @@
     githubLink={resumeData.introduction.githubLink}
     linkedinLink={resumeData.introduction.linkedinLink}
     name={resumeData.introduction.name}
+    printLink="/print?auto=1"
     role={resumeData.introduction.role}
     tagline={resumeData.introduction.tagline}
   />
@@ -172,6 +184,10 @@
   }
 
   @media print {
+    :global(body) {
+      visibility: hidden;
+    }
+
     p {
       page-break-inside: avoid;
       break-inside: avoid;
