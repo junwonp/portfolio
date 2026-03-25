@@ -2,7 +2,7 @@ import { flushSync, tick } from 'svelte';
 import { fireEvent, render } from '@testing-library/svelte';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import ImageGalleryWrapper from '../../test/ImageGalleryWrapper.svelte';
+import ImageGalleryWrapper from '$test/ImageGalleryWrapper.svelte';
 
 function setViewport(width: number) {
   Object.defineProperty(window, 'innerWidth', { value: width, configurable: true, writable: true });
