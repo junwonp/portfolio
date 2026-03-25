@@ -1,3 +1,5 @@
+import * as enData from '$lib/data/resume.en';
+import * as koData from '$lib/data/resume.ko';
 import type {
   ArchiveProps,
   CertificateProps,
@@ -8,9 +10,6 @@ import type {
   WorkExperienceProps,
 } from '$lib/types/about';
 import type { Language } from '$lib/utils/language';
-
-import * as enData from './resume.en';
-import * as koData from './resume.ko';
 
 export interface ResumeData {
   introduction: IntroductionProps;

@@ -1,4 +1,4 @@
-import type { Language } from './language';
+import type { Language } from '$lib/utils/language';
 
 export interface MetadataContent {
   title: string;

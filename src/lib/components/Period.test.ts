@@ -1,7 +1,7 @@
 import { render } from '@testing-library/svelte';
 import { describe, expect, it } from 'vitest';
 
-import Period from './Period.svelte';
+import Period from '$lib/components/Period.svelte';
 
 describe('Period', () => {
   describe('dateFrom formatting', () => {

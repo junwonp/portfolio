@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseMarkdownBold } from './markdown';
+import { parseMarkdownBold } from '$lib/utils/markdown';
 
 describe('parseMarkdownBold', () => {
   describe('no bold markers', () => {
