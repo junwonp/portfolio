@@ -7,6 +7,7 @@ export default defineConfig({
     conditions: ['browser'],
     alias: {
       $lib: '/src/lib',
+      $test: '/src/test',
       $app: '/node_modules/@sveltejs/kit/src/runtime/app',
     },
   },
