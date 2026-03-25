@@ -105,4 +105,10 @@
     color: var(--color-sub);
     line-height: 1.6;
   }
+
+  @media print {
+    .image-description video {
+      display: none;
+    }
+  }
 </style>

@@ -272,4 +272,35 @@
     max-width: 100%;
     max-height: 60vh;
   }
+
+  @media print {
+    .image-gallery {
+      display: flex !important;
+      flex-wrap: wrap;
+      overflow: visible;
+      width: 100%;
+      margin: 1rem 0;
+    }
+
+    /* reset mobile slider so all images show as a grid */
+    .image-gallery.mobile {
+      width: 100%;
+      margin: 1rem 0;
+    }
+
+    .image-gallery.mobile .slider-container {
+      flex-wrap: wrap;
+      transform: none !important;
+      width: 100%;
+    }
+
+    .image-gallery.mobile .slider-container :global(figure) {
+      flex: 1 1 auto;
+      max-width: calc(50% - 0.5rem);
+    }
+
+    .pager {
+      display: none;
+    }
+  }
 </style>
