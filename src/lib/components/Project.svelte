@@ -186,4 +186,15 @@
       padding: 0.5rem 0;
     }
   }
+
+  @media print {
+    .block {
+      break-inside: avoid;
+    }
+
+    .skill-chip {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
 </style>
