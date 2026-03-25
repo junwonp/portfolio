@@ -123,7 +123,7 @@
     {#if role}
       <h2 class="role">{role}</h2>
     {/if}
-    <h3 class="tagline">{tagline}</h3>
+    <p class="tagline">{tagline}</p>
   </header>
 </div>
 
