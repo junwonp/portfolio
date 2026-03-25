@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { detectLanguageFromHeader, isValidLanguage } from './language';
+import { detectLanguageFromHeader, isValidLanguage } from '$lib/utils/language';
 
 describe('isValidLanguage', () => {
   it('returns true for "ko"', () => {

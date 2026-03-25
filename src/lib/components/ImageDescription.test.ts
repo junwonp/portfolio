@@ -2,9 +2,8 @@ import { tick } from 'svelte';
 import { render } from '@testing-library/svelte';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import ImageDescription from '$lib/components/ImageDescription.svelte';
 import ImageDescriptionWrapper from '$test/ImageDescriptionWrapper.svelte';
-
-import ImageDescription from './ImageDescription.svelte';
 
 // jsdom does not implement IntersectionObserver — provide a no-op stub
 const observeMock = vi.fn();

@@ -1,7 +1,7 @@
 import { render } from '@testing-library/svelte';
 import { describe, expect, it } from 'vitest';
 
-import SideList from './SideList.svelte';
+import SideList from '$lib/components/SideList.svelte';
 
 describe('SideList', () => {
   it('renders the title', () => {

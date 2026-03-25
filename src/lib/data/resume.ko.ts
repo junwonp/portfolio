@@ -1,3 +1,4 @@
+import { GITHUB_PROFILE, LINKEDIN_PROFILE } from '$lib/data/constants';
 import type {
   ArchiveProps,
   CertificateProps,
@@ -7,8 +8,6 @@ import type {
   SkillProps,
   WorkExperienceProps,
 } from '$lib/types/about';
-
-import { GITHUB_PROFILE, LINKEDIN_PROFILE } from './constants';
 
 export const introduction: IntroductionProps = {
   name: '박준원',
