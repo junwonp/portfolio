@@ -37,6 +37,9 @@ const config = {
       precompress: false,
       strict: true,
     }),
+    alias: {
+      $test: 'src/test',
+    },
     paths: {
       base: process.env.BASE_PATH || '',
     },
