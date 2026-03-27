@@ -16,6 +16,9 @@
   let itemCount = $state(0);
   let dragOffset = $state(0);
 
+  const DRAG_THRESHOLD = 50;
+  const MOBILE_BREAKPOINT = 768;
+
   let touchStartX = 0;
   let touchCurrentX = 0;
   let mouseStartX = 0;
@@ -60,7 +63,7 @@
     e.stopPropagation();
     const diff = touchCurrentX - touchStartX;
 
-    if (Math.abs(diff) > 50) {
+    if (Math.abs(diff) > DRAG_THRESHOLD) {
       if (diff > 0) prev();
       else next();
     }
@@ -88,7 +91,7 @@
     if (!isDragging) return;
     const diff = mouseCurrentX - mouseStartX;
 
-    if (Math.abs(diff) > 50) {
+    if (Math.abs(diff) > DRAG_THRESHOLD) {
       if (diff > 0) prev();
       else next();
     }
@@ -101,7 +104,7 @@
 
   $effect(() => {
     const checkMobile = () => {
-      isMobile = window.innerWidth < 768;
+      isMobile = window.innerWidth < MOBILE_BREAKPOINT;
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
