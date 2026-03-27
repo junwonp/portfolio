@@ -34,7 +34,7 @@ const config = {
       pages: 'build',
       assets: 'build',
       fallback: '404.html',
-      precompress: false,
+      precompress: true,
       strict: true,
     }),
     alias: {
