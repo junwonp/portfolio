@@ -190,7 +190,7 @@
   }
 
   .lang-toggle-error {
-    color: var(--color-error, #e53e3e);
+    color: var(--color-error);
     font-size: 0.75rem;
   }
 

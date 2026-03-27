@@ -38,7 +38,6 @@
   --color-placeholder: #999999;
   --color-quoted: #4d555f;
   --color-sub: #666666;
-  --color-background: #fafafa;
   --color-basic-bg: #ffffff;
   --color-code-bg: #f5f7f9;
   --color-disabled-bg: #f5f5f5;
@@ -55,6 +54,9 @@
   --color-selection: #feccd4;
   --color-table-border: #d1d7dd;
   --color-primary: #c62828;
+  --color-primary-hover: #9b1e1e;
+  --color-primary-bg: #c62828;
+  --color-error: #c62828;
 
   --space-project-gap: var(--space-lg);
   --space-row-padding: var(--space-md);
@@ -68,7 +70,6 @@ html.dark {
   --color-placeholder: #c2c3c4;
   --color-quoted: #8b939d;
   --color-sub: #7d858e;
-  --color-background: #161b22;
   --color-basic-bg: #0d1116;
   --color-code-bg: #161b22;
   --color-disabled-bg: #21262d;
@@ -85,6 +86,9 @@ html.dark {
   --color-selection: #e77076;
   --color-table-border: #1e242a;
   --color-primary: #ff6b6b;
+  --color-primary-hover: #ff8a80;
+  --color-primary-bg: #c62828;
+  --color-error: #ff6b6b;
 }
 
 * {
@@ -220,7 +224,7 @@ a {
 }
 
 a:hover {
-  color: var(--color-selection);
+  color: var(--color-primary-hover);
 }
 
 .icon a,
@@ -359,7 +363,6 @@ article img {
 }
 
 @media print {
-  :root,
   html.dark {
     --color-bold: #000000;
     --color-inline-code: #212529;
@@ -367,7 +370,6 @@ article img {
     --color-placeholder: #999999;
     --color-quoted: #4d555f;
     --color-sub: #666666;
-    --color-background: #ffffff;
     --color-basic-bg: #ffffff;
     --color-code-bg: #f5f7f9;
     --color-disabled-bg: #f5f5f5;
@@ -379,5 +381,8 @@ article img {
     --color-quoted-border: #cad1d9;
     --color-table-border: #d1d7dd;
     --color-primary: #c62828;
+    --color-primary-hover: #9b1e1e;
+    --color-primary-bg: #c62828;
+    --color-error: #c62828;
   }
 }

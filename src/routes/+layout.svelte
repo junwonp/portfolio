@@ -44,18 +44,8 @@
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
     const handleChange = (e: MediaQueryListEvent) => {
-      if (e.matches) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
+      document.documentElement.classList.toggle('dark', e.matches);
     };
-
-    if (mediaQuery.matches) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
 
     mediaQuery.addEventListener('change', handleChange);
 
@@ -131,7 +121,6 @@
     flex-direction: column;
     min-height: 100vh;
     width: 100%;
-    background-color: var(--color-basic-bg);
   }
 
   .content-wrapper {
@@ -181,7 +170,7 @@
     position: absolute;
     top: -40px;
     left: 0;
-    background: var(--color-primary);
+    background: var(--color-primary-bg);
     color: white;
     padding: 8px 16px;
     text-decoration: none;
