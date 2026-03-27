@@ -1,8 +1,9 @@
 <script lang="ts">
   import { GITHUB_PROFILE, GITHUB_USERNAME } from '$lib/data/constants';
-  import { getPageLabels } from '$lib/utils/locale';
+  import { getLabels } from '$lib/data/labels';
+  import { getPageLocale } from '$lib/utils/locale';
 
-  const labels = $derived(getPageLabels());
+  const labels = $derived(getLabels(getPageLocale()));
 </script>
 
 <footer class="wrapper">

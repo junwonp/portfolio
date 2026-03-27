@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 
-import { COOKIE_MAX_AGE, LANGUAGE_COOKIE } from '$lib/data/constants';
-import { isValidLanguage } from '$lib/utils/language';
+import { LANGUAGE_COOKIE } from '$lib/data/constants';
+import { getLocaleCookieOptions, isValidLanguage } from '$lib/utils/language';
 
 import type { RequestHandler } from './$types';
 
@@ -16,12 +16,7 @@ export const POST: RequestHandler = async ({ request, cookies, url }) => {
     return json({ error: 'Invalid locale' }, { status: 400 });
   }
 
-  cookies.set(LANGUAGE_COOKIE, locale, {
-    path: '/',
-    maxAge: COOKIE_MAX_AGE,
-    sameSite: 'lax',
-    secure: url.protocol === 'https:',
-  });
+  cookies.set(LANGUAGE_COOKIE, locale, getLocaleCookieOptions(url.protocol === 'https:'));
 
   return json({ success: true, locale });
 };
