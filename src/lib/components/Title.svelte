@@ -4,7 +4,6 @@
   import Github from '$lib/components/Icon/Github.svelte';
   import Globe from '$lib/components/Icon/Globe.svelte';
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
-  import Print from '$lib/components/Icon/Print.svelte';
   import { getLabels } from '$lib/data/labels';
   import type { Language } from '$lib/utils/language';
   import { getPageLocale } from '$lib/utils/locale';
@@ -13,7 +12,6 @@
     githubLink?: string;
     isHome?: boolean;
     linkedinLink?: string;
-    printLink?: string;
     productLink?: string;
     name: string;
     role: string;
@@ -24,7 +22,6 @@
     githubLink,
     isHome = false,
     linkedinLink,
-    printLink,
     productLink,
     name,
     role,
@@ -78,13 +75,6 @@
             {#if errorMessage}
               <span class="lang-toggle-error" role="alert">{errorMessage}</span>
             {/if}
-          </div>
-        {/if}
-        {#if printLink}
-          <div class="icon">
-            <a href={printLink} class="print-icon-link" aria-label="Print" title="Print">
-              <Print />
-            </a>
           </div>
         {/if}
         {#if productLink}
