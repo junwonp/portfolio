@@ -34,7 +34,7 @@ Targeting a global market, I implemented **Internationalization (i18n)** and an 
 
 ### 1. 15% Bundle Size Reduction (324KB → 277KB)
 
-<ImageDescription src="/images/camerafi-studio/optimization_chart.webp" alt="Bundle size reduction chart" priority>
+<ImageDescription src="/images/camerafi-studio/optimization_chart.webp" alt="Bundle size reduction chart" priority width={907} height={548}>
   Led the <strong>optimization of Webpack configurations</strong> to improve initial loading speed.
 </ImageDescription>
 

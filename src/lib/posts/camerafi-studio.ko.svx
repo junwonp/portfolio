@@ -34,7 +34,7 @@ CameraFi Studio는 스포츠 경기나 방송 송출 화면에 점수판, 자막
 
 ### 1. 번들 사이즈 15% 감량 (324KB → 277KB)
 
-<ImageDescription src="/images/camerafi-studio/optimization_chart.webp" alt="Bundle size reduction chart" priority>
+<ImageDescription src="/images/camerafi-studio/optimization_chart.webp" alt="Bundle size reduction chart" priority width={907} height={548}>
   초기 로딩 속도 개선을 위해 <strong>Webpack 설정 최적화</strong>를 주도했습니다.
 </ImageDescription>
 
