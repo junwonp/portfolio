@@ -100,6 +100,10 @@ export const workExperiences: WorkExperienceProps[] = [
     companyName: '대한민국 국방부',
     dateFrom: '2019-05',
     dateTo: '2020-12',
+    additional: {
+      label: '추천서',
+      link: '/certificates/recommendation-letter-ko.pdf',
+    },
     project: [
       {
         title: '웹 기반 문서 뷰어',

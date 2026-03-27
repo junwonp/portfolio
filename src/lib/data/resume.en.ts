@@ -100,6 +100,10 @@ export const workExperiences: WorkExperienceProps[] = [
     companyName: 'Ministry of National Defense',
     dateFrom: '2019-05',
     dateTo: '2020-12',
+    additional: {
+      label: 'Recommendation Letter',
+      link: '/certificates/recommendation-letter-en.pdf',
+    },
     project: [
       {
         title: 'Web-based Document Viewer',
