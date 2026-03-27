@@ -4,13 +4,9 @@ import type { Language } from '$lib/utils/language';
 // for information about these interfaces
 declare global {
   namespace App {
-    // interface Error {}
     interface Locals {
       locale: Language;
     }
-    // interface PageData {}
-    // interface PageState {}
-    // interface Platform {}
   }
 }
 
