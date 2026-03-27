@@ -12,13 +12,16 @@
   const resumeData = $derived(getResumeData(data.locale));
 
   $effect(() => {
-    const handleBeforePrint = () => {
-      location.href = '/print?auto=1';
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
+        e.preventDefault();
+        location.href = '/print?auto=1';
+      }
     };
 
-    window.addEventListener('beforeprint', handleBeforePrint);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener('beforeprint', handleBeforePrint);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   });
 </script>
@@ -29,7 +32,6 @@
     githubLink={resumeData.introduction.githubLink}
     linkedinLink={resumeData.introduction.linkedinLink}
     name={resumeData.introduction.name}
-    printLink="/print?auto=1"
     role={resumeData.introduction.role}
     tagline={resumeData.introduction.tagline}
   />
@@ -102,25 +104,6 @@
         {/if}
       {/each}
     {/if}
-
-    <!-- <h2>Certificates</h2>
-    {#if certificates}
-      <ul>
-        {#each certificates as certificate (certificate.label)}
-          <li>
-            <a
-              href={certificate.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={certificate.label}
-              title={certificate.label}
-            >
-              {certificate.label}
-            </a>
-          </li>
-        {/each}
-      </ul>
-    {/if} -->
 
     <h2>Education</h2>
     {#if resumeData.education}

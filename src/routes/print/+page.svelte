@@ -1,6 +1,5 @@
 <script lang="ts">
   import { page } from '$app/state';
-  import PrintIcon from '$lib/components/Icon/Print.svelte';
   import ProjectList from '$lib/components/ProjectList.svelte';
   import Row from '$lib/components/Row.svelte';
   import SideList from '$lib/components/SideList.svelte';
@@ -18,8 +17,36 @@
   const baseUrl = $derived(page.url.origin);
 
   $effect(() => {
-    if (page.url.searchParams.get('auto') === '1') {
+    if (page.url.searchParams.get('auto') !== '1') return;
+
+    history.replaceState({}, '', '/print');
+
+    const images = Array.from(document.querySelectorAll('img'));
+
+    for (const img of images) {
+      if (img.loading === 'lazy') {
+        img.loading = 'eager';
+      }
+    }
+
+    const pending = images.filter((img) => !img.complete);
+
+    if (pending.length === 0) {
       window.print();
+      return;
+    }
+
+    let settled = 0;
+    const onSettle = () => {
+      settled += 1;
+      if (settled === pending.length) {
+        window.print();
+      }
+    };
+
+    for (const img of pending) {
+      img.addEventListener('load', onSettle, { once: true });
+      img.addEventListener('error', onSettle, { once: true });
     }
   });
   const postSlugs = $derived(new Set(data.posts.map((p) => p.slug)));
@@ -57,15 +84,6 @@
 
 <div class="print-controls">
   <a href="/">{labels.goBack}</a>
-  <button
-    onclick={() => {
-      window.print();
-    }}
-    aria-label="Print"
-    title="Print"
-  >
-    <PrintIcon />
-  </button>
 </div>
 
 <div class="toc-wrapper">
@@ -224,15 +242,6 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: var(--space-md);
-  }
-
-  .print-controls button {
-    align-items: center;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    padding: var(--space-sm);
   }
 
   .toc-wrapper {
