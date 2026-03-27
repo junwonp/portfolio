@@ -74,9 +74,9 @@ The challenge was to smoothly display tens of thousands of chat logs mixed with 
 ### 6. UX-Friendly Advertising (Native Ads)
 
 <ImageGallery>
-  <ImageDescription src="/images/aira/home_ads.webp" alt="aira Home Ads Demo"/>
-  <ImageDescription src="/images/aira/chat_ads.webp" alt="aira Chat Ads Demo"/>
-  <ImageDescription src="/images/aira/reward_ads.webp" alt="aira Reward Ads Demo"/>
+  <ImageDescription src="/images/aira/home_ads.webp" alt="aira Home Ads Demo" width={1170} height={2532} />
+  <ImageDescription src="/images/aira/chat_ads.webp" alt="aira Chat Ads Demo" width={1170} height={2532} />
+  <ImageDescription src="/images/aira/reward_ads.webp" alt="aira Reward Ads Demo" width={1170} height={2532} />
 </ImageGallery>
 
 I needed to introduce ads for monetization but didn't want to disrupt the chat experience.

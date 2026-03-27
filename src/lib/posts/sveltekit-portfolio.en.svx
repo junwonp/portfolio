@@ -65,7 +65,7 @@ By utilizing **Cloudflare Functions**, the app parses the `Accept-Language` head
 
 ### 3. Web Standards & Performance Optimization
 
-<ImageDescription src="/images/sveltekit-portfolio/3.webp" alt="Lighthouse performance score" />
+<ImageDescription src="/images/sveltekit-portfolio/3.webp" alt="Lighthouse performance score" width={846} height={266} />
 
 Achieved **Performance 97, Accessibility/Best Practices 100**.
 
@@ -73,7 +73,7 @@ Search engine indexing (SEO) was intentionally blocked (`robots.txt`) for privac
 
 ### 4. Pure CSS Responsive Design
 
-<ImageDescription src="/images/sveltekit-portfolio/2.webp" alt="Responsive design demo"/>
+<ImageDescription src="/images/sveltekit-portfolio/2.webp" alt="Responsive design demo" width={1290} height={2796} />
 
 Designed a responsive layout using Pure CSS without heavy CSS frameworks.
 

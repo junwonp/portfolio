@@ -32,19 +32,19 @@ When a user expresses their intent to transfer money in everyday language, the a
 
 ### 1. Splash & Intro
 
-<ImageDescription src='/images/oneline-bank/1.webp' alt="Splash page" priority />
+<ImageDescription src='/images/oneline-bank/1.webp' alt="Splash page" priority width={564} height={901} />
 
 Intuitive logo and intro screen showcasing the app's identity.
 
 ### 2. Easy Login
 
-<ImageDescription src="/images/oneline-bank/2.webp" alt="Login page"/>
+<ImageDescription src="/images/oneline-bank/2.webp" alt="Login page" width={520} height={894} />
 
 Implemented secure and fast login integration using Firebase Auth.
 
 ### 3. Conversational Transfer (Core Feature)
 
-<ImageDescription src="/images/oneline-bank/3.webp" alt="Chatting page"/>
+<ImageDescription src="/images/oneline-bank/3.webp" alt="Chatting page" width={564} height={897} />
 
 Analyzes natural language input (e.g., "Send 50,000 won to Mom") to automatically extract recipient, bank, and amount information.
 
@@ -55,15 +55,15 @@ Analyzes natural language input (e.g., "Send 50,000 won to Mom") to automaticall
 
 ### 4. Shortcut Transfer (Address Book)
 
-<ImageDescription src="/images/oneline-bank/4.webp" alt="Contact page"/>
+<ImageDescription src="/images/oneline-bank/4.webp" alt="Contact page" width={564} height={896} />
 
 Designed the database to register aliases (e.g., Mom, Friend) for frequently used accounts, allowing instant matching by simply typing the name in the chat window.
 
 ### 5. Account & User Management
 
-<ImageDescription src="/images/oneline-bank/5.webp" alt="Account add page"/>
+<ImageDescription src="/images/oneline-bank/5.webp" alt="Account add page" width={564} height={900} />
 
-<ImageDescription src="/images/oneline-bank/6.webp" alt="Account page"/>
+<ImageDescription src="/images/oneline-bank/6.webp" alt="Account page" width={564} height={904} />
 
 Manages user account information and transfer history in real-time by integrating with Firestore.
 
