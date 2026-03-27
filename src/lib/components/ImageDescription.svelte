@@ -15,6 +15,7 @@
 
   const videoExtensions = ['.mp4', '.webm', '.mov', '.avi', '.m4v'];
   const isVideo = videoExtensions.some((ext) => src.toLowerCase().endsWith(ext.toLowerCase()));
+  const hasDimensions = $derived(!!(width && height));
 
   let videoEl = $state<HTMLVideoElement | undefined>(undefined);
   let imgEl = $state<HTMLImageElement | undefined>(undefined);
@@ -71,7 +72,7 @@
     class:loaded
     style={width && height ? `aspect-ratio: ${String(width)} / ${String(height)}` : undefined}
   >
-    {#if !loaded}
+    {#if !loaded && hasDimensions}
       <div class="skeleton" aria-hidden="true"></div>
     {/if}
     {#if isVideo}
@@ -83,7 +84,7 @@
         playsinline
         preload="none"
         oncanplay={onLoad}
-        class:loaded
+        class:loaded={loaded || !hasDimensions}
       >
         <track kind="captions" src="/captions/empty.vtt" label="No dialogue" default />
       </video>
@@ -99,7 +100,7 @@
           loading={priority ? 'eager' : 'lazy'}
           fetchpriority={priority ? 'high' : 'auto'}
           onload={onLoad}
-          class:loaded
+          class:loaded={loaded || !hasDimensions}
         />
       </picture>
     {:else}
@@ -112,7 +113,7 @@
         loading={priority ? 'eager' : 'lazy'}
         fetchpriority={priority ? 'high' : 'auto'}
         onload={onLoad}
-        class:loaded
+        class:loaded={loaded || !hasDimensions}
       />
     {/if}
   </div>
@@ -138,8 +139,6 @@
     align-items: center;
     border-radius: 8px;
     overflow: hidden;
-    min-width: 200px;
-    min-height: 120px;
   }
 
   @keyframes skeleton-shimmer {
