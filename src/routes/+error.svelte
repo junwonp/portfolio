@@ -83,7 +83,7 @@
     margin-top: 2rem;
     padding: 0.75rem 2rem;
     font-size: 1rem;
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-bg);
     color: white;
     border: none;
     border-radius: 8px;
