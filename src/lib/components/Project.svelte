@@ -3,7 +3,8 @@
 
   import Github from '$lib/components/Icon/Github.svelte';
   import Period from '$lib/components/Period.svelte';
-  import { getPageLabels } from '$lib/utils/locale';
+  import { getLabels } from '$lib/data/labels';
+  import { getPageLocale } from '$lib/utils/locale';
 
   interface Props {
     children?: Snippet;
@@ -28,7 +29,7 @@
     title,
   }: Props = $props();
 
-  const labels = $derived(getPageLabels());
+  const labels = $derived(getLabels(getPageLocale()));
 </script>
 
 <div class="block" class:other>

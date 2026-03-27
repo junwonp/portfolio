@@ -1,3 +1,5 @@
+import { COOKIE_MAX_AGE } from '$lib/data/constants';
+
 export type Language = 'ko' | 'en';
 
 export const isValidLanguage = (value: unknown): value is Language => {
@@ -26,3 +28,10 @@ export const detectLanguageFromHeader = (acceptLanguage: string | null): Languag
 
   return 'en';
 };
+
+export const getLocaleCookieOptions = (secure: boolean) => ({
+  path: '/',
+  maxAge: COOKIE_MAX_AGE,
+  sameSite: 'lax' as const,
+  secure,
+});
