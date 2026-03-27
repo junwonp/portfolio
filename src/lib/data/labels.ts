@@ -14,7 +14,6 @@ export interface Labels {
   pageNotFound: string;
   printPreview: string;
   project: string;
-  projectNotFound: string;
   resumeTitle: string;
   sectionArchives: string;
   sectionEducation: string;
@@ -45,7 +44,6 @@ export const labelsMap: Record<Language, Labels> = {
     pageNotFound: '페이지를 찾을 수 없습니다',
     printPreview: '자세히 보기',
     project: '프로젝트',
-    projectNotFound: '프로젝트를 찾을 수 없습니다.',
     resumeTitle: '포트폴리오',
     sectionArchives: '기타 활동',
     sectionEducation: '학력',
@@ -74,7 +72,6 @@ export const labelsMap: Record<Language, Labels> = {
     pageNotFound: 'Page not found',
     printPreview: 'View Details',
     project: 'Project',
-    projectNotFound: 'Project not found.',
     resumeTitle: 'Portfolio',
     sectionArchives: 'Archives',
     sectionEducation: 'Education',
