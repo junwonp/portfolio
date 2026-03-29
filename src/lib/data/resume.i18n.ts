@@ -55,9 +55,9 @@ export const i18nData: Record<Language, I18nData> = {
       tagline:
         'Frontend Engineer experienced in the entire product lifecycle from inception to growth',
       briefing: [
-        '**Product Building & Operations:** Grew a service from the idea stage to 23k MAU by leading the full product lifecycle — planning, development, deployment, and operation — gaining firsthand experience in what it takes to build a stable, real-world service.',
-        '**Technical Independence & UX Polish:** I minimize reliance on external UI libraries by designing purpose-built components optimized for each requirement, assembling a cohesive UI system from the ground up. By deeply understanding platform internals, I implement precise interactions that raise the bar for UX quality.',
-        '**Rational Technology Choices:** Rather than chasing the latest or flashiest technologies, I pursue pragmatic engineering — selecting and applying tools based on current business context and whether they are truly what users need.',
+        'Grew a service from the idea stage to 23k MAU by leading the full product lifecycle — planning, development, deployment, and operation — gaining firsthand experience in what it takes to build a stable, real-world service.',
+        'I minimize reliance on external UI libraries by designing purpose-built components optimized for each requirement, assembling a cohesive UI system from the ground up. By deeply understanding platform internals, I implement precise interactions that raise the bar for UX quality.',
+        'Rather than chasing the latest or flashiest technologies, I pursue pragmatic engineering — selecting and applying tools based on current business context and whether they are truly what users need.',
       ],
     },
     workExperiences: {
@@ -70,15 +70,14 @@ export const i18nData: Record<Language, I18nData> = {
             description:
               'A global AI character chat platform. As a Co-Founder and Frontend Lead, I led the entire process of planning, development, and operation.',
             detail: [
-              "**[Key Achievements]** Achieved 23k MAU and $3,000 monthly revenue, building a highly immersive service with an average session time of 46 minutes (Ranked 57th in Google Play Entertainment / as of Feb '25)",
-              '**[Architecture Enhancement]** Transitioned to a server-based multi-model to overcome local model limitations and implemented logic to migrate existing Realm data to Firestore without loss. Introduced **React Query Persister** to improve initial loading speed and establish a server data caching strategy.',
-              '**[Cross-Platform Design]** Supported Android, iOS, and Web simultaneously with a single codebase based on **Expo Router**, and integrated **Universal Link** to provide a seamless user experience across platforms.',
-              '**[Rendering Optimization]** Prevented frame drops on low-end devices by introducing **Flashlist** for high view reusability, and proactively adopted **React Compiler** to reduce code complexity and optimize rendering efficiency.',
-              '**[High-Performance Interaction & R&D]** Experimented with next-gen interfaces (V2) by implementing **iOS 26 Liquid Glass** and **Shorts-style Swipe UI**, and achieved native-level 60fps gesture animations using **Reanimated (v4)**.',
-              '**[UX-Centric Monetization]** Directly designed **Native Ads** UI that does not disrupt the chat experience, ensuring seamless ad exposure and layout stability (preventing CLS).',
-              '**[Service Stability]** Built a precise error tracking environment by integrating Sentry and dSYM, and prevented user churn with a **rapid rollback policy** when specific Android device issues occurred. Ensured runtime data type safety by introducing **Zod**.',
-              '**[Operational Efficiency]** Built CI/CD pipelines based on **EAS** and **GitHub Actions** (Android closed track auto-deployment, iOS TestFlight) and established a device compatibility testing process using **Samsung Test Lab**.',
-              '**[Global Expansion]** Supported 3 languages (KR/EN/JP) via **i18n**, driving global user influx, and verified edge computing feasibility by conducting an **On-device sLLM PoC** using `llama.rn`.',
+              "**[Key Achievements]** Achieved 23k MAU and $3,000 monthly revenue with an average session time of 46 minutes — ranked 57th in Google Play Entertainment (as of Feb '25).",
+              '**[Data-Integrity-Driven Migration]** Designed retry logic and transaction flags to migrate tens of thousands of user conversation records from on-device (Realm) to a server-side RDB structure without data loss. Subsequently introduced **React Query Persister** to improve initial load speed and establish a server data caching strategy.',
+              '**[Rendering Performance Optimization]** Introduced **FlashList** View Recycling and **React Compiler** to eliminate frame drops and white-screen issues on low-end devices, achieving a stable 60 FPS.',
+              '**[High-Performance AI Interface]** Minimized TTFT (Time To First Token) through Response Streaming optimization and prevented memory leaks under large conversation log loads. Validated edge computing feasibility via an on-device sLLM PoC using `llama.rn`.',
+              '**[Cross-Platform Architecture]** Supported Android, iOS, and Web simultaneously from a single codebase using **Expo Router**, and integrated **Universal Link** for a seamless cross-platform navigation experience.',
+              '**[UX-Centric Monetization]** Designed **Native Ads** UI to prevent CLS and monitored drop-off rates to achieve revenue growth without compromising the user experience.',
+              '**[Service Stability]** Built a precise error tracking environment by integrating Sentry and dSYM, and prevented user churn with a rapid rollback process when Android-specific issues arose. Introduced **Zod** to enforce runtime data type safety.',
+              '**[Operational Efficiency]** Built CI/CD pipelines using **EAS** and **GitHub Actions** (automated Android closed-track deployment, iOS TestFlight) and established a device compatibility testing process via **Samsung Test Lab**.',
             ],
           },
         },
@@ -122,8 +121,8 @@ export const i18nData: Record<Language, I18nData> = {
             description:
               'A document viewer development project in a closed network environment with restricted external library access.',
             detail: [
-              '**[Large Data Rendering]** Implemented seamless scrolling by introducing **React Table** and **Virtualization** techniques to prevent rendering delays when processing thousands of rows of Excel data.',
-              '**[Architecture Design]** Introduced Redux-Saga for asynchronous data processing and applied Atomic Design Pattern to build a component system for maintenance efficiency.',
+              '**[Large-Scale Data Rendering]** Introduced **React Table** and **Virtualization** to prevent rendering delays when processing thousands of rows of Excel data, enabling seamless scrolling.',
+              '**[Architecture Design]** Built a scalable shared component system based on **Atomic Design Pattern** and designed reusable **Custom Hooks** to separate business logic from the UI layer.',
             ],
           },
           mnd_dashboard: {
@@ -131,7 +130,7 @@ export const i18nData: Record<Language, I18nData> = {
             description:
               'Maintenance and enhancement project for the dashboard webpage within the Ministry of National Defense intranet.',
             detail: [
-              '**[Maintenance]** Developed UI components by customizing the Ant Design library and secured system stability through legacy code refactoring.',
+              '**[Maintenance]** Customized the **Ant Design** library to build dashboard UI components and secured system stability through legacy code refactoring.',
             ],
           },
         },
@@ -169,11 +168,10 @@ export const i18nData: Record<Language, I18nData> = {
       sveltekit_portfolio: {
         title: 'SvelteKit Portfolio Website',
         description:
-          'An edge-enhanced website maximizing performance and user experience using Cloudflare Pages and Svelte 5.',
+          'A website maximizing development efficiency and user experience with Svelte 5 (Runes) and Claude Code.',
         detail: [
-          '**[Server-side Logic]** Migrated from GitHub Pages to Cloudflare Pages to implement Zero-flash language detection via `Accept-Language` header parsing.',
-          '**[Performance Optimization]** Achieved 100 points in Lighthouse Performance/Accessibility through Svelte 5 Runes and Pure CSS design (SEO intentionally blocked for privacy).',
-          '**[Responsive Design]** Directly designed UI/UX optimized for both Mobile and PC environments using CSS Variables.',
+          '**[Zero-flash i18n]** Parsed `Accept-Language` header server-side and forwarded the resolved locale via cookie to `locals`, enabling flash-free multilingual switching',
+          '**[Performance Optimization]** Achieved 100 points in Lighthouse Performance/Accessibility through Pure CSS design (SEO intentionally blocked for privacy)',
         ],
       },
     },
@@ -220,14 +218,13 @@ export const i18nData: Record<Language, I18nData> = {
               '글로벌 AI 캐릭터 채팅 플랫폼입니다. 공동 창업자이자 프론트엔드 리드로서 기획, 개발, 운영 전 과정을 주도했습니다.',
             detail: [
               "**[핵심 성과]** MAU 2.3만 명, 월 매출 $3,000 달성 및 평균 체류 시간 46분의 고몰입 서비스 구축 (Google Play 엔터테인먼트 최고 57위 / '25.02 기준)",
-              '**[아키텍처 고도화]** 초기 로컬 모델의 한계를 극복하기 위해 서버 기반 멀티 모델로 전환하고, 기존 Realm 데이터를 Firestore로 유실 없이 이관(Migration)하는 로직 구현. **React Query Persister**를 도입하여 초기 로딩 속도 개선 및 서버 데이터 캐싱 전략 수립',
-              '**[크로스 플랫폼 설계]** **Expo Router** 기반의 단일 코드베이스로 Android, iOS, Web을 동시에 지원하고, **Universal Link**를 적용하여 플랫폼 간 매끄러운 연결 경험 제공',
-              '**[렌더링 성능 최적화]** **Flashlist**를 도입하여 뷰 재사용성을 높여 저사양 기기에서의 프레임 드랍을 방지하고, **React Compiler**를 선제적으로 도입하여 코드 복잡도 감소 및 렌더링 효율화',
-              '**[고성능 인터랙션 & R&D]** **iOS 26 Liquid Glass** 및 **Shorts 스타일의 스와이프 UI**를 구현하여 차세대 인터페이스를 실험(V2)하고, **Reanimated(v4)**로 네이티브 수준의 60fps 제스처 애니메이션 구현',
-              '**[UX 중심 수익화]** 채팅 경험을 해치지 않는 **Native Ads** UI를 직접 설계하여 이질감 없는 광고 노출 및 레이아웃 안정성(CLS 방지) 확보',
-              '**[서비스 안정성]** Sentry 및 dSYM 연동으로 정밀한 에러 트래킹 환경을 구축하고, 특정 Android 기기 이슈 발생 시 **신속한 롤백(Rollback)** 프로세스로 사용자 이탈 방어. **Zod**를 도입하여 런타임 데이터의 타입 안정성(Type Safety) 확보',
-              '**[운영 효율화]** **EAS** 및 **GitHub Actions** 기반의 CI/CD 파이프라인(Android 비공개 트랙 자동 배포, iOS TestFlight)을 구축하고, **Samsung Test Lab**을 활용한 기기 호환성 테스트 프로세스 정립',
-              '**[글로벌 확장]** **i18n** 도입으로 3개국어(한/영/일)를 지원하여 글로벌 유저 유입을 이끌어냈으며, `llama.rn`을 활용한 **온디바이스(On-device) sLLM PoC**를 수행하여 엣지 컴퓨팅 가능성 검증',
+              '**[데이터 무결성 중심 마이그레이션]** 온디바이스(Realm) 데이터를 서버(RDB) 구조로 전환하는 과정에서 재시도 로직과 트랜잭션 플래그를 설계하여 수만 명의 대화 데이터를 유실 없이 이관했습니다. 이후 **React Query Persister**를 도입해 초기 로딩 속도를 개선하고 서버 데이터 캐싱 전략을 수립했습니다.',
+              '**[렌더링 퍼포먼스 최적화]** **FlashList**의 View Recycling과 **React Compiler**를 도입하여 저사양 기기에서의 프레임 드랍 및 화이트 스크린 현상을 해소하고 60 FPS를 안정적으로 유지했습니다.',
+              '**[고성능 AI 인터페이스]** Response Streaming 최적화로 첫 토큰 응답 속도(TTFT)를 최소화하고, 대규모 대화 로그 환경에서의 메모리 누수를 방지했습니다. `llama.rn`을 활용한 온디바이스 sLLM PoC를 통해 엣지 컴퓨팅 가능성을 검증했습니다.',
+              '**[크로스 플랫폼 설계]** **Expo Router** 기반의 단일 코드베이스로 Android, iOS, Web을 동시에 지원하고, **Universal Link**를 적용하여 플랫폼 간 매끄러운 연결 경험을 제공했습니다.',
+              '**[UX 중심 수익화]** **Native Ads** UI를 직접 설계하여 CLS를 방지하고, 이탈률 모니터링을 통해 UX를 해치지 않는 매출 성장을 달성했습니다.',
+              '**[서비스 안정성]** Sentry 및 dSYM 연동으로 정밀한 에러 트래킹 환경을 구축하고, 특정 Android 기기 이슈 발생 시 **신속한 롤백** 프로세스로 사용자 이탈을 방어했습니다. **Zod**를 도입하여 런타임 데이터 타입 안정성을 확보했습니다.',
+              '**[운영 효율화]** **EAS** 및 **GitHub Actions** 기반의 CI/CD 파이프라인(Android 비공개 트랙 자동 배포, iOS TestFlight)을 구축하고, **Samsung Test Lab**을 활용한 기기 호환성 테스트 프로세스를 정립했습니다.',
             ],
           },
         },
@@ -271,15 +268,15 @@ export const i18nData: Record<Language, I18nData> = {
             description:
               '외부 라이브러리 사용이 제한된 폐쇄망 환경에서의 문서 뷰어 개발 프로젝트입니다.',
             detail: [
-              '**[대용량 데이터 렌더링]** 수천 행의 엑셀 데이터를 처리할 때 발생하는 렌더링 지연을 막기 위해, **React Table** 및 **Virtualization(가상화)** 기법을 도입하여 끊김 없는 스크롤 경험 구현',
-              '**[아키텍처 설계]** 비동기 데이터 처리를 위해 Redux-Saga 도입, 유지보수 효율성을 위해 Atomic Design Pattern을 적용하여 컴포넌트 시스템 구축',
+              '**[대용량 데이터 렌더링]** **React Table** 및 **Virtualization(가상화)** 기법 도입으로 수천 행의 엑셀 데이터 처리 시 발생하는 렌더링 지연을 방지하고 끊김 없는 스크롤 경험 구현',
+              '**[아키텍처 설계]** 서비스 확장성을 고려한 **Atomic Design Pattern** 기반 공용 컴포넌트 시스템 구축 및 재사용 가능한 **Custom Hook** 설계로 비즈니스 로직과 UI 레이어 분리',
             ],
           },
           mnd_dashboard: {
             title: '국방부 대시보드 페이지',
             description: '국방부 망 내 대시보드 웹페이지 유지보수 및 고도화 프로젝트입니다.',
             detail: [
-              '**[유지보수]** Ant Design 라이브러리를 커스터마이징하여 UI 컴포넌트 개발 및 레거시 코드 리팩토링을 통한 시스템 안정성 확보',
+              '**[유지보수]** **Ant Design** 커스터마이징으로 대시보드 UI 컴포넌트 개발 및 레거시 코드 리팩토링을 통한 시스템 안정성 확보',
             ],
           },
         },
@@ -317,11 +314,10 @@ export const i18nData: Record<Language, I18nData> = {
       sveltekit_portfolio: {
         title: 'SvelteKit 포트폴리오 웹사이트',
         description:
-          'Cloudflare Pages와 Svelte 5를 활용하여 성능과 사용자 경험을 극대화한 엣지 기반(Edge-enhanced) 웹사이트입니다.',
+          'Svelte 5(Runes) 및 Claude Code를 활용하여 아키텍처 설계 효율과 사용자 경험을 극대화한 웹사이트입니다.',
         detail: [
-          '**[서버 사이드 로직 도입]** GitHub Pages에서 Cloudflare Pages로 이관하여 `Accept-Language` 헤더 파싱을 통한 깜빡임 없는(Zero-flash) 언어 감지 구현',
-          '**[성능 최적화]** Svelte 5 Runes 및 Pure CSS 설계를 통해 Lighthouse 성능/접근성 100점 달성 (SEO는 개인정보 보호를 위해 의도적 차단)',
-          '**[반응형 디자인]** 모바일과 PC 환경 각각에 최적화된 UI/UX를 CSS Variables로 직접 설계',
+          '**[Zero-flash i18n]** 서버사이드에서 `Accept-Language` 헤더를 파싱하고 쿠키를 `locals`로 전달하여 클라이언트 깜빡임 없는 다국어 전환 구현',
+          '**[성능 최적화]** Pure CSS 기반 설계로 Lighthouse 성능/접근성 100점 달성 (SEO는 의도적 차단)',
         ],
       },
     },

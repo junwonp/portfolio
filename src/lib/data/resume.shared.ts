@@ -196,18 +196,29 @@ export const skillsShared = [
   {
     title: 'Engineering',
     list: [
-      'Reanimated (v4)',
+      'TanStack Query',
       'Flashlist',
+      'Reanimated',
       'React Compiler',
+      'Zustand',
       'MMKV',
-      'PWA',
-      'React Query',
       'Zod',
       'React Hook Form',
+      'TanStack Form',
+      'Webpack',
     ],
   },
   {
     title: 'DevOps & Tools',
-    list: ['GitHub Actions', 'Firebase', 'Sentry', 'Cloudflare Pages', 'Git / GitHub', 'Figma', 'Vim'],
+    list: [
+      'GitHub Actions',
+      'Firebase',
+      'Cloudflare Pages',
+      'Sentry',
+      'Figma',
+      'Vim',
+      'Claude Code',
+      'Cursor IDE',
+    ],
   },
 ];
