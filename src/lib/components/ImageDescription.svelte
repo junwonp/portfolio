@@ -30,16 +30,24 @@
       loaded = true;
       return;
     }
-    if (!imgEl || loaded) return;
-    if (imgEl.complete && imgEl.naturalWidth > 0) {
+    if (!imgEl) return;
+    const el = imgEl;
+    if (el.complete && el.naturalWidth > 0) {
       loaded = true;
+      return;
     }
+    el.addEventListener('load', onLoad);
+    return () => {
+      el.removeEventListener('load', onLoad);
+    };
   });
 
   $effect(() => {
     if (!videoEl) return;
 
     const el = videoEl;
+
+    el.addEventListener('canplay', onLoad);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -61,6 +69,7 @@
     observer.observe(el);
 
     return () => {
+      el.removeEventListener('canplay', onLoad);
       observer.disconnect();
     };
   });
@@ -83,7 +92,6 @@
         muted
         playsinline
         preload="none"
-        oncanplay={onLoad}
         class:loaded={loaded || !hasDimensions}
       >
         <track kind="captions" src="/captions/empty.vtt" label="No dialogue" default />
@@ -99,7 +107,6 @@
           {height}
           loading={priority ? 'eager' : 'lazy'}
           fetchpriority={priority ? 'high' : 'auto'}
-          onload={onLoad}
           class:loaded={loaded || !hasDimensions}
         />
       </picture>
