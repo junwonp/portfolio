@@ -137,12 +137,6 @@ export const i18nData: Record<Language, I18nData> = {
       },
     },
     otherExperiences: {
-      campus_town: {
-        title: 'Seoul Campus Town Selection (Orca AI)',
-        description:
-          'Selected for office space and commercialization funding support from the Seoul Metropolitan Government and universities in recognition of business potential and technical capability.',
-        detail: [],
-      },
       onelinebank_rebuild: {
         title: 'OnelineBank — 2021 Woori Bank Hackathon Rebuild',
         description:
@@ -156,14 +150,11 @@ export const i18nData: Record<Language, I18nData> = {
           '**[Styling]** Applied a consistent utility-first design system using **NativeWind v5** (Tailwind CSS-based)',
         ],
       },
-      onelinebank_legacy: {
-        title: 'OnelineBank (2021 Woori Bank Hackathon Finalist)',
+      campus_town: {
+        title: 'Seoul Campus Town Selection (Orca AI)',
         description:
-          'Advanced to the finals by independently planning and developing a fintech app with remittance and biometric authentication features, learning React Native with a rapid learning curve in 5 days.',
-        detail: [
-          '**[Conversational Interface]** Implemented natural language remittance processing logic via text parsing.',
-          '**[Security & API]** Processed actual financial transactions through Biometrics and Woori Bank Open API integration.',
-        ],
+          'Selected for office space and commercialization funding support from the Seoul Metropolitan Government and universities in recognition of business potential and technical capability.',
+        detail: [],
       },
       sveltekit_portfolio: {
         title: 'SvelteKit Portfolio Website',
@@ -184,6 +175,15 @@ export const i18nData: Record<Language, I18nData> = {
           '**[Serverless Adoption]** Built authentication (Login/Signup) and data management environments using AWS Amplify without a separate backend.',
           '**[Data Visualization]** Rendered card news by parsing metadata (OG Tags) from Naver News API and visualized poll data using **Recharts**.',
           '**[Component Design]** Designed a reusable component hierarchy using React and styled-components.',
+        ],
+      },
+      onelinebank_legacy: {
+        title: 'OnelineBank (2021 Woori Bank Hackathon Finalist)',
+        description:
+          'Advanced to the finals by independently planning and developing a fintech app with remittance and biometric authentication features, learning React Native with a rapid learning curve in 5 days.',
+        detail: [
+          '**[Conversational Interface]** Implemented natural language remittance processing logic via text parsing.',
+          '**[Security & API]** Processed actual financial transactions through Biometrics and Woori Bank Open API integration.',
         ],
       },
     },
@@ -283,12 +283,6 @@ export const i18nData: Record<Language, I18nData> = {
       },
     },
     otherExperiences: {
-      campus_town: {
-        title: '서울 캠퍼스 타운 입주 기업 선정 (오르카에이아이)',
-        description:
-          '사업성과 기술력을 인정받아 서울시 및 대학교로부터 사무 공간 및 사업화 자금 지원 대상에 선정되었습니다.',
-        detail: [],
-      },
       onelinebank_rebuild: {
         title: '한줄 은행 — 2021 우리은행 해커톤 출품작 리빌드',
         description:
@@ -302,14 +296,11 @@ export const i18nData: Record<Language, I18nData> = {
           '**[스타일링]** **NativeWind v5**(Tailwind CSS 기반)를 도입하여 유틸리티 클래스 기반의 일관된 디자인 시스템 적용',
         ],
       },
-      onelinebank_legacy: {
-        title: '한줄 은행 (2021 우리은행 해커톤 본선 진출)',
+      campus_town: {
+        title: '서울 캠퍼스 타운 입주 기업 선정 (오르카에이아이)',
         description:
-          '5일간 React Native를 빠른 러닝 커브로 습득하여 송금 및 생체 인증 기능이 있는 핀테크 앱을 기획부터 개발까지 전담하여 본선에 진출했습니다.',
-        detail: [
-          '**[대화형 인터페이스]** 텍스트 파싱을 통한 자연어 송금 처리 로직 구현',
-          '**[보안 및 API]** 생체 인증(Biometrics) 및 우리은행 오픈 API 연동을 통한 실제 금융 트랜잭션 처리',
-        ],
+          '사업성과 기술력을 인정받아 서울시 및 대학교로부터 사무 공간 및 사업화 자금 지원 대상에 선정되었습니다.',
+        detail: [],
       },
       sveltekit_portfolio: {
         title: 'SvelteKit 포트폴리오 웹사이트',
@@ -330,6 +321,15 @@ export const i18nData: Record<Language, I18nData> = {
           '**[Serverless 도입]** AWS Amplify를 활용하여 별도의 백엔드 구축 없이 인증(로그인/회원가입) 및 데이터 관리 환경 구축',
           '**[데이터 시각화]** Naver News API 데이터의 메타데이터(OG Tag)를 파싱하여 카드 뉴스로 렌더링하고, **Recharts**로 여론조사 데이터 시각화',
           '**[컴포넌트 설계]** React 및 styled-components를 활용하여 재사용 가능한 컴포넌트 계층 구조 디자인',
+        ],
+      },
+      onelinebank_legacy: {
+        title: '한줄 은행 (2021 우리은행 해커톤 본선 진출)',
+        description:
+          '5일간 React Native를 빠른 러닝 커브로 습득하여 송금 및 생체 인증 기능이 있는 핀테크 앱을 기획부터 개발까지 전담하여 본선에 진출했습니다.',
+        detail: [
+          '**[대화형 인터페이스]** 텍스트 파싱을 통한 자연어 송금 처리 로직 구현',
+          '**[보안 및 API]** 생체 인증(Biometrics) 및 우리은행 오픈 API 연동을 통한 실제 금융 트랜잭션 처리',
         ],
       },
     },

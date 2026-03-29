@@ -102,10 +102,6 @@ export interface SharedOtherExp {
 
 export const otherExperiencesShared = [
   {
-    id: 'campus_town',
-    dateFrom: '2024',
-  },
-  {
     id: 'onelinebank_rebuild',
     dateFrom: '2026-02',
     dateTo: '2026-03',
@@ -125,12 +121,8 @@ export const otherExperiencesShared = [
     ],
   },
   {
-    id: 'onelinebank_legacy',
-    dateFrom: '2021-04',
-    dateTo: '2021-05',
-    detailLink: '/projects/oneline-bank-legacy',
-    githubLink: `${GITHUB_PROFILE}/OnelineBank-legacy`,
-    skills: ['React Native', 'JavaScript', 'Firebase', 'Expo'],
+    id: 'campus_town',
+    dateFrom: '2024',
   },
   {
     id: 'sveltekit_portfolio',
@@ -160,6 +152,14 @@ export const archivesShared = [
     detailLink: '/projects/election-aggregator',
     githubLink: `${GITHUB_PROFILE}/ITE3068_team8`,
     skills: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components'],
+  },
+  {
+    id: 'onelinebank_legacy',
+    dateFrom: '2021-04',
+    dateTo: '2021-05',
+    detailLink: '/projects/oneline-bank-legacy',
+    githubLink: `${GITHUB_PROFILE}/OnelineBank-legacy`,
+    skills: ['React Native', 'JavaScript', 'Firebase', 'Expo'],
   },
 ] satisfies SharedArchive[];
 
