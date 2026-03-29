@@ -16,10 +16,10 @@
 
   let { children, data }: { children: Snippet; data: { locale: Language } } = $props();
 
-  const currentLang = $derived(data.locale);
-  const metadata = $derived(getMetadata(currentLang));
-  const canonicalUrl = $derived(`${PORTFOLIO_URL}${page.url.pathname}`);
-  const jsonLd = $derived(
+  let canonicalUrl = $derived(`${PORTFOLIO_URL}${page.url.pathname}`);
+  let currentLang = $derived(data.locale);
+  let metadata = $derived(getMetadata(currentLang));
+  let jsonLd = $derived(
     JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Person',

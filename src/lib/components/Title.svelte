@@ -18,18 +18,19 @@
     tagline: string;
   }
 
-  const {
+  let {
     githubLink,
     isHome = false,
     linkedinLink,
-    productLink,
     name,
+    productLink,
     role,
     tagline,
   }: Props = $props();
 
-  const locale = $derived(getPageLocale());
-  const labels = $derived(getLabels(locale));
+  let langDisplay = $derived(getPageLocale() === 'ko' ? 'English' : '한국어');
+  let labels = $derived(getLabels(getPageLocale()));
+  let locale = $derived(getPageLocale());
 
   let errorMessage = $state('');
 
@@ -58,8 +59,6 @@
       }
     }
   };
-
-  const langDisplay = $derived(locale === 'ko' ? 'English' : '한국어');
 </script>
 
 <div>

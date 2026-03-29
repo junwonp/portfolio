@@ -5,12 +5,10 @@
   import { getLabels } from '$lib/data/labels';
   import type { Language } from '$lib/utils/language';
 
+  let locale = $derived((page.data.locale as Language | undefined) ?? 'en');
+  let labels = $derived(getLabels(locale));
+  let errorMessage = $derived(page.error?.message || labels.errorOccurred);
   const errorStatus = page.status || 500;
-
-  const locale = $derived((page.data.locale as Language | undefined) ?? 'en');
-  const labels = $derived(getLabels(locale));
-
-  const errorMessage = $derived(page.error?.message || labels.errorOccurred);
 
   const goHome = () => {
     void goto(resolve('/'));

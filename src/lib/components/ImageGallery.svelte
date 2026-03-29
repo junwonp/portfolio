@@ -8,29 +8,20 @@
 
   let { children }: Props = $props();
 
-  let sliderContainer = $state<HTMLDivElement | undefined>(undefined);
-  let galleryContainer = $state<HTMLDivElement | undefined>(undefined);
-  let isMobile = $state(false);
-  let currentIndex = $state(0);
-  let isDragging = $state(false);
-  let itemCount = $state(0);
-  let dragOffset = $state(0);
-
   const DRAG_THRESHOLD = 50;
   const MOBILE_BREAKPOINT = 768;
 
-  let touchStartX = 0;
-  let touchCurrentX = 0;
-  let mouseStartX = 0;
+  let currentIndex = $state(0);
+  let dragOffset = $state(0);
+  let galleryContainer = $state<HTMLDivElement | undefined>(undefined);
+  let isDragging = $state(false);
+  let itemCount = $state(0);
+  let isMobile = $state(false);
   let mouseCurrentX = 0;
-
-  const prev = () => {
-    if (currentIndex > 0) currentIndex--;
-  };
-
-  const next = () => {
-    if (currentIndex < itemCount - 1) currentIndex++;
-  };
+  let mouseStartX = 0;
+  let sliderContainer = $state<HTMLDivElement | undefined>(undefined);
+  let touchCurrentX = 0;
+  let touchStartX = 0;
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'ArrowLeft') {
@@ -42,20 +33,32 @@
     }
   };
 
-  const handleTouchStart = (e: TouchEvent) => {
-    if (!isMobile) return;
-    touchStartX = e.touches[0].clientX;
-    touchCurrentX = touchStartX;
-    isDragging = true;
+  const handleMouseEnd = () => {
+    if (!isDragging) return;
+    const diff = mouseCurrentX - mouseStartX;
+
+    if (Math.abs(diff) > DRAG_THRESHOLD) {
+      if (diff > 0) prev();
+      else next();
+    }
+
+    isDragging = false;
+    mouseStartX = 0;
+    mouseCurrentX = 0;
     dragOffset = 0;
   };
 
-  const handleTouchMove = (e: TouchEvent) => {
-    if (!isMobile || !isDragging) return;
-    e.preventDefault();
-    e.stopPropagation();
-    touchCurrentX = e.touches[0].clientX;
-    dragOffset = touchCurrentX - touchStartX;
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging) return;
+    mouseCurrentX = e.clientX;
+    dragOffset = mouseCurrentX - mouseStartX;
+  };
+
+  const handleMouseStart = (e: MouseEvent) => {
+    mouseStartX = e.clientX;
+    mouseCurrentX = mouseStartX;
+    isDragging = true;
+    dragOffset = 0;
   };
 
   const handleTouchEnd = (e: TouchEvent) => {
@@ -74,32 +77,28 @@
     dragOffset = 0;
   };
 
-  const handleMouseStart = (e: MouseEvent) => {
-    mouseStartX = e.clientX;
-    mouseCurrentX = mouseStartX;
+  const handleTouchMove = (e: TouchEvent) => {
+    if (!isMobile || !isDragging) return;
+    e.preventDefault();
+    e.stopPropagation();
+    touchCurrentX = e.touches[0].clientX;
+    dragOffset = touchCurrentX - touchStartX;
+  };
+
+  const handleTouchStart = (e: TouchEvent) => {
+    if (!isMobile) return;
+    touchStartX = e.touches[0].clientX;
+    touchCurrentX = touchStartX;
     isDragging = true;
     dragOffset = 0;
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!isDragging) return;
-    mouseCurrentX = e.clientX;
-    dragOffset = mouseCurrentX - mouseStartX;
+  const next = () => {
+    if (currentIndex < itemCount - 1) currentIndex++;
   };
 
-  const handleMouseEnd = () => {
-    if (!isDragging) return;
-    const diff = mouseCurrentX - mouseStartX;
-
-    if (Math.abs(diff) > DRAG_THRESHOLD) {
-      if (diff > 0) prev();
-      else next();
-    }
-
-    isDragging = false;
-    mouseStartX = 0;
-    mouseCurrentX = 0;
-    dragOffset = 0;
+  const prev = () => {
+    if (currentIndex > 0) currentIndex--;
   };
 
   $effect(() => {

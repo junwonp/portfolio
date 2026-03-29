@@ -3,7 +3,7 @@
     title: string;
     list: string[];
   }
-  const { title, list }: Props = $props();
+  let { list, title }: Props = $props();
 </script>
 
 <div class="wrapper">

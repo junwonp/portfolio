@@ -12,7 +12,7 @@
     dateTo?: string;
   }
 
-  const { additional, children, companyName, role, dateFrom, dateTo }: Props = $props();
+  let { additional, children, companyName, dateTo, dateFrom, role }: Props = $props();
 </script>
 
 <div class="row">

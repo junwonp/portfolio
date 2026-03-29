@@ -5,8 +5,8 @@
   import type { PageData } from './$types';
 
   let { data }: { data: PageData } = $props();
-  const { component: Component, metadata, slug, locale } = $derived(data);
-  const labels = $derived(getLabels(locale));
+  let { component: Component, metadata, slug, locale } = $derived(data);
+  let labels = $derived(getLabels(locale));
 </script>
 
 <svelte:head>

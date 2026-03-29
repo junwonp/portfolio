@@ -9,7 +9,7 @@
     other?: boolean;
   }
 
-  let { projects, bold = false, other = false }: Props = $props();
+  let { bold = false, other = false, projects }: Props = $props();
 </script>
 
 {#each projects as project (project.title)}

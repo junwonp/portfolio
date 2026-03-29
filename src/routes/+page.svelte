@@ -9,7 +9,7 @@
 
   let { data }: { data: PageData } = $props();
 
-  const resumeData = $derived(getResumeData(data.locale));
+  let resumeData = $derived(getResumeData(data.locale));
 
   $effect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

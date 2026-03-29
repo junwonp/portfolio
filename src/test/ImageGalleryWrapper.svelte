@@ -7,7 +7,7 @@
 
   let { imageCount = 3 }: Props = $props();
 
-  const indices = $derived(Array.from({ length: imageCount }, (_, i) => i));
+  let indices = $derived(Array.from({ length: imageCount }, (_, i) => i));
 </script>
 
 <ImageGallery>

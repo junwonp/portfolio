@@ -11,7 +11,7 @@
     caption?: string;
   }
 
-  let { src, alt, mobileSrc, priority, width, height, caption }: Props = $props();
+  let { alt, caption, height, mobileSrc, priority, src, width }: Props = $props();
 </script>
 
 <ImageDescription {src} {alt} {mobileSrc} {priority} {width} {height}>
