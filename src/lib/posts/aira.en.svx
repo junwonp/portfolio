@@ -49,6 +49,8 @@ Initially, I adopted a **Local Model (On-device)** utilizing Realm DB to priorit
 However, limitations in the local model's performance necessitated the introduction of a **Server Model** to provide smarter responses, leading to a policy change to store data on the server.
 I implemented **migration logic to transfer existing local data stored in Realm to Firestore** upon app update, handling the transition to the cloud environment naturally without user data loss.
 
+To prevent data loss, I designed a **Retry Logic** and **Transaction Flag** mechanism. Even if the app was terminated or the network dropped mid-migration, the process would resume from where it left off on the next launch — safely transferring tens of thousands of users' conversation records.
+
 ### 3. Improving Initial Loading Experience
 
 I judged that showing a loading spinner or a blank screen every time the app launches is a poor user experience.
@@ -68,10 +70,18 @@ I relied on the compiler for most optimizations to maintain **highly readable co
 
 The challenge was to smoothly display tens of thousands of chat logs mixed with images and text on low-end devices.
 
-- **Flashlist (View Recycling):** The existing `FlatList` caused frame drops by constantly creating/destroying components during scrolling. I introduced `Flashlist`, which recycles views, to **significantly reduce JS thread load** and achieve 60fps smooth scrolling.
+- **Flashlist (View Recycling):** The existing `FlatList` caused frame drops and **white-screen flickering** by constantly creating/destroying components during scrolling. I introduced `Flashlist`, which recycles views, to **significantly reduce JS thread load** and achieve stable 60fps scrolling.
 - **Cursor-based Pagination:** Applied `useInfiniteQuery` and cursor-based pagination to efficiently load and manage large volumes of chat history without slowing down retrieval speeds as data grows.
 
-### 6. UX-Friendly Advertising (Native Ads)
+### 6. High-Performance AI Streaming and Memory Management
+
+In an AI chat service, response speed directly drives immersion. I optimized Response Streaming to minimize **TTFT (Time To First Token)** — the time between sending a message and the first character appearing on screen.
+
+As conversations grew longer, memory usage climbed as well. Stale chat logs lingering in memory could cause the app to slow down or crash during extended sessions. I addressed this by limiting the rendering scope of the message list and releasing unnecessary references, **preventing memory leaks** and maintaining stable performance across long conversation threads.
+
+To validate the potential of on-device inference, I also ran an **sLLM PoC** using `llama.rn`. This experiment gave me a firsthand look at the current limits and possibilities of running AI inference directly on mobile hardware without server costs.
+
+### 7. UX-Friendly Advertising (Native Ads)
 
 <ImageGallery>
   <ImageDescription src="/images/aira/home_ads.webp" alt="aira Home Ads Demo" width={1170} height={2532} />
@@ -80,7 +90,9 @@ The challenge was to smoothly display tens of thousands of chat logs mixed with 
 </ImageGallery>
 
 I needed to introduce ads for monetization but didn't want to disrupt the chat experience.
-I directly designed and applied a **Native Ads** format where only the **'AD' tag and title are displayed in a thin line** at the top of the chat screen. This implementation minimized screen space usage and blended seamlessly with the content without feeling out of place.
+I directly designed and applied a **Native Ads** format where only the **'AD' tag and title are displayed in a thin line** at the top of the chat screen. This minimized screen space usage while blending seamlessly with the content.
+
+After launching ads, I continuously monitored **drop-off rates** to track the real impact on user experience. This data-driven approach helped maintain the balance between revenue growth and UX quality.
 
 ---
 
