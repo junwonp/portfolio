@@ -11,10 +11,26 @@
 
   let { data }: { data: PageData } = $props();
 
-  const labels = $derived(getLabels(data.locale));
-  const resumeData = $derived(getResumeData(data.locale));
+  let baseUrl = $derived(page.url.origin);
+  let labels = $derived(getLabels(data.locale));
+  let postSlugs = $derived(new Set(data.posts.map((p) => p.slug)));
+  let printResumeData = $derived({
+    ...getResumeData(data.locale),
+    workExperiences: getResumeData(data.locale).workExperiences.map((exp) => ({
+      ...exp,
+      project: exp.project.map((p) => ({ ...p, detailLink: toAnchor(p.detailLink) })),
+    })),
+    otherExperiences: getResumeData(data.locale).otherExperiences.map((exp) => ({
+      ...exp,
+      project: exp.project.map((p) => ({ ...p, detailLink: toAnchor(p.detailLink) })),
+    })),
+  });
 
-  const baseUrl = $derived(page.url.origin);
+  const toAnchor = (detailLink?: string): string | undefined => {
+    if (!detailLink) return undefined;
+    const slug = detailLink.replace('/projects/', '');
+    return postSlugs.has(slug) ? `#project-${slug}` : undefined;
+  };
 
   $effect(() => {
     if (page.url.searchParams.get('auto') !== '1') return;
@@ -48,25 +64,6 @@
       img.addEventListener('load', onSettle, { once: true });
       img.addEventListener('error', onSettle, { once: true });
     }
-  });
-  const postSlugs = $derived(new Set(data.posts.map((p) => p.slug)));
-
-  const toAnchor = (detailLink?: string): string | undefined => {
-    if (!detailLink) return undefined;
-    const slug = detailLink.replace('/projects/', '');
-    return postSlugs.has(slug) ? `#project-${slug}` : undefined;
-  };
-
-  const printResumeData = $derived({
-    ...resumeData,
-    workExperiences: resumeData.workExperiences.map((exp) => ({
-      ...exp,
-      project: exp.project.map((p) => ({ ...p, detailLink: toAnchor(p.detailLink) })),
-    })),
-    otherExperiences: resumeData.otherExperiences.map((exp) => ({
-      ...exp,
-      project: exp.project.map((p) => ({ ...p, detailLink: toAnchor(p.detailLink) })),
-    })),
   });
 </script>
 

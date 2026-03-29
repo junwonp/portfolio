@@ -3,7 +3,8 @@
     dateFrom: string;
     dateTo?: string;
   }
-  const { dateFrom, dateTo }: Props = $props();
+
+  let { dateFrom, dateTo }: Props = $props();
 
   const timeFormatter = (time?: string) => {
     if (!time) return '';

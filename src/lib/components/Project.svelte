@@ -17,7 +17,7 @@
     skills?: string[];
     title: string;
   }
-  const {
+  let {
     children,
     dateFrom,
     dateTo,
@@ -29,7 +29,7 @@
     title,
   }: Props = $props();
 
-  const labels = $derived(getLabels(getPageLocale()));
+  let labels = $derived(getLabels(getPageLocale()));
 </script>
 
 <div class="block" class:other>

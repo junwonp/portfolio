@@ -114,6 +114,74 @@ All images referenced in `.svx` project pages must be placed under `/static/imag
 6. Same-directory relative (`./`) — alphabetical
 7. Parent-directory relative (`../`) — alphabetical
 
+### Svelte 5 Script Section Order
+
+**Order of declarations in `<script lang="ts">` (top to bottom):**
+
+1. Imports (auto-sorted by ESLint, see above)
+2. Interface Props (explicit type declaration)
+3. Props destructuring with `$props()` — `let` keyword
+4. Constants (alphabetical, `const` only)
+5. Derived values (alphabetical, `let` + `$derived()`)
+6. State variables (alphabetical, `let` + `$state()`)
+7. Functions (alphabetical)
+8. Effects (`$effect()` and `$effect.pre()`, order by dependency)
+
+**Example:**
+
+```ts
+<script lang="ts">
+  import type { Snippet } from 'svelte';
+  import Component from '$lib/components/Component.svelte';
+
+  // 1. Interface Props
+  interface Props {
+    children?: Snippet;
+    count: number;
+    title: string;
+  }
+
+  // 2. Props (let keyword)
+  let { children, count, title }: Props = $props();
+
+  // 3. Constants (alphabetical)
+  const isActive = true;
+  const maxValue = 100;
+
+  // 4. Derived (alphabetical with let)
+  let doubled = $derived(count * 2);
+  let label = $derived(`Title: ${title}`);
+
+  // 5. State (alphabetical with let)
+  let isOpen = $state(false);
+  let selected = $state<string | null>(null);
+
+  // 6. Functions (alphabetical)
+  function handleClick() { ... }
+  function toggleOpen() { ... }
+
+  // 7. Effects (dependency order)
+  $effect(() => {
+    console.log(count);
+  });
+
+  $effect.pre(() => {
+    // Setup
+  });
+</script>
+```
+
+**Rules:**
+
+- Props are declared with `let` keyword (not `const`)
+- `$derived` states are declared with `let` keyword (not `const`) — they are reactive and can be reassigned (e.g., for optimistic UI)
+- `$state` variables are declared with `let` keyword
+- Alphabetical ordering applies within each section: consts, derived, state, and functions
+- Props destructuring should also be alphabetical
+- **For derived values:** when one `$derived()` references another, maintain dependency order (referenced value first)
+- `$effect` ordering is determined by dependencies, not alphabetical
+- Empty line between each section
+
 ### Caching (hooks.server.ts)
 
 - `/fonts/`, `/images/`, `/certificates/`: `public, max-age=31536000, immutable`

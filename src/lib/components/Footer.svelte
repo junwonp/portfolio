@@ -3,7 +3,7 @@
   import { getLabels } from '$lib/data/labels';
   import { getPageLocale } from '$lib/utils/locale';
 
-  const labels = $derived(getLabels(getPageLocale()));
+  let labels = $derived(getLabels(getPageLocale()));
 </script>
 
 <footer class="wrapper">

@@ -11,11 +11,11 @@
     children?: Snippet;
   }
 
-  let { src, alt, mobileSrc, priority = false, width, height, children }: Props = $props();
+  let { alt, children, height, mobileSrc, priority = false, src, width }: Props = $props();
 
   const videoExtensions = ['.mp4', '.webm', '.mov', '.avi', '.m4v'];
   const isVideo = videoExtensions.some((ext) => src.toLowerCase().endsWith(ext.toLowerCase()));
-  const hasDimensions = $derived(!!(width && height));
+  let hasDimensions = $derived(!!(width && height));
 
   let videoEl = $state<HTMLVideoElement | undefined>(undefined);
   let imgEl = $state<HTMLImageElement | undefined>(undefined);
