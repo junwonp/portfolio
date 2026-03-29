@@ -201,11 +201,13 @@
     overflow: hidden;
     flex-wrap: nowrap;
     justify-content: flex-start;
+    align-items: center;
     padding: 0;
     margin: 2rem -2rem;
     position: relative;
     touch-action: none;
     width: calc(100% + 4rem);
+    max-height: 60vh;
   }
 
   .image-gallery.mobile:focus {
@@ -240,6 +242,9 @@
     max-width: 100%;
     margin: 0;
     scroll-snap-align: start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .image-gallery.mobile .slider-container :global(img),
@@ -273,6 +278,13 @@
   .image-gallery :global(figure video) {
     max-width: 100%;
     max-height: 60vh;
+  }
+
+  .image-gallery.mobile :global(figure img),
+  .image-gallery.mobile :global(figure video) {
+    max-width: 100%;
+    max-height: 60vh;
+    object-fit: contain;
   }
 
   @media print {
