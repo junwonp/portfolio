@@ -1,6 +1,7 @@
 <script lang="ts">
   import { browser } from '$app/environment';
   import { invalidateAll } from '$app/navigation';
+  import ChevronLeft from '$lib/components/Icon/ChevronLeft.svelte';
   import Github from '$lib/components/Icon/Github.svelte';
   import Globe from '$lib/components/Icon/Globe.svelte';
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
@@ -9,6 +10,7 @@
   import { getPageLocale } from '$lib/utils/locale';
 
   interface Props {
+    backLink?: string;
     githubLink?: string;
     isHome?: boolean;
     linkedinLink?: string;
@@ -19,6 +21,7 @@
   }
 
   let {
+    backLink,
     githubLink,
     isHome = false,
     linkedinLink,
@@ -63,60 +66,73 @@
 
 <div>
   <header class="header">
-    <div class="title-container">
+    <div class="title-container" class:with-back={!!backLink}>
       <h1 class="title">{name}</h1>
-      <div class="icons">
-        {#if isHome}
-          <div class="lang-toggle-wrapper">
-            <button class="lang-toggle" onclick={toggleLanguage} aria-label={labels.toggleLanguage}>
-              {langDisplay}
-            </button>
-            {#if errorMessage}
-              <span class="lang-toggle-error" role="alert">{errorMessage}</span>
-            {/if}
-          </div>
-        {/if}
-        {#if productLink}
-          <div class="icon">
-            <a
-              href={productLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={labels.goToProductPage}
-              title={labels.goToProductPage}
-            >
-              <Globe />
+      <div class="icons" class:with-back={!!backLink}>
+        {#if backLink}
+          <div class="back-button">
+            <a href={backLink} aria-label={labels.goBack} title={labels.goBack}>
+              <ChevronLeft />
             </a>
           </div>
         {/if}
-        {#if githubLink}
-          <div class="icon">
-            <a
-              href={githubLink}
-              target="_blank"
-              data-sveltekit-reload
-              rel="external noopener noreferrer"
-              aria-label={labels.goToGithubPage}
-              title={labels.goToGithubPage}
-            >
-              <Github />
-            </a>
-          </div>
-        {/if}
+        <div class="other-icons">
+          {#if isHome}
+            <div class="lang-toggle-wrapper">
+              <button
+                class="lang-toggle"
+                onclick={toggleLanguage}
+                aria-label={labels.toggleLanguage}
+              >
+                {langDisplay}
+              </button>
+              {#if errorMessage}
+                <span class="lang-toggle-error" role="alert">{errorMessage}</span>
+              {/if}
+            </div>
+          {/if}
+          {#if productLink}
+            <div class="icon">
+              <a
+                href={productLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={labels.goToProductPage}
+                title={labels.goToProductPage}
+              >
+                <Globe />
+              </a>
+            </div>
+          {/if}
+          {#if githubLink}
+            <div class="icon">
+              <a
+                href={githubLink}
+                target="_blank"
+                data-sveltekit-reload
+                rel="external noopener noreferrer"
+                aria-label={labels.goToGithubPage}
+                title={labels.goToGithubPage}
+              >
+                <Github />
+              </a>
+            </div>
+          {/if}
 
-        {#if linkedinLink}
-          <div class="icon">
-            <a
-              href={linkedinLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={labels.goToLinkedinPage}
-              title={labels.goToLinkedinPage}
-            >
-              <Linkedin />
-            </a>
-          </div>
-        {/if}
+          {#if linkedinLink}
+            <div class="icon">
+              <a
+                href={linkedinLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={labels.goToLinkedinPage}
+                title={labels.goToLinkedinPage}
+              >
+                <Linkedin />
+              </a>
+            </div>
+          {/if}
+        </div>
       </div>
     </div>
     {#if role}
@@ -137,8 +153,29 @@
     align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin: 0 0 0.67em 0;
+    gap: 1rem;
+  }
+
+  .title-container.with-back {
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .back-button {
+    display: none;
+    align-items: center;
+    padding: var(--space-sm);
+    padding-left: 0;
+  }
+
+  .back-button a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-main);
+    text-decoration: none;
   }
 
   .title {
@@ -146,12 +183,20 @@
     line-height: 1.1;
     margin: 0;
     word-break: keep-all;
+    flex: 1;
   }
 
   .icons {
     align-items: center;
     display: flex;
     gap: 0.5rem;
+  }
+
+  .other-icons {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
   }
 
   .role {
@@ -197,26 +242,40 @@
     padding: var(--space-sm);
   }
 
-  @media (max-width: 960px) {
-    .title {
-      font-size: 3rem;
-    }
-  }
-
   @media (max-width: 576px) {
     .title-container {
       flex-direction: column-reverse;
       justify-content: flex-start;
     }
 
+    .back-button {
+      display: flex;
+    }
+
     .icons {
-      justify-content: flex-end;
       width: 100%;
+      margin-bottom: 0.5rem;
+    }
+
+    .other-icons {
+      gap: 0.25rem;
     }
 
     .title {
-      justify-content: flex-start;
       width: 100%;
+      flex: initial;
+    }
+  }
+
+  @media (min-width: 576px) {
+    .back-button {
+      display: none;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .title {
+      font-size: 3rem;
     }
   }
 
