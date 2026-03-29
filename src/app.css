@@ -336,6 +336,13 @@ pre code {
   color: var(--color-inline-code);
 }
 
+blockquote {
+  border-left: 3px solid var(--color-quoted-border);
+  color: var(--color-quoted);
+  margin: var(--space-sm) 0;
+  padding: var(--space-xs) var(--space-sm);
+}
+
 article img {
   max-width: 100%;
   max-height: 60vh;

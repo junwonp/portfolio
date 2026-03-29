@@ -19,6 +19,8 @@ Existing mobile banking apps often require users to navigate through numerous st
 
 When a user expresses their intent to transfer money in everyday language, the app analyzes it and automatically executes the transfer process. By **integrating the familiar experience of 'chatting' into financial services**, I maximized usability.
 
+> This project was written in JavaScript under hackathon time pressure. After gaining deeper experience building aira, I fully rewrote it with TypeScript and modern libraries — the [rebuilt version](https://github.com/junwonp/OnelineBank) is available on GitHub.
+
 ### 🛠 Tech Stack
 
 - **Core:** React Native, Expo
@@ -93,3 +95,9 @@ Instead of getting bogged down in syntax, I focused on **"problem-solving for fe
 Beyond simple UI implementation, I experienced the importance of transaction flow handling and **security (2FA)** in financial services by integrating actual banking APIs.
 
 In particular, I learned the critical importance of data integrity and exception handling when converting unstructured text data into financial data.
+
+### 3. Rebuilding: Paying Down Technical Debt
+
+After developing aira and gaining a much deeper understanding of the React Native ecosystem, I revisited this codebase. What was the best I could do at the time had clear limits — no type safety, loose file structure, and outdated patterns.
+
+I rewrote it from scratch with **TypeScript, Expo Router file-based routing, and a modern stack including TanStack Query, TanStack Form, and Zod**. More than just swapping technologies, it was an opportunity to revisit past design decisions and improve the architecture — a process that made the gap between who I was then and who I am now unmistakably clear.
