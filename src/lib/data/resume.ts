@@ -1,5 +1,16 @@
-import * as enData from '$lib/data/resume.en';
-import * as koData from '$lib/data/resume.ko';
+import { i18nData } from '$lib/data/resume.i18n';
+import type { SharedProject } from '$lib/data/resume.shared';
+import {
+  archivesShared,
+  certificateOrder,
+  certificatesShared,
+  educationOrder,
+  educationShared,
+  otherExperiencesShared,
+  sharedIntroduction,
+  skillsShared,
+  workExperiencesShared,
+} from '$lib/data/resume.shared';
 import type {
   ArchiveProps,
   CertificateProps,
@@ -12,36 +23,101 @@ import type {
 import type { Language } from '$lib/utils/language';
 
 export interface ResumeData {
-  introduction: IntroductionProps;
-  workExperiences: WorkExperienceProps[];
-  otherExperiences: OtherExperienceProps[];
+  archives: ArchiveProps[];
   certificates: CertificateProps[];
   education: EducationProps[];
+  introduction: IntroductionProps;
+  otherExperiences: OtherExperienceProps[];
   skills: SkillProps[];
-  archives: ArchiveProps[];
+  workExperiences: WorkExperienceProps[];
 }
 
-const resumeDataMap: Record<Language, ResumeData> = {
-  ko: {
-    introduction: koData.introduction,
-    workExperiences: koData.workExperiences,
-    otherExperiences: koData.otherExperiences,
-    certificates: koData.certificates,
-    education: koData.education,
-    skills: koData.skills,
-    archives: koData.archives,
-  },
-  en: {
-    introduction: enData.introduction,
-    workExperiences: enData.workExperiences,
-    otherExperiences: enData.otherExperiences,
-    certificates: enData.certificates,
-    education: enData.education,
-    skills: enData.skills,
-    archives: enData.archives,
-  },
-};
-
 export const getResumeData = (lang: Language): ResumeData => {
-  return resumeDataMap[lang];
+  const i18n = i18nData[lang];
+
+  const introduction: IntroductionProps = {
+    ...sharedIntroduction,
+    ...i18n.introduction,
+  };
+
+  const workExperiences: WorkExperienceProps[] = workExperiencesShared.map((exp) => {
+    const i18nExp = i18n.workExperiences[exp.id];
+    return {
+      companyName: i18nExp.companyName,
+      dateFrom: exp.dateFrom,
+      dateTo: exp.dateTo,
+      role: i18nExp.role,
+      additional: i18nExp.additional,
+      project: (exp.projects as SharedProject[]).map((proj) => {
+        const i18nProj = i18nExp.projects[proj.id];
+        return {
+          dateFrom: proj.dateFrom,
+          dateTo: proj.dateTo,
+          detailLink: proj.detailLink,
+          githubLink: proj.githubLink,
+          productLink: proj.productLink,
+          skills: proj.skills,
+          description: i18nProj.description,
+          detail: i18nProj.detail,
+          title: i18nProj.title,
+        };
+      }),
+    };
+  });
+
+  const otherExperiences: OtherExperienceProps[] = otherExperiencesShared.map((exp) => {
+    const i18nExp = i18n.otherExperiences[exp.id];
+    return {
+      project: [
+        {
+          dateFrom: exp.dateFrom,
+          dateTo: exp.dateTo,
+          detailLink: exp.detailLink,
+          githubLink: exp.githubLink,
+          skills: exp.skills,
+          description: i18nExp.description,
+          detail: i18nExp.detail,
+          title: i18nExp.title,
+        },
+      ],
+    };
+  });
+
+  const archives: ArchiveProps[] = archivesShared.map((arch) => {
+    const i18nArch = i18n.archives[arch.id];
+    return {
+      project: [
+        {
+          dateFrom: arch.dateFrom,
+          dateTo: arch.dateTo,
+          detailLink: arch.detailLink,
+          githubLink: arch.githubLink,
+          skills: arch.skills,
+          description: i18nArch.description,
+          detail: i18nArch.detail,
+          title: i18nArch.title,
+        },
+      ],
+    };
+  });
+
+  const certificates: CertificateProps[] = certificateOrder.map((id) => ({
+    link: certificatesShared[id].link,
+    label: i18n.certificates[id].label,
+  }));
+
+  const education: EducationProps[] = educationOrder.map((id) => ({
+    ...educationShared[id],
+    ...i18n.education[id],
+  }));
+
+  return {
+    introduction,
+    workExperiences,
+    otherExperiences,
+    archives,
+    certificates,
+    education,
+    skills: skillsShared,
+  };
 };
