@@ -276,7 +276,9 @@ ul li:before {
 
 a {
   color: var(--color-primary);
-  transition: all 0.2s ease;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
