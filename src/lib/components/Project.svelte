@@ -179,6 +179,10 @@
     color: #ffffff;
   }
 
+  .github-icon-link :global(svg) {
+    pointer-events: none;
+  }
+
   @media (max-width: 960px) {
     .project-title {
       font-size: 1.2rem;

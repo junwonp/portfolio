@@ -275,18 +275,25 @@
     padding: 0.375rem;
   }
 
+  .icon a :global(svg) {
+    pointer-events: none;
+  }
+
   .icon a {
     align-items: center;
     border-radius: 50%;
     color: var(--color-main);
     display: flex;
+    flex-shrink: 0;
+    height: 2.5rem;
     justify-content: center;
-    padding: var(--space-xs);
+    overflow: hidden;
     text-decoration: none;
     transition:
       background 0.2s,
       color 0.2s,
       transform 0.1s;
+    width: 2.5rem;
   }
 
   .icon a:active {
