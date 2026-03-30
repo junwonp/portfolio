@@ -107,6 +107,7 @@
           {#if githubLink}
             <div class="icon">
               <a
+                class="icon-github"
                 href={githubLink}
                 target="_blank"
                 data-sveltekit-reload
@@ -122,6 +123,7 @@
           {#if linkedinLink}
             <div class="icon">
               <a
+                class="icon-linkedin"
                 href={linkedinLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -171,11 +173,26 @@
   }
 
   .back-button a {
-    display: flex;
     align-items: center;
-    justify-content: center;
+    border-radius: 50%;
     color: var(--color-main);
+    display: flex;
+    justify-content: center;
+    padding: var(--space-xs);
     text-decoration: none;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      transform 0.1s;
+  }
+
+  .back-button a:active {
+    transform: scale(0.9);
+  }
+
+  .back-button a:hover {
+    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    color: var(--color-primary);
   }
 
   .title {
@@ -219,6 +236,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    padding: 0.375rem;
   }
 
   .lang-toggle {
@@ -230,7 +248,21 @@
     font-family: inherit;
     font-size: 0.875rem;
     padding: 0.5rem 1rem;
-    transition: all 0.2s;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      color 0.2s,
+      transform 0.1s;
+  }
+
+  .lang-toggle:active {
+    transform: scale(0.95);
+  }
+
+  .lang-toggle:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #ffffff;
   }
 
   .lang-toggle-error {
@@ -239,7 +271,41 @@
   }
 
   .icon {
-    padding: var(--space-sm);
+    display: flex;
+    padding: 0.375rem;
+  }
+
+  .icon a {
+    align-items: center;
+    border-radius: 50%;
+    color: var(--color-main);
+    display: flex;
+    justify-content: center;
+    padding: var(--space-xs);
+    text-decoration: none;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      transform 0.1s;
+  }
+
+  .icon a:active {
+    transform: scale(0.9);
+  }
+
+  .icon a:not(.icon-github):not(.icon-linkedin):hover {
+    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    color: var(--color-primary);
+  }
+
+  .icon-github:hover {
+    background: #24292e;
+    color: #ffffff;
+  }
+
+  .icon-linkedin:hover {
+    background: #0077b5;
+    color: #ffffff;
   }
 
   @media (max-width: 576px) {
