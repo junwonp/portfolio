@@ -3,7 +3,7 @@
   width="24"
   height="24"
   viewBox="0 0 24 24"
-  fill="var(--color-bold)"
+  fill="currentColor"
   {...$$restProps}
 >
   <path

@@ -52,6 +52,7 @@
 
       {#if githubLink}
         <a
+          class="github-icon-link"
           href={githubLink}
           target="_blank"
           rel="external noopener noreferrer"
@@ -152,6 +153,30 @@
 
   .detail-link:hover {
     text-decoration: underline;
+  }
+
+  .github-icon-link {
+    align-items: center;
+    align-self: center;
+    border-radius: 50%;
+    color: var(--color-main);
+    display: flex;
+    justify-content: center;
+    padding: var(--space-xs);
+    text-decoration: none;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      transform 0.1s;
+  }
+
+  .github-icon-link:active {
+    transform: scale(0.9);
+  }
+
+  .github-icon-link:hover {
+    background: #24292e;
+    color: #ffffff;
   }
 
   @media (max-width: 960px) {
