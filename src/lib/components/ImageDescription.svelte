@@ -146,6 +146,7 @@
     align-items: center;
     border-radius: 8px;
     overflow: hidden;
+    max-height: 60vh;
   }
 
   @keyframes skeleton-shimmer {
