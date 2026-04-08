@@ -1,0 +1,115 @@
+---
+title: Spreadsheet-style grid & text viewer
+description: Large-scale grid and line-based text viewer using React Table, virtualization, and 2D cell selection (Immer)
+date: '2020-09'
+role: Frontend
+techStack:
+  [
+    'React',
+    'TypeScript',
+    'React Table',
+    'Immer',
+    'react-window',
+    'react-virtualized',
+    'Socket.IO',
+    'styled-components',
+  ]
+---
+
+## 💡 Project Overview
+
+**"Thousands of rows without jank—spreadsheet-like grids and line-based text in the browser"**
+
+I built a **spreadsheet-style grid** on `react-table` plus a **line-based text viewer** in one package, with drag **2D range selection**, multiple regions, and virtualization. Containers own interaction while base components focus on rendering, which keeps testing and extension straightforward.
+
+> For security and confidentiality I cannot share the work context or original repository; this page covers implementation only. Code snippets are reconstructed excerpts.
+
+### 🛠 Tech Stack
+
+- **Core:** React, TypeScript, React Table v7
+- **State:** Immer
+- **Virtualization:** react-window (VariableSizeList, InfiniteLoader, AutoSizer), react-virtualized (CellMeasurerCache)
+- **Realtime (client):** Socket.IO
+- **Styling:** styled-components
+
+---
+
+## 💻 Key Technical Work
+
+### 1. Presentation vs container split
+
+`ExcelViewer` / `TextViewer` handle **state, mouse events, and popovers**; `ExcelViewerBase` / `TextViewerBase` focus on **table rendering and virtualization**. That makes Storybook and unit tests much easier for the rendering layer.
+
+### 2. Excel-style column labels (A, B, …, Z, AA, …)
+
+A single `String.fromCharCode` pass cannot produce **Excel-style base-26 column names**. A quotient/remainder loop yields **AA, AB, …** correctly.
+
+```tsx
+const columnGenerator = (length: number): Column<Record<string, string>>[] => {
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const rowHeader: Column<Record<string, string>>[] = [];
+  const fromCharCode = (num: number) => {
+    let index = '';
+    while (num >= 0) {
+      index = alphabet.charAt(num % alphabet.length) + index;
+      num = Math.floor(num / alphabet.length) - 1;
+    }
+    return index;
+  };
+  for (let i = 0; i < length; i += 1) {
+    rowHeader.push({ Header: fromCharCode(i), accessor: String(i) });
+  }
+  return rowHeader;
+};
+```
+
+### 3. 2D range selection with Immer
+
+Cells use `column:row` string IDs. While dragging, the selection stays a **rectangle** via **`min` / `max`**. Updates go through **Immer `produce`** to avoid accidental reference sharing.
+
+```tsx
+const onMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+  if (isMouseDown) {
+    setSelectedPoint(
+      produce(selectedPoint, (draft) => {
+        const originX = parseInt(start.split(':')[0]);
+        const currentX = parseInt(event.currentTarget.id.split(':')[0]);
+        const originY = parseInt(start.split(':')[1]);
+        const currentY = parseInt(event.currentTarget.id.split(':')[1]);
+
+        if (draft[count]) {
+          draft[count].start = `${Math.min(currentX, originX)}:${Math.min(currentY, originY)}`;
+          draft[count].end = `${Math.max(currentX, originX)}:${Math.max(currentY, originY)}`;
+        }
+      })
+    );
+  }
+};
+```
+
+**Ctrl + drag** increments a slot index (`count`) so users can stack **multiple regions**.
+
+### 4. Text viewer: line ranges and reverse drag
+
+On mouse up, **inverted start/end** for line-based selection is **normalized** so the range model is consistent regardless of drag direction.
+
+### 5. Per-view virtualization
+
+- **Grid:** `react-window` (`VariableSizeList` + `InfiniteLoader` + `AutoSizer`) for **row virtualization** and incremental loading.
+- **Text:** `react-virtualized` **`CellMeasurerCache`** to measure and cache line heights so **variable-height lines** still align with selection and scroll.
+
+The main idea is **different strategies per view**, not one library for everything.
+
+### 6. Socket.IO and mocks
+
+Payloads like `socket.emit('removeHighlight', { fileId, highlightId })` **pin the wire shape** between client and server. A **`createMockSocket`** helper keeps the same surface for **UI and integration checks** without a live backend.
+
+### 7. UI and resilience
+
+- **styled-components** for selection/overlay layers, plus styles that reduce conflict with native **`::selection`**.
+- **Sticky headers** and scrollbar theming for a tool-like grid.
+- **ErrorBoundary** so a viewer failure does not take down the whole app.
+
+### 8. TypeScript
+
+Extending `react-table` v7 `HeaderGroup` with **optional resize/sort fields** is a practical example of **shaping third-party hook types** to the problem at hand.

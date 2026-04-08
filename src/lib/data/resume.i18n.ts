@@ -125,6 +125,9 @@ export const i18nData: Record<Language, I18nData> = {
               'A document viewer development project in a closed network environment with restricted external library access.',
             detail: [
               '**[Large-Scale Data Rendering]** Introduced **React Table** and **Virtualization** to prevent rendering delays when processing thousands of rows of Excel data, enabling seamless scrolling.',
+              '**[Spreadsheet-Style UX]** Implemented **2D cell range selection** (including multi-range with modifier keys), **Excel-style column labels (A–Z, AA…)** , and **immutable selection state with Immer**.',
+              '**[Viewer-Specific Virtualization]** Used **react-window** (InfiniteLoader) for row virtualization on the grid and **react-virtualized CellMeasurerCache** for variable-height lines in the text viewer.',
+              '**[Collaboration Boundary]** Integrated **Socket.IO** for highlight lifecycle events and a **mock socket** for demos/tests without a live server.',
               '**[Architecture Design]** Built a scalable shared component system based on **Atomic Design Pattern** and designed reusable **Custom Hooks** to separate business logic from the UI layer.',
             ],
           },
@@ -275,6 +278,9 @@ export const i18nData: Record<Language, I18nData> = {
               '외부 라이브러리 사용이 제한된 폐쇄망 환경에서의 문서 뷰어 개발 프로젝트입니다.',
             detail: [
               '**[대용량 데이터 렌더링]** **React Table** 및 **Virtualization(가상화)** 기법 도입으로 수천 행의 엑셀 데이터 처리 시 발생하는 렌더링 지연을 방지하고 끊김 없는 스크롤 경험 구현',
+              '**[스프레드시트형 UX]** **2D 셀 영역 드래그 선택**(보조키 기반 다중 영역 포함), **엑셀식 열 라벨(A–Z, AA…)** 생성, **Immer 기반 불변 선택 상태**로 복잡한 인터랙션을 안전하게 관리',
+              '**[뷰어별 가상화]** 그리드는 **react-window**(InfiniteLoader)로 행 가상 스크롤, 가변 높이 **텍스트 뷰어**는 **react-virtualized CellMeasurerCache**로 줄 높이 측정·캐시하여 뷰 특성에 맞게 최적화',
+              '**[협업 경계]** 하이라이트 등 이벤트를 **Socket.IO**로 서버와 계약화하고, **mock 소켓**으로 실서버 없이 데모·테스트가 가능하도록 분리',
               '**[아키텍처 설계]** 서비스 확장성을 고려한 **Atomic Design Pattern** 기반 공용 컴포넌트 시스템 구축 및 재사용 가능한 **Custom Hook** 설계로 비즈니스 로직과 UI 레이어 분리',
             ],
           },
