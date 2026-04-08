@@ -11,7 +11,7 @@ techStack: ['React', 'AWS Amplify', 'Recharts', 'MUI', 'styled-components']
   import ImageDescription from '$lib/components/ImageDescription.svelte';
 </script>
 
-## 💡 Project Overview
+## 📋 Project overview
 
 **"What if scattered election information was gathered in one place?"**
 
@@ -19,7 +19,7 @@ During the election period, information such as news, polls, and candidate pledg
 
 I adopted **AWS Amplify (Serverless)** to efficiently build Authentication and Backend APIs, and utilized **MUI (Material UI)** and **Recharts** to implement an intuitive dashboard UI.
 
-### 🛠 Tech Stack
+### 🧰 Tech stack
 
 - **Frontend:** React, styled-components, MUI (Material UI)
 - **Visualization:** Recharts
@@ -28,7 +28,7 @@ I adopted **AWS Amplify (Serverless)** to efficiently build Authentication and B
 
 ---
 
-## 💻 Key Features
+## ⚙️ Key work
 
 ### 1. Main Dashboard UI
 
@@ -70,7 +70,7 @@ Visualized complex approval rating trends into intuitive line and bar charts usi
 
 ---
 
-## 🧑‍💻 Role (Team Leader & Full Stack)
+## 🎯 Role (Team Leader & Full Stack)
 
 **Led initial environment setup, AWS infrastructure integration, and core frontend development.**
 
@@ -83,7 +83,7 @@ Visualized complex approval rating trends into intuitive line and bar charts usi
 
 ---
 
-## 💬 Retrospective: "Exploring the Potential of Serverless Architecture"
+## 💭 Retrospective: "Exploring the potential of serverless architecture"
 
 ### Productivity with AWS Amplify
 

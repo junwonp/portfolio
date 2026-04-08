@@ -3,16 +3,16 @@ title: SvelteKit 포트폴리오
 description: Cloudflare Pages와 Svelte 5로 구축한 엣지 기반(Edge-enhanced) 웹사이트
 date: '2025-11-27'
 image: '/images/sveltekit-portfolio/1.webp'
-techStack: ['Svelte 5', 'SvelteKit', 'TypeScript', 'mdsvex', 'Cloudflare Pages']
 productLink: 'https://junwon.pages.dev'
 githubLink: 'portfolio'
+techStack: ['Svelte 5', 'SvelteKit', 'TypeScript', 'mdsvex', 'Cloudflare Pages']
 ---
 
 <script>
   import ImageDescription from '$lib/components/ImageDescription.svelte';
 </script>
 
-## 💡 프로젝트 소개
+## 📋 프로젝트 소개
 
 **"정적 사이트의 성능에 동적 라우팅의 유연함을 더하다"**
 
@@ -20,7 +20,7 @@ githubLink: 'portfolio'
 
 이 프로젝트는 **Cloudflare Pages**로 마이그레이션하여, 기본적으로는 **SSG(Static Site Generation)** 방식으로 빠른 성능을 유지하되, **Edge Functions(Middleware)**를 통해 요청 단계에서 언어를 감지하는 **하이브리드 전략**을 채택했습니다.
 
-### 🛠 기술 스택
+### 🧰 기술 스택
 
 - **Framework:** Svelte 5, SvelteKit (Adapter Cloudflare)
 - **Infrastructure:** Cloudflare Pages (Functions)
@@ -29,7 +29,7 @@ githubLink: 'portfolio'
 
 ---
 
-## 💻 핵심 기능 구현
+## ⚙️ 주요 작업
 
 ### 1. 하이브리드 UX (Resume + Portfolio)
 
@@ -82,7 +82,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 ---
 
-## 💬 기술적 의사결정
+## 💭 회고
 
 ### 1. 왜 GitHub Pages에서 Cloudflare Pages로 옮겼는가?
 

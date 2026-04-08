@@ -16,7 +16,7 @@ techStack:
   ]
 ---
 
-## 💡 Project Overview
+## 📋 Project overview
 
 **"Thousands of rows without jank—spreadsheet-like grids and line-based text in the browser"**
 
@@ -24,7 +24,7 @@ I built a **spreadsheet-style grid** on `react-table` plus a **line-based text v
 
 > For security and confidentiality I cannot share the work context or original repository; this page covers implementation only. Code snippets are reconstructed excerpts.
 
-### 🛠 Tech Stack
+### 🧰 Tech stack
 
 - **Core:** React, TypeScript, React Table v7
 - **State:** Immer
@@ -34,7 +34,7 @@ I built a **spreadsheet-style grid** on `react-table` plus a **line-based text v
 
 ---
 
-## 💻 Key Technical Work
+## ⚙️ Key work
 
 ### 1. Presentation vs container split
 
@@ -81,7 +81,7 @@ const onMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
           draft[count].start = `${Math.min(currentX, originX)}:${Math.min(currentY, originY)}`;
           draft[count].end = `${Math.max(currentX, originX)}:${Math.max(currentY, originY)}`;
         }
-      })
+      }),
     );
   }
 };

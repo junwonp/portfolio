@@ -11,7 +11,7 @@ techStack: ['Next.js', 'TypeScript', 'MUI', 'Firebase', 'Webpack']
   import ImageDescription from '$lib/components/ImageDescription.svelte';
 </script>
 
-## 💡 Project Overview
+## 📋 Project overview
 
 **"From Solo Project to Core Business Model"**
 
@@ -20,7 +20,7 @@ Starting as a **solo developer, I designed the frontend architecture from scratc
 
 Targeting a global market, I implemented **Internationalization (i18n)** and an **Integrated Payment System (Paddle)**, and improved web application performance through **Webpack configuration optimization**.
 
-### 🛠 Tech Stack
+### 🧰 Tech stack
 
 - **Framework:** Next.js, TypeScript
 - **Styling:** MUI (Material UI) + Styled-components
@@ -30,7 +30,7 @@ Targeting a global market, I implemented **Internationalization (i18n)** and an 
 
 ---
 
-## 💻 Key Technical Challenges
+## ⚙️ Key work
 
 ### 1. 15% Bundle Size Reduction (324KB → 277KB)
 
@@ -63,7 +63,7 @@ By implementing this directly, I prevented page speed degradation caused by load
 
 ---
 
-## 💬 Retrospective: "From Solo Developer to Architect"
+## 💭 Retrospective: "From solo developer to architect"
 
 ### 1. Initial Design Considering Scalability
 

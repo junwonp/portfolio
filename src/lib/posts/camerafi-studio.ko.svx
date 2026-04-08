@@ -11,7 +11,7 @@ techStack: ['Next.js', 'TypeScript', 'MUI', 'Firebase', 'Webpack']
   import ImageDescription from '$lib/components/ImageDescription.svelte';
 </script>
 
-## 💡 프로젝트 소개
+## 📋 프로젝트 소개
 
 **"1인 프로젝트에서 사내 핵심 비즈니스 모델로"**
 
@@ -20,7 +20,7 @@ CameraFi Studio는 스포츠 경기나 방송 송출 화면에 점수판, 자막
 
 글로벌 서비스를 목표로 **국제화(i18n)** 및 **통합 결제 시스템(Paddle)**을 구축했으며, **Webpack 설정 최적화**를 통해 웹 애플리케이션의 성능을 개선했습니다.
 
-### 🛠 기술 스택
+### 🧰 기술 스택
 
 - **Framework:** Next.js, TypeScript
 - **Styling:** MUI (Material UI) + Styled-components
@@ -30,7 +30,7 @@ CameraFi Studio는 스포츠 경기나 방송 송출 화면에 점수판, 자막
 
 ---
 
-## 💻 핵심 기술적 도전
+## ⚙️ 주요 작업
 
 ### 1. 번들 사이즈 15% 감량 (324KB → 277KB)
 
@@ -65,7 +65,7 @@ GDPR 등 글로벌 웹 표준 규정을 준수하기 위해 서드파티 도구 
 
 ---
 
-## 💬 회고: "1인 개발자에서 아키텍트까지"
+## 💭 회고: "1인 개발자에서 아키텍트까지"
 
 ### 1. 확장성을 고려한 초기 설계
 

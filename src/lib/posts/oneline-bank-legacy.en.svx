@@ -11,7 +11,7 @@ techStack: ['React Native', 'Expo', 'Firebase', 'Woori Bank API']
   import ImageDescription from '$lib/components/ImageDescription.svelte';
 </script>
 
-## 💡 Project Overview
+## 📋 Project overview
 
 **"Simplifying money transfers into a single line of chat"**
 
@@ -21,7 +21,7 @@ When a user expresses their intent to transfer money in everyday language, the a
 
 > This project was written in JavaScript under hackathon time pressure. After gaining deeper experience building aira, I fully rewrote it with TypeScript and modern libraries — the [rebuilt version](https://github.com/junwonp/OnelineBank) is available on GitHub.
 
-### 🛠 Tech Stack
+### 🧰 Tech stack
 
 - **Core:** React Native, Expo
 - **Backend:** Google Firebase (Firestore)
@@ -30,11 +30,11 @@ When a user expresses their intent to transfer money in everyday language, the a
 
 ---
 
-## 💻 Key Features
+## ⚙️ Key work
 
 ### 1. Splash & Intro
 
-<ImageDescription src='/images/oneline-bank/1.webp' alt="Splash page" priority width={564} height={901} />
+<ImageDescription src="/images/oneline-bank/1.webp" alt="Splash page" priority width={564} height={901} />
 
 Intuitive logo and intro screen showcasing the app's identity.
 
@@ -71,7 +71,7 @@ Manages user account information and transfer history in real-time by integratin
 
 ---
 
-## 🧑‍💻 Role (Solo Development)
+## 🎯 Role (Solo development)
 
 **100% Solo Execution from Planning to Design and Development (5-Day Sprint)**
 
@@ -82,7 +82,7 @@ Manages user account information and transfer history in real-time by integratin
 
 ---
 
-## 💬 Retrospective: "Rapid Learning and Execution"
+## 💭 Retrospective: "Rapid learning and execution"
 
 ### 1. Rapid Prototyping with React Native
 

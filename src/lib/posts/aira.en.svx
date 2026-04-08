@@ -4,7 +4,19 @@ description: Global AI Character Chat Service achieving 23k MAU
 date: '2024-01-01'
 image: '/images/aira/v2_main.webp'
 productLink: 'https://aira.gg'
-techStack: ['React Native', 'Expo', 'TanStack Query', 'FlashList', 'Reanimated', 'Unistyles', 'Zod', 'MMKV', 'Firebase', 'Sentry']
+techStack:
+  [
+    'React Native',
+    'Expo',
+    'TanStack Query',
+    'FlashList',
+    'Reanimated',
+    'Unistyles',
+    'Zod',
+    'MMKV',
+    'Firebase',
+    'Sentry',
+  ]
 ---
 
 <script>
@@ -12,7 +24,7 @@ techStack: ['React Native', 'Expo', 'TanStack Query', 'FlashList', 'Reanimated',
   import ImageGallery from '$lib/components/ImageGallery.svelte';
 </script>
 
-## 💡 Project Overview
+## 📋 Project overview
 
 **"AI Character Chat Service used by 23k people"**
 
@@ -21,7 +33,7 @@ As a Co-Founder and Frontend Lead, I led the **entire process from planning to p
 
 I focused on designing a **combined Local-Server architecture** to prevent data loss and **meticulously optimizing rendering performance** to provide a seamless chat experience even on low-end devices.
 
-### 🛠 Tech Stack
+### 🧰 Tech stack
 
 - **Core:** React Native, Expo (Expo Router), TypeScript
 - **Data & State:** TanStack Query v5, Firebase, MMKV (purpose-separated instances)
@@ -32,7 +44,7 @@ I focused on designing a **combined Local-Server architecture** to prevent data 
 
 ---
 
-## 💻 Key Technical Challenges
+## ⚙️ Key work
 
 ### 1. Supporting App and Web with a Single Codebase (Cross-Platform)
 
@@ -131,7 +143,7 @@ Instead of hardcoded hex values, I built a numeric-scale color palette with **Un
 
 ---
 
-## 🧪 V2 R&D: Next-Gen Interface Experiment
+## 🔬 V2 R&D: Next-gen interface experiment
 
 For service enhancement, I developed a **V2 version** implementing a **new interface maximizing user immersion**, breaking the mold of traditional chat apps.
 (※ Although not officially released due to business reasons, the features were verified during the development phase.)
@@ -147,7 +159,7 @@ I introduced a **Full-screen Swipe UI** so users can enjoy characters like conte
 
 ---
 
-## 💬 Retrospective: "The Essence of Engineering Learned in a Startup"
+## 💭 Retrospective: "The essence of engineering learned in a startup"
 
 ### 1. Streaming and Cache Synchronization are More Complex Than Expected
 
