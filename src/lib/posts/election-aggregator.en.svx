@@ -4,7 +4,7 @@ description: AWS Serverless-based Election Information Aggregator
 date: '2021-12-30'
 image: '/images/election-aggregator/1.webp'
 githubLink: 'ITE3068_team8'
-techStack: ['React', 'AWS Amplify', 'Recharts', 'MUI', 'Styled Components']
+techStack: ['React', 'AWS Amplify', 'Recharts', 'MUI', 'styled-components']
 ---
 
 <script>
@@ -21,7 +21,7 @@ I adopted **AWS Amplify (Serverless)** to efficiently build Authentication and B
 
 ### 🛠 Tech Stack
 
-- **Frontend:** React, Styled Components, MUI (Material UI)
+- **Frontend:** React, styled-components, MUI (Material UI)
 - **Visualization:** Recharts
 - **Backend (Serverless):** AWS Amplify (Auth, API)
 - **Crawling & Network:** Cheerio, Microlink, Axios
@@ -78,7 +78,7 @@ Visualized complex approval rating trends into intuitive line and bar charts usi
 - **Serverless Architecture:** Built Authentication (Cognito) and Data (AppSync) communication environments using AWS Amplify.
 - **Frontend Development:**
   - Implemented data visualization components using **Recharts**.
-  - Designed a consistent UI system based on **MUI & Styled Components**.
+  - Designed a consistent UI system based on **MUI** and **styled-components**.
   - Resolved CORS issues and integrated APIs using Axios and Proxy settings.
 
 ---

@@ -39,7 +39,7 @@ Route: `src/routes/projects/[slug]/`
 
 - `+page.server.ts` — validates slug, returns `{ slug, locale }`
 - `+page.ts` — uses `import.meta.glob` to lazily load `src/lib/posts/${slug}.${locale}.svx`
-- MDSvex (`.svx`) files support embedded Svelte components, preprocessed via `mdsvex()` in `svelte.config.js`
+- mdsvex (`.svx`) files support embedded Svelte components, preprocessed via `mdsvex()` in `svelte.config.js`
 
 To add a new project: create `src/lib/posts/[slug].en.svx` and `src/lib/posts/[slug].ko.svx`, then add a `detailLink: '/projects/[slug]'` entry to both resume data files.
 

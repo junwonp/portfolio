@@ -4,7 +4,7 @@ description: Global AI Character Chat Service achieving 23k MAU
 date: '2024-01-01'
 image: '/images/aira/v2_main.webp'
 productLink: 'https://aira.gg'
-techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
+techStack: ['React Native', 'Expo', 'TanStack Query', 'FlashList', 'Reanimated', 'Unistyles', 'Zod', 'MMKV', 'Firebase', 'Sentry']
 ---
 
 <script>
@@ -23,9 +23,11 @@ I focused on designing a **combined Local-Server architecture** to prevent data 
 
 ### 🛠 Tech Stack
 
-- **Core:** React Native, Expo, TypeScript
-- **Data & State:** React Query, Firebase
-- **Performance:** Flashlist, React Compiler, MMKV
+- **Core:** React Native, Expo (Expo Router), TypeScript
+- **Data & State:** TanStack Query v5, Firebase, MMKV (purpose-separated instances)
+- **Performance:** FlashList, React Compiler, Reanimated, Keyboard Controller
+- **Design & i18n:** Unistyles (dark/light/auto theming), typesafe-i18n (compile-time type inference)
+- **Validation & Observability:** Zod, Sentry (Hermes profiling integration)
 - **Legacy & R&D:** Realm (Local DB), llama.rn (On-device AI)
 
 ---
@@ -42,6 +44,9 @@ To manage resources efficiently, I built a structure supporting **Android, iOS a
 
 - **Universal Link:** Connected links so that clicking them on the web naturally opens the app, providing a boundary-less user experience across platforms.
 - **Platform Specific Code:** Shared business logic while separating only the parts where UI details need to differ into platform-specific files (`*.ios.ts`, `*.web.ts`) to increase maintenance efficiency.
+- **Platform-Specific Context Separation:** Applied a `.web.tsx` extension-based Context separation pattern to prevent native-only packages (Google Mobile Ads, Expo IAP) from being included in the web bundle. Metro bundler automatically selects the web-specific implementation during web builds, preventing both bundle bloat and runtime errors.
+- **Platform-Specific Navigator Branching:** Used `Stack` + `Stack.Protected` for declarative auth guards on native, and `Drawer` + `react-responsive` for responsive sidebar layouts on web, providing optimized navigation experiences for each platform.
+- **Unistyles Theme Binding:** Auto-bound Unistyles design tokens to React Navigation's `ThemeProvider` via `withUnistyles`, so Navigation headers and card backgrounds automatically reflect theme changes.
 
 ### 2. Architecture Migration due to Privacy Policy Change
 
@@ -54,7 +59,11 @@ To prevent data loss, I designed a **Retry Logic** and **Transaction Flag** mech
 ### 3. Improving Initial Loading Experience
 
 I judged that showing a loading spinner or a blank screen every time the app launches is a poor user experience.
-I integrated **React Query Persister** with **MMKV** to **instantly display previously cached data** upon app launch without waiting for network requests. This allowed users to naturally view their previous chat history immediately upon entering the app.
+I integrated **TanStack Query** persistence (`PersistQueryClientProvider`) with **MMKV** to **instantly display previously cached data** upon app launch without waiting for network requests. This allowed users to naturally view their previous chat history immediately upon entering the app.
+
+- **MMKV Instance Separation:** Storing all data in a single storage meant clearing the cache would also wipe user settings. I separated instances into `document` (app data), `cache` (TanStack Query cache), and `settings` (theme, language, send-key preferences) for independent cache management.
+- **Per-User Cache Auto-Isolation:** By passing `uid` to `PersistQueryClientProvider`'s `buster`, the previous user's cache is automatically invalidated when logging in with a different account — safely isolated without manual `queryClient.clear()` calls or timing dependencies.
+- **Auto Space Management:** Applied a `removeOldestQuery` retry strategy that automatically deletes the oldest queries when MMKV capacity is full, managing disk space automatically without separate expiration logic.
 
 ### 4. Introducing React Compiler and Code Simplification
 
@@ -64,20 +73,25 @@ I relied on the compiler for most optimizations to maintain **highly readable co
 ### 5. Optimizing Rendering Performance for Large Datasets
 
 <ImageGallery>
-  <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat Flashlist Demo"/>
-  <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home Flashlist Demo"/>
+  <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat FlashList Demo"/>
+  <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home FlashList Demo"/>
 </ImageGallery>
 
 The challenge was to smoothly display tens of thousands of chat logs mixed with images and text on low-end devices.
 
-- **Flashlist (View Recycling):** The existing `FlatList` caused frame drops and **white-screen flickering** by constantly creating/destroying components during scrolling. I introduced `Flashlist`, which recycles views, to **significantly reduce JS thread load** and achieve stable 60fps scrolling.
+- **FlashList (View Recycling):** The existing `FlatList` caused frame drops and **white-screen flickering** by constantly creating/destroying components during scrolling. I introduced **FlashList**, which recycles views, to **significantly reduce JS thread load** and achieve stable 60fps scrolling. Used `maintainVisibleContentPosition` to preserve the current scroll position during page loads.
 - **Cursor-based Pagination:** Applied `useInfiniteQuery` and cursor-based pagination to efficiently load and manage large volumes of chat history without slowing down retrieval speeds as data grows.
+- **Worklet-Based Keyboard Scrolling:** `useAnimatedReaction` callbacks run on the **UI thread (worklet)**, so keyboard progress is never missed even when the JS thread is busy. Since `scrollToEnd` is an RN API callable only on the JS thread, I delegated it to the RN thread via `scheduleOnRN` for stable keyboard-triggered scrolling.
+- **Derived Data Memoization:** Flattened `InfiniteQuery`'s `pages` array with `useMemo` and chained dependencies for the latest user message ID and rendering list, preventing unnecessary re-renders.
 
-### 6. High-Performance AI Streaming and Memory Management
+### 6. Streaming Chat and Optimistic UI
 
-In an AI chat service, response speed directly drives immersion. I optimized Response Streaming to minimize **TTFT (Time To First Token)** — the time between sending a message and the first character appearing on screen.
+The most complex area and directly tied to user experience. While AI responses stream from the server chunk by chunk, I **patched TanStack Query's `InfiniteQuery` cache in real-time** to implement typing animations.
 
-As conversations grew longer, memory usage climbed as well. Stale chat logs lingering in memory could cause the app to slow down or crash during extended sessions. I addressed this by limiting the rendering scope of the message list and releasing unnecessary references, **preventing memory leaks** and maintaining stable performance across long conversation threads.
+- **Zod-Based Stream Event Validation:** Stream chunks can arrive malformed, so I used `z.union` to distinguish content chunks (text/image/bgm) from final results in a single schema, with `safeParse` silently skipping parse failures.
+- **Real-Time InfiniteQuery Cache Patching:** For each chunk, if the same `message-${index}` arrives, the existing record's content is replaced (typing effect); new indices add new records. Managed `InfiniteData` immutable updates directly without Immer for predictable state.
+- **Optimistic Updates:** In `onMutate`, user messages are immediately inserted into the cache and the session list preview is updated simultaneously. `onSuccess` replaces temporary IDs with actual server IDs and refreshes point balances; `onError` rolls back inserted messages.
+- **Memory Management:** Addressed increasing memory usage as conversations grew by limiting the message list's rendering scope and releasing unnecessary references, maintaining stable performance during extended conversations.
 
 To validate the potential of on-device inference, I also ran an **sLLM PoC** using `llama.rn`. This experiment gave me a firsthand look at the current limits and possibilities of running AI inference directly on mobile hardware without server costs.
 
@@ -93,6 +107,27 @@ I needed to introduce ads for monetization but didn't want to disrupt the chat e
 I directly designed and applied a **Native Ads** format where only the **'AD' tag and title are displayed in a thin line** at the top of the chat screen. This minimized screen space usage while blending seamlessly with the content.
 
 After launching ads, I continuously monitored **drop-off rates** to track the real impact on user experience. This data-driven approach helped maintain the balance between revenue growth and UX quality.
+
+### 8. Type-Safe Server State Management (queryData Facade)
+
+Instead of directly using `QueryClient` throughout the project, all access is structured through a domain-organized `queryData` function.
+
+- **Hierarchical Query Key Factory:** Managing query keys via factory functions (`keys.message.list(sessionId)`) enables bulk invalidation by passing only parent keys to `invalidateQueries`, eliminating typos and collisions from manual string construction.
+- **get / update / delete Namespaces:** Calling `queryData(queryClient).update.message.list(sessionId)(updater)` automatically infers the updater function's parameter and return types via `Updater<T | undefined, T | undefined>` generics. Incorrect data types in cache operations are caught at compile time.
+
+### 9. Design Token System (Unistyles)
+
+Instead of hardcoded hex values, I built a numeric-scale color palette with **Unistyles**, selecting different steps from the same palette for light/dark themes to maintain consistency.
+
+- **Theme Flicker Elimination:** MMKV's synchronous API allows reading and applying the theme before the first render. AsyncStorage would cause a flicker as the default theme renders first then switches — MMKV completely eliminates this issue.
+- **Accessible Typography:** Reflects device accessibility font size settings via `UnistylesRuntime.fontScale`, clamped to a 1–1.2 range to prevent layout breakage when font sizes are scaled excessively.
+
+### 10. Type-Safe i18n (typesafe-i18n)
+
+`typesafe-i18n` auto-generates TypeScript types from translation files, catching invalid translation keys and missing parameters at **compile time** rather than runtime.
+
+- **Intl Polyfill Management:** Rendering before `Intl.DisplayNames` polyfills load causes garbled language display names. Children are rendered only after locale file loading completes, preventing locale malfunction on first screen.
+- **Language Switch Synchronization:** When switching languages, OS language settings are synchronized via `react-native-localization-settings`, saved to MMKV, translation files are async-loaded, and the i18n context is updated sequentially.
 
 ---
 
@@ -114,12 +149,28 @@ I introduced a **Full-screen Swipe UI** so users can enjoy characters like conte
 
 ## 💬 Retrospective: "The Essence of Engineering Learned in a Startup"
 
-### 1. The Boundary of Over-Engineering
+### 1. Streaming and Cache Synchronization are More Complex Than Expected
+
+Initially, I tried accumulating stream chunks in local `useState` and refetching the Query upon completion. The problem was the screen briefly going blank during refetch. After switching to the current approach (directly patching InfiniteQuery cache per chunk), typing animations became smooth and flickering disappeared. The trade-off is that `InfiniteData` immutable update code is long and harder to read, but I chose to write it directly without Immer considering bundle size.
+
+### 2. Platform-Specific Bundle Separation Should Be Designed Early
+
+When adding web support later, native-only packages (`expo-in-app-purchases`, `react-native-google-mobile-ads`) leaked into the web bundle causing runtime errors. I resolved this with platform-specific Context separation using Metro's file extension resolution rules (`.web.tsx` priority), but knowing this pattern from the project's inception would have eliminated refactoring costs entirely.
+
+### 3. The MMKV + PersistQueryClientProvider `buster` Combination
+
+Initially, I manually called `queryClient.clear()` on logout. Then I discovered cases where the cache wasn't fully cleared due to component unmount timing issues. Using `buster: uid` means `PersistQueryClientProvider` automatically invalidates the cache when it mounts with a different buster, enabling safe per-user cache isolation without timing dependencies.
+
+### 4. Reanimated Worklet Boundaries Must Be Strictly Observed
+
+Directly calling `FlashList.scrollToEnd()` inside a `useAnimatedReaction` callback caused crashes. Worklets run on the UI thread, and `scrollToEnd` is a JS/RN thread API — crossing thread boundaries is not allowed. After delegating to the RN thread via `scheduleOnRN`, it worked stably. This was a firsthand lesson in React Native's multi-thread model.
+
+### 5. The Boundary of Over-Engineering
 
 Ideally, I thought writing perfect code was always best. However, running a startup taught me that **"excessive technical investment in unverified features can be a business risk."**
 I acquired a **flexible engineering mindset**, not giving up on code quality, but **strategically deciding the allowable range of technical debt according to the service's growth stage (MVP vs. Scale-up)** and focusing on verifying core values.
 
-### 2. Understanding Business Models and Cost Structures
+### 6. Understanding Business Models and Cost Structures
 
 AI services have high cost structures (GPU/API costs). On the other hand, ad-based B2C models had limitations in increasing revenue per user (ARPU).
 I realized that even technically superior services are hard to sustain without a **solid Business Model** to cover high operating costs. Through this, I deeply understood that developers must **consider cost efficiency and revenue structure beyond just technical implementation.**
