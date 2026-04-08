@@ -16,7 +16,7 @@ techStack:
   ]
 ---
 
-## 💡 프로젝트 소개
+## 📋 프로젝트 소개
 
 **"수천 행도 끊기지 않게, 엑셀에 가까운 그리드와 텍스트를 브라우저에서"**
 
@@ -24,7 +24,7 @@ techStack:
 
 > 보안 및 비공개 정책상 업무 맥락과 원본 저장소는 공개할 수 없으며, 이 글은 구현 기술만 정리합니다. 아래 코드 스니펫은 재구성한 발췌입니다.
 
-### 🛠 기술 스택
+### 🧰 기술 스택
 
 - **Core:** React, TypeScript, React Table v7
 - **State:** Immer
@@ -34,7 +34,7 @@ techStack:
 
 ---
 
-## 💻 핵심 기술
+## ⚙️ 주요 작업
 
 ### 1. 프레젠테이션·컨테이너 분리
 
@@ -81,7 +81,7 @@ const onMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
           draft[count].start = `${Math.min(currentX, originX)}:${Math.min(currentY, originY)}`;
           draft[count].end = `${Math.max(currentX, originX)}:${Math.max(currentY, originY)}`;
         }
-      })
+      }),
     );
   }
 };

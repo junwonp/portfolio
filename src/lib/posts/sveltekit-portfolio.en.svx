@@ -3,16 +3,16 @@ title: SvelteKit Portfolio
 description: Edge-enhanced website built with Cloudflare Pages and Svelte 5
 date: '2025-11-27'
 image: '/images/sveltekit-portfolio/1.webp'
-techStack: ['Svelte 5', 'SvelteKit', 'TypeScript', 'mdsvex', 'Cloudflare Pages']
 productLink: 'https://junwon.pages.dev'
 githubLink: 'portfolio'
+techStack: ['Svelte 5', 'SvelteKit', 'TypeScript', 'mdsvex', 'Cloudflare Pages']
 ---
 
 <script>
   import ImageDescription from '$lib/components/ImageDescription.svelte';
 </script>
 
-## 💡 Project Overview
+## 📋 Project overview
 
 **"Adding the flexibility of dynamic routing to the performance of a static site"**
 
@@ -20,7 +20,7 @@ Traditional static hosting like GitHub Pages cannot execute server-side logic, f
 
 I migrated this project to **Cloudflare Pages** to adopt a **Hybrid Strategy**: maintaining the fast performance of **SSG (Static Site Generation)** while utilizing **Edge Functions (Middleware)** to detect user language at the request level.
 
-### 🛠 Tech Stack
+### 🧰 Tech stack
 
 - **Framework:** Svelte 5, SvelteKit (Adapter Cloudflare)
 - **Infrastructure:** Cloudflare Pages (Functions)
@@ -29,7 +29,7 @@ I migrated this project to **Cloudflare Pages** to adopt a **Hybrid Strategy**: 
 
 ---
 
-## 💻 Key Features
+## ⚙️ Key work
 
 ### 1. Hybrid UX (Resume + Portfolio)
 
@@ -81,7 +81,7 @@ Beyond simple resizing, I implemented optimized UI/UX for both **Mobile and PC**
 
 ---
 
-## 💬 Technical Decisions
+## 💭 Retrospective
 
 ### 1. Why migrate from GitHub Pages to Cloudflare Pages?
 

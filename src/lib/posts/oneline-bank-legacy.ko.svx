@@ -11,7 +11,7 @@ techStack: ['React Native', 'Expo', 'Firebase', 'Woori Bank API']
   import ImageDescription from '$lib/components/ImageDescription.svelte';
 </script>
 
-## 💡 프로젝트 소개
+## 📋 프로젝트 소개
 
 **"복잡한 송금 절차를 한 줄의 채팅으로 해결할 수 없을까?"**
 
@@ -21,7 +21,7 @@ techStack: ['React Native', 'Expo', 'Firebase', 'Woori Bank API']
 
 > 이 프로젝트는 해커톤 당시 JavaScript로 빠르게 작성한 코드입니다. 이후 아이라 서비스를 개발하며 쌓은 경험을 바탕으로, TypeScript와 최신 라이브러리로 전면 재작성한 [리빌드 버전](https://github.com/junwonp/OnelineBank)이 있습니다.
 
-### 🛠 기술 스택
+### 🧰 기술 스택
 
 - **Core:** React Native, Expo
 - **Backend:** Google Firebase (Firestore)
@@ -30,11 +30,11 @@ techStack: ['React Native', 'Expo', 'Firebase', 'Woori Bank API']
 
 ---
 
-## 💻 핵심 기능
+## ⚙️ 주요 작업
 
 ### 1. 스플래쉬 & 인트로
 
-<ImageDescription src='/images/oneline-bank/1.webp' alt="Splash page" priority width={564} height={901}>
+<ImageDescription src="/images/oneline-bank/1.webp" alt="Splash page" priority width={564} height={901}>
   앱의 정체성을 보여주는 직관적인 로고와 인트로 화면입니다.
 </ImageDescription>
 
@@ -72,7 +72,7 @@ techStack: ['React Native', 'Expo', 'Firebase', 'Woori Bank API']
 
 ---
 
-## 🧑‍💻 담당 역할 (1인 개발)
+## 🎯 담당 역할 (1인 개발)
 
 **기획부터 디자인, 개발까지 100% 전담 (5일간의 스프린트)**
 
@@ -83,7 +83,7 @@ techStack: ['React Native', 'Expo', 'Firebase', 'Woori Bank API']
 
 ---
 
-## 💬 회고: "빠른 기술 습득과 실행력"
+## 💭 회고: "빠른 기술 습득과 실행력"
 
 ### 1. React Native 기반의 빠른 프로토타이핑
 
