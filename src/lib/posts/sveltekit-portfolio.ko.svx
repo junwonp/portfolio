@@ -3,7 +3,7 @@ title: SvelteKit 포트폴리오
 description: Cloudflare Pages와 Svelte 5로 구축한 엣지 기반(Edge-enhanced) 웹사이트
 date: '2025-11-27'
 image: '/images/sveltekit-portfolio/1.webp'
-techStack: ['Svelte 5', 'SvelteKit', 'TypeScript', 'Mdsvex', 'Cloudflare Pages']
+techStack: ['Svelte 5', 'SvelteKit', 'TypeScript', 'mdsvex', 'Cloudflare Pages']
 productLink: 'https://junwon.pages.dev'
 githubLink: 'portfolio'
 ---
@@ -25,7 +25,7 @@ githubLink: 'portfolio'
 - **Framework:** Svelte 5, SvelteKit (Adapter Cloudflare)
 - **Infrastructure:** Cloudflare Pages (Functions)
 - **Styling:** Pure CSS (CSS Variables)
-- **Content:** Mdsvex
+- **Content:** mdsvex
 
 ---
 

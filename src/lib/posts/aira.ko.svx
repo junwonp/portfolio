@@ -4,7 +4,19 @@ description: 2.3만 MAU를 달성한 글로벌 AI 캐릭터 채팅 서비스
 date: '2024-01-01'
 image: '/images/aira/v2_main.webp'
 productLink: 'https://aira.gg'
-techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
+techStack:
+  [
+    'React Native',
+    'Expo',
+    'TanStack Query',
+    'FlashList',
+    'Reanimated',
+    'Unistyles',
+    'Zod',
+    'MMKV',
+    'Firebase',
+    'Sentry',
+  ]
 ---
 
 <script>
@@ -23,9 +35,11 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 
 ### 🛠 기술 스택
 
-- **Core:** React Native, Expo, TypeScript
-- **Data & State:** React Query, Firebase
-- **Performance:** Flashlist, React Compiler, MMKV
+- **Core:** React Native, Expo (Expo Router), TypeScript
+- **Data & State:** TanStack Query v5, Firebase, MMKV (용도별 인스턴스 분리)
+- **Performance:** FlashList, React Compiler, Reanimated, Keyboard Controller
+- **Design & i18n:** Unistyles (다크/라이트/자동 테마), typesafe-i18n (컴파일 타임 타입 추론)
+- **Validation & Observability:** Zod, Sentry (Hermes 프로파일링 통합)
 - **Legacy & R&D:** Realm (Local DB), llama.rn (On-device AI)
 
 ---
@@ -42,6 +56,9 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 
 - **Universal Link:** 웹에서 링크를 클릭하면 앱이 자연스럽게 실행되도록 연결하여, 플랫폼 간 경계 없는 사용자 경험을 제공했습니다.
 - **Platform Specific Code:** 비즈니스 로직은 공유하되, UI 디테일이 달라야 하는 부분만 플랫폼별 파일(`*.ios.ts`, `*.web.ts`)로 분리하여 유지보수 효율을 높였습니다.
+- **플랫폼별 Context 분리:** 광고(Google Mobile Ads), 인앱 결제(Expo IAP) 등 네이티브 전용 패키지가 웹 번들에 포함되지 않도록 `.web.tsx` 확장자를 활용한 Context 분리 패턴을 적용했습니다. Metro 번들러가 웹 빌드 시 자동으로 웹 전용 구현을 선택하여 빌드 크기와 런타임 오류를 동시에 방지합니다.
+- **플랫폼별 Navigator 분기:** 네이티브에서는 `Stack` + `Stack.Protected`로 인증 가드를 선언적으로 처리하고, 웹에서는 `Drawer` + `react-responsive`로 반응형 사이드바 레이아웃을 구현하여 각 플랫폼에 최적화된 내비게이션 경험을 제공했습니다.
+- **Unistyles 테마 연동:** `withUnistyles`로 Unistyles 디자인 토큰을 React Navigation의 `ThemeProvider`에 자동 바인딩하여, 테마 변경 시 Navigation 헤더·카드 배경색이 일괄 반영되도록 구현했습니다.
 
 ### 2. 프라이버시 정책 변화에 따른 아키텍처 마이그레이션
 
@@ -54,7 +71,11 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 ### 3. 초기 로딩 경험 개선
 
 앱을 켤 때마다 매번 로딩 스피너나 빈 화면이 뜨는 것은 좋지 않은 사용자 경험이라 판단했습니다.
-**React Query Persister**와 **MMKV**를 연동하여, 앱 실행 시 네트워크 요청을 기다리지 않고 **이전에 캐싱된 데이터를 즉시 보여주도록** 만들었습니다. 이를 통해 사용자는 앱 진입과 동시에 이전 대화 내용을 자연스럽게 확인할 수 있었습니다.
+**TanStack Query** 영속 캐시(`PersistQueryClientProvider`)와 **MMKV**를 연동하여, 앱 실행 시 네트워크 요청을 기다리지 않고 **이전에 캐싱된 데이터를 즉시 보여주도록** 만들었습니다. 이를 통해 사용자는 앱 진입과 동시에 이전 대화 내용을 자연스럽게 확인할 수 있었습니다.
+
+- **MMKV 인스턴스 분리:** 하나의 저장소에 모든 데이터를 넣으면 캐시 전체 삭제 시 사용자 설정도 함께 날아가는 문제가 있었습니다. `document`(앱 데이터), `cache`(TanStack Query 캐시), `settings`(테마·언어·전송키 설정)로 인스턴스를 분리하여 캐시만 독립적으로 관리합니다.
+- **사용자별 캐시 자동 격리:** `PersistQueryClientProvider`의 `buster`에 `uid`를 전달하여, 로그아웃 후 다른 계정으로 로그인했을 때 이전 사용자의 캐시가 자동으로 무효화됩니다. 수동으로 `queryClient.clear()`를 호출하지 않아도 타이밍 의존 없이 안전하게 격리됩니다.
+- **자동 공간 관리:** MMKV 용량이 꽉 찼을 때 가장 오래된 쿼리를 자동으로 삭제하는 `removeOldestQuery` retry 전략을 적용하여, 별도 만료 로직 없이 디스크 공간을 자동 관리합니다.
 
 ### 4. React Compiler 도입과 코드 간소화
 
@@ -64,20 +85,25 @@ techStack: ['React Native', 'Expo', 'Flashlist', 'Reanimated', 'Firebase']
 ### 5. 대량 데이터 렌더링 성능 최적화
 
 <ImageGallery>
-  <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat Flashlist Demo"/>
-  <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home Flashlist Demo"/>
+  <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat FlashList Demo"/>
+  <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home FlashList Demo"/>
 </ImageGallery>
 
 이미지와 텍스트가 섞인 수만 건의 채팅 로그를 저사양 기기에서도 부드럽게 보여주는 것이 과제였습니다.
 
-- **Flashlist (View Recycling):** 기존 `FlatList`는 스크롤 시 컴포넌트를 계속 생성/제거하여 프레임 드랍과 **화이트 스크린 현상**이 발생했습니다. 뷰를 재사용하는 `Flashlist`를 도입하여 **JS 스레드 연산 부하를 크게 줄이고** 60fps의 부드러운 스크롤을 구현했습니다.
+- **FlashList (View Recycling):** 기존 `FlatList`는 스크롤 시 컴포넌트를 계속 생성/제거하여 프레임 드랍과 **화이트 스크린 현상**이 발생했습니다. 뷰를 재사용하는 **FlashList**를 도입하여 **JS 스레드 연산 부하를 크게 줄이고** 60fps의 부드러운 스크롤을 구현했습니다.
 - **Cursor-based Pagination:** 데이터가 늘어나도 조회 속도가 느려지지 않도록 `useInfiniteQuery`와 커서 기반 페이지네이션을 적용하여, 대용량 채팅 내역을 효율적으로 로드하고 관리했습니다.
+- **Worklet 기반 키보드 스크롤:** `useAnimatedReaction`의 콜백은 **UI 스레드(worklet)**에서 실행되어 JS 스레드가 바빠도 키보드 진행 상태를 놓치지 않습니다. `scrollToEnd`는 RN API라 JS 스레드에서만 호출 가능하므로 `scheduleOnRN`으로 RN 스레드에 위임하여, 키보드가 열릴 때의 스크롤이 안정적으로 동작합니다.
+- **파생 데이터 메모이제이션:** `InfiniteQuery`의 `pages` 배열을 `useMemo`로 평탄화하고, 최신 유저 메시지 ID와 렌더링 리스트를 의존성 체인으로 연결하여 불필요한 리렌더링을 방지했습니다.
 
-### 6. 고성능 AI 응답 스트리밍과 메모리 관리
+### 6. 스트리밍 채팅과 낙관적 UI
 
-AI 채팅 서비스에서 응답 속도는 곧 몰입감입니다. 사용자가 메시지를 보낸 뒤 첫 글자가 뜨기까지의 시간(**TTFT, Time To First Token**)을 최소화하기 위해 Response Streaming을 적극적으로 최적화했습니다.
+가장 복잡한 부분이자 사용자 체감에 직결되는 영역입니다. AI 응답이 서버에서 청크 단위로 스트리밍되는 동안, TanStack Query의 `InfiniteQuery` 캐시를 **실시간으로 패치**해 타이핑 애니메이션을 구현했습니다.
 
-또한 대화가 쌓일수록 메모리 사용량이 증가하는 문제가 있었습니다. 오래된 대화 로그가 메모리에 계속 남아 있으면 장시간 사용 시 앱이 느려지거나 크래시가 발생할 수 있습니다. 메시지 목록의 렌더링 범위를 제한하고 불필요한 참조를 해제하는 방식으로 **메모리 누수를 방지**하여 장시간 대화에서도 안정적인 성능을 유지했습니다.
+- **Zod 기반 스트림 이벤트 검증:** 스트림 청크는 형식이 깨질 수 있어 `z.union`으로 콘텐츠 청크(text/image/bgm)와 최종 결과를 단일 스키마로 구분하고, `safeParse`로 파싱 실패 시 조용히 스킵합니다.
+- **InfiniteQuery 캐시 실시간 패치:** 각 청크마다 같은 `message-${index}`가 오면 기존 레코드의 콘텐츠를 교체(타이핑 효과), 새 인덱스면 레코드를 추가합니다. `InfiniteData`의 불변 업데이트를 Immer 없이 직접 다뤄 예측 가능한 상태를 유지합니다.
+- **낙관적 업데이트:** `onMutate`에서 사용자 메시지를 캐시에 즉시 삽입하고 세션 목록의 미리보기도 동시에 업데이트합니다. `onSuccess`에서 임시 ID를 서버 실제 ID로 교체하고 포인트 잔액을 갱신하며, `onError` 시 삽입한 메시지를 롤백합니다.
+- **메모리 관리:** 대화가 쌓일수록 메모리 사용량이 증가하는 문제를 메시지 목록의 렌더링 범위를 제한하고 불필요한 참조를 해제하는 방식으로 해결하여, 장시간 대화에서도 안정적인 성능을 유지했습니다.
 
 온디바이스 모델의 가능성을 검증하기 위해 `llama.rn`을 활용한 **sLLM PoC**도 진행했습니다. 서버 비용 없이 기기 자체에서 추론이 가능한지 실험했으며, 현재 모바일 하드웨어의 한계와 가능성을 직접 확인할 수 있었습니다.
 
@@ -93,6 +119,27 @@ AI 채팅 서비스에서 응답 속도는 곧 몰입감입니다. 사용자가 
 채팅 화면 맨 위에 **'AD' 표시와 제목만 얇게 한 줄로 노출**되는 **네이티브 광고(Native Ads)** 형식을 직접 디자인하여 적용했습니다. 이를 통해 화면 공간을 최소한으로 차지하면서도 콘텐츠와 이질감 없이 어우러지도록 구현했습니다.
 
 광고 도입 후에는 **이탈률(Drop-off Rate)** 을 지속적으로 모니터링하여 광고가 실제 사용자 경험에 미치는 영향을 추적했습니다. UX 저해 없이 수익을 유지하는 균형점을 데이터 기반으로 관리했습니다.
+
+### 8. 타입 안전한 서버 상태 관리 (queryData 파사드)
+
+프로젝트 전체에서 `QueryClient`를 직접 다루는 대신, 도메인별로 구조화된 `queryData` 함수를 통해서만 접근합니다.
+
+- **계층적 쿼리 키 팩토리:** 쿼리 키를 팩토리 함수(`keys.message.list(sessionId)`)로 관리하여, `invalidateQueries`에서 상위 키만 넘겨 관련 쿼리를 일괄 무효화할 수 있고 문자열 직접 작성으로 인한 오타·충돌을 방지합니다.
+- **get / update / delete 네임스페이스:** `queryData(queryClient).update.message.list(sessionId)(updater)` 형태로 호출하면, `Updater<T | undefined, T | undefined>` 제네릭 덕분에 updater 함수의 인자·반환 타입이 자동 추론됩니다. 잘못된 타입의 데이터를 캐시에 넣는 실수가 컴파일 타임에 잡힙니다.
+
+### 9. 디자인 토큰 시스템 (Unistyles)
+
+하드코딩된 hex 값 대신 **Unistyles**로 숫자 스케일 기반 색상 팔레트를 구축하고, 라이트/다크 테마 모두 같은 팔레트에서 다른 스텝을 선택하여 일관성을 유지합니다.
+
+- **테마 깜빡임 제거:** MMKV는 동기 API라 앱 첫 렌더 전에 테마를 읽어 적용할 수 있습니다. AsyncStorage를 쓰면 기본 테마로 그려졌다가 바뀌는 깜빡임이 발생하는데, MMKV로 이 문제를 완전히 해결했습니다.
+- **접근성 타이포그래피:** `UnistylesRuntime.fontScale`로 기기 접근성 폰트 크기 설정을 반영하되, 1~1.2 범위로 클램핑하여 폰트를 무제한으로 키웠을 때 레이아웃이 깨지는 것을 방지합니다.
+
+### 10. 타입 안전한 다국어 지원 (typesafe-i18n)
+
+`typesafe-i18n`은 번역 파일에서 TypeScript 타입을 자동 생성하여, 잘못된 번역 키나 빠진 파라미터를 런타임이 아닌 **컴파일 타임에** 잡습니다.
+
+- **Intl 폴리필 관리:** `Intl.DisplayNames` 폴리필이 로드되기 전에 렌더링하면 언어 표시 이름이 깨집니다. 로케일 파일 로드가 완료된 후에만 자식을 렌더링해 첫 화면의 로케일 오작동을 방지합니다.
+- **언어 전환 시 동기화:** 언어를 전환하면 `react-native-localization-settings`로 OS 언어 설정을 동기화하고, MMKV에 저장, 번역 파일 비동기 로드, i18n 컨텍스트 업데이트를 순차적으로 처리합니다.
 
 ---
 
@@ -114,12 +161,28 @@ AI 채팅 서비스에서 응답 속도는 곧 몰입감입니다. 사용자가 
 
 ## 💬 회고: "스타트업에서 배운 엔지니어링의 본질"
 
-### 1. 오버 엔지니어링의 경계
+### 1. 스트리밍과 캐시 동기화는 생각보다 복잡하다
+
+처음에는 스트림 청크를 로컬 `useState`에 쌓고, 완료되면 Query를 refetch하는 방식을 시도했습니다. 문제는 refetch 중 화면이 잠깐 빈 상태로 돌아가는 것이었습니다. 현재 방식(청크마다 InfiniteQuery 캐시 직접 패치)으로 바꾼 후 타이핑 애니메이션이 자연스러워지고 깜빡임이 사라졌습니다. 트레이드오프는 `InfiniteData` 불변 업데이트 코드가 길고 읽기 어렵다는 점이지만, 번들 크기를 고려해 Immer 없이 직접 작성했습니다.
+
+### 2. 플랫폼별 번들 분리는 초기에 설계해야 한다
+
+웹을 나중에 추가하면서 네이티브 전용 패키지(`expo-in-app-purchases`, `react-native-google-mobile-ads`)가 웹 번들에 포함되어 런타임 에러가 발생했습니다. Metro의 파일 확장자 해석 규칙(`.web.tsx` 우선)을 활용한 플랫폼별 Context 분리로 해결했는데, 이 패턴을 프로젝트 초기부터 알았다면 리팩터링 비용이 없었을 것입니다.
+
+### 3. MMKV + PersistQueryClientProvider `buster`의 조합
+
+처음에는 로그아웃 시 `queryClient.clear()`를 수동으로 호출했습니다. 그러다 컴포넌트 언마운트 타이밍 문제로 캐시가 완전히 지워지지 않는 경우를 발견했습니다. `buster: uid`를 사용하면 `PersistQueryClientProvider`가 마운트될 때 buster가 다르면 자동으로 캐시를 무효화해서, 타이밍 의존 없이 안전하게 사용자별 캐시를 격리할 수 있었습니다.
+
+### 4. Reanimated worklet 경계를 명확히 지켜야 한다
+
+`useAnimatedReaction` 콜백에서 `FlashList.scrollToEnd()`를 직접 호출했더니 크래시가 발생했습니다. worklet은 UI 스레드에서 실행되고, `scrollToEnd`는 JS/RN 스레드 API라 스레드 경계를 넘어 호출하면 안 됩니다. `scheduleOnRN`으로 RN 스레드에 위임하는 방식을 적용한 후 안정적으로 동작했습니다.
+
+### 5. 오버 엔지니어링의 경계
 
 과거에는 모든 코드를 완벽하게 짜는 것이 최선이라 생각했습니다. 하지만 스타트업을 운영하며 **"검증되지 않은 기능에 대한 과도한 기술 투자는 비즈니스 리스크"**가 될 수 있음을 배웠습니다.
 코드 퀄리티를 포기하는 것이 아니라, **서비스의 성장 단계(MVP vs Scale-up)에 맞춰 기술 부채의 허용 범위를 전략적으로 결정**하고, 핵심 가치 검증에 집중하는 **유연한 엔지니어링 사고방식**을 갖게 되었습니다.
 
-### 2. 비즈니스 모델과 비용 구조의 이해
+### 6. 비즈니스 모델과 비용 구조의 이해
 
 AI 서비스는 GPU/API 등 원가 비중이 매우 높은 사업입니다. 반면, 광고 기반의 B2C 모델은 사용자당 매출(ARPU)을 높이는 데 한계가 있었습니다.
 기술적으로 뛰어난 서비스라도 **높은 운영 비용을 감당할 수 있는 확실한 수익 모델**이 뒷받침되지 않으면 지속 가능하기 어렵다는 것을 체감했습니다. 이를 통해 개발자도 **기술적 구현을 넘어, 서비스의 비용 효율성과 수익 구조를 함께 고민해야 함**을 깊이 이해했습니다.
