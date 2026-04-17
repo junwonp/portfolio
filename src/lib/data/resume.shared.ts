@@ -116,6 +116,22 @@ export interface SharedOtherExp {
 
 export const otherExperiencesShared = [
   {
+    id: 'today_weather',
+    dateFrom: '2026-04',
+    detailLink: '/projects/today-weather',
+    skills: [
+      'Next.js',
+      'React',
+      'React Native',
+      'Expo',
+      'TanStack Query',
+      'Tailwind CSS',
+      'Supabase',
+      'Upstash Redis',
+      'React Compiler',
+    ],
+  },
+  {
     id: 'onelinebank_rebuild',
     dateFrom: '2026-02',
     dateTo: '2026-03',

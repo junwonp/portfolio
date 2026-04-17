@@ -143,6 +143,18 @@ export const i18nData: Record<Language, I18nData> = {
       },
     },
     otherExperiences: {
+      today_weather: {
+        title: "Today's Weather — Personalized Weather & Lifestyle Guide",
+        description:
+          "A service providing personalized 'action plans' such as what to wear or whether to bring an umbrella, using high-precision data from the Korea Meteorological Administration and Air Korea.",
+        detail: [
+          '**[Next.js & React Ecosystem]** Adopted the latest framework versions and enabled **React Compiler** for optimal rendering performance without manual memoization.',
+          '**[Monorepo Architecture]** Built a **pnpm Workspaces** monorepo to share 100% of business logic and TypeScript types across Web (Next.js) and Mobile (Expo).',
+          '**[Edge-Optimized Caching]** Implemented **Upstash Redis** caching in the Seoul region (`icn1`) to bypass IP restrictions on public APIs and reduce upstream load by 80%.',
+          '**[Native Integration]** Built Swift-based iOS Home Screen widgets using **@bacons/apple-targets** within an Expo project for real-time data synchronization.',
+          '**[Recommendation Engine]** Developed an intelligent logic analyzing temperature, wind speed, POP, PTY, and dust levels to suggest outfits, umbrellas, and masks.',
+        ],
+      },
       onelinebank_rebuild: {
         title: 'OnelineBank — 2021 Woori Bank Hackathon Rebuild',
         description:
@@ -295,6 +307,18 @@ export const i18nData: Record<Language, I18nData> = {
       },
     },
     otherExperiences: {
+      today_weather: {
+        title: '오늘날씨 — 개인화 날씨 및 생활 가이드 서비스',
+        description:
+          '대한민국 기상청 및 에어코리아의 고정밀 데이터를 활용해 "오늘 어떤 옷을 입을지", "우산을 챙길지" 등 사용자에게 필요한 맞춤형 액션 플랜을 제안하는 서비스입니다.',
+        detail: [
+          '**[최신 생태계 도입]** **Next.js** 및 **React**를 도입하고 **React Compiler**를 활성화하여 별도의 최적화 선언 없이도 최상의 렌더링 성능을 확보했습니다.',
+          '**[모노레포 아키텍처]** **pnpm Workspaces** 기반의 모노레포를 구축하여 웹(Next.js)과 앱(Expo) 간 비즈니스 로직 및 TypeScript 타입을 100% 공유하도록 설계했습니다.',
+          '**[에지 최적화 캐싱]** 공공 API의 해외 IP 차단 및 할당량 제한 문제를 해결하기 위해 **서울 리전(icn1)** 에 에지 함수를 배치하고 **Upstash Redis**로 캐싱 전략을 구축했습니다.',
+          '**[네이티브 통합]** Expo 프로젝트 내에서 **@bacons/apple-targets**를 활용해 Swift 기반의 **iOS 홈 화면 위젯**을 구현하고 실시간 데이터 동기화를 처리했습니다.',
+          '**[데이터 기반 추천 엔진]** 기온, 풍속, 강수 확률, 미세먼지 농도 등을 종합 분석하여 복장(6단계), 우산 지수, 마스크 착용 여부를 제안하는 알고리즘을 구현했습니다.',
+        ],
+      },
       onelinebank_rebuild: {
         title: '한줄은행 — 2021 우리은행 해커톤 출품작 리빌드',
         description:
