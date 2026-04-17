@@ -97,7 +97,7 @@ export const i18nData: Record<Language, I18nData> = {
               '**[Bundle Size Optimization]** Reduced main bundle size by 15% (324KB → 277KB) and improved TTI by establishing Webpack Tree Shaking & Code Splitting strategies and applying Dynamic Import.',
               '**[Security & Auth]** Removed external dependencies and enhanced security by directly implementing Cookie Consent and token-based authentication logic instead of relying on libraries.',
               '**[Global Architecture]** Designed a flexible structure for design changes by building an i18n system and a **Global Theme System** combining MUI and Styled-components.',
-              '**[Service Enhancement]** Implemented app-like installation (A2HS) by introducing Next-PWA and established a subscription lifecycle management process by integrating Paddle payment solution.',
+              '**[Service Enhancement]** Implemented app-like installation (A2HS) by introducing Next-PWA와Established a subscription lifecycle management process by integrating Paddle payment solution.',
             ],
           },
           admin_dashboard: {
@@ -143,6 +143,19 @@ export const i18nData: Record<Language, I18nData> = {
       },
     },
     otherExperiences: {
+      day_planner: {
+        title: 'Day Planner — Cross-platform Scheduler for Time Management',
+        description:
+          'A cross-platform (iOS/macOS) scheduler app developed as a first Swift project. Features timetable management, auto-focus mode transition, Mac menu bar integration, and CloudKit-based synchronization.',
+        detail: [
+          '**[Cross-Platform Architecture]** Built a scalable codebase using MVVM + Repository + Service patterns, completely separating logic to support both iOS and macOS natively.',
+          '**[Mac Menu Bar Integration]** Designed a native Menu Bar Extra view that calculates and displays remaining time for the current schedule every 30 seconds using a background timer.',
+          '**[System Automation]** Integrated Apple Shortcuts via deep links to automatically trigger focus modes or system settings when specific schedules start, ensuring perfect immersion.',
+          '**[Repeat Schedule Engine]** Developed an `OccurrenceService` that dynamically calculates "Virtual Instances" of repeating schedules at runtime, optimizing DB performance and disk space.',
+          '**[CloudKit Sync]** Implemented a real-time synchronization layer with a timestamp-based "Last-Write-Wins" merge strategy and debounce (600ms) to ensure data consistency across devices.',
+          '**[Layout Algorithm]** Authored a `TimelineLayoutHelper` to analyze overlapping schedules and dynamically calculate lane positions, widths, and offsets for the vertical timeline UI.',
+        ],
+      },
       today_weather: {
         title: "Today's Weather — Personalized Weather & Lifestyle Guide",
         description:
@@ -307,6 +320,19 @@ export const i18nData: Record<Language, I18nData> = {
       },
     },
     otherExperiences: {
+      day_planner: {
+        title: 'Day Planner — 시간 관리를 위한 크로스 플랫폼 스케줄러',
+        description:
+          '첫 Swift 프로젝트로 개발한 iOS/macOS 크로스 플랫폼 앱입니다. 타임테이블 관리, 집중모드 자동 전환, Mac 상태바 연동 및 CloudKit 동기화를 구현했습니다.',
+        detail: [
+          '**[크로스 플랫폼 아키텍처]** MVVM + Repository + Service 패턴을 도입하고 로직을 완벽히 분리하여 iOS와 macOS를 동시에 지원하는 확장 가능한 구조를 설계했습니다.',
+          '**[Mac 상태바 연동]** 30초 주기로 현재 일정과 남은 시간을 계산하는 백그라운드 로직을 설계하고, macOS 전용 Menu Bar Extra 뷰를 통해 실시간 상태를 노출했습니다.',
+          '**[시스템 자동화]** Apple Shortcuts(단축어) 시스템과 딥링크를 연동하여, 특정 일정이 시작되면 자동으로 집중 모드가 켜지는 등 시스템 환경을 자동 제어하는 몰입 환경을 구축했습니다.',
+          '**[동적 반복 일정 엔진]** 반복 규칙만 저장하고 런타임에 "가상 인스턴스"를 계산하는 `OccurrenceService`를 구현하여 DB 성능을 최적화하고 디스크 용량을 혁신적으로 절약했습니다.',
+          '**[CloudKit 실시간 동기화]** 타임스탬프 기반의 병합 전략과 600ms 디바운스를 적용한 `ScheduleRepository`를 구현하여 기기 간 데이터 유실 없는 안정적인 동기화 레이어를 구축했습니다.',
+          '**[레이아웃 알고리즘]** 시간이 겹치는 일정들을 분석해 차선(Lane)을 할당하고 너비와 오프셋을 동적으로 계산하는 `TimelineLayoutHelper` 알고리즘을 직접 작성했습니다.',
+        ],
+      },
       today_weather: {
         title: '오늘날씨 — 개인화 날씨 및 생활 가이드 서비스',
         description:
