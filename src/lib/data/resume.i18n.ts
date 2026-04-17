@@ -296,7 +296,7 @@ export const i18nData: Record<Language, I18nData> = {
     },
     otherExperiences: {
       onelinebank_rebuild: {
-        title: '한줄 은행 — 2021 우리은행 해커톤 출품작 리빌드',
+        title: '한줄은행 — 2021 우리은행 해커톤 출품작 리빌드',
         description:
           '2021년 우리은행 해커톤 출품작을 최신 기술 스택으로 전면 재작성한 개인 프로젝트입니다. 당시 빠른 러닝커브로 작성했던 JavaScript 코드를 TypeScript와 현대적인 라이브러리로 복각했습니다.',
         detail: [
@@ -336,7 +336,7 @@ export const i18nData: Record<Language, I18nData> = {
         ],
       },
       onelinebank_legacy: {
-        title: '한줄 은행 (2021 우리은행 해커톤 본선 진출)',
+        title: '한줄은행 (2021 우리은행 해커톤 본선 진출)',
         description:
           '5일간 React Native를 빠른 러닝 커브로 습득하여 송금 및 생체 인증 기능이 있는 핀테크 앱을 기획부터 개발까지 전담하여 본선에 진출했습니다.',
         detail: [
