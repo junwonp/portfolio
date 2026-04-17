@@ -1,0 +1,107 @@
+---
+title: Today's Weather
+description: Personalized weather and lifestyle guide service using data from the Korea Meteorological Administration and Air Korea.
+date: '2026-04-01'
+role: 'Personal Project'
+techStack:
+  [
+    'Next.js',
+    'React',
+    'React Native',
+    'Expo',
+    'TanStack Query',
+    'Tailwind CSS',
+    'Supabase',
+    'Upstash Redis',
+  ]
+---
+
+<script>
+  import ImageDescription from '$lib/components/ImageDescription.svelte';
+</script>
+
+> **Personalized weather and lifestyle guide service using data from the Korea Meteorological Administration and Air Korea.**
+
+Beyond simple weather reporting, this service combines real-time weather data with fine dust levels to intuitively suggest **"what to wear today," "whether to bring an umbrella," and "if a mask is needed."**
+
+---
+
+## 💡 Project Origin: "I wanted a guide, not just data"
+
+Three major frustrations with existing weather apps sparked this project:
+
+1. **Inaccuracy of Global Sources**: Many popular weather apps use global sources, often missing the nuances of local forecasts in Korea.
+2. **Data Overload**: While the KMA (Korea Meteorological Administration) app provides accurate data, the information is too fragmented, and the UI/loading speeds are restrictive.
+3. **The Hassle of Interpretation**: What users truly want to know isn't just "What's the temperature?" but **"What should I wear, and do I need an umbrella or mask?"** I wanted to eliminate the effort of manually "calculating" an outfit based on temperature and humidity.
+
+This app aims to provide **action plans immediately useful in daily life**, based on the **most accurate local data (KMA/Air Korea)**.
+
+---
+
+## 🚀 Key Technical Achievements
+
+### 1. Modern Monorepo & Next.js 16 + React 19 Ecosystem
+* **Next.js 16.2.2 (App Router) & React 19.2.0**: Adopted the latest framework versions and enabled the **React Compiler**. This ensured optimal rendering performance without the need for manual `useMemo` or `useCallback` declarations.
+* **pnpm Workspaces Monorepo**: Designed a monorepo structure consisting of `apps/web` (Next.js), `apps/mobile` (Expo), and `packages/shared` (common logic and types). This maximized development productivity by sharing 100% of business logic (weather recommendation algorithms, etc.) and TypeScript types.
+
+### 2. Edge-Optimized Backend & Cache Strategy
+* **Vercel icn1 (Seoul Region) Optimization**: Fixed the serverless function execution environment to the Seoul region (`icn1`) to resolve IP blocking issues encountered when accessing Korean public APIs from overseas IPs.
+* **Data Caching with Upstash Redis**: Introduced Redis to solve rate-limiting issues with the KMA API and minimize response latency. A 30-minute TTL (Time-To-Live) caching strategy reduced the load on upstream APIs by over 80%.
+
+### 3. Cross-Platform Experience & Advanced Native Integration
+* **iOS Native Widget (@bacons/apple-targets)**: Implemented Swift-based iOS Home Screen widgets within the Expo project using `@bacons/apple-targets`. It provides a seamless user experience by synchronizing data between the web and mobile apps in real-time.
+* **Supabase Edge Functions & Push Notifications**: Combined Anonymous Auth with Edge Functions to build an architecture that delivers real-time weather alerts and personalized push notifications in a serverless environment.
+
+### 4. Data-Driven Recommendation Engine
+* **Intelligent Recommendation Algorithm**: Implemented logic that synthetically analyzes temperature, wind speed, precipitation probability (POP), precipitation type (PTY), and fine dust grades.
+    * **Outfit**: 6-level clothing recommendations based on temperature, with correction logic for perceived temperature during high winds.
+    * **Umbrella**: Immediate alerts when the precipitation probability is over 60% or when current precipitation is detected.
+    * **Mask**: Mask wearing recommendations based on the worse of PM2.5 or PM10 concentrations.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend & App
+- **Web**: Next.js 16 (App Router), React 19, Tailwind CSS v4, shadcn/ui
+- **Mobile**: Expo (React Native), Expo Router, Reanimated
+- **State Management**: TanStack Query v5 (with Persistence)
+
+### Backend & DevOps
+- **Backend**: Next.js API Routes (Serverless)
+- **Database/Auth**: Supabase (PostgreSQL, Auth, Edge Functions)
+- **Caching**: Upstash Redis
+- **Tooling**: pnpm, ESLint, Prettier, Vitest
+
+---
+
+## 📐 Architecture
+
+```mermaid
+graph TD
+    subgraph Clients
+        W[Web PWA]
+        M[Expo Mobile App]
+    end
+
+    subgraph Backend
+        Next[Next.js API Routes - icn1]
+        Redis[(Upstash Redis Cache)]
+    end
+
+    subgraph External_APIs
+        KMA[KMA Forecast API]
+        Air[Air Korea Dust API]
+    end
+
+    W & M --> Next
+    Next <--> Redis
+    Next -.->|Cache Miss| KMA & Air
+```
+
+---
+
+## 💡 What I Learned
+* **Production Deployment of Latest Tech**: Gained a deep understanding of the modern ecosystem by navigating the breaking changes in Next.js 16 and React 19.
+* **Overcoming Infrastructure Constraints**: Developed the ability to solve real-world infrastructure problems, such as IP blocking and API quotas, through region optimization and caching strategies.
+* **Abstraction of Shared Logic**: Strengthened monorepo design skills to utilize the same business logic across different platforms, including web, mobile apps, and widgets.
