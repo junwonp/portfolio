@@ -455,3 +455,26 @@ article img {
     --color-error: var(--light-color-error);
   }
 }
+
+.language-mermaid {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+.language-mermaid[data-processed='true'] {
+  visibility: visible;
+}
+
+.language-mermaid:not([data-processed='true']) {
+  visibility: hidden;
+  height: 0;
+}
+
+.language-mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
