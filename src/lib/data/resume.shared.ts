@@ -116,6 +116,12 @@ export interface SharedOtherExp {
 
 export const otherExperiencesShared = [
   {
+    id: 'day_planner',
+    dateFrom: '2026-04',
+    detailLink: '/projects/day-planner',
+    skills: ['Swift', 'SwiftUI', 'iOS', 'macOS', 'CloudKit', 'Apple Shortcuts'],
+  },
+  {
     id: 'today_weather',
     dateFrom: '2026-04',
     detailLink: '/projects/today-weather',

@@ -1,0 +1,73 @@
+---
+title: "Day Planner: Cross-platform Scheduler for Time Management"
+description: A cross-platform (iOS/macOS) app developed as a first Swift project. Features timetable management, auto-focus mode transition, Mac menu bar integration, and CloudKit sync.
+date: "2026-04-17"
+image: "/images/preview.webp"
+techStack: ["Swift", "SwiftUI", "iOS", "macOS", "CloudKit", "Apple Shortcuts"]
+---
+
+<script>
+  import ImageDescription from '$lib/components/ImageDescription.svelte';
+  import ImageGallery from '$lib/components/ImageGallery.svelte';
+</script>
+
+## 📋 Project Introduction
+
+**"A native scheduler for perfect personal time management"**
+
+**Day Planner** is a timetable-based scheduler application developed to maximize personal time management. Despite being my first Swift and SwiftUI project, it successfully implements features beyond simple task management, including **iOS and macOS (status bar app) support**, **Apple Shortcuts-based focus mode automation**, and **real-time cross-device synchronization via CloudKit**.
+
+I started development to solve clear personal needs that existing apps couldn't meet: having **Focus Mode automatically turn on** based on my schedule and being able to check the current schedule and **remaining time at a glance from the Mac Menu Bar**.
+
+### 🧰 Tech Stack
+
+- **Language & Framework:** Swift, SwiftUI
+- **Platform:** iOS, macOS (Menu Bar Extra)
+- **Data & Sync:** CloudKit (Real-time Sync), Repository Pattern
+- **Automation:** Apple Shortcuts & Deep Links
+- **Architecture:** MVVM + Service Layer
+
+---
+
+## ⚙️ Key Tasks
+
+### 1. Mac Menu Bar Integration & Real-time State Management
+
+One of the most important goals of the app, 'checking remaining time in real-time from the Mac Menu Bar', was implemented.
+
+- **MenuBarContentView:** Constructed the native Menu Bar Extra view for macOS.
+- **Real-time State Engine:** Designed logic to **compare the current time with the schedule every 30 seconds** using a `Timer` within the global state management object (`ScheduleStore`). It identifies the current schedule and calculates the time remaining until it ends, reflecting it immediately in the status bar and widgets.
+
+### 2. Focus Mode Automation via Apple Shortcuts
+
+Beyond simply sending notifications, the system environment is automatically controlled when schedules transition.
+
+- **System Control:** Integrated not only hourly notifications using `UNUserNotificationCenter` but also the **Apple Shortcuts** system and deep links (`shortcuts://run-shortcut?name=...`).
+- **Immersion Environment:** By calling specified shortcuts in the background or foreground when a schedule state changes, **Work Focus Mode turns on automatically when a specific schedule starts**. This provides a perfect immersion environment without the user needing to manually enter settings.
+
+### 3. Dynamic Repeat Schedule Engine (Performance & DB Optimization)
+
+It is inefficient to duplicate repeating schedules (daily, weekly, monthly) as thousands of records in the database.
+
+- **OccurrenceService Engine:** Built an engine that stores only the recurrence rules (RepeatRule) as source data and **dynamically calculates "Virtual Instances" at runtime** according to the date the user is viewing.
+- **Flexible Handling:** This architecture allows for a flexible response to repeating schedule exceptions (editing/deleting) on specific dates while significantly saving disk space.
+
+### 4. Reliable Real-time Sync using CloudKit
+
+Implemented a CloudKit-based synchronization layer to seamlessly use schedules created on both iPhone and Mac.
+
+- **Network Optimization:** To prevent server overload from frequent user operations, API requests were optimized by applying a `600ms` **Debounce**.
+- **Conflict Resolution:** Implemented a timestamp-based **Last-Write-Wins** merge strategy in the `ScheduleRepository` to prevent data loss when data is modified simultaneously on different devices.
+
+### 5. Lane Allocation Layout Algorithm for Timeline UI
+
+In the vertical timeline view, which is the core of a calendar app, I implemented an algorithm to visually draw overlapping schedules without them overlapping each other.
+
+- **TimelineLayoutHelper:** Directly wrote a rendering algorithm that analyzes groups of overlapping schedules and **dynamically calculates lanes to distribute width and offsets**. This completed a UI that maintains high readability even among complex schedules.
+
+---
+
+## 💭 Retrospective
+
+While there were many trials and errors as I first encountered the new language Swift and the declarative paradigm of SwiftUI, I learned how to design solidly from the basics.
+I gained a great sense of achievement by deeply utilizing Apple's ecosystem (CloudKit, Shortcuts, Menu Bar App) and completing a product that interacts closely with the system beyond a simple CRUD app.
