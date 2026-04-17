@@ -10,7 +10,7 @@ const config = {
     vitePreprocess(),
     mdsvex({
       highlight: {
-        langs: ['javascript', 'typescript'],
+        langs: ['javascript', 'typescript', 'mermaid'],
       },
     }),
   ],
