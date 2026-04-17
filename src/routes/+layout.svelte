@@ -57,19 +57,18 @@
   $effect(() => {
     if (!browser) return;
 
-    // Trigger mermaid rendering when path changes
-    const path = page.url.pathname;
-    
-    (async () => {
+    void page.url.pathname;
+
+    void (async () => {
       const { default: mermaid } = await import('mermaid');
       mermaid.initialize({
         startOnLoad: false,
         theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
         securityLevel: 'loose',
-        fontFamily: 'WantedSansVariable, system-ui, sans-serif'
+        fontFamily: 'WantedSansVariable, system-ui, sans-serif',
       });
 
-      const nodes = document.querySelectorAll('.language-mermaid');
+      const nodes = document.querySelectorAll<HTMLElement>('.language-mermaid');
       for (const node of nodes) {
         // Decode HTML entities (like &gt;) before mermaid processes them
         const rawContent = node.textContent || '';
@@ -81,7 +80,7 @@
       }
 
       await mermaid.run({
-        nodes
+        nodes,
       });
     })();
   });
