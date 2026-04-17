@@ -1,0 +1,145 @@
+---
+title: 한줄은행
+description: 대화형 모바일 뱅킹 데모 — 2021 우리은행 해커톤 출품작을 TypeScript·Expo Router·TanStack Query·기능 모듈 구조로 전면 재작성했습니다.
+date: '2021-06-05'
+image: '/images/oneline-bank/1.webp'
+githubLink: 'OnelineBank'
+role: '1인 개발'
+techStack:
+  [
+    'React Native',
+    'TypeScript',
+    'Expo',
+    'Expo Router',
+    'TanStack Query',
+    'TanStack Form',
+    'Zustand',
+    'NativeWind',
+    'Zod',
+    'MMKV',
+    'Firebase',
+  ]
+---
+
+<script>
+  import ImageDescription from '$lib/components/ImageDescription.svelte';
+</script>
+
+## 📋 프로젝트 소개
+
+**"복잡한 송금을 한 줄의 채팅으로."**
+
+한줄은행은 **대화형 뱅킹 데모**입니다. 사용자가 자연어로 송금 의사를 말하면 앱이 파싱하고, 짧은 확인 대화를 거친 뒤 생체 인증으로 마무리합니다.
+
+**2021 해커톤 버전**은 시간 압박 속 JavaScript로 작성했고 클라이언트에서 **우리은행 오픈 API**를 호출했습니다. 이후 **TypeScript**, **Expo Router**, **기능 단위 모듈**, **TanStack Query**를 쓰도록 **처음부터 다시 구현**했습니다. 겉으로 보이는 플로우는 비슷하고, **상태·라우팅·타입·API 경계**를 어떻게 나누었는지가 달라졌습니다.
+
+- **코드:** [리빌드](https://github.com/junwonp/OnelineBank) · [해커톤(Legacy)](https://github.com/junwonp/OnelineBank-legacy)
+
+### 🧰 기술 스택
+
+- **리빌드:** React Native, TypeScript, Expo, Expo Router, TanStack Query v5, TanStack Form, Zod, Zustand, NativeWind, MMKV, Firebase(`@react-native-firebase/*`), Expo API Route(모의 이체)
+- **해커톤(Legacy):** React Native, JavaScript, Expo(SDK 41), React Navigation 5, Context, styled-components, Firestore, 우리은행 오픈 API, Gifted Chat 계열 UI
+
+---
+
+## ⚙️ 주요 작업
+
+### 1. 기능 모듈과 서버 상태 (리빌드)
+
+`features/`에 **auth, accounts, messages, profile, remittance**를 두고 영역별 훅·헬퍼를 모았습니다. `app/` 화면은 라우팅·레이아웃에 집중하고, 데이터는 **`useQuery` / `useMutation`**으로만 다룹니다.
+
+- **쿼리 키 팩토리**(`accountKeys`, `messagesKeys` 등)로 무효화·프리페치 대상을 명확히 함.
+- **`prefetchAccounts`**, **`prefetchMessages`** 등으로 첫 화면 체감 속도 개선.
+- **PersistQueryClientProvider** + **MMKV** persister로 콜드 스타트 후 캐시 복원.
+- **NetInfo → `onlineManager`**, **AppState → `focusManager`**로 네트워크·전경/백그라운드와 재요청 정책을 맞춤.
+
+### 2. 인증, 라우팅, 폼 (리빌드)
+
+- Firebase **`onAuthStateChanged`**를 훅으로 감싸 **Zustand** 스토어와 동기화.
+- **Expo Router `Stack.Protected`**로 `(tabs)` / `(auth)`를 세션 기준으로 분리해 가드를 트리에 선언적으로 둠.
+- **TanStack Form + Zod**로 로그인 등: 스키마 검증, **`isSubmitting`**, 버튼 비활성·스낵바 일관 처리.
+
+### 3. UI: NativeWind와 CVA (리빌드)
+
+**NativeWind**로 유틸리티 기반 레이아웃·간격을 맞추고, **class-variance-authority(CVA)**로 `Button` 등 **variant를 타입과 함께** 정의해 스타일 확장을 단순하게 유지했습니다.
+
+### 4. 대화형 이체와 API 경계 (리빌드)
+
+채팅 메시지에서 **은행·계좌·금액·수취인**을 정규식으로 추출하고, 확인 단계와 **긍정/부정 응답 집합**으로 대화를 이어 갑니다.
+
+- 데모이지만 **`expo-local-authentication`**으로 최종 단계를 막아 **단말 측 보안 UX**를 맞춤.
+- 파싱·은행 코드 매핑은 **`features/remittance/utils`**에 둠.
+- **`app/api/transfer+api.ts`**에서 오픈뱅킹 형태에 가까운 **목 API**를 두고, 클라이언트는 `fetch('/api/transfer')`만 호출해 **번들에 비밀 키를 넣지 않음**. 해커톤 버전은 단말에서 외부 HTTP를 더 직접 호출하는 형태였습니다.
+
+### 5. 도구와 배포 (리빌드)
+
+TypeScript, ESLint(Expo·TanStack Query, React Compiler 관련 규칙), Prettier. **EAS**, **`expo-dev-client`**, **`expo-build-properties`**, **Crashlytics**, 로케일별 표시명(**한줄은행** 등)까지 일반적인 출시 준비에 맞춰 구성했습니다.
+
+### 6. 해커톤 앱 (2021 — 우리은행 본선)
+
+아래 스크린샷은 **초기 JavaScript** 빌드(우리은행 오픈 API, Firestore, 당시 내비게이션·스타일) 기준입니다.
+
+#### 스플래시 & 인트로
+
+<ImageDescription src="/images/oneline-bank/1.webp" alt="스플래시 화면" priority width={564} height={901}>
+  앱의 정체성을 보여주는 로고와 인트로 화면입니다.
+</ImageDescription>
+
+#### 로그인
+
+<ImageDescription src="/images/oneline-bank/2.webp" alt="로그인 화면" width={520} height={894}>
+  Firebase Auth 연동 로그인입니다.
+</ImageDescription>
+
+#### 대화형 송금 (핵심)
+
+<ImageDescription src="/images/oneline-bank/3.webp" alt="채팅 송금 화면" width={564} height={897} />
+
+정규식 파싱, 봇 확인, 생체 인증 후 **실제 우리은행 오픈 API** 송금 요청.
+
+#### 단축 송금 (주소록)
+
+<ImageDescription src="/images/oneline-bank/4.webp" alt="연락처·별칭 화면" width={564} height={896} />
+
+자주 쓰는 계좌를 별칭(엄마, 친구 등)으로 등록.
+
+#### 계좌
+
+<ImageDescription src="/images/oneline-bank/5.webp" alt="계좌 추가 화면" width={564} height={900}>
+  <br />
+  <img src="/images/oneline-bank/6.webp" alt="계좌 목록 화면" />
+  <br />
+  Firestore로 계좌·송금 내역을 실시간 관리합니다.
+</ImageDescription>
+
+### 7. 해커톤 코드베이스 vs 리빌드
+
+| 영역        | 해커톤(Legacy)                       | 리빌드                                                 |
+| ----------- | ------------------------------------ | ------------------------------------------------------ |
+| 언어        | JavaScript                           | TypeScript                                             |
+| 내비게이션  | Stack + Tab (React Navigation 5)     | Expo Router, 파일 기반 라우팅                          |
+| 전역 상태   | Context (`User`, `Progress`)         | 인증은 Zustand + Firebase, 서버 상태는 Query           |
+| 데이터/API  | 클라이언트에서 직접 HTTP 호출 중심   | TanStack Query, 캐시·영속화·온라인·포커스 연동         |
+| UI          | styled-components, Gifted Chat 등    | NativeWind, 자체 메시지 UI                             |
+| Firebase    | 웹 compat 스타일 SDK                 | `@react-native-firebase/*` 모듈형                      |
+
+---
+
+## 🎯 담당 역할 (1인)
+
+**5일 해커톤**에서 기획·디자인·개발을 전담했고, 이후 React Native를 더 깊게 다룬 뒤 **리빌드를 1인으로** 진행했습니다.
+
+- React Native·Expo 크로스 플랫폼 앱  
+- 송금 대화 파싱·상태 처리  
+- 우리은행 송금 API·비동기 처리(해커톤 빌드)  
+- 기기 생체 인증을 이용한 2차 인증  
+
+---
+
+## 💭 회고: "해커톤 속도, 그 다음은 진짜 리라이트"
+
+**해커톤:** 웹 React 경험을 바탕으로 React Native와 네이티브 모듈을 빠르게 익히고 **동작하는 데모**를 만드는 데 집중했습니다.
+
+**핀테크:** 실제 은행 API를 붙이며 **트랜잭션 흐름·단계별 인증·데이터 정합성**을 몸으로 이해했고, 비정형 채팅을 결제 데이터로 바꿀 때의 예외 처리의 중요성을 배웠습니다.
+
+**리빌드:** 이후 돌아보니 타입 부재·파일 구조·옛 패턴의 한계가 분명했습니다. 리빌드는 라이브러리만 바꾼 수준이 아니라 **기능 단위 쪼개기, Query, 라우터 가드, 이체용 API 라우트**처럼 설계를 다시 잡은 작업입니다. 두 저장소를 나란히 두고 **전과 후**를 비교할 수 있는 상태로 정리했습니다.
