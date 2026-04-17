@@ -119,6 +119,7 @@ export const otherExperiencesShared = [
     id: 'onelinebank_rebuild',
     dateFrom: '2026-02',
     dateTo: '2026-03',
+    detailLink: '/projects/oneline-bank',
     githubLink: `${GITHUB_PROFILE}/OnelineBank`,
     skills: [
       'React Native',
@@ -171,7 +172,7 @@ export const archivesShared = [
     id: 'onelinebank_legacy',
     dateFrom: '2021-04',
     dateTo: '2021-05',
-    detailLink: '/projects/oneline-bank-legacy',
+    detailLink: '/projects/oneline-bank',
     githubLink: `${GITHUB_PROFILE}/OnelineBank-legacy`,
     skills: ['React Native', 'JavaScript', 'Firebase', 'Expo'],
   },
