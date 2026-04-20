@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
+  import EducationList from '$lib/components/EducationList.svelte';
   import ProjectList from '$lib/components/ProjectList.svelte';
   import Row from '$lib/components/Row.svelte';
   import SideList from '$lib/components/SideList.svelte';
@@ -203,9 +204,7 @@
     {/each}
 
     <h2 id="section-education">{labels.sectionEducation}</h2>
-    {#each printResumeData.education as education (education.school)}
-      <Row {...education} companyName={education.school} role={education.major ?? ''} />
-    {/each}
+    <EducationList education={printResumeData.education} />
 
     <h2 id="section-archives">{labels.sectionArchives}</h2>
     {#each printResumeData.archives as archive, archiveIndex (archiveIndex)}

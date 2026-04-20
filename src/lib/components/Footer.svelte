@@ -11,7 +11,6 @@
     href={GITHUB_PROFILE}
     target="_blank"
     rel="author me external noopener noreferrer"
-    aria-label={labels.goToGithubProfile}
     title={labels.goToGithubProfile}
   >
     <p class="link-text">{`@${GITHUB_USERNAME}`}</p>
