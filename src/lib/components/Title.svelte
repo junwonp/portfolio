@@ -1,11 +1,13 @@
 <script lang="ts">
   import { browser } from '$app/environment';
   import { invalidateAll } from '$app/navigation';
+  import { base } from '$app/paths';
   import ChevronLeft from '$lib/components/Icon/ChevronLeft.svelte';
   import Github from '$lib/components/Icon/Github.svelte';
   import Globe from '$lib/components/Icon/Globe.svelte';
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
   import { getLabels } from '$lib/data/labels';
+  import type { MetricItem, PillarItem } from '$lib/types/about';
   import type { Language } from '$lib/utils/language';
   import { getPageLocale } from '$lib/utils/locale';
 
@@ -14,8 +16,10 @@
     githubLink?: string;
     isHome?: boolean;
     linkedinLink?: string;
-    productLink?: string;
+    metrics?: MetricItem[];
     name: string;
+    pillars?: PillarItem[];
+    productLink?: string;
     role: string;
     tagline: string;
   }
@@ -25,7 +29,9 @@
     githubLink,
     isHome = false,
     linkedinLink,
+    metrics,
     name,
+    pillars,
     productLink,
     role,
     tagline,
@@ -37,7 +43,13 @@
 
   let errorMessage = $state('');
 
-  const toggleLanguage = async () => {
+  function withBase(href?: string): string | undefined {
+    if (!href) return undefined;
+    if (href.startsWith('/')) return `${base}${href}`;
+    return href;
+  }
+
+  async function toggleLanguage(): Promise<void> {
     errorMessage = '';
     if (browser) {
       const newLang: Language = locale === 'ko' ? 'en' : 'ko';
@@ -61,7 +73,7 @@
         errorMessage = labels.languageToggleError;
       }
     }
-  };
+  }
 </script>
 
 <div>
@@ -71,7 +83,7 @@
       <div class="icons" class:with-back={!!backLink}>
         {#if backLink}
           <div class="back-button">
-            <a href={backLink} aria-label={labels.goBack} title={labels.goBack}>
+            <a href={withBase(backLink)} aria-label={labels.goBack} title={labels.goBack}>
               <ChevronLeft />
             </a>
           </div>
@@ -79,11 +91,7 @@
         <div class="other-icons">
           {#if isHome}
             <div class="lang-toggle-wrapper">
-              <button
-                class="lang-toggle"
-                onclick={toggleLanguage}
-                aria-label={labels.toggleLanguage}
-              >
+              <button class="lang-toggle" onclick={toggleLanguage} title={labels.toggleLanguage}>
                 {langDisplay}
               </button>
               {#if errorMessage}
@@ -94,7 +102,7 @@
           {#if productLink}
             <div class="icon">
               <a
-                href={productLink}
+                href={withBase(productLink)}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={labels.goToProductPage}
@@ -108,7 +116,7 @@
             <div class="icon">
               <a
                 class="icon-github"
-                href={githubLink}
+                href={withBase(githubLink)}
                 target="_blank"
                 data-sveltekit-reload
                 rel="external noopener noreferrer"
@@ -124,7 +132,7 @@
             <div class="icon">
               <a
                 class="icon-linkedin"
-                href={linkedinLink}
+                href={withBase(linkedinLink)}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={labels.goToLinkedinPage}
@@ -141,6 +149,31 @@
       <h2 class="role">{role}</h2>
     {/if}
     <p class="tagline">{tagline}</p>
+
+    {#if metrics && metrics.length > 0}
+      <div class="metrics-grid">
+        {#each metrics as metric (metric.label)}
+          <div class="metric-cell">
+            <span class="metric-value">{metric.value}</span>
+            <span class="metric-label">{metric.label}</span>
+          </div>
+        {/each}
+      </div>
+    {/if}
+
+    {#if pillars && pillars.length > 0}
+      <div class="pillars">
+        {#each pillars as pillar (pillar.index)}
+          <div class="pillar">
+            <span class="pillar-index">{pillar.index}</span>
+            <div class="pillar-content">
+              <span class="pillar-title">{pillar.title}</span>
+              <span class="pillar-desc">{pillar.description}</span>
+            </div>
+          </div>
+        {/each}
+      </div>
+    {/if}
   </header>
 </div>
 
@@ -196,7 +229,7 @@
   }
 
   .title {
-    font-size: 5rem;
+    font-size: 3rem;
     line-height: 1.1;
     margin: 0;
     word-break: keep-all;
@@ -231,6 +264,81 @@
     word-break: keep-all;
   }
 
+  .metrics-grid {
+    background: var(--color-bg-divider);
+    border-radius: 8px;
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(3, 1fr);
+    margin: var(--space-md) 0 var(--space-sm);
+    overflow: hidden;
+  }
+
+  .metric-cell {
+    align-items: flex-start;
+    background: var(--color-basic-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .metric-value {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .metric-label {
+    color: var(--color-sub);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: var(--space-sm) 0 var(--space-md);
+  }
+
+  .pillar {
+    align-items: flex-start;
+    background: var(--color-bg-subdivider);
+    border-radius: 6px;
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.625rem var(--space-sm);
+  }
+
+  .pillar-index {
+    color: var(--color-primary-hover);
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    padding-top: 0.1rem;
+  }
+
+  .pillar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .pillar-title {
+    color: var(--color-bold);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .pillar-desc {
+    color: var(--color-sub);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
   .lang-toggle-wrapper {
     align-items: flex-end;
     display: flex;
@@ -245,7 +353,6 @@
     border: 1px solid var(--color-main);
     color: var(--color-main);
     cursor: pointer;
-    font-family: inherit;
     font-size: 0.875rem;
     padding: 0.5rem 1rem;
     transition:
@@ -331,7 +438,25 @@
     }
 
     .other-icons {
-      gap: 0.25rem;
+      gap: 0.125rem;
+    }
+
+    .lang-toggle-wrapper {
+      padding: 0.25rem;
+    }
+
+    .lang-toggle {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.625rem;
+    }
+
+    .icon {
+      padding: 0.25rem;
+    }
+
+    .icon a {
+      height: 2rem;
+      width: 2rem;
     }
 
     .title {
@@ -348,7 +473,29 @@
 
   @media (max-width: 960px) {
     .title {
-      font-size: 3rem;
+      font-size: 2.25rem;
+    }
+
+    .metric-cell {
+      padding: var(--space-xs) var(--space-sm);
+    }
+
+    .metric-value {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .metric-cell {
+      padding: 0.5rem 0.75rem;
+    }
+
+    .metric-value {
+      font-size: 1.1rem;
+    }
+
+    .pillar-desc {
+      display: none;
     }
   }
 

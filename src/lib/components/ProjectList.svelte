@@ -22,7 +22,7 @@
           <li>
             {#if bold}
               {#each parseMarkdownBold(line) as part, j (j)}
-                {#if part.bold}
+                {#if part.type === 'bold'}
                   <strong>{part.text}</strong>
                 {:else}
                   {part.text}

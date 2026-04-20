@@ -3,6 +3,7 @@
 
   import Github from '$lib/components/Icon/Github.svelte';
   import Period from '$lib/components/Period.svelte';
+  import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
   import { getPageLocale } from '$lib/utils/locale';
 
@@ -41,8 +42,8 @@
           <a
             href={detailLink}
             class="detail-link"
-            aria-label={labels.viewProjectDetails}
-            title={labels.viewProjectDetails}
+            aria-label={`${title} — ${labels.viewProjectDetails}`}
+            title={`${title} — ${labels.viewProjectDetails}`}
             data-sveltekit-reload
           >
             {labels.viewProjectDetails} →
@@ -86,7 +87,7 @@
     {/if}
     <ul class="skill-list">
       {#each skills as s (s)}
-        <li class={`skill-chip ${other ? 'other' : ''}`}>{s}</li>
+        <SkillChip skill={s} />
       {/each}
     </ul>
   {/if}
@@ -117,25 +118,6 @@
     margin: 1rem 0 1rem 0;
   }
 
-  .skill-chip {
-    background-color: var(--color-inline-bg);
-    border-radius: 0.5rem;
-    color: var(--color-main);
-    display: inline-block;
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
-    position: relative;
-  }
-
-  .other .skill-chip {
-    font-size: 0.8rem;
-    padding: 0.2rem 0.4rem;
-  }
-
-  .skill-chip:before {
-    display: none;
-  }
-
   .project-title {
     align-items: center;
     display: flex;
@@ -143,6 +125,7 @@
     gap: 1rem;
     margin-bottom: var(--space-xs);
     margin-top: 0;
+    font-size: var(--font-h3);
   }
 
   .detail-link {
@@ -183,18 +166,6 @@
     pointer-events: none;
   }
 
-  @media (max-width: 960px) {
-    .project-title {
-      font-size: 1.2rem;
-    }
-  }
-
-  @media (max-width: 576px) {
-    .project-title {
-      font-size: 1.1rem;
-    }
-  }
-
   .block {
     margin-bottom: var(--space-project-gap);
   }
@@ -220,11 +191,6 @@
   @media print {
     .block {
       break-inside: avoid;
-    }
-
-    .skill-chip {
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
     }
   }
 </style>
