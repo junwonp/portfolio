@@ -56,12 +56,12 @@
   --light-color-bg-subdivider: #ebeef1;
   --light-color-quoted-border: #cad1d9;
   --light-color-scroll-border: #e8e8e8;
-  --light-color-selection: #feccd4;
+  --light-color-selection: #d0e1ff;
   --light-color-table-border: #d1d7dd;
-  --light-color-primary: #c62828;
-  --light-color-primary-hover: #9b1e1e;
-  --light-color-primary-bg: #c62828;
-  --light-color-error: #c62828;
+  --light-color-primary: #1b64da;
+  --light-color-primary-hover: #154eb3;
+  --light-color-primary-bg: #1b64da;
+  --light-color-error: #f04452;
 
   /* Dark theme colors */
   --dark-color-bold: #c9d1d9;
@@ -82,12 +82,12 @@
   --dark-color-bg-subdivider: #2d3239;
   --dark-color-quoted-border: #30363d;
   --dark-color-scroll-border: #3d3d3d;
-  --dark-color-selection: #e77076;
+  --dark-color-selection: #2d4571;
   --dark-color-table-border: #1e242a;
-  --dark-color-primary: #ff6b6b;
-  --dark-color-primary-hover: #ff8a80;
-  --dark-color-primary-bg: #ff6b6b;
-  --dark-color-error: #ff6b6b;
+  --dark-color-primary: #3182f6;
+  --dark-color-primary-hover: #569aff;
+  --dark-color-primary-bg: #3182f6;
+  --dark-color-error: #ff5d6a;
 
   /* Current theme colors (defaults to light) */
   --color-bold: var(--light-color-bold);
@@ -372,9 +372,9 @@ article img {
 
 @media (max-width: 960px) {
   :root {
-    --font-h1: 3rem;
-    --font-h2: 2rem;
-    --font-h3: 1.35rem;
+    --font-h1: 2.5rem;
+    --font-h2: 1.375rem;
+    --font-h3: 1.15rem;
     --space-xl: 4rem;
     --space-lg: 3rem;
     --space-project-gap: var(--space-sm);
