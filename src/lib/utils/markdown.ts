@@ -1,6 +1,6 @@
 export interface TextPart {
   text: string;
-  bold: boolean;
+  type: 'bold' | 'text';
 }
 
 export function parseMarkdownBold(text: string): TextPart[] {
@@ -15,13 +15,13 @@ export function parseMarkdownBold(text: string): TextPart[] {
     if (match.index > lastIndex) {
       parts.push({
         text: remaining.slice(lastIndex, match.index),
-        bold: false,
+        type: 'text',
       });
     }
 
     parts.push({
       text: match[2],
-      bold: true,
+      type: 'bold',
     });
 
     lastIndex = match.index + match[0].length;
@@ -30,12 +30,12 @@ export function parseMarkdownBold(text: string): TextPart[] {
   if (lastIndex < remaining.length) {
     parts.push({
       text: remaining.slice(lastIndex),
-      bold: false,
+      type: 'text',
     });
   }
 
   if (parts.length === 0) {
-    parts.push({ text, bold: false });
+    parts.push({ text, type: 'text' });
   }
 
   return parts;
