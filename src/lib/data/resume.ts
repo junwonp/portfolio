@@ -44,8 +44,10 @@ export const getResumeData = (lang: Language): ResumeData => {
     const i18nExp = i18n.workExperiences[exp.id];
     return {
       companyName: i18nExp.companyName,
+      titleBadge: i18nExp.titleBadge,
       dateFrom: exp.dateFrom,
       dateTo: exp.dateTo,
+      highlights: i18nExp.highlights,
       role: i18nExp.role,
       additional: i18nExp.additional,
       project: (exp.projects as SharedProject[]).map((proj) => {
@@ -60,6 +62,7 @@ export const getResumeData = (lang: Language): ResumeData => {
           description: i18nProj.description,
           detail: i18nProj.detail,
           title: i18nProj.title,
+          metrics: i18nProj.metrics,
         };
       }),
     };
@@ -68,6 +71,7 @@ export const getResumeData = (lang: Language): ResumeData => {
   const otherExperiences: OtherExperienceProps[] = otherExperiencesShared.map((exp) => {
     const i18nExp = i18n.otherExperiences[exp.id];
     return {
+      titleBadge: i18nExp.titleBadge,
       project: [
         {
           dateFrom: exp.dateFrom,

@@ -224,38 +224,27 @@ export const educationShared: Record<EducationId, { dateFrom: string; dateTo?: s
 export const skillsShared = [
   {
     title: 'Languages',
-    list: ['TypeScript', 'JavaScript (ES6+)'],
+    list: ['TypeScript', 'JavaScript (ES6+)', 'Swift'],
   },
   {
     title: 'Frontend',
-    list: ['React', 'React Native', 'Expo (Router, EAS)', 'Next.js', 'Svelte / SvelteKit'],
+    list: ['React', 'React Native', 'Expo', 'Next.js', 'Svelte'],
   },
   {
     title: 'Engineering',
     list: [
       'TanStack Query',
-      'FlashList',
       'Reanimated',
+      'FlashList',
+      'Zod',
       'React Compiler',
       'Zustand',
       'MMKV',
-      'Zod',
-      'React Hook Form',
-      'TanStack Form',
       'Webpack',
     ],
   },
   {
     title: 'DevOps & Tools',
-    list: [
-      'GitHub Actions',
-      'Firebase',
-      'Cloudflare Pages',
-      'Sentry',
-      'Figma',
-      'Vim',
-      'Claude Code',
-      'Cursor IDE',
-    ],
+    list: ['GitHub Actions', 'Firebase', 'Cloudflare', 'Sentry', 'Figma', 'Claude Code'],
   },
 ];
