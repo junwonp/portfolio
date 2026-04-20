@@ -10,6 +10,7 @@
   import { page } from '$app/state';
   import favicon from '$lib/assets/favicon.svg';
   import Footer from '$lib/components/Footer.svelte';
+  import ReadingProgress from '$lib/components/ReadingProgress.svelte';
   import { GITHUB_USERNAME, LINKEDIN_PROFILE, PORTFOLIO_URL } from '$lib/data/constants';
   import type { Language } from '$lib/utils/language';
   import { getMetadata } from '$lib/utils/metadata';
@@ -92,7 +93,7 @@
   <meta name="author" content="Junwon Park" />
   <meta name="description" content={metadata.description} />
 
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="noindex, nofollow" />
   <link rel="canonical" href={canonicalUrl} />
 
   <link rel="alternate" hreflang="ko" href={canonicalUrl} />
@@ -135,6 +136,8 @@
   {@html '<script type="application/ld+json">' + jsonLd + '<' + '/script>'}
 </svelte:head>
 
+<ReadingProgress />
+
 <a href="#main-content" class="skip-link">{metadata.skipLink}</a>
 
 <div class="wrapper">
@@ -143,7 +146,9 @@
       {@render children()}
     </main>
   </div>
-  <Footer />
+  <div class="footer-wrapper">
+    <Footer />
+  </div>
 </div>
 
 <style>
@@ -169,6 +174,12 @@
   @media (max-width: 576px) {
     main.content {
       padding: 1.5rem;
+      /* Extra bottom space for the fixed tab bar */
+      padding-bottom: calc(52px + env(safe-area-inset-bottom) + 1rem);
+    }
+
+    .footer-wrapper {
+      display: none;
     }
   }
 
