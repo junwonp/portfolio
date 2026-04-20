@@ -1,3 +1,14 @@
+export interface MetricItem {
+  label: string;
+  value: string;
+}
+
+export interface PillarItem {
+  description: string;
+  index: string;
+  title: string;
+}
+
 export interface IntroductionProps {
   name: string;
   role: string;
@@ -5,6 +16,8 @@ export interface IntroductionProps {
   briefing: string[];
   githubLink: string;
   linkedinLink: string;
+  metrics?: MetricItem[];
+  pillars?: PillarItem[];
 }
 
 export interface ProjectItem {
@@ -17,6 +30,7 @@ export interface ProjectItem {
   productLink?: string;
   skills?: string[];
   title: string;
+  metrics?: MetricItem[];
 }
 
 interface ProjectProps {
@@ -29,8 +43,10 @@ export interface WorkExperienceProps extends ProjectProps {
     link: string;
   };
   companyName: string;
+  titleBadge?: string;
   dateFrom: string;
   dateTo?: string;
+  highlights?: string[];
   role: string;
 }
 
@@ -40,6 +56,7 @@ export interface OtherExperienceProps extends ProjectProps {
     link: string;
   };
   companyName?: string;
+  titleBadge?: string;
   dateFrom?: string;
   dateTo?: string;
   role?: string;
