@@ -6,6 +6,7 @@ export interface Labels {
   errorOccurred: string;
   goBack: string;
   goHome: string;
+  hideDetails: string;
   goToGithubPage: string;
   goToGithubProfile: string;
   goToLinkedinPage: string;
@@ -16,11 +17,17 @@ export interface Labels {
   project: string;
   resumeTitle: string;
   sectionArchives: string;
+  showDetails: string;
   sectionEducation: string;
   sectionIntro: string;
   sectionAwards: string;
   sectionSkills: string;
   sectionWork: string;
+  tabEducation: string;
+  tabIntro: string;
+  tabProjects: string;
+  tabSkills: string;
+  tabWork: string;
   techStack: string;
   tocProjectDetails: string;
   tocTitle: string;
@@ -36,6 +43,7 @@ export const labelsMap: Record<Language, Labels> = {
     errorOccurred: '오류가 발생했습니다',
     goBack: '← 뒤로',
     goHome: '홈으로 돌아가기',
+    hideDetails: '접기',
     goToGithubPage: 'GitHub 페이지로 이동',
     goToGithubProfile: 'GitHub 프로필로 이동',
     goToLinkedinPage: 'Linkedin 페이지로 이동',
@@ -46,11 +54,17 @@ export const labelsMap: Record<Language, Labels> = {
     project: '프로젝트',
     resumeTitle: '포트폴리오',
     sectionArchives: '기타 활동',
+    showDetails: '상세보기',
     sectionEducation: '학력',
     sectionIntro: '소개',
     sectionAwards: '수상 및 프로젝트',
     sectionSkills: '기술 스택',
     sectionWork: '경력',
+    tabEducation: '학력',
+    tabIntro: '소개',
+    tabProjects: '프로젝트',
+    tabSkills: '스킬',
+    tabWork: '경력',
     techStack: '기술 스택',
     tocProjectDetails: '프로젝트 상세',
     tocTitle: '목차',
@@ -64,6 +78,7 @@ export const labelsMap: Record<Language, Labels> = {
     errorOccurred: 'An error occurred',
     goBack: '← Back',
     goHome: 'Go home',
+    hideDetails: 'Collapse',
     goToGithubPage: 'Go to Github page',
     goToGithubProfile: 'Go to Github profile',
     goToLinkedinPage: 'Go to Linkedin page',
@@ -74,11 +89,17 @@ export const labelsMap: Record<Language, Labels> = {
     project: 'Project',
     resumeTitle: 'Portfolio',
     sectionArchives: 'Archives',
+    showDetails: 'Show details',
     sectionEducation: 'Education',
     sectionIntro: 'Introduction',
     sectionAwards: 'Awards & Projects',
     sectionSkills: 'Skills Set',
     sectionWork: 'Work Experience',
+    tabEducation: 'Education',
+    tabIntro: 'Intro',
+    tabProjects: 'Projects',
+    tabSkills: 'Skills',
+    tabWork: 'Work',
     techStack: 'Tech Stack',
     tocProjectDetails: 'Project Details',
     tocTitle: 'Table of Contents',

@@ -5,11 +5,13 @@ import type {
   OtherExpId,
   WorkExpId,
 } from '$lib/data/resume.shared';
+import type { MetricItem, PillarItem } from '$lib/types/about';
 import type { Language } from '$lib/utils/language';
 
 interface I18nProject {
   title: string;
   description: string;
+  metrics?: { label: string; value: string }[];
   detail: string[];
 }
 
@@ -19,6 +21,8 @@ interface I18nWorkExp {
     link: string;
   };
   companyName: string;
+  titleBadge?: string;
+  highlights?: string[];
   projects: Record<string, I18nProject>;
   role: string;
 }
@@ -27,6 +31,7 @@ interface I18nOtherExp {
   description: string;
   detail: string[];
   title: string;
+  titleBadge?: string;
 }
 
 interface I18nArchive {
@@ -41,7 +46,9 @@ export interface I18nData {
   education: Record<EducationId, { major?: string; school: string }>;
   introduction: {
     briefing: string[];
+    metrics?: MetricItem[];
     name: string;
+    pillars?: PillarItem[];
     tagline: string;
   };
   otherExperiences: Record<OtherExpId, I18nOtherExp>;
@@ -54,21 +61,52 @@ export const i18nData: Record<Language, I18nData> = {
       name: 'Junwon Park',
       tagline:
         'Frontend Engineer experienced in the entire product lifecycle from inception to growth',
-      briefing: [
-        'Grew a service from the idea stage to 23k MAU by leading the full product lifecycle — planning, development, deployment, and operation — gaining firsthand experience in what it takes to build a stable, real-world service.',
-        'I minimize reliance on external UI libraries by designing purpose-built components optimized for each requirement, assembling a cohesive UI system from the ground up. By deeply understanding platform internals, I implement precise interactions that raise the bar for UX quality.',
-        'Rather than chasing the latest or flashiest technologies, I pursue pragmatic engineering — selecting and applying tools based on current business context and whether they are truly what users need.',
+      metrics: [
+        { value: '23,000', label: 'MAU (Peak)' },
+        { value: '46 min', label: 'Avg. Session' },
+        { value: '#57', label: 'Google Play' },
       ],
+      pillars: [
+        {
+          index: '01',
+          title: 'Product Ownership & Growth',
+          description:
+            'Leading the full service lifecycle from idea to operation, driving growth to 23k MAU.',
+        },
+        {
+          index: '02',
+          title: 'Sophisticated UI Systems',
+          description:
+            'Designing optimized components and high-quality UX with low external dependency based on deep platform understanding.',
+        },
+        {
+          index: '03',
+          title: 'Rational Engineering',
+          description:
+            'Prioritizing business context and user value to select and apply the most effective technologies for the situation.',
+        },
+      ],
+      briefing: [],
     },
     workExperiences: {
       orca_ai: {
         companyName: 'Orca AI Inc.',
-        role: 'Co-Founder / Frontend Lead',
+        titleBadge: 'Co-Founder',
+        role: 'Frontend Lead',
+        highlights: [
+          'Led full product lifecycle from 0 → 23k MAU, $3k/mo revenue, Google Play #57',
+          'Built streaming chat, optimistic UI, and type-safe cache facade with TanStack Query',
+          'Architected cross-platform (Android/iOS/Web) React Native app from a single codebase',
+        ],
         projects: {
           aira: {
             title: 'aira',
-            description:
-              'A global AI character chat platform. As a Co-Founder and Frontend Lead, I led the entire process of planning, development, and operation.',
+            description: 'Global AI Character Chat Platform',
+            metrics: [
+              { value: '23k', label: 'MAU (Peak)' },
+              { value: '$3,000', label: 'Monthly Revenue' },
+              { value: '46 min', label: 'Avg. Session' },
+            ],
             detail: [
               "**[Key Achievements]** Achieved 23k MAU and $3,000 monthly revenue with an average session time of 46 minutes — ranked 57th in Google Play Entertainment (as of Feb '25).",
               '**[Streaming Chat & Optimistic UI]** Validated stream chunks at runtime with **Zod** and patched TanStack Query **InfiniteQuery** cache in real-time per chunk to create typing animations. Applied optimistic update pattern via `onMutate` for instant message insertion with rollback on failure.',
@@ -88,11 +126,15 @@ export const i18nData: Record<Language, I18nData> = {
       vault_micro: {
         companyName: 'Vault Micro',
         role: 'Frontend Developer',
+        highlights: [
+          'Reduced main bundle by 15% (324KB → 277KB) via Webpack Tree Shaking & Code Splitting',
+          'Shipped PWA + Paddle subscription lifecycle for a B2B SaaS product solo',
+          'Built reusable admin CRUD components cutting page development time significantly',
+        ],
         projects: {
           camerafi_studio: {
             title: 'CameraFi Studio',
-            description:
-              'A web overlay scoreboard service. Started as a solo developer, I built the frontend architecture and grew it into a core company project.',
+            description: 'Web Overlay Scoreboard Service',
             detail: [
               '**[Bundle Size Optimization]** Reduced main bundle size by 15% (324KB → 277KB) and improved TTI by establishing Webpack Tree Shaking & Code Splitting strategies and applying Dynamic Import.',
               '**[Security & Auth]** Removed external dependencies and enhanced security by directly implementing Cookie Consent and token-based authentication logic instead of relying on libraries.',
@@ -102,7 +144,7 @@ export const i18nData: Record<Language, I18nData> = {
           },
           admin_dashboard: {
             title: 'Internal Admin Dashboard',
-            description: 'An internal service management and statistics dashboard.',
+            description: 'Internal Service Management & Statistics Dashboard',
             detail: [
               '**[Large List Optimization]** Implemented Intersection Observer-based Infinite Scroll to enable seamless navigation of hundreds of thousands of video lists, benchmarking YouTube UI.',
               '**[Productivity Improvement]** Abstracted CRUD logic and Chart.js visualization modules into reusable components, accelerating the development speed of repetitive admin pages.',
@@ -118,11 +160,15 @@ export const i18nData: Record<Language, I18nData> = {
           label: 'Recommendation Letter',
           link: '/certificates/recommendation-letter-en.pdf',
         },
+        highlights: [
+          'Built a virtualized Excel viewer handling thousands of rows with 2D cell selection UX',
+          'Designed Atomic Design-based component system in a restricted closed-network environment',
+          'Integrated Socket.IO for real-time highlight collaboration with mock socket for offline testing',
+        ],
         projects: {
           web_viewer: {
             title: 'Web-based Document Viewer',
-            description:
-              'A document viewer development project in a closed network environment with restricted external library access.',
+            description: 'Document Viewer in Restricted Network',
             detail: [
               '**[Large-Scale Data Rendering]** Introduced **React Table** and **Virtualization** to prevent rendering delays when processing thousands of rows of Excel data, enabling seamless scrolling.',
               '**[Spreadsheet-Style UX]** Implemented **2D cell range selection** (including multi-range with modifier keys), **Excel-style column labels (A–Z, AA…)** , and **immutable selection state with Immer**.',
@@ -133,8 +179,7 @@ export const i18nData: Record<Language, I18nData> = {
           },
           mnd_dashboard: {
             title: 'MND Dashboard Page',
-            description:
-              'Maintenance and enhancement project for the dashboard webpage within the Ministry of National Defense intranet.',
+            description: 'MND Intranet Dashboard Webpage',
             detail: [
               '**[Maintenance]** Customized the **Ant Design** library to build dashboard UI components and secured system stability through legacy code refactoring.',
             ],
@@ -232,21 +277,52 @@ export const i18nData: Record<Language, I18nData> = {
     introduction: {
       name: '박준원',
       tagline: '제품의 시작부터 성장까지 직접 경험한 프론트엔드 엔지니어',
-      briefing: [
-        '아이디어 단계에서 시작해 MAU 2.3만 명 규모의 서비스로 직접 성장시킨 경험이 있습니다. 기획, 개발, 배포, 운영의 전 과정을 주도하며 실제 서비스를 안정적으로 만드는 법을 익혔습니다.',
-        '외부 UI 라이브러리 의존을 최소화하고 요구사항에 최적화된 컴포넌트를 직접 설계해 UI 시스템을 구축합니다. 플랫폼 동작 원리를 깊이 이해하고, 이를 바탕으로 정교한 인터랙션을 구현해 UX 완성도를 높입니다.',
-        '무조건 최신 기술이나 화려한 기술을 쫓기보다, 현재 비즈니스 상황과 "사용자에게 진짜 필요한가"를 기준으로 기술을 선택하고 적용하는 합리적인 엔지니어링을 지향합니다.',
+      metrics: [
+        { value: '2.3만', label: '최고 MAU' },
+        { value: '46분', label: '평균 체류시간' },
+        { value: '#57', label: 'Google Play' },
       ],
+      pillars: [
+        {
+          index: '01',
+          title: '제품 주도 및 성장',
+          description:
+            '아이디어부터 운영까지 서비스 전 과정을 주도하며 MAU 2.3만 규모의 성장을 직접 견인합니다.',
+        },
+        {
+          index: '02',
+          title: '정교한 UI 시스템',
+          description:
+            '플랫폼 원리에 대한 이해를 바탕으로 외부 의존을 낮춘 최적화된 컴포넌트와 UX를 설계합니다.',
+        },
+        {
+          index: '03',
+          title: '합리적 엔지니어링',
+          description:
+            '비즈니스 상황과 사용자 가치를 최우선으로 고려하여 현재에 가장 필요한 기술을 선택하고 적용합니다.',
+        },
+      ],
+      briefing: [],
     },
     workExperiences: {
       orca_ai: {
         companyName: '오르카에이아이 주식회사',
-        role: 'Co-Founder / Frontend Lead',
+        titleBadge: 'Co-Founder',
+        role: 'Frontend Lead',
+        highlights: [
+          '0 → MAU 2.3만, 월 매출 $3,000, Google Play #57까지 전 과정 주도',
+          'TanStack Query 기반 스트리밍 채팅·낙관적 UI·타입 안전 캐시 파사드 구현',
+          'React Native 단일 코드베이스로 Android/iOS/Web 크로스 플랫폼 아키텍처 설계',
+        ],
         projects: {
           aira: {
             title: '아이라',
-            description:
-              '글로벌 AI 캐릭터 채팅 플랫폼입니다. 공동 창업자이자 프론트엔드 리드로서 기획, 개발, 운영 전 과정을 주도했습니다.',
+            description: '글로벌 AI 캐릭터 채팅 플랫폼',
+            metrics: [
+              { value: '2.3만', label: 'MAU (Peak)' },
+              { value: '$3,000', label: '월 매출' },
+              { value: '46분', label: '평균 체류시간' },
+            ],
             detail: [
               "**[핵심 성과]** MAU 2.3만 명, 월 매출 $3,000 달성 및 평균 체류 시간 46분의 고몰입 서비스 구축 (Google Play 엔터테인먼트 최고 57위 / '25.02 기준)",
               '**[스트리밍 채팅 & 낙관적 UI]** 스트림 청크를 **Zod**로 런타임 타입 검증하고, TanStack Query의 **InfiniteQuery** 캐시를 청크마다 실시간 패치하여 타이핑 애니메이션을 구현했습니다. `onMutate`로 사용자 메시지를 즉시 삽입하고, 실패 시 롤백하는 낙관적 업데이트 패턴을 적용했습니다.',
@@ -266,11 +342,15 @@ export const i18nData: Record<Language, I18nData> = {
       vault_micro: {
         companyName: '볼트마이크로',
         role: 'Frontend Developer',
+        highlights: [
+          'Webpack Tree Shaking·Code Splitting으로 메인 번들 15% 감량 (324KB → 277KB)',
+          'B2B SaaS 제품 1인 개발 — PWA + Paddle 정기 구독 라이프사이클 구축',
+          '반복 어드민 페이지 개발 속도를 단축하는 재사용 CRUD 컴포넌트 추상화',
+        ],
         projects: {
           camerafi_studio: {
             title: 'CameraFi Studio',
-            description:
-              '웹 오버레이 스코어보드 서비스입니다. 1인 개발로 시작하여 프론트엔드 아키텍처를 구축하고 사내 핵심 프로젝트로 성장시켰습니다.',
+            description: '웹 오버레이 스코어보드 서비스',
             detail: [
               '**[번들 사이즈 최적화]** Webpack 설정 최적화(Tree Shaking, Code Splitting) 및 Dynamic Import 적용으로 메인 번들 사이즈 15% 감량(324KB → 277KB) 및 TTI 단축',
               '**[보안 및 인증]** 라이브러리에 의존하지 않고 Cookie Consent 및 토큰 기반 인증 로직을 직접 구현하여 외부 의존성 제거 및 보안성 강화',
@@ -280,7 +360,7 @@ export const i18nData: Record<Language, I18nData> = {
           },
           admin_dashboard: {
             title: 'Internal Admin Dashboard',
-            description: '사내 서비스 관리 및 통계 대시보드입니다.',
+            description: '사내 서비스 관리 및 통계 대시보드',
             detail: [
               '**[대용량 리스트 최적화]** 유튜브 UI를 벤치마킹하여 수십만 건의 영상 목록을 끊김 없이 탐색할 수 있도록 Intersection Observer 기반의 무한 스크롤(Infinite Scroll) 구현',
               '**[생산성 향상]** 데이터 조회·수정·삭제(CRUD) 로직과 Chart.js 시각화 모듈을 재사용 가능한 컴포넌트로 추상화하여 반복되는 어드민 페이지 개발 속도 단축',
@@ -296,11 +376,15 @@ export const i18nData: Record<Language, I18nData> = {
           label: '추천서',
           link: '/certificates/recommendation-letter-ko.pdf',
         },
+        highlights: [
+          '폐쇄망 환경에서 수천 행 엑셀 처리 가능한 가상화 기반 웹 뷰어 개발',
+          'Atomic Design 패턴 기반 공용 컴포넌트 시스템 설계',
+          'Socket.IO 실시간 하이라이트 협업 + mock 소켓으로 오프라인 테스트 분리',
+        ],
         projects: {
           web_viewer: {
             title: '웹 기반 문서 뷰어',
-            description:
-              '외부 라이브러리 사용이 제한된 폐쇄망 환경에서의 문서 뷰어 개발 프로젝트입니다.',
+            description: '폐쇄망 내 문서 뷰어 개발',
             detail: [
               '**[대용량 데이터 렌더링]** **React Table** 및 **Virtualization(가상화)** 기법 도입으로 수천 행의 엑셀 데이터 처리 시 발생하는 렌더링 지연을 방지하고 끊김 없는 스크롤 경험 구현',
               '**[스프레드시트형 UX]** **2D 셀 영역 드래그 선택**(보조키 기반 다중 영역 포함), **엑셀식 열 라벨(A–Z, AA…)** 생성, **Immer 기반 불변 선택 상태**로 복잡한 인터랙션을 안전하게 관리',
@@ -311,7 +395,7 @@ export const i18nData: Record<Language, I18nData> = {
           },
           mnd_dashboard: {
             title: '국방부 대시보드 페이지',
-            description: '국방부 망 내 대시보드 웹페이지 유지보수 및 고도화 프로젝트입니다.',
+            description: '국방부 망 내 대시보드 웹페이지',
             detail: [
               '**[유지보수]** **Ant Design** 커스터마이징으로 대시보드 UI 컴포넌트 개발 및 레거시 코드 리팩토링을 통한 시스템 안정성 확보',
             ],
@@ -321,9 +405,10 @@ export const i18nData: Record<Language, I18nData> = {
     },
     otherExperiences: {
       day_planner: {
-        title: 'Day Planner — 시간 관리를 위한 크로스 플랫폼 스케줄러',
+        title: 'Day Planner',
+        titleBadge: '2026',
         description:
-          '첫 Swift 프로젝트로 개발한 iOS/macOS 크로스 플랫폼 앱입니다. 타임테이블 관리, 집중모드 자동 전환, Mac 상태바 연동 및 CloudKit 동기화를 구현했습니다.',
+          '첫 Swift 프로젝트. iOS/macOS 크로스 플랫폼 스케줄러. 타임테이블 관리, 집중모드 자동 전환, Mac 상태바 연동, CloudKit 동기화.',
         detail: [
           '**[크로스 플랫폼 아키텍처]** MVVM + Repository + Service 패턴을 도입하고 로직을 완벽히 분리하여 iOS와 macOS를 동시에 지원하는 확장 가능한 구조를 설계했습니다.',
           '**[Mac 상태바 연동]** 30초 주기로 현재 일정과 남은 시간을 계산하는 백그라운드 로직을 설계하고, macOS 전용 Menu Bar Extra 뷰를 통해 실시간 상태를 노출했습니다.',
@@ -334,9 +419,10 @@ export const i18nData: Record<Language, I18nData> = {
         ],
       },
       today_weather: {
-        title: '오늘날씨 — 개인화 날씨 및 생활 가이드 서비스',
+        title: '오늘날씨',
+        titleBadge: '2026',
         description:
-          '대한민국 기상청 및 에어코리아의 고정밀 데이터를 활용해 "오늘 어떤 옷을 입을지", "우산을 챙길지" 등 사용자에게 필요한 맞춤형 액션 플랜을 제안하는 서비스입니다.',
+          '기상청·에어코리아 고정밀 데이터 기반 개인화 날씨 & 생활 가이드 서비스. "오늘 어떤 옷을 입을지" 맞춤형 액션 플랜 제안.',
         detail: [
           '**[최신 생태계 도입]** **Next.js** 및 **React**를 도입하고 **React Compiler**를 활성화하여 별도의 최적화 선언 없이도 최상의 렌더링 성능을 확보했습니다.',
           '**[모노레포 아키텍처]** **pnpm Workspaces** 기반의 모노레포를 구축하여 웹(Next.js)과 앱(Expo) 간 비즈니스 로직 및 TypeScript 타입을 100% 공유하도록 설계했습니다.',
@@ -346,9 +432,9 @@ export const i18nData: Record<Language, I18nData> = {
         ],
       },
       onelinebank_rebuild: {
-        title: '한줄은행 — 2021 우리은행 해커톤 출품작 리빌드',
+        title: '한줄은행 — 우리은행 해커톤 본선',
         description:
-          '2021년 우리은행 해커톤 출품작을 최신 기술 스택으로 전면 재작성한 개인 프로젝트입니다. 당시 빠른 러닝커브로 작성했던 JavaScript 코드를 TypeScript와 현대적인 라이브러리로 복각했습니다.',
+          '5일간 React Native 러닝커브로 습득, 송금·생체인증 핀테크 앱 기획부터 개발까지 전담. 2026년 TypeScript로 전면 재작성.',
         detail: [
           '**[기술 현대화]** JavaScript → TypeScript 전면 전환 및 **Expo Router** 기반 파일 시스템 라우팅으로 아키텍처 재설계',
           '**[핵심 기능]** 채팅 텍스트 파싱을 통해 은행명·계좌번호·금액을 자동 인식하는 자연어 송금 처리 로직 구현',
@@ -359,15 +445,16 @@ export const i18nData: Record<Language, I18nData> = {
         ],
       },
       campus_town: {
-        title: '서울 캠퍼스 타운 입주 기업 선정 (오르카에이아이)',
+        title: '서울 캠퍼스타운 입주 기업 선정',
+        titleBadge: '오르카에이아이',
         description:
-          '사업성과 기술력을 인정받아 서울시 및 대학교로부터 사무 공간 및 사업화 자금 지원 대상에 선정되었습니다.',
+          '사업성과 기술력을 인정받아 서울시 및 대학교로부터 사무 공간 및 사업화 자금 지원 대상 선정.',
         detail: [],
       },
       sveltekit_portfolio: {
-        title: 'SvelteKit 포트폴리오 웹사이트',
+        title: 'SvelteKit 포트폴리오',
         description:
-          'Svelte 5(Runes) 및 Claude Code를 활용하여 아키텍처 설계 효율과 사용자 경험을 극대화한 웹사이트입니다.',
+          'Svelte 5 (Runes) + Claude Code 활용. 아키텍처 설계 효율과 사용자 경험을 극대화한 개인 웹사이트.',
         detail: [
           '**[Zero-flash i18n]** 서버사이드에서 `Accept-Language` 헤더를 파싱하고 쿠키를 `locals`로 전달하여 클라이언트 깜빡임 없는 다국어 전환 구현',
           '**[성능 최적화]** Pure CSS 기반 설계로 Lighthouse 성능/접근성 100점 달성 (SEO는 의도적 차단)',
