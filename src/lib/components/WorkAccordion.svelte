@@ -26,6 +26,7 @@
 
   function withBase(href?: string): string | undefined {
     if (!href) return undefined;
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     if (href.startsWith('/')) return `${base}${href}`;
     return href;
   }
@@ -137,6 +138,13 @@
         {/if}
       </div>
 
+      <!-- Company-level additional link (e.g. recommendation letter) -->
+      {#if exp.additional}
+        <a href={withBase(exp.additional.link)} target="_blank" class="additional-link">
+          {exp.additional.label} →
+        </a>
+      {/if}
+
       <!-- Level 1 expand: project list -->
       {#if openCompanies.has(exp.companyName)}
         <div class="project-list" transition:slide={{ duration: 250 }}>
@@ -225,26 +233,19 @@
                     </div>
                   {/if}
 
+                  {#if project.detailLink}
+                    <div class="project-links">
+                      <a href={withBase(project.detailLink)} class="link-btn">
+                        {labels.viewProjectDetails} →
+                      </a>
+                    </div>
+                  {/if}
+
                   {#if project.skills && project.skills.length > 0}
                     <div class="skill-tags">
                       {#each project.skills as skill (skill)}
                         <SkillChip {skill} />
                       {/each}
-                    </div>
-                  {/if}
-
-                  {#if project.detailLink || project.githubLink || project.productLink}
-                    <div class="project-links">
-                      {#if project.productLink}
-                        <a href={withBase(project.productLink)} target="_blank" class="link-btn">
-                          Website →
-                        </a>
-                      {/if}
-                      {#if project.detailLink}
-                        <a href={withBase(project.detailLink)} class="link-btn">
-                          {labels.viewProjectDetails} →
-                        </a>
-                      {/if}
                     </div>
                   {/if}
                 </div>
@@ -567,25 +568,37 @@
 
   .detail-row {
     display: flex;
-    gap: 1.25rem;
+    flex-direction: column;
+    gap: 0.4rem;
   }
 
   .detail-label {
-    flex-shrink: 0;
-    padding-top: 0.1rem;
-    width: 80px;
+    width: fit-content;
   }
 
   .label-pill {
     background: var(--color-bg-subdivider);
     border-radius: 6px;
     color: var(--color-sub);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 0.3rem 0.6rem;
+    display: inline-block;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .additional-link {
+    align-self: flex-start;
+    color: var(--color-primary);
     font-size: 0.875rem;
     font-weight: 600;
-    padding: 0.4rem 0.6rem;
-    text-align: center;
-    display: block;
-    line-height: 1;
+    margin-top: 0.75rem;
+    text-decoration: none;
+  }
+
+  .additional-link:hover {
+    text-decoration: underline;
   }
 
   .detail-text {
@@ -625,7 +638,7 @@
     display: none;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 576px) {
     .pc-only {
       display: none;
     }
@@ -643,6 +656,7 @@
 
     .role-line {
       flex-direction: column;
+      align-items: flex-start;
       gap: 0.15rem;
     }
 
@@ -656,15 +670,6 @@
 
     .period-compact {
       font-size: 0.8125rem;
-    }
-
-    .detail-row {
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .detail-label {
-      width: fit-content;
     }
 
     .project-title-row {
