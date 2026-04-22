@@ -11,8 +11,6 @@ export interface SharedProject {
   dateFrom: string;
   dateTo?: string;
   detailLink?: string;
-  githubLink?: string;
-  productLink?: string;
   skills?: string[];
 }
 
@@ -31,7 +29,6 @@ export const workExperiencesShared = [
       {
         id: 'aira',
         dateFrom: '2024-01',
-        productLink: 'https://aira.gg',
         detailLink: '/projects/aira',
         skills: [
           'React Native',
@@ -59,7 +56,6 @@ export const workExperiencesShared = [
         id: 'camerafi_studio',
         dateFrom: '2022-02',
         dateTo: '2023-06',
-        productLink: 'https://studio.camerafi.com',
         detailLink: '/projects/camerafi-studio',
         skills: ['Next.js', 'TypeScript', 'MUI', 'PWA', 'Webpack', 'Firebase', 'Paddle'],
       },
@@ -110,7 +106,6 @@ export interface SharedOtherExp {
   dateFrom?: string;
   dateTo?: string;
   detailLink?: string;
-  githubLink?: string;
   skills?: string[];
 }
 
@@ -139,10 +134,9 @@ export const otherExperiencesShared = [
   },
   {
     id: 'onelinebank_rebuild',
-    dateFrom: '2026-02',
+    dateFrom: '2021-04',
     dateTo: '2026-03',
     detailLink: '/projects/oneline-bank',
-    githubLink: `${GITHUB_PROFILE}/OnelineBank`,
     skills: [
       'React Native',
       'TypeScript',
@@ -165,7 +159,6 @@ export const otherExperiencesShared = [
     id: 'sveltekit_portfolio',
     dateFrom: '2021-02',
     detailLink: '/projects/sveltekit-portfolio',
-    githubLink: `${GITHUB_PROFILE}/junuuon.github.io`,
     skills: ['Svelte', 'SvelteKit', 'TypeScript', 'mdsvex', 'Cloudflare Pages'],
   },
 ] satisfies SharedOtherExp[];
@@ -177,7 +170,6 @@ export interface SharedArchive {
   dateFrom: string;
   dateTo?: string;
   detailLink?: string;
-  githubLink?: string;
   skills?: string[];
 }
 
@@ -187,16 +179,7 @@ export const archivesShared = [
     dateFrom: '2021-11',
     dateTo: '2021-12',
     detailLink: '/projects/election-aggregator',
-    githubLink: `${GITHUB_PROFILE}/ITE3068_team8`,
     skills: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components'],
-  },
-  {
-    id: 'onelinebank_legacy',
-    dateFrom: '2021-04',
-    dateTo: '2021-05',
-    detailLink: '/projects/oneline-bank',
-    githubLink: `${GITHUB_PROFILE}/OnelineBank-legacy`,
-    skills: ['React Native', 'JavaScript', 'Firebase', 'Expo'],
   },
 ] satisfies SharedArchive[];
 
