@@ -12,6 +12,7 @@ export interface Labels {
   goToLinkedinPage: string;
   goToProductPage: string;
   languageToggleError: string;
+  navAriaLabel: string;
   pageNotFound: string;
   printPreview: string;
   project: string;
@@ -49,6 +50,7 @@ export const labelsMap: Record<Language, Labels> = {
     goToLinkedinPage: 'Linkedin 페이지로 이동',
     goToProductPage: '제품 페이지로 이동',
     languageToggleError: '언어 전환에 실패했습니다.',
+    navAriaLabel: '섹션 탐색',
     pageNotFound: '페이지를 찾을 수 없습니다',
     printPreview: '자세히 보기',
     project: '프로젝트',
@@ -84,6 +86,7 @@ export const labelsMap: Record<Language, Labels> = {
     goToLinkedinPage: 'Go to Linkedin page',
     goToProductPage: 'Go to product page',
     languageToggleError: 'Failed to switch language.',
+    navAriaLabel: 'Section navigation',
     pageNotFound: 'Page not found',
     printPreview: 'View Details',
     project: 'Project',

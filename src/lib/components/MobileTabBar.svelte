@@ -218,7 +218,7 @@
 <nav
   bind:this={tabBarRef}
   class="tab-bar"
-  aria-label="Section navigation"
+  aria-label={labels.navAriaLabel}
   onpointerdown={handlePointerDown}
   onpointermove={handlePointerMove}
   onpointerup={handlePointerUp}
@@ -307,7 +307,7 @@
     display: flex;
     flex: 1;
     font-family: inherit;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: 500;
     justify-content: center;
     min-height: 44px;
