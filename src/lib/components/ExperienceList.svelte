@@ -52,7 +52,7 @@
 
           {#if project.skills}
             <div class="tag-list">
-              {#each project.skills as skill (skill)}
+              {#each skillState.sort(project.skills) as skill (skill)}
                 <SkillChip {skill} />
               {/each}
             </div>

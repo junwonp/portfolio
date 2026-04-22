@@ -10,7 +10,7 @@
 
 <div class="bento-grid">
   {#each skills as skill (skill.title)}
-    <div class="card">
+    <div class={['card', `cat-${skill.id}`]}>
       <h3 class="card-title">{skill.title}</h3>
       <div class="tag-list">
         {#each skill.list as item (item)}
@@ -30,15 +30,43 @@
   }
 
   .card {
-    background: var(--color-disabled-bg);
+    --cat-color: var(--color-bg-divider);
+    background: color-mix(in srgb, var(--cat-color) 4%, var(--color-disabled-bg));
+    border: 1px solid color-mix(in srgb, var(--cat-color) 20%, var(--color-bg-divider));
+    border-top: 3px solid var(--cat-color);
     border-radius: 12px;
     padding: 1rem;
     display: flex;
     flex-direction: column;
   }
 
+  .cat-languages {
+    --cat-color: var(--color-cat-languages);
+  }
+  .cat-frameworks {
+    --cat-color: var(--color-cat-frameworks);
+  }
+  .cat-ui {
+    --cat-color: var(--color-cat-ui);
+  }
+  .cat-state {
+    --cat-color: var(--color-cat-state);
+  }
+  .cat-performance {
+    --cat-color: var(--color-cat-performance);
+  }
+  .cat-backend {
+    --cat-color: var(--color-cat-backend);
+  }
+  .cat-devops {
+    --cat-color: var(--color-cat-devops);
+  }
+  .cat-tools {
+    --cat-color: var(--color-cat-tools);
+  }
+
   .card-title {
-    color: var(--color-sub);
+    color: var(--color-bold);
     font-size: var(--font-h6);
     font-weight: 700;
     letter-spacing: 0.05em;

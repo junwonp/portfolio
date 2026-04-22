@@ -121,6 +121,16 @@
   --color-surface-hover: var(--light-color-surface-hover);
   --color-error: var(--light-color-error);
 
+  /* Category Colors */
+  --color-cat-languages: #3b82f6;
+  --color-cat-frameworks: #10b981;
+  --color-cat-ui: #ec4899;
+  --color-cat-state: #8b5cf6;
+  --color-cat-performance: #f97316;
+  --color-cat-backend: #eab308;
+  --color-cat-devops: #06b6d4;
+  --color-cat-tools: #64748b;
+
   --space-project-gap: var(--space-lg);
   --space-row-padding: var(--space-md);
   --space-row-gap: var(--space-lg);

@@ -75,6 +75,7 @@ export type EducationProps = {
 };
 
 export type SkillProps = {
+  id: string;
   list: string[];
   title: string;
 };

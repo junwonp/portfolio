@@ -5,6 +5,7 @@
   import Period from '$lib/components/Period.svelte';
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
+  import { skillState } from '$lib/states/skills.svelte';
   import { getPageLocale } from '$lib/utils/locale';
 
   interface Props {
@@ -33,7 +34,7 @@
   let labels = $derived(getLabels(getPageLocale()));
 </script>
 
-<div class="block" class:other>
+<div class={['block', other && 'other']}>
   <header class="header">
     <div class="title">
       <h3 class="project-title">
@@ -70,7 +71,7 @@
   {#if !other}
     <h4>{labels.description}</h4>
   {/if}
-  <p class:description-text={!children}>
+  <p class={!children ? 'description-text' : ''}>
     {description}
   </p>
 
@@ -86,7 +87,7 @@
       <h4>{labels.techStack}</h4>
     {/if}
     <ul class="skill-list">
-      {#each skills as s (s)}
+      {#each skillState.sort(skills) as s (s)}
         <SkillChip skill={s} />
       {/each}
     </ul>

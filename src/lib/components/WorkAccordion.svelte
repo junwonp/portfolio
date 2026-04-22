@@ -184,7 +184,9 @@
                       <span class="project-description-short">{project.description}</span>
                       {#if project.skills && project.skills.length > 0}
                         <span class="desc-separator">·</span>
-                        <span class="main-skills">{project.skills.slice(0, 2).join(', ')}</span>
+                        <span class="main-skills"
+                          >{skillState.sort(project.skills).slice(0, 2).join(', ')}</span
+                        >
                       {/if}
                     </div>
                   </div>
@@ -256,7 +258,7 @@
 
                     {#if project.skills && project.skills.length > 0}
                       <div class="skill-tags">
-                        {#each project.skills as skill (skill)}
+                        {#each skillState.sort(project.skills) as skill (skill)}
                           <SkillChip {skill} />
                         {/each}
                       </div>

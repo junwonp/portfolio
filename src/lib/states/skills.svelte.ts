@@ -1,3 +1,18 @@
+import { skillsShared } from '$lib/data/resume.shared';
+
+// eslint-disable-next-line svelte/prefer-svelte-reactivity
+const categoryMap = new Map<string, string>();
+// eslint-disable-next-line svelte/prefer-svelte-reactivity
+const orderMap = new Map<string, number>();
+
+let index = 0;
+for (const category of skillsShared) {
+  for (const skill of category.list) {
+    categoryMap.set(skill, category.id);
+    orderMap.set(skill, index++);
+  }
+}
+
 export function createSkillState() {
   let selectedTechs = $state<string[]>([]);
   let isPanelOpen = $state(false);
@@ -33,6 +48,16 @@ export function createSkillState() {
     close() {
       selectedTechs = [];
       isPanelOpen = false;
+    },
+    getCategory(tech: string) {
+      return categoryMap.get(tech) || 'default';
+    },
+    sort(skills: string[]) {
+      return [...skills].sort((a, b) => {
+        const orderA = orderMap.get(a) ?? 999;
+        const orderB = orderMap.get(b) ?? 999;
+        return orderA - orderB;
+      });
     },
   };
 }
