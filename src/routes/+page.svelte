@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { slide, fade, fly } from 'svelte/transition';
+
   import BentoSkills from '$lib/components/BentoSkills.svelte';
+  import BottomSkillBar from '$lib/components/BottomSkillBar.svelte';
   import DesktopSideNav from '$lib/components/DesktopSideNav.svelte';
   import EducationList from '$lib/components/EducationList.svelte';
   import ExperienceList from '$lib/components/ExperienceList.svelte';
@@ -10,6 +13,7 @@
   import WorkAccordion from '$lib/components/WorkAccordion.svelte';
   import { getLabels } from '$lib/data/labels';
   import { getResumeData } from '$lib/data/resume';
+  import { skillState } from '$lib/states/skills.svelte';
 
   import type { PageData } from './$types';
 
@@ -51,77 +55,153 @@
       window.removeEventListener('scroll', handler);
     };
   });
+
+  // Filtered Data Computations for Selection Mode
+  let filteredWork = $derived(
+    skillState.isEmpty || !resumeData.workExperiences
+      ? resumeData.workExperiences
+      : resumeData.workExperiences
+          .map((exp) => ({
+            ...exp,
+            project: exp.project.filter((p) =>
+              skillState.selectedTechs.every((tech) => p.skills?.includes(tech)),
+            ),
+          }))
+          .filter((exp) => exp.project.length > 0),
+  );
+
+  let filteredProjects = $derived(
+    skillState.isEmpty || !resumeData.otherExperiences
+      ? resumeData.otherExperiences
+      : resumeData.otherExperiences.filter((exp) =>
+          exp.project.some((p) =>
+            skillState.selectedTechs.every((tech) => p.skills?.includes(tech)),
+          ),
+        ),
+  );
+
+  let filteredArchives = $derived(
+    skillState.isEmpty || !resumeData.archives
+      ? resumeData.archives
+      : resumeData.archives.filter((exp) =>
+          exp.project.some((p) =>
+            skillState.selectedTechs.every((tech) => p.skills?.includes(tech)),
+          ),
+        ),
+  );
+
+  let isAllEmpty = $derived(
+    !skillState.isEmpty &&
+      (!filteredWork || filteredWork.length === 0) &&
+      (!filteredProjects || filteredProjects.length === 0) &&
+      (!filteredArchives || filteredArchives.length === 0),
+  );
+
+  let bottomBarHeight = $state(0);
 </script>
 
-<article>
+<article
+  style="padding-bottom: {skillState.isPanelOpen
+    ? bottomBarHeight + 64
+    : 0}px; transition: padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);"
+>
   <MobileStickyHeader
     githubLink={resumeData.introduction.githubLink}
     linkedinLink={resumeData.introduction.linkedinLink}
     name={resumeData.introduction.name}
   />
 
-  <div class="layout">
-    <div class="nav-wrapper">
-      <DesktopSideNav sections={navSections} />
-    </div>
+  <div class={['layout', skillState.isPanelOpen && 'is-selection-mode']}>
+    {#if !skillState.isPanelOpen}
+      <div class="nav-wrapper" transition:fade={{ duration: 200 }}>
+        <DesktopSideNav sections={navSections} />
+      </div>
+    {/if}
+
     <div class="main-content">
-      <section id="section-intro">
-        <Title
-          isHome
-          githubLink={resumeData.introduction.githubLink}
-          linkedinLink={resumeData.introduction.linkedinLink}
-          metrics={resumeData.introduction.metrics}
-          name={resumeData.introduction.name}
-          pillars={resumeData.introduction.pillars}
-          role={resumeData.introduction.role}
-          tagline={resumeData.introduction.tagline}
-        />
-        <div id="intro-header-sentinel" aria-hidden="true"></div>
-        <div class="intro-briefing">
-          {#each resumeData.introduction.briefing as line, index (index)}
-            <p>{line}</p>
-          {/each}
-        </div>
-      </section>
+      {#if !skillState.isPanelOpen}
+        <section id="section-intro" transition:slide={{ duration: 300 }}>
+          <Title
+            isHome
+            githubLink={resumeData.introduction.githubLink}
+            linkedinLink={resumeData.introduction.linkedinLink}
+            metrics={resumeData.introduction.metrics}
+            name={resumeData.introduction.name}
+            pillars={resumeData.introduction.pillars}
+            role={resumeData.introduction.role}
+            tagline={resumeData.introduction.tagline}
+          />
+          <div id="intro-header-sentinel" aria-hidden="true"></div>
+          <div class="intro-briefing">
+            {#each resumeData.introduction.briefing as line, index (index)}
+              <p>{line}</p>
+            {/each}
+          </div>
+        </section>
+      {/if}
 
       <div class="content-wrapper">
-        <section id="section-work">
-          <SectionHeader title={labels.sectionWork} />
-          {#if resumeData.workExperiences}
-            <WorkAccordion experiences={resumeData.workExperiences} locale={data.locale} />
-          {/if}
-        </section>
+        {#if filteredWork && filteredWork.length > 0}
+          <section id="section-work" transition:slide={{ duration: 300 }}>
+            <SectionHeader title={labels.sectionWork} />
+            <WorkAccordion experiences={filteredWork} locale={data.locale} />
+          </section>
+        {/if}
 
-        <section id="section-skills">
-          <SectionHeader title={labels.sectionSkills} />
-          {#if resumeData.skills}
-            <BentoSkills skills={resumeData.skills} />
-          {/if}
-        </section>
+        {#if !skillState.isPanelOpen}
+          <section id="section-skills" transition:slide={{ duration: 300 }}>
+            <SectionHeader title={labels.sectionSkills} />
+            {#if resumeData.skills}
+              <BentoSkills skills={resumeData.skills} />
+            {/if}
+          </section>
+        {/if}
 
-        <section id="section-projects">
-          <SectionHeader title={labels.sectionAwards} />
-          {#if resumeData.otherExperiences}
-            <ExperienceList experiences={resumeData.otherExperiences} />
-          {/if}
-        </section>
+        {#if filteredProjects && filteredProjects.length > 0}
+          <section id="section-projects" transition:slide={{ duration: 300 }}>
+            <SectionHeader title={labels.sectionAwards} />
+            <ExperienceList experiences={filteredProjects} />
+          </section>
+        {/if}
 
-        <section id="section-education">
-          <SectionHeader title={labels.sectionEducation} />
-          {#if resumeData.education}
-            <EducationList education={resumeData.education} />
-          {/if}
+        {#if filteredArchives && filteredArchives.length > 0}
+          <section id="section-archives" transition:slide={{ duration: 300 }}>
+            <SectionHeader title={labels.sectionArchives} />
+            <ExperienceList experiences={filteredArchives} />
+          </section>
+        {/if}
 
-          <SectionHeader title={labels.sectionArchives} />
-          {#if resumeData.archives}
-            <ExperienceList experiences={resumeData.archives} />
-          {/if}
-        </section>
+        {#if !skillState.isPanelOpen}
+          <section id="section-education" transition:slide={{ duration: 300 }}>
+            <SectionHeader title={labels.sectionEducation} />
+            {#if resumeData.education}
+              <EducationList education={resumeData.education} />
+            {/if}
+          </section>
+        {/if}
+
+        {#if isAllEmpty}
+          <div class="empty-state" transition:fade={{ duration: 300 }}>
+            <div class="empty-icon">📂</div>
+            <h3>조건에 맞는 프로젝트가 없습니다.</h3>
+            <p>선택한 기술 스택을 모두 포함하는 프로젝트를 찾을 수 없습니다.</p>
+            <button class="empty-clear-btn" onclick={() => skillState.close()}>필터 해제하기</button
+            >
+          </div>
+        {/if}
       </div>
     </div>
   </div>
 
-  <MobileTabBar />
+  {#if skillState.isPanelOpen && resumeData.skills}
+    <BottomSkillBar skills={resumeData.skills} bind:barHeight={bottomBarHeight} />
+  {/if}
+
+  {#if !skillState.isPanelOpen}
+    <div transition:fly={{ y: 50, duration: 300 }}>
+      <MobileTabBar />
+    </div>
+  {/if}
 </article>
 
 <style>
@@ -130,6 +210,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
+    transition: all 0.3s ease;
   }
 
   .nav-wrapper {
@@ -143,6 +224,12 @@
   .main-content {
     min-width: 0;
     width: 100%;
+    transition: all 0.3s ease;
+  }
+
+  /* When in selection mode, expand main-content slightly if needed, or just let it center */
+  .layout.is-selection-mode {
+    justify-content: center;
   }
 
   /* Handle overlap on intermediate screens by moving nav into the flex flow */
@@ -150,6 +237,10 @@
     .layout {
       justify-content: flex-start;
       gap: var(--space-md);
+    }
+
+    .layout.is-selection-mode {
+      justify-content: center; /* Re-center when nav is hidden */
     }
 
     .nav-wrapper {
@@ -166,6 +257,56 @@
   .content-wrapper {
     display: flex;
     flex-direction: column;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 2rem;
+    text-align: center;
+    background: color-mix(in srgb, var(--color-disabled-bg) 50%, transparent);
+    border-radius: 16px;
+    border: 1px dashed var(--color-bg-divider);
+    margin-top: 2rem;
+  }
+
+  .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  .empty-state h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--color-bold);
+    font-size: 1.25rem;
+  }
+
+  .empty-state p {
+    margin: 0 0 1.5rem 0;
+    color: var(--color-sub);
+    font-size: 0.9375rem;
+  }
+
+  .empty-clear-btn {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      transform 0.15s,
+      box-shadow 0.15s;
+  }
+
+  .empty-clear-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--color-shadow);
   }
 
   @media (max-width: 960px) {
