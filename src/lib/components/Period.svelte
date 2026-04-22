@@ -13,12 +13,8 @@
   };
 </script>
 
-<span>
-  <time datetime={dateFrom}>{timeFormatter(dateFrom)}</time>
-  {#if dateFrom.includes('-')}
+<span
+  ><time datetime={dateFrom}>{timeFormatter(dateFrom)}</time>{#if dateFrom.includes('-')}
     ~
-  {/if}
-  {#if dateTo}
-    <time datetime={dateTo}>{timeFormatter(dateTo)}</time>
-  {/if}
-</span>
+  {/if}{#if dateTo}<time datetime={dateTo}>{timeFormatter(dateTo)}</time>{/if}</span
+>

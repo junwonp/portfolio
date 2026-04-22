@@ -1,11 +1,15 @@
 <script lang="ts">
   import SkillChip from '$lib/components/SkillChip.svelte';
+  import { getLabels } from '$lib/data/labels';
   import type { OtherExperienceProps } from '$lib/types/about';
+  import { getPageLocale } from '$lib/utils/locale';
 
   interface Props {
     experiences: OtherExperienceProps[];
   }
   let { experiences }: Props = $props();
+
+  let labels = $derived(getLabels(getPageLocale()));
 
   const getBadgeColor = (badge?: string) => {
     if (!badge) return '';
@@ -32,6 +36,15 @@
           {/if}
         </div>
         <p class="description">{project.description}</p>
+
+        {#if project.detailLink}
+          <div class="link-wrapper">
+            <a href={project.detailLink} class="detail-link" data-sveltekit-reload>
+              {labels.viewProjectDetails} →
+            </a>
+          </div>
+        {/if}
+
         {#if project.skills}
           <div class="tag-list">
             {#each project.skills as skill (skill)}
@@ -80,12 +93,38 @@
     color: var(--color-bold);
   }
 
+  .link-wrapper {
+    margin-bottom: 0.75rem;
+  }
+
+  .detail-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    margin-left: -0.5rem;
+    border-radius: 4px;
+    transition:
+      background-color 0.2s,
+      transform 0.2s;
+  }
+
+  .detail-link:hover {
+    background-color: var(--color-primary-transparent);
+    text-decoration: underline;
+    transform: translateX(2px);
+  }
+
   .badge {
     font-size: 0.875rem;
     font-weight: 600;
     padding: 0.4rem 0.6rem;
     border-radius: 6px;
     line-height: 1;
+    white-space: nowrap;
   }
 
   .badge.green {
@@ -111,7 +150,7 @@
   .description {
     font-size: 0.9375rem;
     color: var(--color-main);
-    margin: 0 0 0.75rem 0;
+    margin: 0 0 0.5rem 0;
     line-height: 1.5;
   }
 
@@ -138,6 +177,7 @@
       gap: 0.5rem;
     }
     .date-wrapper {
+      order: -1;
       text-align: left;
     }
   }

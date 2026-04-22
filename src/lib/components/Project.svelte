@@ -130,12 +130,16 @@
 
   .detail-link {
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
+    color: var(--color-primary);
+    transition: transform 0.2s;
+    display: inline-block;
   }
 
   .detail-link:hover {
     text-decoration: underline;
+    transform: translateX(2px);
   }
 
   .github-icon-link {
