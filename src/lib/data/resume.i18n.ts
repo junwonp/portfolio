@@ -52,11 +52,22 @@ export interface I18nData {
     tagline: string;
   };
   otherExperiences: Record<OtherExpId, I18nOtherExp>;
+  skills: Record<import('$lib/data/resume.shared').SkillId, string>;
   workExperiences: Record<WorkExpId, I18nWorkExp>;
 }
 
 export const i18nData: Record<Language, I18nData> = {
   en: {
+    skills: {
+      languages: 'Languages',
+      web: 'Web Frameworks',
+      mobile: 'Mobile Frameworks',
+      state: 'State & Data',
+      ui: 'UI & Styling',
+      performance: 'Animation & Performance',
+      backend: 'Backend & Cloud',
+      tools: 'Libraries & Tools',
+    },
     introduction: {
       name: 'Junwon Park',
       tagline:
@@ -266,6 +277,16 @@ export const i18nData: Record<Language, I18nData> = {
     },
   },
   ko: {
+    skills: {
+      languages: '언어',
+      web: '웹 프레임워크',
+      mobile: '모바일 프레임워크',
+      state: '상태 및 데이터',
+      ui: 'UI 및 스타일링',
+      performance: '애니메이션 및 성능',
+      backend: '백엔드 및 클라우드',
+      tools: '도구 및 라이브러리',
+    },
     introduction: {
       name: '박준원',
       tagline: '제품의 시작부터 성장까지 직접 경험한 프론트엔드 엔지니어',

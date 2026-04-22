@@ -111,6 +111,11 @@ export const getResumeData = (lang: Language): ResumeData => {
     ...i18n.education[id],
   }));
 
+  const skills: SkillProps[] = skillsShared.map((skill) => ({
+    title: i18n.skills[skill.id as keyof typeof i18n.skills],
+    list: skill.list,
+  }));
+
   return {
     introduction,
     workExperiences,
@@ -118,6 +123,6 @@ export const getResumeData = (lang: Language): ResumeData => {
     archives,
     certificates,
     education,
-    skills: skillsShared,
+    skills,
   };
 };

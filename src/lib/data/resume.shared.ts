@@ -233,50 +233,38 @@ export const educationShared: Record<EducationId, { dateFrom: string; dateTo?: s
 
 export const skillsShared = [
   {
-    title: 'Languages',
+    id: 'languages',
     list: ['TypeScript', 'JavaScript', 'Swift', 'Kotlin'],
   },
   {
-    title: 'Frontend Frameworks',
-    list: [
-      'React',
-      'Next.js',
-      'Svelte / SvelteKit',
-      'React Native',
-      'Expo',
-      'Expo Router',
-      'SwiftUI',
-      'PWA',
-    ],
+    id: 'web',
+    list: ['React', 'Next.js', 'Svelte / SvelteKit', 'PWA'],
   },
   {
-    title: 'State & Data',
+    id: 'mobile',
+    list: ['React Native', 'Expo', 'Expo Router', 'SwiftUI'],
+  },
+  {
+    id: 'state',
     list: ['TanStack Query', 'Zustand', 'Redux', 'Redux-Saga', 'GraphQL'],
   },
   {
-    title: 'UI & Styling',
+    id: 'ui',
     list: ['Tailwind CSS', 'styled-components', 'MUI', 'Ant Design', 'Unistyles'],
   },
   {
-    title: 'Animation & Performance',
+    id: 'performance',
     list: ['Reanimated', 'FlashList', 'react-window', 'react-virtualized', 'React Compiler'],
   },
   {
-    title: 'Backend & DevOps',
-    list: [
-      'Firebase',
-      'Firebase Hosting',
-      'Supabase',
-      'Upstash Redis',
-      'CloudKit',
-      'AWS Amplify',
-      'Cloudflare Pages',
-      'GitHub Actions',
-    ],
+    id: 'backend',
+    list: ['Firebase', 'Firebase Hosting', 'Supabase', 'Upstash Redis', 'CloudKit', 'AWS Amplify'],
   },
   {
-    title: 'Libraries & Tools',
+    id: 'tools',
     list: [
+      'Cloudflare Pages',
+      'GitHub Actions',
       'Zod',
       'TanStack Form',
       'React Table',
@@ -295,3 +283,5 @@ export const skillsShared = [
     ],
   },
 ];
+
+export type SkillId = (typeof skillsShared)[number]['id'];
