@@ -60,7 +60,9 @@
   --light-color-table-border: #d1d7dd;
   --light-color-primary: #1b64da;
   --light-color-primary-hover: #154eb3;
+  --light-color-primary-transparent: rgba(27, 100, 218, 0.1);
   --light-color-primary-bg: #1b64da;
+  --light-color-surface-hover: #f1f3f5;
   --light-color-error: #f04452;
 
   /* Dark theme colors */
@@ -86,7 +88,9 @@
   --dark-color-table-border: #1e242a;
   --dark-color-primary: #3182f6;
   --dark-color-primary-hover: #569aff;
+  --dark-color-primary-transparent: rgba(49, 130, 246, 0.15);
   --dark-color-primary-bg: #3182f6;
+  --dark-color-surface-hover: #1c2128;
   --dark-color-error: #ff5d6a;
 
   /* Current theme colors (defaults to light) */
@@ -112,7 +116,9 @@
   --color-table-border: var(--light-color-table-border);
   --color-primary: var(--light-color-primary);
   --color-primary-hover: var(--light-color-primary-hover);
+  --color-primary-transparent: var(--light-color-primary-transparent);
   --color-primary-bg: var(--light-color-primary-bg);
+  --color-surface-hover: var(--light-color-surface-hover);
   --color-error: var(--light-color-error);
 
   --space-project-gap: var(--space-lg);
@@ -143,7 +149,9 @@ html.dark {
   --color-table-border: var(--dark-color-table-border);
   --color-primary: var(--dark-color-primary);
   --color-primary-hover: var(--dark-color-primary-hover);
+  --color-primary-transparent: var(--dark-color-primary-transparent);
   --color-primary-bg: var(--dark-color-primary-bg);
+  --color-surface-hover: var(--dark-color-surface-hover);
   --color-error: var(--dark-color-error);
 }
 
