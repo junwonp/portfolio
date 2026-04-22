@@ -238,7 +238,15 @@ export const skillsShared = [
   },
   {
     id: 'frameworks',
-    list: ['React', 'Next.js', 'Svelte / SvelteKit', 'React Native', 'Expo', 'SwiftUI'],
+    list: [
+      'React',
+      'Next.js',
+      'Svelte / SvelteKit',
+      'React Native',
+      'Expo',
+      'Expo Router',
+      'SwiftUI',
+    ],
   },
   {
     id: 'ui',
@@ -272,21 +280,28 @@ export const skillsShared = [
   },
   {
     id: 'backend',
-    list: ['Firebase', 'Supabase', 'Upstash Redis', 'CloudKit', 'AWS Amplify', 'Socket.IO'],
+    list: [
+      'Firebase',
+      'Supabase',
+      'Upstash Redis',
+      'CloudKit',
+      'AWS Amplify',
+      'Socket.IO',
+      'Paddle',
+    ],
   },
   {
     id: 'devops',
-    list: ['GitHub Actions', 'Cloudflare Pages', 'Firebase Hosting', 'Webpack', 'Sentry'],
+    list: ['GitHub Actions', 'Cloudflare Pages', 'Firebase Hosting', 'Sentry'],
   },
   {
     id: 'tools',
     list: [
-      'Expo Router',
+      'Webpack',
       'PWA',
       'Native Modules',
       'typesafe-i18n',
       'mdsvex',
-      'Paddle',
       'Apple Shortcuts',
       'AI-Assisted Dev',
     ],
