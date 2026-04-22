@@ -6,6 +6,7 @@
   import Period from '$lib/components/Period.svelte';
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
+  import { skillState } from '$lib/states/skills.svelte';
   import type { ProjectItem, WorkExperienceProps } from '$lib/types/about';
   import { parseMarkdownBold } from '$lib/utils/markdown';
 
@@ -59,201 +60,214 @@
     }
     return { label: null, content: line };
   }
+
+  let isFiltered = $derived(!skillState.isEmpty);
 </script>
 
 <div class="accordion">
   {#each experiences as exp (exp.companyName)}
-    <div class="company-card" class:open={openCompanies.has(exp.companyName)}>
-      <!-- Company header -->
-      <div
-        class="company-header"
-        role="button"
-        tabindex="0"
-        onclick={() => {
-          toggleCompany(exp.companyName);
-        }}
-        onkeydown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            toggleCompany(exp.companyName);
-          }
-        }}
-        aria-expanded={openCompanies.has(exp.companyName)}
-      >
-        <div class="company-top">
-          <div class="company-left">
-            <span class="company-name">{exp.companyName}</span>
-            <div class="badges">
-              {#if exp.titleBadge}
-                <span class="badge founder">{exp.titleBadge}</span>
-              {/if}
-              {#if !exp.dateTo}
-                <span class="badge current">{locale === 'ko' ? '현재' : 'Present'}</span>
-              {/if}
+    <div class="company-wrapper" transition:slide={{ duration: 300 }}>
+      <div class={['company-card', (openCompanies.has(exp.companyName) || isFiltered) && 'open']}>
+        <!-- Company header -->
+        <div
+          class="company-header"
+          role="button"
+          tabindex="0"
+          onclick={() => {
+            if (!isFiltered) toggleCompany(exp.companyName);
+          }}
+          onkeydown={(e) => {
+            if (!isFiltered && (e.key === 'Enter' || e.key === ' ')) {
+              e.preventDefault();
+              toggleCompany(exp.companyName);
+            }
+          }}
+          aria-expanded={openCompanies.has(exp.companyName) || isFiltered}
+        >
+          <div class="company-top">
+            <div class="company-left">
+              <span class="company-name">{exp.companyName}</span>
+              <div class="badges">
+                {#if exp.titleBadge}
+                  <span class="badge founder">{exp.titleBadge}</span>
+                {/if}
+                {#if !exp.dateTo}
+                  <span class="badge current">{locale === 'ko' ? '현재' : 'Present'}</span>
+                {/if}
+              </div>
+            </div>
+            <div class="company-right pc-only">
+              <Period dateFrom={exp.dateFrom} dateTo={exp.dateTo} />
             </div>
           </div>
-          <div class="company-right pc-only">
-            <Period dateFrom={exp.dateFrom} dateTo={exp.dateTo} />
-          </div>
-        </div>
 
-        <div class="company-info-row">
-          <div class="role-line">
-            <span class="role">{exp.role}</span>
-            <span class="role-separator">·</span>
-            <span class="period-compact">
-              <Period dateFrom={exp.dateFrom} dateTo={exp.dateTo} />
-            </span>
-          </div>
-          <div class="expand-indicator" class:open={openCompanies.has(exp.companyName)}>
-            <span
-              >{openCompanies.has(exp.companyName) ? labels.hideDetails : labels.showDetails}</span
+          <div class="company-info-row">
+            <div class="role-line">
+              <span class="role">{exp.role}</span>
+              <span class="role-separator">·</span>
+              <span class="period-compact">
+                <Period dateFrom={exp.dateFrom} dateTo={exp.dateTo} />
+              </span>
+            </div>
+            <div
+              class={[
+                'expand-indicator',
+                (openCompanies.has(exp.companyName) || isFiltered) && 'open',
+              ]}
             >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="chevron-icon"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-        </div>
-
-        <!-- Always-visible highlights -->
-        {#if exp.highlights && exp.highlights.length > 0}
-          <ul class="highlights">
-            {#each exp.highlights as item (item)}
-              <li>
-                <span class="bullet"></span>
-                <span class="highlight-text">{item}</span>
-              </li>
-            {/each}
-          </ul>
-        {/if}
-      </div>
-
-      <!-- Company-level additional link (e.g. recommendation letter) -->
-      {#if exp.additional}
-        <a href={withBase(exp.additional.link)} target="_blank" class="additional-link">
-          {exp.additional.label} →
-        </a>
-      {/if}
-
-      <!-- Level 1 expand: project list -->
-      {#if openCompanies.has(exp.companyName)}
-        <div class="project-list" transition:slide={{ duration: 250 }}>
-          {#each exp.project as project (project.title)}
-            {@const isOpen = isProjectOpen(exp.companyName, project)}
-            <div class="project-item" class:is-open={isOpen}>
-              <!-- Project row header -->
-              <button
-                class="project-header"
-                onclick={() => {
-                  toggleProject(exp.companyName, project);
-                }}
-                aria-expanded={isOpen}
+              <span
+                >{openCompanies.has(exp.companyName) || isFiltered
+                  ? labels.hideDetails
+                  : labels.showDetails}</span
               >
-                <div class="project-title-area">
-                  <div class="project-title-row">
-                    <span class="project-title">{project.title}</span>
-                    <span class="project-period mobile-only">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="chevron-icon"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Always-visible highlights -->
+          {#if exp.highlights && exp.highlights.length > 0}
+            <ul class="highlights">
+              {#each exp.highlights as item (item)}
+                <li>
+                  <span class="bullet"></span>
+                  <span class="highlight-text">{item}</span>
+                </li>
+              {/each}
+            </ul>
+          {/if}
+        </div>
+
+        <!-- Company-level additional link (e.g. recommendation letter) -->
+        {#if exp.additional}
+          <a href={withBase(exp.additional.link)} target="_blank" class="additional-link">
+            {exp.additional.label} →
+          </a>
+        {/if}
+
+        <!-- Level 1 expand: project list -->
+        {#if openCompanies.has(exp.companyName) || isFiltered}
+          <div class="project-list" transition:slide={{ duration: 250 }}>
+            {#each exp.project as project (project.title)}
+              {@const isOpen = isProjectOpen(exp.companyName, project) || isFiltered}
+              <div
+                class={['project-item', isOpen && 'is-open']}
+                transition:slide={{ duration: 200 }}
+              >
+                <!-- Project row header -->
+                <button
+                  class="project-header"
+                  onclick={() => {
+                    if (!isFiltered) toggleProject(exp.companyName, project);
+                  }}
+                  aria-expanded={isOpen}
+                >
+                  <div class="project-title-area">
+                    <div class="project-title-row">
+                      <span class="project-title">{project.title}</span>
+                      <span class="project-period mobile-only">
+                        <Period dateFrom={project.dateFrom} dateTo={project.dateTo} />
+                      </span>
+                    </div>
+                    <div class="project-desc-line">
+                      <span class="project-description-short">{project.description}</span>
+                      {#if project.skills && project.skills.length > 0}
+                        <span class="desc-separator">·</span>
+                        <span class="main-skills">{project.skills.slice(0, 2).join(', ')}</span>
+                      {/if}
+                    </div>
+                  </div>
+                  <div class="project-header-right">
+                    <span class="project-period pc-only">
                       <Period dateFrom={project.dateFrom} dateTo={project.dateTo} />
                     </span>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class={['project-chevron', isOpen && 'open']}
+                    >
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
                   </div>
-                  <div class="project-desc-line">
-                    <span class="project-description-short">{project.description}</span>
+                </button>
+
+                <!-- Level 2 expand: project details -->
+                {#if isOpen}
+                  <div class="project-content" transition:slide={{ duration: 200 }}>
+                    {#if project.metrics && project.metrics.length > 0}
+                      <div class="project-metrics">
+                        {#each project.metrics as metric (metric.label)}
+                          <div class="metric-item">
+                            <span class="metric-value">{metric.value}</span>
+                            <span class="metric-label">{metric.label}</span>
+                          </div>
+                        {/each}
+                      </div>
+                    {/if}
+
+                    {#if project.detail.length > 0}
+                      <div class="detail-grid">
+                        {#each project.detail as line (line)}
+                          {@const parsed = parseDetailLine(line)}
+                          <div class="detail-row">
+                            {#if parsed.label}
+                              <div class="detail-label">
+                                <span class="label-pill">{parsed.label}</span>
+                              </div>
+                            {/if}
+                            <div class="detail-text">
+                              {#each parseMarkdownBold(parsed.content) as part, k (k)}
+                                {#if part.type === 'bold'}
+                                  <strong>{part.text}</strong>
+                                {:else}
+                                  {part.text}
+                                {/if}
+                              {/each}
+                            </div>
+                          </div>
+                        {/each}
+                      </div>
+                    {/if}
+
+                    {#if project.detailLink}
+                      <div class="project-links">
+                        <a href={withBase(project.detailLink)} class="link-btn">
+                          {labels.viewProjectDetails} →
+                        </a>
+                      </div>
+                    {/if}
+
                     {#if project.skills && project.skills.length > 0}
-                      <span class="desc-separator">·</span>
-                      <span class="main-skills">{project.skills.slice(0, 2).join(', ')}</span>
+                      <div class="skill-tags">
+                        {#each project.skills as skill (skill)}
+                          <SkillChip {skill} />
+                        {/each}
+                      </div>
                     {/if}
                   </div>
-                </div>
-                <div class="project-header-right">
-                  <span class="project-period pc-only">
-                    <Period dateFrom={project.dateFrom} dateTo={project.dateTo} />
-                  </span>
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="project-chevron"
-                    class:open={isOpen}
-                  >
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </div>
-              </button>
-
-              <!-- Level 2 expand: project details -->
-              {#if isOpen}
-                <div class="project-content" transition:slide={{ duration: 200 }}>
-                  {#if project.metrics && project.metrics.length > 0}
-                    <div class="project-metrics">
-                      {#each project.metrics as metric (metric.label)}
-                        <div class="metric-item">
-                          <span class="metric-value">{metric.value}</span>
-                          <span class="metric-label">{metric.label}</span>
-                        </div>
-                      {/each}
-                    </div>
-                  {/if}
-
-                  {#if project.detail.length > 0}
-                    <div class="detail-grid">
-                      {#each project.detail as line (line)}
-                        {@const parsed = parseDetailLine(line)}
-                        <div class="detail-row">
-                          {#if parsed.label}
-                            <div class="detail-label">
-                              <span class="label-pill">{parsed.label}</span>
-                            </div>
-                          {/if}
-                          <div class="detail-text">
-                            {#each parseMarkdownBold(parsed.content) as part, k (k)}
-                              {#if part.type === 'bold'}
-                                <strong>{part.text}</strong>
-                              {:else}
-                                {part.text}
-                              {/if}
-                            {/each}
-                          </div>
-                        </div>
-                      {/each}
-                    </div>
-                  {/if}
-
-                  {#if project.detailLink}
-                    <div class="project-links">
-                      <a href={withBase(project.detailLink)} class="link-btn">
-                        {labels.viewProjectDetails} →
-                      </a>
-                    </div>
-                  {/if}
-
-                  {#if project.skills && project.skills.length > 0}
-                    <div class="skill-tags">
-                      {#each project.skills as skill (skill)}
-                        <SkillChip {skill} />
-                      {/each}
-                    </div>
-                  {/if}
-                </div>
-              {/if}
-            </div>
-          {/each}
-        </div>
-      {/if}
+                {/if}
+              </div>
+            {/each}
+          </div>
+        {/if}
+      </div>
     </div>
   {/each}
 </div>
@@ -263,6 +277,11 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  .company-wrapper {
+    display: flex;
+    flex-direction: column;
   }
 
   /* ── Company Card ── */
