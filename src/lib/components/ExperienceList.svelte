@@ -1,6 +1,10 @@
 <script lang="ts">
+  import { flip } from 'svelte/animate';
+  import { slide } from 'svelte/transition';
+
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
+  import { skillState } from '$lib/states/skills.svelte';
   import type { OtherExperienceProps } from '$lib/types/about';
   import { getPageLocale } from '$lib/utils/locale';
 
@@ -27,34 +31,36 @@
 <div class="experience-list">
   {#each experiences as exp (exp.project[0].title)}
     {@const project = exp.project[0]}
-    <div class="item">
-      <div class="content">
-        <div class="header">
-          <h3 class="title">{project.title}</h3>
-          {#if exp.titleBadge}
-            <span class="badge {getBadgeColor(exp.titleBadge)}">{exp.titleBadge}</span>
+    <div class="item-wrapper" animate:flip={{ duration: 400 }} transition:slide={{ duration: 300 }}>
+      <div class="item">
+        <div class="content">
+          <div class="header">
+            <h3 class="title">{project.title}</h3>
+            {#if exp.titleBadge}
+              <span class="badge {getBadgeColor(exp.titleBadge)}">{exp.titleBadge}</span>
+            {/if}
+          </div>
+          <p class="description">{project.description}</p>
+
+          {#if project.detailLink}
+            <div class="link-wrapper">
+              <a href={project.detailLink} class="detail-link" data-sveltekit-reload>
+                {labels.viewProjectDetails} →
+              </a>
+            </div>
+          {/if}
+
+          {#if project.skills}
+            <div class="tag-list">
+              {#each project.skills as skill (skill)}
+                <SkillChip {skill} />
+              {/each}
+            </div>
           {/if}
         </div>
-        <p class="description">{project.description}</p>
-
-        {#if project.detailLink}
-          <div class="link-wrapper">
-            <a href={project.detailLink} class="detail-link" data-sveltekit-reload>
-              {labels.viewProjectDetails} →
-            </a>
-          </div>
-        {/if}
-
-        {#if project.skills}
-          <div class="tag-list">
-            {#each project.skills as skill (skill)}
-              <SkillChip {skill} />
-            {/each}
-          </div>
-        {/if}
-      </div>
-      <div class="date-wrapper">
-        <span class="date">{formatDate(project.dateFrom)}</span>
+        <div class="date-wrapper">
+          <span class="date">{formatDate(project.dateFrom)}</span>
+        </div>
       </div>
     </div>
   {/each}
@@ -66,6 +72,11 @@
     flex-direction: column;
     gap: var(--space-md);
     margin-top: var(--space-md);
+  }
+
+  .item-wrapper {
+    display: flex;
+    flex-direction: column;
   }
 
   .item {
