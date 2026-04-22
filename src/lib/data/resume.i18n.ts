@@ -214,9 +214,10 @@ export const i18nData: Record<Language, I18nData> = {
         ],
       },
       onelinebank_rebuild: {
-        title: 'OnelineBank — 2021 Woori Bank Hackathon Rebuild',
+        title: 'OnelineBank',
+        titleBadge: '2021 Hackathon Finalist',
         description:
-          'A personal project fully rewriting the 2021 Woori Bank Hackathon submission with a modern tech stack. The original JavaScript codebase, written rapidly under time pressure, was rebuilt from scratch in TypeScript with current libraries.',
+          'Advanced to the 2021 Woori Bank Hackathon finals by independently building a fintech app in 5 days. In 2026, fully rewrote the original JavaScript codebase from scratch in TypeScript with a modern stack.',
         detail: [
           '**[Tech Modernization]** Full JavaScript → TypeScript migration and architecture redesign with **Expo Router** file-based routing',
           '**[Core Feature]** Implemented natural language remittance processing logic that auto-parses bank name, account number, and amount from chat text',
@@ -251,15 +252,6 @@ export const i18nData: Record<Language, I18nData> = {
           '**[Serverless Adoption]** Built authentication (Login/Signup) and data management environments using AWS Amplify without a separate backend.',
           '**[Data Visualization]** Rendered card news by parsing metadata (OG Tags) from Naver News API and visualized poll data using **Recharts**.',
           '**[Component Design]** Designed a reusable component hierarchy using React and styled-components.',
-        ],
-      },
-      onelinebank_legacy: {
-        title: 'OnelineBank (2021 Woori Bank Hackathon Finalist)',
-        description:
-          'Advanced to the finals by independently planning and developing a fintech app with remittance and biometric authentication features, learning React Native with a rapid learning curve in 5 days.',
-        detail: [
-          '**[Conversational Interface]** Implemented natural language remittance processing logic via text parsing.',
-          '**[Security & API]** Processed actual financial transactions through Biometrics and Woori Bank Open API integration.',
         ],
       },
     },
@@ -411,7 +403,7 @@ export const i18nData: Record<Language, I18nData> = {
           '첫 Swift 프로젝트. iOS/macOS 크로스 플랫폼 스케줄러. 타임테이블 관리, 집중모드 자동 전환, Mac 상태바 연동, CloudKit 동기화.',
         detail: [
           '**[크로스 플랫폼 아키텍처]** MVVM + Repository + Service 패턴을 도입하고 로직을 완벽히 분리하여 iOS와 macOS를 동시에 지원하는 확장 가능한 구조를 설계했습니다.',
-          '**[Mac 상태바 연동]** 30초 주기로 현재 일정과 남은 시간을 계산하는 백그라운드 로직을 설계하고, macOS 전용 Menu Bar Extra 뷰를 통해 실시간 상태를 노출했습니다.',
+          '**[Mac 상태바 연동]** 30초 주기로 현재 시간과 일정을 비교하는 백그라운드 로직을 설계하고, macOS 전용 Menu Bar Extra 뷰를 통해 실시간 상태를 노출했습니다.',
           '**[시스템 자동화]** Apple Shortcuts(단축어) 시스템과 딥링크를 연동하여, 특정 일정이 시작되면 자동으로 집중 모드가 켜지는 등 시스템 환경을 자동 제어하는 몰입 환경을 구축했습니다.',
           '**[동적 반복 일정 엔진]** 반복 규칙만 저장하고 런타임에 "가상 인스턴스"를 계산하는 `OccurrenceService`를 구현하여 DB 성능을 최적화하고 디스크 용량을 혁신적으로 절약했습니다.',
           '**[CloudKit 실시간 동기화]** 타임스탬프 기반의 병합 전략과 600ms 디바운스를 적용한 `ScheduleRepository`를 구현하여 기기 간 데이터 유실 없는 안정적인 동기화 레이어를 구축했습니다.',
@@ -432,9 +424,10 @@ export const i18nData: Record<Language, I18nData> = {
         ],
       },
       onelinebank_rebuild: {
-        title: '한줄은행 — 우리은행 해커톤 본선',
+        title: '한줄은행',
+        titleBadge: '2021 해커톤 본선',
         description:
-          '5일간 React Native 러닝커브로 습득, 송금·생체인증 핀테크 앱 기획부터 개발까지 전담. 2026년 TypeScript로 전면 재작성.',
+          '2021 우리은행 해커톤에서 5일간 React Native를 습득해 핀테크 앱을 단독 개발, 본선 진출. 2026년 TypeScript로 전면 재작성.',
         detail: [
           '**[기술 현대화]** JavaScript → TypeScript 전면 전환 및 **Expo Router** 기반 파일 시스템 라우팅으로 아키텍처 재설계',
           '**[핵심 기능]** 채팅 텍스트 파싱을 통해 은행명·계좌번호·금액을 자동 인식하는 자연어 송금 처리 로직 구현',
@@ -470,15 +463,6 @@ export const i18nData: Record<Language, I18nData> = {
           '**[Serverless 도입]** AWS Amplify를 활용하여 별도의 백엔드 구축 없이 인증(로그인/회원가입) 및 데이터 관리 환경 구축',
           '**[데이터 시각화]** Naver News API 데이터의 메타데이터(OG Tag)를 파싱하여 카드 뉴스로 렌더링하고, **Recharts**로 여론조사 데이터 시각화',
           '**[컴포넌트 설계]** React 및 styled-components를 활용하여 재사용 가능한 컴포넌트 계층 구조 디자인',
-        ],
-      },
-      onelinebank_legacy: {
-        title: '한줄은행 (2021 우리은행 해커톤 본선 진출)',
-        description:
-          '5일간 React Native를 빠른 러닝 커브로 습득하여 송금 및 생체 인증 기능이 있는 핀테크 앱을 기획부터 개발까지 전담하여 본선에 진출했습니다.',
-        detail: [
-          '**[대화형 인터페이스]** 텍스트 파싱을 통한 자연어 송금 처리 로직 구현',
-          '**[보안 및 API]** 생체 인증(Biometrics) 및 우리은행 오픈 API 연동을 통한 실제 금융 트랜잭션 처리',
         ],
       },
     },
