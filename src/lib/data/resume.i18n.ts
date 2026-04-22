@@ -60,13 +60,13 @@ export const i18nData: Record<Language, I18nData> = {
   en: {
     skills: {
       languages: 'Languages',
-      web: 'Web Frameworks',
-      mobile: 'Mobile Frameworks',
+      frameworks: 'Frameworks',
+      ui: 'UI & Design System',
       state: 'State & Data',
-      ui: 'UI & Styling',
       performance: 'Animation & Performance',
       backend: 'Backend & Cloud',
-      tools: 'Libraries & Tools',
+      devops: 'DevOps & Infrastructure',
+      tools: 'Tools & Ecosystem',
     },
     introduction: {
       name: 'Junwon Park',
@@ -279,13 +279,13 @@ export const i18nData: Record<Language, I18nData> = {
   ko: {
     skills: {
       languages: '언어',
-      web: '웹 프레임워크',
-      mobile: '모바일 프레임워크',
+      frameworks: '프레임워크',
+      ui: 'UI 및 디자인 시스템',
       state: '상태 및 데이터',
-      ui: 'UI 및 스타일링',
       performance: '애니메이션 및 성능',
       backend: '백엔드 및 클라우드',
-      tools: '도구 및 라이브러리',
+      devops: '데브옵스 및 인프라',
+      tools: '도구 및 에코시스템',
     },
     introduction: {
       name: '박준원',
