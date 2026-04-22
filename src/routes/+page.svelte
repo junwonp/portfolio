@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { slide, fade, fly } from 'svelte/transition';
+  import { fade, fly,slide } from 'svelte/transition';
 
   import BentoSkills from '$lib/components/BentoSkills.svelte';
   import BottomSkillBar from '$lib/components/BottomSkillBar.svelte';
@@ -185,7 +185,7 @@
             <div class="empty-icon">📂</div>
             <h3>조건에 맞는 프로젝트가 없습니다.</h3>
             <p>선택한 기술 스택을 모두 포함하는 프로젝트를 찾을 수 없습니다.</p>
-            <button class="empty-clear-btn" onclick={() => skillState.close()}>필터 해제하기</button
+            <button class="empty-clear-btn" onclick={() => { skillState.close(); }}>필터 해제하기</button
             >
           </div>
         {/if}

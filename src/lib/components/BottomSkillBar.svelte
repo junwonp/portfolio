@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { slide, fly } from 'svelte/transition';
+  import { fly,slide } from 'svelte/transition';
 
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { skillState } from '$lib/states/skills.svelte';
@@ -54,7 +54,7 @@
         >
           {isMinimized ? '↑ 펼치기' : '↓ 접기'}
         </button>
-        <button class="close-btn" onclick={() => skillState.close()} aria-label="필터 해제 및 닫기">
+        <button class="close-btn" onclick={() => { skillState.close(); }} aria-label="필터 해제 및 닫기">
           ✕ 닫기
         </button>
       </div>

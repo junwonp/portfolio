@@ -112,7 +112,8 @@ export const getResumeData = (lang: Language): ResumeData => {
   }));
 
   const skills: SkillProps[] = skillsShared.map((skill) => ({
-    title: i18n.skills[skill.id as keyof typeof i18n.skills],
+    id: skill.id,
+    title: i18n.skills[skill.id],
     list: skill.list,
   }));
 
