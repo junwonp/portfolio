@@ -1,21 +1,35 @@
 ---
 title: aira
-description: Global AI Character Chat Service achieving 23k MAU
-date: '2024-01-01'
+description: Global AI character chat platform. Led the entire journey from planning to 23k MAU as Co-Founder and Frontend Lead.
+role: 'Co-Founder · Frontend Lead'
+date: '2024-01'
+status: 'live'
 image: '/images/aira/v2_main.webp'
-productLink: 'https://aira.gg'
+platforms: ['Android', 'iOS', 'Web']
+metrics:
+  [
+    { value: '23K', label: 'Monthly Active Users' },
+    { value: '$3K', label: 'Monthly Revenue' },
+    { value: '46min', label: 'Avg. Session Time' },
+    { value: '#57', label: 'GP Entertainment' },
+  ]
 techStack:
   [
     'React Native',
+    'TypeScript',
     'Expo',
     'TanStack Query',
     'FlashList',
     'Reanimated',
-    'Unistyles',
+    'React Compiler',
     'Zod',
     'MMKV',
+    'Unistyles',
+    'typesafe-i18n',
     'Firebase',
     'Sentry',
+    'EAS',
+    'GitHub Actions',
   ]
 ---
 

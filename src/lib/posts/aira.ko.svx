@@ -1,21 +1,35 @@
 ---
 title: 아이라
-description: 2.3만 MAU를 달성한 글로벌 AI 캐릭터 채팅 서비스
-date: '2024-01-01'
+description: 글로벌 AI 캐릭터 채팅 플랫폼. 공동 창업자이자 프론트엔드 리드로서 기획부터 2.3만 MAU 달성까지 전 과정을 주도했습니다.
+role: 'Co-Founder · Frontend Lead'
+date: '2024-01'
+status: '현재 운영 중'
 image: '/images/aira/v2_main.webp'
-productLink: 'https://aira.gg'
+platforms: ['Android', 'iOS', 'Web']
+metrics:
+  [
+    { value: '2.3만', label: 'Monthly Active Users' },
+    { value: '$3K', label: '월 매출' },
+    { value: '46분', label: '평균 체류 시간' },
+    { value: '#57', label: 'GP 엔터테인먼트' },
+  ]
 techStack:
   [
     'React Native',
+    'TypeScript',
     'Expo',
     'TanStack Query',
     'FlashList',
     'Reanimated',
-    'Unistyles',
+    'React Compiler',
     'Zod',
     'MMKV',
+    'Unistyles',
+    'typesafe-i18n',
     'Firebase',
     'Sentry',
+    'EAS',
+    'GitHub Actions',
   ]
 ---
 
