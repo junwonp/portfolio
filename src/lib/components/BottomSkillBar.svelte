@@ -184,7 +184,6 @@
   .category-title {
     font-size: 0.75rem;
     font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--color-placeholder);
     margin: 0;

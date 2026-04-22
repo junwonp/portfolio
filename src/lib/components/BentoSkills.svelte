@@ -11,7 +11,7 @@
 <div class="bento-grid">
   {#each skills as skill (skill.title)}
     <div class="card">
-      <h3 class="card-title">{skill.title.toUpperCase()}</h3>
+      <h3 class="card-title">{skill.title}</h3>
       <div class="tag-list">
         {#each skill.list as item (item)}
           <SkillChip skill={item} />
