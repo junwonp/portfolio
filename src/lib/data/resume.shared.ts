@@ -29,7 +29,8 @@ export const workExperiencesShared = [
     projects: [
       {
         id: 'aira',
-        dateFrom: '2024-01',
+        dateFrom: '2024-07',
+        dateTo: '2025-12',
         detailLink: '/projects/aira',
         paradigm: 'assisted',
         skills: [

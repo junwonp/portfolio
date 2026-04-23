@@ -2,8 +2,7 @@
 title: 아이라
 description: 글로벌 AI 캐릭터 채팅 플랫폼. 공동 창업자이자 프론트엔드 리드로서 기획부터 2.3만 MAU 달성까지 전 과정을 주도했습니다.
 role: 'Co-Founder · Frontend Lead'
-date: '2024-01'
-status: '현재 운영 중'
+date: '2024-07 ~ 2025-12'
 image: '/images/aira/v2_main.webp'
 platforms: ['Android', 'iOS', 'Web']
 metrics:
@@ -18,6 +17,7 @@ techStack:
     'React Native',
     'TypeScript',
     'Expo',
+    'Expo Router',
     'TanStack Query',
     'FlashList',
     'Reanimated',
@@ -25,17 +25,25 @@ techStack:
     'Zod',
     'MMKV',
     'Unistyles',
-    'typesafe-i18n',
     'Firebase',
     'Sentry',
-    'EAS',
+    'React Hook Form',
+    'Lottie',
     'GitHub Actions',
+    'EAS',
+    'Cursor',
+    'Gemini',
   ]
 ---
 
 <script>
   import ImageDescription from '$lib/components/ImageDescription.svelte';
   import ImageGallery from '$lib/components/ImageGallery.svelte';
+  import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
+  import ProjectLightbox from '$lib/components/ProjectLightbox.svelte';
+  import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
+
+  let { metadata, locale } = $props();
 </script>
 
 ## 📋 프로젝트 소개
@@ -47,113 +55,93 @@ techStack:
 
 **데이터 유실 없는 서버 마이그레이션**을 수행했고, **렌더링 성능을 꼼꼼하게 최적화**하여 저사양 기기에서도 끊김 없는 채팅 경험을 제공하는 데 집중했습니다.
 
-### 🧰 기술 스택
+<ProjectTechStack techStack={metadata.techStack} {locale} />
 
-- **Core:** React Native, Expo (Expo Router), TypeScript
-- **Data & State:** TanStack Query v5, Firebase, MMKV (용도별 인스턴스 분리)
-- **Performance:** FlashList, React Compiler, Reanimated, Keyboard Controller
-- **Design & i18n:** Unistyles (다크/라이트/자동 테마), typesafe-i18n (컴파일 타임 타입 추론)
-- **Validation & Observability:** Zod, Sentry (Hermes 프로파일링 통합)
-- **Legacy & R&D:** Realm (Local DB), llama.rn (On-device AI)
-
----
 
 ## ⚙️ 주요 작업
 
-### 1. 단일 코드로 앱과 웹 동시 지원 (크로스 플랫폼)
+<ProjectAchievements achievements={[
+  {
+    tag: 'Streaming',
+    accent: true,
+    title: 'InfiniteQuery 캐시 실시간 패치로 구현한 스트리밍 UI',
+    detail: `AI 청크가 스트리밍되는 동안 <strong>TanStack Query InfiniteQuery 캐시를 청크 단위로 직접 패치</strong> — 같은 <code>message-{index}</code>면 콘텐츠를 교체(타이핑 효과), 새 인덱스면 레코드를 삽입합니다. Immer 없이 <code>InfiniteData</code> 불변 업데이트를 직접 관리합니다. Zod <code>z.union</code> 스키마로 콘텐츠/최종 이벤트를 구분하고, <code>safeParse</code>로 깨진 청크는 조용히 스킵합니다. 낙관적 업데이트로 사용자 메시지를 즉시 삽입·미리보기 갱신, 오류 시 롤백합니다.`
+  },
+  {
+    tag: 'Performance',
+    accent: true,
+    title: '저사양 기기에서 60fps 채팅: FlashList + 워크렛 키보드 스크롤',
+    detail: `<code>FlatList</code>를 뷰 재사용 방식의 <strong>FlashList</strong>로 교체하여 대량 채팅 로그의 프레임 드랍과 화이트 스크린을 제거했습니다. 키보드 스크롤 핸들러는 <strong>Reanimated 워크렛(UI 스레드)</strong>에서 실행 — JS 스레드가 바빠도 키보드 진행 상태를 놓치지 않습니다. <code>scrollToEnd</code>는 <code>scheduleOnRN</code>으로 RN 스레드에 위임하여 스레드 경계를 준수합니다. <code>useInfiniteQuery</code> + 커서 기반 페이지네이션으로 데이터가 늘어나도 조회 속도를 안정적으로 유지합니다.`
+  },
+  {
+    tag: 'Caching',
+    accent: true,
+    title: '즉시 실행 경험: MMKV 기반 TanStack Query 영속 캐시',
+    detail: `<strong>TanStack Query</strong> 영속 캐시(<code>PersistQueryClientProvider</code>)와 <strong>MMKV</strong>를 연동하여, 앱 실행 시 네트워크 요청 없이 즉시 캐시 데이터를 표시합니다. MMKV를 <code>document</code> / <code>cache</code> / <code>settings</code> 인스턴스로 분리해 독립 무효화를 지원합니다. <code>buster: uid</code> 사용으로 로그인 전환 시 이전 사용자 캐시가 자동 격리 — 수동 <code>queryClient.clear()</code>와 타이밍 버그를 근본적으로 제거했습니다.`
+  },
+  {
+    tag: 'Architecture',
+    title: '단일 코드베이스로 Android, iOS, Web 동시 지원',
+    detail: `<strong>Expo Router</strong> 기반으로 비즈니스 로직을 완전히 공유하며, <code>*.ios.ts</code> / <code>*.web.ts</code> 확장자로 플랫폼별 UI만 분리했습니다. <code>.web.tsx</code> Context 분리 패턴을 적용해 네이티브 전용 패키지(<code>expo-iap</code>, <code>google-mobile-ads</code>)가 웹 번들에 포함되지 않도록 Metro 빌드 단계에서 차단 — 번들 크기 증가와 런타임 오류를 동시에 방지합니다.`
+  },
+  {
+    tag: 'Migration',
+    title: '데이터 유실 없는 마이그레이션: Realm → Firestore',
+    detail: `프라이버시 정책 변화로 로컬 우선 방식에서 서버 저장 방식으로 전환할 때, <strong>재시도 로직(Retry Logic) + 트랜잭션 플래그(Transaction Flag)</strong>를 설계했습니다. 이관 도중 앱이 종료되거나 네트워크가 끊겨도 다음 실행 시 중단된 지점부터 재개되도록 구현, 수만 명의 대화 데이터를 유실 없이 안전하게 이전했습니다.`
+  },
+  {
+    tag: 'Dx',
+    title: '타입 안전한 쿼리 캐시 파사드 (queryData)',
+    detail: `모든 <code>QueryClient</code> 접근을 도메인별로 구조화된 <code>queryData</code> 파사드로 일원화했습니다. 계층적 키 팩토리(<code>keys.message.list(sessionId)</code>)로 안전한 일괄 무효화를 지원합니다. <code>update.message.list(sessionId)(updater)</code> 호출 시 <code>Updater&lt;T, T&gt;</code> 제네릭으로 업데이터 타입이 자동 추론 — 캐시 타입 불일치가 컴파일 타임에 잡힙니다.`
+  },
+  {
+    tag: 'Dx',
+    title: 'React Compiler 도입 — 수동 메모이제이션 전면 제거',
+    detail: `복잡한 채팅 UI에 흩어져 있던 <code>useMemo</code> / <code>useCallback</code>을 <strong>React Compiler</strong> 도입으로 제거했습니다. 대부분의 최적화는 컴파일러에게 위임하고, 세밀한 제어가 반드시 필요한 부분에만 수동 최적화를 적용합니다. 결과: 성능 저하 없이 코드 가독성이 크게 향상됩니다.`
+  },
+  {
+    tag: 'Dx',
+    title: '디자인 토큰 시스템: Unistyles 숫자 스케일 팔레트 + 테마 깜빡임 제거',
+    detail: `<strong>Unistyles</strong>로 숫자 스케일 색상 팔레트를 구축하고, 라이트/다크 테마는 같은 팔레트에서 다른 스텝을 사용합니다. MMKV의 동기 읽기로 첫 렌더 전에 테마를 적용하여 <strong>AsyncStorage 깜빡임을 완전히 제거</strong>했습니다. <code>UnistylesRuntime.fontScale</code>로 접근성 폰트 크기를 반영하되, 1~1.2 범위로 클램핑하여 레이아웃 깨짐을 방지합니다.`
+  },
+  {
+    tag: 'Ux',
+    title: '사용자 경험을 해치지 않는 수익화: 커스텀 네이티브 광고',
+    detail: `채팅 화면 상단에 'AD' 태그와 제목만 얇게 한 줄로 노출하는 <strong>네이티브 광고(Native Ads)</strong> 형식을 직접 디자인했습니다. 화면 점유 최소화, 대화 흐름 방해 없음. 도입 후 <strong>이탈률(Drop-off Rate)</strong>을 지속 모니터링하여 수익/UX 균형을 데이터 기반으로 관리했습니다.`
+  },
+  {
+    tag: 'I18n',
+    title: 'typesafe-i18n으로 컴파일 타임 i18n 타입 안전성 확보',
+    detail: `<code>typesafe-i18n</code>이 번역 파일에서 TypeScript 타입을 자동 생성 — 잘못된 키와 누락된 파라미터가 <strong>컴파일 타임에</strong> 잡힙니다. 로케일 파일 로드 완료 후에만 자식을 렌더링하여 첫 화면의 언어 표시 오류를 방지합니다. 언어 전환 시 OS 로케일 동기화 → MMKV 저장 → 번역 파일 비동기 로드 → i18n 컨텍스트 업데이트를 순차 처리합니다.`
+  },
+]} />
 
-<ImageDescription src="/images/aira/desktop_main.webp" mobileSrc="/images/aira/desktop_main_mobile.jpg" alt="aira Desktop Main Screen" priority width={3338} height={1924} />
+## 📸 스크린샷
 
-<ImageDescription src="/images/aira/desktop_chat.webp" mobileSrc="/images/aira/desktop_chat_mobile.jpg" alt="aira Desktop Chat Screen" width={3338} height={1924} />
+<ProjectLightbox images={[
+  { 
+    src: '/images/aira/desktop_main.webp', 
+    mobileSrc: '/images/aira/desktop_main_mobile.jpg',
+    alt: '아이라 데스크탑 메인 화면', 
+    caption: '데스크탑/웹 메인 인터페이스 (반응형)' 
+  },
+  { 
+    src: '/images/aira/desktop_chat.webp', 
+    mobileSrc: '/images/aira/desktop_chat_mobile.jpg',
+    alt: '아이라 데스크탑 채팅 화면', 
+    caption: '데스크탑 환경에 최적화된 채팅 경험' 
+  },
+  { src: '/images/aira/home_ads.webp', alt: '아이라 홈 네이티브 광고', caption: '사용자 흐름을 방해하지 않는 홈 피드 광고' },
+  { src: '/images/aira/chat_ads.webp', alt: '아이라 채팅 광고', caption: '채팅 상단 슬림 바 네이티브 광고' },
+  { src: '/images/aira/reward_ads.webp', alt: '아이라 리워드 광고', caption: '포인트 충전을 위한 보상형 광고 화면' },
+]} />
 
-효율적인 리소스 관리를 위해 **Expo Router**를 기반으로 하나의 소스 코드에서 **Android, iOS 앱과 Web 페이지를 모두 지원**하는 구조를 구축했습니다.
-
-- **Universal Link:** 웹에서 링크를 클릭하면 앱이 자연스럽게 실행되도록 연결하여, 플랫폼 간 경계 없는 사용자 경험을 제공했습니다.
-- **Platform Specific Code:** 비즈니스 로직은 공유하되, UI 디테일이 달라야 하는 부분만 플랫폼별 파일(`*.ios.ts`, `*.web.ts`)로 분리하여 유지보수 효율을 높였습니다.
-- **플랫폼별 Context 분리:** 광고(Google Mobile Ads), 인앱 결제(Expo IAP) 등 네이티브 전용 패키지가 웹 번들에 포함되지 않도록 `.web.tsx` 확장자를 활용한 Context 분리 패턴을 적용했습니다. Metro 번들러가 웹 빌드 시 자동으로 웹 전용 구현을 선택하여 빌드 크기와 런타임 오류를 동시에 방지합니다.
-- **플랫폼별 Navigator 분기:** 네이티브에서는 `Stack` + `Stack.Protected`로 인증 가드를 선언적으로 처리하고, 웹에서는 `Drawer` + `react-responsive`로 반응형 사이드바 레이아웃을 구현하여 각 플랫폼에 최적화된 내비게이션 경험을 제공했습니다.
-- **Unistyles 테마 연동:** `withUnistyles`로 Unistyles 디자인 토큰을 React Navigation의 `ThemeProvider`에 자동 바인딩하여, 테마 변경 시 Navigation 헤더·카드 배경색이 일괄 반영되도록 구현했습니다.
-
-### 2. 프라이버시 정책 변화에 따른 아키텍처 마이그레이션
-
-초기에는 사용자 프라이버시를 위해 서버에 대화 내용을 저장하지 않는 **로컬 모델(On-device)** 방식을 채택하고 Realm DB를 사용했습니다.
-하지만 로컬 모델의 성능 한계로 인해 더 똑똑한 답변을 제공하는 **서버 모델** 도입이 필요해졌고, 이에 따라 데이터를 서버에 저장하는 방식으로 정책을 변경했습니다.
-앱 업데이트 시 기존 Realm에 저장된 로컬 데이터를 자동으로 취합하여 **Firestore로 이관하는 마이그레이션 로직**을 구현, 사용자의 데이터 유실 없이 자연스럽게 클라우드 환경으로 넘어오도록 처리했습니다.
-
-데이터 유실을 방지하기 위해 **재시도 로직(Retry Logic)** 과 **트랜잭션 플래그(Transaction Flag)** 를 설계했습니다. 이관 도중 앱이 종료되거나 네트워크가 끊기더라도 다음 실행 시 중단된 지점부터 이어서 처리되도록 하여, 수만 명의 대화 데이터를 안전하게 옮겼습니다.
-
-### 3. 초기 로딩 경험 개선
-
-앱을 켤 때마다 매번 로딩 스피너나 빈 화면이 뜨는 것은 좋지 않은 사용자 경험이라 판단했습니다.
-**TanStack Query** 영속 캐시(`PersistQueryClientProvider`)와 **MMKV**를 연동하여, 앱 실행 시 네트워크 요청을 기다리지 않고 **이전에 캐싱된 데이터를 즉시 보여주도록** 만들었습니다. 이를 통해 사용자는 앱 진입과 동시에 이전 대화 내용을 자연스럽게 확인할 수 있었습니다.
-
-- **MMKV 인스턴스 분리:** 하나의 저장소에 모든 데이터를 넣으면 캐시 전체 삭제 시 사용자 설정도 함께 날아가는 문제가 있었습니다. `document`(앱 데이터), `cache`(TanStack Query 캐시), `settings`(테마·언어·전송키 설정)로 인스턴스를 분리하여 캐시만 독립적으로 관리합니다.
-- **사용자별 캐시 자동 격리:** `PersistQueryClientProvider`의 `buster`에 `uid`를 전달하여, 로그아웃 후 다른 계정으로 로그인했을 때 이전 사용자의 캐시가 자동으로 무효화됩니다. 수동으로 `queryClient.clear()`를 호출하지 않아도 타이밍 의존 없이 안전하게 격리됩니다.
-- **자동 공간 관리:** MMKV 용량이 꽉 찼을 때 가장 오래된 쿼리를 자동으로 삭제하는 `removeOldestQuery` retry 전략을 적용하여, 별도 만료 로직 없이 디스크 공간을 자동 관리합니다.
-
-### 4. React Compiler 도입과 코드 간소화
-
-복잡한 채팅 UI 성능을 위해 `useMemo`, `useCallback` 등을 제거하고 코드를 간결하게 유지하기 위해 **React Compiler**를 도입했습니다.
-대부분의 최적화는 컴파일러에게 맡겨 **가독성 높은 코드**를 유지하되, 컴파일러가 놓칠 수 있는 미세한 부분이나 수동 제어가 꼭 필요한 로직은 별도로 최적화를 진행하여 성능과 생산성의 균형을 맞췄습니다.
-
-### 5. 대량 데이터 렌더링 성능 최적화
+### ⚡ 성능 데모
 
 <ImageGallery>
   <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat FlashList Demo"/>
   <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home FlashList Demo"/>
 </ImageGallery>
-
-이미지와 텍스트가 섞인 수만 건의 채팅 로그를 저사양 기기에서도 부드럽게 보여주는 것이 과제였습니다.
-
-- **FlashList (View Recycling):** 기존 `FlatList`는 스크롤 시 컴포넌트를 계속 생성/제거하여 프레임 드랍과 **화이트 스크린 현상**이 발생했습니다. 뷰를 재사용하는 **FlashList**를 도입하여 **JS 스레드 연산 부하를 크게 줄이고** 60fps의 부드러운 스크롤을 구현했습니다.
-- **Cursor-based Pagination:** 데이터가 늘어나도 조회 속도가 느려지지 않도록 `useInfiniteQuery`와 커서 기반 페이지네이션을 적용하여, 대용량 채팅 내역을 효율적으로 로드하고 관리했습니다.
-- **Worklet 기반 키보드 스크롤:** `useAnimatedReaction`의 콜백은 **UI 스레드(worklet)**에서 실행되어 JS 스레드가 바빠도 키보드 진행 상태를 놓치지 않습니다. `scrollToEnd`는 RN API라 JS 스레드에서만 호출 가능하므로 `scheduleOnRN`으로 RN 스레드에 위임하여, 키보드가 열릴 때의 스크롤이 안정적으로 동작합니다.
-- **파생 데이터 메모이제이션:** `InfiniteQuery`의 `pages` 배열을 `useMemo`로 평탄화하고, 최신 유저 메시지 ID와 렌더링 리스트를 의존성 체인으로 연결하여 불필요한 리렌더링을 방지했습니다.
-
-### 6. 스트리밍 채팅과 낙관적 UI
-
-가장 복잡한 부분이자 사용자 체감에 직결되는 영역입니다. AI 응답이 서버에서 청크 단위로 스트리밍되는 동안, TanStack Query의 `InfiniteQuery` 캐시를 **실시간으로 패치**해 타이핑 애니메이션을 구현했습니다.
-
-- **Zod 기반 스트림 이벤트 검증:** 스트림 청크는 형식이 깨질 수 있어 `z.union`으로 콘텐츠 청크(text/image/bgm)와 최종 결과를 단일 스키마로 구분하고, `safeParse`로 파싱 실패 시 조용히 스킵합니다.
-- **InfiniteQuery 캐시 실시간 패치:** 각 청크마다 같은 `message-${index}`가 오면 기존 레코드의 콘텐츠를 교체(타이핑 효과), 새 인덱스면 레코드를 추가합니다. `InfiniteData`의 불변 업데이트를 Immer 없이 직접 다뤄 예측 가능한 상태를 유지합니다.
-- **낙관적 업데이트:** `onMutate`에서 사용자 메시지를 캐시에 즉시 삽입하고 세션 목록의 미리보기도 동시에 업데이트합니다. `onSuccess`에서 임시 ID를 서버 실제 ID로 교체하고 포인트 잔액을 갱신하며, `onError` 시 삽입한 메시지를 롤백합니다.
-- **메모리 관리:** 대화가 쌓일수록 메모리 사용량이 증가하는 문제를 메시지 목록의 렌더링 범위를 제한하고 불필요한 참조를 해제하는 방식으로 해결하여, 장시간 대화에서도 안정적인 성능을 유지했습니다.
-
-온디바이스 모델의 가능성을 검증하기 위해 `llama.rn`을 활용한 **sLLM PoC**도 진행했습니다. 서버 비용 없이 기기 자체에서 추론이 가능한지 실험했으며, 현재 모바일 하드웨어의 한계와 가능성을 직접 확인할 수 있었습니다.
-
-### 7. 사용자 경험을 해치지 않는 광고
-
-<ImageGallery>
-  <ImageDescription src="/images/aira/home_ads.webp" alt="aira Home Ads Demo" width={1170} height={2532} />
-  <ImageDescription src="/images/aira/chat_ads.webp" alt="aira Chat Ads Demo" width={1170} height={2532} />
-  <ImageDescription src="/images/aira/reward_ads.webp" alt="aira Reward Ads Demo" width={1170} height={2532} />
-</ImageGallery>
-
-수익화를 위해 광고를 도입해야 했지만, 채팅 경험을 방해하고 싶지는 않았습니다.
-채팅 화면 맨 위에 **'AD' 표시와 제목만 얇게 한 줄로 노출**되는 **네이티브 광고(Native Ads)** 형식을 직접 디자인하여 적용했습니다. 이를 통해 화면 공간을 최소한으로 차지하면서도 콘텐츠와 이질감 없이 어우러지도록 구현했습니다.
-
-광고 도입 후에는 **이탈률(Drop-off Rate)** 을 지속적으로 모니터링하여 광고가 실제 사용자 경험에 미치는 영향을 추적했습니다. UX 저해 없이 수익을 유지하는 균형점을 데이터 기반으로 관리했습니다.
-
-### 8. 타입 안전한 서버 상태 관리 (queryData 파사드)
-
-프로젝트 전체에서 `QueryClient`를 직접 다루는 대신, 도메인별로 구조화된 `queryData` 함수를 통해서만 접근합니다.
-
-- **계층적 쿼리 키 팩토리:** 쿼리 키를 팩토리 함수(`keys.message.list(sessionId)`)로 관리하여, `invalidateQueries`에서 상위 키만 넘겨 관련 쿼리를 일괄 무효화할 수 있고 문자열 직접 작성으로 인한 오타·충돌을 방지합니다.
-- **get / update / delete 네임스페이스:** `queryData(queryClient).update.message.list(sessionId)(updater)` 형태로 호출하면, `Updater<T | undefined, T | undefined>` 제네릭 덕분에 updater 함수의 인자·반환 타입이 자동 추론됩니다. 잘못된 타입의 데이터를 캐시에 넣는 실수가 컴파일 타임에 잡힙니다.
-
-### 9. 디자인 토큰 시스템 (Unistyles)
-
-하드코딩된 hex 값 대신 **Unistyles**로 숫자 스케일 기반 색상 팔레트를 구축하고, 라이트/다크 테마 모두 같은 팔레트에서 다른 스텝을 선택하여 일관성을 유지합니다.
-
-- **테마 깜빡임 제거:** MMKV는 동기 API라 앱 첫 렌더 전에 테마를 읽어 적용할 수 있습니다. AsyncStorage를 쓰면 기본 테마로 그려졌다가 바뀌는 깜빡임이 발생하는데, MMKV로 이 문제를 완전히 해결했습니다.
-- **접근성 타이포그래피:** `UnistylesRuntime.fontScale`로 기기 접근성 폰트 크기 설정을 반영하되, 1~1.2 범위로 클램핑하여 폰트를 무제한으로 키웠을 때 레이아웃이 깨지는 것을 방지합니다.
-
-### 10. 타입 안전한 다국어 지원 (typesafe-i18n)
-
-`typesafe-i18n`은 번역 파일에서 TypeScript 타입을 자동 생성하여, 잘못된 번역 키나 빠진 파라미터를 런타임이 아닌 **컴파일 타임에** 잡습니다.
-
-- **Intl 폴리필 관리:** `Intl.DisplayNames` 폴리필이 로드되기 전에 렌더링하면 언어 표시 이름이 깨집니다. 로케일 파일 로드가 완료된 후에만 자식을 렌더링해 첫 화면의 로케일 오작동을 방지합니다.
-- **언어 전환 시 동기화:** 언어를 전환하면 `react-native-localization-settings`로 OS 언어 설정을 동기화하고, MMKV에 저장, 번역 파일 비동기 로드, i18n 컨텍스트 업데이트를 순차적으로 처리합니다.
 
 ---
 
@@ -171,7 +159,6 @@ techStack:
 - **몰입형 UX 설계:** 캐릭터를 위아래로 넘겨보다가, 마음에 들면 별도의 화면 이동 없이 **즉시 대화를 시작할 수 있는 자연스럽게 이어지는 구조**를 설계했습니다.
 - **iOS 26 Liquid Glass 도입:** iOS 26에서 새롭게 선보인 **Liquid Glass**를 `UIGlassView`를 통해 직접 적용했습니다. JS 기반의 무거운 그래픽 연산 없이 시스템 네이티브 API를 호출하여, **최신 iOS 시스템 디자인을 따르면서도 배터리 효율을 극대화했습니다.**
 
----
 
 ## 💭 회고: "스타트업에서 배운 엔지니어링의 본질"
 
