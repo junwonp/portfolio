@@ -2,8 +2,7 @@
 title: aira
 description: Global AI character chat platform. Led the entire journey from planning to 23k MAU as Co-Founder and Frontend Lead.
 role: 'Co-Founder · Frontend Lead'
-date: '2024-01'
-status: 'live'
+date: '2024-07 ~ 2025-12'
 image: '/images/aira/v2_main.webp'
 platforms: ['Android', 'iOS', 'Web']
 metrics:
@@ -18,6 +17,7 @@ techStack:
     'React Native',
     'TypeScript',
     'Expo',
+    'Expo Router',
     'TanStack Query',
     'FlashList',
     'Reanimated',
@@ -25,17 +25,25 @@ techStack:
     'Zod',
     'MMKV',
     'Unistyles',
-    'typesafe-i18n',
     'Firebase',
     'Sentry',
-    'EAS',
+    'React Hook Form',
+    'Lottie',
     'GitHub Actions',
+    'EAS',
+    'Cursor',
+    'Gemini',
   ]
 ---
 
 <script>
   import ImageDescription from '$lib/components/ImageDescription.svelte';
   import ImageGallery from '$lib/components/ImageGallery.svelte';
+  import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
+  import ProjectLightbox from '$lib/components/ProjectLightbox.svelte';
+  import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
+
+  let { metadata, locale } = $props();
 </script>
 
 ## 📋 Project overview
@@ -47,113 +55,93 @@ As a Co-Founder and Frontend Lead, I led the **entire process from planning to p
 
 I focused on designing a **combined Local-Server architecture** to prevent data loss and **meticulously optimizing rendering performance** to provide a seamless chat experience even on low-end devices.
 
-### 🧰 Tech stack
+<ProjectTechStack techStack={metadata.techStack} {locale} />
 
-- **Core:** React Native, Expo (Expo Router), TypeScript
-- **Data & State:** TanStack Query v5, Firebase, MMKV (purpose-separated instances)
-- **Performance:** FlashList, React Compiler, Reanimated, Keyboard Controller
-- **Design & i18n:** Unistyles (dark/light/auto theming), typesafe-i18n (compile-time type inference)
-- **Validation & Observability:** Zod, Sentry (Hermes profiling integration)
-- **Legacy & R&D:** Realm (Local DB), llama.rn (On-device AI)
-
----
 
 ## ⚙️ Key work
 
-### 1. Supporting App and Web with a Single Codebase (Cross-Platform)
+<ProjectAchievements achievements={[
+  {
+    tag: 'Streaming',
+    accent: true,
+    title: 'Real-time streaming UI with live InfiniteQuery cache patching',
+    detail: `As AI chunks stream in, patches the <strong>TanStack Query InfiniteQuery cache directly per chunk</strong> — same <code>message-{index}</code> replaces content (typing effect), new index inserts a record. Manages <code>InfiniteData</code> immutable updates without Immer. A Zod <code>z.union</code> schema distinguishes content / final event types; <code>safeParse</code> silently skips malformed chunks. Optimistic updates pre-insert user messages and update session previews simultaneously; rollback on error.`
+  },
+  {
+    tag: 'Performance',
+    accent: true,
+    title: 'Smooth 60fps chat on low-end devices via FlashList + worklet keyboard',
+    detail: `Replaced <code>FlatList</code> with <strong>FlashList</strong> (view recycling) to eliminate frame drops and white-screen flickering in large chat logs. Keyboard scroll handler runs in a <strong>Reanimated worklet on the UI thread</strong> — never dropped even under heavy JS load. Delegated <code>scrollToEnd</code> to the RN thread via <code>scheduleOnRN</code> to respect thread boundaries. Cursor-based pagination via <code>useInfiniteQuery</code> keeps retrieval speed stable as history grows.`
+  },
+  {
+    tag: 'Caching',
+    accent: true,
+    title: 'Instant app launch: MMKV-backed TanStack Query persistence',
+    detail: `Integrated <strong>TanStack Query</strong> persistence (<code>PersistQueryClientProvider</code>) with <strong>MMKV</strong> to display cached data immediately on launch — zero network wait. Separated MMKV into <code>document</code> / <code>cache</code> / <code>settings</code> instances for independent invalidation. Using <code>buster: uid</code> auto-isolates per-user caches on login, eliminating manual <code>queryClient.clear()</code> calls and timing-related bugs.`
+  },
+  {
+    tag: 'Architecture',
+    title: 'Cross-platform: single codebase for Android, iOS, and Web',
+    detail: `Built on <strong>Expo Router</strong>, sharing all business logic while using <code>*.ios.ts</code> / <code>*.web.ts</code> extensions for platform-specific UI. Applied a <code>.web.tsx</code> Context separation pattern so native-only packages (<code>expo-iap</code>, <code>google-mobile-ads</code>) are excluded from the web bundle via Metro's file extension resolution — blocking both bundle bloat and runtime errors at the build level.`
+  },
+  {
+    tag: 'Migration',
+    title: 'Zero-loss data migration: Realm → Firestore',
+    detail: `When a privacy policy change forced a shift from local-first to server storage, built a <strong>Retry Logic + Transaction Flag</strong> mechanism: even if the app is killed or loses network mid-migration, it resumes from the exact checkpoint on the next launch. Transferred tens of thousands of users' conversation records without data loss.`
+  },
+  {
+    tag: 'Dx',
+    title: 'Type-safe query cache facade (queryData)',
+    detail: `All <code>QueryClient</code> access funneled through a domain-organized <code>queryData</code> facade. Hierarchical key factories (<code>keys.message.list(sessionId)</code>) enable safe bulk invalidation. <code>update.message.list(sessionId)(updater)</code> infers updater types via <code>Updater&lt;T, T&gt;</code> generics — cache type mismatches are caught at compile time.`
+  },
+  {
+    tag: 'Dx',
+    title: 'Adopted React Compiler — removed all manual memoization',
+    detail: `Removed <code>useMemo</code> / <code>useCallback</code> scattered across the complex chat UI by introducing <strong>React Compiler</strong>. The compiler handles most optimizations automatically; manual overrides are applied only where fine-grained control is genuinely needed. Result: noticeably cleaner code with no performance regression.`
+  },
+  {
+    tag: 'Dx',
+    title: 'Design token system: Unistyles numeric-scale palette + zero theme flicker',
+    detail: `Numeric-scale color palette via <strong>Unistyles</strong>; light/dark themes select different steps from the same palette. MMKV's synchronous read applies the theme before the first render, <strong>eliminating the AsyncStorage flicker</strong>. Typography scales with device accessibility settings (<code>UnistylesRuntime.fontScale</code>), clamped to 1–1.2 to prevent layout breakage.`
+  },
+  {
+    tag: 'Ux',
+    title: 'Non-intrusive monetization: custom Native Ads format',
+    detail: `Designed a <strong>Native Ads</strong> format showing only the 'AD' tag and title in a thin bar at the top of the chat screen — minimal footprint, zero disruption to conversation flow. Continuously monitored post-launch <strong>drop-off rate data</strong> to quantitatively track the revenue/UX trade-off.`
+  },
+  {
+    tag: 'I18n',
+    title: 'Compile-time i18n safety with typesafe-i18n',
+    detail: `<code>typesafe-i18n</code> auto-generates TypeScript types from translation files — invalid keys and missing parameters caught at <strong>compile time</strong>. Children render only after locale files fully load, preventing garbled display names on first screen. Language switches sync OS locale, save to MMKV, async-load translation files, then update the i18n context in sequence.`
+  },
+]} />
 
-<ImageDescription src="/images/aira/desktop_main.webp" mobileSrc="/images/aira/desktop_main_mobile.jpg" alt="aira Desktop Main Screen" priority width={3338} height={1924} />
+## 📸 Screenshots
 
-<ImageDescription src="/images/aira/desktop_chat.webp" mobileSrc="/images/aira/desktop_chat_mobile.jpg" alt="aira Desktop Chat Screen" width={3338} height={1924} />
+<ProjectLightbox images={[
+  { 
+    src: '/images/aira/desktop_main.webp', 
+    mobileSrc: '/images/aira/desktop_main_mobile.jpg',
+    alt: 'aira Desktop Main Screen', 
+    caption: 'Desktop/Web main interface (responsive)' 
+  },
+  { 
+    src: '/images/aira/desktop_chat.webp', 
+    mobileSrc: '/images/aira/desktop_chat_mobile.jpg',
+    alt: 'aira Desktop Chat Screen', 
+    caption: 'Chat experience optimized for desktop' 
+  },
+  { src: '/images/aira/home_ads.webp', alt: 'aira Home Ads', caption: 'Home feed ads designed to not disrupt flow' },
+  { src: '/images/aira/chat_ads.webp', alt: 'aira Chat Ads', caption: 'Slim-bar native ads at the top of chat' },
+  { src: '/images/aira/reward_ads.webp', alt: 'aira Reward Ads', caption: 'Reward ad screen for point recharge' },
+]} />
 
-To manage resources efficiently, I built a structure supporting **Android, iOS apps, and Web pages from a single codebase** based on **Expo Router**.
-
-- **Universal Link:** Connected links so that clicking them on the web naturally opens the app, providing a boundary-less user experience across platforms.
-- **Platform Specific Code:** Shared business logic while separating only the parts where UI details need to differ into platform-specific files (`*.ios.ts`, `*.web.ts`) to increase maintenance efficiency.
-- **Platform-Specific Context Separation:** Applied a `.web.tsx` extension-based Context separation pattern to prevent native-only packages (Google Mobile Ads, Expo IAP) from being included in the web bundle. Metro bundler automatically selects the web-specific implementation during web builds, preventing both bundle bloat and runtime errors.
-- **Platform-Specific Navigator Branching:** Used `Stack` + `Stack.Protected` for declarative auth guards on native, and `Drawer` + `react-responsive` for responsive sidebar layouts on web, providing optimized navigation experiences for each platform.
-- **Unistyles Theme Binding:** Auto-bound Unistyles design tokens to React Navigation's `ThemeProvider` via `withUnistyles`, so Navigation headers and card backgrounds automatically reflect theme changes.
-
-### 2. Architecture Migration due to Privacy Policy Change
-
-Initially, I adopted a **Local Model (On-device)** utilizing Realm DB to prioritize user privacy by not storing chat contents on the server.
-However, limitations in the local model's performance necessitated the introduction of a **Server Model** to provide smarter responses, leading to a policy change to store data on the server.
-I implemented **migration logic to transfer existing local data stored in Realm to Firestore** upon app update, handling the transition to the cloud environment naturally without user data loss.
-
-To prevent data loss, I designed a **Retry Logic** and **Transaction Flag** mechanism. Even if the app was terminated or the network dropped mid-migration, the process would resume from where it left off on the next launch — safely transferring tens of thousands of users' conversation records.
-
-### 3. Improving Initial Loading Experience
-
-I judged that showing a loading spinner or a blank screen every time the app launches is a poor user experience.
-I integrated **TanStack Query** persistence (`PersistQueryClientProvider`) with **MMKV** to **instantly display previously cached data** upon app launch without waiting for network requests. This allowed users to naturally view their previous chat history immediately upon entering the app.
-
-- **MMKV Instance Separation:** Storing all data in a single storage meant clearing the cache would also wipe user settings. I separated instances into `document` (app data), `cache` (TanStack Query cache), and `settings` (theme, language, send-key preferences) for independent cache management.
-- **Per-User Cache Auto-Isolation:** By passing `uid` to `PersistQueryClientProvider`'s `buster`, the previous user's cache is automatically invalidated when logging in with a different account — safely isolated without manual `queryClient.clear()` calls or timing dependencies.
-- **Auto Space Management:** Applied a `removeOldestQuery` retry strategy that automatically deletes the oldest queries when MMKV capacity is full, managing disk space automatically without separate expiration logic.
-
-### 4. Introducing React Compiler and Code Simplification
-
-I introduced **React Compiler** to remove the excessive use of `useMemo` and `useCallback` for complex chat UI performance and to keep the code concise.
-I relied on the compiler for most optimizations to maintain **highly readable code**, while manually optimizing specific logic where fine-grained control was necessary or where the compiler might miss, balancing performance and productivity.
-
-### 5. Optimizing Rendering Performance for Large Datasets
+### ⚡ Performance demos
 
 <ImageGallery>
   <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat FlashList Demo"/>
   <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home FlashList Demo"/>
 </ImageGallery>
-
-The challenge was to smoothly display tens of thousands of chat logs mixed with images and text on low-end devices.
-
-- **FlashList (View Recycling):** The existing `FlatList` caused frame drops and **white-screen flickering** by constantly creating/destroying components during scrolling. I introduced **FlashList**, which recycles views, to **significantly reduce JS thread load** and achieve stable 60fps scrolling. Used `maintainVisibleContentPosition` to preserve the current scroll position during page loads.
-- **Cursor-based Pagination:** Applied `useInfiniteQuery` and cursor-based pagination to efficiently load and manage large volumes of chat history without slowing down retrieval speeds as data grows.
-- **Worklet-Based Keyboard Scrolling:** `useAnimatedReaction` callbacks run on the **UI thread (worklet)**, so keyboard progress is never missed even when the JS thread is busy. Since `scrollToEnd` is an RN API callable only on the JS thread, I delegated it to the RN thread via `scheduleOnRN` for stable keyboard-triggered scrolling.
-- **Derived Data Memoization:** Flattened `InfiniteQuery`'s `pages` array with `useMemo` and chained dependencies for the latest user message ID and rendering list, preventing unnecessary re-renders.
-
-### 6. Streaming Chat and Optimistic UI
-
-The most complex area and directly tied to user experience. While AI responses stream from the server chunk by chunk, I **patched TanStack Query's `InfiniteQuery` cache in real-time** to implement typing animations.
-
-- **Zod-Based Stream Event Validation:** Stream chunks can arrive malformed, so I used `z.union` to distinguish content chunks (text/image/bgm) from final results in a single schema, with `safeParse` silently skipping parse failures.
-- **Real-Time InfiniteQuery Cache Patching:** For each chunk, if the same `message-${index}` arrives, the existing record's content is replaced (typing effect); new indices add new records. Managed `InfiniteData` immutable updates directly without Immer for predictable state.
-- **Optimistic Updates:** In `onMutate`, user messages are immediately inserted into the cache and the session list preview is updated simultaneously. `onSuccess` replaces temporary IDs with actual server IDs and refreshes point balances; `onError` rolls back inserted messages.
-- **Memory Management:** Addressed increasing memory usage as conversations grew by limiting the message list's rendering scope and releasing unnecessary references, maintaining stable performance during extended conversations.
-
-To validate the potential of on-device inference, I also ran an **sLLM PoC** using `llama.rn`. This experiment gave me a firsthand look at the current limits and possibilities of running AI inference directly on mobile hardware without server costs.
-
-### 7. UX-Friendly Advertising (Native Ads)
-
-<ImageGallery>
-  <ImageDescription src="/images/aira/home_ads.webp" alt="aira Home Ads Demo" width={1170} height={2532} />
-  <ImageDescription src="/images/aira/chat_ads.webp" alt="aira Chat Ads Demo" width={1170} height={2532} />
-  <ImageDescription src="/images/aira/reward_ads.webp" alt="aira Reward Ads Demo" width={1170} height={2532} />
-</ImageGallery>
-
-I needed to introduce ads for monetization but didn't want to disrupt the chat experience.
-I directly designed and applied a **Native Ads** format where only the **'AD' tag and title are displayed in a thin line** at the top of the chat screen. This minimized screen space usage while blending seamlessly with the content.
-
-After launching ads, I continuously monitored **drop-off rates** to track the real impact on user experience. This data-driven approach helped maintain the balance between revenue growth and UX quality.
-
-### 8. Type-Safe Server State Management (queryData Facade)
-
-Instead of directly using `QueryClient` throughout the project, all access is structured through a domain-organized `queryData` function.
-
-- **Hierarchical Query Key Factory:** Managing query keys via factory functions (`keys.message.list(sessionId)`) enables bulk invalidation by passing only parent keys to `invalidateQueries`, eliminating typos and collisions from manual string construction.
-- **get / update / delete Namespaces:** Calling `queryData(queryClient).update.message.list(sessionId)(updater)` automatically infers the updater function's parameter and return types via `Updater<T | undefined, T | undefined>` generics. Incorrect data types in cache operations are caught at compile time.
-
-### 9. Design Token System (Unistyles)
-
-Instead of hardcoded hex values, I built a numeric-scale color palette with **Unistyles**, selecting different steps from the same palette for light/dark themes to maintain consistency.
-
-- **Theme Flicker Elimination:** MMKV's synchronous API allows reading and applying the theme before the first render. AsyncStorage would cause a flicker as the default theme renders first then switches — MMKV completely eliminates this issue.
-- **Accessible Typography:** Reflects device accessibility font size settings via `UnistylesRuntime.fontScale`, clamped to a 1–1.2 range to prevent layout breakage when font sizes are scaled excessively.
-
-### 10. Type-Safe i18n (typesafe-i18n)
-
-`typesafe-i18n` auto-generates TypeScript types from translation files, catching invalid translation keys and missing parameters at **compile time** rather than runtime.
-
-- **Intl Polyfill Management:** Rendering before `Intl.DisplayNames` polyfills load causes garbled language display names. Children are rendered only after locale file loading completes, preventing locale malfunction on first screen.
-- **Language Switch Synchronization:** When switching languages, OS language settings are synchronized via `react-native-localization-settings`, saved to MMKV, translation files are async-loaded, and the i18n context is updated sequentially.
 
 ---
 
@@ -171,7 +159,6 @@ I introduced a **Full-screen Swipe UI** so users can enjoy characters like conte
 - **Immersive UX Design:** Designed a **natural flow** where users can browse characters by swiping up and down, and if they like one, **start chatting immediately without screen transitions**.
 - **Adopting iOS 26 Liquid Glass:** Directly applied the new **Liquid Glass** introduced in iOS 26 via `UIGlassView`. I called system native APIs without heavy JS-based graphic computations, **maximizing battery efficiency while following the latest iOS system design.**
 
----
 
 ## 💭 Retrospective: "The essence of engineering learned in a startup"
 
