@@ -188,16 +188,14 @@
 
 <style>
   .image-gallery {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    align-items: flex-start;
+    display: block;
+    columns: 2;
+    column-gap: 1rem;
     margin: 2rem 0;
   }
 
   .image-gallery.mobile {
+    display: flex;
     overflow: hidden;
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -268,16 +266,20 @@
   }
 
   .image-gallery :global(figure) {
-    margin: 0;
-    flex: 1;
-    min-width: 0;
-    max-width: calc(50% - 0.5rem);
+    margin: 0 0 1rem 0;
+    display: block;
+    width: 100%;
+    break-inside: avoid-column;
+    page-break-inside: avoid;
   }
 
   .image-gallery :global(figure img),
   .image-gallery :global(figure video) {
-    max-width: 100%;
-    max-height: 60vh;
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--color-bg-divider);
   }
 
   .image-gallery.mobile :global(figure img),

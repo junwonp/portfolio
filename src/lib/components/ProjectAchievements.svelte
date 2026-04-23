@@ -41,7 +41,9 @@
           <span class="ach-title">{achievement.title}</span>
         </div>
         <div class="ach-header-right">
-          <ChevronDown size={18} strokeWidth={2} class={`ach-chevron ${isOpen ? 'open' : ''}`} />
+          <div class="ach-chevron" class:open={isOpen}>
+            <ChevronDown size={18} strokeWidth={2} />
+          </div>
         </div>
       </button>
       {#if isOpen}

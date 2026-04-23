@@ -397,10 +397,12 @@
   :global(.project-chevron) {
     transition: transform 0.2s;
     flex-shrink: 0;
+    color: var(--color-sub);
   }
 
   :global(.expand-indicator.open .chevron-icon),
-  :global(.project-chevron.open) {
+  :global(.project-chevron.open),
+  .project-header:hover :global(.project-chevron) {
     transform: rotate(180deg);
     color: var(--color-primary);
   }
@@ -476,11 +478,6 @@
     width: 100%;
   }
 
-  .project-header:hover .project-chevron,
-  .project-chevron.open {
-    color: var(--color-primary);
-  }
-
   .project-title-area {
     display: flex;
     flex-direction: column;
@@ -525,11 +522,6 @@
     color: var(--color-sub);
     font-size: 0.875rem;
     white-space: nowrap;
-  }
-
-  .project-chevron {
-    color: var(--color-sub);
-    font-size: 0.8rem;
   }
 
   /* ── Project Content ── */
