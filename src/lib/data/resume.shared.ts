@@ -44,7 +44,6 @@ export const workExperiencesShared = [
           'Zod',
           'MMKV',
           'Unistyles',
-          'typesafe-i18n',
           'Firebase',
           'Sentry',
           'React Hook Form',
@@ -70,7 +69,6 @@ export const workExperiencesShared = [
           'Next.js',
           'TypeScript',
           'MUI',
-          'PWA',
           'Webpack',
           'Firebase',
           'Paddle',
@@ -146,7 +144,7 @@ export const otherExperiencesShared = [
     dateFrom: '2026-04',
     detailLink: '/projects/day-planner',
     paradigm: 'agentic',
-    skills: ['Swift', 'SwiftUI', 'CloudKit', 'Apple Shortcuts', 'Agentic Workflow', 'Claude Code'],
+    skills: ['Swift', 'SwiftUI', 'CloudKit', 'Agentic Workflow', 'Claude Code'],
   },
   {
     id: 'today_weather',
@@ -171,7 +169,6 @@ export const otherExperiencesShared = [
       'Vitest',
       'shadcn/ui',
       'Reanimated',
-      'PWA',
       'Agentic Workflow',
       'Claude Code',
       'MCP',
@@ -212,7 +209,6 @@ export const otherExperiencesShared = [
     skills: [
       'Svelte / SvelteKit',
       'TypeScript',
-      'mdsvex',
       'Cloudflare Pages',
       'GitHub Actions',
       'Claude Code',
@@ -280,6 +276,7 @@ export const skillsShared = [
       'Expo Router',
       'Svelte / SvelteKit',
       'SwiftUI',
+      'Native Modules',
     ],
   },
   {
@@ -340,6 +337,7 @@ export const skillsShared = [
       'Crashlytics',
       'Vitest',
       'EAS',
+      'Webpack',
     ],
   },
   {
