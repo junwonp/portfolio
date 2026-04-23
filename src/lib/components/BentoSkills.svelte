@@ -31,13 +31,21 @@
 
   .card {
     --cat-color: var(--color-bg-divider);
-    background: color-mix(in srgb, var(--cat-color) 4%, var(--color-disabled-bg));
-    border: 1px solid color-mix(in srgb, var(--cat-color) 20%, var(--color-bg-divider));
-    border-top: 3px solid var(--cat-color);
+    background: color-mix(in srgb, var(--cat-color) 4%, var(--color-basic-bg));
+    border: 1px solid color-mix(in srgb, var(--cat-color) 15%, var(--color-bg-divider));
     border-radius: 12px;
-    padding: 1rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--cat-color) 8%, transparent);
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--cat-color) 12%, transparent);
   }
 
   .cat-languages {
