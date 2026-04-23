@@ -3,22 +3,29 @@
 
   interface Props {
     skill: string;
+    readonly?: boolean;
   }
-  let { skill }: Props = $props();
+  let { skill, readonly = false }: Props = $props();
 
   let category = $derived(skillState.getCategory(skill));
 
   function handleClick(e: MouseEvent | KeyboardEvent) {
+    if (readonly) return;
     if (e instanceof KeyboardEvent && e.key !== 'Enter' && e.key !== ' ') return;
     skillState.toggle(skill);
   }
 </script>
 
 <button
-  class={['skill-chip', `cat-${category}`, skillState.has(skill) && 'active']}
+  class={[
+    'skill-chip',
+    `cat-${category}`,
+    !readonly && skillState.has(skill) && 'active',
+    readonly && 'readonly',
+  ]}
   onclick={handleClick}
   onkeydown={handleClick}
-  aria-pressed={skillState.has(skill)}
+  aria-pressed={!readonly && skillState.has(skill)}
 >
   {skill}
 </button>
@@ -44,7 +51,7 @@
     text-align: center;
   }
 
-  .skill-chip:hover {
+  .skill-chip:not(.readonly):hover {
     color: white;
     background: var(--cat-color);
     border-color: var(--cat-color);
@@ -56,6 +63,10 @@
     color: white;
     font-weight: 700;
     box-shadow: 0 2px 6px color-mix(in srgb, var(--cat-color) 30%, transparent);
+  }
+
+  .skill-chip.readonly {
+    cursor: default;
   }
 
   .cat-languages {

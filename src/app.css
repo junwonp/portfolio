@@ -130,7 +130,7 @@
   --color-cat-backend: #eab308;
   --color-cat-devops: #06b6d4;
   --color-cat-tools: #64748b;
-  --color-cat-ai_workflow: #1e293b;
+  --color-cat-ai_workflow: #000000;
 
   --space-project-gap: var(--space-lg);
   --space-row-padding: var(--space-md);
@@ -164,6 +164,8 @@ html.dark {
   --color-primary-bg: var(--dark-color-primary-bg);
   --color-surface-hover: var(--dark-color-surface-hover);
   --color-error: var(--dark-color-error);
+
+  --color-cat-ai_workflow: #ffffff;
 }
 
 * {
@@ -206,6 +208,15 @@ body {
 
 #root {
   height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-text), sans-serif;
 }
 
 h1 {

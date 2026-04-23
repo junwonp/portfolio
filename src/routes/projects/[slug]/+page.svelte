@@ -1,5 +1,7 @@
 <script lang="ts">
+  import MobileStickyHeader from '$lib/components/MobileStickyHeader.svelte';
   import { getLabels } from '$lib/data/labels';
+  import { getResumeData } from '$lib/data/resume';
 
   import type { PageData } from './$types';
 
@@ -45,6 +47,10 @@
     <meta name="twitter:image" content={metadata.image} />
   {/if}
 </svelte:head>
+
+<MobileStickyHeader name={metadata.title || slug} githubLink={metadata.githubLink} />
+
+<div id="intro-header-sentinel"></div>
 
 <!-- Scroll progress bar -->
 <div class="scroll-progress" style:width={progressWidth}></div>
@@ -92,14 +98,16 @@
         <span class="badge green">{metadata.status}</span>
       {/if}
       {#if metadata.date}
-        <span class="badge blue">{metadata.date} ~</span>
+        <span class="badge blue">{metadata.date}</span>
       {/if}
     </div>
 
     <h1 class="hero-title">{metadata.title || slug}</h1>
 
-    {#if metadata.description}
-      <p class="hero-sub">{metadata.description}</p>
+    {#if metadata.tagline}
+      <p class="hero-tagline">{metadata.tagline}</p>
+    {:else if metadata.description}
+      <p class="hero-tagline">{metadata.description}</p>
     {/if}
 
     {#if metadata.metrics && metadata.metrics.length > 0}
@@ -129,23 +137,11 @@
   <!-- MDX content -->
   <article class="project-article">
     {#if Component}
-      <Component />
+      <Component {metadata} {locale} />
     {:else}
       <p class="error-msg">{labels.contentLoadError}</p>
     {/if}
   </article>
-
-  <!-- Tech stack -->
-  {#if metadata.techStack && metadata.techStack.length > 0}
-    <div class="section">
-      <div class="section-label">{labels.techStack}</div>
-      <div class="tech-grid">
-        {#each metadata.techStack as tech (tech)}
-          <span class="tech-tag">{tech}</span>
-        {/each}
-      </div>
-    </div>
-  {/if}
 </div>
 
 <style>
@@ -168,26 +164,23 @@
     background: color-mix(in srgb, var(--color-basic-bg) 88%, transparent);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--color-bg-divider);
-    padding: 0 clamp(16px, 5vw, 60px);
+    padding: 0 24px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 52px;
-    gap: 12px;
+    height: 56px;
   }
 
   .topbar-back {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 12px;
-    font-family: var(--font-family-code);
+    font-size: 15px;
+    font-family: inherit;
     color: var(--color-sub);
     text-decoration: none;
     white-space: nowrap;
     transition: color 0.15s;
-    flex-shrink: 0;
+    z-index: 1;
   }
 
   .topbar-back:hover {
@@ -195,35 +188,37 @@
   }
 
   .topbar-crumb {
-    font-size: 12px;
-    font-family: var(--font-family-code);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 15px;
+    font-family: inherit;
     color: var(--color-sub);
     display: flex;
     align-items: center;
     gap: 6px;
-    overflow: hidden;
+    white-space: nowrap;
+    pointer-events: none;
   }
 
   .crumb-current {
     color: var(--color-main);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .topbar-links {
+    margin-left: auto;
     display: flex;
-    gap: 8px;
+    gap: 12px;
     align-items: center;
-    flex-shrink: 0;
+    z-index: 1;
   }
 
   .topbar-link {
-    font-size: 11px;
-    font-family: var(--font-family-code);
+    font-size: 14px;
+    font-family: inherit;
     color: var(--color-sub);
     text-decoration: none;
-    padding: 5px 10px;
+    padding: 6px 12px;
     border: 1px solid var(--color-bg-divider);
     border-radius: 6px;
     white-space: nowrap;
@@ -258,7 +253,6 @@
   /* Hero */
   .hero {
     padding: 52px 0 48px;
-    border-bottom: 1px solid var(--color-bg-divider);
     margin-bottom: 48px;
   }
 
@@ -271,30 +265,31 @@
   }
 
   .badge {
-    font-size: 10px;
-    font-family: var(--font-family-code);
-    padding: 3px 8px;
-    border-radius: 4px;
-    border: 1px solid var(--color-bg-divider);
-    color: var(--color-sub);
+    border-radius: 6px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    padding: 0.4rem 0.75rem;
+    line-height: 1;
   }
 
   .badge.orange {
-    background: rgba(224, 90, 43, 0.12);
-    color: #e05a2b;
-    border-color: rgba(224, 90, 43, 0.3);
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--color-primary);
   }
 
   .badge.green {
-    background: rgba(74, 222, 128, 0.08);
-    color: #4ade80;
-    border-color: rgba(74, 222, 128, 0.2);
+    background: #e6f6eb;
+    color: #008a2e;
+  }
+
+  :global(html.dark) .badge.green {
+    background: #003d14;
+    color: #34d399;
   }
 
   .badge.blue {
-    background: rgba(96, 165, 250, 0.08);
-    color: #60a5fa;
-    border-color: rgba(96, 165, 250, 0.2);
+    background: color-mix(in srgb, var(--color-sub) 10%, transparent);
+    color: var(--color-sub);
   }
 
   .hero-title {
@@ -306,7 +301,7 @@
     color: var(--color-bold);
   }
 
-  .hero-sub {
+  .hero-tagline {
     font-size: 15px;
     color: var(--color-sub);
     margin-bottom: 32px;
@@ -333,7 +328,6 @@
   .metric-val {
     font-size: 22px;
     font-weight: 700;
-    font-family: var(--font-family-code);
     color: var(--color-bold);
     line-height: 1;
     margin-bottom: 4px;
@@ -341,7 +335,7 @@
   }
 
   .metric-lbl {
-    font-size: 10px;
+    font-size: 12px;
     color: var(--color-sub);
   }
 
@@ -357,8 +351,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 12px;
-    font-family: var(--font-family-code);
+    font-size: 0.875rem;
     color: var(--color-sub);
     background: var(--color-disabled-bg);
     border: 1px solid var(--color-bg-divider);
@@ -373,9 +366,137 @@
     flex-shrink: 0;
   }
 
+  /* Tech stack categories */
+  .hero-tech-stack {
+    margin-top: 32px;
+    padding-top: 32px;
+  }
+
+  .tech-category-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .tech-category {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .category-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-bold);
+    opacity: 0.8;
+  }
+
   /* Article */
   .project-article {
     margin-bottom: 56px;
+  }
+
+  :global(.project-article h2) {
+    font-size: var(--font-h2);
+    font-weight: 800;
+    color: var(--color-bold);
+    letter-spacing: -0.02em;
+    margin: 52px 0 20px;
+  }
+
+  :global(.project-article h3) {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-bold);
+    margin: 28px 0 10px;
+    line-height: 1.4;
+  }
+
+  :global(.project-article h4) {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-main);
+    margin: 20px 0 8px;
+  }
+
+  :global(.project-article p) {
+    font-size: 1rem;
+    color: var(--color-main);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  :global(.project-article ul),
+  :global(.project-article ol) {
+    margin: 0 0 16px 0;
+    padding-left: 20px;
+  }
+
+  :global(.project-article li) {
+    font-size: 1rem;
+    color: var(--color-main);
+    line-height: 1.8;
+    margin-bottom: 4px;
+  }
+
+  :global(.project-article strong) {
+    color: var(--color-bold);
+    font-weight: 600;
+  }
+
+  :global(.project-article code) {
+    font-family: var(--font-family-code);
+    font-size: 12px;
+    background: var(--color-code-bg);
+    color: var(--color-inline-code);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  :global(.project-article pre) {
+    background: var(--color-code-bg);
+    border: 1px solid var(--color-bg-divider);
+    border-radius: 8px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin-bottom: 24px;
+  }
+
+  :global(.project-article pre code) {
+    background: transparent;
+    padding: 0;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+
+  :global(.project-article blockquote) {
+    border-left: 3px solid var(--color-primary, #e05a2b);
+    margin: 0 0 20px;
+    padding: 12px 16px;
+    background: var(--color-disabled-bg);
+    border-radius: 0 6px 6px 0;
+  }
+
+  :global(.project-article blockquote p) {
+    margin-bottom: 0;
+    color: var(--color-sub);
+    font-size: 13.5px;
+  }
+
+  :global(.project-article hr) {
+    display: none;
+  }
+
+  :global(.project-article a) {
+    color: var(--color-primary, #e05a2b);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  :global(.project-article a:hover) {
+    opacity: 0.8;
   }
 
   /* Section */
@@ -384,23 +505,13 @@
   }
 
   .section-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-sub);
-    font-family: var(--font-family-code);
     margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--color-bg-divider);
+    display: block;
   }
 
   /* Tech stack */
@@ -408,24 +519,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-  }
-
-  .tech-tag {
-    font-size: 12px;
-    font-family: var(--font-family-code);
-    color: var(--color-sub);
-    background: var(--color-disabled-bg);
-    border: 1px solid var(--color-bg-divider);
-    padding: 5px 11px;
-    border-radius: 6px;
-    transition:
-      border-color 0.15s,
-      color 0.15s;
-  }
-
-  .tech-tag:hover {
-    color: var(--color-bold);
-    border-color: var(--color-main);
   }
 
   .error-msg {
@@ -444,6 +537,12 @@
 
     .hero {
       padding: 32px 0 32px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .topbar {
+      display: none;
     }
   }
 </style>
