@@ -29,34 +29,33 @@
 
     appearance: none;
     background: transparent;
-    border: 1px solid var(--cat-color);
+    border: 1px solid color-mix(in srgb, var(--cat-color) 40%, var(--color-bg-divider));
     border-radius: 6px;
     color: var(--cat-color);
     font-size: 0.875rem;
-    padding: 0.35rem 0.6rem;
+    padding: 0.35rem 0.65rem;
     font-weight: 500;
     line-height: 1;
     white-space: nowrap;
     display: inline-block;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.15s ease;
     cursor: pointer;
     font-family: inherit;
     text-align: center;
   }
 
   .skill-chip:hover {
-    color: var(--cat-color);
+    color: white;
+    background: var(--cat-color);
     border-color: var(--cat-color);
-    background: color-mix(in srgb, var(--cat-color) 10%, transparent);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--color-shadow);
   }
 
   .skill-chip.active {
     background: var(--cat-color);
     border-color: var(--cat-color);
     color: white;
-    box-shadow: 0 2px 8px color-mix(in srgb, var(--cat-color) 30%, transparent);
+    font-weight: 700;
+    box-shadow: 0 2px 6px color-mix(in srgb, var(--cat-color) 30%, transparent);
   }
 
   .cat-languages {

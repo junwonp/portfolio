@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fly,slide } from 'svelte/transition';
+  import { fly, slide } from 'svelte/transition';
 
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { skillState } from '$lib/states/skills.svelte';
@@ -25,6 +25,21 @@
     if (count === 1) return `"${skillState.selectedTechs[0]}"`;
     return `"${skillState.selectedTechs[0]}" 외 ${count - 1}개`;
   });
+
+  const ICONS: Record<string, string> = {
+    languages: 'M16 18L22 12L16 6M8 6L2 12L8 18',
+    frameworks: 'M12 2L2 7L12 12L22 7L12 2ZM2 17L12 22L22 17M2 12L12 17L22 12',
+    ui: 'M12 19L21 12L12 5L3 12L12 19Z',
+    state:
+      'M4 7V17M20 7V17M4 7C4 5.34315 7.58172 4 12 4C16.4183 4 20 5.34315 20 7M4 7C4 8.65685 7.58172 10 12 10C16.4183 10 20 8.65685 20 7M4 12C4 13.6569 7.58172 15 12 15C16.4183 15 20 13.6569 20 12M4 17C4 18.6569 7.58172 20 12 20C16.4183 20 20 18.6569 20 17',
+    performance: 'M13 2L3 14H12L11 22L21 10H12L13 2Z',
+    backend:
+      'M5 10H19M5 14H19M5 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V8C3 6.89543 3.89543 6 5 6Z',
+    devops:
+      'M12 16V22M8 12H2M16 12H22M12 8V2M7 12C7 14.7614 9.23858 17 12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12Z',
+    tools:
+      'M14.7 6.3C15.1 5.9 15.1 5.3 14.7 4.9L13.1 3.3C12.7 2.9 12.1 2.9 11.7 3.3L10.3 4.7C9.9 5.1 9.9 5.7 10.3 6.1L11.9 7.7C12.3 8.1 12.9 8.1 13.3 7.7L14.7 6.3ZM11.9 7.7L5 14.6V19H9.4L16.3 12.1M11.9 7.7L16.3 12.1',
+  };
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -54,7 +69,13 @@
         >
           {isMinimized ? '↑ 펼치기' : '↓ 접기'}
         </button>
-        <button class="close-btn" onclick={() => { skillState.close(); }} aria-label="필터 해제 및 닫기">
+        <button
+          class="close-btn"
+          onclick={() => {
+            skillState.close();
+          }}
+          aria-label="필터 해제 및 닫기"
+        >
           ✕ 닫기
         </button>
       </div>
@@ -64,7 +85,21 @@
       <div class="bar-body" transition:slide={{ duration: 250 }}>
         {#each skills as skillGroup (skillGroup.title)}
           <div class="skill-category">
-            <h4 class="category-title">{skillGroup.title}</h4>
+            <div class="category-header" style:color={`var(--color-cat-${skillGroup.id})`}>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d={ICONS[skillGroup.id] || ''}></path>
+              </svg>
+              <h4 class="category-title">{skillGroup.title}</h4>
+            </div>
             <div class="category-chips">
               {#each skillGroup.list as skill (skill)}
                 <SkillChip {skill} />
@@ -181,11 +216,17 @@
     gap: 0.5rem;
   }
 
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
   .category-title {
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.05em;
-    color: var(--color-placeholder);
+    color: inherit;
     margin: 0;
   }
 
