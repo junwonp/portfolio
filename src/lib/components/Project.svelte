@@ -18,6 +18,7 @@
     other?: boolean;
     skills?: string[];
     title: string;
+    paradigm?: 'assisted' | 'agentic';
   }
   let {
     children,
@@ -29,40 +30,73 @@
     other = false,
     skills,
     title,
+    paradigm,
   }: Props = $props();
 
   let labels = $derived(getLabels(getPageLocale()));
+
+  const paradigmLabel = $derived(() => {
+    if (paradigm === 'agentic')
+      return getPageLocale() === 'ko' ? '에이전틱 주도' : 'Agentic Driven';
+    if (paradigm === 'assisted') return getPageLocale() === 'ko' ? 'AI 보조' : 'AI Assisted';
+    return null;
+  });
 </script>
 
 <div class={['block', other && 'other']}>
   <header class="header">
-    <div class="title">
-      <h3 class="project-title">
-        {title}
-        {#if detailLink}
+    <div class="title-row">
+      <div class="title-area">
+        <h3 class="project-title">
+          {title}
+          {#if detailLink}
+            <a
+              href={detailLink}
+              class="detail-link"
+              aria-label={`${title} — ${labels.viewProjectDetails}`}
+              title={`${title} — ${labels.viewProjectDetails}`}
+              data-sveltekit-reload
+            >
+              {labels.viewProjectDetails} →
+            </a>
+          {/if}
+        </h3>
+
+        {#if githubLink}
           <a
-            href={detailLink}
-            class="detail-link"
-            aria-label={`${title} — ${labels.viewProjectDetails}`}
-            title={`${title} — ${labels.viewProjectDetails}`}
-            data-sveltekit-reload
+            class="github-icon-link"
+            href={githubLink}
+            target="_blank"
+            rel="external noopener noreferrer"
+            aria-label={`${title} — ${labels.goToGithubPage}`}
+            title={`${title} — ${labels.goToGithubPage}`}
           >
-            {labels.viewProjectDetails} →
+            <Github />
           </a>
         {/if}
-      </h3>
+      </div>
 
-      {#if githubLink}
-        <a
-          class="github-icon-link"
-          href={githubLink}
-          target="_blank"
-          rel="external noopener noreferrer"
-          aria-label={`${title} — ${labels.goToGithubPage}`}
-          title={`${title} — ${labels.goToGithubPage}`}
-        >
-          <Github />
-        </a>
+      {#if paradigmLabel()}
+        <div class={['paradigm-badge', paradigm]}>
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            {#if paradigm === 'agentic'}
+              <path d="M12 2L2 7L12 12L22 7L12 2ZM2 17L12 22L22 17M2 12L12 17L22 12"></path>
+            {:else}
+              <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            {/if}
+          </svg>
+          <span>{paradigmLabel()}</span>
+        </div>
       {/if}
     </div>
     <Period {dateFrom} {dateTo} />
@@ -100,12 +134,46 @@
     flex-direction: column;
     margin-bottom: var(--space-sm);
     padding-bottom: var(--space-sm);
+    gap: 0.5rem;
   }
 
-  .title {
+  .title-row {
     display: flex;
-    flex: 1;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .title-area {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .paradigm-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .paradigm-badge.agentic {
+    background: color-mix(in srgb, var(--color-cat-ai_workflow) 10%, transparent);
+    color: var(--color-cat-ai_workflow);
+    border: 1px solid color-mix(in srgb, var(--color-cat-ai_workflow) 30%, transparent);
+  }
+
+  .paradigm-badge.assisted {
+    background: color-mix(in srgb, var(--color-cat-devops) 10%, transparent);
+    color: var(--color-cat-devops);
+    border: 1px solid color-mix(in srgb, var(--color-cat-devops) 30%, transparent);
   }
 
   .description-text {
@@ -124,8 +192,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: var(--space-xs);
-    margin-top: 0;
+    margin: 0;
     font-size: var(--font-h3);
   }
 

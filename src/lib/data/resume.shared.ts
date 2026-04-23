@@ -12,6 +12,7 @@ export interface SharedProject {
   dateTo?: string;
   detailLink?: string;
   skills?: string[];
+  paradigm?: 'assisted' | 'agentic';
 }
 
 export interface SharedWorkExp {
@@ -30,6 +31,7 @@ export const workExperiencesShared = [
         id: 'aira',
         dateFrom: '2024-01',
         detailLink: '/projects/aira',
+        paradigm: 'assisted',
         skills: [
           'React Native',
           'TypeScript',
@@ -63,6 +65,7 @@ export const workExperiencesShared = [
         dateFrom: '2022-02',
         dateTo: '2023-06',
         detailLink: '/projects/camerafi-studio',
+        paradigm: 'assisted',
         skills: [
           'Next.js',
           'TypeScript',
@@ -81,6 +84,7 @@ export const workExperiencesShared = [
         id: 'admin_dashboard',
         dateFrom: '2022-03',
         dateTo: '2023-06',
+        paradigm: 'assisted',
         skills: [
           'React',
           'TypeScript',
@@ -133,6 +137,7 @@ export interface SharedOtherExp {
   dateTo?: string;
   detailLink?: string;
   skills?: string[];
+  paradigm?: 'assisted' | 'agentic';
 }
 
 export const otherExperiencesShared = [
@@ -140,12 +145,14 @@ export const otherExperiencesShared = [
     id: 'day_planner',
     dateFrom: '2026-04',
     detailLink: '/projects/day-planner',
-    skills: ['Swift', 'SwiftUI', 'CloudKit', 'Apple Shortcuts'],
+    paradigm: 'agentic',
+    skills: ['Swift', 'SwiftUI', 'CloudKit', 'Apple Shortcuts', 'Agentic Workflow', 'Claude Code'],
   },
   {
     id: 'today_weather',
     dateFrom: '2026-04',
     detailLink: '/projects/today-weather',
+    paradigm: 'agentic',
     skills: [
       'Next.js',
       'React',
@@ -165,6 +172,9 @@ export const otherExperiencesShared = [
       'shadcn/ui',
       'Reanimated',
       'PWA',
+      'Agentic Workflow',
+      'Claude Code',
+      'MCP',
     ],
   },
   {
@@ -198,6 +208,7 @@ export const otherExperiencesShared = [
     id: 'sveltekit_portfolio',
     dateFrom: '2021-02',
     detailLink: '/projects/sveltekit-portfolio',
+    paradigm: 'agentic',
     skills: [
       'Svelte / SvelteKit',
       'TypeScript',
@@ -206,6 +217,9 @@ export const otherExperiencesShared = [
       'GitHub Actions',
       'Claude Code',
       'Vitest',
+      'Agentic Workflow',
+      'AI Infra (dotfiles)',
+      'AGENTS.md',
     ],
   },
 ] satisfies SharedOtherExp[];
@@ -329,15 +343,16 @@ export const skillsShared = [
     ],
   },
   {
-    id: 'tools',
+    id: 'ai_workflow',
     list: [
-      'Webpack',
-      'PWA',
-      'Native Modules',
-      'typesafe-i18n',
-      'mdsvex',
-      'Apple Shortcuts',
+      'Agentic Workflow',
       'Claude Code',
+      'Cursor',
+      'GitHub Copilot',
+      'MCP',
+      'AI Infra (dotfiles)',
+      'AGENTS.md',
+      'Custom Agent Skills',
     ],
   },
 ];
