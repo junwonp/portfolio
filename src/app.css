@@ -130,6 +130,7 @@
   --color-cat-backend: #eab308;
   --color-cat-devops: #06b6d4;
   --color-cat-tools: #64748b;
+  --color-cat-ai_workflow: #1e293b;
 
   --space-project-gap: var(--space-lg);
   --space-row-padding: var(--space-md);

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { SvelteSet } from 'svelte/reactivity';
   import { slide } from 'svelte/transition';
+  import { ChevronDown } from 'lucide-svelte';
 
   import { base } from '$app/paths';
   import Period from '$lib/components/Period.svelte';
@@ -120,19 +121,11 @@
                   ? labels.hideDetails
                   : labels.showDetails}</span
               >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="chevron-icon"
-              >
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              <ChevronDown
+                size={20}
+                strokeWidth={2}
+                class={`chevron-icon ${openCompanies.has(exp.companyName) || isFiltered ? 'open' : ''}`}
+              />
             </div>
           </div>
 
@@ -194,19 +187,11 @@
                     <span class="project-period pc-only">
                       <Period dateFrom={project.dateFrom} dateTo={project.dateTo} />
                     </span>
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class={['project-chevron', isOpen && 'open']}
-                    >
-                      <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
+                    <ChevronDown
+                      size={20}
+                      strokeWidth={2}
+                      class={`project-chevron ${isOpen ? 'open' : ''}`}
+                    />
                   </div>
                 </button>
 
@@ -400,16 +385,24 @@
     transition: color 0.15s;
   }
 
-  .company-header:hover .expand-indicator {
+  .company-header:hover :global(.expand-indicator) {
     color: var(--color-primary);
   }
 
-  .chevron-icon {
-    transition: transform 0.2s;
+  .company-header:hover :global(.chevron-icon) {
+    color: var(--color-primary);
   }
 
-  .expand-indicator.open .chevron-icon {
+  :global(.chevron-icon),
+  :global(.project-chevron) {
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  :global(.expand-indicator.open .chevron-icon),
+  :global(.project-chevron.open) {
     transform: rotate(180deg);
+    color: var(--color-primary);
   }
 
   /* ── Highlights ── */
@@ -537,11 +530,6 @@
   .project-chevron {
     color: var(--color-sub);
     font-size: 0.8rem;
-    transition: transform 0.2s;
-  }
-
-  .project-chevron.open {
-    transform: rotate(180deg);
   }
 
   /* ── Project Content ── */

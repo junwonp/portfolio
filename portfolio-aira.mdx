@@ -1,0 +1,596 @@
+---
+title: 'Aira — AI Character Chat App'
+description: '실시간 AI 캐릭터 채팅 앱. iOS, Android, Web을 단일 코드베이스로 지원하며, 스트리밍 응답, 이미지/음악 생성, 인앱 결제, 다국어(한/영/일)를 포함합니다.'
+tech:
+  - React Native
+  - Expo (Expo Router)
+  - TypeScript
+  - TanStack Query v5
+  - React Native Reanimated
+  - Firebase (Auth, Crashlytics, Analytics)
+  - Zod
+  - MMKV
+  - Unistyles
+period: '2024 – 현재'
+role: 'Frontend (React Native)'
+---
+
+## Overview
+
+**Aira(아이라)** 는 사용자가 AI 캐릭터와 실시간으로 채팅하는 앱입니다.
+단순한 Q&A가 아닌 캐릭터별 성격·배경·이미지를 가진 대화 경험을 제공하며,
+각 대화 중 배경 이미지와 BGM이 동적으로 변경됩니다.
+
+주요 기능:
+
+- 스트리밍 기반 실시간 AI 응답 (청크 단위 타이핑 애니메이션)
+- 응답 재생성(Reroll), 메시지 편집·삭제
+- AI 이미지 생성 (대화 맥락 기반)
+- 인앱 결제 (포인트 충전), 광고 제거
+- iOS / Android / Web 동시 지원
+- 한국어·영어·일본어 다국어 지원
+
+---
+
+## Tech Stack
+
+| 분류          | 기술                                                   |
+| ------------- | ------------------------------------------------------ |
+| 프레임워크    | React Native + Expo (Expo Router 파일 기반 라우팅)     |
+| 언어          | TypeScript (strict mode)                               |
+| 서버 상태     | TanStack Query v5 + MMKV 영속 캐시                     |
+| 애니메이션    | React Native Reanimated + Keyboard Controller          |
+| 디자인 시스템 | react-native-unistyles (다크/라이트/자동 테마)         |
+| 인증          | Firebase Auth                                          |
+| 관측성        | Sentry (Hermes 프로파일링 통합) + Firebase Crashlytics |
+| 스토리지      | MMKV (문서·캐시·설정 인스턴스 분리)                    |
+
+---
+
+## 1. 스트리밍 채팅 + 낙관적 UI
+
+> **핵심 파일**: `apis/messages.ts` — `useSendMessageStream`
+
+가장 복잡한 부분이자 사용자 체감에 직결되는 영역입니다.
+AI 응답이 서버에서 청크 단위로 스트리밍되는 동안,
+TanStack Query의 `InfiniteQuery` 캐시를 **실시간으로 패치**해 타이핑 애니메이션을 구현했습니다.
+
+### 전체 플로우
+
+```
+사용자 전송
+  │
+  ├─ onMutate: 사용자 메시지 즉시 캐시 삽입 (낙관적 업데이트)
+  │
+  ├─ mutationFn: 스트림 수신 루프
+  │    ├─ 각 청크를 Zod로 타입 검증 (StreamEventSchema.safeParse)
+  │    ├─ type === 'text'  → InfiniteQuery 캐시 실시간 patch
+  │    ├─ type === 'image' → 배경 이미지 변경
+  │    └─ type === 'bgm'   → 배경 음악 변경
+  │
+  ├─ onSuccess: 임시 ID → 서버 실제 ID 교체 + 포인트 잔액 갱신
+  │             세션 목록 캐시도 동시 업데이트
+  │
+  └─ onError: 낙관적으로 삽입한 메시지 롤백
+```
+
+### Zod로 스트림 이벤트 타입 검증
+
+```typescript
+const contentChunkSchema = z.object({
+  index: z.number(),
+  type: z.enum(['text', 'image', 'bgm']),
+  speaker: z.string(),
+  content: z.string(),
+});
+
+const resultChunkSchema = z.object({
+  result: z.object({
+    balance: z.number(),
+    messages: z.array(messageSchema),
+    userMessage: messageSchema,
+  }),
+});
+
+const StreamEventSchema = z.union([contentChunkSchema, resultChunkSchema]);
+```
+
+스트림 청크는 형식이 깨질 수 있어서, `safeParse`로 파싱 실패 시 조용히 스킵합니다.
+`z.union`으로 두 가지 이벤트 형식(콘텐츠 청크 / 최종 결과)을 단일 스키마로 구분합니다.
+
+### InfiniteQuery 캐시를 청크마다 실시간 패치
+
+```typescript
+const handleChunk = (chunk: string) => {
+  const parsed = StreamEventSchema.safeParse(JSON.parse(chunk));
+  if (!parsed.success) return;
+  if ('result' in parsed.data) { finalResult = parsed.data.result; return; }
+
+  const { index, type, content } = parsed.data;
+  if (type === 'text') {
+    queryData(queryClient).update.message.list(sessionId)((oldData) => {
+      const streamId = `message-${index}`;
+      const newMessage: FirestoreRecord<Message> = { id: streamId, contents: [content], role: 'assistant', ... };
+
+      const lastPage = oldData.pages[oldData.pages.length - 1];
+      const latest = lastPage.records[lastPage.records.length - 1];
+
+      // 같은 index면 콘텐츠만 교체, 새 index면 새 메시지 추가
+      if (latest?.id === streamId) {
+        return { ...oldData, pages: [...oldData.pages.slice(0, -1), {
+          ...lastPage,
+          records: [...lastPage.records.slice(0, -1), { ...latest, contents: [content] }],
+        }]};
+      }
+      return { ...oldData, pages: [...oldData.pages.slice(0, -1), {
+        ...lastPage,
+        records: [...lastPage.records, newMessage],
+      }]};
+    });
+  }
+};
+```
+
+**핵심**: 같은 `message-${index}`가 오면 기존 레코드를 교체(타이핑 효과), 새 인덱스면 레코드를 추가합니다.
+`InfiniteData`의 불변 업데이트를 직접 다루므로 Immer 없이도 예측 가능한 상태를 유지합니다.
+
+### onMutate — 낙관적 업데이트 & 세션 목록 동기화
+
+```typescript
+onMutate: async ({ content, sessionId }) => {
+  const messageToSendId = randomUUID();
+  const messageToSend: FirestoreRecord<Message> = {
+    id: messageToSendId, contents: [content], role: 'user', ...
+  };
+
+  // 1. 메시지 리스트 캐시에 즉시 삽입
+  queryData(queryClient).update.message.list(sessionId)((oldData) => ({
+    ...oldData,
+    pages: [...oldData.pages.slice(0, -1), {
+      ...lastPage, records: [...selectedMessages, messageToSend],
+    }],
+  }));
+
+  // 2. 세션 목록도 동시에 업데이트 (마지막 메시지 미리보기)
+  queryData(queryClient).update.session.lists()((oldData) => ({ ... }));
+
+  return messageToSendId; // onSuccess/onError에서 임시 ID 참조용
+},
+```
+
+---
+
+## 2. 타입 안전한 QueryClient 파사드 (`queryData`)
+
+> **핵심 파일**: `apis/index.ts`
+
+프로젝트 전체에서 `QueryClient`를 직접 다루는 대신, 도메인별로 구조화된 `queryData` 함수를 통해서만 접근합니다.
+
+### 계층적 쿼리 키 팩토리
+
+```typescript
+const keys = {
+  message: {
+    all: ['messages'] as const,
+    lists: () => [...keys.message.all, 'lists'] as const,
+    list: (sessionId: string) => [...keys.message.lists(), sessionId] as const,
+  },
+  character: {
+    all: ['characters'] as const,
+    list: (scope: 'public' | 'mine' | 'like', language?: Language) =>
+      [...keys.character.lists(), scope, { language }] as const,
+    item: (id: string) => [...keys.character.all, id] as const,
+  },
+  // ...
+};
+```
+
+키를 팩토리 함수로 관리하면 `invalidateQueries`에서 상위 키만 넘겨 관련 쿼리를 일괄 무효화할 수 있고, 문자열 직접 작성으로 인한 오타·충돌이 사라집니다.
+
+### get / update / delete 네임스페이스
+
+```typescript
+const queryData = (queryClient: QueryClient) => ({
+  get: {
+    message: {
+      list: (sessionId: string): InfiniteData<QueryResult<Message>> | undefined =>
+        queryClient.getQueryData<InfiniteData<QueryResult<Message>>>(
+          keys.message.list(sessionId),
+        ),
+    },
+  },
+  update: {
+    message: {
+      list:
+        (sessionId: string) =>
+        (updater: Updater<
+          InfiniteData<QueryResult<Message>> | undefined,
+          InfiniteData<QueryResult<Message>> | undefined
+        >) =>
+          queryClient.setQueryData<InfiniteData<QueryResult<Message>>>(
+            keys.message.list(sessionId),
+            updater,
+          ),
+    },
+  },
+  delete: { ... },
+});
+```
+
+**사용 예시**:
+
+```typescript
+// 이렇게 직접 쓰는 대신
+queryClient.setQueryData<InfiniteData<QueryResult<Message>>>(
+  ['messages', 'lists', sessionId],
+  updater,
+);
+
+// 이렇게 타입 안전하게 씁니다
+queryData(queryClient).update.message.list(sessionId)(updater);
+```
+
+`Updater<T | undefined, T | undefined>` 제네릭 덕분에 updater 함수의 인자·반환 타입이 자동 추론됩니다.
+`any`를 쓸 이유가 없고, 잘못된 타입의 데이터를 캐시에 넣는 실수가 컴파일 타임에 잡힙니다.
+
+---
+
+## 3. 채팅 UI 성능 최적화
+
+> **핵심 파일**: `components/organisms/Chat/Messages.tsx`
+
+### FlashList로 가상화 리스트
+
+```typescript
+<FlashList
+  ref={flashListRef}
+  data={listData}
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => (
+    <MessageBubble
+      item={item}
+      showWaiting={item.role === 'user' && item.id === latestUserMessageId && waiting}
+    />
+  )}
+  maintainVisibleContentPosition={{
+    animateAutoScrollToBottom: true,
+    autoscrollToBottomThreshold: 0,
+    startRenderingFromBottom: true,
+  }}
+  onStartReached={() => { if (!isFetching) fetchPreviousPage(); }}
+  onStartReachedThreshold={0.85}
+/>
+```
+
+`@shopify/flash-list`는 React Native의 `FlatList`보다 셀 재사용 방식이 효율적이어서 수천 개 메시지도 60fps를 유지합니다. `maintainVisibleContentPosition`으로 페이지 로드 시 현재 보고 있는 위치가 유지됩니다.
+
+### 키보드 오픈 시 스크롤 — UI 스레드에서 처리
+
+```typescript
+const { progress: keyboardProgress } = useReanimatedKeyboardAnimation();
+
+useAnimatedReaction(
+  () => keyboardProgress.get(),
+  (currentValue, previousValue) => {
+    if (currentValue === 1 && previousValue !== 1) {
+      scheduleOnRN(scrollToEnd); // RN 스레드로 스크롤 위임
+    }
+  },
+);
+```
+
+**왜 이렇게 했나:**
+
+- `useAnimatedReaction`의 콜백은 **UI 스레드(worklet)**에서 실행됩니다. JS 스레드가 바빠도 키보드 진행 상태를 놓치지 않습니다.
+- `scrollToEnd`는 RN API(`FlashList.scrollToEnd`)라 JS 스레드에서만 호출 가능합니다. `scheduleOnRN`으로 RN 스레드에 예약해 두 스레드를 올바르게 연결합니다.
+- 이렇게 하지 않으면 키보드가 열릴 때 스크롤이 누락되거나 `ref`에 직접 접근할 때 크래시가 납니다.
+
+### useMemo로 파생 데이터 메모이제이션
+
+```typescript
+// InfiniteQuery의 pages 배열을 평탄화 — data가 바뀔 때만 재계산
+const messages = useMemo(() => data?.pages.flatMap((p) => p.records) ?? [], [data]);
+
+// 최신 유저 메시지 ID — 대기 스피너 표시 대상 특정용
+const latestUserMessageId = useMemo(() => {
+  for (let i = messages.length - 1; i >= 0; i -= 1) {
+    if (messages[i]?.role === 'user') return messages[i].id;
+  }
+  return undefined;
+}, [messages]);
+
+// 실제 렌더링 리스트 — greeting 메시지 포함 여부·showAll 모드 반영
+const listData = useMemo(() => {
+  if (!sessionId) return [greetingMessage];
+  return isLoading
+    ? []
+    : messages.length > 0
+      ? showAll
+        ? messages.filter((m) => m.id)
+        : [messages[messages.length - 1]]
+      : [greetingMessage];
+}, [character.greeting, isLoading, messages, sessionId, showAll]);
+```
+
+`data`가 바뀌지 않으면 `messages`가 재계산되지 않고, `messages`가 바뀌지 않으면 `listData`도 재계산되지 않습니다. `FlashList`의 `data` prop이 같은 참조를 유지하면 불필요한 리렌더링이 방지됩니다.
+
+---
+
+## 4. MMKV 기반 오프라인 캐시 영속화
+
+> **핵심 파일**: `lib/storage.ts`, `app/_layout.tsx`
+
+### 용도별 MMKV 인스턴스 분리
+
+```typescript
+const storage = createMMKV({ id: 'document' }); // 앱 데이터 (온보딩 플래그 등)
+const cacheStorage = createMMKV({ id: 'cache' }); // TanStack Query 캐시
+const settingsStorage = createMMKV({ id: 'settings' }); // 테마·언어·전송키 설정
+```
+
+하나의 MMKV에 모든 데이터를 넣으면 캐시를 전체 삭제할 때 사용자 설정도 같이 날아갑니다.
+인스턴스를 분리해 캐시만 독립적으로 관리합니다.
+
+### TanStack Query 영속 캐시 + 자동 공간 관리
+
+```typescript
+const clientStorage = {
+  setItem: (key: string, value: string) => cacheStorage.set(key, value),
+  getItem: (key: string) => cacheStorage.getString(key) ?? null,
+  removeItem: (key: string) => cacheStorage.remove(key),
+};
+
+const clientPersister = createAsyncStoragePersister({
+  storage: clientStorage,
+  retry: removeOldestQuery, // 저장 공간 초과 시 가장 오래된 쿼리부터 제거
+});
+```
+
+`removeOldestQuery`는 MMKV 용량이 꽉 찼을 때 오래된 쿼리를 자동으로 삭제하는 retry 전략입니다.
+별도 만료 로직 없이 디스크 공간을 자동 관리합니다.
+
+### 사용자별 캐시 격리 (`buster`)
+
+```typescript
+<PersistQueryClientProvider
+  client={queryClient}
+  persistOptions={{
+    persister: clientPersister,
+    buster: uid ?? undefined, // uid가 바뀌면 캐시 자동 무효화
+  }}
+>
+```
+
+`buster`에 `uid`를 넣으면 로그아웃 후 다른 계정으로 로그인했을 때 이전 사용자의 캐시가 자동으로 무효화됩니다.
+수동으로 `queryClient.clear()`를 호출하지 않아도 됩니다.
+
+---
+
+## 5. 크로스플랫폼 아키텍처 (iOS / Android / Web)
+
+> **핵심 파일**: `app/_layout.tsx`, `contexts/*.web.tsx`
+
+### 플랫폼별 Navigator 분기
+
+```typescript
+// 네이티브: Stack + Stack.Protected로 비로그인 가드
+const NativeRootNavigator = () => {
+  const { uid } = useAuth();
+  return (
+    <PersistQueryClientProvider persistOptions={{ buster: uid ?? undefined }}>
+      <Stack>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Protected guard={!uid}>
+          <Stack.Screen name="(auth)" options={{ presentation: 'modal' }} />
+        </Stack.Protected>
+      </Stack>
+    </PersistQueryClientProvider>
+  );
+};
+
+// 웹: Drawer + react-responsive로 반응형 사이드바
+const WebRootNavigator = () => {
+  const isLaptop = useMediaQuery({ minWidth: 1024 });
+  return (
+    <PersistQueryClientProvider persistOptions={{ buster: uid ?? undefined }}>
+      <DrawerNavigator
+        defaultStatus={isLaptop && uid ? 'open' : 'closed'}
+        screenOptions={{ drawerType: isLaptop ? 'permanent' : 'front' }}
+      >
+        <DrawerNavigator.Screen name="(app)" />
+      </DrawerNavigator>
+    </PersistQueryClientProvider>
+  );
+};
+```
+
+`Stack.Protected`는 Expo Router v4의 기능으로, `guard={!uid}`가 true일 때 해당 스크린 그룹이 자동으로 차단됩니다. 별도의 로그인 리다이렉트 로직 없이 인증 가드를 선언적으로 표현합니다.
+
+### 플랫폼별 Context 구현 분리
+
+```
+contexts/
+├── AdsContext.tsx       ← 네이티브 (Google Mobile Ads)
+├── AdsContext.web.tsx   ← 웹 (광고 없음, 빈 구현)
+├── IAPContext.tsx       ← 네이티브 (Expo IAP)
+├── IAPContext.web.tsx   ← 웹 (웹 결제 플로우)
+└── PushNotificationContext.web.tsx
+```
+
+Expo/Metro 번들러가 `.web.tsx` 파일을 웹 빌드 시 자동으로 선택합니다.
+네이티브 전용 패키지(`react-native-google-mobile-ads` 등)가 웹 번들에 포함되지 않아 빌드 크기와 런타임 오류를 동시에 방지합니다.
+
+### Unistyles → React Navigation 테마 연결
+
+```typescript
+const UniThemeProvider = withUnistyles(ThemeProvider, ({ colors }, { themeName }) => ({
+  value: {
+    dark: themeName === 'dark',
+    colors: {
+      primary: colors.primary.main,
+      background: colors.background.default,
+      card: colors.background.surface,
+      text: colors.text.primary,
+    },
+  },
+}));
+```
+
+`withUnistyles`로 Unistyles 토큰을 React Navigation의 `ThemeProvider`에 자동 바인딩합니다.
+테마가 바뀌면 Navigation 헤더·카드 배경색이 자동으로 따라 바뀝니다.
+
+---
+
+## 6. 디자인 토큰 시스템 (Unistyles)
+
+> **핵심 파일**: `theme/index.ts`
+
+### 숫자 스케일 기반 색상 팔레트
+
+```typescript
+export const grayPalette = {
+  0: '#000000',
+  5: '#101011',
+  10: '#1D1D21',
+  20: '#40404B',
+  50: '#8A8B9A',
+  70: '#D1D2D7',
+  90: '#F1F1F1',
+  100: '#FFFFFF',
+};
+
+const lightTheme = {
+  colors: {
+    primary: {
+      main: grayPalette[15], // #27282F
+      container: grayPalette[80], // #DDDEE1
+    },
+    background: {
+      default: grayPalette[99], // #FCFCFC
+      surface: grayPalette[95], // #F6F6F6
+    },
+  },
+};
+```
+
+하드코딩된 hex 값 대신 숫자 스케일로 참조합니다.
+라이트/다크 테마 모두 같은 팔레트에서 다른 스텝을 선택하므로 일관성이 유지됩니다.
+
+### 접근성을 고려한 타이포그래피 유틸
+
+```typescript
+const fontScale = Math.min(Math.max(UnistylesRuntime.fontScale, 1), 1.2);
+
+const getFontSize = (fontScale: number) => (size?: number) =>
+  (size ?? DEFAULT_FONT_SIZE) * Math.min(Math.max(fontScale, 1), 1.2);
+
+const getLineHeight = (fontScale: number) => (size?: number, numberOfLines?: number) =>
+  getFontSize(fontScale)(size) * 1.4 * (numberOfLines ?? 1);
+```
+
+`UnistylesRuntime.fontScale`은 기기 접근성 폰트 크기 설정을 반영합니다.
+1~1.2 범위로 클램핑해 폰트를 무제한으로 키웠을 때 레이아웃이 깨지는 것을 방지합니다.
+
+### 재시작 시 테마 깜빡임 없는 초기화
+
+```typescript
+const themeMode = readThemeModeFromStorage(); // MMKV에서 동기적으로 읽기
+
+StyleSheet.configure({
+  themes: appThemes,
+  breakpoints,
+  settings:
+    themeMode === 'auto' || themeMode === undefined
+      ? { adaptiveThemes: true } // OS 설정 따라가기
+      : { initialTheme: themeMode }, // 사용자 지정 테마
+});
+```
+
+MMKV는 동기 API라 앱 첫 렌더 전에 테마를 읽어 적용할 수 있습니다.
+AsyncStorage를 쓰면 첫 렌더는 기본 테마로 그려졌다가 테마가 바뀌는 깜빡임이 발생하는데, MMKV로 이 문제를 완전히 해결했습니다.
+
+---
+
+> **핵심 파일**: `i18n/`, `contexts/LocaleContext.tsx`, `hooks/useLocale.ts`
+
+### 컴파일 타임 번역 키 검증
+
+```typescript
+// useLocale 훅에서 꺼내 쓰는 방식
+const { t } = useLocale();
+
+// 잘못된 키 → 컴파일 에러
+t.chat.nonExistentKey(); // ❌ Property 'nonExistentKey' does not exist
+
+// 올바른 키 → 타입 추론
+t.chat.inputPlaceholder(); // ✅ string 반환
+t.point.balance({ balance: 100 }); // ✅ 파라미터도 타입 추론
+```
+
+번역 키를 문자열로 쓰는 방식(`i18n.t('chat.inputPlaceholder')`)과 달리, 잘못된 키나 빠진 파라미터를 런타임이 아닌 컴파일 타임에 잡습니다.
+
+### 언어 전환 시 OS·dayjs 동기화
+
+```typescript
+const switchLanguage = async (newLocale: Locales) => {
+  if (Platform.OS !== 'web') {
+    setLanguage(newLocale); // react-native-localization-settings: OS 언어 설정 동기화
+  }
+  setUserLocale(newLocale); // MMKV에 저장
+  await loadLocaleAsync(newLocale); // 번역 파일 비동기 로드
+  setLocale(newLocale); // i18n 컨텍스트 업데이트
+};
+```
+
+### Intl 폴리필 로드 완료 후 렌더
+
+```typescript
+// LocaleContext.tsx
+import 'i18n/polyfill/intl';
+import '@formatjs/intl-displaynames/polyfill';
+import '@formatjs/intl-displaynames/locale-data/en';
+import '@formatjs/intl-displaynames/locale-data/ko';
+import '@formatjs/intl-displaynames/locale-data/ja';
+
+// 로케일 로드 전까지 null 반환 → 자식 컴포넌트 렌더링 차단
+if (localeLoaded === null) return null;
+
+return (
+  <TypesafeI18n locale={localeLoaded}>
+    <LocaleContext value={value}>{children}</LocaleContext>
+  </TypesafeI18n>
+);
+```
+
+`Intl.DisplayNames` 폴리필이 로드되기 전에 렌더링하면 언어 표시 이름이 깨집니다.
+로케일 파일 로드가 완료된 후에만 자식을 렌더링해 첫 화면의 로케일 오작동을 방지합니다.
+
+---
+
+## Lessons Learned
+
+### 1. 스트리밍과 캐시 동기화는 생각보다 복잡하다
+
+처음에는 스트림 청크를 로컬 `useState`에 쌓고, 완료되면 Query를 refetch하는 방식을 시도했습니다.
+문제는 refetch 중 화면이 잠깐 빈 상태로 돌아가는 것이었습니다.
+
+현재 방식(청크마다 InfiniteQuery 캐시 직접 패치)으로 바꾼 후 타이핑 애니메이션이 자연스러워지고 깜빡임이 사라졌습니다.
+트레이드오프는 `InfiniteData` 불변 업데이트 코드가 길고 읽기 어렵다는 점입니다. Immer를 도입하면 코드를 줄일 수 있지만, 의존성 추가와 번들 크기를 고려해 직접 작성했습니다.
+
+### 2. 플랫폼별 번들 분리는 초기에 설계해야 한다
+
+웹을 나중에 추가하면서 네이티브 전용 패키지(`expo-in-app-purchases`, `react-native-google-mobile-ads`)가 웹 번들에 포함되어 런타임 에러가 발생했습니다.
+Metro의 파일 확장자 해석 규칙(`.web.tsx` 우선)을 활용한 플랫폼별 Context 분리로 해결했는데, 이 패턴을 프로젝트 초기부터 알았다면 리팩터링 비용이 없었을 것입니다.
+
+### 3. MMKV + PersistQueryClientProvider `buster`의 조합
+
+처음에는 로그아웃 시 `queryClient.clear()`를 수동으로 호출했습니다.
+그러다 컴포넌트 언마운트 타이밍 문제로 캐시가 완전히 지워지지 않는 경우를 발견했습니다.
+`buster: uid`를 사용하면 `PersistQueryClientProvider`가 마운트될 때 buster가 다르면 자동으로 캐시를 무효화해서, 타이밍 의존 없이 안전하게 사용자별 캐시를 격리할 수 있었습니다.
+
+### 4. Reanimated worklet 경계를 명확히 지켜야 한다
+
+`useAnimatedReaction` 콜백에서 `FlashList.scrollToEnd()`를 직접 호출했더니 크래시가 발생했습니다.
+worklet은 UI 스레드에서 실행되고, `scrollToEnd`는 JS/RN 스레드 API라 스레드 경계를 넘어 호출하면 안 됩니다.
+`scheduleOnRN`으로 RN 스레드에 위임하는 방식을 알게 된 후 안정적으로 동작했습니다.
+React Native의 멀티 스레드 모델을 실전에서 직접 겪으며 이해한 부분입니다.

@@ -50,6 +50,8 @@ export const workExperiencesShared = [
           'Lottie',
           'GitHub Actions',
           'EAS',
+          'Cursor',
+          'Gemini',
         ],
       },
     ],
@@ -76,6 +78,7 @@ export const workExperiencesShared = [
           'styled-components',
           'Storybook',
           'Node.js',
+          'GitHub Copilot',
         ],
       },
       {
@@ -91,6 +94,7 @@ export const workExperiencesShared = [
           'TanStack Query',
           'Firebase Hosting',
           'styled-components',
+          'GitHub Copilot',
         ],
       },
     ],
@@ -171,7 +175,6 @@ export const otherExperiencesShared = [
       'Reanimated',
       'Agentic Workflow',
       'Claude Code',
-      'MCP',
     ],
   },
   {
@@ -214,8 +217,6 @@ export const otherExperiencesShared = [
       'Claude Code',
       'Vitest',
       'Agentic Workflow',
-      'AI Infra (dotfiles)',
-      'AGENTS.md',
     ],
   },
 ] satisfies SharedOtherExp[];
@@ -342,16 +343,8 @@ export const skillsShared = [
   },
   {
     id: 'ai_workflow',
-    list: [
-      'Agentic Workflow',
-      'Claude Code',
-      'Cursor',
-      'GitHub Copilot',
-      'MCP',
-      'AI Infra (dotfiles)',
-      'AGENTS.md',
-      'Custom Agent Skills',
-    ],
+    detailLink: '/projects/agentic-workflow',
+    list: ['Agentic Workflow', 'Claude Code', 'Cursor', 'GitHub Copilot', 'Gemini'],
   },
 ];
 

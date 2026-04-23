@@ -141,12 +141,6 @@
   />
 
   <div class="content-wrapper">
-    <div>
-      {#each printResumeData.introduction.briefing as line, index (index)}
-        <p>{line}</p>
-      {/each}
-    </div>
-
     <h2 id="section-work">{labels.sectionWork}</h2>
     {#each printResumeData.workExperiences as experience, experienceIndex (experienceIndex)}
       <Row

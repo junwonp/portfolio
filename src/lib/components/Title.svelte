@@ -1,10 +1,10 @@
 <script lang="ts">
+  import { ChevronLeft, Globe } from 'lucide-svelte';
+
   import { browser } from '$app/environment';
   import { invalidateAll } from '$app/navigation';
   import { base } from '$app/paths';
-  import ChevronLeft from '$lib/components/Icon/ChevronLeft.svelte';
   import Github from '$lib/components/Icon/Github.svelte';
-  import Globe from '$lib/components/Icon/Globe.svelte';
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
   import { getLabels } from '$lib/data/labels';
   import type { MetricItem, PillarItem } from '$lib/types/about';
@@ -108,7 +108,7 @@
                 aria-label={labels.goToProductPage}
                 title={labels.goToProductPage}
               >
-                <Globe />
+                <Globe size={24} strokeWidth={2.5} />
               </a>
             </div>
           {/if}

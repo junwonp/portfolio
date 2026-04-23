@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fade, fly,slide } from 'svelte/transition';
+  import { fade, fly, slide } from 'svelte/transition';
 
   import BentoSkills from '$lib/components/BentoSkills.svelte';
   import BottomSkillBar from '$lib/components/BottomSkillBar.svelte';
@@ -58,7 +58,7 @@
 
   // Filtered Data Computations for Selection Mode
   let filteredWork = $derived(
-    skillState.isEmpty || !resumeData.workExperiences
+    skillState.isEmpty
       ? resumeData.workExperiences
       : resumeData.workExperiences
           .map((exp) => ({
@@ -71,7 +71,7 @@
   );
 
   let filteredProjects = $derived(
-    skillState.isEmpty || !resumeData.otherExperiences
+    skillState.isEmpty
       ? resumeData.otherExperiences
       : resumeData.otherExperiences.filter((exp) =>
           exp.project.some((p) =>
@@ -81,7 +81,7 @@
   );
 
   let filteredArchives = $derived(
-    skillState.isEmpty || !resumeData.archives
+    skillState.isEmpty
       ? resumeData.archives
       : resumeData.archives.filter((exp) =>
           exp.project.some((p) =>
@@ -92,9 +92,9 @@
 
   let isAllEmpty = $derived(
     !skillState.isEmpty &&
-      (!filteredWork || filteredWork.length === 0) &&
-      (!filteredProjects || filteredProjects.length === 0) &&
-      (!filteredArchives || filteredArchives.length === 0),
+      filteredWork.length === 0 &&
+      filteredProjects.length === 0 &&
+      filteredArchives.length === 0,
   );
 
   let bottomBarHeight = $state(0);
@@ -132,16 +132,11 @@
             tagline={resumeData.introduction.tagline}
           />
           <div id="intro-header-sentinel" aria-hidden="true"></div>
-          <div class="intro-briefing">
-            {#each resumeData.introduction.briefing as line, index (index)}
-              <p>{line}</p>
-            {/each}
-          </div>
         </section>
       {/if}
 
       <div class="content-wrapper">
-        {#if filteredWork && filteredWork.length > 0}
+        {#if filteredWork.length > 0}
           <section id="section-work" transition:slide={{ duration: 300 }}>
             <SectionHeader title={labels.sectionWork} />
             <WorkAccordion experiences={filteredWork} locale={data.locale} />
@@ -157,14 +152,14 @@
           </section>
         {/if}
 
-        {#if filteredProjects && filteredProjects.length > 0}
+        {#if filteredProjects.length > 0}
           <section id="section-projects" transition:slide={{ duration: 300 }}>
             <SectionHeader title={labels.sectionAwards} />
             <ExperienceList experiences={filteredProjects} />
           </section>
         {/if}
 
-        {#if filteredArchives && filteredArchives.length > 0}
+        {#if filteredArchives.length > 0}
           <section id="section-archives" transition:slide={{ duration: 300 }}>
             <SectionHeader title={labels.sectionArchives} />
             <ExperienceList experiences={filteredArchives} />
@@ -185,7 +180,11 @@
             <div class="empty-icon">📂</div>
             <h3>조건에 맞는 프로젝트가 없습니다.</h3>
             <p>선택한 기술 스택을 모두 포함하는 프로젝트를 찾을 수 없습니다.</p>
-            <button class="empty-clear-btn" onclick={() => { skillState.close(); }}>필터 해제하기</button
+            <button
+              class="empty-clear-btn"
+              onclick={() => {
+                skillState.close();
+              }}>필터 해제하기</button
             >
           </div>
         {/if}

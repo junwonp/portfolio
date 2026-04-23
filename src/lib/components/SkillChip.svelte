@@ -82,6 +82,9 @@
   .cat-tools {
     --cat-color: var(--color-cat-tools);
   }
+  .cat-ai_workflow {
+    --cat-color: var(--color-cat-ai_workflow);
+  }
 
   @media print {
     .skill-chip {

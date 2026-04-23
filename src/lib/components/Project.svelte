@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import { Box, Layers } from 'lucide-svelte';
 
   import Github from '$lib/components/Icon/Github.svelte';
   import Period from '$lib/components/Period.svelte';
@@ -78,23 +79,11 @@
 
       {#if paradigmLabel()}
         <div class={['paradigm-badge', paradigm]}>
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            {#if paradigm === 'agentic'}
-              <path d="M12 2L2 7L12 12L22 7L12 2ZM2 17L12 22L22 17M2 12L12 17L22 12"></path>
-            {:else}
-              <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            {/if}
-          </svg>
+          {#if paradigm === 'agentic'}
+            <Layers size={12} strokeWidth={3} />
+          {:else}
+            <Box size={12} strokeWidth={3} />
+          {/if}
           <span>{paradigmLabel()}</span>
         </div>
       {/if}

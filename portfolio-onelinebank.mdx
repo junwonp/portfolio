@@ -1,0 +1,116 @@
+---
+title: OnelineBank
+description: 채팅 기반 가상 은행 앱 — 초기 React Native 학습 프로젝트를 현대 스택으로 재구성한 사례
+tags:
+  - React Native
+  - Expo
+  - Expo Router
+  - TypeScript
+  - Firebase
+  - TanStack Query
+  - TanStack Form
+  - Zod
+  - Zustand
+  - Tailwind CSS
+  - MMKV
+  - Reanimated
+  - CVA
+  - EAS
+  - Crashlytics
+---
+
+# OnelineBank
+
+**채팅 UI로 계좌·이체·프로필을 다루는 모바일 뱅킹 데모 앱**입니다.  
+동일한 제품 아이디어를 **초기 학습용 코드베이스(Legacy)**와 **이후 역량을 반영한 리뉴얼(Current)** 두 저장소로 가지고 있으며, 포트폴리오에서는 **“같은 기능, 다른 엔지니어링 품질”**을 보여 주는 성장 스토리로 묶어 설명할 수 있습니다.
+
+---
+
+## 한 줄로 요약하면
+
+- **Legacy**: Expo SDK 41, JavaScript, React Navigation 5, Context + styled-components, 웹 Firebase SDK 등 **당시 튜토리얼에 가까운 구조**.
+- **Current**: Expo Router, TypeScript, **기능 단위(feature) 모듈**, TanStack Query + MMKV 영속화, Zod·TanStack Form, Tailwind CSS, **모의 이체 API(Expo Router API Route)** 등 **프로덕션에 가까운 패턴**.
+
+---
+
+## 자랑할 만한 포인트 (Current 기준)
+
+### 1. 아키텍처: 기능 단위 모듈화
+
+`features/` 아래에 **auth, accounts, messages, profile, remittance**를 나누고, 각 영역마다 API 훅·도메인 유틸을 모았습니다. 화면(`app/`)은 라우팅과 조합에 집중하고, 데이터 접근은 `useQuery` / `useMutation`으로 일관되게 처리합니다.
+
+- **쿼리 키 팩토리** (`accountKeys`, `messagesKeys` 등)로 캐시 무효화·프리페치 경로를 명확히 함.
+- **프리페치** (`prefetchAccounts`, `prefetchMessages`)로 초기 체감 속도를 개선할 여지를 둠.
+
+### 2. 서버 상태: TanStack Query + 오프라인·포커스 연동
+
+- **기본 옵션**: `staleTime`, `gcTime`, `placeholderData: keepPreviousData`, 재시도 정책 등으로 네트워크·UX 균형을 잡음.
+- **PersistQueryClientProvider** + **MMKV 기반 persister**: 앱 재시작 후에도 쿼리 캐시를 복원할 수 있는 구조.
+- **NetInfo → `onlineManager`**, **AppState → `focusManager`**: 모바일에서 흔한 “백그라운드·네트워크 변화”와 쿼리 동작을 연결.
+
+### 3. 인증·라우팅: 선언적 가드
+
+- Firebase **`onAuthStateChanged`**를 훅으로 묶어 Zustand 스토어와 동기화.
+- Expo Router **`Stack.Protected`**로 로그인 여부에 따라 `(tabs)` vs `(auth)` 스택을 분리 — 조건부 네비게이션을 컴포넌트 트리에서 읽기 쉽게 표현.
+
+### 4. 폼·검증: TanStack Form + Zod
+
+로그인 등에서 **스키마 기반 검증**(이메일 형식, 필수 입력)과 제출 상태(`isSubmitting`)를 분리해, 사용자 피드백(스낵바)과 버튼 비활성화를 일관되게 처리합니다.
+
+### 5. UI 시스템: Tailwind CSS + CVA
+
+- **Tailwind CSS**로 스타일을 유틸리티 중심으로 통일.
+- **class-variance-authority(CVA)**로 Button 등 컴포넌트 **variant**를 타입 친화적으로 정의 — 디자인 토큰과 확장 방향을 포트폴리오에서 설명하기 좋음.
+
+### 6. 도메인: 자연어 형태의 이체 플로우
+
+채팅 입력에서 **은행·계좌·금액·수취인(“OO에게”)**을 정규식 기반 파서로 추출하고, 확인 대기 상태(ref)와 **긍정/부정 응답 집합**으로 이체 확인 대화를 이어 갑니다.
+
+- **생체 인증(`expo-local-authentication`)** 후 모의 이체 API 호출 — “실제 금융 API”가 아니라도 **보안 UX(확인 + 기기 인증)** 스토리를 보여 줄 수 있음.
+- 파싱·은행 코드 매핑 등은 **`features/remittance/utils`**로 분리되어 테스트·확장 포인트가 분명함.
+
+### 7. API 레이어: Expo Router 기반 목(Mock) 이체
+
+`app/api/transfer+api.ts`에서 **은행 오픈API와 유사한 요청/응답 형태**를 시뮬레이션합니다. 클라이언트는 `fetch('/api/transfer')`로 호출합니다.
+
+- 포트폴리오에서 강조할 점: **실서비스 키를 앱 번들에 넣지 않고**, 데모·학습용으로 **서버 라우트(또는 BFF) 뒤에 두는 방향**으로 진화했다는 **보안 의식**을 어필할 수 있음. (Legacy는 클라이언트에서 외부 HTTP를 직접 호출하는 형태였음.)
+
+### 8. 빌드·품질 도구
+
+- **TypeScript**, ESLint(Expo 설정, TanStack Query 플러그인, React Compiler 관련 플러그인 등), Prettier.
+- **EAS / `expo-dev-client`**, `expo-build-properties`(릴리스 최적화, iOS 링킹 옵션), **Crashlytics**, 로케일별 앱 표시명(예: 한국어 **한줄은행**) 등 배포·운영을 염두에 둔 설정.
+
+---
+
+## Legacy와의 대비 (포트폴리오 서술용)
+
+| 영역         | Legacy (학습 초기)               | Current (리뉴얼)                                    |
+| ------------ | -------------------------------- | --------------------------------------------------- |
+| 언어 / 타입  | JavaScript                       | TypeScript                                          |
+| 내비게이션   | Stack + Tab (RN Navigation 5)    | Expo Router, 파일 기반 라우팅                       |
+| 전역 상태    | Context (`User`, `Progress`)     | 인증은 Zustand + Firebase 리스너, 서버 상태는 Query |
+| 데이터 / API | axios 등 직접 호출 중심          | TanStack Query, 캐시·영속화·온라인 연동             |
+| UI           | styled-components, GiftedChat 등 | Tailwind CSS, 자체 메시지 UI 조합                   |
+| Firebase     | 웹 compat 스타일 SDK             | `@react-native-firebase/*` 모듈형                   |
+
+한 문장으로 정리하면: **“화면은 비슷하지만, 상태 관리·캐싱·라우팅·타입·스타일링·API 경계가 한 단계 올라간 버전”**입니다.
+
+---
+
+## 이렇게 쓰면 좋은 문장 (복붙용)
+
+- “동일 제품을 두 번 구현하며 **JS → TS**, **Context 중심 → Query + 최소 전역 상태**, **탐색형 네비게이션 → 파일 기반 라우팅**으로 리팩터링했습니다.”
+- “TanStack Query에 **MMKV 영속화**와 **네트워크·앱 포커스 연동**을 붙여 모바일 환경을 고려했습니다.”
+- “이체는 **채팅 자연어 파싱 + 확인 대화 + 생체 인증** 후 처리하며, 실제 키 노출 없이 **Expo API Route 목 서버**로 데모를 구성했습니다.”
+
+---
+
+## 정리
+
+포트폴리오에서는 **기능 나열**보다 **의사결정**을 내세우는 것이 좋습니다.
+
+1. 왜 Query인지, 왜 라우터 가드인지, 왜 feature 폴더인지.
+2. Legacy 대비 **무엇이 유지보수·확장·보안에 유리해졌는지**.
+3. (선택) 스크린샷: 채팅 이체 확인 플로우, 계좌 목록, 로그인 폼 검증 메시지.
+
+이 MDX는 위 세 가지를 한 문서로 묶어 **프로젝트 상세 페이지**나 **케이스 스터디 초안**으로 바로 붙여 넣을 수 있게 구성했습니다.
