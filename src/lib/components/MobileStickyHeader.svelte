@@ -25,6 +25,7 @@
 
   function withBase(href?: string): string | undefined {
     if (!href) return undefined;
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     if (href.startsWith('/')) return `${base}${href}`;
     return href;
   }
