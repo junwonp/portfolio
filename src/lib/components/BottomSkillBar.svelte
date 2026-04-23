@@ -23,7 +23,7 @@
     const count = skillState.selectedTechs.length;
     if (count === 0) return '';
     if (count === 1) return `"${skillState.selectedTechs[0]}"`;
-    return `"${skillState.selectedTechs[0]}" 외 ${count - 1}개`;
+    return `"${skillState.selectedTechs[0]}" 외 ${String(count - 1)}개`;
   });
 
   const ICONS: Record<string, string> = {
@@ -37,8 +37,8 @@
       'M5 10H19M5 14H19M5 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V8C3 6.89543 3.89543 6 5 6Z',
     devops:
       'M12 16V22M8 12H2M16 12H22M12 8V2M7 12C7 14.7614 9.23858 17 12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12Z',
-    tools:
-      'M14.7 6.3C15.1 5.9 15.1 5.3 14.7 4.9L13.1 3.3C12.7 2.9 12.1 2.9 11.7 3.3L10.3 4.7C9.9 5.1 9.9 5.7 10.3 6.1L11.9 7.7C12.3 8.1 12.9 8.1 13.3 7.7L14.7 6.3ZM11.9 7.7L5 14.6V19H9.4L16.3 12.1M11.9 7.7L16.3 12.1',
+    ai_workflow:
+      'M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z',
   };
 </script>
 
@@ -192,6 +192,9 @@
     padding: 0.4rem 0.75rem;
     cursor: pointer;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 
   .toggle-btn:hover,

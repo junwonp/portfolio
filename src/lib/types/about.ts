@@ -13,7 +13,6 @@ export interface IntroductionProps {
   name: string;
   role: string;
   tagline: string;
-  briefing: string[];
   githubLink: string;
   linkedinLink: string;
   metrics?: MetricItem[];
@@ -75,6 +74,9 @@ export type EducationProps = {
 };
 
 export type SkillProps = {
+  description?: string;
+  detailLink?: string;
+  detailLabel?: string;
   id: string;
   list: string[];
   title: string;

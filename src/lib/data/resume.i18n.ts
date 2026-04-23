@@ -45,7 +45,6 @@ export interface I18nData {
   certificates: Record<CertificateId, { label: string }>;
   education: Record<EducationId, { major?: string; school: string }>;
   introduction: {
-    briefing: string[];
     metrics?: MetricItem[];
     name: string;
     pillars?: PillarItem[];
@@ -53,6 +52,8 @@ export interface I18nData {
   };
   otherExperiences: Record<OtherExpId, I18nOtherExp>;
   skills: Record<import('$lib/data/resume.shared').SkillId, string>;
+  skillDetailsLabel?: Partial<Record<import('$lib/data/resume.shared').SkillId, string>>;
+  skillDescriptions?: Partial<Record<import('$lib/data/resume.shared').SkillId, string>>;
   workExperiences: Record<WorkExpId, I18nWorkExp>;
 }
 
@@ -67,6 +68,9 @@ export const i18nData: Record<Language, I18nData> = {
       backend: 'Backend & Cloud',
       devops: 'DevOps & Infra',
       ai_workflow: 'AI & Agentic Workflow',
+    },
+    skillDetailsLabel: {
+      ai_workflow: 'View AI Strategy & Methodology',
     },
     introduction: {
       name: 'Junwon Park',
@@ -93,12 +97,9 @@ export const i18nData: Record<Language, I18nData> = {
         {
           index: '03',
           title: 'Rational Engineering',
-          description: 'Advancing development through AI-agentic orchestration.',
+          description:
+            'Prioritizing business context and user value to select and apply the most effective technologies for the situation.',
         },
-      ],
-      briefing: [
-        'A frontend engineer who navigates the entire product journey, from core architecture to market growth.',
-        'Beyond traditional coding, I practice an **Agentic Development Paradigm** where I orchestrate AI agents with centralized infrastructure (dotfiles) and designed directives (AGENTS.md) to handle complex engineering tasks.',
       ],
     },
     workExperiences: {
@@ -277,34 +278,36 @@ export const i18nData: Record<Language, I18nData> = {
       devops: '데브옵스 및 인프라',
       ai_workflow: 'AI 및 에이전틱 워크플로우',
     },
+    skillDetailsLabel: {
+      ai_workflow: 'AI 활용 전략 및 방법론 보기',
+    },
     introduction: {
       name: '박준원',
       tagline: '제품의 시작부터 성장까지 직접 경험한 프론트엔드 엔지니어',
       metrics: [
-        { value: '2.3만', label: '최고 MAU' },
-        { value: '46분', label: '평균 체류 시간' },
-        { value: '#57', label: '#57 엔터테인먼트' },
+        { value: '23,000', label: 'MAU (최대)' },
+        { value: '46분', label: '평균 체류시간' },
+        { value: '#57', label: '구글 플레이' },
       ],
       pillars: [
         {
           index: '01',
-          title: '프로덕트 오너십과 성장',
-          description: '기획부터 2.3만 MAU 달성까지, 제품의 전 과정을 주도합니다.',
+          title: '제품 오너십 및 성장',
+          description:
+            '아이디어 구상부터 운영까지 제품의 전체 생애 주기를 주도하며, 2.3만 명의 MAU 성장을 이끌어냈습니다.',
         },
         {
           index: '02',
           title: '정교한 UI 시스템',
-          description: '성능과 접근성을 고려한 크로스 플랫폼 인터페이스를 설계합니다.',
+          description:
+            '플랫폼에 대한 깊은 이해를 바탕으로 외부 의존성을 최소화한 최적의 컴포넌트와 고품질의 UX를 설계합니다.',
         },
         {
           index: '03',
           title: '합리적인 엔지니어링',
-          description: 'AI 에이전트 오케스트레이션을 통해 개발 패러다임을 혁신합니다.',
+          description:
+            '비즈니스 상황과 사용자 가치를 최우선으로 고려하여 현재에 가장 필요한 기술을 선택하고 적용합니다.',
         },
-      ],
-      briefing: [
-        '단순한 구현을 넘어 제품의 초기 설계부터 성장을 위한 운영까지, 비즈니스 가치를 엔지니어링으로 풀어냅니다.',
-        '전통적인 코딩 방식을 넘어, 중앙 집중형 AI 인프라(dotfiles)와 에이전트 지침(AGENTS.md)을 설계하여 AI 에이전트가 고도의 엔지니어링 작업을 수행하도록 오케스트레이션하는 **Agentic Development Paradigm**을 실천하고 있습니다.',
       ],
     },
     workExperiences: {
