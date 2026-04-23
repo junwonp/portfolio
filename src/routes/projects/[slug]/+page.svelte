@@ -1,7 +1,6 @@
 <script lang="ts">
   import MobileStickyHeader from '$lib/components/MobileStickyHeader.svelte';
   import { getLabels } from '$lib/data/labels';
-  import { getResumeData } from '$lib/data/resume';
 
   import type { PageData } from './$types';
 
@@ -366,33 +365,6 @@
     flex-shrink: 0;
   }
 
-  /* Tech stack categories */
-  .hero-tech-stack {
-    margin-top: 32px;
-    padding-top: 32px;
-  }
-
-  .tech-category-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .tech-category {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .category-title {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--color-bold);
-    opacity: 0.8;
-  }
-
   /* Article */
   .project-article {
     margin-bottom: 56px;
@@ -497,28 +469,6 @@
 
   :global(.project-article a:hover) {
     opacity: 0.8;
-  }
-
-  /* Section */
-  .section {
-    margin-bottom: 56px;
-  }
-
-  .section-label {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-sub);
-    margin-bottom: 20px;
-    display: block;
-  }
-
-  /* Tech stack */
-  .tech-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
   }
 
   .error-msg {
