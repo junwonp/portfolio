@@ -65,8 +65,8 @@ export const i18nData: Record<Language, I18nData> = {
       state: 'State & Data',
       performance: 'Animation & Performance',
       backend: 'Backend & Cloud',
-      devops: 'DevOps & Infrastructure',
-      tools: 'Tools & Ecosystem',
+      devops: 'DevOps & Infra',
+      ai_workflow: 'AI & Agentic Workflow',
     },
     introduction: {
       name: 'Junwon Park',
@@ -93,11 +93,13 @@ export const i18nData: Record<Language, I18nData> = {
         {
           index: '03',
           title: 'Rational Engineering',
-          description:
-            'Prioritizing business context and user value to select and apply the most effective technologies for the situation.',
+          description: 'Advancing development through AI-agentic orchestration.',
         },
       ],
-      briefing: [],
+      briefing: [
+        'A frontend engineer who navigates the entire product journey, from core architecture to market growth.',
+        'Beyond traditional coding, I practice an **Agentic Development Paradigm** where I orchestrate AI agents with centralized infrastructure (dotfiles) and designed directives (AGENTS.md) to handle complex engineering tasks.',
+      ],
     },
     workExperiences: {
       orca_ai: {
@@ -148,18 +150,17 @@ export const i18nData: Record<Language, I18nData> = {
             description: 'Web Overlay Scoreboard Service',
             detail: [
               '**[Bundle Size Optimization]** Reduced main bundle size by 15% (324KB → 277KB) and improved TTI by establishing Webpack Tree Shaking & Code Splitting strategies and applying Dynamic Import.',
-              '**[Security & Auth]** Removed external dependencies and enhanced security by directly implementing Cookie Consent and token-based authentication logic instead of relying on libraries.',
-              '**[Global Architecture]** Designed a flexible structure for design changes by building an i18n system and a **Global Theme System** combining MUI and Styled-components.',
-              '**[Service Enhancement]** Implemented app-like installation (A2HS) by introducing Next-PWA와Established a subscription lifecycle management process by integrating Paddle payment solution.',
+              '**[Secure Auth Architecture]** Designed a secure login process combining **Firebase Custom Tokens** and **HTTP-only Cookies** to synchronize auth state between client and server.',
+              '**[Global SaaS Infrastructure]** Built the entire payment lifecycle using **Paddle**, handling subscriptions and webhook-based renewal processing for a global B2B user base.',
+              '**[Custom Cookie Consent]** Developed a native cookie consent banner and control logic from scratch to comply with GDPR/web standards without relying on external scripts, preventing 3rd-party bloat.',
             ],
           },
           admin_dashboard: {
-            title: 'Internal Admin Dashboard',
-            description: 'Internal Service Management & Statistics Dashboard',
+            title: 'B2B Admin Dashboard',
+            description: 'Integrated Management System for SaaS',
             detail: [
-              '**[Large List Optimization]** Implemented Intersection Observer-based Infinite Scroll to enable seamless navigation of hundreds of thousands of video lists, benchmarking YouTube UI.',
-              '**[Productivity Improvement]** Abstracted CRUD logic and Chart.js visualization modules into reusable components, accelerating the development speed of repetitive admin pages.',
-              '**[Infrastructure]** Built and managed SPA deployment pipelines using Firebase Hosting.',
+              '**[Efficiency]** Developed reusable CRUD components using **MUI**, significantly reducing the time required to build new management pages.',
+              '**[Data Visualization]** Implemented real-time usage and revenue monitoring dashboards using **Chart.js**.',
             ],
           },
         },
@@ -167,10 +168,6 @@ export const i18nData: Record<Language, I18nData> = {
       mnd: {
         companyName: 'Ministry of National Defense',
         role: 'Software Developer',
-        additional: {
-          label: 'Recommendation Letter',
-          link: '/certificates/recommendation-letter-en.pdf',
-        },
         highlights: [
           'Built a virtualized Excel viewer handling thousands of rows with 2D cell selection UX',
           'Designed Atomic Design-based component system in a restricted closed-network environment',
@@ -179,20 +176,20 @@ export const i18nData: Record<Language, I18nData> = {
         projects: {
           web_viewer: {
             title: 'Web-based Document Viewer',
-            description: 'Document Viewer in Restricted Network',
+            description: 'Large-scale Spreadsheet Viewer for Intranet',
             detail: [
-              '**[Large-Scale Data Rendering]** Introduced **React Table** and **Virtualization** to prevent rendering delays when processing thousands of rows of Excel data, enabling seamless scrolling.',
-              '**[Spreadsheet-Style UX]** Implemented **2D cell range selection** (including multi-range with modifier keys), **Excel-style column labels (A–Z, AA…)** , and **immutable selection state with Immer**.',
-              '**[Viewer-Specific Virtualization]** Used **react-window** (InfiniteLoader) for row virtualization on the grid and **react-virtualized CellMeasurerCache** for variable-height lines in the text viewer.',
-              '**[Collaboration Boundary]** Integrated **Socket.IO** for highlight lifecycle events and a **mock socket** for demos/tests without a live server.',
-              '**[Architecture Design]** Built a scalable shared component system based on **Atomic Design Pattern** and designed reusable **Custom Hooks** to separate business logic from the UI layer.',
+              '**[High-Performance Virtualization]** Built an Excel-style grid capable of handling thousands of rows using **react-window**. Optimized row/column rendering to maintain responsiveness under heavy data load.',
+              '**[2D Selection UX]** Implemented complex 2D area selection and drag-to-update logic, using **styled-components** for real-time visual feedback.',
+              '**[Real-time Collaboration]** Integrated **Socket.IO** to allow multiple users to highlight and comment on document areas simultaneously. Built a custom mock socket environment for robust offline development in restricted networks.',
+              '**[Atomic Design System]** Established a scalable component library from scratch using **Atomic Design** principles, ensuring UI consistency across the intranet platform.',
             ],
           },
           mnd_dashboard: {
-            title: 'MND Dashboard Page',
-            description: 'MND Intranet Dashboard Webpage',
+            title: 'Defense Resource Dashboard',
+            description: 'Resource Monitoring & Statistics System',
             detail: [
-              '**[Maintenance]** Customized the **Ant Design** library to build dashboard UI components and secured system stability through legacy code refactoring.',
+              '**[Legacy Modernization]** Successfully migrated a legacy statistics system to **React**, improving system reliability and user navigation speed.',
+              '**[Complex State Management]** Managed multi-layered resource data using **Redux**, ensuring consistent state across nested dashboard views.',
             ],
           },
         },
@@ -204,12 +201,9 @@ export const i18nData: Record<Language, I18nData> = {
         description:
           'A cross-platform (iOS/macOS) scheduler app developed as a first Swift project. Features timetable management, auto-focus mode transition, Mac menu bar integration, and CloudKit-based synchronization.',
         detail: [
-          '**[Cross-Platform Architecture]** Built a scalable codebase using MVVM + Repository + Service patterns, completely separating logic to support both iOS and macOS natively.',
-          '**[Mac Menu Bar Integration]** Designed a native Menu Bar Extra view that calculates and displays remaining time for the current schedule every 30 seconds using a background timer.',
-          '**[System Automation]** Integrated Apple Shortcuts via deep links to automatically trigger focus modes or system settings when specific schedules start, ensuring perfect immersion.',
-          '**[Repeat Schedule Engine]** Developed an `OccurrenceService` that dynamically calculates "Virtual Instances" of repeating schedules at runtime, optimizing DB performance and disk space.',
-          '**[CloudKit Sync]** Implemented a real-time synchronization layer with a timestamp-based "Last-Write-Wins" merge strategy and debounce (600ms) to ensure data consistency across devices.',
-          '**[Layout Algorithm]** Authored a `TimelineLayoutHelper` to analyze overlapping schedules and dynamically calculate lane positions, widths, and offsets for the vertical timeline UI.',
+          '**[Platform-Native Experience]** Built a native macOS Menu Bar app and iOS widgets using **SwiftUI**, managing real-time countdowns and state synchronization across platforms.',
+          '**[Automation Integration]** Integrated with **Apple Shortcuts** via deep links to automate system Focus Modes based on the user’s schedule.',
+          '**[Agentic Development]** Designed and executed the entire project through an **Agentic Workflow**, leveraging **Claude Code** and custom directives to maintain high velocity and architectural integrity.',
         ],
       },
       today_weather: {
@@ -217,11 +211,10 @@ export const i18nData: Record<Language, I18nData> = {
         description:
           "A service providing personalized 'action plans' such as what to wear or whether to bring an umbrella, using high-precision data from the Korea Meteorological Administration and Air Korea.",
         detail: [
-          '**[Next.js & React Ecosystem]** Adopted the latest framework versions and enabled **React Compiler** for optimal rendering performance without manual memoization.',
-          '**[Monorepo Architecture]** Built a **pnpm Workspaces** monorepo to share 100% of business logic and TypeScript types across Web (Next.js) and Mobile (Expo).',
-          '**[Edge-Optimized Caching]** Implemented **Upstash Redis** caching in the Seoul region (`icn1`) to bypass IP restrictions on public APIs and reduce upstream load by 80%.',
-          '**[Native Integration]** Built Swift-based iOS Home Screen widgets using **@bacons/apple-targets** within an Expo project for real-time data synchronization.',
-          '**[Recommendation Engine]** Developed an intelligent logic analyzing temperature, wind speed, POP, PTY, and dust levels to suggest outfits, umbrellas, and masks.',
+          '**[Edge-Optimized Cache]** Implemented a serverless caching strategy using **Upstash Redis** on Vercel icn1 (Seoul) region, reducing upstream API load by 80%.',
+          '**[Advanced Native Integration]** Built iOS native widgets using **Swift** and `@bacons/apple-targets`, synchronizing real-time weather data between the web app and home screen.',
+          '**[Modern Tech Stack]** Leveraged **Next.js 16 (App Router)** and **React 19** with the **React Compiler** for optimal performance without manual memoization.',
+          '**[Agentic Orchestration]** Developed using an advanced AI workflow, utilizing **MCP** to provide the AI agent with real-time documentation and system context for precise implementation.',
         ],
       },
       onelinebank_rebuild: {
@@ -230,12 +223,9 @@ export const i18nData: Record<Language, I18nData> = {
         description:
           'Advanced to the 2021 Woori Bank Hackathon finals by independently building a fintech app in 5 days. In 2026, fully rewrote the original JavaScript codebase from scratch in TypeScript with a modern stack.',
         detail: [
-          '**[Tech Modernization]** Full JavaScript → TypeScript migration and architecture redesign with **Expo Router** file-based routing',
-          '**[Core Feature]** Implemented natural language remittance processing logic that auto-parses bank name, account number, and amount from chat text',
-          '**[Server State]** Adopted **TanStack Query v5** with a **persisted query client** (async storage) for query caching and offline support',
-          '**[Form & Validation]** Type-safe input handling via **TanStack Form v1** + **Zod v4** combination',
-          '**[Mock API]** Built a mock server using **Expo API Routes** to replicate the full financial transaction flow, replacing the now-blocked Woori Bank Open API',
-          '**[Styling]** Applied a consistent utility-first design system using **NativeWind v5** (Tailwind CSS-based)',
+          '**[Architecture Evolution]** Rebuilt a legacy JS app into a modular, feature-based architecture using **TypeScript** and **Expo Router**, applying production-grade design patterns.',
+          '**[Robust Form Handling]** Integrated **TanStack Form** and **Zod** for type-safe schema validation and consistent error handling across the banking flow.',
+          '**[Developer Experience]** Optimized the delivery pipeline using **EAS** and automated crash reporting with **Crashlytics**, ensuring a stable demo environment.',
         ],
       },
       campus_town: {
@@ -249,8 +239,9 @@ export const i18nData: Record<Language, I18nData> = {
         description:
           'A website maximizing development efficiency and user experience with Svelte 5 (Runes) and Claude Code.',
         detail: [
-          '**[Zero-flash i18n]** Parsed `Accept-Language` header server-side and forwarded the resolved locale via cookie to `locals`, enabling flash-free multilingual switching',
-          '**[Performance Optimization]** Achieved 100 points in Lighthouse Performance/Accessibility through Pure CSS design (SEO intentionally blocked for privacy)',
+          '**[Performance-First Hosting]** Migrated from purely static hosting to **Cloudflare Pages**, using **Edge Functions** for zero-latency server-side language detection.',
+          '**[Modern Reactivity]** Fully embraced **Svelte 5 Runes** for fine-grained reactivity, reducing runtime overhead and improving code maintainability.',
+          '**[AI Infrastructure]** Managed the entire development lifecycle via **AI-agentic orchestration**, using a centralized **dotfiles** repo and **AGENTS.md** as a single source of truth for multiple AI agents.',
         ],
       },
     },
@@ -260,16 +251,15 @@ export const i18nData: Record<Language, I18nData> = {
         description:
           'A project for Hanyang University Software Studio 2. As a team leader, I led the entire process of planning, design, and development, experiencing Serverless architecture.',
         detail: [
-          '**[Serverless Adoption]** Built authentication (Login/Signup) and data management environments using AWS Amplify without a separate backend.',
-          '**[Data Visualization]** Rendered card news by parsing metadata (OG Tags) from Naver News API and visualized poll data using **Recharts**.',
-          '**[Component Design]** Designed a reusable component hierarchy using React and styled-components.',
+          '**[Serverless Architecture]** Architected a real-time news crawler and aggregator using **AWS Amplify** and **GraphQL**, handling high-concurrency during election periods.',
+          '**[Leadership]** Led a team of 4 as a project manager, coordinating between design, frontend, and backend tasks to ensure on-time delivery.',
         ],
       },
     },
     certificates: {
       aws: { label: 'AWS training and certification' },
       topcit: { label: 'TOPCIT' },
-      linux_master: { label: 'Linux Master Level 2' },
+      linux_master: { label: 'Linux Master Grade 2' },
     },
     education: {
       hanyang: { school: 'Hanyang University', major: 'B.S. in Computer Software Engineering' },
@@ -285,132 +275,127 @@ export const i18nData: Record<Language, I18nData> = {
       performance: '애니메이션 및 성능',
       backend: '백엔드 및 클라우드',
       devops: '데브옵스 및 인프라',
-      tools: '도구 및 에코시스템',
+      ai_workflow: 'AI 및 에이전틱 워크플로우',
     },
     introduction: {
       name: '박준원',
       tagline: '제품의 시작부터 성장까지 직접 경험한 프론트엔드 엔지니어',
       metrics: [
         { value: '2.3만', label: '최고 MAU' },
-        { value: '46분', label: '평균 체류시간' },
-        { value: '#57', label: 'Google Play' },
+        { value: '46분', label: '평균 체류 시간' },
+        { value: '#57', label: '#57 엔터테인먼트' },
       ],
       pillars: [
         {
           index: '01',
-          title: '제품 주도 및 성장',
-          description:
-            '아이디어부터 운영까지 서비스 전 과정을 주도하며 MAU 2.3만 규모의 성장을 직접 견인합니다.',
+          title: '프로덕트 오너십과 성장',
+          description: '기획부터 2.3만 MAU 달성까지, 제품의 전 과정을 주도합니다.',
         },
         {
           index: '02',
           title: '정교한 UI 시스템',
-          description:
-            '플랫폼 원리에 대한 이해를 바탕으로 외부 의존을 낮춘 최적화된 컴포넌트와 UX를 설계합니다.',
+          description: '성능과 접근성을 고려한 크로스 플랫폼 인터페이스를 설계합니다.',
         },
         {
           index: '03',
-          title: '합리적 엔지니어링',
-          description:
-            '비즈니스 상황과 사용자 가치를 최우선으로 고려하여 현재에 가장 필요한 기술을 선택하고 적용합니다.',
+          title: '합리적인 엔지니어링',
+          description: 'AI 에이전트 오케스트레이션을 통해 개발 패러다임을 혁신합니다.',
         },
       ],
-      briefing: [],
+      briefing: [
+        '단순한 구현을 넘어 제품의 초기 설계부터 성장을 위한 운영까지, 비즈니스 가치를 엔지니어링으로 풀어냅니다.',
+        '전통적인 코딩 방식을 넘어, 중앙 집중형 AI 인프라(dotfiles)와 에이전트 지침(AGENTS.md)을 설계하여 AI 에이전트가 고도의 엔지니어링 작업을 수행하도록 오케스트레이션하는 **Agentic Development Paradigm**을 실천하고 있습니다.',
+      ],
     },
     workExperiences: {
       orca_ai: {
-        companyName: '오르카에이아이 주식회사',
+        companyName: 'Orca AI Inc.',
         titleBadge: 'Co-Founder',
-        role: 'Frontend Lead',
+        role: '프론트엔드 리드',
         highlights: [
-          '0 → MAU 2.3만, 월 매출 $3,000, Google Play #57까지 전 과정 주도',
-          'TanStack Query 기반 스트리밍 채팅·낙관적 UI·타입 안전 캐시 파사드 구현',
-          'React Native 단일 코드베이스로 Android/iOS/Web 크로스 플랫폼 아키텍처 설계',
+          '0 → 2.3만 MAU, 월 매출 $3k, 구글 플레이 엔터테인먼트 57위 달성',
+          '스트리밍 채팅, 낙관적 UI, TanStack Query 기반의 타입 안전한 캐시 파사드 구축',
+          '단일 코드베이스 기반 안드로이드/iOS/웹 크로스 플랫폼 아키텍처 설계',
         ],
         projects: {
           aira: {
-            title: '아이라',
+            title: '아이라 (aira)',
             description: '글로벌 AI 캐릭터 채팅 플랫폼',
             metrics: [
-              { value: '2.3만', label: 'MAU (Peak)' },
+              { value: '2.3만', label: '최고 MAU' },
               { value: '$3,000', label: '월 매출' },
-              { value: '46분', label: '평균 체류시간' },
+              { value: '46분', label: '평균 체류 시간' },
             ],
             detail: [
-              "**[핵심 성과]** MAU 2.3만 명, 월 매출 $3,000 달성 및 평균 체류 시간 46분의 고몰입 서비스 구축 (Google Play 엔터테인먼트 최고 57위 / '25.02 기준)",
-              '**[스트리밍 채팅 & 낙관적 UI]** 스트림 청크를 **Zod**로 런타임 타입 검증하고, TanStack Query의 **InfiniteQuery** 캐시를 청크마다 실시간 패치하여 타이핑 애니메이션을 구현했습니다. `onMutate`로 사용자 메시지를 즉시 삽입하고, 실패 시 롤백하는 낙관적 업데이트 패턴을 적용했습니다.',
-              '**[타입 안전한 서버 상태 관리]** `QueryClient`를 도메인별로 구조화한 **queryData 파사드**를 설계하여 계층적 쿼리 키 팩토리 기반의 일괄 무효화, 타입 안전한 캐시 조회·수정·삭제를 제공했습니다.',
-              '**[데이터 영속화 & 캐시 격리]** 온디바이스(Realm) → 서버(RDB) 마이그레이션에서 재시도 로직과 트랜잭션 플래그로 수만 명의 데이터를 유실 없이 이관했습니다. **MMKV**를 용도별 인스턴스(문서·캐시·설정)로 분리하고, `PersistQueryClientProvider`의 `buster: uid`로 사용자별 캐시를 자동 격리했습니다.',
-              '**[렌더링 퍼포먼스 최적화]** **FlashList** View Recycling과 **React Compiler**로 60 FPS를 안정적으로 유지하고, **Reanimated** worklet 기반 `useAnimatedReaction`으로 키보드 열림 시 UI 스레드에서 스크롤을 처리하여 JS 스레드 병목을 해소했습니다.',
-              '**[크로스 플랫폼 설계]** **Expo Router** 기반 단일 코드베이스로 Android, iOS, Web을 동시에 지원하고, `.web.tsx` 파일 확장자를 활용한 플랫폼별 Context 분리로 네이티브 전용 패키지의 웹 번들 포함을 방지했습니다. **Unistyles** 토큰을 React Navigation `ThemeProvider`에 자동 바인딩하여 테마 전환 시 일괄 반영했습니다.',
-              '**[디자인 토큰 시스템]** **Unistyles**로 숫자 스케일 기반 색상 팔레트와 다크/라이트/자동 테마를 구현하고, MMKV 동기 읽기로 앱 재시작 시 테마 깜빡임을 완전히 제거했습니다. 접근성을 고려한 fontScale 클램핑(1~1.2)으로 레이아웃 깨짐을 방지했습니다.',
-              '**[타입 안전한 다국어]** **typesafe-i18n**으로 번역 키를 컴파일 타임에 검증하고, Intl 폴리필 로드 완료 후 렌더링하여 로케일 오작동을 방지했습니다. 언어 전환 시 OS 설정·dayjs를 동기화했습니다.',
-              '**[UX 중심 수익화]** **Native Ads** UI를 직접 설계하여 CLS를 방지하고, 이탈률 모니터링을 통해 UX를 해치지 않는 매출 성장을 달성했습니다.',
-              '**[서비스 안정성]** Sentry 및 dSYM 연동으로 정밀한 에러 트래킹 환경을 구축하고, 특정 Android 기기 이슈 발생 시 **신속한 롤백** 프로세스로 사용자 이탈을 방어했습니다.',
-              '**[운영 효율화]** **EAS** 및 **GitHub Actions** 기반의 CI/CD 파이프라인(Android 비공개 트랙 자동 배포, iOS TestFlight)을 구축하고, **Samsung Test Lab**을 활용한 기기 호환성 테스트 프로세스를 정립했습니다.',
+              '**[주요 성과]** MAU 2.3만 명, 월 매출 $3,000, 평균 체류 시간 46분 달성 — 구글 플레이 엔터테인먼트 부문 최고 57위 기록 (25년 2월 기준).',
+              '**[스트리밍 채팅 및 낙관적 UI]** 스트림 청크를 **Zod**로 실시간 검증하고, TanStack Query **InfiniteQuery** 캐시를 직접 패치하여 끊김 없는 타이핑 애니메이션을 구현했습니다. `onMutate`를 통한 낙관적 업데이트로 즉각적인 피드백을 제공했습니다.',
+              '**[타입 안전한 캐시 파사드]** QueryClient를 직접 다루는 대신 도메인별로 구조화된 **queryData 파사드**를 설계했습니다. 계층적 쿼리 키 팩토리를 통해 일괄 무효화 및 타입 안전한 CRUD 작업을 수행합니다.',
+              '**[데이터 영속화 및 격리]** Realm에서 서버 DB로 대화 데이터를 무유실 마이그레이션했습니다. **MMKV**를 용도별 인스턴스로 분리하고, `PersistQueryClientProvider`의 `buster` 옵션으로 사용자별 캐시를 자동 격리했습니다.',
+              '**[렌더링 성능 최적화]** **FlashList**의 뷰 재사용과 **React Compiler** 도입으로 60 FPS의 성능을 유지했습니다. 키보드 오픈 시의 스크롤 처리를 **Reanimated** 워클릿을 통해 UI 스레드에서 직접 처리하여 병목을 제거했습니다.',
+              '**[크로스 플랫폼 아키텍처]** **Expo Router**를 기반으로 하나의 코드로 앱과 웹을 동시 지원합니다. `.web.tsx` 확장자를 활용해 플랫폼별 컨텍스트를 분리하고, **Unistyles** 토큰을 테마 시스템에 자동 바인딩했습니다.',
+              '**[디자인 토큰 시스템]** **Unistyles**로 숫자 스케일 기반 팔레트와 다크/라이트 테마를 구축했습니다. MMKV 동기 읽기로 앱 재시작 시 테마 깜빡임을 해결하고, 접근성 설정을 고려한 폰트 스케일링 유틸을 적용했습니다.',
+              '**[타입 안전한 i18n]** **typesafe-i18n**으로 번역 키를 컴파일 타임에 검증합니다. Intl 폴리필 로드 완료 전까지 렌더링을 차단하여 로케일 오작동을 방지하고, 언어 전환 시 OS 설정을 동기화했습니다.',
+              '**[비즈니스 모델 구축]** 레이아웃 시프트를 방지한 **네이티브 광고** UI 설계 및 결제 전환율 모니터링을 통해 사용자 경험을 해치지 않는 수익 성장을 이끌어냈습니다.',
+              '**[서비스 안정성]** Sentry와 dSYM 연동으로 정밀한 에러 추적 환경을 구축하고, 안드로이드 특정 기기 이슈 발생 시 신속한 롤백 프로세스를 통해 유저 이탈을 방지했습니다.',
+              '**[운영 효율화]** **EAS**와 **GitHub Actions**로 안드로이드 폐쇄 테스트 및 iOS TestFlight 배포 파이프라인을 자동화하고, **삼성 테스트랩**을 통한 기기 호환성 검증 프로세스를 수립했습니다.',
             ],
           },
         },
       },
       vault_micro: {
-        companyName: '볼트마이크로',
-        role: 'Frontend Developer',
+        companyName: '볼트마이크로 (Vault Micro)',
+        role: '프론트엔드 개발자',
         highlights: [
-          'Webpack Tree Shaking·Code Splitting으로 메인 번들 15% 감량 (324KB → 277KB)',
-          'B2B SaaS 제품 1인 개발 — PWA + Paddle 정기 구독 라이프사이클 구축',
-          '반복 어드민 페이지 개발 속도를 단축하는 재사용 CRUD 컴포넌트 추상화',
+          'Webpack 트리 쉐이킹 및 코드 스플리팅 최적화로 메인 번들 15% 감량 (324KB → 277KB)',
+          'B2B SaaS 제품의 PWA 전환 및 Paddle 구독 결제 시스템 1인 전담 구축',
+          '재사용 가능한 CRUD 컴포넌트 라이브러리 구축으로 관리자 페이지 개발 공수 획기적 단축',
         ],
         projects: {
           camerafi_studio: {
-            title: 'CameraFi Studio',
-            description: '웹 오버레이 스코어보드 서비스',
+            title: '카메라파이 스튜디오',
+            description: '웹 기반 방송용 오버레이 스코어보드 서비스',
             detail: [
-              '**[번들 사이즈 최적화]** Webpack 설정 최적화(Tree Shaking, Code Splitting) 및 Dynamic Import 적용으로 메인 번들 사이즈 15% 감량(324KB → 277KB) 및 TTI 단축',
-              '**[보안 및 인증]** 라이브러리에 의존하지 않고 Cookie Consent 및 토큰 기반 인증 로직을 직접 구현하여 외부 의존성 제거 및 보안성 강화',
-              '**[글로벌 아키텍처]** i18n 시스템 및 MUI와 Styled-components를 결합한 **전역 테마 시스템**을 구축하여 디자인 변경에 유연한 구조 설계',
-              '**[서비스 고도화]** Next-PWA를 도입하여 앱 수준의 설치 경험(A2HS)을 제공하고, Paddle 결제 솔루션을 연동하여 정기 구독 라이프사이클 관리',
+              '**[번들 사이즈 최적화]** Webpack 트리 쉐이킹 및 코드 스플리팅 전략을 수립하고 Dynamic Import를 적용하여 메인 번들 사이즈를 15% 감량, TTI를 단축했습니다.',
+              '**[보안 인증 아키텍처]** **Firebase Custom Token**과 **HTTP-only Cookie**를 결합한 인증 프로세스를 설계하여 클라이언트와 서버 간의 인증 상태를 안전하게 동기화했습니다.',
+              '**[글로벌 수익화 인프라]** **Paddle** 결제 모듈을 연동하여 글로벌 사용자를 위한 구독 상태 관리 및 웹훅 기반의 결제 갱신 처리 시스템을 구축했습니다.',
+              '**[자체 쿠키 동의 시스템]** 서드파티 스크립트 없이 GDPR 규정을 준수하는 쿠키 동의 배너와 제어 로직을 직접 개발하여 불필요한 외부 라이브러리 의존성을 제거했습니다.',
             ],
           },
           admin_dashboard: {
-            title: 'Internal Admin Dashboard',
-            description: '사내 서비스 관리 및 통계 대시보드',
+            title: 'B2B 통합 관리자 대시보드',
+            description: 'SaaS 관리를 위한 통합 관리 시스템',
             detail: [
-              '**[대용량 리스트 최적화]** 유튜브 UI를 벤치마킹하여 수십만 건의 영상 목록을 끊김 없이 탐색할 수 있도록 Intersection Observer 기반의 무한 스크롤(Infinite Scroll) 구현',
-              '**[생산성 향상]** 데이터 조회·수정·삭제(CRUD) 로직과 Chart.js 시각화 모듈을 재사용 가능한 컴포넌트로 추상화하여 반복되는 어드민 페이지 개발 속도 단축',
-              '**[인프라]** Firebase Hosting을 활용한 SPA 배포 파이프라인 구축 및 관리',
+              '**[개발 효율성]** **MUI**를 기반으로 재사용 가능한 CRUD 컴포넌트들을 개발하여, 새로운 관리 페이지 구축에 필요한 공수를 크게 줄였습니다.',
+              '**[데이터 시각화]** **Chart.js**를 활용하여 서비스 이용량 및 매출 지표를 실시간으로 모니터링할 수 있는 대시보드를 구현했습니다.',
             ],
           },
         },
       },
       mnd: {
-        companyName: '대한민국 국방부',
-        role: 'Software Developer (SW개발병)',
-        additional: {
-          label: '추천서',
-          link: '/certificates/recommendation-letter-ko.pdf',
-        },
+        companyName: '대한민국 육군',
+        role: '소프트웨어 개발병',
         highlights: [
-          '폐쇄망 환경에서 수천 행 엑셀 처리 가능한 가상화 기반 웹 뷰어 개발',
-          'Atomic Design 패턴 기반 공용 컴포넌트 시스템 설계',
-          'Socket.IO 실시간 하이라이트 협업 + mock 소켓으로 오프라인 테스트 분리',
+          '수천 행의 데이터를 처리하는 가상화 엑셀 뷰어 및 2D 영역 선택 UX 구현',
+          '폐쇄망 개발 환경에서 Atomic Design 기반의 컴포넌트 시스템 직접 설계 및 도입',
+          'Socket.IO를 활용한 실시간 협업 하이라이트 기능 및 오프라인 테스트용 Mock 서버 구축',
         ],
         projects: {
           web_viewer: {
             title: '웹 기반 문서 뷰어',
-            description: '폐쇄망 내 문서 뷰어 개발',
+            description: '인트라넷용 대용량 스프레드시트 뷰어',
             detail: [
-              '**[대용량 데이터 렌더링]** **React Table** 및 **Virtualization(가상화)** 기법 도입으로 수천 행의 엑셀 데이터 처리 시 발생하는 렌더링 지연을 방지하고 끊김 없는 스크롤 경험 구현',
-              '**[스프레드시트형 UX]** **2D 셀 영역 드래그 선택**(보조키 기반 다중 영역 포함), **엑셀식 열 라벨(A–Z, AA…)** 생성, **Immer 기반 불변 선택 상태**로 복잡한 인터랙션을 안전하게 관리',
-              '**[뷰어별 가상화]** 그리드는 **react-window**(InfiniteLoader)로 행 가상 스크롤, 가변 높이 **텍스트 뷰어**는 **react-virtualized CellMeasurerCache**로 줄 높이 측정·캐시하여 뷰 특성에 맞게 최적화',
-              '**[협업 경계]** 하이라이트 등 이벤트를 **Socket.IO**로 서버와 계약화하고, **mock 소켓**으로 실서버 없이 데모·테스트가 가능하도록 분리',
-              '**[아키텍처 설계]** 서비스 확장성을 고려한 **Atomic Design Pattern** 기반 공용 컴포넌트 시스템 구축 및 재사용 가능한 **Custom Hook** 설계로 비즈니스 로직과 UI 레이어 분리',
+              '**[고성능 가상화]** **react-window**를 활용하여 수천 개의 행을 끊김 없이 렌더링하는 엑셀 스타일의 그리드를 구축했습니다. 대량 데이터 로드 시의 응답성을 확보했습니다.',
+              '**[2D 영역 선택 UX]** 복잡한 2차원 영역 선택 및 드래그 업데이트 로직을 구현하고, **styled-components**를 사용해 실시간 시각적 피드백을 최적화했습니다.',
+              '**[실시간 협업 기능]** **Socket.IO**를 연동하여 여러 사용자가 동시에 문서의 특정 영역을 강조하고 코멘트를 남길 수 있는 기능을 구현했습니다. 오프라인 개발을 위한 커스텀 Mock 소켓 환경을 구축했습니다.',
+              '**[Atomic 디자인 시스템]** **Atomic Design** 원칙에 따라 컴포넌트 라이브러리를 바닥부터 설계하여, 인트라넷 플랫폼 전체의 UI 일관성을 확보했습니다.',
             ],
           },
           mnd_dashboard: {
-            title: '국방부 대시보드 페이지',
-            description: '국방부 망 내 대시보드 웹페이지',
+            title: '국방 자원 모니터링 대시보드',
+            description: '자원 현황 관리 및 통계 시스템',
             detail: [
-              '**[유지보수]** **Ant Design** 커스터마이징으로 대시보드 UI 컴포넌트 개발 및 레거시 코드 리팩토링을 통한 시스템 안정성 확보',
+              '**[레거시 현대화]** 기존의 노후화된 통계 시스템을 **React** 기반으로 성공적으로 마이그레이션하여 시스템 안정성과 유저 내비게이션 속도를 개선했습니다.',
+              '**[복잡한 상태 관리]** **Redux**를 사용하여 다층적인 자원 데이터를 체계적으로 관리하고, 복잡한 대시보드 뷰 간의 데이터 일관성을 유지했습니다.',
             ],
           },
         },
@@ -418,72 +403,61 @@ export const i18nData: Record<Language, I18nData> = {
     },
     otherExperiences: {
       day_planner: {
-        title: 'Day Planner',
-        titleBadge: '2026',
+        title: '데이브레이크 (Day Planner) — 시간 관리를 위한 스케줄러 앱',
         description:
-          '첫 Swift 프로젝트. iOS/macOS 크로스 플랫폼 스케줄러. 타임테이블 관리, 집중모드 자동 전환, Mac 상태바 연동, CloudKit 동기화.',
+          '첫 Swift 프로젝트로 개발한 크로스 플랫폼(iOS/macOS) 앱. 타임테이블 관리, 자동 집중모드 전환, Mac 상태바 연동 및 CloudKit 동기화 구현.',
         detail: [
-          '**[크로스 플랫폼 아키텍처]** MVVM + Repository + Service 패턴을 도입하고 로직을 완벽히 분리하여 iOS와 macOS를 동시에 지원하는 확장 가능한 구조를 설계했습니다.',
-          '**[Mac 상태바 연동]** 30초 주기로 현재 시간과 일정을 비교하는 백그라운드 로직을 설계하고, macOS 전용 Menu Bar Extra 뷰를 통해 실시간 상태를 노출했습니다.',
-          '**[시스템 자동화]** Apple Shortcuts(단축어) 시스템과 딥링크를 연동하여, 특정 일정이 시작되면 자동으로 집중 모드가 켜지는 등 시스템 환경을 자동 제어하는 몰입 환경을 구축했습니다.',
-          '**[동적 반복 일정 엔진]** 반복 규칙만 저장하고 런타임에 "가상 인스턴스"를 계산하는 `OccurrenceService`를 구현하여 DB 성능을 최적화하고 디스크 용량을 혁신적으로 절약했습니다.',
-          '**[CloudKit 실시간 동기화]** 타임스탬프 기반의 병합 전략과 600ms 디바운스를 적용한 `ScheduleRepository`를 구현하여 기기 간 데이터 유실 없는 안정적인 동기화 레이어를 구축했습니다.',
-          '**[레이아웃 알고리즘]** 시간이 겹치는 일정들을 분석해 차선(Lane)을 할당하고 너비와 오프셋을 동적으로 계산하는 `TimelineLayoutHelper` 알고리즘을 직접 작성했습니다.',
+          '**[네이티브 경험]** **SwiftUI**를 사용하여 macOS 상태바 앱과 iOS 위젯을 구축했습니다. 플랫폼 간 실시간 카운트다운 및 상태 동기화를 구현했습니다.',
+          '**[시스템 자동화]** **애플 단축어(Shortcuts)** 연동을 통해 사용자의 일정에 맞춰 집중 모드가 자동으로 전환되는 시스템 환경을 설계했습니다.',
+          '**[에이전틱 개발]** **Claude Code**와 커스텀 지침을 활용한 **에이전틱 워크플로우**를 설계하여, 직접적인 코드 작성보다 아키텍처 설계와 검증에 집중한 고효율 개발을 수행했습니다.',
         ],
       },
       today_weather: {
-        title: '오늘날씨',
-        titleBadge: '2026',
+        title: '오늘날씨 (Today’s Weather) — 맞춤형 날씨 및 생활 가이드',
         description:
-          '기상청·에어코리아 고정밀 데이터 기반 개인화 날씨 & 생활 가이드 서비스. "오늘 어떤 옷을 입을지" 맞춤형 액션 플랜 제안.',
+          '기상청 및 에어코리아 데이터를 활용하여 사용자에게 최적의 복장과 준비물을 제안하는 개인화 서비스.',
         detail: [
-          '**[최신 생태계 도입]** **Next.js** 및 **React**를 도입하고 **React Compiler**를 활성화하여 별도의 최적화 선언 없이도 최상의 렌더링 성능을 확보했습니다.',
-          '**[모노레포 아키텍처]** **pnpm Workspaces** 기반의 모노레포를 구축하여 웹(Next.js)과 앱(Expo) 간 비즈니스 로직 및 TypeScript 타입을 100% 공유하도록 설계했습니다.',
-          '**[에지 최적화 캐싱]** 공공 API의 해외 IP 차단 및 할당량 제한 문제를 해결하기 위해 **서울 리전(icn1)** 에 에지 함수를 배치하고 **Upstash Redis**로 캐싱 전략을 구축했습니다.',
-          '**[네이티브 통합]** Expo 프로젝트 내에서 **@bacons/apple-targets**를 활용해 Swift 기반의 **iOS 홈 화면 위젯**을 구현하고 실시간 데이터 동기화를 처리했습니다.',
-          '**[데이터 기반 추천 엔진]** 기온, 풍속, 강수 확률, 미세먼지 농도 등을 종합 분석하여 복장(6단계), 우산 지수, 마스크 착용 여부를 제안하는 알고리즘을 구현했습니다.',
+          '**[엣지 최적화 캐시]** Vercel icn1(서울) 리전과 **Upstash Redis**를 활용한 서버리스 캐싱 전략을 구축하여 업스트림 API 부하를 80% 이상 절감했습니다.',
+          '**[고도화된 네이티브 연동]** **Swift**와 `@bacons/apple-targets`를 활용해 iOS 네이티브 위젯을 개발, 웹 앱과 홈 화면 위젯 간의 실시간 데이터 동기화를 구현했습니다.',
+          '**[최신 스택 도입]** **Next.js 16 (App Router)** 및 **React 19**를 선제적으로 도입하고 **React Compiler**를 활용하여 수동 메모이제이션 없는 최적의 성능을 확보했습니다.',
+          '**[에이전틱 오케스트레이션]** **MCP**를 통해 AI 에이전트에게 실시간 도큐먼트와 시스템 컨텍스트를 제공하여 고도로 정밀한 기능 구현을 주도했습니다.',
         ],
       },
       onelinebank_rebuild: {
-        title: '한줄은행',
-        titleBadge: '2021 해커톤 본선',
+        title: '한줄은행 (리빌드)',
+        titleBadge: '2021 해커톤 본선 진출작',
         description:
-          '2021 우리은행 해커톤에서 5일간 React Native를 습득해 핀테크 앱을 단독 개발, 본선 진출. 2026년 TypeScript로 전면 재작성.',
+          '2021 우리은행 해커톤 출품작을 최신 기술 스택인 TypeScript, Expo Router 등으로 전면 재구성한 성장 스토리 기반 프로젝트.',
         detail: [
-          '**[기술 현대화]** JavaScript → TypeScript 전면 전환 및 **Expo Router** 기반 파일 시스템 라우팅으로 아키텍처 재설계',
-          '**[핵심 기능]** 채팅 텍스트 파싱을 통해 은행명·계좌번호·금액을 자동 인식하는 자연어 송금 처리 로직 구현',
-          '**[서버 상태 관리]** **TanStack Query v5**와 **영속 쿼리 클라이언트**(비동기 스토리지)로 쿼리 캐싱 및 오프라인 대응',
-          '**[폼 & 검증]** **TanStack Form v1** + **Zod v4** 조합으로 타입 안전한 입력 유효성 처리',
-          '**[목업 API]** 현재 차단된 우리은행 오픈 API를 대체하기 위해 **Expo API Route**로 목업 서버를 구현하여 동일한 금융 트랜잭션 플로우 재현',
-          '**[스타일링]** **NativeWind v5**(Tailwind CSS 기반)를 도입하여 유틸리티 클래스 기반의 일관된 디자인 시스템 적용',
+          '**[아키텍처의 진화]** 레거시 JS 앱을 **TypeScript**와 **Expo Router** 기반의 기능 단위(Feature-based) 모듈 아키텍처로 리빌딩하여 생산성을 극대화했습니다.',
+          '**[견고한 폼 핸들링]** **TanStack Form**과 **Zod**를 결합하여 타입 안전한 스키마 검증과 일관된 에러 피드백 시스템을 뱅킹 플로우에 적용했습니다.',
+          '**[개발자 경험 개선]** **EAS**를 통한 배포 자동화와 **Crashlytics** 연동으로 안정적인 데모 환경과 장애 추적 인프라를 구축했습니다.',
         ],
       },
       campus_town: {
-        title: '서울 캠퍼스타운 입주 기업 선정',
-        titleBadge: '오르카에이아이',
+        title: '서울 캠퍼스타운 사업 선정 (Orca AI)',
         description:
-          '사업성과 기술력을 인정받아 서울시 및 대학교로부터 사무 공간 및 사업화 자금 지원 대상 선정.',
+          '사업의 시장성과 기술력을 인정받아 서울시 및 대학으로부터 사무 공간 및 사업화 자금을 지원받았습니다.',
         detail: [],
       },
       sveltekit_portfolio: {
         title: 'SvelteKit 포트폴리오',
-        description:
-          'Svelte 5 (Runes) + Claude Code 활용. 아키텍처 설계 효율과 사용자 경험을 극대화한 개인 웹사이트.',
+        description: 'Svelte 5 (Runes)와 AI 에이전트를 활용하여 구축한 고성능 개인 웹사이트.',
         detail: [
-          '**[Zero-flash i18n]** 서버사이드에서 `Accept-Language` 헤더를 파싱하고 쿠키를 `locals`로 전달하여 클라이언트 깜빡임 없는 다국어 전환 구현',
-          '**[성능 최적화]** Pure CSS 기반 설계로 Lighthouse 성능/접근성 100점 달성 (SEO는 의도적 차단)',
+          '**[성능 중심 호스팅]** 순수 정적 호스팅에서 **Cloudflare Pages**로 전환하고, **Edge Functions**를 통해 요청 단계에서 언어를 자동 감지하는 무지연 다국어 처리를 구현했습니다.',
+          '**[모던 반응성 모델]** **Svelte 5 Runes**를 전면 도입하여 세밀한 반응성 제어를 실현하고, 런타임 오버헤드를 줄여 유지보수 효율을 높였습니다.',
+          '**[AI 에이전트 인프라]** 중앙 관리형 **dotfiles**와 **AGENTS.md**를 구축하여 여러 AI 에이전트가 단일 소스를 공유하며 작업을 수행하는 에이전틱 개발 환경을 설계했습니다.',
         ],
       },
     },
     archives: {
       election_aggregator: {
-        title: '대선 뉴스 모아보기 페이지',
+        title: '선거 뉴스 어그리게이터',
         description:
-          '한양대학교 소프트웨어스튜디오2 수업 프로젝트입니다. 팀장으로서 기획, 디자인, 개발 전 과정을 주도하며 Serverless 아키텍처를 경험했습니다.',
+          '한양대학교 소프트웨어 스튜디오 2 프로젝트. 팀장으로서 서버리스 아키텍처 기반의 기획, 디자인, 개발 전 과정을 주도했습니다.',
         detail: [
-          '**[Serverless 도입]** AWS Amplify를 활용하여 별도의 백엔드 구축 없이 인증(로그인/회원가입) 및 데이터 관리 환경 구축',
-          '**[데이터 시각화]** Naver News API 데이터의 메타데이터(OG Tag)를 파싱하여 카드 뉴스로 렌더링하고, **Recharts**로 여론조사 데이터 시각화',
-          '**[컴포넌트 설계]** React 및 styled-components를 활용하여 재사용 가능한 컴포넌트 계층 구조 디자인',
+          '**[서버리스 아키텍처]** **AWS Amplify**와 **GraphQL**을 사용하여 실시간 뉴스 크롤러 및 어그리게이터를 설계, 선거 기간의 고동시성 트래픽을 안정적으로 처리했습니다.',
+          '**[리더십]** 팀장으로서 디자인, 프론트엔드, 백엔드 파트 간의 공정을 조율하고 일정을 관리하여 성공적인 산출물을 도출했습니다.',
         ],
       },
     },
