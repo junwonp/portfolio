@@ -33,6 +33,7 @@
 <style>
   .skill-chip {
     --cat-color: var(--color-primary);
+    --cat-text-hover: white;
 
     appearance: none;
     background: transparent;
@@ -52,7 +53,7 @@
   }
 
   .skill-chip:not(.readonly):hover {
-    color: white;
+    color: var(--cat-text-hover);
     background: var(--cat-color);
     border-color: var(--cat-color);
   }
@@ -60,13 +61,9 @@
   .skill-chip.active {
     background: var(--cat-color);
     border-color: var(--cat-color);
-    color: white;
+    color: var(--cat-text-hover);
     font-weight: 700;
     box-shadow: 0 2px 6px color-mix(in srgb, var(--cat-color) 30%, transparent);
-  }
-
-  .skill-chip.readonly {
-    cursor: default;
   }
 
   .cat-languages {
@@ -95,6 +92,7 @@
   }
   .cat-ai_workflow {
     --cat-color: var(--color-cat-ai_workflow);
+    --cat-text-hover: var(--color-cat-ai_workflow-text, white);
   }
 
   @media print {
