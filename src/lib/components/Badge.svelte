@@ -14,6 +14,6 @@
   });
 </script>
 
-<span class={['badge', resolvedColor, className]}>
+<span class="badge {resolvedColor} {className}">
   {text}
 </span>

@@ -21,7 +21,7 @@
 <a
   {href}
   {target}
-  class={['arrow-link', className]}
+  class="arrow-link {className}"
   style:--link-color={color}
   style:--link-bg-hover={color.includes('var(--cat-color)')
     ? `color-mix(in srgb, var(--cat-color) 10%, transparent)`
@@ -43,6 +43,7 @@
     padding: 0.25rem 0.5rem;
     margin-left: -0.5rem;
     border-radius: 4px;
+    width: fit-content;
     transition:
       background-color 0.2s,
       transform 0.2s;
