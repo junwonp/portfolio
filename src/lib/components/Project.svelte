@@ -2,7 +2,9 @@
   import type { Snippet } from 'svelte';
   import { Box, Layers } from 'lucide-svelte';
 
+  import ArrowLink from '$lib/components/ArrowLink.svelte';
   import Github from '$lib/components/Icon/Github.svelte';
+  import IconLink from '$lib/components/IconLink.svelte';
   import Period from '$lib/components/Period.svelte';
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
@@ -51,29 +53,24 @@
         <h3 class="project-title">
           {title}
           {#if detailLink}
-            <a
-              href={detailLink}
+            <ArrowLink
               class="detail-link"
-              aria-label={`${title} — ${labels.viewProjectDetails}`}
-              title={`${title} — ${labels.viewProjectDetails}`}
-              data-sveltekit-reload
-            >
-              {labels.viewProjectDetails} →
-            </a>
+              href={detailLink}
+              label={labels.viewProjectDetails}
+              reload
+            />
           {/if}
         </h3>
 
         {#if githubLink}
-          <a
-            class="github-icon-link"
+          <IconLink
             href={githubLink}
-            target="_blank"
-            rel="external noopener noreferrer"
-            aria-label={`${title} — ${labels.goToGithubPage}`}
-            title={`${title} — ${labels.goToGithubPage}`}
+            title={labels.goToGithubPage}
+            type="github"
+            ariaLabel={`${title} — ${labels.goToGithubPage}`}
           >
             <Github />
-          </a>
+          </IconLink>
         {/if}
       </div>
 
@@ -183,48 +180,6 @@
     gap: 1rem;
     margin: 0;
     font-size: var(--font-h3);
-  }
-
-  .detail-link {
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-decoration: none;
-    color: var(--color-primary);
-    transition: transform 0.2s;
-    display: inline-block;
-  }
-
-  .detail-link:hover {
-    text-decoration: underline;
-    transform: translateX(2px);
-  }
-
-  .github-icon-link {
-    align-items: center;
-    align-self: center;
-    border-radius: 50%;
-    color: var(--color-main);
-    display: flex;
-    justify-content: center;
-    padding: var(--space-xs);
-    text-decoration: none;
-    transition:
-      background 0.2s,
-      color 0.2s,
-      transform 0.1s;
-  }
-
-  .github-icon-link:active {
-    transform: scale(0.9);
-  }
-
-  .github-icon-link:hover {
-    background: #24292e;
-    color: #ffffff;
-  }
-
-  .github-icon-link :global(svg) {
-    pointer-events: none;
   }
 
   .block {

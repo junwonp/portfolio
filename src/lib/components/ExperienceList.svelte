@@ -2,6 +2,8 @@
   import { flip } from 'svelte/animate';
   import { slide } from 'svelte/transition';
 
+  import ArrowLink from '$lib/components/ArrowLink.svelte';
+  import Badge from '$lib/components/Badge.svelte';
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
   import { skillState } from '$lib/states/skills.svelte';
@@ -14,12 +16,6 @@
   let { experiences }: Props = $props();
 
   let labels = $derived(getLabels(getPageLocale()));
-
-  const getBadgeColor = (badge?: string) => {
-    if (!badge) return '';
-    if (badge.match(/^\d{4}$/)) return 'green'; // 2026, etc.
-    return 'orange'; // Company names
-  };
 
   const formatDate = (date?: string) => {
     if (!date) return '';
@@ -37,16 +33,14 @@
           <div class="header">
             <h3 class="title">{project.title}</h3>
             {#if exp.titleBadge}
-              <span class="badge {getBadgeColor(exp.titleBadge)}">{exp.titleBadge}</span>
+              <Badge text={exp.titleBadge} />
             {/if}
           </div>
           <p class="description">{project.description}</p>
 
           {#if project.detailLink}
             <div class="link-wrapper">
-              <a href={project.detailLink} class="detail-link" data-sveltekit-reload>
-                {labels.viewProjectDetails} →
-              </a>
+              <ArrowLink href={project.detailLink} label={labels.viewProjectDetails} reload />
             </div>
           {/if}
 
@@ -106,27 +100,6 @@
 
   .link-wrapper {
     margin-bottom: 0.75rem;
-  }
-
-  .detail-link {
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-decoration: none;
-    color: var(--color-primary);
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.5rem;
-    margin-left: -0.5rem;
-    border-radius: 4px;
-    transition:
-      background-color 0.2s,
-      transform 0.2s;
-  }
-
-  .detail-link:hover {
-    background-color: var(--color-primary-transparent);
-    text-decoration: underline;
-    transform: translateX(2px);
   }
 
   .description {

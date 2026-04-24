@@ -3,9 +3,9 @@
 
   import { browser } from '$app/environment';
   import { invalidateAll } from '$app/navigation';
-  import { base } from '$app/paths';
   import Github from '$lib/components/Icon/Github.svelte';
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
+  import IconLink from '$lib/components/IconLink.svelte';
   import { getLabels } from '$lib/data/labels';
   import type { MetricItem, PillarItem } from '$lib/types/about';
   import type { Language } from '$lib/utils/language';
@@ -42,13 +42,6 @@
   let locale = $derived(getPageLocale());
 
   let errorMessage = $state('');
-
-  function withBase(href?: string): string | undefined {
-    if (!href) return undefined;
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
-    if (href.startsWith('/')) return `${base}${href}`;
-    return href;
-  }
 
   async function toggleLanguage(): Promise<void> {
     errorMessage = '';
@@ -102,45 +95,24 @@
           {/if}
           {#if productLink}
             <div class="icon">
-              <a
-                href={withBase(productLink)}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={labels.goToProductPage}
-                title={labels.goToProductPage}
-              >
+              <IconLink href={productLink} title={labels.goToProductPage}>
                 <Globe size={24} strokeWidth={2.5} />
-              </a>
+              </IconLink>
             </div>
           {/if}
           {#if githubLink}
             <div class="icon">
-              <a
-                class="icon-github"
-                href={withBase(githubLink)}
-                target="_blank"
-                data-sveltekit-reload
-                rel="external noopener noreferrer"
-                aria-label={labels.goToGithubPage}
-                title={labels.goToGithubPage}
-              >
+              <IconLink href={githubLink} title={labels.goToGithubPage} type="github">
                 <Github />
-              </a>
+              </IconLink>
             </div>
           {/if}
 
           {#if linkedinLink}
             <div class="icon">
-              <a
-                class="icon-linkedin"
-                href={withBase(linkedinLink)}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={labels.goToLinkedinPage}
-                title={labels.goToLinkedinPage}
-              >
+              <IconLink href={linkedinLink} title={labels.goToLinkedinPage} type="linkedin">
                 <Linkedin />
-              </a>
+              </IconLink>
             </div>
           {/if}
         </div>
@@ -383,46 +355,6 @@
     padding: 0.375rem;
   }
 
-  .icon a :global(svg) {
-    pointer-events: none;
-  }
-
-  .icon a {
-    align-items: center;
-    border-radius: 50%;
-    color: var(--color-main);
-    display: flex;
-    flex-shrink: 0;
-    height: 2.5rem;
-    justify-content: center;
-    overflow: hidden;
-    text-decoration: none;
-    transition:
-      background 0.2s,
-      color 0.2s,
-      transform 0.1s;
-    width: 2.5rem;
-  }
-
-  .icon a:active {
-    transform: scale(0.9);
-  }
-
-  .icon a:not(.icon-github):not(.icon-linkedin):hover {
-    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
-    color: var(--color-primary);
-  }
-
-  .icon-github:hover {
-    background: #24292e;
-    color: #ffffff;
-  }
-
-  .icon-linkedin:hover {
-    background: #0077b5;
-    color: #ffffff;
-  }
-
   @media (max-width: 576px) {
     .title-container {
       flex-direction: column-reverse;
@@ -453,11 +385,6 @@
 
     .icon {
       padding: 0.25rem;
-    }
-
-    .icon a {
-      height: 2rem;
-      width: 2rem;
     }
 
     .title {

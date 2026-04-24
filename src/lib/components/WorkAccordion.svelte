@@ -3,6 +3,8 @@
   import { slide } from 'svelte/transition';
   import { ChevronDown } from 'lucide-svelte';
 
+  import ArrowLink from '$lib/components/ArrowLink.svelte';
+  import Badge from '$lib/components/Badge.svelte';
   import Period from '$lib/components/Period.svelte';
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
@@ -83,10 +85,10 @@
               <span class="company-name">{exp.companyName}</span>
               <div class="badges">
                 {#if exp.titleBadge}
-                  <span class="badge founder">{exp.titleBadge}</span>
+                  <Badge text={exp.titleBadge} color="primary" />
                 {/if}
                 {#if !exp.dateTo}
-                  <span class="badge current">{labels.present}</span>
+                  <Badge text={labels.present} color="green" />
                 {/if}
               </div>
             </div>
@@ -228,9 +230,7 @@
 
                     {#if project.detailLink}
                       <div class="project-links">
-                        <a href={project.detailLink} class="link-btn">
-                          {labels.viewProjectDetails} →
-                        </a>
+                        <ArrowLink href={project.detailLink} label={labels.viewProjectDetails} />
                       </div>
                     {/if}
 
@@ -587,17 +587,6 @@
   .project-links {
     display: flex;
     gap: 1rem;
-  }
-
-  .link-btn {
-    color: var(--color-primary);
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  .link-btn:hover {
-    text-decoration: underline;
   }
 
   .pc-only {
