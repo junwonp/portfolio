@@ -77,14 +77,14 @@
         {/if}
       </div>
 
-      {#if paradigmLabel()}
+      {#if paradigmLabel}
         <div class={['paradigm-badge', paradigm]}>
           {#if paradigm === 'agentic'}
             <Layers size={12} strokeWidth={3} />
           {:else}
             <Box size={12} strokeWidth={3} />
           {/if}
-          <span>{paradigmLabel()}</span>
+          <span>{paradigmLabel}</span>
         </div>
       {/if}
     </div>
@@ -246,12 +246,6 @@
 
     .block.other {
       padding: 0.5rem 0;
-    }
-  }
-
-  @media print {
-    .block {
-      break-inside: avoid;
     }
   }
 </style>

@@ -17,7 +17,11 @@
 
   import type { PageData } from './$types';
 
-  let { data }: { data: PageData } = $props();
+  interface Props {
+    data: PageData;
+  }
+
+  let { data }: Props = $props();
 
   let labels = $derived(getLabels(data.locale));
   let navSections = $derived([
@@ -28,20 +32,6 @@
     { id: 'section-education', label: labels.sectionEducation },
   ]);
   let resumeData = $derived(getResumeData(data.locale));
-
-  $effect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
-        e.preventDefault();
-        location.href = '/print?auto=1';
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  });
 
   $effect(() => {
     const saved = localStorage.getItem('scroll-y');
@@ -147,7 +137,7 @@
           <section id="section-skills" transition:slide={{ duration: 300 }}>
             <SectionHeader title={labels.sectionSkills} />
             {#if resumeData.skills}
-              <BentoSkills skills={resumeData.skills} />
+              <BentoSkills locale={data.locale} skills={resumeData.skills} />
             {/if}
           </section>
         {/if}
@@ -178,13 +168,12 @@
         {#if isAllEmpty}
           <div class="empty-state" transition:fade={{ duration: 300 }}>
             <div class="empty-icon">📂</div>
-            <h3>조건에 맞는 프로젝트가 없습니다.</h3>
-            <p>선택한 기술 스택을 모두 포함하는 프로젝트를 찾을 수 없습니다.</p>
+            <h3>{labels.noProjectsFound}</h3>
             <button
               class="empty-clear-btn"
               onclick={() => {
                 skillState.close();
-              }}>필터 해제하기</button
+              }}>{labels.skillFilterClear}</button
             >
           </div>
         {/if}
@@ -283,12 +272,6 @@
     font-size: 1.25rem;
   }
 
-  .empty-state p {
-    margin: 0 0 1.5rem 0;
-    color: var(--color-sub);
-    font-size: 0.9375rem;
-  }
-
   .empty-clear-btn {
     background: var(--color-primary);
     color: white;
@@ -311,22 +294,6 @@
   @media (max-width: 960px) {
     .layout {
       display: block;
-    }
-  }
-
-  @media print {
-    :global(body) {
-      visibility: hidden;
-    }
-
-    p {
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
-
-    .content-wrapper > section {
-      break-inside: avoid;
-      page-break-inside: avoid;
     }
   }
 </style>
