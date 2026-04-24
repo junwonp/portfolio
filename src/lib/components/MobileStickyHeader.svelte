@@ -1,9 +1,9 @@
 <script lang="ts">
   import { browser } from '$app/environment';
   import { invalidateAll } from '$app/navigation';
-  import { base } from '$app/paths';
   import Github from '$lib/components/Icon/Github.svelte';
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
+  import IconLink from '$lib/components/IconLink.svelte';
   import { getLabels } from '$lib/data/labels';
   import type { Language } from '$lib/utils/language';
   import { getPageLocale } from '$lib/utils/locale';
@@ -22,13 +22,6 @@
 
   let errorMessage = $state('');
   let isVisible = $state(false);
-
-  function withBase(href?: string): string | undefined {
-    if (!href) return undefined;
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
-    if (href.startsWith('/')) return `${base}${href}`;
-    return href;
-  }
 
   $effect(() => {
     const sentinel = document.getElementById('intro-header-sentinel');
@@ -77,29 +70,14 @@
       {langDisplay}
     </button>
     {#if githubLink}
-      <a
-        class="icon-link icon-github"
-        href={githubLink}
-        target="_blank"
-        data-sveltekit-reload
-        rel="external noopener noreferrer"
-        aria-label={labels.goToGithubPage}
-        title={labels.goToGithubPage}
-      >
+      <IconLink href={githubLink} title={labels.goToGithubPage} type="github">
         <Github />
-      </a>
+      </IconLink>
     {/if}
     {#if linkedinLink}
-      <a
-        class="icon-link icon-linkedin"
-        href={withBase(linkedinLink)}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={labels.goToLinkedinPage}
-        title={labels.goToLinkedinPage}
-      >
+      <IconLink href={linkedinLink} title={labels.goToLinkedinPage} type="linkedin">
         <Linkedin />
-      </a>
+      </IconLink>
     {/if}
     {#if errorMessage}
       <span class="error" role="alert">{errorMessage}</span>
@@ -175,34 +153,6 @@
   .lang-toggle:hover {
     background: var(--color-primary);
     border-color: var(--color-primary);
-    color: #ffffff;
-  }
-
-  .icon-link {
-    align-items: center;
-    border-radius: 50%;
-    color: var(--color-main);
-    display: flex;
-    height: 2.25rem;
-    justify-content: center;
-    text-decoration: none;
-    transition:
-      background 0.2s,
-      color 0.2s;
-    width: 2.25rem;
-  }
-
-  .icon-link :global(svg) {
-    pointer-events: none;
-  }
-
-  .icon-github:hover {
-    background: #24292e;
-    color: #ffffff;
-  }
-
-  .icon-linkedin:hover {
-    background: #0077b5;
     color: #ffffff;
   }
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { CodeXml, Cpu, Database, Library, Palette, Server, Sparkles, Zap } from 'lucide-svelte';
 
+  import ArrowLink from '$lib/components/ArrowLink.svelte';
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
   import type { SkillProps } from '$lib/types/about';
@@ -49,9 +50,12 @@
               <p>{skill.description}</p>
             </div>
           {/if}
-          <a href={skill.detailLink} class="card-link" data-sveltekit-reload>
-            {skill.detailLabel || labels.viewProjectDetails} →
-          </a>
+          <ArrowLink
+            href={skill.detailLink}
+            label={skill.detailLabel || labels.viewProjectDetails}
+            color="var(--cat-color)"
+            reload
+          />
         </div>
       {/if}
     </div>
@@ -130,20 +134,6 @@
     color: var(--color-sub);
     margin: 0;
     word-break: keep-all;
-  }
-
-  .card-link {
-    font-size: 0.8125rem;
-    font-weight: 700;
-    color: var(--cat-color);
-    text-decoration: none;
-    align-self: flex-start;
-    transition: transform 0.2s;
-  }
-
-  .card-link:hover {
-    text-decoration: underline;
-    transform: translateX(2px);
   }
 
   @media (max-width: 768px) {

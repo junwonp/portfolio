@@ -3,6 +3,8 @@
   import { slide } from 'svelte/transition';
   import { ChevronDown } from 'lucide-svelte';
 
+  import Badge from '$lib/components/Badge.svelte';
+
   export interface Achievement {
     tag: string;
     accent?: boolean;
@@ -37,7 +39,11 @@
         aria-expanded={isOpen}
       >
         <div class="ach-title-row">
-          <span class="ach-tag" class:accent={achievement.accent}>{achievement.tag}</span>
+          <Badge
+            text={achievement.tag}
+            color={achievement.accent ? 'green' : 'primary'}
+            class="ach-tag"
+          />
           <span class="ach-title">{achievement.title}</span>
         </div>
         <div class="ach-header-right">
@@ -102,28 +108,10 @@
     flex: 1;
   }
 
-  .ach-tag {
-    font-size: 13px;
-    font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 6px;
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    color: var(--color-primary);
+  :global(.ach-tag) {
     flex-shrink: 0;
     min-width: 60px;
     text-align: center;
-    white-space: nowrap;
-    line-height: 1;
-  }
-
-  .ach-tag.accent {
-    background: #e6f6eb;
-    color: #008a2e;
-  }
-
-  :global(html.dark) .ach-tag.accent {
-    background: #003d14;
-    color: #34d399;
   }
 
   .ach-title {

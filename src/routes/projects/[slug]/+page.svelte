@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Badge from '$lib/components/Badge.svelte';
   import MobileStickyHeader from '$lib/components/MobileStickyHeader.svelte';
   import { getLabels } from '$lib/data/labels';
 
@@ -16,9 +17,9 @@
   let progressWidth = $state('0%');
 
   const platformDotColors: Record<string, string> = {
-    Android: '#3ddc84',
-    iOS: '#007aff',
-    Web: '#f97316',
+    Android: 'var(--color-platform-android)',
+    iOS: 'var(--color-platform-ios)',
+    Web: 'var(--color-platform-web)',
   };
 
   $effect(() => {
@@ -91,13 +92,13 @@
   <div class="hero">
     <div class="hero-meta">
       {#if metadata.role}
-        <span class="badge orange">{metadata.role}</span>
+        <Badge text={metadata.role} color="primary" />
       {/if}
       {#if metadata.status}
-        <span class="badge green">{metadata.status}</span>
+        <Badge text={metadata.status} color="green" />
       {/if}
       {#if metadata.date}
-        <span class="badge sub">{metadata.date}</span>
+        <Badge text={metadata.date} color="sub" />
       {/if}
     </div>
 
@@ -261,11 +262,6 @@
     gap: 8px;
     margin-bottom: 16px;
     flex-wrap: wrap;
-  }
-
-  .badge {
-    font-size: 0.9375rem;
-    padding: 0.4rem 0.75rem;
   }
 
   .hero-title {
