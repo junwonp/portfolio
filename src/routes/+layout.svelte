@@ -15,7 +15,12 @@
   import type { Language } from '$lib/utils/language';
   import { getMetadata } from '$lib/utils/metadata';
 
-  let { children, data }: { children: Snippet; data: { locale: Language } } = $props();
+  interface Props {
+    children: Snippet;
+    data: { locale: Language };
+  }
+
+  let { children, data }: Props = $props();
 
   let canonicalUrl = $derived(`${PORTFOLIO_URL}${page.url.pathname}`);
   let currentLang = $derived(data.locale);
@@ -199,13 +204,6 @@
   @media (min-width: 1536px) {
     main.content {
       width: 1200px;
-    }
-  }
-
-  @media print {
-    main.content {
-      width: 800px;
-      max-width: 800px;
     }
   }
 

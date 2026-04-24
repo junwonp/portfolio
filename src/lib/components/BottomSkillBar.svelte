@@ -2,8 +2,10 @@
   import { fly, slide } from 'svelte/transition';
 
   import SkillChip from '$lib/components/SkillChip.svelte';
+  import { getLabels } from '$lib/data/labels';
   import { skillState } from '$lib/states/skills.svelte';
   import type { SkillProps } from '$lib/types/about';
+  import { getPageLocale } from '$lib/utils/locale';
 
   interface Props {
     skills: SkillProps[];
@@ -12,6 +14,7 @@
   let { skills, barHeight = $bindable(0) }: Props = $props();
 
   let isMinimized = $state(false);
+  let labels = $derived(getLabels(getPageLocale()));
 
   function handleKeydown(e: KeyboardEvent) {
     if (e.key === 'Escape') {
@@ -19,11 +22,13 @@
     }
   }
 
-  let filterText = $derived(() => {
+  let filterText = $derived.by(() => {
     const count = skillState.selectedTechs.length;
     if (count === 0) return '';
     if (count === 1) return `"${skillState.selectedTechs[0]}"`;
-    return `"${skillState.selectedTechs[0]}" 외 ${String(count - 1)}개`;
+    return getPageLocale() === 'ko'
+      ? `"${skillState.selectedTechs[0]}" 외 ${String(count - 1)}개`
+      : `"${skillState.selectedTechs[0]}" and ${String(count - 1)} more`;
   });
 
   const ICONS: Record<string, string> = {
@@ -55,9 +60,10 @@
         <span class={['status-dot', skillState.isEmpty && 'inactive']}></span>
         <span class="status-text">
           {#if skillState.isEmpty}
-            기술을 선택해서 필터링해보세요
+            {labels.skillFilterPlaceholder}
           {:else}
-            현재 <strong>{filterText()}</strong> 필터링 중
+            <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+            {@html labels.skillFilterActive.replace('{tech}', `<strong>${filterText}</strong>`)}
           {/if}
         </span>
       </div>
@@ -65,18 +71,20 @@
         <button
           class="toggle-btn"
           onclick={() => (isMinimized = !isMinimized)}
-          aria-label={isMinimized ? '펼치기' : '접기'}
+          aria-label={isMinimized
+            ? labels.skillBarExpandAriaLabel
+            : labels.skillBarCollapseAriaLabel}
         >
-          {isMinimized ? '↑ 펼치기' : '↓ 접기'}
+          {isMinimized ? labels.skillBarExpand : labels.skillBarCollapse}
         </button>
         <button
           class="close-btn"
           onclick={() => {
             skillState.close();
           }}
-          aria-label="필터 해제 및 닫기"
+          aria-label={labels.skillFilterClearAriaLabel}
         >
-          ✕ 닫기
+          {labels.skillFilterClear}
         </button>
       </div>
     </div>
@@ -172,7 +180,7 @@
     margin: 0;
   }
 
-  .status-text strong {
+  .status-text :global(strong) {
     color: var(--color-primary);
   }
 
@@ -246,12 +254,6 @@
       right: 1rem;
       width: auto;
       transform: none;
-    }
-  }
-
-  @media print {
-    .bottom-skill-bar-wrapper {
-      display: none !important;
     }
   }
 </style>

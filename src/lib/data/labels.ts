@@ -14,8 +14,11 @@ export interface Labels {
   goToProductPage: string;
   languageToggleError: string;
   navAriaLabel: string;
+  noProjectsFound: string;
   pageNotFound: string;
-  printPreview: string;
+  paradigmAgentic: string;
+  paradigmAssisted: string;
+  present: string;
   project: string;
   resumeTitle: string;
   sectionArchives: string;
@@ -25,6 +28,14 @@ export interface Labels {
   sectionAwards: string;
   sectionSkills: string;
   sectionWork: string;
+  skillBarCollapse: string;
+  skillBarCollapseAriaLabel: string;
+  skillBarExpand: string;
+  skillBarExpandAriaLabel: string;
+  skillFilterActive: string;
+  skillFilterClear: string;
+  skillFilterClearAriaLabel: string;
+  skillFilterPlaceholder: string;
   tabEducation: string;
   tabIntro: string;
   tabProjects: string;
@@ -54,8 +65,11 @@ export const labelsMap: Record<Language, Labels> = {
     goToProductPage: '제품 페이지로 이동',
     languageToggleError: '언어 전환에 실패했습니다.',
     navAriaLabel: '섹션 탐색',
+    noProjectsFound: '조건에 맞는 프로젝트가 없습니다.',
     pageNotFound: '페이지를 찾을 수 없습니다',
-    printPreview: '자세히 보기',
+    paradigmAgentic: '에이전틱 주도',
+    paradigmAssisted: 'AI 보조',
+    present: '현재',
     project: '프로젝트',
     resumeTitle: '포트폴리오',
     sectionArchives: '기타 활동',
@@ -65,6 +79,14 @@ export const labelsMap: Record<Language, Labels> = {
     sectionAwards: '수상 및 프로젝트',
     sectionSkills: '기술 스택',
     sectionWork: '경력',
+    skillBarCollapse: '↓ 접기',
+    skillBarCollapseAriaLabel: '접기',
+    skillBarExpand: '↑ 펼치기',
+    skillBarExpandAriaLabel: '펼치기',
+    skillFilterActive: '현재 {tech} 필터링 중',
+    skillFilterClear: '✕ 닫기',
+    skillFilterClearAriaLabel: '필터 해제 및 닫기',
+    skillFilterPlaceholder: '기술을 선택해서 필터링해보세요',
     tabEducation: '학력',
     tabIntro: '소개',
     tabProjects: '프로젝트',
@@ -92,8 +114,12 @@ export const labelsMap: Record<Language, Labels> = {
     goToProductPage: 'Go to product page',
     languageToggleError: 'Failed to switch language.',
     navAriaLabel: 'Section navigation',
+    noProjectsFound: 'No projects match the selected filters.',
     pageNotFound: 'Page not found',
-    printPreview: 'View Details',
+    paradigmAgentic: 'Agentic Driven',
+    paradigmAssisted: 'AI Assisted',
+    present: 'Present',
+
     project: 'Project',
     resumeTitle: 'Portfolio',
     sectionArchives: 'Archives',
@@ -103,6 +129,14 @@ export const labelsMap: Record<Language, Labels> = {
     sectionAwards: 'Awards & Projects',
     sectionSkills: 'Skills Set',
     sectionWork: 'Work Experience',
+    skillBarCollapse: '↓ Collapse',
+    skillBarCollapseAriaLabel: 'Collapse',
+    skillBarExpand: '↑ Expand',
+    skillBarExpandAriaLabel: 'Expand',
+    skillFilterActive: 'Filtering by {tech}',
+    skillFilterClear: '✕ Clear',
+    skillFilterClearAriaLabel: 'Clear filter and close',
+    skillFilterPlaceholder: 'Select skills to filter',
     tabEducation: 'Education',
     tabIntro: 'Intro',
     tabProjects: 'Projects',
