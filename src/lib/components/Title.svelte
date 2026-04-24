@@ -84,7 +84,7 @@
       <div class="icons" class:with-back={!!backLink}>
         {#if backLink}
           <div class="back-button">
-            <a href={withBase(backLink)} aria-label={labels.goBack} title={labels.goBack}>
+            <a href={backLink} aria-label={labels.goBack} title={labels.goBack}>
               <ChevronLeft />
             </a>
           </div>
@@ -497,20 +497,6 @@
 
     .pillar-desc {
       display: none;
-    }
-  }
-
-  @media print {
-    .icons {
-      display: none !important;
-    }
-
-    .lang-toggle {
-      display: none !important;
-    }
-
-    .title {
-      font-size: 2.5rem;
     }
   }
 </style>

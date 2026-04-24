@@ -229,9 +229,9 @@ productLink: ''
 
 ### Sync Check
 
-Check whether `src/lib/data/resume.en.ts` and `src/lib/data/resume.ko.ts` are structurally in sync.
+Check whether the Korean and English sections in `src/lib/data/resume.i18n.ts` are structurally in sync.
 
-Read both files and compare:
+Read the file and compare the `ko` and `en` properties:
 
 1. **Top-level exports** — both files must export the same named constants (e.g. `introduction`, `workExperiences`, `otherExperiences`, `education`, `skills`, `archives`, `certificates`).
 
@@ -260,3 +260,6 @@ The user will provide text or a file path. Follow these steps:
 4. **If translating a full file** — preserve the data structure exactly (object keys, field names, array order). Only translate string values that are human-readable content. Do NOT translate: `detailLink`, `githubLink`, `productLink`, `dateFrom`, `dateTo`, `role` values that are job titles (keep in English).
 
 5. **Output** — show the translated result ready to paste. If it's a file, show the full updated content.
+   nk`, `productLink`, `dateFrom`, `dateTo`, `role` values that are job titles (keep in English).
+
+6. **Output** — show the translated result ready to paste. If it's a file, show the full updated content.
