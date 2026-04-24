@@ -97,7 +97,7 @@
         <span class="badge green">{metadata.status}</span>
       {/if}
       {#if metadata.date}
-        <span class="badge blue">{metadata.date}</span>
+        <span class="badge sub">{metadata.date}</span>
       {/if}
     </div>
 
@@ -150,7 +150,7 @@
     top: 0;
     left: 0;
     height: 2px;
-    background: #e05a2b;
+    background: var(--color-primary);
     z-index: 100;
     transition: width 0.1s linear;
   }
@@ -232,14 +232,14 @@
   }
 
   .topbar-link.primary {
-    background: #e05a2b;
+    background: var(--color-primary);
     color: #fff;
-    border-color: #e05a2b;
+    border-color: var(--color-primary);
   }
 
   .topbar-link.primary:hover {
-    background: #c94f24;
-    border-color: #c94f24;
+    background: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
   }
 
   /* Content */
@@ -264,31 +264,8 @@
   }
 
   .badge {
-    border-radius: 6px;
     font-size: 0.9375rem;
-    font-weight: 600;
     padding: 0.4rem 0.75rem;
-    line-height: 1;
-  }
-
-  .badge.orange {
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    color: var(--color-primary);
-  }
-
-  .badge.green {
-    background: #e6f6eb;
-    color: #008a2e;
-  }
-
-  :global(html.dark) .badge.green {
-    background: #003d14;
-    color: #34d399;
-  }
-
-  .badge.blue {
-    background: color-mix(in srgb, var(--color-sub) 10%, transparent);
-    color: var(--color-sub);
   }
 
   .hero-title {
@@ -444,7 +421,7 @@
   }
 
   :global(.project-article blockquote) {
-    border-left: 3px solid var(--color-primary, #e05a2b);
+    border-left: 3px solid var(--color-primary);
     margin: 0 0 20px;
     padding: 12px 16px;
     background: var(--color-disabled-bg);
@@ -462,7 +439,7 @@
   }
 
   :global(.project-article a) {
-    color: var(--color-primary, #e05a2b);
+    color: var(--color-primary);
     text-decoration: underline;
     text-underline-offset: 3px;
   }

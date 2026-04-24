@@ -2,37 +2,38 @@
   import { CodeXml, Cpu, Database, Library, Palette, Server, Sparkles, Zap } from 'lucide-svelte';
 
   import SkillChip from '$lib/components/SkillChip.svelte';
+  import { getLabels } from '$lib/data/labels';
   import type { SkillProps } from '$lib/types/about';
-  import { getPageLocale } from '$lib/utils/locale';
+  import type { Language } from '$lib/utils/language';
 
   interface Props {
+    locale: Language;
     skills: SkillProps[];
   }
-  let { skills }: Props = $props();
 
-  const viewDetailsLabel = $derived(getPageLocale() === 'ko' ? '자세히 보기' : 'View Details');
+  let { locale, skills }: Props = $props();
+
+  let labels = $derived(getLabels(locale));
+
+  const categoryIcons: Record<string, typeof CodeXml> = {
+    languages: CodeXml,
+    frameworks: Library,
+    ui: Palette,
+    state: Database,
+    performance: Zap,
+    backend: Server,
+    devops: Cpu,
+    ai_workflow: Sparkles,
+  };
 </script>
 
 <div class="bento-grid">
   {#each skills as skill (skill.title)}
-    <div class={['card', `cat-${skill.id}`]}>
+    {@const Icon = categoryIcons[skill.id]}
+    <div class="card" style:--cat-color="var(--color-cat-{skill.id})">
       <div class="card-header">
-        {#if skill.id === 'languages'}
-          <CodeXml class="category-icon" size={18} strokeWidth={2.5} />
-        {:else if skill.id === 'frameworks'}
-          <Library class="category-icon" size={18} strokeWidth={2.5} />
-        {:else if skill.id === 'ui'}
-          <Palette class="category-icon" size={18} strokeWidth={2.5} />
-        {:else if skill.id === 'state'}
-          <Database class="category-icon" size={18} strokeWidth={2.5} />
-        {:else if skill.id === 'performance'}
-          <Zap class="category-icon" size={18} strokeWidth={2.5} />
-        {:else if skill.id === 'backend'}
-          <Server class="category-icon" size={18} strokeWidth={2.5} />
-        {:else if skill.id === 'devops'}
-          <Cpu class="category-icon" size={18} strokeWidth={2.5} />
-        {:else if skill.id === 'ai_workflow'}
-          <Sparkles class="category-icon" size={18} strokeWidth={2.5} />
+        {#if Icon}
+          <Icon class="category-icon" size={18} strokeWidth={2.5} />
         {/if}
         <h3 class="card-title">{skill.title}</h3>
       </div>
@@ -49,7 +50,7 @@
             </div>
           {/if}
           <a href={skill.detailLink} class="card-link" data-sveltekit-reload>
-            {skill.detailLabel || viewDetailsLabel} →
+            {skill.detailLabel || labels.viewProjectDetails} →
           </a>
         </div>
       {/if}
@@ -66,7 +67,6 @@
   }
 
   .card {
-    --cat-color: var(--color-bg-divider);
     background: transparent;
     border: 1px solid color-mix(in srgb, var(--cat-color) 20%, var(--color-bg-divider));
     border-radius: 12px;
@@ -83,31 +83,6 @@
     background: color-mix(in srgb, var(--cat-color) 2%, transparent);
   }
 
-  .cat-languages {
-    --cat-color: var(--color-cat-languages);
-  }
-  .cat-frameworks {
-    --cat-color: var(--color-cat-frameworks);
-  }
-  .cat-ui {
-    --cat-color: var(--color-cat-ui);
-  }
-  .cat-state {
-    --cat-color: var(--color-cat-state);
-  }
-  .cat-performance {
-    --cat-color: var(--color-cat-performance);
-  }
-  .cat-backend {
-    --cat-color: var(--color-cat-backend);
-  }
-  .cat-devops {
-    --cat-color: var(--color-cat-devops);
-  }
-  .cat-ai_workflow {
-    --cat-color: var(--color-cat-ai_workflow);
-  }
-
   .card-header {
     display: flex;
     align-items: center;
@@ -116,7 +91,7 @@
     color: var(--cat-color);
   }
 
-  .category-icon {
+  :global(.category-icon) {
     flex-shrink: 0;
   }
 
@@ -174,13 +149,6 @@
   @media (max-width: 768px) {
     .bento-grid {
       grid-template-columns: 1fr;
-    }
-  }
-
-  @media print {
-    .card {
-      background: transparent;
-      border: 1px solid var(--color-bg-divider);
     }
   }
 </style>

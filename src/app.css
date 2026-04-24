@@ -345,6 +345,35 @@ code {
   color: var(--color-inline-code);
 }
 
+.badge {
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.4rem 0.6rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.badge.primary {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+}
+
+.badge.green {
+  background: var(--color-badge-green-bg);
+  color: var(--color-badge-green-text);
+}
+
+.badge.orange {
+  background: var(--color-badge-orange-bg);
+  color: var(--color-badge-orange-text);
+}
+
+.badge.sub {
+  background: color-mix(in srgb, var(--color-sub) 10%, transparent);
+  color: var(--color-sub);
+}
+
 pre {
   font-family: var(--font-family-code), monospace !important;
   font-feature-settings:
@@ -460,31 +489,6 @@ article img {
 @media (max-width: 960px) {
   .tablet-mobile-only {
     display: block;
-  }
-}
-
-@media print {
-  html.dark {
-    /* Reset to light theme colors for printing */
-    --color-bold: var(--light-color-bold);
-    --color-inline-code: var(--light-color-inline-code);
-    --color-main: var(--light-color-main);
-    --color-placeholder: var(--light-color-placeholder);
-    --color-quoted: var(--light-color-quoted);
-    --color-sub: var(--light-color-sub);
-    --color-basic-bg: var(--light-color-basic-bg);
-    --color-code-bg: var(--light-color-code-bg);
-    --color-disabled-bg: var(--light-color-disabled-bg);
-    --color-inline-bg: var(--light-color-inline-bg);
-    --color-table-bg: var(--light-color-table-bg);
-    --color-bg-divider: var(--light-color-bg-divider);
-    --color-bg-subdivider: var(--light-color-bg-subdivider);
-    --color-quoted-border: var(--light-color-quoted-border);
-    --color-table-border: var(--light-color-table-border);
-    --color-primary: var(--light-color-primary);
-    --color-primary-hover: var(--light-color-primary-hover);
-    --color-primary-bg: var(--light-color-primary-bg);
-    --color-error: var(--light-color-error);
   }
 }
 

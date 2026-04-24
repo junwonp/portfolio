@@ -3,35 +3,28 @@
   import { slide } from 'svelte/transition';
   import { ChevronDown } from 'lucide-svelte';
 
-  import { base } from '$app/paths';
   import Period from '$lib/components/Period.svelte';
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
   import { skillState } from '$lib/states/skills.svelte';
   import type { ProjectItem, WorkExperienceProps } from '$lib/types/about';
+  import type { Language } from '$lib/utils/language';
   import { parseMarkdownBold } from '$lib/utils/markdown';
 
   interface Props {
     experiences: WorkExperienceProps[];
-    locale: string;
+    locale: Language;
   }
 
   let { experiences, locale }: Props = $props();
 
-  let labels = $derived(getLabels(locale as 'ko' | 'en'));
+  let labels = $derived(getLabels(locale));
 
   // Level 1: which companies have project list expanded
   let openCompanies = new SvelteSet<string>();
 
   // Level 2: which projects have details expanded (key: "companyName::projectTitle")
   let openProjects = new SvelteSet<string>();
-
-  function withBase(href?: string): string | undefined {
-    if (!href) return undefined;
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
-    if (href.startsWith('/')) return `${base}${href}`;
-    return href;
-  }
 
   function toggleCompany(name: string): void {
     if (openCompanies.has(name)) {
@@ -93,7 +86,7 @@
                   <span class="badge founder">{exp.titleBadge}</span>
                 {/if}
                 {#if !exp.dateTo}
-                  <span class="badge current">{locale === 'ko' ? '현재' : 'Present'}</span>
+                  <span class="badge current">{labels.present}</span>
                 {/if}
               </div>
             </div>
@@ -144,7 +137,7 @@
 
         <!-- Company-level additional link (e.g. recommendation letter) -->
         {#if exp.additional}
-          <a href={withBase(exp.additional.link)} target="_blank" class="additional-link">
+          <a href={exp.additional.link} target="_blank" class="additional-link">
             {exp.additional.label} →
           </a>
         {/if}
@@ -235,7 +228,7 @@
 
                     {#if project.detailLink}
                       <div class="project-links">
-                        <a href={withBase(project.detailLink)} class="link-btn">
+                        <a href={project.detailLink} class="link-btn">
                           {labels.viewProjectDetails} →
                         </a>
                       </div>
@@ -324,30 +317,6 @@
   .badges {
     display: flex;
     gap: 0.5rem;
-  }
-
-  .badge {
-    border-radius: 6px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    padding: 0.4rem 0.6rem;
-    white-space: nowrap;
-    line-height: 1;
-  }
-
-  .badge.founder {
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    color: var(--color-primary);
-  }
-
-  .badge.current {
-    background: #e6f6eb;
-    color: #008a2e;
-  }
-
-  :global(html.dark) .badge.current {
-    background: #003d14;
-    color: #34d399;
   }
 
   .company-right {
