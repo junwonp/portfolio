@@ -5,15 +5,16 @@ date: '2020-08 ~ 2020-10'
 role: 'Frontend Engineer'
 techStack:
   [
-    'React',
     'TypeScript',
+    'React',
+    'styled-components',
+    'Atomic Design',
     'React Table',
+    'Redux',
+    'Redux-Saga',
     'react-window',
     'react-virtualized',
     'Socket.IO',
-    'Redux-Saga',
-    'Atomic Design',
-    'styled-components',
   ]
 ---
 
