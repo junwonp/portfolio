@@ -24,7 +24,7 @@
   {href}
   target="_blank"
   rel={type === 'github' ? 'external noopener noreferrer' : 'noopener noreferrer'}
-  class={['icon-link', type, className]}
+  class="icon-link {type} {className}"
   {title}
   aria-label={ariaLabel || title}
   data-sveltekit-reload={type === 'github' ? '' : undefined}
