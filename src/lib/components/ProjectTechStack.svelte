@@ -15,7 +15,7 @@
       .map((category) => ({
         title: category.title,
         id: category.id,
-        skills: techStack.filter((skill) => category.list.includes(skill)),
+        skills: category.list.filter((skill) => techStack.includes(skill)),
       }))
       .filter((group) => group.skills.length > 0),
   );
