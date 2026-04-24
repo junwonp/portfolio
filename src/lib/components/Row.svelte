@@ -39,10 +39,6 @@
     @media (max-width: 960px) {
       flex-direction: column;
     }
-
-    @media print {
-      flex-direction: row;
-    }
   }
 
   .left {
@@ -56,11 +52,6 @@
       flex-basis: 100%;
       padding-bottom: 1rem;
       padding-right: 0;
-    }
-
-    @media print {
-      flex-basis: 12rem;
-      padding-bottom: 0;
     }
   }
 

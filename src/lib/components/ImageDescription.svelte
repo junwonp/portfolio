@@ -192,19 +192,4 @@
     color: var(--color-sub);
     line-height: 1.6;
   }
-
-  @media print {
-    .skeleton {
-      display: none;
-    }
-
-    .image-description img,
-    .image-description video {
-      opacity: 1 !important;
-    }
-
-    .image-description video {
-      display: none;
-    }
-  }
 </style>

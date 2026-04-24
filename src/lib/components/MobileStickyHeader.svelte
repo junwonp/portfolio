@@ -79,7 +79,7 @@
     {#if githubLink}
       <a
         class="icon-link icon-github"
-        href={withBase(githubLink)}
+        href={githubLink}
         target="_blank"
         data-sveltekit-reload
         rel="external noopener noreferrer"
@@ -209,11 +209,5 @@
   .error {
     color: var(--color-error);
     font-size: 0.7rem;
-  }
-
-  @media print {
-    .sticky-header {
-      display: none !important;
-    }
   }
 </style>

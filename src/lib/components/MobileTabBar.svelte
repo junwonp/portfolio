@@ -330,10 +330,4 @@
     color: #ffffff;
     font-weight: 700;
   }
-
-  @media print {
-    .tab-bar {
-      display: none !important;
-    }
-  }
 </style>
