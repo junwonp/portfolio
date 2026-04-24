@@ -129,35 +129,6 @@
     transform: translateX(2px);
   }
 
-  .badge {
-    font-size: 0.875rem;
-    font-weight: 600;
-    padding: 0.4rem 0.6rem;
-    border-radius: 6px;
-    line-height: 1;
-    white-space: nowrap;
-  }
-
-  .badge.green {
-    background: #e6f6eb;
-    color: #008a2e;
-  }
-
-  .badge.orange {
-    background: #fff0e6;
-    color: #ff6b00;
-  }
-
-  :global(html.dark) .badge.green {
-    background: #003d14;
-    color: #34d399;
-  }
-
-  :global(html.dark) .badge.orange {
-    background: #3d1c00;
-    color: #fb923c;
-  }
-
   .description {
     font-size: 0.9375rem;
     color: var(--color-main);

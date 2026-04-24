@@ -17,12 +17,11 @@
 </script>
 
 <button
-  class={[
-    'skill-chip',
-    `cat-${category}`,
-    !readonly && skillState.has(skill) && 'active',
-    readonly && 'readonly',
-  ]}
+  class={['skill-chip', !readonly && skillState.has(skill) && 'active', readonly && 'readonly']}
+  style:--cat-color="var(--color-cat-{category})"
+  style:--cat-text-hover={category === 'ai_workflow'
+    ? 'var(--color-cat-ai_workflow-text, white)'
+    : 'white'}
   onclick={handleClick}
   onkeydown={handleClick}
   aria-pressed={!readonly && skillState.has(skill)}
@@ -64,43 +63,5 @@
     color: var(--cat-text-hover);
     font-weight: 700;
     box-shadow: 0 2px 6px color-mix(in srgb, var(--cat-color) 30%, transparent);
-  }
-
-  .cat-languages {
-    --cat-color: var(--color-cat-languages);
-  }
-  .cat-frameworks {
-    --cat-color: var(--color-cat-frameworks);
-  }
-  .cat-ui {
-    --cat-color: var(--color-cat-ui);
-  }
-  .cat-state {
-    --cat-color: var(--color-cat-state);
-  }
-  .cat-performance {
-    --cat-color: var(--color-cat-performance);
-  }
-  .cat-backend {
-    --cat-color: var(--color-cat-backend);
-  }
-  .cat-devops {
-    --cat-color: var(--color-cat-devops);
-  }
-  .cat-tools {
-    --cat-color: var(--color-cat-tools);
-  }
-  .cat-ai_workflow {
-    --cat-color: var(--color-cat-ai_workflow);
-    --cat-text-hover: var(--color-cat-ai_workflow-text, white);
-  }
-
-  @media print {
-    .skill-chip {
-      background: transparent !important;
-      border: 1px solid var(--color-bg-divider) !important;
-      color: var(--color-bold) !important;
-      padding: 0.2rem 0.4rem;
-    }
   }
 </style>
