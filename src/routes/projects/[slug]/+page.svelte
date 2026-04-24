@@ -16,12 +16,6 @@
 
   let progressWidth = $state('0%');
 
-  const platformDotColors: Record<string, string> = {
-    Android: 'var(--color-platform-android)',
-    iOS: 'var(--color-platform-ios)',
-    Web: 'var(--color-platform-web)',
-  };
-
   $effect(() => {
     const update = () => {
       const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
@@ -124,11 +118,7 @@
     {#if metadata.platforms && metadata.platforms.length > 0}
       <div class="platforms">
         {#each metadata.platforms as platform (platform)}
-          <div class="platform-tag">
-            <span class="platform-dot" style:background={platformDotColors[platform] ?? '#888'}
-            ></span>
-            {platform}
-          </div>
+          <Badge text={platform} />
         {/each}
       </div>
     {/if}
@@ -309,33 +299,6 @@
   .metric-lbl {
     font-size: 12px;
     color: var(--color-sub);
-  }
-
-  /* Platforms */
-  .platforms {
-    display: flex;
-    gap: 8px;
-    margin-top: 24px;
-    flex-wrap: wrap;
-  }
-
-  .platform-tag {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.875rem;
-    color: var(--color-sub);
-    background: var(--color-disabled-bg);
-    border: 1px solid var(--color-bg-divider);
-    padding: 6px 12px;
-    border-radius: 6px;
-  }
-
-  .platform-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
   }
 
   /* Article */
