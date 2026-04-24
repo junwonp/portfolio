@@ -240,6 +240,13 @@
     padding: 0 clamp(16px, 5vw, 60px) 120px;
   }
 
+  .platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
   /* Hero */
   .hero {
     padding: 52px 0 48px;
