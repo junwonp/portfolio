@@ -1,107 +1,83 @@
 ---
 title: Today's Weather
-description: Personalized weather and lifestyle guide service using data from the Korea Meteorological Administration and Air Korea.
-date: '2026-04-01'
-role: 'Personal Project'
+description: Personalized weather and lifestyle guide using KMA and Air Korea data — monorepo serving web, Expo mobile, and iOS widgets from a single shared logic layer.
+date: '2026-04 ~'
+role: 'Solo developer'
+platforms: ['Web', 'iOS', 'Android']
+metrics:
+  [
+    { value: '80%+', label: 'API Load Reduced' },
+  ]
 techStack:
   [
     'Next.js',
     'React',
     'React Native',
     'Expo',
+    'Expo Router',
     'TanStack Query',
     'Tailwind CSS',
     'Supabase',
     'Upstash Redis',
+    'React Compiler',
+    'Native Modules',
+    'Swift',
+    'Kotlin',
+    'Node.js',
+    'Vitest',
+    'shadcn/ui',
+    'Reanimated',
+    'Agentic Workflow',
+    'Claude Code',
   ]
 ---
 
 <script>
-  import ImageDescription from '$lib/components/ImageDescription.svelte';
+  import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
+  import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
+
+  let { metadata, locale } = $props();
 </script>
 
-> **Personalized weather and lifestyle guide service using data from the Korea Meteorological Administration and Air Korea.**
+## 📋 Project overview
 
-Beyond simple weather reporting, this service combines real-time weather data with fine dust levels to intuitively suggest **"what to wear today," "whether to bring an umbrella," and "if a mask is needed."**
+**"A guide, not just data"**
 
----
+Existing weather apps share three frustrations: global data sources that miss Korea's local forecasts, information scattered across too many screens, and raw numbers that still make the user do the mental math — "is 15°C a jacket or a coat day?" **Today's Weather** uses the most accurate local sources (KMA, Air Korea) and translates the data into immediate action plans: what to wear, whether to take an umbrella, and whether to bring a mask.
 
-## 💡 Project Origin: "I wanted a guide, not just data"
+<ProjectTechStack techStack={metadata.techStack} {locale} />
 
-Three major frustrations with existing weather apps sparked this project:
+## ⚙️ Key work
 
-1. **Inaccuracy of Global Sources**: Many popular weather apps use global sources, often missing the nuances of local forecasts in Korea.
-2. **Data Overload**: While the KMA (Korea Meteorological Administration) app provides accurate data, the information is too fragmented, and the UI/loading speeds are restrictive.
-3. **The Hassle of Interpretation**: What users truly want to know isn't just "What's the temperature?" but **"What should I wear, and do I need an umbrella or mask?"** I wanted to eliminate the effort of manually "calculating" an outfit based on temperature and humidity.
+<ProjectAchievements achievements={[
+  {
+    tag: 'Architecture',
+    accent: true,
+    title: 'pnpm Monorepo — 100% shared business logic',
+    detail: `Designed a monorepo with three workspaces: <code>apps/web</code> (Next.js 16 App Router), <code>apps/mobile</code> (Expo / React Native), and <code>packages/shared</code> (common logic and TypeScript types). The weather recommendation algorithm, outfit-calculation logic, and all TypeScript type definitions live in <code>packages/shared</code> and are consumed identically by both apps and by iOS widgets — zero duplication across platforms. Enabled the <strong>React Compiler</strong> in the Next.js app to eliminate manual <code>useMemo</code> / <code>useCallback</code> declarations.`
+  },
+  {
+    tag: 'Performance',
+    accent: true,
+    title: 'Edge-optimized backend + Upstash Redis caching (80%+ load reduction)',
+    detail: `Korean public APIs (KMA, Air Korea) block requests from non-Korean IP addresses. Fixed the Vercel serverless execution region to <strong>icn1 (Seoul)</strong> to resolve this at the infrastructure level. Layered <strong>Upstash Redis</strong> in front of both APIs with a 30-minute TTL, batching rapid user requests into a single upstream call per window. This reduced upstream API load by over 80% and cut p99 response latency significantly.`
+  },
+  {
+    tag: 'Platform',
+    title: 'iOS Home Screen widget via @bacons/apple-targets',
+    detail: `Implemented a <strong>Swift-based iOS Home Screen widget</strong> inside the Expo project using <code>@bacons/apple-targets</code>. The widget reads weather data from the same Supabase backend as the app, keeping the widget display synchronized in real time without a separate data pipeline. Combined <strong>Anonymous Auth</strong> with Supabase Edge Functions to deliver personalized weather alerts as push notifications in a fully serverless environment.`
+  },
+  {
+    tag: 'Data',
+    title: 'Multi-factor recommendation engine',
+    detail: `The recommendation engine synthesizes temperature, wind speed, precipitation probability (POP), precipitation type (PTY), and fine dust concentrations into three daily verdicts:<ul><li><strong>Outfit:</strong> 6-level clothing recommendation based on apparent temperature, with a wind-chill correction that adjusts the category when wind speed is high.</li><li><strong>Umbrella:</strong> Triggered when POP ≥ 60% or when active precipitation is detected (PTY ≠ 0).</li><li><strong>Mask:</strong> Graded against the worse of PM2.5 or PM10 — so a good PM2.5 reading doesn't mask a bad PM10 day.</li></ul>`
+  },
+]} />
 
-This app aims to provide **action plans immediately useful in daily life**, based on the **most accurate local data (KMA/Air Korea)**.
+## 💭 Retrospective
 
----
+**Latest tech in production:** Navigating the breaking changes in Next.js 16 and React 19 gave me a hands-on understanding of the modern React ecosystem — including where the React Compiler genuinely reduces boilerplate and where it still requires manual guidance.
 
-## 🚀 Key Technical Achievements
+**Infrastructure constraints:** IP blocking and rate limiting are real problems that documentation rarely prepares you for. Region-pinning serverless functions and Redis caching were the right fixes, and working through them sharpened my instinct for solving infra problems at the right layer.
 
-### 1. Modern Monorepo & Next.js 16 + React 19 Ecosystem
-* **Next.js 16.2.2 (App Router) & React 19.2.0**: Adopted the latest framework versions and enabled the **React Compiler**. This ensured optimal rendering performance without the need for manual `useMemo` or `useCallback` declarations.
-* **pnpm Workspaces Monorepo**: Designed a monorepo structure consisting of `apps/web` (Next.js), `apps/mobile` (Expo), and `packages/shared` (common logic and types). This maximized development productivity by sharing 100% of business logic (weather recommendation algorithms, etc.) and TypeScript types.
-
-### 2. Edge-Optimized Backend & Cache Strategy
-* **Vercel icn1 (Seoul Region) Optimization**: Fixed the serverless function execution environment to the Seoul region (`icn1`) to resolve IP blocking issues encountered when accessing Korean public APIs from overseas IPs.
-* **Data Caching with Upstash Redis**: Introduced Redis to solve rate-limiting issues with the KMA API and minimize response latency. A 30-minute TTL (Time-To-Live) caching strategy reduced the load on upstream APIs by over 80%.
-
-### 3. Cross-Platform Experience & Advanced Native Integration
-* **iOS Native Widget (@bacons/apple-targets)**: Implemented Swift-based iOS Home Screen widgets within the Expo project using `@bacons/apple-targets`. It provides a seamless user experience by synchronizing data between the web and mobile apps in real-time.
-* **Supabase Edge Functions & Push Notifications**: Combined Anonymous Auth with Edge Functions to build an architecture that delivers real-time weather alerts and personalized push notifications in a serverless environment.
-
-### 4. Data-Driven Recommendation Engine
-* **Intelligent Recommendation Algorithm**: Implemented logic that synthetically analyzes temperature, wind speed, precipitation probability (POP), precipitation type (PTY), and fine dust grades.
-    * **Outfit**: 6-level clothing recommendations based on temperature, with correction logic for perceived temperature during high winds.
-    * **Umbrella**: Immediate alerts when the precipitation probability is over 60% or when current precipitation is detected.
-    * **Mask**: Mask wearing recommendations based on the worse of PM2.5 or PM10 concentrations.
-
----
-
-## 🛠️ Tech Stack
-
-### Frontend & App
-- **Web**: Next.js 16 (App Router), React 19, Tailwind CSS v4, shadcn/ui
-- **Mobile**: Expo (React Native), Expo Router, Reanimated
-- **State Management**: TanStack Query v5 (with Persistence)
-
-### Backend & DevOps
-- **Backend**: Next.js API Routes (Serverless)
-- **Database/Auth**: Supabase (PostgreSQL, Auth, Edge Functions)
-- **Caching**: Upstash Redis
-- **Tooling**: pnpm, ESLint, Prettier, Vitest
-
----
-
-## 📐 Architecture
-
-```mermaid
-graph TD
-    subgraph Clients
-        W[Web PWA]
-        M[Expo Mobile App]
-    end
-
-    subgraph Backend
-        Next[Next.js API Routes - icn1]
-        Redis[(Upstash Redis Cache)]
-    end
-
-    subgraph External_APIs
-        KMA[KMA Forecast API]
-        Air[Air Korea Dust API]
-    end
-
-    W & M --> Next
-    Next <--> Redis
-    Next -.->|Cache Miss| KMA & Air
-```
-
----
-
-## 💡 What I Learned
-* **Production Deployment of Latest Tech**: Gained a deep understanding of the modern ecosystem by navigating the breaking changes in Next.js 16 and React 19.
-* **Overcoming Infrastructure Constraints**: Developed the ability to solve real-world infrastructure problems, such as IP blocking and API quotas, through region optimization and caching strategies.
-* **Abstraction of Shared Logic**: Strengthened monorepo design skills to utilize the same business logic across different platforms, including web, mobile apps, and widgets.
+**Cross-platform abstraction:** Sharing business logic across a web app, a mobile app, and an iOS widget without duplication validated the monorepo design. The shared package pattern is now a default in how I structure multi-platform projects.

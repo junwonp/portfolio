@@ -1,90 +1,72 @@
 ---
 title: 대선 뉴스 모아보기
-description: AWS Serverless 기반의 대선 정보 애그리게이터
-date: '2021-12-30'
+description: AWS Serverless 기반의 대선 정보 애그리게이터 — 팀 프로젝트로 뉴스, 여론조사, 후보 공약을 하나의 대시보드로 수집·시각화했습니다.
+date: '2021-11 ~ 2021-12'
 image: '/images/election-aggregator/1.webp'
 githubLink: 'ITE3068_team8'
-techStack: ['React', 'AWS Amplify', 'Recharts', 'MUI', 'styled-components']
+role: 'Team Leader · Full Stack'
+techStack: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components']
 ---
 
 <script>
-  import ImageDescription from '$lib/components/ImageDescription.svelte';
+  import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
+  import ProjectLightbox from '$lib/components/ProjectLightbox.svelte';
+  import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
+
+  let { metadata, locale } = $props();
 </script>
 
 ## 📋 프로젝트 소개
 
 **"파편화된 선거 정보를 한 곳에서 볼 수 있다면?"**
 
-대선 기간 동안 뉴스, 여론조사, 후보자 공약 등 정보가 여러 플랫폼에 흩어져 있어 유권자가 정보를 습득하기 어려운 문제가 있었습니다. 이를 해결하기 위해 **모든 선거 관련 데이터를 수집하여 시각화해 주는 애그리게이터(Aggregator) 서비스**를 개발했습니다.
+대선 기간 동안 뉴스, 여론조사, 후보자 공약 등의 정보가 여러 플랫폼에 흩어져 있어 유권자가 정보를 접하기 어려운 문제가 있었습니다. **Tech Lead 겸 Full Stack 개발자**로서 ESLint/Prettier 컨벤션 수립, Git Flow 전략 도입, AWS Amplify 서버리스 인프라(Cognito 인증, AppSync API) 구축을 주도했습니다. 그 결과물이 모든 선거 관련 데이터를 한 대시보드에서 수집·시각화하는 애그리게이터 서비스입니다.
 
-**AWS Amplify(Serverless)**를 도입하여 인증(Auth)과 백엔드 API를 효율적으로 구축했으며, **MUI(Material UI)**와 **Recharts**를 활용하여 직관적인 대시보드 UI를 구현했습니다.
-
-### 🧰 기술 스택
-
-- **Frontend:** React, styled-components, MUI (Material UI)
-- **Visualization:** Recharts
-- **Backend (Serverless):** AWS Amplify (Auth, API)
-- **Crawling & Network:** Cheerio, Microlink, Axios
-
----
+<ProjectTechStack techStack={metadata.techStack} {locale} />
 
 ## ⚙️ 주요 작업
 
-### 1. 메인 대시보드 UI
+<ProjectAchievements achievements={[
+  {
+    tag: 'UI',
+    accent: true,
+    title: 'MUI Grid를 활용한 반응형 대시보드',
+    detail: `사용자가 가장 먼저 접하는 메인 대시보드입니다. <strong>MUI의 그리드 시스템</strong>을 활용하여 D-Day 카운터, 오늘의 주요 뉴스, 선거 일정을 별도의 미디어 쿼리 없이 모바일부터 데스크탑까지 대응하는 반응형 레이아웃으로 구성했습니다.`
+  },
+  {
+    tag: 'Auth',
+    accent: true,
+    title: 'AWS Amplify 기반 서버리스 인증',
+    detail: `<strong>AWS Amplify Auth(Cognito)</strong>를 연동하여 별도의 백엔드 서버 없이 회원가입, 로그인, 세션 관리를 구현했습니다. Amplify SDK 위에 커스텀 로그인·회원가입 모달을 직접 제작해 SPA 내에서 자연스러운 사용자 경험을 제공했습니다.`
+  },
+  {
+    tag: 'Feature',
+    title: '개인화 기능 (북마크)',
+    detail: `관심 기사를 스크랩하면 <strong>Amplify API(AppSync/GraphQL)</strong>를 통해 사용자 개인 저장소에 동기화됩니다. 커스텀 백엔드 없이 세션과 기기에 걸쳐 데이터를 유지할 수 있습니다.`
+  },
+  {
+    tag: 'Data',
+    title: '뉴스 큐레이션 및 메타데이터 강화',
+    detail: `<strong>Naver News API</strong>로 대선 뉴스를 수집하고 카드 형태로 표시했습니다. <strong>Microlink</strong>를 활용해 각 카드에 OG 메타데이터(썸네일, 요약)를 보강했으며, Axios와 Proxy 설정으로 CORS 이슈를 해결하여 API를 연동했습니다.`
+  },
+  {
+    tag: 'Visualization',
+    title: '여론조사 지지율 차트',
+    detail: `복잡한 후보별 지지율 추이를 <strong>Recharts</strong> 라이브러리로 인터랙티브한 라인/바 차트로 시각화했습니다. 차트 컴포넌트를 범용 데이터 구조를 받도록 설계하여 다양한 여론조사 데이터셋에 재사용 가능하게 구현했습니다.`
+  },
+]} />
 
-<ImageDescription src="/images/election-aggregator/1.webp" mobileSrc="/images/election-aggregator/1_mobile.jpg" alt="Main page" priority width={2560} height={1309} />
+## 📸 스크린샷
 
-사용자가 가장 먼저 접하는 대시보드입니다.
+<ProjectLightbox images={[
+  { src: '/images/election-aggregator/1.webp', mobileSrc: '/images/election-aggregator/1_mobile.jpg', alt: '메인 대시보드', caption: '메인 대시보드 — D-Day 카운터, 주요 뉴스, 선거 일정' },
+  { src: '/images/election-aggregator/2.webp', mobileSrc: '/images/election-aggregator/2_mobile.jpg', alt: '로그인 페이지', caption: 'AWS Amplify Auth 기반 커스텀 로그인 모달' },
+  { src: '/images/election-aggregator/3.webp', mobileSrc: '/images/election-aggregator/3_mobile.jpg', alt: '회원가입 페이지', caption: '커스텀 회원가입 모달' },
+  { src: '/images/election-aggregator/5.webp', mobileSrc: '/images/election-aggregator/5_mobile.jpg', alt: '읽기 목록', caption: 'AppSync/GraphQL로 동기화되는 개인 읽기 목록' },
+  { src: '/images/election-aggregator/11.webp', mobileSrc: '/images/election-aggregator/11_mobile.jpg', alt: '대선 뉴스', caption: 'Microlink 메타데이터가 보강된 뉴스 카드' },
+  { src: '/images/election-aggregator/13.webp', mobileSrc: '/images/election-aggregator/13_mobile.jpg', alt: '여론조사 차트', caption: 'Recharts로 시각화한 지지율 추이' },
+]} />
 
-**MUI**의 그리드 시스템을 활용하여 D-Day 카운터, 오늘의 주요 뉴스, 선거 일정을 반응형 레이아웃으로 구성했습니다.
+## 💭 회고
 
-### 2. AWS Amplify 기반 인증
-
-<ImageDescription src="/images/election-aggregator/2.webp" mobileSrc="/images/election-aggregator/2_mobile.jpg" alt="Login page" width={2560} height={1310} />
-
-**AWS Amplify Auth**를 연동하여 별도의 백엔드 서버 구축 없이 보안성이 보장된 회원가입 및 로그인 세션 관리 기능을 구현했습니다.
-
-<ImageDescription src="/images/election-aggregator/3.webp" mobileSrc="/images/election-aggregator/3_mobile.jpg" alt="Signup page" width={2560} height={1310} />
-
-로그인 모달과 회원가입 모달을 직접 구현하여 자연스러운 사용자 경험을 유도했습니다.
-
-### 3. 개인화 기능 (북마크)
-
-<ImageDescription src="/images/election-aggregator/5.webp" mobileSrc="/images/election-aggregator/5_mobile.jpg" alt="Reading list" width={2583} height={1334} />
-
-관심 있는 기사를 스크랩하면 **Amplify API(GraphQL)**를 통해 사용자 개인 저장소에 동기화됩니다.
-
-### 4. 뉴스 큐레이션 및 시각화
-
-<ImageDescription src="/images/election-aggregator/11.webp" mobileSrc="/images/election-aggregator/11_mobile.jpg" alt="Election news page" width={2560} height={1308} />
-
-Naver News API로 수집한 데이터를 가공하여 카드 뉴스 형태로 보여줍니다.
-
-**Microlink** 등을 활용해 기사의 메타데이터(썸네일, 요약)를 시각화하여 정보 전달력을 높였습니다.
-
-### 5. 여론조사 차트
-
-<ImageDescription src="/images/election-aggregator/13.webp" mobileSrc="/images/election-aggregator/13_mobile.jpg" alt="Election poll page" width={2560} height={1308} />
-
-복잡한 지지율 추이를 **Recharts** 라이브러리를 사용하여 직관적인 라인/바 차트로 시각화했습니다.
-
----
-
-## 🎯 담당 역할 (Team Leader & Full Stack)
-
-**초기 환경 세팅부터 AWS 인프라 연동, 프론트엔드 핵심 기능 개발 주도**
-
-- **Tech Lead:** ESLint/Prettier 컨벤션 수립 및 Git Flow 전략 도입
-- **Serverless Architecture:** AWS Amplify를 활용하여 인증(Cognito) 및 데이터(AppSync) 통신 환경 구축
-- **Frontend Development:**
-  - **Recharts**를 활용한 데이터 시각화 컴포넌트 구현
-  - **MUI**와 **styled-components** 기반의 일관된 UI 시스템 설계
-  - Axios 및 Proxy 설정을 통한 CORS 이슈 해결 및 API 연동
-
----
-
-## 💭 회고: "서버리스 아키텍처의 가능성을 보다"
-
-### AWS Amplify를 통한 생산성 향상
-
-복잡한 백엔드 인프라 구축 대신 **AWS Amplify**를 도입함으로써, 프론트엔드 개발자가 비즈니스 로직과 데이터 시각화에 집중할 수 있는 환경을 만들었습니다. 이를 통해 제한된 프로젝트 기간 내에 인증, DB, API를 모두 갖춘 완성된 서비스를 배포할 수 있었습니다.
+직접 백엔드를 구축하는 대신 **AWS Amplify**를 도입하자 팀이 비즈니스 로직과 데이터 시각화에 집중할 수 있었습니다. 제한된 프로젝트 기간 안에 인증, DB, API를 모두 갖춘 서비스를 배포할 수 있었고, 올바른 인프라 선택이 소규모 팀에 얼마나 큰 레버리지를 주는지 직접 경험할 수 있었습니다.

@@ -1,78 +1,65 @@
 ---
 title: CameraFi Studio
-description: Building a Web-based Broadcast Overlay Platform & Performance Optimization
-date: '2023-06-30'
+description: Web-based broadcast overlay platform built solo — from frontend architecture to the company's second main revenue stream.
+date: '2022-02 ~ 2023-06'
 image: '/images/camerafi-studio/optimization_chart.webp'
 productLink: 'https://studio.camerafi.com'
-techStack: ['Next.js', 'TypeScript', 'MUI', 'Firebase', 'Webpack']
+role: 'Frontend Engineer'
+platforms: ['Web']
+metrics:
+  [
+    { value: '15%', label: 'Bundle Size Reduced' },
+    { value: '47KB', label: 'JS Saved' },
+  ]
+techStack: ['Next.js', 'TypeScript', 'MUI', 'Webpack', 'Firebase', 'Paddle', 'TanStack Query', 'styled-components', 'Storybook', 'Node.js', 'GitHub Copilot']
 ---
 
 <script>
-  import ImageDescription from '$lib/components/ImageDescription.svelte';
+  import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
+  import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
+
+  let { metadata, locale } = $props();
 </script>
 
 ## 📋 Project overview
 
 **"From Solo Project to Core Business Model"**
 
-CameraFi Studio is a web platform that allows users to apply overlays, such as scoreboards and subtitles, to sports matches or broadcast feeds.
-Starting as a **solo developer, I designed the frontend architecture from scratch** and grew the project into the company's second main revenue stream.
+CameraFi Studio is a web platform that allows users to apply overlays — scoreboards, subtitles, and more — to sports matches or broadcast feeds. Starting as a **solo developer, I designed the frontend architecture from scratch** and grew the project into the company's second main revenue stream.
 
 Targeting a global market, I implemented **Internationalization (i18n)** and an **Integrated Payment System (Paddle)**, and improved web application performance through **Webpack configuration optimization**.
 
-### 🧰 Tech stack
-
-- **Framework:** Next.js, TypeScript
-- **Styling:** MUI (Material UI) + Styled-components
-- **Infrastructure:** Firebase (Auth, Firestore, Hosting)
-- **Payment:** Paddle
-- **Optimization:** Webpack, Bundle Analyzer
-
----
+<ProjectTechStack techStack={metadata.techStack} {locale} />
 
 ## ⚙️ Key work
 
-### 1. 15% Bundle Size Reduction (324KB → 277KB)
+<ProjectAchievements achievements={[
+  {
+    tag: 'Performance',
+    accent: true,
+    title: '15% bundle size reduction via Webpack config optimization (324KB → 277KB)',
+    detail: `Audited the production bundle with <strong>webpack-bundle-analyzer</strong> to identify size bottlenecks, then applied targeted Webpack configuration changes:<ul><li><strong>Tree Shaking (lodash):</strong> Replaced whole-library <code>import _ from 'lodash'</code> calls with per-method imports (<code>import debounce from 'lodash/debounce'</code>), eliminating ~200+ unused utility functions from the build.</li><li><strong>Dynamic Import (code splitting):</strong> Wrapped heavy UI panels — charts, overlay editors, modal-heavy screens — in <code>React.lazy()</code> with <code>next/dynamic</code>, moving them out of the initial chunk.</li><li><strong>Vendor chunk tuning:</strong> Configured <code>splitChunks.cacheGroups</code> to group stable third-party libraries into a separate vendor bundle, improving long-term cache reuse across deployments.</li></ul>Result: main entry bundle dropped from <strong>324KB → 277KB (~15%, 47KB saved)</strong>, with a measurable reduction in TTI (Time to Interactive) on first load.<br/><img src="/images/camerafi-studio/optimization_chart.webp" alt="Bundle size reduction chart" style="margin-top:12px;border-radius:8px;width:100%;" />`
+  },
+  {
+    tag: 'Auth',
+    accent: true,
+    title: 'Secure integrated authentication system',
+    detail: `Rather than relying solely on libraries, designed a secure login process combining <strong>Firebase Custom Tokens</strong> and <strong>Cookies</strong>. Authentication state is synchronized between client and server via cookies. Built a separate <strong>Integrated Login Page</strong> as a foundation for Single Sign-On (SSO) across future services.`
+  },
+  {
+    tag: 'Architecture',
+    title: 'Scalable global architecture',
+    detail: `Adopted an <strong>i18n</strong> system from the early stages to support global users. Combined <strong>MUI</strong> and <strong>Styled-components</strong> to build a <strong>Global Theme System</strong> — a flexible UI structure that adapts to design changes like brand color updates or Dark Mode without structural refactoring.`
+  },
+  {
+    tag: 'Compliance',
+    title: 'Custom Cookie Consent implementation',
+    detail: `To comply with GDPR and other global standards without relying on third-party tools, <strong>developed the Cookie Consent banner and control logic from scratch</strong>. Avoiding external scripts prevented page speed degradation from unnecessary script loading.`
+  },
+]} />
 
-<ImageDescription src="/images/camerafi-studio/optimization_chart.webp" alt="Bundle size reduction chart" priority width={907} height={548}>
-  Led the <strong>optimization of Webpack configurations</strong> to improve initial loading speed.
-</ImageDescription>
+## 💭 Retrospective
 
-1. **Tree Shaking:** Reduced build size by removing unused modules from heavy libraries like `lodash`.
-2. **Dynamic Import:** Changed heavy components not needed for initial entry (e.g., charts, modals) to load asynchronously.
+**Scalable initial design:** In a solo project, a poor initial structure compounds into unmanageable technical debt. I held firm on **Next.js** folder conventions and strong **TypeScript** typing — building a codebase that could scale to a team without rearchitecting.
 
-Through this, I **reduced the main bundle size by approximately 15% (47KB)**, significantly shortening the TTI (Time to Interactive).
-
-### 2. Secure Integrated Authentication System
-
-Rather than relying solely on libraries, I designed a secure login process combining **Firebase Custom Tokens** and **Cookies**.
-
-I enhanced security by synchronizing the authentication state between client and server via cookies and built a separate **Integrated Login Page** to establish a foundation for Single Sign-On (SSO) across future services.
-
-### 3. Scalable Global Architecture
-
-I adopted an **i18n** system from the early stages to support global users.
-
-Additionally, I combined **MUI** and **Styled-components** to build a **Global Theme System**. This created a flexible UI structure capable of adapting to design requirement changes, such as brand color updates or Dark Mode implementation.
-
-### 4. Custom Compliance Implementation (Cookie Consent)
-
-To comply with global web standards like GDPR without relying on third-party tools, I **developed the Cookie Consent banner and control logic from scratch**.
-
-By implementing this directly, I prevented page speed degradation caused by loading unnecessary external scripts.
-
----
-
-## 💭 Retrospective: "From solo developer to architect"
-
-### 1. Initial Design Considering Scalability
-
-I was wary that a poor initial structure in a solo project could lead to unmanageable technical debt later.
-
-Instead of rushing feature implementation, I strictly adhered to **Next.js** folder structure principles and applied strong **TypeScript** typing. I focused on building a **solid codebase** that would remain robust even as the team expanded.
-
-### 2. Experience with Monetization (Paddle)
-
-I gained experience in building a **'revenue-generating service'** beyond simple feature development.
-
-By integrating the **Paddle** payment module, I developed a deep understanding of the entire payment lifecycle, including subscription state management and renewal processing via Webhooks.
+**Monetization:** Integrating **Paddle** gave me hands-on understanding of the full payment lifecycle: subscription state management, Webhook-based renewal, and the operational side of a revenue-generating service.

@@ -1,10 +1,11 @@
 ---
 title: OnelineBank
 description: Conversational mobile banking demo — 2021 Woori Bank hackathon app rebuilt in TypeScript with Expo Router, TanStack Query, and feature-based modules.
-date: '2021-06-05'
+date: '2021-04 ~ 2026-03'
 image: '/images/oneline-bank/1.webp'
 githubLink: 'OnelineBank'
 role: 'Solo developer'
+platforms: ['Android', 'iOS']
 techStack:
   [
     'React Native',
@@ -14,129 +15,85 @@ techStack:
     'TanStack Query',
     'TanStack Form',
     'Zustand',
-    'NativeWind',
+    'Tailwind CSS',
     'Zod',
     'MMKV',
     'Firebase',
+    'Reanimated',
+    'CVA',
+    'EAS',
+    'Crashlytics',
   ]
 ---
 
 <script>
-  import ImageDescription from '$lib/components/ImageDescription.svelte';
+  import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
+  import ProjectLightbox from '$lib/components/ProjectLightbox.svelte';
+  import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
+
+  let { metadata, locale } = $props();
 </script>
 
 ## 📋 Project overview
 
 **"Simplifying money transfers into a single line of chat."**
 
-OnelineBank is a **conversational banking demo**: the user describes a transfer in natural language, the app parses intent, runs a short confirmation dialog, and finishes with biometric verification.
+OnelineBank is a **conversational banking demo**: the user describes a transfer in natural language, the app parses intent, runs a short confirmation dialog, and finishes with biometric verification. Started as a **2021 Woori Bank Hackathon finalist** built under time pressure in JavaScript — then fully rewritten in TypeScript with modern architecture after gaining deeper React Native experience.
 
-The **2021 hackathon version** was written in JavaScript under time pressure and called the **Woori Bank Open API** from the client. I later **rewrote the app from scratch** in TypeScript with Expo Router, feature modules, and TanStack Query. The UI flow is largely the same; the difference is in **state management, routing, typing, and where network boundaries sit**.
-
-- **Code:** [Rebuild](https://github.com/junwonp/OnelineBank) · [Hackathon (legacy)](https://github.com/junwonp/OnelineBank-legacy)
-
-### 🧰 Tech stack
-
-- **Rebuild:** React Native, TypeScript, Expo, Expo Router, TanStack Query v5, TanStack Form, Zod, Zustand, NativeWind, MMKV, Firebase (`@react-native-firebase/*`), Expo API Routes (mock transfer)
-- **Hackathon (legacy):** React Native, JavaScript, Expo (SDK 41), React Navigation 5, Context, styled-components, Firestore, Woori Bank Open API, Gifted Chat–style UI
-
----
+<ProjectTechStack techStack={metadata.techStack} {locale} />
 
 ## ⚙️ Key work
 
-### 1. Feature modules and server state (rebuild)
+<ProjectAchievements achievements={[
+  {
+    tag: 'Core',
+    accent: true,
+    title: 'Conversational transfer: natural language → verified payment',
+    detail: `Chat messages are parsed with regex for <strong>bank, account, amount, and recipient</strong>. A confirmation step and <strong>positive/negative reply sets</strong> drive the dialog before execution. <code>expo-local-authentication</code> gates the final action — even in a demo context, the security UX matches real banking flows. Parsing and bank-code mapping live under <code>features/remittance/utils</code>; <code>app/api/transfer+api.ts</code> implements an <strong>open-banking-shaped mock</strong> so the client calls <code>fetch('/api/transfer')</code> and secrets are never bundled in the app.`
+  },
+  {
+    tag: 'Architecture',
+    accent: true,
+    title: 'Feature-module structure with TanStack Query server state',
+    detail: `Under <code>features/</code>, the app groups <strong>auth, accounts, messages, profile, and remittance</strong> with hooks and helpers per domain. Screens under <code>app/</code> focus on routing and layout only — all reads and writes go through <code>useQuery</code> / <code>useMutation</code>.<ul><li><strong>Query key factories</strong> (<code>accountKeys</code>, <code>messagesKeys</code>) keep invalidation and prefetch targets explicit.</li><li><strong>Prefetch helpers</strong> (<code>prefetchAccounts</code>, <code>prefetchMessages</code>) support faster first paint.</li><li><strong>PersistQueryClientProvider</strong> + <strong>MMKV persister</strong> restores cache after cold start.</li><li><strong>NetInfo → <code>onlineManager</code></strong> and <strong>AppState → <code>focusManager</code></strong> align refetch behavior with connectivity and foreground/background.</li></ul>`
+  },
+  {
+    tag: 'Auth',
+    title: 'Declarative auth routing with Expo Router + Zustand',
+    detail: `Firebase <code>onAuthStateChanged</code> is wrapped and synced to a small <strong>Zustand</strong> store. <strong>Expo Router <code>Stack.Protected</code></strong> splits <code>(tabs)</code> vs <code>(auth)</code> by session so guards stay declarative in the tree — no imperative redirects scattered through screens. <strong>TanStack Form + Zod</strong> handle login flows: schema validation, <code>isSubmitting</code>, and consistent disabled states / snackbars.`
+  },
+  {
+    tag: 'Ux',
+    title: 'Utility-first UI with NativeWind + CVA typed variants',
+    detail: `<strong>NativeWind</strong> keeps layout and spacing utility-first across the app. <strong>class-variance-authority (CVA)</strong> defines <strong>typed variants</strong> for components like <code>Button</code> — styles stay consistent and easy to extend without runtime style merging logic.`
+  },
+  {
+    tag: 'Dx',
+    title: 'Full release pipeline: EAS, Crashlytics, localized display names',
+    detail: `TypeScript, ESLint (Expo + TanStack Query rules), Prettier. <strong>EAS</strong>, <code>expo-dev-client</code>, <code>expo-build-properties</code>, <strong>Crashlytics</strong>, and localized display names (e.g., Korean <strong>한줄은행</strong>) follow a production-minded setup throughout.`
+  },
+  {
+    tag: 'History',
+    title: 'Hackathon (2021) vs rebuild: a before/after comparison',
+    detail: `The two repos sit side by side as a concrete before/after — same product idea, fundamentally different engineering decisions.<table style="width:100%;border-collapse:collapse;font-size:0.875rem;margin-top:0.75rem"><thead><tr><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Area</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Hackathon (legacy)</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Rebuild</th></tr></thead><tbody><tr><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Language</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">JavaScript</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">TypeScript</td></tr><tr><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Navigation</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Stack + Tab (React Navigation 5)</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Expo Router, file-based routes</td></tr><tr><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Global state</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Context (User, Progress)</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Zustand + Firebase for auth; Query for server state</td></tr><tr><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Data / API</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Direct HTTP calls from client</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">TanStack Query, cache, persistence, online/focus hooks</td></tr><tr><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">UI</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">styled-components, Gifted Chat</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">NativeWind, custom message UI</td></tr><tr><td style="padding:6px 8px">Firebase</td><td style="padding:6px 8px">Web-compat style SDK</td><td style="padding:6px 8px">@react-native-firebase/* modules</td></tr></tbody></table>`
+  },
+]} />
 
-Under `features/`, the app groups **auth, accounts, messages, profile, and remittance** with hooks and helpers per domain. Screens under `app/` focus on routing and layout; reads and writes go through **`useQuery` / `useMutation`**.
+## 📸 Screenshots
 
-- **Query key factories** (`accountKeys`, `messagesKeys`, etc.) keep invalidation and prefetch targets explicit.
-- **Prefetch** helpers (`prefetchAccounts`, `prefetchMessages`) support faster first paint.
-- **PersistQueryClientProvider** with an **MMKV** persister restores cache after cold start.
-- **NetInfo → `onlineManager`** and **AppState → `focusManager`** align refetch behavior with connectivity and foreground/background.
+<ProjectLightbox images={[
+  { src: '/images/oneline-bank/1.webp', alt: 'Splash page', caption: 'App identity — logo and intro screen' },
+  { src: '/images/oneline-bank/2.webp', alt: 'Login page', caption: 'Firebase Auth–based login' },
+  { src: '/images/oneline-bank/3.webp', alt: 'Chat transfer flow', caption: 'Regex parsing → bot confirmation → biometrics → Woori Bank Open API transfer' },
+  { src: '/images/oneline-bank/4.webp', alt: 'Contact shortcuts', caption: 'Aliases (e.g. "Mom") for frequent recipients' },
+  { src: '/images/oneline-bank/5.webp', alt: 'Add account', caption: 'Account registration flow' },
+  { src: '/images/oneline-bank/6.webp', alt: 'Account list', caption: 'Firestore for accounts and transfer history in real time' },
+]} />
 
-### 2. Auth, routing, and forms (rebuild)
+## 💭 Retrospective
 
-- Firebase **`onAuthStateChanged`** is wrapped and synced to a small **Zustand** store.
-- **Expo Router `Stack.Protected`** splits `(tabs)` vs `(auth)` by session so guards stay declarative in the tree.
-- **TanStack Form + Zod** handle login and similar flows: schema validation, **`isSubmitting`**, and consistent disabled states / snackbars.
-
-### 3. UI: NativeWind and CVA (rebuild)
-
-**NativeWind** keeps layout and spacing utility-first. **class-variance-authority (CVA)** defines **typed variants** for components like `Button` so styles stay consistent and easy to extend.
-
-### 4. Conversational transfer and API boundary (rebuild)
-
-Chat messages are parsed with regex for **bank, account, amount, and recipient**. A confirmation step and **positive/negative reply sets** drive the dialog before execution.
-
-- **Biometrics (`expo-local-authentication`)** gate the final action even though the backend is a demo.
-- Parsing and bank-code mapping live under **`features/remittance/utils`**.
-- **`app/api/transfer+api.ts`** implements an **open-banking-shaped mock**; the client calls `fetch('/api/transfer')` so **secrets are not bundled** in the app. The hackathon client had called external HTTP more directly from the device.
-
-### 5. Tooling and shipping (rebuild)
-
-TypeScript, ESLint (Expo + TanStack Query, React Compiler–related rules where enabled), and Prettier. **EAS**, **`expo-dev-client`**, **`expo-build-properties`**, **Crashlytics**, and localized display names (e.g. Korean **한줄은행**) follow a normal release-minded setup.
-
-### 6. Hackathon app (2021 — Woori Bank finalist)
-
-Screens below are from the **original JavaScript** build (Woori Open API, Firestore, legacy navigation and styling).
-
-#### Splash & intro
-
-<ImageDescription src="/images/oneline-bank/1.webp" alt="Splash page" priority width={564} height={901} />
-
-#### Login
-
-<ImageDescription src="/images/oneline-bank/2.webp" alt="Login page" width={520} height={894} />
-
-Firebase Auth–based login.
-
-#### Conversational transfer (core)
-
-<ImageDescription src="/images/oneline-bank/3.webp" alt="Chat transfer flow" width={564} height={897} />
-
-Regex parsing, bot confirmation, biometrics, then **live Woori Bank Open API** transfer.
-
-#### Shortcut transfer (address book)
-
-<ImageDescription src="/images/oneline-bank/4.webp" alt="Contact shortcuts" width={564} height={896} />
-
-Aliases (e.g. “Mom”) for frequent recipients.
-
-#### Accounts
-
-<ImageDescription src="/images/oneline-bank/5.webp" alt="Add account" width={564} height={900} />
-
-<ImageDescription src="/images/oneline-bank/6.webp" alt="Account list" width={564} height={904} />
-
-Firestore for accounts and transfer history in real time.
-
-### 7. Hackathon codebase vs rebuild
-
-| Area         | Hackathon (legacy)                   | Rebuild                                                |
-| ------------ | ------------------------------------ | ------------------------------------------------------ |
-| Language     | JavaScript                           | TypeScript                                             |
-| Navigation   | Stack + Tab (React Navigation 5)     | Expo Router, file-based routes                         |
-| Global state | Context (`User`, `Progress`)         | Zustand + Firebase for auth; Query for server state    |
-| Data / API   | Direct HTTP-style calls from client  | TanStack Query, cache, persistence, online/focus hooks |
-| UI           | styled-components, Gifted Chat, etc. | NativeWind, custom message UI                          |
-| Firebase     | Web-compat style SDK                 | `@react-native-firebase/*` modules                     |
-
----
-
-## 🎯 Role (solo)
-
-**Owned planning, design, and implementation** for the five-day hackathon app, then the **solo rewrite** after deeper React Native work (including aira).
-
-- Cross-platform app with React Native and Expo  
-- Parsing and state handling for the transfer conversation  
-- Woori Bank transfer API integration and async flows (hackathon build)  
-- Secondary auth with device biometrics  
-
----
-
-## 💭 Retrospective: "Hackathon speed, then a real rewrite"
-
-**Hackathon:** I leaned on existing React web experience to pick up React Native and native modules quickly and **ship a working demo**, not a polished architecture.
+**Hackathon speed:** I leaned on existing React web experience to pick up React Native and native modules quickly and **ship a working demo**, not a polished architecture.
 
 **Fintech:** Wiring a real bank API made **transaction flow, step-up auth, and data integrity** concrete — especially turning unstructured chat into safe structured payment data.
 
-**Rewrite:** Later, the lack of types, loose file layout, and dated patterns in the legacy repo were obvious. The rebuild is **new product decisions** (feature slices, Query, router guards, API route for transfers), not a shallow library upgrade. The two repos sit side by side as a before/after I’m comfortable standing behind.
+**Rewrite:** Later, the lack of types, loose file layout, and dated patterns in the legacy repo were obvious. The rebuild is **new product decisions** (feature slices, Query, router guards, API route for transfers), not a shallow library upgrade. The two repos sit side by side as a before/after I'm comfortable standing behind.

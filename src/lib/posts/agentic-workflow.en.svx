@@ -1,50 +1,52 @@
 ---
 title: Agentic Workflow
-description: Building centralized infrastructure and practicing the Agentic Development Paradigm to leverage AI agents as high-level engineering tools.
+description: Centralized AI agent infrastructure and the Agentic Development Paradigm — dotfiles, AGENTS.md directives, and MCP integration for autonomous engineering.
 date: '2026-04-22'
 role: 'System Design & Orchestration'
-techStack: ['Agentic Workflow', 'Claude Code', 'MCP', 'AI Infra (dotfiles)', 'AGENTS.md']
+techStack: ['Claude Code', 'MCP', 'dotfiles', 'AGENTS.md']
 ---
 
-## 📋 Overview
+<script>
+  import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
+  import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
 
-**"Beyond Writing Code: An Era of Orchestrating AI Agents"**
+  let { metadata, locale } = $props();
+</script>
 
-Going beyond simply asking AI for code snippets, I practice the **Agentic Development Paradigm**, where AI agents fully grasp project contexts and autonomously perform complex engineering tasks.
+## 📋 Project overview
 
-To achieve this, I have built and operated a proprietary AI infrastructure that combines centralized configuration management with precision-designed project directives.
+**"Beyond writing code: orchestrating AI agents as engineering infrastructure"**
 
----
+Going beyond asking AI for code snippets, I practice the **Agentic Development Paradigm** — where AI agents fully grasp project context and autonomously execute complex engineering tasks. I've built and operated a proprietary AI infrastructure that combines centralized configuration management with precision-designed project directives.
 
-## ⚙️ Core Infrastructure & Strategy
+<ProjectTechStack techStack={metadata.techStack} {locale} />
 
-### 1. Centralized Agent Configuration (dotfiles)
+## ⚙️ Key work
 
-I manage the configurations and custom skills for AI agents (Claude Code, Cursor, Vercel Skills, etc.) used across multiple projects in a single location.
+<ProjectAchievements achievements={[
+  {
+    tag: 'Infrastructure',
+    accent: true,
+    title: 'Centralized agent configuration via dotfiles',
+    detail: `All AI agent configs and custom skills (Claude Code, Cursor, Vercel Skills, etc.) are managed in a single <code>dotfiles</code> repository. Each project environment links to this repo via symbolic links, so every workspace draws from a <strong>single source of truth</strong> — one update propagates to all environments simultaneously, eliminating configuration drift across projects.`
+  },
+  {
+    tag: 'Architecture',
+    accent: true,
+    title: 'Precision project directives (AGENTS.md / CLAUDE.md)',
+    detail: `I design <code>AGENTS.md</code> files so that an agent starting any task immediately understands the project's architecture, conventions, and technical decision history — no exploration needed. Rather than listing rules, these directives provide <strong>logical guides that let agents make autonomous judgments and self-validate</strong>. The result is dramatically shorter ramp-up time and higher accuracy on first attempt.`
+  },
+  {
+    tag: 'Platform',
+    title: 'Environment expansion via MCP (Model Context Protocol)',
+    detail: `I actively adopted <strong>MCP</strong> to give AI agents direct access to the local file system, browser, and external API documentation in real time. Key capabilities this unlocks:<ul><li><strong>Real-time doc queries:</strong> Agents query the latest library documentation directly, preventing hallucinations from outdated training data.</li><li><strong>Automated browser validation:</strong> Agents launch a browser autonomously, visually review UI/UX changes, and capture errors — closing the loop without manual verification steps.</li></ul>`
+  },
+]} />
 
-- **dotfiles Repository**: All agent configuration files and custom skills are integrated and managed within a dedicated `dotfiles` repository.
-- **Symbolic Linking**: Configurations tailored to each project environment are linked via symbolic links, ensuring a synchronized development environment from a **'Single Source of Truth'** across all workspaces.
+## 💭 Retrospective
 
-### 2. Precision Project Directives (AGENTS.md)
+**Focus shift to design and validation.** Delegating repetitive and mechanical coding work to agents lets me concentrate on the 'lead engineer' role: designing architecture, reviewing logical integrity of agent outputs, and deciding what to build next.
 
-I design and utilize `AGENTS.md` files to ensure AI agents can immediately understand a project's architecture, conventions, and technical decision history.
+**Exponential development velocity.** Complex refactors and boilerplate tasks that used to take days now take a single session. Product launch cycles shorten in proportion to how well the directive infrastructure is maintained.
 
-- **Context Optimization**: By designating this as the primary file an agent should reference when starting a task, I minimize unnecessary exploration time and maximize accuracy.
-- **Directive Engineering**: Rather than listing simple rules, I provide logical guides that allow agents to make autonomous judgments and perform validations.
-
-### 3. Environment Expansion via MCP (Model Context Protocol)
-
-I have actively adopted **MCP** to enable AI agents to directly access local file systems, browsers, and external API documentation for real-time context awareness.
-
-- **Real-time Documentation Reference**: By allowing agents to query the latest library documentation directly, I prevent hallucinations.
-- **Automated Browser Validation**: I designed workflows where agents autonomously launch browsers to visually review UI/UX changes and capture errors.
-
----
-
-## 🚀 Impact & Transformation
-
-As a result of adopting this Agentic Workflow, I no longer spend time on **repetitive typing (coding)**.
-
-1. **Focus on Design & Validation**: I concentrate on the 'Lead Engineer' role—designing architecture and reviewing the logical integrity of agent-produced outputs.
-2. **Exponential Development Velocity**: By delegating complex refactorings and boilerplate tasks to agents, I have drastically shortened product launch cycles.
-3. **Consistent Quality Assurance**: Agents enforce conventions and type checks at the infrastructure level, which are often missed by humans, resulting in a higher baseline for code quality.
+**Consistent quality floor.** Agents enforce conventions and type checks at the infrastructure level that humans routinely miss under time pressure — code quality becomes a baseline, not a target to aim at.

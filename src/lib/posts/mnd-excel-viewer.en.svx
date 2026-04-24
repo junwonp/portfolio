@@ -1,115 +1,78 @@
 ---
 title: Spreadsheet-style grid & text viewer
 description: Large-scale grid and line-based text viewer using React Table, virtualization, and 2D cell selection (Immer)
-date: '2020-09'
-role: Frontend
+date: '2020-08 ~ 2020-10'
+role: 'Frontend Engineer'
 techStack:
   [
     'React',
     'TypeScript',
     'React Table',
-    'Immer',
     'react-window',
     'react-virtualized',
     'Socket.IO',
+    'Redux-Saga',
+    'Atomic Design',
     'styled-components',
   ]
 ---
 
+<script>
+  import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
+  import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
+
+  let { metadata, locale } = $props();
+</script>
+
 ## 📋 Project overview
 
-**"Thousands of rows without jank—spreadsheet-like grids and line-based text in the browser"**
+**"Thousands of rows without jank — spreadsheet-like grids and line-based text in the browser"**
 
-I built a **spreadsheet-style grid** on `react-table` plus a **line-based text viewer** in one package, with drag **2D range selection**, multiple regions, and virtualization. Containers own interaction while base components focus on rendering, which keeps testing and extension straightforward.
+I built a **spreadsheet-style grid** on `react-table` plus a **line-based text viewer** in one package, with drag **2D range selection**, multiple regions, and virtualization. Containers own interaction while base components focus on rendering, keeping testing and extension straightforward.
 
 > For security and confidentiality I cannot share the work context or original repository; this page covers implementation only. Code snippets are reconstructed excerpts.
 
-### 🧰 Tech stack
-
-- **Core:** React, TypeScript, React Table v7
-- **State:** Immer
-- **Virtualization:** react-window (VariableSizeList, InfiniteLoader, AutoSizer), react-virtualized (CellMeasurerCache)
-- **Realtime (client):** Socket.IO
-- **Styling:** styled-components
-
----
+<ProjectTechStack techStack={metadata.techStack} {locale} />
 
 ## ⚙️ Key work
 
-### 1. Presentation vs container split
+<ProjectAchievements achievements={[
+  {
+    tag: 'Architecture',
+    accent: true,
+    title: 'Presentation / container split',
+    detail: `<code>ExcelViewer</code> / <code>TextViewer</code> handle <strong>state, mouse events, and popovers</strong>; <code>ExcelViewerBase</code> / <code>TextViewerBase</code> focus on <strong>table rendering and virtualization</strong>. That makes Storybook and unit tests much easier for the rendering layer — the base components are pure functions of their props, with no event handling logic to mock out.`
+  },
+  {
+    tag: 'Algorithm',
+    accent: true,
+    title: 'Excel-style column labels (A → Z → AA) + 2D drag selection',
+    detail: `A single <code>String.fromCharCode</code> pass cannot produce Excel-style base-26 column names. A quotient/remainder loop in <code>columnGenerator</code> correctly yields <strong>A, B … Z, AA, AB …</strong> for any column count.<br/><br/>For 2D selection, cells use <code>column:row</code> string IDs. While dragging, the selection stays a <strong>rectangle via <code>min</code> / <code>max</code></strong>. Updates go through <strong>Immer <code>produce</code></strong> to avoid accidental reference sharing. <strong>Ctrl + drag</strong> increments a slot index so users can stack multiple independent regions.`
+  },
+  {
+    tag: 'Feature',
+    title: 'Text viewer — line ranges and reverse drag',
+    detail: `The text viewer operates on line numbers rather than cell IDs. On mouse up, <strong>inverted start/end values are normalized</strong> so the range model is consistent regardless of which direction the user drags. This prevents off-by-one errors in highlight rendering and keeps copy-paste selection predictable.`
+  },
+  {
+    tag: 'Performance',
+    title: 'Per-view virtualization strategies',
+    detail: `Two different virtualization strategies are used — one per view type:<ul><li><strong>Grid:</strong> <code>react-window</code> (<code>VariableSizeList</code> + <code>InfiniteLoader</code> + <code>AutoSizer</code>) for row virtualization and incremental data loading as the user scrolls.</li><li><strong>Text:</strong> <code>react-virtualized</code> <code>CellMeasurerCache</code> to measure and cache individual line heights, so variable-height lines stay aligned with selection anchors and scroll position.</li></ul>The key insight: no single virtualization library fits both use cases well. Choosing the right tool per view prevents layout-thrashing and keeps scroll performance smooth.`
+  },
+  {
+    tag: 'DX',
+    title: 'Socket.IO wire contracts + createMockSocket',
+    detail: `Payloads like <code>socket.emit('removeHighlight', &#123; fileId, highlightId &#125;)</code> <strong>pin the wire shape</strong> between client and server. A <code>createMockSocket</code> helper implements the same interface and lets UI and integration tests run without a live backend. TypeScript types on the payload ensure the contract is enforced at compile time.`
+  },
+  {
+    tag: 'UI',
+    title: 'Selection overlay, sticky headers, and ErrorBoundary',
+    detail: `<strong>styled-components</strong> handles the selection and overlay layers, with explicit styles to neutralize browser-native <code>::selection</code> so it doesn't conflict with the custom selection highlight. Sticky column headers and scrollbar theming give the grid a tool-like feel. An <strong>ErrorBoundary</strong> wraps each viewer so a runtime failure in one view does not take down the rest of the application.`
+  },
+]} />
 
-`ExcelViewer` / `TextViewer` handle **state, mouse events, and popovers**; `ExcelViewerBase` / `TextViewerBase` focus on **table rendering and virtualization**. That makes Storybook and unit tests much easier for the rendering layer.
+## 💭 Retrospective
 
-### 2. Excel-style column labels (A, B, …, Z, AA, …)
+The biggest design decision was separating presentation from container early. It paid off immediately in testability — Storybook stories for the base components required zero mocking and caught visual regressions fast.
 
-A single `String.fromCharCode` pass cannot produce **Excel-style base-26 column names**. A quotient/remainder loop yields **AA, AB, …** correctly.
-
-```tsx
-const columnGenerator = (length: number): Column<Record<string, string>>[] => {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const rowHeader: Column<Record<string, string>>[] = [];
-  const fromCharCode = (num: number) => {
-    let index = '';
-    while (num >= 0) {
-      index = alphabet.charAt(num % alphabet.length) + index;
-      num = Math.floor(num / alphabet.length) - 1;
-    }
-    return index;
-  };
-  for (let i = 0; i < length; i += 1) {
-    rowHeader.push({ Header: fromCharCode(i), accessor: String(i) });
-  }
-  return rowHeader;
-};
-```
-
-### 3. 2D range selection with Immer
-
-Cells use `column:row` string IDs. While dragging, the selection stays a **rectangle** via **`min` / `max`**. Updates go through **Immer `produce`** to avoid accidental reference sharing.
-
-```tsx
-const onMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-  if (isMouseDown) {
-    setSelectedPoint(
-      produce(selectedPoint, (draft) => {
-        const originX = parseInt(start.split(':')[0]);
-        const currentX = parseInt(event.currentTarget.id.split(':')[0]);
-        const originY = parseInt(start.split(':')[1]);
-        const currentY = parseInt(event.currentTarget.id.split(':')[1]);
-
-        if (draft[count]) {
-          draft[count].start = `${Math.min(currentX, originX)}:${Math.min(currentY, originY)}`;
-          draft[count].end = `${Math.max(currentX, originX)}:${Math.max(currentY, originY)}`;
-        }
-      }),
-    );
-  }
-};
-```
-
-**Ctrl + drag** increments a slot index (`count`) so users can stack **multiple regions**.
-
-### 4. Text viewer: line ranges and reverse drag
-
-On mouse up, **inverted start/end** for line-based selection is **normalized** so the range model is consistent regardless of drag direction.
-
-### 5. Per-view virtualization
-
-- **Grid:** `react-window` (`VariableSizeList` + `InfiniteLoader` + `AutoSizer`) for **row virtualization** and incremental loading.
-- **Text:** `react-virtualized` **`CellMeasurerCache`** to measure and cache line heights so **variable-height lines** still align with selection and scroll.
-
-The main idea is **different strategies per view**, not one library for everything.
-
-### 6. Socket.IO and mocks
-
-Payloads like `socket.emit('removeHighlight', { fileId, highlightId })` **pin the wire shape** between client and server. A **`createMockSocket`** helper keeps the same surface for **UI and integration checks** without a live backend.
-
-### 7. UI and resilience
-
-- **styled-components** for selection/overlay layers, plus styles that reduce conflict with native **`::selection`**.
-- **Sticky headers** and scrollbar theming for a tool-like grid.
-- **ErrorBoundary** so a viewer failure does not take down the whole app.
-
-### 8. TypeScript
-
-Extending `react-table` v7 `HeaderGroup` with **optional resize/sort fields** is a practical example of **shaping third-party hook types** to the problem at hand.
+The per-view virtualization split was less obvious upfront. Starting with one library and hitting layout issues in the text viewer forced a deeper look at what each library actually optimizes, and led to a cleaner solution that matched each view's actual constraints.

@@ -1,73 +1,64 @@
 ---
 title: "Day Planner: Cross-platform Scheduler for Time Management"
-description: A cross-platform (iOS/macOS) app developed as a first Swift project. Features timetable management, auto-focus mode transition, Mac menu bar integration, and CloudKit sync.
-date: "2026-04-17"
+description: A cross-platform iOS/macOS scheduler — first Swift project featuring timetable management, Focus Mode automation, Mac Menu Bar integration, and CloudKit sync.
+date: '2026-04 ~'
 image: "/images/preview.webp"
-techStack: ["Swift", "SwiftUI", "iOS", "macOS", "CloudKit", "Apple Shortcuts"]
+role: 'Solo developer'
+platforms: ['iOS', 'macOS']
+techStack: ['Swift', 'SwiftUI', 'CloudKit', 'Agentic Workflow', 'Claude Code']
 ---
 
 <script>
-  import ImageDescription from '$lib/components/ImageDescription.svelte';
-  import ImageGallery from '$lib/components/ImageGallery.svelte';
+  import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
+  import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
+
+  let { metadata, locale } = $props();
 </script>
 
-## 📋 Project Introduction
+## 📋 Project overview
 
 **"A native scheduler for perfect personal time management"**
 
-**Day Planner** is a timetable-based scheduler application developed to maximize personal time management. Despite being my first Swift and SwiftUI project, it successfully implements features beyond simple task management, including **iOS and macOS (status bar app) support**, **Apple Shortcuts-based focus mode automation**, and **real-time cross-device synchronization via CloudKit**.
+**Day Planner** is a timetable-based scheduler built to maximize personal time management. Despite being my first Swift and SwiftUI project, it goes well beyond simple task management — implementing **iOS and macOS (status bar app) support**, **Apple Shortcuts-based Focus Mode automation**, and **real-time cross-device sync via CloudKit**.
 
-I started development to solve clear personal needs that existing apps couldn't meet: having **Focus Mode automatically turn on** based on my schedule and being able to check the current schedule and **remaining time at a glance from the Mac Menu Bar**.
+I started development to solve clear personal needs that existing apps couldn't meet: having **Focus Mode turn on automatically** based on my schedule, and checking current progress and **remaining time at a glance from the Mac Menu Bar**.
 
-### 🧰 Tech Stack
+<ProjectTechStack techStack={metadata.techStack} {locale} />
 
-- **Language & Framework:** Swift, SwiftUI
-- **Platform:** iOS, macOS (Menu Bar Extra)
-- **Data & Sync:** CloudKit (Real-time Sync), Repository Pattern
-- **Automation:** Apple Shortcuts & Deep Links
-- **Architecture:** MVVM + Service Layer
+## ⚙️ Key work
 
----
-
-## ⚙️ Key Tasks
-
-### 1. Mac Menu Bar Integration & Real-time State Management
-
-One of the most important goals of the app, 'checking remaining time in real-time from the Mac Menu Bar', was implemented.
-
-- **MenuBarContentView:** Constructed the native Menu Bar Extra view for macOS.
-- **Real-time State Engine:** Designed logic to **compare the current time with the schedule every 30 seconds** using a `Timer` within the global state management object (`ScheduleStore`). It identifies the current schedule and calculates the time remaining until it ends, reflecting it immediately in the status bar and widgets.
-
-### 2. Focus Mode Automation via Apple Shortcuts
-
-Beyond simply sending notifications, the system environment is automatically controlled when schedules transition.
-
-- **System Control:** Integrated not only hourly notifications using `UNUserNotificationCenter` but also the **Apple Shortcuts** system and deep links (`shortcuts://run-shortcut?name=...`).
-- **Immersion Environment:** By calling specified shortcuts in the background or foreground when a schedule state changes, **Work Focus Mode turns on automatically when a specific schedule starts**. This provides a perfect immersion environment without the user needing to manually enter settings.
-
-### 3. Dynamic Repeat Schedule Engine (Performance & DB Optimization)
-
-It is inefficient to duplicate repeating schedules (daily, weekly, monthly) as thousands of records in the database.
-
-- **OccurrenceService Engine:** Built an engine that stores only the recurrence rules (RepeatRule) as source data and **dynamically calculates "Virtual Instances" at runtime** according to the date the user is viewing.
-- **Flexible Handling:** This architecture allows for a flexible response to repeating schedule exceptions (editing/deleting) on specific dates while significantly saving disk space.
-
-### 4. Reliable Real-time Sync using CloudKit
-
-Implemented a CloudKit-based synchronization layer to seamlessly use schedules created on both iPhone and Mac.
-
-- **Network Optimization:** To prevent server overload from frequent user operations, API requests were optimized by applying a `600ms` **Debounce**.
-- **Conflict Resolution:** Implemented a timestamp-based **Last-Write-Wins** merge strategy in the `ScheduleRepository` to prevent data loss when data is modified simultaneously on different devices.
-
-### 5. Lane Allocation Layout Algorithm for Timeline UI
-
-In the vertical timeline view, which is the core of a calendar app, I implemented an algorithm to visually draw overlapping schedules without them overlapping each other.
-
-- **TimelineLayoutHelper:** Directly wrote a rendering algorithm that analyzes groups of overlapping schedules and **dynamically calculates lanes to distribute width and offsets**. This completed a UI that maintains high readability even among complex schedules.
-
----
+<ProjectAchievements achievements={[
+  {
+    tag: 'Platform',
+    accent: true,
+    title: 'Mac Menu Bar integration with real-time state engine',
+    detail: `Built the native <strong>Menu Bar Extra view</strong> for macOS (<code>MenuBarContentView</code>). A <code>Timer</code> inside the global <code>ScheduleStore</code> compares the current time against the schedule <strong>every 30 seconds</strong> — identifying the active event, calculating time remaining, and pushing updates instantly to the status bar and widgets.`
+  },
+  {
+    tag: 'Automation',
+    accent: true,
+    title: 'Focus Mode automation via Apple Shortcuts',
+    detail: `Schedule transitions control the system environment automatically. Beyond <code>UNUserNotificationCenter</code> notifications, the app integrates the <strong>Apple Shortcuts system</strong> and deep links (<code>shortcuts://run-shortcut?name=...</code>). When a schedule starts, the app calls a specified shortcut in the background or foreground — <strong>Work Focus Mode turns on without the user touching settings</strong>.`
+  },
+  {
+    tag: 'Performance',
+    title: 'Dynamic repeat schedule engine',
+    detail: `Storing daily/weekly/monthly recurrences as thousands of DB records is wasteful. The <strong>OccurrenceService</strong> engine stores only the recurrence rule (<code>RepeatRule</code>) as source data and <strong>computes virtual instances at runtime</strong> for whichever date the user views. This saves disk space significantly while still supporting per-date exception edits and deletions.`
+  },
+  {
+    tag: 'Sync',
+    title: 'Reliable real-time sync with CloudKit',
+    detail: `A CloudKit sync layer lets schedules created on iPhone flow seamlessly to Mac and back.<ul><li><strong>Debounce (600ms):</strong> Batches rapid user edits to avoid server overload.</li><li><strong>Last-Write-Wins:</strong> Timestamp-based merge in <code>ScheduleRepository</code> prevents data loss on simultaneous edits across devices.</li></ul>`
+  },
+  {
+    tag: 'UI',
+    title: 'Lane allocation algorithm for the timeline view',
+    detail: `The vertical timeline is the app's core view. When events overlap, a naive layout renders them on top of each other. <strong>TimelineLayoutHelper</strong> analyzes overlapping groups and <strong>dynamically calculates lanes, widths, and offsets</strong> — producing a readable timeline even with dense, overlapping schedules.`
+  },
+]} />
 
 ## 💭 Retrospective
 
-While there were many trials and errors as I first encountered the new language Swift and the declarative paradigm of SwiftUI, I learned how to design solidly from the basics.
-I gained a great sense of achievement by deeply utilizing Apple's ecosystem (CloudKit, Shortcuts, Menu Bar App) and completing a product that interacts closely with the system beyond a simple CRUD app.
+Swift and SwiftUI's declarative model involved a steep learning curve for a first-time project, but forcing me to design from first principles made the architecture cleaner than it might otherwise have been.
+
+The most rewarding part was going beyond a CRUD app — deeply using Apple's ecosystem (CloudKit, Shortcuts, Menu Bar Extra) to build something that actually interacts with the system. Completing a product that solves a real personal workflow problem from scratch made the effort worthwhile.
