@@ -133,6 +133,15 @@
   --color-cat-ai_workflow: #000000;
   --color-cat-ai_workflow-text: #ffffff;
 
+  /* Badges & Platforms */
+  --color-badge-green-bg: #e6f6eb;
+  --color-badge-green-text: #008a2e;
+  --color-badge-orange-bg: #fff0e6;
+  --color-badge-orange-text: #ff6b00;
+  --color-platform-android: #3ddc84;
+  --color-platform-ios: #007aff;
+  --color-platform-web: #f97316;
+
   --space-project-gap: var(--space-lg);
   --space-row-padding: var(--space-md);
   --space-row-gap: var(--space-lg);
@@ -346,6 +355,9 @@ code {
 }
 
 .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 6px;
   font-size: 0.875rem;
   font-weight: 600;
@@ -360,13 +372,23 @@ code {
 }
 
 .badge.green {
-  background: var(--color-badge-green-bg);
-  color: var(--color-badge-green-text);
+  background: color-mix(in srgb, #10b981 10%, transparent);
+  color: #059669;
+}
+
+:global(html.dark) .badge.green {
+  background: color-mix(in srgb, #10b981 15%, transparent);
+  color: #34d399;
 }
 
 .badge.orange {
-  background: var(--color-badge-orange-bg);
-  color: var(--color-badge-orange-text);
+  background: color-mix(in srgb, #f97316 10%, transparent);
+  color: #ea580c;
+}
+
+:global(html.dark) .badge.orange {
+  background: color-mix(in srgb, #f97316 15%, transparent);
+  color: #fb923c;
 }
 
 .badge.sub {
