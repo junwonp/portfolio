@@ -140,6 +140,7 @@
   --color-badge-orange-text: #ff6b00;
   --color-platform-android: #3ddc84;
   --color-platform-ios: #007aff;
+  --color-platform-macos: #ff9500; /* macOS system orange */
   --color-platform-web: #f97316;
 
   --space-project-gap: var(--space-lg);
@@ -394,6 +395,43 @@ code {
 .badge.sub {
   background: color-mix(in srgb, var(--color-sub) 10%, transparent);
   color: var(--color-sub);
+}
+
+/* Platform Specific Badges */
+.badge.android {
+  background: color-mix(in srgb, var(--color-platform-android) 10%, transparent);
+  color: #059669; /* Android green */
+}
+:global(html.dark) .badge.android {
+  background: color-mix(in srgb, var(--color-platform-android) 15%, transparent);
+  color: var(--color-platform-android);
+}
+
+.badge.ios {
+  background: color-mix(in srgb, var(--color-platform-ios) 10%, transparent);
+  color: var(--color-platform-ios);
+}
+:global(html.dark) .badge.ios {
+  background: color-mix(in srgb, var(--color-platform-ios) 15%, transparent);
+  color: #38bdf8;
+}
+
+.badge.macos {
+  background: color-mix(in srgb, var(--color-platform-macos) 10%, transparent);
+  color: #ea580c; /* macOS accent */
+}
+:global(html.dark) .badge.macos {
+  background: color-mix(in srgb, var(--color-platform-macos) 15%, transparent);
+  color: var(--color-platform-macos);
+}
+
+.badge.web {
+  background: color-mix(in srgb, var(--color-platform-web) 10%, transparent);
+  color: #ea580c;
+}
+:global(html.dark) .badge.web {
+  background: color-mix(in srgb, var(--color-platform-web) 15%, transparent);
+  color: var(--color-platform-web);
 }
 
 pre {

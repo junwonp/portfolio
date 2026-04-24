@@ -1,7 +1,7 @@
 <script lang="ts">
   interface Props {
     text: string;
-    color?: 'primary' | 'green' | 'orange' | 'sub';
+    color?: 'primary' | 'green' | 'orange' | 'sub' | 'android' | 'ios' | 'macos' | 'web';
     class?: string;
   }
 
@@ -10,9 +10,11 @@
   const resolvedColor = $derived.by(() => {
     if (color) return color;
     const t = text.toLowerCase();
-    if (t === 'android' || t === '현재' || t === 'present') return 'green';
-    if (t === 'ios') return 'primary';
-    if (t === 'web') return 'orange';
+    if (t === 'android') return 'android';
+    if (t === 'ios') return 'ios';
+    if (t === 'macos') return 'macos';
+    if (t === 'web') return 'web';
+    if (t === '현재' || t === 'present') return 'green';
     if (text.match(/^\d{4}$/)) return 'green'; // Years (2026, etc.)
     return 'orange'; // Fallback for company names or status
   });
