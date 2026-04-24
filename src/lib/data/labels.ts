@@ -1,6 +1,7 @@
 import type { Language } from '$lib/utils/language';
 
 export interface Labels {
+  authorName: string;
   contentLoadError: string;
   description: string;
   errorOccurred: string;
@@ -34,11 +35,13 @@ export interface Labels {
   tocTitle: string;
   toggleLanguage: string;
   viewProjectDetails: string;
+  visitSite: string;
   whatDidIDo: string;
 }
 
 export const labelsMap: Record<Language, Labels> = {
   ko: {
+    authorName: '박준원',
     contentLoadError: '컨텐츠를 불러올 수 없습니다.',
     description: '설명',
     errorOccurred: '오류가 발생했습니다',
@@ -72,9 +75,11 @@ export const labelsMap: Record<Language, Labels> = {
     tocTitle: '목차',
     toggleLanguage: 'Switch to English',
     viewProjectDetails: '프로젝트 자세히 보기',
+    visitSite: '서비스 바로가기',
     whatDidIDo: '주요 작업',
   },
   en: {
+    authorName: 'Junwon',
     contentLoadError: 'Unable to load content.',
     description: 'Description',
     errorOccurred: 'An error occurred',
@@ -108,6 +113,7 @@ export const labelsMap: Record<Language, Labels> = {
     tocTitle: 'Table of Contents',
     toggleLanguage: '한국어로 전환하기',
     viewProjectDetails: 'View project details',
+    visitSite: 'Visit Site',
     whatDidIDo: 'What did I Do',
   },
 };

@@ -406,7 +406,7 @@ export const i18nData: Record<Language, I18nData> = {
     },
     otherExperiences: {
       day_planner: {
-        title: '데이브레이크 (Day Planner) — 시간 관리를 위한 스케줄러 앱',
+        title: 'Day Planner — 시간 관리를 위한 크로스 플랫폼 스케줄러',
         description:
           '첫 Swift 프로젝트로 개발한 크로스 플랫폼(iOS/macOS) 앱. 타임테이블 관리, 자동 집중모드 전환, Mac 상태바 연동 및 CloudKit 동기화 구현.',
         detail: [

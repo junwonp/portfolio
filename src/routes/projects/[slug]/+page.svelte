@@ -58,7 +58,7 @@
 <nav class="topbar">
   <a class="topbar-back" href="/">← {labels.resumeTitle}</a>
   <div class="topbar-crumb">
-    <span>Junwon</span> / <span class="crumb-current">{metadata.title || slug}</span>
+    <span>{labels.authorName}</span> / <span class="crumb-current">{metadata.title || slug}</span>
   </div>
   <div class="topbar-links">
     {#if metadata.githubLink}
@@ -80,7 +80,7 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        Live ↗
+        {labels.visitSite} ↗
       </a>
     {/if}
   </div>
@@ -311,7 +311,7 @@
   /* Metrics */
   .metrics-row {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 1px;
     background: var(--color-bg-divider);
     border: 1px solid var(--color-bg-divider);
@@ -479,10 +479,6 @@
   @media (max-width: 640px) {
     .topbar-crumb {
       display: none;
-    }
-
-    .metrics-row {
-      grid-template-columns: repeat(2, 1fr);
     }
 
     .hero {
