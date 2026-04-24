@@ -11,7 +11,25 @@ metrics:
     { value: '15%', label: 'Bundle Size Reduced' },
     { value: '47KB', label: 'JS Saved' },
   ]
-techStack: ['Next.js', 'TypeScript', 'MUI', 'Webpack', 'Firebase', 'Paddle', 'TanStack Query', 'styled-components', 'Storybook', 'Node.js', 'GitHub Copilot']
+techStack:
+  [
+    'TypeScript',
+    'Next.js',
+    'styled-components',
+    'MUI',
+    'Atomic Design',
+    'Storybook',
+    'Lottie',
+    'TanStack Query',
+    'React Hook Form',
+    'Firebase',
+    'Paddle',
+    'Node.js',
+    'GitHub Actions',
+    'Crashlytics',
+    'Webpack',
+    'GitHub Copilot',
+  ]
 ---
 
 <script>

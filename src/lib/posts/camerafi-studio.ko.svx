@@ -11,7 +11,25 @@ metrics:
     { value: '15%', label: '번들 사이즈 감소' },
     { value: '47KB', label: 'JS 절감' },
   ]
-techStack: ['Next.js', 'TypeScript', 'MUI', 'Webpack', 'Firebase', 'Paddle', 'TanStack Query', 'styled-components', 'Storybook', 'Node.js', 'GitHub Copilot']
+techStack:
+  [
+    'TypeScript',
+    'Next.js',
+    'styled-components',
+    'MUI',
+    'Atomic Design',
+    'Storybook',
+    'Lottie',
+    'TanStack Query',
+    'React Hook Form',
+    'Firebase',
+    'Paddle',
+    'Node.js',
+    'GitHub Actions',
+    'Crashlytics',
+    'Webpack',
+    'GitHub Copilot',
+  ]
 ---
 
 <script>
