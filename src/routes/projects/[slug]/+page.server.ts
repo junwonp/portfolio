@@ -43,11 +43,15 @@ export const load: PageServerLoad = async ({ params, parent }) => {
   }
 
   const postModule = posts[langSpecificPath];
-  const metadata: PostMetadata = postModule.metadata ?? {};
-
-  if (metadata.githubLink && !metadata.githubLink.startsWith('http')) {
-    metadata.githubLink = `${GITHUB_PROFILE}/${metadata.githubLink}`;
-  }
+  // postModule is a module singleton from eager import.meta.glob — never mutate it in place.
+  const rawMetadata: PostMetadata = postModule.metadata ?? {};
+  const metadata: PostMetadata = {
+    ...rawMetadata,
+    githubLink:
+      rawMetadata.githubLink && !rawMetadata.githubLink.startsWith('http')
+        ? `${GITHUB_PROFILE}/${rawMetadata.githubLink}`
+        : rawMetadata.githubLink,
+  };
 
   return {
     metadata,
