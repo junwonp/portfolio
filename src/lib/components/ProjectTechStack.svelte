@@ -1,10 +1,11 @@
 <script lang="ts">
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getResumeData } from '$lib/data/resume';
+  import type { Language } from '$lib/utils/language';
 
   interface Props {
     techStack: string[];
-    locale: 'ko' | 'en';
+    locale: Language;
   }
 
   let { techStack, locale }: Props = $props();

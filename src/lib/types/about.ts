@@ -48,15 +48,7 @@ export interface WorkExperienceProps extends ProjectProps {
 }
 
 export interface OtherExperienceProps extends ProjectProps {
-  additional?: {
-    label: string;
-    link: string;
-  };
-  companyName?: string;
   titleBadge?: string;
-  dateFrom?: string;
-  dateTo?: string;
-  role?: string;
 }
 
 export type ArchiveProps = ProjectProps;
