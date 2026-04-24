@@ -174,12 +174,13 @@
   @media (max-width: 576px) {
     main.content {
       padding: 1.5rem;
-      /* Extra bottom space for the fixed tab bar */
-      padding-bottom: calc(52px + env(safe-area-inset-bottom) + 1rem);
     }
+  }
 
-    .footer-wrapper {
-      display: none;
+  @media (max-width: 960px) {
+    .wrapper {
+      /* Extra bottom space for the fixed tab bar (approx 56px height + 1rem bottom + safe area) */
+      padding-bottom: calc(64px + env(safe-area-inset-bottom));
     }
   }
 
