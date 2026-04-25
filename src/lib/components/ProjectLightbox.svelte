@@ -211,31 +211,62 @@
 
 <svelte:window onkeydown={onKeydown} />
 
-<div class="lightbox-masonry">
-  {#each images as image, i (i)}
+<div class="lightbox-masonry" class:mobile={isMobile}>
+  {#if isMobile && images.length > 1}
     <button
-      class="masonry-item"
+      class="masonry-item first-only"
       onclick={() => {
-        open(i);
+        open(0);
       }}
-      aria-label="View {image.alt} fullscreen"
+      aria-label="View all {images.length} images"
     >
-      <img src={getSrc(image)} alt={image.alt} loading="lazy" />
-      <span class="zoom-hint" aria-hidden="true">
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-          <line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" />
-        </svg>
-      </span>
+      <img src={getSrc(images[0])} alt={images[0].alt} loading="lazy" />
+      <div class="more-indicator">
+        <div class="indicator-content">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <polyline points="21 15 16 10 5 21" />
+          </svg>
+          <span class="label">전체 {images.length}장의 사진 보기</span>
+        </div>
+      </div>
     </button>
-  {/each}
+  {:else}
+    {#each images as image, i (i)}
+      <button
+        class="masonry-item"
+        onclick={() => {
+          open(i);
+        }}
+        aria-label="View {image.alt} fullscreen"
+      >
+        <img src={getSrc(image)} alt={image.alt} loading="lazy" />
+        <span class="zoom-hint" aria-hidden="true">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+            <line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </span>
+      </button>
+    {/each}
+  {/if}
 </div>
 
 {#if activeIndex !== null && activeImage !== null}
@@ -400,6 +431,43 @@
     opacity: 1;
   }
 
+  .more-indicator {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: background 0.3s ease;
+  }
+
+  .masonry-item:hover .more-indicator {
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .indicator-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    padding: 20px;
+  }
+
+  .indicator-content svg {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    opacity: 0.9;
+  }
+
+  .indicator-content .label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
   /* ── Overlay shell ── */
   .overlay {
     position: fixed;
@@ -421,22 +489,31 @@
     top: 16px;
     right: 16px;
     z-index: 20;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
-    border-radius: 12px;
+    border-radius: 50%;
     padding: 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition:
-      background 0.15s,
+      background 0.2s,
+      transform 0.2s,
       opacity 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
   .overlay-close:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+  }
+
+  .overlay-close svg {
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
   }
 
   /* Chrome hidden state: fade out close, nav, footer */
@@ -537,22 +614,27 @@
     top: 50%;
     transform: translateY(-50%);
     z-index: 20;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: #fff;
-    border-radius: 12px;
+    border-radius: 50%;
     padding: 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition:
-      background 0.15s,
+      background 0.2s,
+      transform 0.2s,
       opacity 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
   .overlay-nav:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+    transform: translateY(-50%) scale(1.1);
   }
 
   .overlay-nav.prev {
@@ -561,6 +643,10 @@
 
   .overlay-nav.next {
     right: 12px;
+  }
+
+  .overlay-nav svg {
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
   }
 
   /* ── Dots: inside footer, no longer absolutely positioned ── */
@@ -596,15 +682,7 @@
     }
 
     .overlay-nav {
-      padding: 10px;
-    }
-
-    .overlay-nav.prev {
-      left: 8px;
-    }
-
-    .overlay-nav.next {
-      right: 8px;
+      padding: 12px;
     }
 
     .carousel-slide {
