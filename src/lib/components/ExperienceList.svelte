@@ -18,10 +18,12 @@
 
   let labels = $derived(getLabels(getPageLocale()));
 
-  const formatDate = (date?: string) => {
-    if (!date) return '';
-    if (date.length === 4) return date; // e.g. 2024
-    return date.replace('-', '.') + ' ~';
+  const formatDate = (dateFrom?: string, dateTo?: string) => {
+    if (!dateFrom) return '';
+    if (dateFrom.length === 4) return dateFrom; // e.g. 2024
+    const formatted = dateFrom.replace('-', '.');
+    const isOngoing = !dateTo || dateTo !== dateFrom;
+    return isOngoing ? formatted + ' ~' : formatted;
   };
 </script>
 
@@ -64,7 +66,7 @@
           {/if}
         </div>
         <div class="date-wrapper">
-          <span class="date">{formatDate(project.dateFrom)}</span>
+          <span class="date">{formatDate(project.dateFrom, project.dateTo)}</span>
         </div>
       </div>
     </div>

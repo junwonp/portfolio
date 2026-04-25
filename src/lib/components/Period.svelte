@@ -14,7 +14,7 @@
 </script>
 
 <span
-  ><time datetime={dateFrom}>{timeFormatter(dateFrom)}</time>{#if dateFrom.includes('-')}
+  ><time datetime={dateFrom}>{timeFormatter(dateFrom)}</time>{#if dateFrom.includes('-') && (!dateTo || dateTo !== dateFrom)}
     ~
-  {/if}{#if dateTo}<time datetime={dateTo}>{timeFormatter(dateTo)}</time>{/if}</span
+  {/if}{#if dateTo && dateTo !== dateFrom}<time datetime={dateTo}>{timeFormatter(dateTo)}</time>{/if}</span
 >

@@ -25,8 +25,13 @@ describe('Period', () => {
   });
 
   describe('~ separator', () => {
-    it('shows ~ when dateFrom contains a dash', () => {
+    it('shows ~ when dateFrom contains a dash and dateTo is absent (ongoing)', () => {
       const { container } = render(Period, { dateFrom: '2024-03' });
+      expect(container.textContent).toContain('~');
+    });
+
+    it('shows ~ when dateFrom and dateTo are different months', () => {
+      const { container } = render(Period, { dateFrom: '2022-01', dateTo: '2024-03' });
       expect(container.textContent).toContain('~');
     });
 
@@ -34,10 +39,15 @@ describe('Period', () => {
       const { container } = render(Period, { dateFrom: '2024' });
       expect(container.textContent).not.toContain('~');
     });
+
+    it('does not show ~ when dateFrom equals dateTo (single-point project)', () => {
+      const { container } = render(Period, { dateFrom: '2021-04', dateTo: '2021-04' });
+      expect(container.textContent).not.toContain('~');
+    });
   });
 
   describe('dateTo', () => {
-    it('renders dateTo when provided', () => {
+    it('renders dateTo when provided and different from dateFrom', () => {
       const { container } = render(Period, { dateFrom: '2022-01', dateTo: '2024-03' });
       const times = container.querySelectorAll('time');
       expect(times).toHaveLength(2);
@@ -47,6 +57,12 @@ describe('Period', () => {
 
     it('renders only one <time> when dateTo is not provided', () => {
       const { container } = render(Period, { dateFrom: '2022-01' });
+      const times = container.querySelectorAll('time');
+      expect(times).toHaveLength(1);
+    });
+
+    it('renders only one <time> when dateTo equals dateFrom', () => {
+      const { container } = render(Period, { dateFrom: '2021-04', dateTo: '2021-04' });
       const times = container.querySelectorAll('time');
       expect(times).toHaveLength(1);
     });
