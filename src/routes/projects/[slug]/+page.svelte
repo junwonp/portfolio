@@ -17,19 +17,6 @@
   let { component: Component, metadata, slug, locale } = $derived(data);
   let labels = $derived(getLabels(locale));
 
-  let progressWidth = $state('0%');
-
-  $effect(() => {
-    const update = () => {
-      const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-      progressWidth = `${String(Math.min(pct, 100))}%`;
-    };
-    window.addEventListener('scroll', update, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', update);
-    };
-  });
-
   $effect(() => {
     projectNavLinks.set({ githubLink: metadata.githubLink, productLink: metadata.productLink });
     return () => {
@@ -72,41 +59,6 @@
 </svelte:head>
 
 <div id="intro-header-sentinel"></div>
-
-<!-- Scroll progress bar -->
-<div class="scroll-progress" style:width={progressWidth}></div>
-
-<!-- Sticky top bar -->
-<nav class="topbar">
-  <a class="topbar-back" href="/">← {labels.resumeTitle}</a>
-  <div class="topbar-crumb">
-    <span>{labels.authorName}</span> / <span class="crumb-current">{metadata.title || slug}</span>
-  </div>
-  <div class="topbar-links">
-    {#if metadata.githubLink}
-      <a
-        class="topbar-link"
-        href={metadata.githubLink.startsWith('http')
-          ? metadata.githubLink
-          : `https://github.com/${metadata.githubLink}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        GitHub ↗
-      </a>
-    {/if}
-    {#if metadata.productLink}
-      <a
-        class="topbar-link primary"
-        href={metadata.productLink}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {labels.visitSite} ↗
-      </a>
-    {/if}
-  </div>
-</nav>
 
 <div class="layout">
   <div class="nav-wrapper">
@@ -170,112 +122,14 @@
 </div>
 
 <style>
-  /* Scroll progress */
-  .scroll-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 2px;
-    background: var(--color-primary);
-    z-index: 100;
-    transition: width 0.1s linear;
-  }
-
-  /* Top bar */
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    background: color-mix(in srgb, var(--color-basic-bg) 88%, transparent);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    height: 56px;
-  }
-
-  .topbar-back {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 15px;
-    font-family: inherit;
-    color: var(--color-sub);
-    text-decoration: none;
-    white-space: nowrap;
-    transition: color 0.15s;
-    z-index: 1;
-  }
-
-  .topbar-back:hover {
-    color: var(--color-bold);
-  }
-
-  .topbar-crumb {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 15px;
-    font-family: inherit;
-    color: var(--color-sub);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  .crumb-current {
-    color: var(--color-main);
-  }
-
-  .topbar-links {
-    margin-left: auto;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    z-index: 1;
-  }
-
-  .topbar-link {
-    font-size: 14px;
-    font-family: inherit;
-    color: var(--color-sub);
-    text-decoration: none;
-    padding: 6px 12px;
-    border: 1px solid var(--color-bg-divider);
-    border-radius: 6px;
-    white-space: nowrap;
-    transition:
-      color 0.15s,
-      border-color 0.15s;
-  }
-
-  .topbar-link:hover {
-    color: var(--color-bold);
-    border-color: var(--color-main);
-  }
-
-  .topbar-link.primary {
-    background: var(--color-primary);
-    color: #fff;
-    border-color: var(--color-primary);
-  }
-
-  .topbar-link.primary:hover {
-    background: var(--color-primary-hover);
-    border-color: var(--color-primary-hover);
-  }
-
   /* Content layout */
   .layout {
     position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
-    padding: 0 clamp(16px, 4vw, 48px) 120px;
-    margin-top: var(--space-xl);
+    padding: 0 clamp(0px, 4vw, 48px) 120px; /* Use 0px as minimum since parent has padding */
+    margin-top: var(--space-md);
   }
 
   .nav-wrapper {
@@ -321,6 +175,8 @@
     .layout {
       display: block;
       padding-bottom: 80px;
+      padding-left: 0;
+      padding-right: 0;
     }
     .nav-wrapper {
       display: none;
@@ -519,18 +375,8 @@
   }
 
   @media (max-width: 640px) {
-    .topbar-crumb {
-      display: none;
-    }
-
     .hero {
       padding: 32px 0 32px;
-    }
-  }
-
-  @media (max-width: 576px) {
-    .topbar {
-      display: none;
     }
   }
 </style>
