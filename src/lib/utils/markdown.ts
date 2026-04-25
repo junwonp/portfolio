@@ -1,35 +1,47 @@
 export interface TextPart {
   text: string;
-  type: 'bold' | 'text';
+  type: 'bold' | 'code' | 'text';
 }
 
-export function parseMarkdownBold(text: string): TextPart[] {
+/**
+ * Basic markdown parser for bold (**) and inline code (`) syntax.
+ */
+export function parseMarkdown(text: string): TextPart[] {
   const parts: TextPart[] = [];
-  const remaining = text;
+  const regex = /(\*\*|__)(.+?)\1|`(.+?)`/g;
   let lastIndex = 0;
-
-  const boldRegex = /(\*\*|__)(.+?)\1/g;
   let match;
 
-  while ((match = boldRegex.exec(remaining)) !== null) {
+  while ((match = regex.exec(text)) !== null) {
+    // Add preceding text
     if (match.index > lastIndex) {
       parts.push({
-        text: remaining.slice(lastIndex, match.index),
+        text: text.slice(lastIndex, match.index),
         type: 'text',
       });
     }
 
-    parts.push({
-      text: match[2],
-      type: 'bold',
-    });
+    if (match[1]) {
+      // Bold match: **text** or __text__
+      parts.push({
+        text: match[2],
+        type: 'bold',
+      });
+    } else if (match[3]) {
+      // Code match: `text`
+      parts.push({
+        text: match[3],
+        type: 'code',
+      });
+    }
 
-    lastIndex = match.index + match[0].length;
+    lastIndex = regex.lastIndex;
   }
 
-  if (lastIndex < remaining.length) {
+  // Add remaining text
+  if (lastIndex < text.length) {
     parts.push({
-      text: remaining.slice(lastIndex),
+      text: text.slice(lastIndex),
       type: 'text',
     });
   }
@@ -39,6 +51,10 @@ export function parseMarkdownBold(text: string): TextPart[] {
   }
 
   return parts;
+}
+
+export function parseMarkdownBold(text: string): TextPart[] {
+  return parseMarkdown(text);
 }
 
 export function parseHeading(text: string) {

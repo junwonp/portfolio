@@ -9,6 +9,7 @@
   import { skillState } from '$lib/states/skills.svelte';
   import type { OtherExperienceProps } from '$lib/types/about';
   import { getPageLocale } from '$lib/utils/locale';
+  import { parseMarkdownBold } from '$lib/utils/markdown';
 
   interface Props {
     experiences: OtherExperienceProps[];
@@ -36,7 +37,17 @@
               <Badge text={exp.titleBadge} />
             {/if}
           </div>
-          <p class="description">{project.description}</p>
+          <p class="description">
+            {#each parseMarkdownBold(project.description) as part, k (k)}
+              {#if part.type === 'bold'}
+                <strong>{part.text}</strong>
+              {:else if part.type === 'code'}
+                <code>{part.text}</code>
+              {:else}
+                {part.text}
+              {/if}
+            {/each}
+          </p>
 
           {#if project.detailLink}
             <div class="link-wrapper">

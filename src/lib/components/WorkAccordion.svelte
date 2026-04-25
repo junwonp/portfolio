@@ -130,7 +130,17 @@
               {#each exp.highlights as item (item)}
                 <li>
                   <span class="bullet"></span>
-                  <span class="highlight-text">{item}</span>
+                  <span class="highlight-text">
+                    {#each parseMarkdownBold(item) as part, k (k)}
+                      {#if part.type === 'bold'}
+                        <strong>{part.text}</strong>
+                      {:else if part.type === 'code'}
+                        <code>{part.text}</code>
+                      {:else}
+                        {part.text}
+                      {/if}
+                    {/each}
+                  </span>
                 </li>
               {/each}
             </ul>
@@ -218,6 +228,8 @@
                               {#each parseMarkdownBold(parsed.content) as part, k (k)}
                                 {#if part.type === 'bold'}
                                   <strong>{part.text}</strong>
+                                {:else if part.type === 'code'}
+                                  <code>{part.text}</code>
                                 {:else}
                                   {part.text}
                                 {/if}
