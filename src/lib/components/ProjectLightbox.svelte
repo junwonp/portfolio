@@ -35,10 +35,10 @@
   const atStart = $derived(activeIndex === 0);
   const dotIndices = $derived(images.map((_, i) => i));
   const nextImage = $derived(
-    activeIndex !== null && activeIndex < images.length - 1 ? images[activeIndex + 1] : null
+    activeIndex !== null && activeIndex < images.length - 1 ? images[activeIndex + 1] : null,
   );
   const prevImage = $derived(
-    activeIndex !== null && activeIndex > 0 ? images[activeIndex - 1] : null
+    activeIndex !== null && activeIndex > 0 ? images[activeIndex - 1] : null,
   );
 
   function getSrc(image: LightboxImage) {
@@ -100,9 +100,9 @@
     const shouldGoPrev = (dragX > threshold || velocity > VELOCITY_THRESHOLD) && !atStart;
 
     if (shouldGoNext) {
-      navigateWithAnimation('next', containerWidth);
+      void navigateWithAnimation('next', containerWidth);
     } else if (shouldGoPrev) {
-      navigateWithAnimation('prev', containerWidth);
+      void navigateWithAnimation('prev', containerWidth);
     } else {
       isSnapping = true;
       dragX = 0;
@@ -167,27 +167,37 @@
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
   });
 
   $effect(() => {
     if (!overlayEl) return;
     const el = overlayEl;
 
-    const onTouchStart = (e: TouchEvent) => startDrag(e.touches[0].clientX);
+    const onTouchStart = (e: TouchEvent) => {
+      startDrag(e.touches[0].clientX);
+    };
     const onTouchMove = (e: TouchEvent) => {
       e.preventDefault();
       moveDrag(e.touches[0].clientX);
     };
-    const onTouchEnd = () => endDrag();
+    const onTouchEnd = () => {
+      endDrag();
+    };
 
     const onMouseDown = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (target.closest('button')) return;
       startDrag(e.clientX);
     };
-    const onMouseMove = (e: MouseEvent) => moveDrag(e.clientX);
-    const onMouseUp = () => endDrag();
+    const onMouseMove = (e: MouseEvent) => {
+      moveDrag(e.clientX);
+    };
+    const onMouseUp = () => {
+      endDrag();
+    };
 
     el.addEventListener('touchstart', onTouchStart, { passive: true });
     el.addEventListener('touchmove', onTouchMove, { passive: false });
@@ -586,7 +596,12 @@
     justify-content: center;
     gap: 8px;
     padding: 8px 24px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.2) 60%,
+      transparent 100%
+    );
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     transition: opacity 0.3s ease;
