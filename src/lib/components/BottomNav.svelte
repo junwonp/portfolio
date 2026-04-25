@@ -636,8 +636,12 @@
     color: var(--color-bold);
   }
 
-  /* Project nav is mobile-only — desktop uses the sticky topbar in +page.svelte */
+  /* Both navs are mobile-only — desktop uses DesktopSideNav / project topbar instead */
   @media (min-width: 961px) {
+    .tab-bar {
+      display: none;
+    }
+
     .project-nav {
       display: none;
     }
