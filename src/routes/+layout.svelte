@@ -182,7 +182,7 @@
 
   @media (max-width: 576px) {
     main.content {
-      padding: 1.5rem;
+      padding: 1rem; /* Standard mobile padding (16px) */
     }
   }
 
