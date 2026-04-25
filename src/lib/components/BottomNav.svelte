@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { browser } from '$app/environment';
   import { quintOut } from 'svelte/easing';
   import { crossfade } from 'svelte/transition';
+
+  import { browser } from '$app/environment';
   import Github from '$lib/components/Icon/Github.svelte';
   import Globe from '$lib/components/Icon/Globe.svelte';
   import { getLabels } from '$lib/data/labels';
@@ -20,8 +21,8 @@
         duration: 400,
         easing: quintOut,
         css: (t) => `
-					transform: ${transform} scale(${t});
-					opacity: ${t}
+					transform: ${transform} scale(${String(t)});
+					opacity: ${String(t)}
 				`,
       };
     },
@@ -148,7 +149,9 @@
             if (setupProjectTabs()) mutObs.disconnect();
           });
           mutObs.observe(article, { childList: true, subtree: true });
-          return () => mutObs.disconnect();
+          return () => {
+            mutObs.disconnect();
+          };
         }
       }
     }
@@ -193,17 +196,19 @@
   $effect(() => {
     if (isDragging || innerWidth <= 0 || !tabBarRef || activeIndex < 0 || !browser) return;
 
-    // Use a small delay to ensure DOM is ready and layout is stable
-    const tid = setTimeout(() => {
-      const tabEls = tabBarRef?.querySelectorAll<HTMLElement>('.tab');
-      if (!tabEls) return;
+    const el = tabBarRef;
+    // Use a small delay or rAF to ensure DOM is ready and layout is stable
+    const tid = requestAnimationFrame(() => {
+      const tabEls = el.querySelectorAll<HTMLElement>('.tab');
       const activeEl = tabEls[activeIndex] as HTMLElement | undefined;
       if (!activeEl) return;
       pillLeft = activeEl.offsetLeft;
       pillWidth = activeEl.offsetWidth;
-    }, 0);
+    });
 
-    return () => clearTimeout(tid);
+    return () => {
+      cancelAnimationFrame(tid);
+    };
   });
 
   // ── Handlers ───────────────────────────────────────────────────────────────
