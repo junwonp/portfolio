@@ -636,6 +636,13 @@
     color: var(--color-bold);
   }
 
+  /* Project nav is mobile-only — desktop uses the sticky topbar in +page.svelte */
+  @media (min-width: 961px) {
+    .project-nav {
+      display: none;
+    }
+  }
+
   @media (max-width: 960px) {
     .project-nav {
       display: grid;

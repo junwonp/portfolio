@@ -1,6 +1,8 @@
 <script lang="ts">
   import { browser } from '$app/environment';
   import Badge from '$lib/components/Badge.svelte';
+  import Github from '$lib/components/Icon/Github.svelte';
+  import Globe from '$lib/components/Icon/Globe.svelte';
   import ProjectToc from '$lib/components/ProjectToc.svelte';
   import { getLabels } from '$lib/data/labels';
   import { projectNavLinks } from '$lib/stores/bottomNav';
@@ -16,6 +18,14 @@
 
   let { component: Component, metadata, slug, locale } = $derived(data);
   let labels = $derived(getLabels(locale));
+
+  let githubHref = $derived(
+    metadata.githubLink
+      ? metadata.githubLink.startsWith('http')
+        ? metadata.githubLink
+        : `https://github.com/${metadata.githubLink}`
+      : '',
+  );
 
   $effect(() => {
     projectNavLinks.set({ githubLink: metadata.githubLink, productLink: metadata.productLink });
@@ -59,6 +69,41 @@
 </svelte:head>
 
 <div id="intro-header-sentinel"></div>
+
+<!-- Desktop-only sticky header with back link and project links -->
+<header class="project-topbar">
+  <a class="topbar-back" href="/">← {labels.resumeTitle}</a>
+  <div class="topbar-crumb">
+    <span>{labels.authorName}</span>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-current">{metadata.title || slug}</span>
+  </div>
+  <div class="topbar-links">
+    {#if githubHref}
+      <a
+        class="topbar-link"
+        href={githubHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub"
+      >
+        <Github width="15" height="15" />
+        GitHub
+      </a>
+    {/if}
+    {#if metadata.productLink}
+      <a
+        class="topbar-link primary"
+        href={metadata.productLink}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Globe width="15" height="15" />
+        {labels.visitSite}
+      </a>
+    {/if}
+  </div>
+</header>
 
 <div class="layout">
   <div class="nav-wrapper">
@@ -122,6 +167,103 @@
 </div>
 
 <style>
+  /* Desktop-only sticky header */
+  .project-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    height: 52px;
+    padding: 0 24px;
+    background: color-mix(in srgb, var(--color-basic-bg) 88%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--color-bg-divider);
+  }
+
+  .topbar-back {
+    font-size: 14px;
+    color: var(--color-sub);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s;
+    z-index: 1;
+  }
+
+  .topbar-back:hover {
+    color: var(--color-bold);
+  }
+
+  .topbar-crumb {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--color-sub);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .crumb-sep {
+    opacity: 0.4;
+  }
+
+  .crumb-current {
+    color: var(--color-main);
+    font-weight: 500;
+  }
+
+  .topbar-links {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .topbar-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--color-sub);
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid var(--color-bg-divider);
+    border-radius: 6px;
+    white-space: nowrap;
+    transition:
+      color 0.15s,
+      border-color 0.15s;
+  }
+
+  .topbar-link:hover {
+    color: var(--color-bold);
+    border-color: var(--color-main);
+  }
+
+  .topbar-link.primary {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+  }
+
+  .topbar-link.primary:hover {
+    opacity: 0.85;
+  }
+
+  /* Hide desktop header on mobile — BottomNav handles navigation there */
+  @media (max-width: 960px) {
+    .project-topbar {
+      display: none;
+    }
+  }
+
   /* Content layout */
   .layout {
     position: relative;
