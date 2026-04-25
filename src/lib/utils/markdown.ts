@@ -53,10 +53,6 @@ export function parseMarkdown(text: string): TextPart[] {
   return parts;
 }
 
-export function parseMarkdownBold(text: string): TextPart[] {
-  return parseMarkdown(text);
-}
-
 export function parseHeading(text: string) {
   const emojiMatch = text.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|\p{Emoji})/u);
   const emoji = emojiMatch ? emojiMatch[0] : '';
