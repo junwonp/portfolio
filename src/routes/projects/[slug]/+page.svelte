@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { browser } from '$app/environment';
   import Badge from '$lib/components/Badge.svelte';
   import ProjectToc from '$lib/components/ProjectToc.svelte';
   import { getLabels } from '$lib/data/labels';
