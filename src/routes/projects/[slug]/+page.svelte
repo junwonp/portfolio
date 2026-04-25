@@ -3,6 +3,7 @@
   import ProjectToc from '$lib/components/ProjectToc.svelte';
   import { getLabels } from '$lib/data/labels';
   import { projectNavLinks } from '$lib/stores/bottomNav';
+  import { parseHeading } from '$lib/utils/markdown';
 
   import type { PageData } from './$types';
 
@@ -33,6 +34,18 @@
     return () => {
       projectNavLinks.set(null);
     };
+  });
+
+  // Transform headings to split subtitles
+  $effect(() => {
+    if (!browser) return;
+    const headings = document.querySelectorAll<HTMLElement>('.project-article h2');
+    headings.forEach((h2) => {
+      const { emoji, main, sub } = parseHeading(h2.textContent || '');
+      if (sub) {
+        h2.innerHTML = `${emoji} ${main}<span class="h2-subtitle">${sub}</span>`;
+      }
+    });
   });
 </script>
 
@@ -385,6 +398,18 @@
     color: var(--color-bold);
     letter-spacing: -0.02em;
     margin: 52px 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  :global(.h2-subtitle) {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-sub);
+    letter-spacing: 0;
+    margin-top: 4px;
   }
 
   :global(.project-article h3) {

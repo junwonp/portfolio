@@ -7,6 +7,7 @@
   import { getLabels } from '$lib/data/labels';
   import { projectNavLinks } from '$lib/stores/bottomNav';
   import { getPageLocale } from '$lib/utils/locale';
+  import { parseHeading } from '$lib/utils/markdown';
 
   const [send, receive] = crossfade({
     duration: 600,
@@ -101,7 +102,8 @@
   }
 
   function parseLabel(text: string): string {
-    return text.replace(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|\p{Emoji})/u, '').trim();
+    const { main } = parseHeading(text);
+    return main;
   }
 
   // ── Effects ────────────────────────────────────────────────────────────────

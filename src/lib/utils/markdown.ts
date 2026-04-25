@@ -40,3 +40,17 @@ export function parseMarkdownBold(text: string): TextPart[] {
 
   return parts;
 }
+
+export function parseHeading(text: string) {
+  const emojiMatch = text.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|\p{Emoji})/u);
+  const emoji = emojiMatch ? emojiMatch[0] : '';
+  const rest = text.replace(emoji, '').trim();
+  const [main, ...subParts] = rest.split(':');
+  const sub = subParts.join(':').trim();
+
+  return {
+    emoji,
+    main: main.trim(),
+    sub,
+  };
+}
