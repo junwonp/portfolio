@@ -192,11 +192,18 @@
   // Sync pill position with active section
   $effect(() => {
     if (isDragging || innerWidth <= 0 || !tabBarRef || activeIndex < 0 || !browser) return;
-    const tabEls = tabBarRef.querySelectorAll<HTMLElement>('.tab');
-    const activeEl = tabEls[activeIndex] as HTMLElement | undefined;
-    if (!activeEl) return;
-    pillLeft = activeEl.offsetLeft;
-    pillWidth = activeEl.offsetWidth;
+
+    // Use a small delay to ensure DOM is ready and layout is stable
+    const tid = setTimeout(() => {
+      const tabEls = tabBarRef?.querySelectorAll<HTMLElement>('.tab');
+      if (!tabEls) return;
+      const activeEl = tabEls[activeIndex] as HTMLElement | undefined;
+      if (!activeEl) return;
+      pillLeft = activeEl.offsetLeft;
+      pillWidth = activeEl.offsetWidth;
+    }, 0);
+
+    return () => clearTimeout(tid);
   });
 
   // ── Handlers ───────────────────────────────────────────────────────────────
@@ -331,8 +338,6 @@
       class:dragging={isDragging}
       style:left="{pillLeft + (isDragging ? dragOffset : 0)}px"
       style:width="{pillWidth}px"
-      in:receive={{ key: 'active-pill' }}
-      out:send={{ key: 'active-pill' }}
     ></div>
 
     {#each tabs as tab (tab.id)}

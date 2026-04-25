@@ -41,10 +41,17 @@
     if (!browser) return;
     const headings = document.querySelectorAll<HTMLElement>('.project-article h2');
     headings.forEach((h2) => {
-      const { emoji, main, sub } = parseHeading(h2.textContent || '');
+      // Avoid double transformation
+      if (h2.getAttribute('data-transformed')) return;
+
+      const originalText = h2.textContent || '';
+      const { emoji, main, sub } = parseHeading(originalText);
+
       if (sub) {
-        h2.innerHTML = `${emoji} ${main}<span class="h2-subtitle">${sub}</span>`;
+        // Keep the colon in a hidden span so textContent remains stable for slugify/TOC
+        h2.innerHTML = `${emoji} ${main}<span style="display:none">:</span><span class="h2-subtitle">${sub}</span>`;
       }
+      h2.setAttribute('data-transformed', 'true');
     });
   });
 </script>
