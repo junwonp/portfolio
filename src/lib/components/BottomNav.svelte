@@ -419,7 +419,7 @@
     border: 1px solid var(--color-bg-divider);
     border-radius: 999px;
     bottom: calc(1rem + env(safe-area-inset-bottom));
-    display: none;
+    display: flex; /* Changed from none to flex */
     left: 50%;
     transform: translateX(-50%);
     padding: 0.25rem;
@@ -487,7 +487,7 @@
   }
 
   .project-nav {
-    display: none;
+    display: flex; /* Changed from none to flex */
     position: fixed;
     bottom: calc(1rem + env(safe-area-inset-bottom));
     left: 50%;
@@ -598,10 +598,6 @@
   }
 
   @media (max-width: 960px) {
-    .tab-bar {
-      display: flex;
-    }
-
     .project-nav {
       display: grid;
       grid-template-columns: 48px 1fr 48px;
