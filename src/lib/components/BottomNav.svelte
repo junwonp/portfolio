@@ -120,15 +120,36 @@
         { id: 'section-projects', label: labels.tabProjects },
         { id: 'section-education', label: labels.tabEducation },
       ];
-      if (!activeId) activeId = 'section-intro';
+      // Force reset activeId if it doesn't belong to home sections
+      if (!activeId || !activeId.startsWith('section-')) {
+        activeId = 'section-intro';
+      }
     } else {
-      const headings = Array.from(document.querySelectorAll<HTMLElement>('.project-article h2'));
-      if (headings.length > 0) {
-        tabs = headings.map((el, i) => {
-          if (!el.id) el.id = slugify(el.textContent || '', i);
-          return { id: el.id, label: parseLabel(el.textContent || '') };
-        });
-        if (!activeId) activeId = tabs[0]?.id || '';
+      const setupProjectTabs = () => {
+        const headings = Array.from(document.querySelectorAll<HTMLElement>('.project-article h2'));
+        if (headings.length > 0) {
+          tabs = headings.map((el, i) => {
+            if (!el.id) el.id = slugify(el.textContent || '', i);
+            return { id: el.id, label: parseLabel(el.textContent || '') };
+          });
+          // Force reset activeId if it's still a home section
+          if (!activeId || activeId.startsWith('section-')) {
+            activeId = tabs[0]?.id || '';
+          }
+          return true;
+        }
+        return false;
+      };
+
+      if (!setupProjectTabs()) {
+        const article = document.querySelector('.project-article');
+        if (article) {
+          const mutObs = new MutationObserver(() => {
+            if (setupProjectTabs()) mutObs.disconnect();
+          });
+          mutObs.observe(article, { childList: true, subtree: true });
+          return () => mutObs.disconnect();
+        }
       }
     }
   });
@@ -310,6 +331,8 @@
       class:dragging={isDragging}
       style:left="{pillLeft + (isDragging ? dragOffset : 0)}px"
       style:width="{pillWidth}px"
+      in:receive={{ key: 'active-pill' }}
+      out:send={{ key: 'active-pill' }}
     ></div>
 
     {#each tabs as tab (tab.id)}
