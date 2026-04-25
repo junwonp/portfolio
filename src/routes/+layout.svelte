@@ -113,12 +113,13 @@
   <meta property="og:title" content={metadata.ogTitle} />
   <meta property="og:description" content={metadata.ogDescription} />
   <meta property="og:image" content={`${PORTFOLIO_URL}/images/preview.webp`} />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  <meta property="og:image:width" content="2400" />
+  <meta property="og:image:height" content="1260" />
   <meta property="og:image:type" content="image/webp" />
   <meta property="og:image:alt" content={metadata.imageAlt} />
   <meta property="og:site_name" content={metadata.siteName} />
   <meta property="og:locale" content={metadata.locale} />
+  <meta property="og:locale:alternate" content={metadata.locale === 'ko_KR' ? 'en_US' : 'ko_KR'} />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content={canonicalUrl} />
