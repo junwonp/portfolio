@@ -3,6 +3,9 @@ import type { Language } from '$lib/utils/language';
 export interface Labels {
   authorName: string;
   contentLoadError: string;
+  linkCopied: string;
+  shareFooter: string;
+  sharePage: string;
   description: string;
   errorOccurred: string;
   goBack: string;
@@ -54,6 +57,9 @@ export const labelsMap: Record<Language, Labels> = {
   ko: {
     authorName: '박준원',
     contentLoadError: '컨텐츠를 불러올 수 없습니다.',
+    linkCopied: '링크가 복사되었습니다',
+    shareFooter: '이 포트폴리오 공유하기',
+    sharePage: '공유',
     description: '설명',
     errorOccurred: '오류가 발생했습니다',
     goBack: '← 뒤로',
@@ -103,6 +109,9 @@ export const labelsMap: Record<Language, Labels> = {
   en: {
     authorName: 'Junwon',
     contentLoadError: 'Unable to load content.',
+    linkCopied: 'Link copied!',
+    shareFooter: 'Share this portfolio',
+    sharePage: 'Share',
     description: 'Description',
     errorOccurred: 'An error occurred',
     goBack: '← Back',
