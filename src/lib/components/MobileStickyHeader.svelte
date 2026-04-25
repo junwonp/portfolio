@@ -4,6 +4,7 @@
   import Github from '$lib/components/Icon/Github.svelte';
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
   import IconLink from '$lib/components/IconLink.svelte';
+  import ShareButton from '$lib/components/ShareButton.svelte';
   import { getLabels } from '$lib/data/labels';
   import type { Language } from '$lib/utils/language';
   import { getPageLocale } from '$lib/utils/locale';
@@ -66,6 +67,7 @@
 <header class="sticky-header" class:visible={isVisible} aria-label="Quick navigation header">
   <span class="name">{name}</span>
   <div class="actions">
+    <ShareButton shareLabel={labels.sharePage} copiedLabel={labels.linkCopied} />
     <button class="lang-toggle" onclick={toggleLanguage} aria-label={labels.toggleLanguage}>
       {langDisplay}
     </button>

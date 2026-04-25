@@ -6,6 +6,7 @@
   import Github from '$lib/components/Icon/Github.svelte';
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
   import IconLink from '$lib/components/IconLink.svelte';
+  import ShareButton from '$lib/components/ShareButton.svelte';
   import { getLabels } from '$lib/data/labels';
   import type { MetricItem, PillarItem } from '$lib/types/about';
   import type { Language } from '$lib/utils/language';
@@ -84,6 +85,7 @@
         {/if}
         <div class="other-icons">
           {#if isHome}
+            <ShareButton shareLabel={labels.sharePage} copiedLabel={labels.linkCopied} />
             <div class="lang-toggle-wrapper">
               <button class="lang-toggle" onclick={toggleLanguage} title={labels.toggleLanguage}>
                 {langDisplay}

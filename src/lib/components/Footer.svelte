@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GITHUB_PROFILE, GITHUB_USERNAME } from '$lib/data/constants';
+  import ShareButton from '$lib/components/ShareButton.svelte';
   import { getLabels } from '$lib/data/labels';
   import { getPageLocale } from '$lib/utils/locale';
 
@@ -7,25 +7,15 @@
 </script>
 
 <footer class="wrapper">
-  <a
-    href={GITHUB_PROFILE}
-    target="_blank"
-    rel="author me external noopener noreferrer"
-    title={labels.goToGithubProfile}
-  >
-    <p class="link-text">{`@${GITHUB_USERNAME}`}</p>
-  </a>
+  <ShareButton variant="text" shareLabel={labels.shareFooter} copiedLabel={labels.linkCopied} />
 </footer>
 
 <style>
   .wrapper {
-    display: flex;
+    align-items: center;
     border-top: 1px solid var(--color-bg-divider);
-    padding: var(--space-sm);
+    display: flex;
     justify-content: center;
-  }
-
-  .link-text {
-    margin: 0 var(--space-lg);
+    padding: var(--space-sm);
   }
 </style>
