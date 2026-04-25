@@ -362,7 +362,13 @@
   <!-- Project Mode -->
   <div class="project-nav">
     <div class="island-slot left" in:receive={{ key: 'back' }} out:send={{ key: 'back' }}>
-      <a href="/" class="island circle back-btn" aria-label="Go back">
+      <button
+        class="island circle back-btn"
+        aria-label="Go back"
+        onclick={() => {
+          history.back();
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -376,7 +382,7 @@
         >
           <path d="M19 12H5M12 5l-7 7 7 7" />
         </svg>
-      </a>
+      </button>
     </div>
 
     <div class="island-slot center" in:receive={{ key: 'tab-bar' }} out:send={{ key: 'tab-bar' }}>

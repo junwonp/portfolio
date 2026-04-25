@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { SvelteSet } from 'svelte/reactivity';
   import { slide } from 'svelte/transition';
   import { ChevronDown } from 'lucide-svelte';
 
@@ -8,8 +7,9 @@
   import Period from '$lib/components/Period.svelte';
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
+  import { accordionState } from '$lib/states/accordion.svelte';
   import { skillState } from '$lib/states/skills.svelte';
-  import type { ProjectItem, WorkExperienceProps } from '$lib/types/about';
+  import type { WorkExperienceProps } from '$lib/types/about';
   import type { Language } from '$lib/utils/language';
   import { parseMarkdownBold } from '$lib/utils/markdown';
 
@@ -21,33 +21,6 @@
   let { experiences, locale }: Props = $props();
 
   let labels = $derived(getLabels(locale));
-
-  // Level 1: which companies have project list expanded
-  let openCompanies = new SvelteSet<string>();
-
-  // Level 2: which projects have details expanded (key: "companyName::projectTitle")
-  let openProjects = new SvelteSet<string>();
-
-  function toggleCompany(name: string): void {
-    if (openCompanies.has(name)) {
-      openCompanies.delete(name);
-    } else {
-      openCompanies.add(name);
-    }
-  }
-
-  function toggleProject(company: string, project: ProjectItem): void {
-    const key = `${company}::${project.title}`;
-    if (openProjects.has(key)) {
-      openProjects.delete(key);
-    } else {
-      openProjects.add(key);
-    }
-  }
-
-  function isProjectOpen(company: string, project: ProjectItem): boolean {
-    return openProjects.has(`${company}::${project.title}`);
-  }
 
   function parseDetailLine(line: string) {
     const match = line.match(/^\*\*\[(.*?)\]\*\*(.*)$/);
@@ -63,22 +36,27 @@
 <div class="accordion">
   {#each experiences as exp (exp.companyName)}
     <div class="company-wrapper" transition:slide={{ duration: 300 }}>
-      <div class={['company-card', (openCompanies.has(exp.companyName) || isFiltered) && 'open']}>
+      <div
+        class={[
+          'company-card',
+          (accordionState.hasCompany(exp.companyName) || isFiltered) && 'open',
+        ]}
+      >
         <!-- Company header -->
         <div
           class="company-header"
           role="button"
           tabindex="0"
           onclick={() => {
-            if (!isFiltered) toggleCompany(exp.companyName);
+            if (!isFiltered) accordionState.toggleCompany(exp.companyName);
           }}
           onkeydown={(e) => {
             if (!isFiltered && (e.key === 'Enter' || e.key === ' ')) {
               e.preventDefault();
-              toggleCompany(exp.companyName);
+              accordionState.toggleCompany(exp.companyName);
             }
           }}
-          aria-expanded={openCompanies.has(exp.companyName) || isFiltered}
+          aria-expanded={accordionState.hasCompany(exp.companyName) || isFiltered}
         >
           <div class="company-top">
             <div class="company-left">
@@ -108,18 +86,18 @@
             <div
               class={[
                 'expand-indicator',
-                (openCompanies.has(exp.companyName) || isFiltered) && 'open',
+                (accordionState.hasCompany(exp.companyName) || isFiltered) && 'open',
               ]}
             >
               <span
-                >{openCompanies.has(exp.companyName) || isFiltered
+                >{accordionState.hasCompany(exp.companyName) || isFiltered
                   ? labels.hideDetails
                   : labels.showDetails}</span
               >
               <ChevronDown
                 size={20}
                 strokeWidth={2}
-                class={`chevron-icon ${openCompanies.has(exp.companyName) || isFiltered ? 'open' : ''}`}
+                class={`chevron-icon ${accordionState.hasCompany(exp.companyName) || isFiltered ? 'open' : ''}`}
               />
             </div>
           </div>
@@ -155,10 +133,11 @@
         {/if}
 
         <!-- Level 1 expand: project list -->
-        {#if openCompanies.has(exp.companyName) || isFiltered}
+        {#if accordionState.hasCompany(exp.companyName) || isFiltered}
           <div class="project-list" transition:slide={{ duration: 250 }}>
             {#each exp.project as project (project.title)}
-              {@const isOpen = isProjectOpen(exp.companyName, project) || isFiltered}
+              {@const isOpen =
+                accordionState.isProjectOpen(exp.companyName, project.title) || isFiltered}
               <div
                 class={['project-item', isOpen && 'is-open']}
                 transition:slide={{ duration: 200 }}
@@ -167,7 +146,7 @@
                 <button
                   class="project-header"
                   onclick={() => {
-                    if (!isFiltered) toggleProject(exp.companyName, project);
+                    if (!isFiltered) accordionState.toggleProject(exp.companyName, project.title);
                   }}
                   aria-expanded={isOpen}
                 >
