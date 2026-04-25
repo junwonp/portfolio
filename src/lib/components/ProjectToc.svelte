@@ -1,5 +1,6 @@
 <script lang="ts">
   import { browser } from '$app/environment';
+  import { parseHeading } from '$lib/utils/markdown';
 
   interface NavSection {
     id: string;
@@ -36,10 +37,8 @@
   }
 
   function parseHeader(text: string) {
-    const emojiMatch = text.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|\p{Emoji})/u);
-    const emoji = emojiMatch ? emojiMatch[0] : '📄';
-    const label = text.replace(emoji, '').trim();
-    return { emoji, label };
+    const { emoji, main } = parseHeading(text);
+    return { emoji: emoji || '📄', label: main };
   }
 
   $effect(() => {
