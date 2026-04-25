@@ -4,12 +4,13 @@
 
   import ArrowLink from '$lib/components/ArrowLink.svelte';
   import Badge from '$lib/components/Badge.svelte';
+  import RichText from '$lib/components/RichText.svelte';
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
   import { skillState } from '$lib/states/skills.svelte';
   import type { OtherExperienceProps } from '$lib/types/about';
   import { getPageLocale } from '$lib/utils/locale';
-  import { parseMarkdownBold } from '$lib/utils/markdown';
+  import { parseMarkdown } from '$lib/utils/markdown';
 
   interface Props {
     experiences: OtherExperienceProps[];
@@ -40,15 +41,7 @@
             {/if}
           </div>
           <p class="description">
-            {#each parseMarkdownBold(project.description) as part, k (k)}
-              {#if part.type === 'bold'}
-                <strong>{part.text}</strong>
-              {:else if part.type === 'code'}
-                <code>{part.text}</code>
-              {:else}
-                {part.text}
-              {/if}
-            {/each}
+            <RichText parts={parseMarkdown(project.description)} />
           </p>
 
           {#if project.detailLink}

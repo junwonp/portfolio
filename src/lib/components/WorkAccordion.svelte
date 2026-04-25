@@ -5,13 +5,14 @@
   import ArrowLink from '$lib/components/ArrowLink.svelte';
   import Badge from '$lib/components/Badge.svelte';
   import Period from '$lib/components/Period.svelte';
+  import RichText from '$lib/components/RichText.svelte';
   import SkillChip from '$lib/components/SkillChip.svelte';
   import { getLabels } from '$lib/data/labels';
   import { accordionState } from '$lib/states/accordion.svelte';
   import { skillState } from '$lib/states/skills.svelte';
   import type { WorkExperienceProps } from '$lib/types/about';
   import type { Language } from '$lib/utils/language';
-  import { parseMarkdownBold } from '$lib/utils/markdown';
+  import { parseMarkdown } from '$lib/utils/markdown';
 
   interface Props {
     experiences: WorkExperienceProps[];
@@ -109,15 +110,7 @@
                 <li>
                   <span class="bullet"></span>
                   <span class="highlight-text">
-                    {#each parseMarkdownBold(item) as part, k (k)}
-                      {#if part.type === 'bold'}
-                        <strong>{part.text}</strong>
-                      {:else if part.type === 'code'}
-                        <code>{part.text}</code>
-                      {:else}
-                        {part.text}
-                      {/if}
-                    {/each}
+                    <RichText parts={parseMarkdown(item)} />
                   </span>
                 </li>
               {/each}
@@ -204,15 +197,7 @@
                               </div>
                             {/if}
                             <div class="detail-text">
-                              {#each parseMarkdownBold(parsed.content) as part, k (k)}
-                                {#if part.type === 'bold'}
-                                  <strong>{part.text}</strong>
-                                {:else if part.type === 'code'}
-                                  <code>{part.text}</code>
-                                {:else}
-                                  {part.text}
-                                {/if}
-                              {/each}
+                              <RichText parts={parseMarkdown(parsed.content)} />
                             </div>
                           </div>
                         {/each}
