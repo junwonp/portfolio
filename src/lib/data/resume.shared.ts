@@ -194,7 +194,7 @@ export const otherExperiencesShared = [
   {
     id: 'onelinebank_rebuild',
     dateFrom: '2021-04',
-    dateTo: '2026-03',
+    dateTo: '2021-04',
     detailLink: '/projects/oneline-bank',
     skills: [
       'TypeScript',
@@ -249,7 +249,7 @@ export const archivesShared = [
   {
     id: 'election_aggregator',
     dateFrom: '2021-11',
-    dateTo: '2021-12',
+    dateTo: '2021-11',
     detailLink: '/projects/election-aggregator',
     skills: ['JavaScript', 'React', 'styled-components', 'GraphQL', 'AWS Amplify'],
   },

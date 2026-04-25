@@ -1,7 +1,7 @@
 ---
 title: 대선 뉴스 모아보기
 description: AWS Serverless 기반의 대선 정보 애그리게이터 — 팀 프로젝트로 뉴스, 여론조사, 후보 공약을 하나의 대시보드로 수집·시각화했습니다.
-date: '2021-11 ~ 2021-12'
+date: '2021-11'
 image: '/images/election-aggregator/1.webp'
 githubLink: 'ITE3068_team8'
 role: 'Team Leader · Full Stack'

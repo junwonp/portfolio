@@ -1,7 +1,7 @@
 ---
 title: OnelineBank
 description: Conversational mobile banking demo — 2021 Woori Bank hackathon app rebuilt in TypeScript with Expo Router, TanStack Query, and feature-based modules.
-date: '2021-04 ~ 2026-03'
+date: '2021-04'
 image: '/images/oneline-bank/1.webp'
 githubLink: 'OnelineBank'
 role: 'Solo developer'

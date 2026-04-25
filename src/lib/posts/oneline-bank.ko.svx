@@ -1,7 +1,7 @@
 ---
 title: 한줄은행
 description: 대화형 모바일 뱅킹 데모 — 2021 우리은행 해커톤 출품작을 TypeScript·Expo Router·TanStack Query·기능 모듈 구조로 전면 재작성했습니다.
-date: '2021-04 ~ 2026-03'
+date: '2021-04'
 image: '/images/oneline-bank/1.webp'
 githubLink: 'OnelineBank'
 role: '1인 개발'
