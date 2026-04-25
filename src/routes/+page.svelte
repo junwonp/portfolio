@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fade, slide } from 'svelte/transition';
 
+  import { afterNavigate, beforeNavigate } from '$app/navigation';
   import BentoSkills from '$lib/components/BentoSkills.svelte';
   import BottomSkillBar from '$lib/components/BottomSkillBar.svelte';
   import DesktopSideNav from '$lib/components/DesktopSideNav.svelte';
@@ -32,17 +33,21 @@
   ]);
   let resumeData = $derived(getResumeData(data.locale));
 
-  $effect(() => {
-    const saved = localStorage.getItem('scroll-y');
-    if (saved) window.scrollTo(0, parseInt(saved, 10));
+  const SCROLL_KEY = 'home-scroll-y';
 
-    const handler = () => {
-      localStorage.setItem('scroll-y', String(window.scrollY));
-    };
-    window.addEventListener('scroll', handler, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handler);
-    };
+  beforeNavigate(() => {
+    sessionStorage.setItem(SCROLL_KEY, String(window.scrollY));
+  });
+
+  afterNavigate(({ type }) => {
+    if (type === 'enter' || type === 'popstate') {
+      const saved = sessionStorage.getItem(SCROLL_KEY);
+      if (saved) {
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: parseInt(saved, 10), behavior: 'instant' });
+        });
+      }
+    }
   });
 
   // Filtered Data Computations for Selection Mode
