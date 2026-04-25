@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fade, fly, slide } from 'svelte/transition';
+  import { fade, slide } from 'svelte/transition';
 
   import BentoSkills from '$lib/components/BentoSkills.svelte';
   import BottomSkillBar from '$lib/components/BottomSkillBar.svelte';
@@ -7,7 +7,6 @@
   import EducationList from '$lib/components/EducationList.svelte';
   import ExperienceList from '$lib/components/ExperienceList.svelte';
   import MobileStickyHeader from '$lib/components/MobileStickyHeader.svelte';
-  import MobileTabBar from '$lib/components/MobileTabBar.svelte';
   import SectionHeader from '$lib/components/SectionHeader.svelte';
   import Title from '$lib/components/Title.svelte';
   import WorkAccordion from '$lib/components/WorkAccordion.svelte';
@@ -183,12 +182,6 @@
 
   {#if skillState.isPanelOpen && resumeData.skills}
     <BottomSkillBar skills={resumeData.skills} bind:barHeight={bottomBarHeight} />
-  {/if}
-
-  {#if !skillState.isPanelOpen}
-    <div transition:fly={{ y: 50, duration: 300 }}>
-      <MobileTabBar />
-    </div>
   {/if}
 </article>
 

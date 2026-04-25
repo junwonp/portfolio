@@ -1,7 +1,8 @@
 <script lang="ts">
   import Badge from '$lib/components/Badge.svelte';
-  import MobileStickyHeader from '$lib/components/MobileStickyHeader.svelte';
+  import ProjectToc from '$lib/components/ProjectToc.svelte';
   import { getLabels } from '$lib/data/labels';
+  import { projectNavLinks } from '$lib/stores/bottomNav';
 
   import type { PageData } from './$types';
 
@@ -26,6 +27,13 @@
       window.removeEventListener('scroll', update);
     };
   });
+
+  $effect(() => {
+    projectNavLinks.set({ githubLink: metadata.githubLink, productLink: metadata.productLink });
+    return () => {
+      projectNavLinks.set(null);
+    };
+  });
 </script>
 
 <svelte:head>
@@ -41,8 +49,6 @@
     <meta name="twitter:image" content={metadata.image} />
   {/if}
 </svelte:head>
-
-<MobileStickyHeader name={metadata.title || slug} githubLink={metadata.githubLink} />
 
 <div id="intro-header-sentinel"></div>
 
@@ -81,57 +87,65 @@
   </div>
 </nav>
 
-<div class="content">
-  <!-- Hero -->
-  <div class="hero">
-    <div class="hero-meta">
-      {#if metadata.role}
-        <Badge text={metadata.role} color="primary" />
-      {/if}
-      {#if metadata.status}
-        <Badge text={metadata.status} color="green" />
-      {/if}
-      {#if metadata.date}
-        <Badge text={metadata.date} color="sub" />
-      {/if}
-    </div>
-
-    <h1 class="hero-title">{metadata.title || slug}</h1>
-
-    {#if metadata.tagline}
-      <p class="hero-tagline">{metadata.tagline}</p>
-    {:else if metadata.description}
-      <p class="hero-tagline">{metadata.description}</p>
-    {/if}
-
-    {#if metadata.metrics && metadata.metrics.length > 0}
-      <div class="metrics-row">
-        {#each metadata.metrics as metric (metric.label)}
-          <div class="metric">
-            <div class="metric-val">{metric.value}</div>
-            <div class="metric-lbl">{metric.label}</div>
-          </div>
-        {/each}
-      </div>
-    {/if}
-
-    {#if metadata.platforms && metadata.platforms.length > 0}
-      <div class="platforms">
-        {#each metadata.platforms as platform (platform)}
-          <Badge text={platform} />
-        {/each}
-      </div>
-    {/if}
+<div class="layout">
+  <div class="nav-wrapper">
+    <ProjectToc />
   </div>
 
-  <!-- MDX content -->
-  <article class="project-article">
-    {#if Component}
-      <Component {metadata} {locale} />
-    {:else}
-      <p class="error-msg">{labels.contentLoadError}</p>
-    {/if}
-  </article>
+  <div class="main-content">
+    <div class="content">
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-meta">
+          {#if metadata.role}
+            <Badge text={metadata.role} color="primary" />
+          {/if}
+          {#if metadata.status}
+            <Badge text={metadata.status} color="green" />
+          {/if}
+          {#if metadata.date}
+            <Badge text={metadata.date} color="sub" />
+          {/if}
+        </div>
+
+        <h1 class="hero-title">{metadata.title || slug}</h1>
+
+        {#if metadata.tagline}
+          <p class="hero-tagline">{metadata.tagline}</p>
+        {:else if metadata.description}
+          <p class="hero-tagline">{metadata.description}</p>
+        {/if}
+
+        {#if metadata.metrics && metadata.metrics.length > 0}
+          <div class="metrics-row">
+            {#each metadata.metrics as metric (metric.label)}
+              <div class="metric">
+                <div class="metric-val">{metric.value}</div>
+                <div class="metric-lbl">{metric.label}</div>
+              </div>
+            {/each}
+          </div>
+        {/if}
+
+        {#if metadata.platforms && metadata.platforms.length > 0}
+          <div class="platforms">
+            {#each metadata.platforms as platform (platform)}
+              <Badge text={platform} />
+            {/each}
+          </div>
+        {/if}
+      </div>
+
+      <!-- MDX content -->
+      <article class="project-article">
+        {#if Component}
+          <Component {metadata} {locale} />
+        {:else}
+          <p class="error-msg">{labels.contentLoadError}</p>
+        {/if}
+      </article>
+    </div>
+  </div>
 </div>
 
 <style>
@@ -150,7 +164,7 @@
   .topbar {
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 40;
     background: color-mix(in srgb, var(--color-basic-bg) 88%, transparent);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -233,11 +247,63 @@
     border-color: var(--color-primary-hover);
   }
 
-  /* Content */
+  /* Content layout */
+  .layout {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0 clamp(16px, 4vw, 48px) 120px;
+    margin-top: var(--space-xl);
+  }
+
+  .nav-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: calc(100% + var(--space-md));
+    width: 160px;
+  }
+
+  .main-content {
+    min-width: 0;
+    width: 100%;
+    max-width: 800px;
+    transition: all 0.3s ease;
+  }
+
+  /* Handle overlap on intermediate screens */
+  @media (max-width: 1400px) {
+    .layout {
+      justify-content: flex-start;
+      gap: var(--space-md);
+    }
+
+    .nav-wrapper {
+      position: relative;
+      right: auto;
+      flex-shrink: 0;
+    }
+
+    .main-content {
+      flex: 1;
+    }
+  }
+
   .content {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 0 clamp(16px, 5vw, 60px) 120px;
+    align-self: flex-start;
+    flex: 1;
+    min-width: 0;
+  }
+
+  @media (max-width: 960px) {
+    .layout {
+      display: block;
+      padding-bottom: 80px;
+    }
+    .nav-wrapper {
+      display: none;
+    }
   }
 
   .platforms {
@@ -249,7 +315,7 @@
 
   /* Hero */
   .hero {
-    padding: 52px 0 48px;
+    padding-bottom: 48px;
     margin-bottom: 48px;
   }
 

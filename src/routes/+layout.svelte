@@ -9,6 +9,7 @@
   import { browser } from '$app/environment';
   import { page } from '$app/state';
   import favicon from '$lib/assets/favicon.svg';
+  import BottomNav from '$lib/components/BottomNav.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import ReadingProgress from '$lib/components/ReadingProgress.svelte';
   import { GITHUB_USERNAME, LINKEDIN_PROFILE, PORTFOLIO_URL } from '$lib/data/constants';
@@ -59,6 +60,8 @@
       mediaQuery.removeEventListener('change', handleChange);
     };
   });
+
+  let isProjectPage = $derived(page.url.pathname.startsWith('/projects/'));
 
   $effect(() => {
     if (!browser) return;
@@ -142,6 +145,7 @@
 </svelte:head>
 
 <ReadingProgress />
+<BottomNav isProject={isProjectPage} />
 
 <a href="#main-content" class="skip-link">{metadata.skipLink}</a>
 
