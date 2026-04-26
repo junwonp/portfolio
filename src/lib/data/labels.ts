@@ -20,6 +20,7 @@ export interface Labels {
   noProjectsFound: string;
   pageNotFound: string;
   paradigmAgentic: string;
+  printPage: string;
   paradigmAssisted: string;
   present: string;
   project: string;
@@ -74,6 +75,7 @@ export const labelsMap: Record<Language, Labels> = {
     noProjectsFound: '조건에 맞는 프로젝트가 없습니다.',
     pageNotFound: '페이지를 찾을 수 없습니다',
     paradigmAgentic: '에이전틱 주도',
+    printPage: '인쇄 / PDF',
     paradigmAssisted: 'AI 보조',
     present: '현재',
     project: '프로젝트',
@@ -126,6 +128,7 @@ export const labelsMap: Record<Language, Labels> = {
     noProjectsFound: 'No projects match the selected filters.',
     pageNotFound: 'Page not found',
     paradigmAgentic: 'Agentic Driven',
+    printPage: 'Print / PDF',
     paradigmAssisted: 'AI Assisted',
     present: 'Present',
 

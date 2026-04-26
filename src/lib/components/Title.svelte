@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { ChevronLeft, Globe } from 'lucide-svelte';
+  import { ChevronLeft, Globe, Printer } from 'lucide-svelte';
 
   import { browser } from '$app/environment';
   import { invalidateAll } from '$app/navigation';
   import Github from '$lib/components/Icon/Github.svelte';
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
   import IconLink from '$lib/components/IconLink.svelte';
-  import ShareButton from '$lib/components/ShareButton.svelte';
   import { getLabels } from '$lib/data/labels';
   import type { MetricItem, PillarItem } from '$lib/types/about';
   import type { Language } from '$lib/utils/language';
@@ -85,7 +84,6 @@
         {/if}
         <div class="other-icons">
           {#if isHome}
-            <ShareButton shareLabel={labels.sharePage} copiedLabel={labels.linkCopied} />
             <div class="lang-toggle-wrapper">
               <button class="lang-toggle" onclick={toggleLanguage} title={labels.toggleLanguage}>
                 {langDisplay}
@@ -95,28 +93,31 @@
               {/if}
             </div>
           {/if}
-          {#if productLink}
-            <div class="icon">
-              <IconLink href={productLink} title={labels.goToProductPage}>
-                <Globe size={24} strokeWidth={2.5} />
-              </IconLink>
-            </div>
-          {/if}
-          {#if githubLink}
-            <div class="icon">
-              <IconLink href={githubLink} title={labels.goToGithubPage} type="github">
-                <Github />
-              </IconLink>
-            </div>
-          {/if}
 
-          {#if linkedinLink}
-            <div class="icon">
-              <IconLink href={linkedinLink} title={labels.goToLinkedinPage} type="linkedin">
-                <Linkedin />
-              </IconLink>
-            </div>
-          {/if}
+          <div class="action-group">
+            <IconLink href="/print" title={labels.printPage} type="normal">
+              <Printer size={24} strokeWidth={2} />
+            </IconLink>
+
+            {#if productLink || githubLink || linkedinLink}
+              <div class="divider"></div>
+              {#if productLink}
+                <IconLink href={productLink} title={labels.goToProductPage}>
+                  <Globe size={24} strokeWidth={2} />
+                </IconLink>
+              {/if}
+              {#if githubLink}
+                <IconLink href={githubLink} title={labels.goToGithubPage} type="github">
+                  <Github width={24} height={24} />
+                </IconLink>
+              {/if}
+              {#if linkedinLink}
+                <IconLink href={linkedinLink} title={labels.goToLinkedinPage} type="linkedin">
+                  <Linkedin width={24} height={24} />
+                </IconLink>
+              {/if}
+            {/if}
+          </div>
         </div>
       </div>
     </div>
@@ -220,8 +221,23 @@
   .other-icons {
     align-items: center;
     display: flex;
-    gap: 0.5rem;
+    gap: 0.75rem;
     margin-left: auto;
+  }
+
+  .action-group {
+    align-items: center;
+    background: var(--color-bg-subdivider);
+    border-radius: 9999px;
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+  }
+
+  .divider {
+    background: color-mix(in srgb, var(--color-main) 25%, transparent);
+    height: 16px;
+    width: 1px;
   }
 
   .role {
@@ -323,38 +339,35 @@
   }
 
   .lang-toggle {
-    background: transparent;
-    border-radius: 8px;
-    border: 1px solid var(--color-main);
-    color: var(--color-main);
+    align-items: center;
+    background: var(--color-bg-subdivider);
+    border-radius: 9999px;
+    border: none;
+    color: var(--color-sub);
     cursor: pointer;
+    display: flex;
     font-size: 0.875rem;
-    padding: 0.5rem 1rem;
+    font-weight: 500;
+    height: 43px;
+    padding: 0 1.25rem;
     transition:
       background 0.2s,
-      border-color 0.2s,
       color 0.2s,
       transform 0.1s;
   }
 
   .lang-toggle:active {
-    transform: scale(0.95);
+    transform: scale(0.96);
   }
 
   .lang-toggle:hover {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    color: #ffffff;
+    background: var(--color-bg-divider);
+    color: var(--color-primary);
   }
 
   .lang-toggle-error {
     color: var(--color-error);
     font-size: 0.75rem;
-  }
-
-  .icon {
-    display: flex;
-    padding: 0.375rem;
   }
 
   @media (max-width: 576px) {
@@ -373,19 +386,10 @@
     }
 
     .other-icons {
-      gap: 0.125rem;
+      gap: 0.5rem;
     }
 
     .lang-toggle-wrapper {
-      padding: 0.25rem;
-    }
-
-    .lang-toggle {
-      font-size: 0.75rem;
-      padding: 0.3rem 0.625rem;
-    }
-
-    .icon {
       padding: 0.25rem;
     }
 
