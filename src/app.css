@@ -43,7 +43,7 @@
   --light-color-main: #333333;
   --light-color-placeholder: #999999;
   --light-color-quoted: #4d555f;
-  --light-color-sub: #666666;
+  --light-color-sub: #404040; /* 10.6:1 contrast on white */
   --light-color-basic-bg: #ffffff;
   --light-color-code-bg: #f5f7f9;
   --light-color-disabled-bg: #f5f5f5;
@@ -58,10 +58,10 @@
   --light-color-scroll-border: #e8e8e8;
   --light-color-selection: #d0e1ff;
   --light-color-table-border: #d1d7dd;
-  --light-color-primary: #1b64da;
-  --light-color-primary-hover: #154eb3;
-  --light-color-primary-transparent: rgba(27, 100, 218, 0.1);
-  --light-color-primary-bg: #1b64da;
+  --light-color-primary: #1a5cc5;
+  --light-color-primary-hover: #144ba3;
+  --light-color-primary-transparent: rgba(26, 92, 197, 0.1);
+  --light-color-primary-bg: #1a5cc5;
   --light-color-surface-hover: #f1f3f5;
   --light-color-error: #f04452;
 
@@ -71,7 +71,7 @@
   --dark-color-main: #c9d1d9;
   --dark-color-placeholder: #c2c3c4;
   --dark-color-quoted: #8b939d;
-  --dark-color-sub: #7d858e;
+  --dark-color-sub: #8b949e;
   --dark-color-basic-bg: #0d1116;
   --dark-color-code-bg: #161b22;
   --dark-color-disabled-bg: #21262d;
@@ -86,10 +86,10 @@
   --dark-color-scroll-border: #3d3d3d;
   --dark-color-selection: #2d4571;
   --dark-color-table-border: #1e242a;
-  --dark-color-primary: #3182f6;
-  --dark-color-primary-hover: #569aff;
-  --dark-color-primary-transparent: rgba(49, 130, 246, 0.15);
-  --dark-color-primary-bg: #3182f6;
+  --dark-color-primary: #58a6ff;
+  --dark-color-primary-hover: #79b8ff;
+  --dark-color-primary-transparent: rgba(88, 166, 255, 0.15);
+  --dark-color-primary-bg: #58a6ff;
   --dark-color-surface-hover: #1c2128;
   --dark-color-error: #ff5d6a;
 
@@ -373,23 +373,23 @@ code {
 }
 
 .badge.green {
-  background: color-mix(in srgb, #10b981 10%, transparent);
-  color: #059669;
+  background-color: #e6f6eb;
+  color: #014737;
 }
 
 :global(html.dark) .badge.green {
-  background: color-mix(in srgb, #10b981 15%, transparent);
-  color: #34d399;
+  background-color: #112a24;
+  color: #a7f3d0;
 }
 
 .badge.orange {
-  background: color-mix(in srgb, #f97316 10%, transparent);
-  color: #ea580c;
+  background-color: #fff0e6;
+  color: #9a3412;
 }
 
 :global(html.dark) .badge.orange {
-  background: color-mix(in srgb, #f97316 15%, transparent);
-  color: #fb923c;
+  background-color: #2a1a10;
+  color: #ff9248;
 }
 
 .badge.sub {
@@ -399,39 +399,39 @@ code {
 
 /* Platform Specific Badges */
 .badge.android {
-  background: color-mix(in srgb, var(--color-platform-android) 10%, transparent);
-  color: #059669; /* Android green */
+  background-color: #e6f6eb;
+  color: #014737;
 }
 :global(html.dark) .badge.android {
-  background: color-mix(in srgb, var(--color-platform-android) 15%, transparent);
-  color: var(--color-platform-android);
+  background-color: #112a24;
+  color: #a7f3d0;
 }
 
 .badge.ios {
-  background: color-mix(in srgb, var(--color-platform-ios) 10%, transparent);
-  color: var(--color-platform-ios);
+  background-color: #e0f2fe;
+  color: #075985;
 }
 :global(html.dark) .badge.ios {
-  background: color-mix(in srgb, var(--color-platform-ios) 15%, transparent);
-  color: #38bdf8;
+  background-color: #0c2a3b;
+  color: #7dd3fc;
 }
 
 .badge.macos {
-  background: color-mix(in srgb, var(--color-platform-macos) 10%, transparent);
-  color: #ea580c; /* macOS accent */
+  background-color: #fff7ed;
+  color: #9a3412;
 }
 :global(html.dark) .badge.macos {
-  background: color-mix(in srgb, var(--color-platform-macos) 15%, transparent);
-  color: var(--color-platform-macos);
+  background-color: #2d1a10;
+  color: #fdba74;
 }
 
 .badge.web {
-  background: color-mix(in srgb, var(--color-platform-web) 10%, transparent);
-  color: #ea580c;
+  background-color: #fff0e6;
+  color: #9a3412;
 }
 :global(html.dark) .badge.web {
-  background: color-mix(in srgb, var(--color-platform-web) 15%, transparent);
-  color: var(--color-platform-web);
+  background-color: #2d1a10;
+  color: #ff9248;
 }
 
 pre {

@@ -38,7 +38,10 @@
     background: transparent;
     border: 1px solid color-mix(in srgb, var(--cat-color) 40%, var(--color-bg-divider));
     border-radius: 6px;
-    color: var(--cat-color);
+    color: color-mix(in srgb, var(--cat-color), black 35%);
+    :global(html.dark) & {
+      color: color-mix(in srgb, var(--cat-color), white 25%);
+    }
     font-size: 0.875rem;
     padding: 0.35rem 0.65rem;
     font-weight: 500;

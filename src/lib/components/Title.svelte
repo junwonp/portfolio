@@ -297,7 +297,10 @@
 
   .pillar {
     align-items: flex-start;
-    background: var(--color-bg-subdivider);
+    background-color: #ebeef1;
+    :global(html.dark) & {
+      background-color: #2d3239;
+    }
     border-radius: 6px;
     display: flex;
     gap: 0.75rem;
@@ -325,7 +328,10 @@
   }
 
   .pillar-desc {
-    color: var(--color-sub);
+    color: #404040;
+    :global(html.dark) & {
+      color: #8b949e;
+    }
     font-size: 0.8rem;
     line-height: 1.4;
   }
@@ -340,10 +346,16 @@
 
   .lang-toggle {
     align-items: center;
-    background: var(--color-bg-subdivider);
+    background-color: #ebeef1;
+    :global(html.dark) & {
+      background-color: #2d3239;
+    }
     border-radius: 9999px;
     border: none;
-    color: var(--color-sub);
+    color: #404040;
+    :global(html.dark) & {
+      color: #c9d1d9;
+    }
     cursor: pointer;
     display: flex;
     font-size: 0.875rem;
