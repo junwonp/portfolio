@@ -26,4 +26,10 @@
     transition: width 0.1s linear;
     z-index: 200;
   }
+
+  @media print {
+    .progress-bar {
+      display: none !important;
+    }
+  }
 </style>

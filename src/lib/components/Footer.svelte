@@ -18,4 +18,10 @@
     justify-content: center;
     padding: var(--space-sm);
   }
+
+  @media print {
+    .wrapper {
+      display: none !important;
+    }
+  }
 </style>

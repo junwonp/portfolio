@@ -212,6 +212,23 @@
     }
   }
 
+  @media print {
+    .wrapper {
+      padding-bottom: 0 !important;
+      min-height: 0 !important;
+    }
+
+    main.content {
+      max-width: none !important;
+      padding: 0 !important;
+      width: 100% !important;
+    }
+
+    .footer-wrapper {
+      display: none !important;
+    }
+  }
+
   .skip-link {
     position: absolute;
     top: -40px;
