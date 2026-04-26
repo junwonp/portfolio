@@ -6,6 +6,7 @@
   import Github from '$lib/components/Icon/Github.svelte';
   import Linkedin from '$lib/components/Icon/Linkedin.svelte';
   import IconLink from '$lib/components/IconLink.svelte';
+  import ShareButton from '$lib/components/ShareButton.svelte';
   import { getLabels } from '$lib/data/labels';
   import type { MetricItem, PillarItem } from '$lib/types/about';
   import type { Language } from '$lib/utils/language';
@@ -95,6 +96,8 @@
           {/if}
 
           <div class="action-group">
+            <ShareButton shareLabel={labels.sharePage} copiedLabel={labels.linkCopied} />
+            <div class="divider"></div>
             <IconLink href="/print" title={labels.printPage} type="normal">
               <Printer size={24} strokeWidth={2} />
             </IconLink>
@@ -227,7 +230,10 @@
 
   .action-group {
     align-items: center;
-    background: var(--color-bg-subdivider);
+    background-color: #ebeef1;
+    :global(html.dark) & {
+      background-color: #2d3239;
+    }
     border-radius: 9999px;
     display: flex;
     gap: 2px;

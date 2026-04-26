@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { Printer } from 'lucide-svelte';
+
   import { browser } from '$app/environment';
   import { invalidateAll } from '$app/navigation';
   import Github from '$lib/components/Icon/Github.svelte';
@@ -67,20 +69,32 @@
 <header class="sticky-header" class:visible={isVisible} aria-label="Quick navigation header">
   <span class="name">{name}</span>
   <div class="actions">
-    <ShareButton shareLabel={labels.sharePage} copiedLabel={labels.linkCopied} />
-    <button class="lang-toggle" onclick={toggleLanguage} aria-label={labels.toggleLanguage}>
-      {langDisplay}
-    </button>
-    {#if githubLink}
-      <IconLink href={githubLink} title={labels.goToGithubPage} type="github">
-        <Github />
+    <div class="lang-toggle-wrapper">
+      <button class="lang-toggle" onclick={toggleLanguage} aria-label={labels.toggleLanguage}>
+        {langDisplay}
+      </button>
+    </div>
+
+    <div class="action-group">
+      <ShareButton shareLabel={labels.sharePage} copiedLabel={labels.linkCopied} />
+      <div class="divider"></div>
+      <IconLink href="/print" title={labels.printPage} type="normal">
+        <Printer size={20} strokeWidth={2} />
       </IconLink>
-    {/if}
-    {#if linkedinLink}
-      <IconLink href={linkedinLink} title={labels.goToLinkedinPage} type="linkedin">
-        <Linkedin />
-      </IconLink>
-    {/if}
+      {#if githubLink || linkedinLink}
+        <div class="divider"></div>
+        {#if githubLink}
+          <IconLink href={githubLink} title={labels.goToGithubPage} type="github">
+            <Github width={20} height={20} />
+          </IconLink>
+        {/if}
+        {#if linkedinLink}
+          <IconLink href={linkedinLink} title={labels.goToLinkedinPage} type="linkedin">
+            <Linkedin width={20} height={20} />
+          </IconLink>
+        {/if}
+      {/if}
+    </div>
     {#if errorMessage}
       <span class="error" role="alert">{errorMessage}</span>
     {/if}
@@ -98,13 +112,13 @@
     gap: 0.5rem;
     justify-content: space-between;
     left: 0;
-    padding: 0 1rem;
+    padding: 0 0.75rem;
     padding-top: env(safe-area-inset-top);
     position: fixed;
     right: 0;
     top: 0;
     z-index: 50;
-    min-height: 52px;
+    min-height: 56px;
     transform: translateY(-110%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -127,39 +141,75 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-right: 0.5rem;
   }
 
   .actions {
     align-items: center;
     display: flex;
     flex-shrink: 0;
-    gap: 0.25rem;
+    gap: 0.5rem;
   }
 
   .lang-toggle {
-    background: transparent;
-    border: 1px solid var(--color-main);
-    border-radius: 6px;
-    color: var(--color-main);
+    align-items: center;
+    background-color: #ebeef1;
+    :global(html.dark) & {
+      background-color: #2d3239;
+    }
+    border-radius: 9999px;
+    border: none;
+    color: #404040;
+    :global(html.dark) & {
+      color: #c9d1d9;
+    }
     cursor: pointer;
-    font-family: inherit;
-    font-size: 0.75rem;
-    padding: 0.35rem 0.6rem;
+    display: flex;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    height: 38px;
+    padding: 0 0.875rem;
     transition:
       background 0.2s,
-      border-color 0.2s,
-      color 0.2s;
+      color 0.2s,
+      transform 0.1s;
     white-space: nowrap;
   }
 
+  .lang-toggle:active {
+    transform: scale(0.96);
+  }
+
   .lang-toggle:hover {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    color: #ffffff;
+    background: var(--color-bg-divider);
+    color: var(--color-primary);
+  }
+
+  .action-group {
+    align-items: center;
+    background-color: #ebeef1;
+    :global(html.dark) & {
+      background-color: #2d3239;
+    }
+    border-radius: 9999px;
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+  }
+
+  .divider {
+    background: color-mix(in srgb, var(--color-main) 25%, transparent);
+    height: 14px;
+    width: 1px;
+    margin: 0 2px;
   }
 
   .error {
     color: var(--color-error);
     font-size: 0.7rem;
+  }
+
+  :global(.sticky-header .icon-link) {
+    padding: 6px !important;
   }
 </style>
