@@ -379,7 +379,7 @@
   /* ── Masonry grid ── */
   .lightbox-masonry {
     columns: 2;
-    column-gap: 12px;
+    column-gap: 24px;
     margin-bottom: 48px;
   }
 
@@ -387,7 +387,7 @@
     display: block;
     width: 100%;
     break-inside: avoid;
-    margin-bottom: 12px;
+    margin-bottom: 24px;
     position: relative;
     overflow: hidden;
     border-radius: 12px;

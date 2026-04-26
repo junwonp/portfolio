@@ -213,6 +213,10 @@
   }
 
   .nav-label {
+    color: #404040;
+    :global(html.dark) & {
+      color: #c9d1d9;
+    }
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -223,6 +227,7 @@
   }
 
   .nav-item.active {
+    background: var(--color-primary);
     color: #ffffff;
     font-weight: 600;
   }
