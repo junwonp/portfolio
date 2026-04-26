@@ -78,7 +78,7 @@ export const labelsMap: Record<Language, Labels> = {
     present: '현재',
     project: '프로젝트',
     resumeTitle: '포트폴리오',
-    sectionArchives: '기타 활동',
+    sectionArchives: '프로젝트 아카이브',
     showDetails: '상세보기',
     sectionEducation: '학력',
     sectionIntro: '소개',
