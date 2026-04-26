@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { createScrollSpy } from '$lib/states/scrollSpy.svelte';
+
   interface NavSection {
     id: string;
     label: string;
@@ -11,8 +13,10 @@
   let { sections }: Props = $props();
 
   let innerWidth = $state(0);
-  let activeId = $state('');
   let itemRefs = $state<HTMLElement[]>([]);
+
+  const spy = createScrollSpy(() => sections.map((s) => s.id));
+  let activeId = $derived(spy.activeId);
 
   let activeIndex = $derived(sections.findIndex((s) => s.id === activeId));
   let activeTop = $derived(
@@ -26,50 +30,9 @@
       : 0,
   );
 
-  $effect(() => {
-    const onScroll = () => {
-      const scrollPos = window.innerHeight + window.scrollY;
-      const totalHeight = document.documentElement.scrollHeight;
-
-      if (scrollPos >= totalHeight - 50) {
-        if (sections.length > 0) {
-          activeId = sections[sections.length - 1].id;
-        }
-      }
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Only update from observer if we're not at the very bottom
-        const isAtBottom =
-          window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
-        if (isAtBottom) return;
-
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            activeId = entry.target.id;
-          }
-        }
-      },
-      { rootMargin: '-10% 0px -80% 0px', threshold: 0 },
-    );
-
-    for (const section of sections) {
-      const el = document.getElementById(section.id);
-      if (el) observer.observe(el);
-    }
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      observer.disconnect();
-    };
-  });
-
   function scrollTo(id: string): void {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    spy.activeId = id;
   }
 </script>
 

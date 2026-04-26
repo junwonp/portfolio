@@ -1,6 +1,7 @@
 <script lang="ts">
   import { browser } from '$app/environment';
-  import { parseHeading } from '$lib/utils/markdown';
+  import { createScrollSpy } from '$lib/states/scrollSpy.svelte';
+  import { parseHeading, slugify } from '$lib/utils/markdown';
 
   interface NavSection {
     id: string;
@@ -8,9 +9,11 @@
     emoji: string;
   }
 
-  let activeId = $state('');
   let sections = $state<NavSection[]>([]);
   let innerWidth = $state(0);
+
+  const spy = createScrollSpy(() => sections.map((s) => s.id));
+  let activeId = $derived(spy.activeId);
 
   // Desktop Side Nav state
   let itemRefs = $state<HTMLElement[]>([]);
@@ -25,16 +28,6 @@
       ? itemRefs[activeIndex].offsetHeight
       : 0,
   );
-
-  function slugify(text: string, index: number): string {
-    const slug = text
-      .toLowerCase()
-      .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '')
-      .replace(/[^\p{L}\p{N}\s-]/gu, '')
-      .trim()
-      .replace(/\s+/g, '-');
-    return slug || `section-${String(index)}`;
-  }
 
   function parseHeader(text: string) {
     const { emoji, main } = parseHeading(text);
@@ -60,28 +53,6 @@
       });
 
       sections = parsed;
-
-      const onScroll = () => {
-        const scrollPos = window.innerHeight + window.scrollY;
-        const totalHeight = document.documentElement.scrollHeight;
-
-        if (scrollPos >= totalHeight - 50 && parsed.length > 0) {
-          activeId = parsed[parsed.length - 1].id;
-          return;
-        }
-
-        let current = parsed[0]?.id || '';
-        for (const section of parsed) {
-          const el = document.getElementById(section.id);
-          if (el && el.getBoundingClientRect().top <= 120) {
-            current = section.id;
-          }
-        }
-        activeId = current;
-      };
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
 
       return true;
     }
@@ -109,7 +80,7 @@
 
     const top = el.getBoundingClientRect().top + window.scrollY - 80;
     window.scrollTo({ top, behavior: 'smooth' });
-    activeId = id;
+    spy.activeId = id;
   }
 </script>
 
