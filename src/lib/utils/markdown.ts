@@ -66,3 +66,17 @@ export function parseHeading(text: string) {
     sub,
   };
 }
+
+/**
+ * Generates a URL-friendly slug from text.
+ * Removes emojis and special characters, converts to lowercase, and replaces spaces with hyphens.
+ */
+export function slugify(text: string, index: number): string {
+  const slug = text
+    .toLowerCase()
+    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '')
+    .replace(/[^\p{L}\p{N}\s-]/gu, '')
+    .trim()
+    .replace(/\s+/g, '-');
+  return slug || `section-${String(index)}`;
+}
