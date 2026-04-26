@@ -6,9 +6,10 @@
   import Github from '$lib/components/Icon/Github.svelte';
   import Globe from '$lib/components/Icon/Globe.svelte';
   import { getLabels } from '$lib/data/labels';
+  import { createScrollSpy } from '$lib/states/scrollSpy.svelte';
   import { projectNavLinks } from '$lib/stores/bottomNav';
   import { getPageLocale } from '$lib/utils/locale';
-  import { parseHeading } from '$lib/utils/markdown';
+  import { parseHeading, slugify } from '$lib/utils/markdown';
 
   const [send, receive] = crossfade({
     duration: 600,
@@ -43,8 +44,14 @@
 
   let innerWidth = $state(0);
   let tabs = $state<NavTab[]>([]);
-  let activeId = $state('');
   let tabBarRef = $state<HTMLElement | null>(null);
+
+  const spy = createScrollSpy(() => tabs.map((t) => t.id), {
+    threshold: () => (isProject ? 120 : 100),
+    isDisabled: () => isDragging || isScrolling,
+  });
+
+  let activeId = $derived(spy.activeId);
   let activeIndex = $derived(tabs.findIndex((t) => t.id === activeId));
 
   // Pill visual state (using $state to avoid $derived lag during drag)
@@ -89,17 +96,7 @@
     }, 800);
 
     window.scrollTo({ top, behavior: 'smooth' });
-    activeId = id;
-  }
-
-  function slugify(text: string, index: number): string {
-    const slug = text
-      .toLowerCase()
-      .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '')
-      .replace(/[^\p{L}\p{N}\s-]/gu, '')
-      .trim()
-      .replace(/\s+/g, '-');
-    return slug || `section-${String(index)}`;
+    spy.activeId = id;
   }
 
   function parseLabel(text: string): string {
@@ -155,41 +152,6 @@
         }
       }
     }
-  });
-
-  // Global scroll listener
-  $effect(() => {
-    if (!browser) return;
-
-    const onScroll = () => {
-      if (isDragging || isScrolling) return;
-
-      const scrollPos = window.innerHeight + window.scrollY;
-      const totalHeight = document.documentElement.scrollHeight;
-
-      // Handle bottom of page
-      if (scrollPos >= totalHeight - 50 && tabs.length > 0) {
-        activeId = tabs[tabs.length - 1].id;
-        return;
-      }
-
-      // Find current section
-      let current = tabs[0]?.id || '';
-      const threshold = isProject ? 120 : 100;
-
-      for (const tab of tabs) {
-        const el = document.getElementById(tab.id);
-        if (el && el.getBoundingClientRect().top <= threshold) {
-          current = tab.id;
-        }
-      }
-      activeId = current;
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-    };
   });
 
   // Sync pill position with active section
