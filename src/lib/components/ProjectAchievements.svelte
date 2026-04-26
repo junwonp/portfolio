@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { untrack } from 'svelte';
+  import { getContext, untrack } from 'svelte';
   import { slide } from 'svelte/transition';
   import { ChevronDown } from 'lucide-svelte';
 
@@ -17,6 +17,8 @@
   }
 
   let { achievements }: Props = $props();
+
+  const isPrintMode = getContext<boolean | undefined>('printMode') ?? false;
 
   const firstAccentIndex = $derived(achievements.findIndex((a) => a.accent));
 
@@ -52,8 +54,8 @@
           </div>
         </div>
       </button>
-      {#if isOpen}
-        <div class="ach-body" transition:slide={{ duration: 250 }}>
+      {#if isOpen || isPrintMode}
+        <div class="ach-body" transition:slide={{ duration: isPrintMode ? 0 : 250 }}>
           <!-- eslint-disable-next-line svelte/no-at-html-tags -->
           <div class="ach-desc">{@html achievement.detail}</div>
         </div>

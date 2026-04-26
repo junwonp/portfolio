@@ -654,4 +654,11 @@
       gap: 4px;
     }
   }
+
+  @media print {
+    .tab-bar,
+    .project-nav {
+      display: none !important;
+    }
+  }
 </style>

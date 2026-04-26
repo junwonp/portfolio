@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Component } from 'svelte';
-  import { onMount,setContext } from 'svelte';
+  import { onMount, setContext } from 'svelte';
 
   import { browser } from '$app/environment';
   import Period from '$lib/components/Period.svelte';
