@@ -2,6 +2,7 @@
   import { fade, slide } from 'svelte/transition';
 
   import { afterNavigate, beforeNavigate } from '$app/navigation';
+  import { page } from '$app/state';
   import BentoSkills from '$lib/components/BentoSkills.svelte';
   import BottomSkillBar from '$lib/components/BottomSkillBar.svelte';
   import DesktopSideNav from '$lib/components/DesktopSideNav.svelte';
@@ -12,7 +13,13 @@
   import Title from '$lib/components/Title.svelte';
   import WorkAccordion from '$lib/components/WorkAccordion.svelte';
   import { getLabels } from '$lib/data/labels';
-  import { getFeaturedWebProjects, getResumeData } from '$lib/data/resume';
+  import {
+    getFeaturedWebProjects,
+    getResumeData,
+    getSummaryIntroduction,
+    resolveFeaturedProjectIds,
+    resolveSummaryPreset,
+  } from '$lib/data/resume';
   import { skillState } from '$lib/states/skills.svelte';
 
   import type { PageData } from './$types';
@@ -23,19 +30,24 @@
 
   let { data }: Props = $props();
 
+  const SCROLL_KEY = 'home-scroll-y';
+
+  let featuredProjectIds = $derived(resolveFeaturedProjectIds(page.url.searchParams));
+  let featuredWebProjects = $derived(getFeaturedWebProjects(data.locale, featuredProjectIds));
   let labels = $derived(getLabels(data.locale));
+  let resumeData = $derived(getResumeData(data.locale));
+  let summaryPreset = $derived(resolveSummaryPreset(page.url.searchParams.get('summary')));
+  let summaryIntroduction = $derived(getSummaryIntroduction(data.locale, summaryPreset));
   let navSections = $derived([
     { id: 'section-intro', label: labels.sectionIntro },
-    { id: 'section-featured', label: labels.sectionFeaturedProjects },
+    ...(featuredWebProjects.length > 0
+      ? [{ id: 'section-featured', label: labels.sectionFeaturedProjects }]
+      : []),
     { id: 'section-work', label: labels.sectionWork },
     { id: 'section-skills', label: labels.sectionSkills },
     { id: 'section-projects', label: labels.sectionAwards },
     { id: 'section-education', label: labels.sectionEducation },
   ]);
-  let featuredWebProjects = $derived(getFeaturedWebProjects(data.locale));
-  let resumeData = $derived(getResumeData(data.locale));
-
-  const SCROLL_KEY = 'home-scroll-y';
 
   beforeNavigate(() => {
     sessionStorage.setItem(SCROLL_KEY, String(window.scrollY));
@@ -119,13 +131,13 @@
         <section id="section-intro" transition:slide={{ duration: 300 }}>
           <Title
             isHome
-            githubLink={resumeData.introduction.githubLink}
-            linkedinLink={resumeData.introduction.linkedinLink}
-            metrics={resumeData.introduction.metrics}
-            name={resumeData.introduction.name}
-            pillars={resumeData.introduction.pillars}
-            role={resumeData.introduction.role}
-            tagline={resumeData.introduction.tagline}
+            githubLink={summaryIntroduction.githubLink}
+            linkedinLink={summaryIntroduction.linkedinLink}
+            metrics={summaryIntroduction.metrics}
+            name={summaryIntroduction.name}
+            pillars={summaryIntroduction.pillars}
+            role={summaryIntroduction.role}
+            tagline={summaryIntroduction.tagline}
           />
           <div id="intro-header-sentinel" aria-hidden="true"></div>
         </section>
