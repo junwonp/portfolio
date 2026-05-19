@@ -77,6 +77,7 @@
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
+    min-width: 0;
     transition:
       border-color 0.2s,
       background-color 0.2s;
@@ -111,6 +112,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    min-width: 0;
   }
 
   .card-footer {

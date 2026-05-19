@@ -31,7 +31,8 @@ export function createScrollSpy(getIds: () => string[], options: ScrollSpyOption
 
       // Find current section
       let current = ids[0];
-      const threshold = typeof options.threshold === 'function' ? options.threshold() : (options.threshold ?? 120);
+      const threshold =
+        typeof options.threshold === 'function' ? options.threshold() : (options.threshold ?? 120);
 
       for (const id of ids) {
         const el = document.getElementById(id);

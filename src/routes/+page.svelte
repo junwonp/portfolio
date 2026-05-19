@@ -12,7 +12,7 @@
   import Title from '$lib/components/Title.svelte';
   import WorkAccordion from '$lib/components/WorkAccordion.svelte';
   import { getLabels } from '$lib/data/labels';
-  import { getResumeData } from '$lib/data/resume';
+  import { getFeaturedWebProjects, getResumeData } from '$lib/data/resume';
   import { skillState } from '$lib/states/skills.svelte';
 
   import type { PageData } from './$types';
@@ -26,11 +26,13 @@
   let labels = $derived(getLabels(data.locale));
   let navSections = $derived([
     { id: 'section-intro', label: labels.sectionIntro },
+    { id: 'section-featured', label: labels.sectionFeaturedProjects },
     { id: 'section-work', label: labels.sectionWork },
     { id: 'section-skills', label: labels.sectionSkills },
     { id: 'section-projects', label: labels.sectionAwards },
     { id: 'section-education', label: labels.sectionEducation },
   ]);
+  let featuredWebProjects = $derived(getFeaturedWebProjects(data.locale));
   let resumeData = $derived(getResumeData(data.locale));
 
   const SCROLL_KEY = 'home-scroll-y';
@@ -131,6 +133,13 @@
 
       <div class="content-wrapper">
         {#if filteredWork.length > 0}
+          {#if !skillState.isPanelOpen && featuredWebProjects.length > 0}
+            <section id="section-featured" transition:slide={{ duration: 300 }}>
+              <SectionHeader title={labels.sectionFeaturedProjects} />
+              <ExperienceList experiences={featuredWebProjects} skillLimit={6} />
+            </section>
+          {/if}
+
           <section id="section-work" transition:slide={{ duration: 300 }}>
             <SectionHeader title={labels.sectionWork} />
             <WorkAccordion experiences={filteredWork} locale={data.locale} />
@@ -237,6 +246,20 @@
 
     .main-content {
       flex: 1;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .layout {
+      display: block;
+    }
+
+    .nav-wrapper {
+      display: none;
+    }
+
+    .main-content {
+      max-width: 100%;
     }
   }
 

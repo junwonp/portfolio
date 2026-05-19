@@ -112,6 +112,7 @@
     gap: 0.5rem;
     justify-content: space-between;
     left: 0;
+    min-width: 0;
     padding: 0 0.75rem;
     padding-top: env(safe-area-inset-top);
     position: fixed;
@@ -149,6 +150,7 @@
     display: flex;
     flex-shrink: 0;
     gap: 0.5rem;
+    min-width: 0;
   }
 
   .lang-toggle {
@@ -193,6 +195,7 @@
     }
     border-radius: 9999px;
     display: flex;
+    flex-shrink: 0;
     gap: 2px;
     padding: 2px;
   }

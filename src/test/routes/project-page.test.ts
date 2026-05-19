@@ -37,12 +37,12 @@ describe('+page (project detail)', () => {
 
   it('renders the back link', () => {
     const { getByRole } = render(Page, { data: baseData });
-    expect(getByRole('link', { name: '← Back' })).toBeInTheDocument();
+    expect(getByRole('link', { name: '← Portfolio' })).toBeInTheDocument();
   });
 
   it('back link points to home', () => {
     const { getByRole } = render(Page, { data: baseData });
-    expect(getByRole('link', { name: '← Back' })).toHaveAttribute('href', '/');
+    expect(getByRole('link', { name: '← Portfolio' })).toHaveAttribute('href', '/');
   });
 
   it('shows project title as heading', () => {
@@ -59,7 +59,7 @@ describe('+page (project detail)', () => {
     const { getByRole } = render(Page, {
       data: { ...baseData, locale: 'ko' as const },
     });
-    expect(getByRole('link', { name: '← 뒤로' })).toBeInTheDocument();
+    expect(getByRole('link', { name: '← 포트폴리오' })).toBeInTheDocument();
   });
 
   it('renders the project description as tagline', () => {

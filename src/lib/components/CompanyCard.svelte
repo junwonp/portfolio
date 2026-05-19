@@ -1,10 +1,12 @@
 <script lang="ts">
   import { slide } from 'svelte/transition';
   import { ChevronDown } from 'lucide-svelte';
+
   import Badge from '$lib/components/Badge.svelte';
   import Period from '$lib/components/Period.svelte';
-  import RichText from '$lib/components/RichText.svelte';
   import ProjectItem from '$lib/components/ProjectItem.svelte';
+  import RichText from '$lib/components/RichText.svelte';
+  import type { Labels } from '$lib/data/labels';
   import { accordionState } from '$lib/states/accordion.svelte';
   import type { WorkExperienceProps } from '$lib/types/about';
   import { parseMarkdown } from '$lib/utils/markdown';
@@ -12,14 +14,16 @@
   interface Props {
     exp: WorkExperienceProps;
     isFiltered: boolean;
-    labels: any;
+    labels: Labels;
   }
 
   let { exp, isFiltered, labels }: Props = $props();
 </script>
 
 <div class="company-wrapper" transition:slide={{ duration: 300 }}>
-  <div class={['company-card', (accordionState.hasCompany(exp.companyName) || isFiltered) && 'open']}>
+  <div
+    class={['company-card', (accordionState.hasCompany(exp.companyName) || isFiltered) && 'open']}
+  >
     <!-- Company header -->
     <div
       class="company-header"
@@ -125,6 +129,7 @@
     border-radius: 12px;
     display: flex;
     flex-direction: column;
+    min-width: 0;
     padding: 1.5rem;
     transition: all 0.2s ease;
   }
@@ -151,6 +156,7 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
     width: 100%;
   }
 
@@ -159,6 +165,7 @@
     display: flex;
     gap: 0.75rem;
     flex-wrap: wrap;
+    min-width: 0;
   }
 
   .company-name {
@@ -166,6 +173,7 @@
     font-size: var(--font-h3);
     font-weight: 700;
     margin: 0;
+    overflow-wrap: anywhere;
   }
 
   .badges {
@@ -192,6 +200,8 @@
     display: flex;
     font-size: 1rem;
     gap: 0.5rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .role-separator {
@@ -260,6 +270,8 @@
     color: var(--color-main);
     font-size: 0.9375rem;
     line-height: 1.5;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .project-list {
@@ -269,6 +281,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
+    min-width: 0;
     overflow: hidden;
   }
 
@@ -300,6 +313,10 @@
 
     .company-info-row {
       align-items: flex-start;
+    }
+
+    .expand-indicator span {
+      display: none;
     }
 
     .role-line {

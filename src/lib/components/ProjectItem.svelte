@@ -1,23 +1,27 @@
 <script lang="ts">
   import { slide } from 'svelte/transition';
   import { ChevronDown } from 'lucide-svelte';
+
+  import ArrowLink from '$lib/components/ArrowLink.svelte';
+  import Period from '$lib/components/Period.svelte';
+  import RichText from '$lib/components/RichText.svelte';
+  import SkillChip from '$lib/components/SkillChip.svelte';
+  import type { Labels } from '$lib/data/labels';
   import { accordionState } from '$lib/states/accordion.svelte';
   import { skillState } from '$lib/states/skills.svelte';
   import type { ProjectItem as ProjectItemType } from '$lib/types/about';
   import { parseMarkdown } from '$lib/utils/markdown';
-  import RichText from '$lib/components/RichText.svelte';
-  import Period from '$lib/components/Period.svelte';
-  import ArrowLink from '$lib/components/ArrowLink.svelte';
-  import SkillChip from '$lib/components/SkillChip.svelte';
 
   interface Props {
-    project: ProjectItemType;
     companyName: string;
     isFiltered: boolean;
-    labels: any;
+    labels: Labels;
+    project: ProjectItemType;
   }
 
-  let { project, companyName, isFiltered, labels }: Props = $props();
+  let { companyName, isFiltered, labels, project }: Props = $props();
+
+  let isOpen = $derived(accordionState.isProjectOpen(companyName, project.title) || isFiltered);
 
   function parseDetailLine(line: string) {
     const match = line.match(/^\*\*\[(.*?)\]\*\*(.*)$/);
@@ -26,8 +30,6 @@
     }
     return { label: null, content: line };
   }
-
-  let isOpen = $derived(accordionState.isProjectOpen(companyName, project.title) || isFiltered);
 </script>
 
 <div class={['project-item', isOpen && 'is-open']} transition:slide={{ duration: 200 }}>
@@ -114,6 +116,7 @@
 <style>
   .project-item {
     border-bottom: 1px solid var(--color-bg-divider);
+    min-width: 0;
     transition: background-color 0.15s;
   }
 
@@ -133,6 +136,7 @@
     text-align: left;
     width: 100%;
     font-family: inherit;
+    min-width: 0;
   }
 
   .project-title-area {
@@ -140,6 +144,7 @@
     flex-direction: column;
     flex: 1;
     gap: 0.25rem;
+    min-width: 0;
   }
 
   .project-title-row {
@@ -154,6 +159,7 @@
     font-size: 1.125rem;
     font-weight: 600;
     margin: 0;
+    overflow-wrap: anywhere;
   }
 
   .project-desc-line {
@@ -163,6 +169,8 @@
     font-size: 0.9375rem;
     gap: 0.4rem;
     flex-wrap: wrap;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .desc-separator {
@@ -198,6 +206,7 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+    min-width: 0;
     padding: 0 1rem 1.25rem 1rem;
   }
 
@@ -261,6 +270,8 @@
     font-size: 1rem;
     line-height: 1.6;
     flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .skill-tags {

@@ -8,9 +8,19 @@ vi.mock('$app/state', () => ({
 vi.mock('$app/environment', () => ({ browser: false }));
 
 vi.mock('$app/navigation', () => ({
+  afterNavigate: vi.fn(),
+  beforeNavigate: vi.fn(),
   invalidateAll: vi.fn(),
   goto: vi.fn(),
 }));
+
+class IntersectionObserverMock {
+  disconnect = vi.fn();
+  observe = vi.fn();
+  unobserve = vi.fn();
+}
+
+vi.stubGlobal('IntersectionObserver', IntersectionObserverMock);
 
 import Page from '../../routes/+page.svelte';
 
@@ -25,6 +35,7 @@ describe('+page (home)', () => {
   it('renders all section headings', () => {
     const { getAllByRole } = render(Page, { data: baseData });
     const headings = getAllByRole('heading', { level: 2 }).map((h) => h.textContent);
+    expect(headings).toContain('Featured Web Projects');
     expect(headings).toContain('Work Experience');
     expect(headings).toContain('Skills Set');
     expect(headings).toContain('Awards & Projects');

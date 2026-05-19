@@ -170,6 +170,8 @@
     justify-content: flex-start;
     margin: 0 0 0.67em 0;
     gap: 1rem;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .title-container.with-back {
@@ -209,23 +211,30 @@
 
   .title {
     font-size: 3rem;
+    overflow-wrap: anywhere;
     line-height: 1.1;
     margin: 0;
     word-break: keep-all;
     flex: 1;
+    min-width: 0;
   }
 
   .icons {
     align-items: center;
     display: flex;
     gap: 0.5rem;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .other-icons {
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
     gap: 0.75rem;
+    justify-content: flex-end;
     margin-left: auto;
+    min-width: 0;
   }
 
   .action-group {
@@ -236,6 +245,7 @@
     }
     border-radius: 9999px;
     display: flex;
+    flex-shrink: 0;
     gap: 2px;
     padding: 2px;
   }
@@ -250,6 +260,7 @@
     font-size: 2rem;
     line-height: 1.1;
     margin: 0 0 0.67em 0;
+    overflow-wrap: anywhere;
     word-break: keep-all;
   }
 
@@ -258,6 +269,7 @@
     font-size: 1.5rem;
     line-height: 1.1;
     margin: 0 0 0.67em 0;
+    overflow-wrap: anywhere;
     word-break: keep-all;
   }
 
@@ -266,7 +278,7 @@
     border-radius: 8px;
     display: grid;
     gap: 1px;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin: var(--space-md) 0 var(--space-sm);
     overflow: hidden;
   }
@@ -291,6 +303,7 @@
     color: var(--color-sub);
     font-size: 0.75rem;
     letter-spacing: 0.04em;
+    overflow-wrap: anywhere;
     text-transform: uppercase;
   }
 
@@ -405,6 +418,9 @@
 
     .other-icons {
       gap: 0.5rem;
+      justify-content: space-between;
+      margin-left: 0;
+      width: 100%;
     }
 
     .lang-toggle-wrapper {
