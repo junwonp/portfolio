@@ -73,7 +73,7 @@
       mermaid.initialize({
         startOnLoad: false,
         theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
-        securityLevel: 'loose',
+        securityLevel: 'strict',
         fontFamily: 'WantedSansVariable, system-ui, sans-serif',
       });
 
