@@ -16,12 +16,6 @@
   let isMinimized = $state(false);
   let labels = $derived(getLabels(getPageLocale()));
 
-  function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Escape') {
-      skillState.close();
-    }
-  }
-
   let filterText = $derived.by(() => {
     const count = skillState.selectedTechs.length;
     if (count === 0) return '';
@@ -30,6 +24,7 @@
       ? `"${skillState.selectedTechs[0]}" 외 ${String(count - 1)}개`
       : `"${skillState.selectedTechs[0]}" and ${String(count - 1)} more`;
   });
+  let filterLabelParts = $derived(labels.skillFilterActive.split('{tech}'));
 
   const ICONS: Record<string, string> = {
     languages: 'M16 18L22 12L16 6M8 6L2 12L8 18',
@@ -45,6 +40,12 @@
     ai_workflow:
       'M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z',
   };
+
+  function handleKeydown(e: KeyboardEvent) {
+    if (e.key === 'Escape') {
+      skillState.close();
+    }
+  }
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -62,8 +63,7 @@
           {#if skillState.isEmpty}
             {labels.skillFilterPlaceholder}
           {:else}
-            <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-            {@html labels.skillFilterActive.replace('{tech}', `<strong>${filterText}</strong>`)}
+            {filterLabelParts[0]}<strong>{filterText}</strong>{filterLabelParts[1] ?? ''}
           {/if}
         </span>
       </div>

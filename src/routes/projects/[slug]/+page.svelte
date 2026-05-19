@@ -46,8 +46,15 @@
       const { emoji, main, sub } = parseHeading(originalText);
 
       if (sub) {
-        // Keep the colon in a hidden span so textContent remains stable for slugify/TOC
-        h2.innerHTML = `${emoji} ${main}<span style="display:none">:</span><span class="h2-subtitle">${sub}</span>`;
+        const hiddenColon = document.createElement('span');
+        const subtitle = document.createElement('span');
+
+        hiddenColon.className = 'visually-hidden-colon';
+        hiddenColon.textContent = ':';
+        subtitle.className = 'h2-subtitle';
+        subtitle.textContent = sub;
+
+        h2.replaceChildren(`${emoji} ${main}`, hiddenColon, subtitle);
       }
       h2.setAttribute('data-transformed', 'true');
     });
@@ -416,6 +423,10 @@
     color: var(--color-sub);
     letter-spacing: 0;
     margin-top: 4px;
+  }
+
+  :global(.visually-hidden-colon) {
+    display: none;
   }
 
   :global(.project-article h3) {

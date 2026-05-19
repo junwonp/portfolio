@@ -4,6 +4,7 @@
   import { ChevronDown } from 'lucide-svelte';
 
   import Badge from '$lib/components/Badge.svelte';
+  import { sanitizeProjectHtml } from '$lib/utils/safeHtml';
 
   export interface Achievement {
     tag: string;
@@ -21,6 +22,12 @@
   const isPrintMode = getContext<boolean | undefined>('printMode') ?? false;
 
   const firstAccentIndex = $derived(achievements.findIndex((a) => a.accent));
+  const sanitizedAchievements = $derived(
+    achievements.map((achievement) => ({
+      ...achievement,
+      detail: sanitizeProjectHtml(achievement.detail),
+    })),
+  );
 
   let openIndex = $state(untrack(() => (firstAccentIndex >= 0 ? firstAccentIndex : 0)));
 
@@ -30,7 +37,7 @@
 </script>
 
 <div class="achievements">
-  {#each achievements as achievement, i (i)}
+  {#each sanitizedAchievements as achievement, i (i)}
     {@const isOpen = openIndex === i}
     <div class="ach-card" class:open={isOpen}>
       <button
@@ -161,6 +168,26 @@
     color: var(--color-inline-code);
     padding: 2px 5px;
     border-radius: 4px;
+  }
+
+  :global(.ach-desc img) {
+    width: 100%;
+    margin-top: 12px;
+    border-radius: 8px;
+  }
+
+  :global(.ach-desc table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin-top: 0.75rem;
+  }
+
+  :global(.ach-desc td),
+  :global(.ach-desc th) {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--color-bg-divider);
+    text-align: left;
   }
 
   @media (max-width: 640px) {
