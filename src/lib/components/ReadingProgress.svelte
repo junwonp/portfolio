@@ -1,14 +1,26 @@
 <script lang="ts">
+  import {
+    getPageScrollElement,
+    getPageScrollHeight,
+    getPageScrollY,
+  } from '$lib/states/scrollSpy.svelte';
+
   let progress = $state(0);
 
   $effect(() => {
     function update() {
-      const el = document.documentElement;
-      progress = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+      const maxScrollY = getPageScrollHeight() - getPageScrollElement().clientHeight;
+      progress = maxScrollY > 0 ? (getPageScrollY() / maxScrollY) * 100 : 0;
     }
 
+    const scrollElement = getPageScrollElement();
+
+    scrollElement.addEventListener('scroll', update, { passive: true });
     window.addEventListener('scroll', update, { passive: true });
+    update();
+
     return () => {
+      scrollElement.removeEventListener('scroll', update);
       window.removeEventListener('scroll', update);
     };
   });

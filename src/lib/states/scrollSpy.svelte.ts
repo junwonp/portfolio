@@ -5,6 +5,47 @@ interface ScrollSpyOptions {
   isDisabled?: () => boolean;
 }
 
+export function getPageScrollElement(): HTMLElement {
+  const body = document.body;
+  const doc = document.documentElement;
+
+  if (body.scrollHeight > body.clientHeight && doc.scrollHeight <= doc.clientHeight) {
+    return body;
+  }
+
+  return (document.scrollingElement as HTMLElement | null) ?? doc;
+}
+
+export function getPageScrollHeight(): number {
+  const body = document.body;
+  const doc = document.documentElement;
+
+  return Math.max(
+    body.offsetHeight,
+    body.scrollHeight,
+    doc.clientHeight,
+    doc.offsetHeight,
+    doc.scrollHeight,
+  );
+}
+
+export function getPageScrollY(): number {
+  const scrollElement = getPageScrollElement();
+
+  return scrollElement === document.body ? document.body.scrollTop : window.scrollY;
+}
+
+export function scrollPageTo(top: number, behavior: ScrollBehavior = 'smooth'): void {
+  const scrollElement = getPageScrollElement();
+
+  if (scrollElement === document.body) {
+    scrollElement.scrollTo({ top, behavior });
+    return;
+  }
+
+  window.scrollTo({ top, behavior });
+}
+
 /**
  * Svelte 5 rune for tracking the active section ID based on scroll position.
  */
@@ -20,11 +61,12 @@ export function createScrollSpy(getIds: () => string[], options: ScrollSpyOption
       const ids = getIds();
       if (ids.length === 0) return;
 
-      const scrollPos = window.innerHeight + window.scrollY;
-      const totalHeight = document.documentElement.scrollHeight;
+      const totalHeight = getPageScrollHeight();
+      const maxScrollY = Math.max(0, totalHeight - window.innerHeight);
+      const scrollY = getPageScrollY();
 
       // Handle bottom of page
-      if (scrollPos >= totalHeight - 50) {
+      if (maxScrollY > 50 && scrollY >= maxScrollY - 50) {
         activeId = ids[ids.length - 1];
         return;
       }
@@ -43,10 +85,13 @@ export function createScrollSpy(getIds: () => string[], options: ScrollSpyOption
       activeId = current;
     };
 
+    const scrollElement = getPageScrollElement();
+    scrollElement.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
     return () => {
+      scrollElement.removeEventListener('scroll', onScroll);
       window.removeEventListener('scroll', onScroll);
     };
   });

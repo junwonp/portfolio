@@ -1,6 +1,6 @@
 <script lang="ts">
   import { browser } from '$app/environment';
-  import { createScrollSpy } from '$lib/states/scrollSpy.svelte';
+  import { createScrollSpy, getPageScrollY, scrollPageTo } from '$lib/states/scrollSpy.svelte';
   import { parseHeading, slugify } from '$lib/utils/markdown';
 
   interface NavSection {
@@ -78,8 +78,8 @@
     const el = document.getElementById(id);
     if (!el) return;
 
-    const top = el.getBoundingClientRect().top + window.scrollY - 80;
-    window.scrollTo({ top, behavior: 'smooth' });
+    const top = el.getBoundingClientRect().top + getPageScrollY() - 80;
+    scrollPageTo(top);
     spy.activeId = id;
   }
 </script>
@@ -201,6 +201,10 @@
     background: var(--color-primary);
     color: #ffffff;
     font-weight: 600;
+  }
+
+  .nav-item.active .nav-label {
+    color: #ffffff;
   }
 
   @media (max-width: 960px) {
