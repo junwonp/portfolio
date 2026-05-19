@@ -25,6 +25,8 @@ export interface ProjectItem {
   description: string;
   detail: string[];
   detailLink?: string;
+  featuredSkills?: string[];
+  id: string;
   skills?: string[];
   title: string;
   metrics?: MetricItem[];

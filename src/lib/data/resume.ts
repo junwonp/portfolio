@@ -56,6 +56,8 @@ export const getResumeData = (lang: Language): ResumeData => {
           dateFrom: proj.dateFrom,
           dateTo: proj.dateTo,
           detailLink: proj.detailLink,
+          featuredSkills: proj.featuredSkills,
+          id: proj.id,
           skills: proj.skills,
           description: i18nProj.description,
           detail: i18nProj.detail,
@@ -75,6 +77,8 @@ export const getResumeData = (lang: Language): ResumeData => {
           dateFrom: exp.dateFrom,
           dateTo: exp.dateTo,
           detailLink: exp.detailLink,
+          featuredSkills: exp.featuredSkills,
+          id: exp.id,
           skills: exp.skills,
           description: i18nExp.description,
           detail: i18nExp.detail,
@@ -92,6 +96,8 @@ export const getResumeData = (lang: Language): ResumeData => {
           dateFrom: arch.dateFrom,
           dateTo: arch.dateTo,
           detailLink: arch.detailLink,
+          featuredSkills: arch.featuredSkills,
+          id: arch.id,
           skills: arch.skills,
           description: i18nArch.description,
           detail: i18nArch.detail,
@@ -129,4 +135,33 @@ export const getResumeData = (lang: Language): ResumeData => {
     education,
     skills,
   };
+};
+
+export const roleFitProjectPresets = {
+  opsData: ['web_viewer', 'admin_dashboard', 'camerafi_studio', 'today_weather', 'aira'],
+  performance: ['web_viewer', 'camerafi_studio', 'today_weather', 'aira', 'sveltekit_portfolio'],
+  rn: ['aira', 'today_weather', 'onelinebank_rebuild', 'day_planner'],
+  web: ['camerafi_studio', 'admin_dashboard', 'web_viewer', 'today_weather', 'sveltekit_portfolio'],
+  webRn: ['today_weather', 'aira', 'onelinebank_rebuild', 'camerafi_studio', 'admin_dashboard'],
+} as const;
+
+export type RoleFitProjectPreset = keyof typeof roleFitProjectPresets;
+
+export const getFeaturedWebProjects = (
+  lang: Language,
+  preset: RoleFitProjectPreset = 'opsData',
+): OtherExperienceProps[] => {
+  const resumeData = getResumeData(lang);
+  const projects = [
+    ...resumeData.workExperiences.flatMap((exp) => exp.project),
+    ...resumeData.otherExperiences.flatMap((exp) => exp.project),
+    ...resumeData.archives.flatMap((exp) => exp.project),
+  ];
+
+  return roleFitProjectPresets[preset].flatMap((id) => {
+    const project = projects.find((item) => item.id === id);
+    if (!project) return [];
+
+    return [{ project: [project] }];
+  });
 };

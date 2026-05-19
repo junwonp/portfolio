@@ -75,30 +75,30 @@ export const i18nData: Record<Language, I18nData> = {
     introduction: {
       name: 'Junwon Park',
       tagline:
-        'Frontend Engineer experienced in the entire product lifecycle from inception to growth',
+        'Frontend Engineer focused on data-heavy web systems, operational UX, and product reliability',
       metrics: [
-        { value: '23,000', label: 'MAU (Peak)' },
-        { value: '46 min', label: 'Avg. Session' },
-        { value: '#57', label: 'Google Play' },
+        { value: '100k+', label: 'Rows & Logs' },
+        { value: '15%', label: 'Bundle Saved' },
+        { value: '80%+', label: 'API Load Cut' },
       ],
       pillars: [
         {
           index: '01',
-          title: 'Product Ownership & Growth',
+          title: 'Operational Web Systems',
           description:
-            'Leading the full service lifecycle from idea to operation, driving growth to 23k MAU.',
+            'Building data lookup, table, dashboard, and workflow interfaces for internal users who need speed and accuracy.',
         },
         {
           index: '02',
-          title: 'Sophisticated UI Systems',
+          title: 'Performance & Reliability',
           description:
-            'Designing optimized components and high-quality UX with low external dependency based on deep platform understanding.',
+            'Improving large-data rendering, loading paths, caching, and bundle size so web products stay responsive in real use.',
         },
         {
           index: '03',
-          title: 'Rational Engineering',
+          title: 'Platform Delivery Ownership',
           description:
-            'Prioritizing business context and user value to select and apply the most effective technologies for the situation.',
+            'Owning frontend architecture, release pipelines, monitoring, and cross-platform delivery from zero to operation.',
         },
       ],
     },
@@ -108,9 +108,9 @@ export const i18nData: Record<Language, I18nData> = {
         titleBadge: 'Co-Founder',
         role: 'Frontend Lead',
         highlights: [
+          'Designed data-heavy real-time chat UI, optimistic workflows, and type-safe TanStack Query cache architecture',
           'Led full product lifecycle from 0 → 23k MAU, $3k/mo revenue, Google Play #57',
-          'Built streaming chat, optimistic UI, and type-safe cache facade with TanStack Query',
-          'Architected cross-platform (Android/iOS/Web) React Native app from a single codebase',
+          'Operated a cross-platform Android/iOS/Web product with EAS, GitHub Actions, Sentry, and rollback processes',
         ],
         projects: {
           aira: {
@@ -141,9 +141,9 @@ export const i18nData: Record<Language, I18nData> = {
         companyName: 'Vault Micro',
         role: 'Frontend Developer',
         highlights: [
+          'Built B2B admin dashboards, reusable CRUD/table components, and operational data monitoring interfaces',
           'Reduced main bundle by 15% (324KB → 277KB) via Webpack Tree Shaking & Code Splitting',
-          'Shipped PWA + Paddle subscription lifecycle for a B2B SaaS product solo',
-          'Built reusable admin CRUD components cutting page development time significantly',
+          'Shipped PWA, secure auth, and Paddle subscription lifecycle for a B2B SaaS product solo',
         ],
         projects: {
           camerafi_studio: {
@@ -283,30 +283,30 @@ export const i18nData: Record<Language, I18nData> = {
     },
     introduction: {
       name: '박준원',
-      tagline: '제품의 시작부터 성장까지 직접 경험한 프론트엔드 엔지니어',
+      tagline: '데이터 중심 웹 시스템, 운영 UX, 제품 안정성을 설계하는 프론트엔드 엔지니어',
       metrics: [
-        { value: '23,000', label: 'MAU (최대)' },
-        { value: '46분', label: '평균 체류시간' },
-        { value: '#57', label: '구글 플레이' },
+        { value: '수십만+', label: '행/로그 처리' },
+        { value: '15%', label: '번들 절감' },
+        { value: '80%+', label: 'API 부하 절감' },
       ],
       pillars: [
         {
           index: '01',
-          title: '제품 오너십 및 성장',
+          title: '운영 웹 시스템',
           description:
-            '아이디어 구상부터 운영까지 제품의 전체 생애 주기를 주도하며, 2.3만 명의 MAU 성장을 이끌어냈습니다.',
+            '내부 사용자가 빠르고 정확하게 일해야 하는 데이터 조회, 테이블, 대시보드, 워크플로우 UI를 설계합니다.',
         },
         {
           index: '02',
-          title: '정교한 UI 시스템',
+          title: '성능과 안정성',
           description:
-            '플랫폼에 대한 깊은 이해를 바탕으로 외부 의존성을 최소화한 최적의 컴포넌트와 고품질의 UX를 설계합니다.',
+            '대량 데이터 렌더링, 로딩 경로, 캐싱, 번들 사이즈를 개선해 실제 사용 환경에서도 반응성을 유지합니다.',
         },
         {
           index: '03',
-          title: '합리적인 엔지니어링',
+          title: '플랫폼 출시 오너십',
           description:
-            '비즈니스 상황과 사용자 가치를 최우선으로 고려하여 현재에 가장 필요한 기술을 선택하고 적용합니다.',
+            '프론트엔드 아키텍처부터 배포 파이프라인, 모니터링, 크로스플랫폼 운영까지 출시 이후를 고려해 책임집니다.',
         },
       ],
     },
@@ -316,9 +316,9 @@ export const i18nData: Record<Language, I18nData> = {
         titleBadge: 'Co-Founder',
         role: '프론트엔드 리드',
         highlights: [
-          '**0 → 2.3만 MAU, 월 매출 $3k, 구글 플레이 엔터테인먼트 57위** 달성',
-          '**스트리밍 채팅, 낙관적 UI, TanStack Query 기반의 타입 안전한 캐시 파사드** 구축',
-          '단일 코드베이스 기반 **안드로이드/iOS/웹 크로스 플랫폼 아키텍처** 설계',
+          '**실시간 채팅 UI, 낙관적 워크플로우, TanStack Query 기반 타입 안전 캐시 아키텍처** 설계',
+          '**0 → 2.3만 MAU, 월 매출 $3k, 구글 플레이 엔터테인먼트 57위**까지 제품 생애주기 주도',
+          '**EAS, GitHub Actions, Sentry, 롤백 프로세스** 기반 안드로이드/iOS/웹 크로스플랫폼 제품 운영',
         ],
         projects: {
           aira: {
@@ -349,9 +349,9 @@ export const i18nData: Record<Language, I18nData> = {
         companyName: '볼트마이크로 (Vault Micro)',
         role: '프론트엔드 개발자',
         highlights: [
+          'B2B SaaS의 **관리자 대시보드, 재사용 가능한 CRUD/테이블 컴포넌트, 운영 데이터 모니터링 UI** 구축',
           'Webpack 트리 쉐이킹 및 코드 스플리팅 최적화로 **메인 번들 15% 감량 (324KB → 277KB)**',
-          'B2B SaaS 제품의 **PWA 전환 및 Paddle 구독 결제 시스템** 1인 전담 구축',
-          '**재사용 가능한 CRUD 컴포넌트 라이브러리** 구축으로 관리자 페이지 개발 공수 획기적 단축',
+          'B2B SaaS 제품의 **PWA 전환, 보안 인증, Paddle 구독 결제 시스템** 1인 전담 구축',
         ],
         projects: {
           camerafi_studio: {
