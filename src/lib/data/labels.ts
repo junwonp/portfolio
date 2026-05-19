@@ -26,6 +26,7 @@ export interface Labels {
   project: string;
   resumeTitle: string;
   sectionArchives: string;
+  sectionFeaturedProjects: string;
   showDetails: string;
   sectionEducation: string;
   sectionIntro: string;
@@ -81,6 +82,7 @@ export const labelsMap: Record<Language, Labels> = {
     project: '프로젝트',
     resumeTitle: '포트폴리오',
     sectionArchives: '프로젝트 아카이브',
+    sectionFeaturedProjects: '직무 적합 프로젝트',
     showDetails: '상세보기',
     sectionEducation: '학력',
     sectionIntro: '소개',
@@ -135,6 +137,7 @@ export const labelsMap: Record<Language, Labels> = {
     project: 'Project',
     resumeTitle: 'Portfolio',
     sectionArchives: 'Archives',
+    sectionFeaturedProjects: 'Role-Fit Projects',
     showDetails: 'Show details',
     sectionEducation: 'Education',
     sectionIntro: 'Introduction',
