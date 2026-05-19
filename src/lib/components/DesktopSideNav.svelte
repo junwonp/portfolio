@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createScrollSpy } from '$lib/states/scrollSpy.svelte';
+  import { createScrollSpy, getPageScrollY, scrollPageTo } from '$lib/states/scrollSpy.svelte';
 
   interface NavSection {
     id: string;
@@ -31,7 +31,10 @@
   );
 
   function scrollTo(id: string): void {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    scrollPageTo(el.getBoundingClientRect().top + getPageScrollY());
     spy.activeId = id;
   }
 </script>

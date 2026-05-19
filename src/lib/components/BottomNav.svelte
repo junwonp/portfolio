@@ -6,7 +6,7 @@
   import Github from '$lib/components/Icon/Github.svelte';
   import Globe from '$lib/components/Icon/Globe.svelte';
   import { getLabels } from '$lib/data/labels';
-  import { createScrollSpy } from '$lib/states/scrollSpy.svelte';
+  import { createScrollSpy, getPageScrollY, scrollPageTo } from '$lib/states/scrollSpy.svelte';
   import { projectNavLinks } from '$lib/stores/bottomNav';
   import { getPageLocale } from '$lib/utils/locale';
   import { parseHeading, slugify } from '$lib/utils/markdown';
@@ -87,7 +87,7 @@
       offset = headerHeight;
     }
 
-    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    const top = el.getBoundingClientRect().top + getPageScrollY() - offset;
 
     isScrolling = true;
     clearTimeout(scrollTimeout);
@@ -95,7 +95,7 @@
       isScrolling = false;
     }, 800);
 
-    window.scrollTo({ top, behavior: 'smooth' });
+    scrollPageTo(top);
     spy.activeId = id;
   }
 
