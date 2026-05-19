@@ -166,6 +166,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    min-width: 0;
     width: 100%;
   }
 
@@ -173,11 +174,14 @@
     display: flex;
     justify-content: center;
     flex-grow: 1;
+    min-width: 0;
+    width: 100%;
   }
 
   main.content {
     width: 800px;
     max-width: 100%;
+    min-width: 0;
     padding: 2rem;
   }
 

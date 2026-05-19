@@ -14,8 +14,10 @@
 
   interface Props {
     experiences: OtherExperienceProps[];
+    skillLimit?: number;
   }
-  let { experiences }: Props = $props();
+
+  let { experiences, skillLimit }: Props = $props();
 
   let labels = $derived(getLabels(getPageLocale()));
 
@@ -51,10 +53,24 @@
           {/if}
 
           {#if project.skills}
+            {@const featuredSkills = project.featuredSkills ?? []}
+            {@const remainingSkills = skillState
+              .sort(project.skills)
+              .filter((skill) => !featuredSkills.includes(skill))}
+            {@const sortedSkills = skillLimit
+              ? [...featuredSkills, ...remainingSkills]
+              : skillState.sort(project.skills)}
+            {@const visibleSkills = skillLimit ? sortedSkills.slice(0, skillLimit) : sortedSkills}
+            {@const hiddenSkillCount = sortedSkills.length - visibleSkills.length}
             <div class="tag-list">
-              {#each skillState.sort(project.skills) as skill (skill)}
+              {#each visibleSkills as skill (skill)}
                 <SkillChip {skill} />
               {/each}
+              {#if hiddenSkillCount > 0}
+                <span class="more-chip" title={sortedSkills.slice(skillLimit).join(', ')}>
+                  +{hiddenSkillCount}
+                </span>
+              {/if}
             </div>
           {/if}
         </div>
@@ -84,10 +100,12 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: var(--space-md);
+    min-width: 0;
   }
 
   .content {
     flex: 1;
+    min-width: 0;
   }
 
   .header {
@@ -102,6 +120,7 @@
     font-weight: 700;
     margin: 0;
     color: var(--color-bold);
+    overflow-wrap: anywhere;
   }
 
   .link-wrapper {
@@ -113,12 +132,27 @@
     color: var(--color-main);
     margin: 0 0 0.5rem 0;
     line-height: 1.5;
+    overflow-wrap: anywhere;
   }
 
   .tag-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.375rem;
+    min-width: 0;
+  }
+
+  .more-chip {
+    align-items: center;
+    border: 1px dashed var(--color-bg-divider);
+    border-radius: 6px;
+    color: var(--color-sub);
+    display: inline-flex;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0.35rem 0.6rem;
+    white-space: nowrap;
   }
 
   .date-wrapper {

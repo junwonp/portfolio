@@ -35,19 +35,19 @@
     --cat-text-hover: white;
 
     appearance: none;
-    background: transparent;
-    border: 1px solid color-mix(in srgb, var(--cat-color) 40%, var(--color-bg-divider));
+    background: color-mix(in srgb, var(--cat-color) 4%, transparent);
+    border: 1px solid color-mix(in srgb, var(--cat-color) 28%, var(--color-bg-divider));
     border-radius: 6px;
-    color: color-mix(in srgb, var(--cat-color), black 35%);
-    :global(html.dark) & {
-      color: color-mix(in srgb, var(--cat-color), white 25%);
-    }
+    color: var(--color-sub);
     font-size: 0.875rem;
     padding: 0.35rem 0.65rem;
     font-weight: 500;
     line-height: 1;
     white-space: nowrap;
     display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
     transition: all 0.15s ease;
     cursor: pointer;
     font-family: inherit;
