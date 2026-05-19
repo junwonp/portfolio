@@ -75,30 +75,30 @@ export const i18nData: Record<Language, I18nData> = {
     introduction: {
       name: 'Junwon Park',
       tagline:
-        'Frontend Engineer focused on data-heavy web systems, operational UX, and product reliability',
+        'Frontend Engineer experienced in the entire product lifecycle from inception to growth',
       metrics: [
-        { value: '100k+', label: 'Rows & Logs' },
-        { value: '15%', label: 'Bundle Saved' },
-        { value: '80%+', label: 'API Load Cut' },
+        { value: '23,000', label: 'MAU (Peak)' },
+        { value: '46 min', label: 'Avg. Session' },
+        { value: '#57', label: 'Google Play' },
       ],
       pillars: [
         {
           index: '01',
-          title: 'Operational Web Systems',
+          title: 'Product Ownership & Growth',
           description:
-            'Building data lookup, table, dashboard, and workflow interfaces for internal users who need speed and accuracy.',
+            'Leading the full service lifecycle from idea to operation, driving growth to 23k MAU.',
         },
         {
           index: '02',
-          title: 'Performance & Reliability',
+          title: 'Sophisticated UI Systems',
           description:
-            'Improving large-data rendering, loading paths, caching, and bundle size so web products stay responsive in real use.',
+            'Designing optimized components and high-quality UX with low external dependency based on deep platform understanding.',
         },
         {
           index: '03',
-          title: 'Platform Delivery Ownership',
+          title: 'Rational Engineering',
           description:
-            'Owning frontend architecture, release pipelines, monitoring, and cross-platform delivery from zero to operation.',
+            'Prioritizing business context and user value to select and apply the most effective technologies for the situation.',
         },
       ],
     },
@@ -283,30 +283,30 @@ export const i18nData: Record<Language, I18nData> = {
     },
     introduction: {
       name: '박준원',
-      tagline: '데이터 중심 웹 시스템, 운영 UX, 제품 안정성을 설계하는 프론트엔드 엔지니어',
+      tagline: '제품의 시작부터 성장까지 직접 경험한 프론트엔드 엔지니어',
       metrics: [
-        { value: '수십만+', label: '행/로그 처리' },
-        { value: '15%', label: '번들 절감' },
-        { value: '80%+', label: 'API 부하 절감' },
+        { value: '23,000', label: 'MAU (최대)' },
+        { value: '46분', label: '평균 체류시간' },
+        { value: '#57', label: '구글 플레이' },
       ],
       pillars: [
         {
           index: '01',
-          title: '운영 웹 시스템',
+          title: '제품 오너십 및 성장',
           description:
-            '내부 사용자가 빠르고 정확하게 일해야 하는 데이터 조회, 테이블, 대시보드, 워크플로우 UI를 설계합니다.',
+            '아이디어 구상부터 운영까지 제품의 전체 생애 주기를 주도하며, 2.3만 명의 MAU 성장을 이끌어냈습니다.',
         },
         {
           index: '02',
-          title: '성능과 안정성',
+          title: '정교한 UI 시스템',
           description:
-            '대량 데이터 렌더링, 로딩 경로, 캐싱, 번들 사이즈를 개선해 실제 사용 환경에서도 반응성을 유지합니다.',
+            '플랫폼에 대한 깊은 이해를 바탕으로 외부 의존성을 최소화한 최적의 컴포넌트와 고품질의 UX를 설계합니다.',
         },
         {
           index: '03',
-          title: '플랫폼 출시 오너십',
+          title: '합리적인 엔지니어링',
           description:
-            '프론트엔드 아키텍처부터 배포 파이프라인, 모니터링, 크로스플랫폼 운영까지 출시 이후를 고려해 책임집니다.',
+            '비즈니스 상황과 사용자 가치를 최우선으로 고려하여 현재에 가장 필요한 기술을 선택하고 적용합니다.',
         },
       ],
     },
