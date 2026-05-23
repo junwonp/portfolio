@@ -1,0 +1,34 @@
+# TODO
+
+## Portfolio Screening Fixes
+
+- [x] Fix mobile horizontal overflow on home and project detail pages.
+- [ ] Re-check mobile screenshots at 375px and 390px after layout fixes.
+- [ ] Rewrite homepage pillars around production frontend, cross-platform delivery, and performance/verification.
+- [ ] Add role-specific tailored views for Web Frontend, React Native/Mobile, and AI-enabled Frontend applications.
+- [ ] Move exact-match frontend keywords closer to the homepage scan path.
+- [ ] Reduce the chance that AI/agentic workflow reads as the primary identity instead of an engineering accelerator.
+
+## Project Content Gaps
+
+- [ ] `aira`: change Korean metric label `Monthly Active Users` to `월간 활성 사용자`.
+- [ ] `aira`: add a short top-level ownership summary covering planning, frontend architecture, release, and monetization UI.
+- [ ] `CameraFi Studio`: add production SaaS evidence such as screen count, user/revenue context, or additional screenshots.
+- [ ] `Admin Dashboard`: add concrete scale such as page count, entity types, filters, permissions, or time saved.
+- [ ] `MND Excel Viewer`: add safe scale details and a reconstructed diagram or screenshot.
+- [ ] `MND Dashboard`: strengthen homepage bullets with safer domain detail and concrete dashboard behavior.
+- [ ] `Day Planner`: add screenshots for iOS, macOS menu bar, focus automation, timeline layout, and sync behavior.
+- [ ] `Day Planner`: add verification evidence such as test/build status, sync debounce behavior, and timeline overlap cases.
+- [ ] `Today’s Weather`: add screenshots for web, mobile, widget, and recommendation output.
+- [ ] `Today’s Weather`: document cache flow, TTL, hit/miss model, and current product status.
+- [ ] `OnelineBank`: surface the 2021 hackathon to 2026 rebuild story more clearly on the homepage.
+- [ ] `Campus Town`: add concrete support details and connect it to Orca AI business validation.
+- [ ] `SvelteKit Portfolio`: refresh Lighthouse/performance evidence after mobile overflow is fixed.
+- [ ] `Election Aggregator`: keep as archive and add team size/responsibility details only if needed.
+- [ ] `Agentic Workflow`: add concrete examples, verification guardrails, and a workflow diagram.
+
+## Technical Cleanup
+
+- [ ] Resolve `.svx` `context="module"` deprecation warnings from the dev server.
+- [ ] Clean `pnpm check` unused CSS selector warnings in `src/routes/print/+page.svelte`.
+- [ ] Run `pnpm check`, `pnpm lint`, and route tests after content/layout changes.
