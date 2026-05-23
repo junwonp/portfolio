@@ -1,12 +1,11 @@
+import type { ProjectContentEntry } from '$lib/content/projects';
+import { getProjectsBySection } from '$lib/content/projects';
 import { i18nData } from '$lib/data/resume.i18n';
-import type { SharedProject } from '$lib/data/resume.shared';
 import {
-  archivesShared,
   certificateOrder,
   certificatesShared,
   educationOrder,
   educationShared,
-  otherExperiencesShared,
   sharedIntroduction,
   skillsShared,
   workExperiencesShared,
@@ -17,6 +16,7 @@ import type {
   EducationProps,
   IntroductionProps,
   OtherExperienceProps,
+  ProjectItem,
   SkillProps,
   WorkExperienceProps,
 } from '$lib/types/about';
@@ -255,6 +255,23 @@ export interface ResumeData {
   workExperiences: WorkExperienceProps[];
 }
 
+const toResumeProject = (project: ProjectContentEntry, lang: Language): ProjectItem => {
+  const content = project.content[lang];
+
+  return {
+    dateFrom: project.dateFrom ?? '',
+    dateTo: project.dateTo,
+    detailLink: project.detailPath,
+    featuredSkills: project.featuredSkills,
+    id: project.id,
+    skills: project.skills,
+    description: content.description,
+    detail: content.summaryDetails,
+    title: content.title,
+    metrics: content.metrics,
+  };
+};
+
 export const getResumeData = (lang: Language): ResumeData => {
   const i18n = i18nData[lang];
 
@@ -273,62 +290,24 @@ export const getResumeData = (lang: Language): ResumeData => {
       highlights: i18nExp.highlights,
       role: i18nExp.role,
       additional: i18nExp.additional,
-      project: (exp.projects as SharedProject[]).map((proj) => {
-        const i18nProj = i18nExp.projects[proj.id];
-        return {
-          dateFrom: proj.dateFrom,
-          dateTo: proj.dateTo,
-          detailLink: proj.detailLink,
-          featuredSkills: proj.featuredSkills,
-          id: proj.id,
-          skills: proj.skills,
-          description: i18nProj.description,
-          detail: i18nProj.detail,
-          title: i18nProj.title,
-          metrics: i18nProj.metrics,
-        };
-      }),
+      project: getProjectsBySection('work', exp.id).map((project) =>
+        toResumeProject(project, lang),
+      ),
     };
   });
 
-  const otherExperiences: OtherExperienceProps[] = otherExperiencesShared.map((exp) => {
-    const i18nExp = i18n.otherExperiences[exp.id];
+  const otherExperiences: OtherExperienceProps[] = getProjectsBySection('other').map((project) => {
+    const content = project.content[lang];
+
     return {
-      titleBadge: i18nExp.titleBadge,
-      project: [
-        {
-          dateFrom: exp.dateFrom,
-          dateTo: exp.dateTo,
-          detailLink: exp.detailLink,
-          featuredSkills: exp.featuredSkills,
-          id: exp.id,
-          skills: exp.skills,
-          description: i18nExp.description,
-          detail: i18nExp.detail,
-          title: i18nExp.title,
-        },
-      ],
+      titleBadge: content.titleBadge,
+      project: [toResumeProject(project, lang)],
     };
   });
 
-  const archives: ArchiveProps[] = archivesShared.map((arch) => {
-    const i18nArch = i18n.archives[arch.id];
-    return {
-      project: [
-        {
-          dateFrom: arch.dateFrom,
-          dateTo: arch.dateTo,
-          detailLink: arch.detailLink,
-          featuredSkills: arch.featuredSkills,
-          id: arch.id,
-          skills: arch.skills,
-          description: i18nArch.description,
-          detail: i18nArch.detail,
-          title: i18nArch.title,
-        },
-      ],
-    };
-  });
+  const archives: ArchiveProps[] = getProjectsBySection('archive').map((project) => ({
+    project: [toResumeProject(project, lang)],
+  }));
 
   const certificates: CertificateProps[] = certificateOrder.map((id) => ({
     link: certificatesShared[id].link,

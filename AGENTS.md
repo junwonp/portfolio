@@ -35,23 +35,23 @@ Language is resolved server-side in `src/hooks.server.ts`:
 2. Fall back to `Accept-Language` header via `src/lib/utils/language.ts`
 3. Stored in `event.locals.locale` and injected into `%lang%` in `app.html`
 
-Language is switched via `POST /api/locale` which updates the cookie. All page server loads pass `locale` through `data`. Components call `getLabels(locale)` and `getResume(locale)` directly with the locale from `$props()`.
+Language is switched via `POST /api/locale` which updates the cookie. All page server loads pass `locale` through `data`. Components call `getLabels(locale)` and `getResumeData(locale)` directly with the locale from `$props()`.
 
-Resume content is in `src/lib/data/resume.en.ts` and `resume.ko.ts` — both must be kept structurally in sync. UI strings for both languages are in `src/lib/data/labels.ts`.
+Resume content is assembled from `src/lib/content/projects/` plus compatibility data in `src/lib/data/resume.i18n.ts` and `src/lib/data/resume.shared.ts`. UI strings for both languages are in `src/lib/data/labels.ts`.
 
-**Bilingual sync rule:** Any change to `resume.en.ts` must be mirrored in `resume.ko.ts` and vice versa. This includes adding/removing entries, changing field names, and updating data structure. Never modify one without the other.
+**Bilingual sync rule:** Short project/card content belongs in each project's `index.ts` as side-by-side `content.en` and `content.ko`. Long detail content belongs in paired `detail.en.svx` and `detail.ko.svx` files in the same project folder. Never modify one locale without checking the other.
 
 ### Project Detail Pages
 
 Route: `src/routes/projects/[slug]/`
 
 - `+page.server.ts` — validates slug, returns `{ slug, locale }`
-- `+page.ts` — uses `import.meta.glob` to lazily load `src/lib/posts/${slug}.${locale}.svx`
+- `+page.ts` — uses `import.meta.glob` to lazily load `src/lib/content/projects/${slug}/detail.${locale}.svx`
 - mdsvex (`.svx`) files support embedded Svelte components, preprocessed via `mdsvex()` in `svelte.config.js`
 
-To add a new project: create `src/lib/posts/[slug].en.svx` and `src/lib/posts/[slug].ko.svx`, then add a `detailLink: '/projects/[slug]'` entry to both resume data files.
+To add a new project: create `src/lib/content/projects/[slug]/index.ts` with shared values plus `content.en` / `content.ko`. If the project has a detail page, add `detailPath: '/projects/[slug]'` and create paired `detail.en.svx` / `detail.ko.svx` files.
 
-Each `.svx` file should include a frontmatter block at the top with these fields (all from `PostMetadata`):
+Detail hero metadata should live in `content.en.detailMetadata` and `content.ko.detailMetadata` in the project `index.ts` with these fields (all from `PostMetadata`):
 
 ```yaml
 ---
@@ -203,29 +203,51 @@ Add a new project to the portfolio. Follow these steps:
 
 1. Ask the user for the project slug (e.g. `my-project`), and whether they want to fill in details now or use placeholders.
 
-2. Create `src/lib/posts/$SLUG.en.svx` with this frontmatter template:
+2. Create `src/lib/content/projects/$SLUG/index.ts` with shared values and side-by-side bilingual content:
 
+```ts
+import { defineProject } from '$lib/content/projects';
+
+export const myProject = defineProject({
+  id: 'my_project',
+  slug: '$SLUG',
+  section: 'other',
+  dateFrom: 'YYYY-MM',
+  detailPath: '/projects/$SLUG',
+  content: {
+    en: {
+      title: '',
+      description: '',
+      summaryDetails: [],
+      detailMetadata: {
+        title: '',
+        description: '',
+        role: '',
+        date: '',
+      },
+    },
+    ko: {
+      title: '',
+      description: '',
+      summaryDetails: [],
+      detailMetadata: {
+        title: '',
+        description: '',
+        role: '',
+        date: '',
+      },
+    },
+  },
+});
 ```
----
-title: ''
-description: ''
-role: ''
-date: ''
-image: ''
-githubLink: ''
-productLink: ''
----
-```
 
-3. Create `src/lib/posts/$SLUG.ko.svx` with the same frontmatter template in Korean content.
+3. Create `src/lib/content/projects/$SLUG/detail.en.svx` and `src/lib/content/projects/$SLUG/detail.ko.svx`.
 
-4. Add a new project entry to `src/lib/data/resume.en.ts` under the appropriate section (workExperiences, otherExperiences, or archives) with `detailLink: '/projects/$SLUG'`.
+4. Export the project from `src/lib/content/projects/index.ts`.
 
-5. Mirror the exact same entry structure in `src/lib/data/resume.ko.ts`.
+5. Run `pnpm check`, `pnpm lint`, and `pnpm vitest --run`.
 
-6. Run `pnpm check` to verify no type errors.
-
-7. Show a summary of all created/modified files.
+6. Show a summary of all created/modified files.
 
 ### Sync Check
 

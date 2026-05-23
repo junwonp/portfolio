@@ -5,6 +5,7 @@
   import { browser } from '$app/environment';
   import Period from '$lib/components/Period.svelte';
   import RichText from '$lib/components/RichText.svelte';
+  import { getProjectMetadata } from '$lib/content/projects';
   import { getLabels } from '$lib/data/labels';
   import { getResumeData } from '$lib/data/resume';
   import type { PostMetadata } from '$lib/types/post';
@@ -21,9 +22,9 @@
   // Propagate print mode to descendant components (e.g. ProjectAchievements)
   setContext('printMode', true);
 
-  // Eagerly load all .svx modules at build time
+  // Eagerly load all project detail modules at build time
   const allPosts = import.meta.glob<{ default: Component; metadata?: PostMetadata }>(
-    '/src/lib/posts/*.svx',
+    '/src/lib/content/projects/*/detail.*.svx',
     { eager: true },
   );
 
@@ -37,7 +38,7 @@
 
   // Get post module for a given slug + locale
   function getPost(slug: string) {
-    const key = `/src/lib/posts/${slug}.${data.locale}.svx`;
+    const key = `/src/lib/content/projects/${slug}/detail.${data.locale}.svx`;
     return allPosts[key];
   }
 
@@ -338,7 +339,7 @@
     {@const post = getPost(slug)}
     {#if post}
       {@const PostComponent = post.default}
-      {@const meta = post.metadata}
+      {@const meta = getProjectMetadata(slug, data.locale) ?? post.metadata}
       <section id="project-{slug}" class="project-detail-section">
         <div class="project-detail-header">
           <div>

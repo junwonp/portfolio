@@ -9,14 +9,14 @@ interface PostModule {
   metadata?: PostMetadata;
 }
 
-const posts = import.meta.glob<PostModule>('/src/lib/posts/*.svx');
+const posts = import.meta.glob<PostModule>('/src/lib/content/projects/*/detail.*.svx');
 
 export const load: PageLoad = async ({ data, depends }) => {
   const { slug, locale } = data;
 
   depends(`locale:${locale}`);
 
-  const langSpecificPath = `/src/lib/posts/${slug}.${locale}.svx`;
+  const langSpecificPath = `/src/lib/content/projects/${slug}/detail.${locale}.svx`;
   const postModuleLoader = posts[langSpecificPath] as (() => Promise<PostModule>) | undefined;
 
   if (!postModuleLoader) {
