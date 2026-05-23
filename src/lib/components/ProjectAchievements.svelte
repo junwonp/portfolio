@@ -84,6 +84,7 @@
     border-radius: 12px;
     background: var(--color-basic-bg);
     overflow: hidden;
+    min-width: 0;
     transition: all 0.2s ease;
   }
 
@@ -115,6 +116,7 @@
     align-items: center;
     gap: 12px;
     flex: 1;
+    min-width: 0;
   }
 
   :global(.ach-tag) {
@@ -128,6 +130,7 @@
     font-weight: 600;
     color: var(--color-bold);
     line-height: 1.4;
+    overflow-wrap: anywhere;
   }
 
   .ach-header-right {
@@ -156,6 +159,7 @@
     line-height: 1.6;
     border-top: 1px solid var(--color-bg-subdivider);
     padding-top: 16px;
+    overflow-wrap: anywhere;
   }
 
   :global(.ach-desc strong) {
@@ -168,6 +172,8 @@
     color: var(--color-inline-code);
     padding: 2px 5px;
     border-radius: 4px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   :global(.ach-desc img) {

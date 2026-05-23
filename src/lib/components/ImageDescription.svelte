@@ -146,6 +146,7 @@
     align-items: center;
     border-radius: 8px;
     overflow: hidden;
+    max-width: 100%;
     max-height: 60vh;
   }
 

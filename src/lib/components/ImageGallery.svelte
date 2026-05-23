@@ -201,10 +201,10 @@
     justify-content: flex-start;
     align-items: center;
     padding: 0;
-    margin: 2rem -2rem;
+    margin: 2rem 0;
     position: relative;
     touch-action: none;
-    width: calc(100% + 4rem);
+    width: 100%;
     max-height: 60vh;
   }
 
@@ -215,8 +215,7 @@
 
   @media (max-width: 576px) {
     .image-gallery.mobile {
-      margin: 2rem -1.5rem;
-      width: calc(100% + 3rem);
+      margin: 2rem 0;
     }
   }
 

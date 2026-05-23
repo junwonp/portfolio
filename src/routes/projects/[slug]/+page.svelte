@@ -360,6 +360,8 @@
     line-height: 1.1;
     margin-bottom: 12px;
     color: var(--color-bold);
+    overflow-wrap: anywhere;
+    word-break: keep-all;
   }
 
   .hero-tagline {
@@ -368,6 +370,7 @@
     margin-bottom: 32px;
     line-height: 1.6;
     max-width: 560px;
+    overflow-wrap: anywhere;
   }
 
   /* Metrics */
@@ -398,6 +401,7 @@
   .metric-lbl {
     font-size: 12px;
     color: var(--color-sub);
+    overflow-wrap: anywhere;
   }
 
   /* Article */
@@ -449,6 +453,7 @@
     color: var(--color-main);
     line-height: 1.8;
     margin-bottom: 16px;
+    overflow-wrap: anywhere;
   }
 
   :global(.project-article ul),
@@ -462,6 +467,7 @@
     color: var(--color-main);
     line-height: 1.8;
     margin-bottom: 4px;
+    overflow-wrap: anywhere;
   }
 
   :global(.project-article strong) {
@@ -476,6 +482,8 @@
     color: var(--color-inline-code);
     padding: 2px 6px;
     border-radius: 4px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   :global(.project-article pre) {
@@ -530,6 +538,10 @@
   @media (max-width: 640px) {
     .hero {
       padding: 32px 0 32px;
+    }
+
+    .metrics-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>
