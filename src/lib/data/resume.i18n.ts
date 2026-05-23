@@ -84,21 +84,21 @@ export const i18nData: Record<Language, I18nData> = {
       pillars: [
         {
           index: '01',
-          title: 'Product Ownership & Growth',
+          title: 'Production Frontend Systems',
           description:
-            'Leading the full service lifecycle from idea to operation, driving growth to 23k MAU.',
+            'Building production UI, server-state, and release workflows for React, React Native, and Svelte products.',
         },
         {
           index: '02',
-          title: 'Sophisticated UI Systems',
+          title: 'Cross-Platform Delivery',
           description:
-            'Designing optimized components and high-quality UX with low external dependency based on deep platform understanding.',
+            'Shipping Android, iOS, Web, and native platform integrations from one coherent product architecture.',
         },
         {
           index: '03',
-          title: 'Rational Engineering',
+          title: 'Performance & Verification',
           description:
-            'Prioritizing business context and user value to select and apply the most effective technologies for the situation.',
+            'Improving rendering, bundles, cache behavior, and reliability through tests, CI, and browser validation.',
         },
       ],
     },
@@ -292,21 +292,21 @@ export const i18nData: Record<Language, I18nData> = {
       pillars: [
         {
           index: '01',
-          title: '제품 오너십 및 성장',
+          title: '프로덕션 프론트엔드 시스템',
           description:
-            '아이디어 구상부터 운영까지 제품의 전체 생애 주기를 주도하며, 2.3만 명의 MAU 성장을 이끌어냈습니다.',
+            'React, React Native, Svelte 제품에서 UI, 서버 상태, 배포 흐름까지 운영 가능한 구조로 만듭니다.',
         },
         {
           index: '02',
-          title: '정교한 UI 시스템',
+          title: '크로스플랫폼 제품 출시',
           description:
-            '플랫폼에 대한 깊은 이해를 바탕으로 외부 의존성을 최소화한 최적의 컴포넌트와 고품질의 UX를 설계합니다.',
+            'Android, iOS, Web, 네이티브 연동을 하나의 일관된 제품 아키텍처로 연결해 출시합니다.',
         },
         {
           index: '03',
-          title: '합리적인 엔지니어링',
+          title: '성능과 검증',
           description:
-            '비즈니스 상황과 사용자 가치를 최우선으로 고려하여 현재에 가장 필요한 기술을 선택하고 적용합니다.',
+            '렌더링, 번들, 캐시, 안정성을 테스트, CI, 브라우저 검증으로 확인하며 개선합니다.',
         },
       ],
     },

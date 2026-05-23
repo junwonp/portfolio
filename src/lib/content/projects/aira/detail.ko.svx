@@ -7,7 +7,7 @@ image: '/images/aira/v2_main.webp'
 platforms: ['Android', 'iOS', 'Web']
 metrics:
   [
-    { value: '2.3만', label: 'Monthly Active Users' },
+    { value: '2.3만', label: '월간 활성 사용자' },
     { value: '$3K', label: '월 매출' },
     { value: '46분', label: '평균 체류 시간' },
     { value: '#57', label: 'GP 엔터테인먼트' },
@@ -54,6 +54,8 @@ techStack:
 공동 창업자 겸 프론트엔드 리드로서 **기획부터 제품 출시, 그리고 2.3만 MAU를 달성하기까지의 전 과정**을 주도했습니다.
 
 **데이터 유실 없는 서버 마이그레이션**을 수행했고, **렌더링 성능을 꼼꼼하게 최적화**하여 저사양 기기에서도 끊김 없는 채팅 경험을 제공하는 데 집중했습니다.
+
+담당 범위는 제품 기획, 프론트엔드 아키텍처, 스트리밍 채팅 UX, 서버 상태·캐시 설계, EAS/TestFlight 배포 운영, Sentry 모니터링, 수익화 UI까지 포함했습니다.
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 

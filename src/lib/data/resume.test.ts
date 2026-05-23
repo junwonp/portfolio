@@ -79,7 +79,7 @@ describe('resume data for web frontend applications', () => {
     const defaultMetricLabels = defaultSummary.metrics?.map((metric) => metric.label) ?? [];
 
     expect(defaultSummary.tagline).toContain('제품의 시작부터 성장까지');
-    expect(defaultSummary.pillars?.[0].title).toBe('제품 오너십 및 성장');
+    expect(defaultSummary.pillars?.[0].title).toBe('프로덕션 프론트엔드 시스템');
     expect(defaultMetricLabels).toContain('MAU (최대)');
     expect(defaultMetricLabels).toContain('평균 체류시간');
     expect(defaultMetricLabels).toContain('구글 플레이');

@@ -53,6 +53,7 @@ export const airaProject = defineProject({
       ],
       summaryDetails: [
         "**[Key Achievements]** Achieved 23k MAU and $3,000 monthly revenue with an average session time of 46 minutes — ranked 57th in Google Play Entertainment (as of Feb '25).",
+        '**[Ownership Scope]** Owned the frontend architecture from product planning to release operations, including chat UX, server-state design, EAS/TestFlight delivery, Sentry monitoring, and monetization UI.',
         '**[Streaming Chat & Optimistic UI]** Validated stream chunks at runtime with **Zod** and patched TanStack Query **InfiniteQuery** cache in real-time per chunk to create typing animations. Applied optimistic update pattern via `onMutate` for instant message insertion with rollback on failure.',
         '**[Type-Safe Server State Management]** Designed a **queryData facade** that structures `QueryClient` access by domain, providing hierarchical query key factories for bulk invalidation and type-safe cache get/update/delete operations.',
         '**[Data Persistence & Cache Isolation]** Migrated on-device (Realm) → server (RDB) data without loss using retry logic and transaction flags. Separated **MMKV** into purpose-specific instances (document, cache, settings) and auto-isolated per-user caches via `PersistQueryClientProvider` `buster: uid`.',
@@ -111,6 +112,7 @@ export const airaProject = defineProject({
       ],
       summaryDetails: [
         '**[주요 성과]** **MAU 2.3만 명, 월 매출 $3,000, 평균 체류 시간 46분** 달성 — 구글 플레이 엔터테인먼트 부문 최고 57위 기록 (25년 2월 기준).',
+        '**[오너십 범위]** 제품 기획부터 프론트엔드 아키텍처, 채팅 UX, 서버 상태 설계, EAS/TestFlight 배포, Sentry 모니터링, 수익화 UI까지 출시 운영 전반을 맡았습니다.',
         '**[스트리밍 채팅 및 낙관적 UI]** 스트림 청크를 **Zod**로 실시간 검증하고, TanStack Query **InfiniteQuery** 캐시를 직접 패치하여 **끊김 없는 타이핑 애니메이션**을 구현했습니다. `onMutate`를 통한 **낙관적 업데이트**로 즉각적인 피드백을 제공했습니다.',
         '**[타입 안전한 캐시 파사드]** QueryClient를 직접 다루는 대신 도메인별로 구조화된 **queryData 파사드**를 설계했습니다. 계층적 쿼리 키 팩토리를 통해 **일괄 무효화 및 타입 안전한 CRUD** 작업을 수행합니다.',
         '**[데이터 영속화 및 격리]** Realm에서 서버 DB로 대화 데이터를 **무유실 마이그레이션**했습니다. **MMKV**를 용도별 인스턴스로 분리하고, `PersistQueryClientProvider`의 `buster` 옵션으로 **사용자별 캐시를 자동 격리**했습니다.',
@@ -131,7 +133,7 @@ export const airaProject = defineProject({
         image: '/images/aira/v2_main.webp',
         platforms: ['Android', 'iOS', 'Web'],
         metrics: [
-          { value: '2.3만', label: 'Monthly Active Users' },
+          { value: '2.3만', label: '월간 활성 사용자' },
           { value: '$3K', label: '월 매출' },
           { value: '46분', label: '평균 체류 시간' },
           { value: '#57', label: 'GP 엔터테인먼트' },

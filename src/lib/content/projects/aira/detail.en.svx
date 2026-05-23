@@ -55,6 +55,8 @@ As a Co-Founder and Frontend Lead, I led the **entire process from planning to p
 
 I focused on designing a **combined Local-Server architecture** to prevent data loss and **meticulously optimizing rendering performance** to provide a seamless chat experience even on low-end devices.
 
+My ownership covered product planning, frontend architecture, streaming chat UX, server-state/cache design, EAS/TestFlight release operations, Sentry monitoring, and monetization UI.
+
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
 
