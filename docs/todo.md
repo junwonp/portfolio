@@ -3,7 +3,7 @@
 ## Portfolio Screening Fixes
 
 - [x] Fix mobile horizontal overflow on home and project detail pages.
-- [ ] Re-check mobile screenshots at 375px and 390px after layout fixes.
+- [x] Re-check mobile screenshots at 375px and 390px after layout fixes.
 - [x] Rewrite homepage pillars around production frontend, cross-platform delivery, and performance/verification.
 - [ ] Add role-specific tailored views for Web Frontend, React Native/Mobile, and AI-enabled Frontend applications.
 - [ ] Move exact-match frontend keywords closer to the homepage scan path.
@@ -30,5 +30,5 @@
 ## Technical Cleanup
 
 - [ ] Resolve `.svx` `context="module"` deprecation warnings from the dev server.
-- [ ] Clean `pnpm check` unused CSS selector warnings in `src/routes/print/+page.svelte`.
-- [ ] Run `pnpm check`, `pnpm lint`, and route tests after content/layout changes.
+- [x] Clean `pnpm check` unused CSS selector warnings in `src/routes/print/+page.svelte`.
+- [x] Run `pnpm check`, `pnpm lint`, and route tests after content/layout changes.

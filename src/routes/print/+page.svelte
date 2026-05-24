@@ -500,14 +500,14 @@
     }
 
     /* Force images to be visible even if transition hasn't finished */
-    img,
-    video,
-    .media-wrapper {
+    :global(img),
+    :global(video),
+    :global(.media-wrapper) {
       opacity: 1 !important;
       visibility: visible !important;
     }
 
-    .skeleton {
+    :global(.skeleton) {
       display: none !important;
     }
   }
