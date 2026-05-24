@@ -130,14 +130,14 @@
     <p class="tagline">{tagline}</p>
 
     {#if metrics && metrics.length > 0}
-      <div class="metrics-grid">
+      <dl class="metrics-grid">
         {#each metrics as metric (metric.label)}
           <div class="metric-cell">
-            <span class="metric-value">{metric.value}</span>
-            <span class="metric-label">{metric.label}</span>
+            <dt class="metric-label">{metric.label}</dt>
+            <dd class="metric-value">{metric.value}</dd>
           </div>
         {/each}
-      </div>
+      </dl>
     {/if}
 
     {#if pillars && pillars.length > 0}
@@ -274,37 +274,50 @@
   }
 
   .metrics-grid {
-    background: var(--color-bg-divider);
-    border-radius: 8px;
-    display: grid;
-    gap: 1px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-block: 1px solid var(--color-bg-divider);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
     margin: var(--space-md) 0 var(--space-sm);
-    overflow: hidden;
+    padding: 0.875rem 0;
   }
 
   .metric-cell {
-    align-items: flex-start;
-    background: var(--color-basic-bg);
+    align-items: baseline;
     display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    padding: var(--space-sm) var(--space-md);
+    flex: 1 1 11rem;
+    gap: 0.625rem;
+    padding: 0.35rem 1.25rem 0.35rem 0;
+    position: relative;
+  }
+
+  .metric-cell:not(:last-child)::after {
+    background: var(--color-bg-divider);
+    content: '';
+    height: 1.4rem;
+    position: absolute;
+    right: 0.625rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(14deg);
+    width: 1px;
   }
 
   .metric-value {
     color: var(--color-primary);
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     font-weight: 700;
     line-height: 1;
+    margin: 0;
+    order: -1;
+    white-space: nowrap;
   }
 
   .metric-label {
     color: var(--color-sub);
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    line-height: 1.25;
     overflow-wrap: anywhere;
-    text-transform: uppercase;
   }
 
   .pillars {
@@ -445,7 +458,8 @@
     }
 
     .metric-cell {
-      padding: var(--space-xs) var(--space-sm);
+      flex-basis: 9rem;
+      padding: 0.35rem 1rem 0.35rem 0;
     }
 
     .metric-value {
@@ -454,12 +468,21 @@
   }
 
   @media (max-width: 576px) {
-    .metric-cell {
-      padding: 0.5rem 0.75rem;
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: 0.625rem 0;
     }
 
-    .metric-value {
-      font-size: 1.1rem;
+    .metric-cell {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0.45rem 0;
+    }
+
+    .metric-cell:not(:last-child)::after {
+      display: none;
     }
 
     .pillar-desc {

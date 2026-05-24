@@ -142,14 +142,14 @@
         {/if}
 
         {#if metadata.metrics && metadata.metrics.length > 0}
-          <div class="metrics-row">
+          <dl class="metrics-row">
             {#each metadata.metrics as metric (metric.label)}
               <div class="metric">
-                <div class="metric-val">{metric.value}</div>
-                <div class="metric-lbl">{metric.label}</div>
+                <dt class="metric-lbl">{metric.label}</dt>
+                <dd class="metric-val">{metric.value}</dd>
               </div>
             {/each}
-          </div>
+          </dl>
         {/if}
 
         {#if metadata.platforms && metadata.platforms.length > 0}
@@ -375,32 +375,50 @@
 
   /* Metrics */
   .metrics-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1px;
-    background: var(--color-bg-divider);
-    border: 1px solid var(--color-bg-divider);
-    border-radius: 10px;
-    overflow: hidden;
+    border-block: 1px solid var(--color-bg-divider);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 0;
+    max-width: 680px;
+    padding: 14px 0;
   }
 
   .metric {
-    background: var(--color-basic-bg);
-    padding: 18px 16px;
+    align-items: baseline;
+    display: flex;
+    flex: 1 1 150px;
+    gap: 10px;
+    padding: 6px 22px 6px 0;
+    position: relative;
+  }
+
+  .metric:not(:last-child)::after {
+    background: var(--color-bg-divider);
+    content: '';
+    height: 22px;
+    position: absolute;
+    right: 11px;
+    top: 50%;
+    transform: translateY(-50%) rotate(14deg);
+    width: 1px;
   }
 
   .metric-val {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--color-bold);
-    line-height: 1;
-    margin-bottom: 4px;
+    color: var(--color-primary);
+    font-size: 21px;
+    font-weight: 800;
     letter-spacing: -0.02em;
+    line-height: 1;
+    margin: 0;
+    order: -1;
+    white-space: nowrap;
   }
 
   .metric-lbl {
-    font-size: 12px;
     color: var(--color-sub);
+    font-size: 12px;
+    line-height: 1.25;
     overflow-wrap: anywhere;
   }
 
@@ -541,7 +559,20 @@
     }
 
     .metrics-row {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: 10px 0;
+    }
+
+    .metric {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 3px;
+      padding: 7px 0;
+    }
+
+    .metric:not(:last-child)::after {
+      display: none;
     }
   }
 </style>
