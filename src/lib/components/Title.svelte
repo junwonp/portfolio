@@ -14,6 +14,7 @@
 
   interface Props {
     backLink?: string;
+    focusKeywords?: string[];
     githubLink?: string;
     isHome?: boolean;
     linkedinLink?: string;
@@ -27,6 +28,7 @@
 
   let {
     backLink,
+    focusKeywords,
     githubLink,
     isHome = false,
     linkedinLink,
@@ -128,6 +130,14 @@
       <h2 class="role">{role}</h2>
     {/if}
     <p class="tagline">{tagline}</p>
+
+    {#if focusKeywords && focusKeywords.length > 0}
+      <ul class="focus-keywords" aria-label="Frontend focus keywords">
+        {#each focusKeywords as keyword (keyword)}
+          <li>{keyword}</li>
+        {/each}
+      </ul>
+    {/if}
 
     {#if metrics && metrics.length > 0}
       <dl class="metrics-grid">
@@ -271,6 +281,28 @@
     margin: 0 0 0.67em 0;
     overflow-wrap: anywhere;
     word-break: keep-all;
+  }
+
+  .focus-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    list-style: none;
+    margin: 0 0 var(--space-sm);
+    padding: 0;
+  }
+
+  .focus-keywords li {
+    background: color-mix(in srgb, var(--color-primary) 8%, var(--color-basic-bg));
+    border: 1px solid color-mix(in srgb, var(--color-primary) 24%, var(--color-bg-divider));
+    border-radius: 9999px;
+    color: var(--color-primary-hover);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    padding: 0.42rem 0.62rem;
+    white-space: nowrap;
   }
 
   .metrics-grid {

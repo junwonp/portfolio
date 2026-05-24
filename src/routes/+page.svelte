@@ -131,6 +131,7 @@
         <section id="section-intro" transition:slide={{ duration: 300 }}>
           <Title
             isHome
+            focusKeywords={summaryIntroduction.focusKeywords}
             githubLink={summaryIntroduction.githubLink}
             linkedinLink={summaryIntroduction.linkedinLink}
             metrics={summaryIntroduction.metrics}

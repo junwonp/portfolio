@@ -10,6 +10,7 @@ export interface PillarItem {
 }
 
 export interface IntroductionProps {
+  focusKeywords?: string[];
   name: string;
   role: string;
   tagline: string;

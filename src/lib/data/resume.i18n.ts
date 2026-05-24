@@ -45,6 +45,7 @@ export interface I18nData {
   certificates: Record<CertificateId, { label: string }>;
   education: Record<EducationId, { major?: string; school: string }>;
   introduction: {
+    focusKeywords?: string[];
     metrics?: MetricItem[];
     name: string;
     pillars?: PillarItem[];
@@ -76,6 +77,14 @@ export const i18nData: Record<Language, I18nData> = {
       name: 'Junwon Park',
       tagline:
         'Frontend Engineer experienced in the entire product lifecycle from inception to growth',
+      focusKeywords: [
+        'React',
+        'TypeScript',
+        'Next.js',
+        'React Native',
+        'TanStack Query',
+        'SvelteKit',
+      ],
       metrics: [
         { value: '23,000', label: 'MAU (Peak)' },
         { value: '46 min', label: 'Avg. Session' },
@@ -284,6 +293,14 @@ export const i18nData: Record<Language, I18nData> = {
     introduction: {
       name: '박준원',
       tagline: '제품의 시작부터 성장까지 직접 경험한 프론트엔드 엔지니어',
+      focusKeywords: [
+        'React',
+        'TypeScript',
+        'Next.js',
+        'React Native',
+        'TanStack Query',
+        'SvelteKit',
+      ],
       metrics: [
         { value: '23,000', label: 'MAU (최대)' },
         { value: '46분', label: '평균 체류시간' },

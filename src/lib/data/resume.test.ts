@@ -14,6 +14,14 @@ describe('resume data for web frontend applications', () => {
     const metricLabels = resume.introduction.metrics?.map((metric) => metric.label) ?? [];
 
     expect(resume.introduction.tagline).toContain('제품의 시작부터 성장까지');
+    expect(resume.introduction.focusKeywords).toEqual([
+      'React',
+      'TypeScript',
+      'Next.js',
+      'React Native',
+      'TanStack Query',
+      'SvelteKit',
+    ]);
     expect(metricLabels).toContain('MAU (최대)');
     expect(metricLabels).toContain('평균 체류시간');
     expect(metricLabels).toContain('구글 플레이');
@@ -79,6 +87,8 @@ describe('resume data for web frontend applications', () => {
     const defaultMetricLabels = defaultSummary.metrics?.map((metric) => metric.label) ?? [];
 
     expect(defaultSummary.tagline).toContain('제품의 시작부터 성장까지');
+    expect(defaultSummary.focusKeywords).toContain('React');
+    expect(defaultSummary.focusKeywords).toContain('TypeScript');
     expect(defaultSummary.pillars?.[0].title).toBe('프로덕션 프론트엔드 시스템');
     expect(defaultMetricLabels).toContain('MAU (최대)');
     expect(defaultMetricLabels).toContain('평균 체류시간');
