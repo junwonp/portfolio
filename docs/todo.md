@@ -7,7 +7,7 @@
 - [x] Rewrite homepage pillars around production frontend, cross-platform delivery, and performance/verification.
 - [ ] Add role-specific tailored views for Web Frontend, React Native/Mobile, and AI-enabled Frontend applications.
 - [x] Move exact-match frontend keywords closer to the homepage scan path.
-- [ ] Reduce the chance that AI/agentic workflow reads as the primary identity instead of an engineering accelerator.
+- [x] Reduce the chance that AI/agentic workflow reads as the primary identity instead of an engineering accelerator.
 
 ## Project Content Gaps
 

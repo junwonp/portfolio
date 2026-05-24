@@ -68,10 +68,14 @@ export const i18nData: Record<Language, I18nData> = {
       performance: 'Animation & Performance',
       backend: 'Backend & Cloud',
       devops: 'DevOps & Infra',
-      ai_workflow: 'AI & Agentic Workflow',
+      ai_workflow: 'AI-assisted Engineering',
+    },
+    skillDescriptions: {
+      ai_workflow:
+        'I use AI tools as an acceleration layer under explicit engineering control: scoped prompts, code review, tests, lint/check gates, and browser verification.',
     },
     skillDetailsLabel: {
-      ai_workflow: 'View AI Strategy & Methodology',
+      ai_workflow: 'View verification workflow',
     },
     introduction: {
       name: 'Junwon Park',
@@ -285,10 +289,14 @@ export const i18nData: Record<Language, I18nData> = {
       performance: '애니메이션 및 성능',
       backend: '백엔드 및 클라우드',
       devops: '데브옵스 및 인프라',
-      ai_workflow: 'AI 및 에이전틱 워크플로우',
+      ai_workflow: '검증 기반 AI 활용',
+    },
+    skillDescriptions: {
+      ai_workflow:
+        'AI 도구는 설계, 코드 리뷰, 테스트, lint/check, 브라우저 검증을 통과시키는 엔지니어링 가속 레이어로만 사용합니다.',
     },
     skillDetailsLabel: {
-      ai_workflow: 'AI 활용 전략 및 방법론 보기',
+      ai_workflow: '검증 워크플로우 보기',
     },
     introduction: {
       name: '박준원',

@@ -7,30 +7,30 @@ export const agenticWorkflowProject = defineProject({
   detailPath: '/projects/agentic-workflow',
   content: {
     en: {
-      title: 'Agentic Workflow',
+      title: 'AI-assisted Engineering Workflow',
       description:
-        'Centralized AI agent infrastructure and the Agentic Development Paradigm — dotfiles, AGENTS.md directives, and MCP integration for autonomous engineering.',
+        'A verified AI-assisted engineering workflow built around dotfiles, AGENTS.md directives, MCP context, code review, tests, and browser validation.',
       summaryDetails: [],
       detailMetadata: {
-        title: 'Agentic Workflow',
+        title: 'AI-assisted Engineering Workflow',
         description:
-          'Centralized AI agent infrastructure and the Agentic Development Paradigm — dotfiles, AGENTS.md directives, and MCP integration for autonomous engineering.',
+          'A verified AI-assisted engineering workflow built around dotfiles, AGENTS.md directives, MCP context, code review, tests, and browser validation.',
         date: '2026-04-22',
-        role: 'System Design & Orchestration',
+        role: 'Workflow Design & Verification',
         techStack: ['Claude Code', 'MCP', 'dotfiles', 'AGENTS.md'],
       },
     },
     ko: {
-      title: '에이전틱 워크플로우 (Agentic Workflow)',
+      title: '검증 기반 AI 엔지니어링 워크플로우',
       description:
-        '중앙 집중형 AI 에이전트 인프라와 에이전틱 개발 패러다임 — dotfiles, AGENTS.md 지침, MCP 통합을 통한 자율적 엔지니어링.',
+        'dotfiles, AGENTS.md 지침, MCP 컨텍스트, 코드 리뷰, 테스트, 브라우저 검증을 묶은 AI 보조 엔지니어링 워크플로우.',
       summaryDetails: [],
       detailMetadata: {
-        title: '에이전틱 워크플로우 (Agentic Workflow)',
+        title: '검증 기반 AI 엔지니어링 워크플로우',
         description:
-          '중앙 집중형 AI 에이전트 인프라와 에이전틱 개발 패러다임 — dotfiles, AGENTS.md 지침, MCP 통합을 통한 자율적 엔지니어링.',
+          'dotfiles, AGENTS.md 지침, MCP 컨텍스트, 코드 리뷰, 테스트, 브라우저 검증을 묶은 AI 보조 엔지니어링 워크플로우.',
         date: '2026-04-22',
-        role: 'System Design & Orchestration',
+        role: 'Workflow Design & Verification',
         techStack: ['Claude Code', 'MCP', 'dotfiles', 'AGENTS.md'],
       },
     },

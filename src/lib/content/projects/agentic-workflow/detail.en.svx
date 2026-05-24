@@ -1,8 +1,8 @@
 ---
-title: Agentic Workflow
-description: Centralized AI agent infrastructure and the Agentic Development Paradigm — dotfiles, AGENTS.md directives, and MCP integration for autonomous engineering.
+title: AI-assisted Engineering Workflow
+description: Verified AI-assisted engineering workflow — dotfiles, AGENTS.md directives, MCP context, code review, tests, and browser validation.
 date: '2026-04-22'
-role: 'System Design & Orchestration'
+role: 'Workflow Design & Verification'
 techStack: ['Claude Code', 'MCP', 'dotfiles', 'AGENTS.md']
 ---
 
@@ -15,9 +15,9 @@ techStack: ['Claude Code', 'MCP', 'dotfiles', 'AGENTS.md']
 
 ## 📋 Project overview
 
-**"Beyond writing code: orchestrating AI agents as engineering infrastructure"**
+**"AI as an acceleration layer, engineering judgment as the control plane"**
 
-Going beyond asking AI for code snippets, I practice the **Agentic Development Paradigm** — where AI agents fully grasp project context and autonomously execute complex engineering tasks. I've built and operated a proprietary AI infrastructure that combines centralized configuration management with precision-designed project directives.
+I use AI tools as an engineering acceleration layer, not as the decision-maker. The workflow combines centralized configuration, project-specific directives, MCP context, code review, automated checks, and browser validation so generated work stays bounded by explicit engineering standards.
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
@@ -34,18 +34,18 @@ Going beyond asking AI for code snippets, I practice the **Agentic Development P
     tag: 'Architecture',
     accent: true,
     title: 'Precision project directives (AGENTS.md / CLAUDE.md)',
-    detail: `I design <code>AGENTS.md</code> files so that an agent starting any task immediately understands the project's architecture, conventions, and technical decision history — no exploration needed. Rather than listing rules, these directives provide <strong>logical guides that let agents make autonomous judgments and self-validate</strong>. The result is dramatically shorter ramp-up time and higher accuracy on first attempt.`
+    detail: `I design <code>AGENTS.md</code> files so that every AI-assisted change starts from the project's architecture, conventions, and technical decision history. Rather than delegating judgment blindly, these directives define <strong>review boundaries, validation gates, and implementation constraints</strong>. The result is shorter ramp-up time without removing engineering ownership.`
   },
   {
     tag: 'Platform',
     title: 'Environment expansion via MCP (Model Context Protocol)',
-    detail: `I actively adopted <strong>MCP</strong> to give AI agents direct access to the local file system, browser, and external API documentation in real time. Key capabilities this unlocks:<ul><li><strong>Real-time doc queries:</strong> Agents query the latest library documentation directly, preventing hallucinations from outdated training data.</li><li><strong>Automated browser validation:</strong> Agents launch a browser autonomously, visually review UI/UX changes, and capture errors — closing the loop without manual verification steps.</li></ul>`
+    detail: `I actively adopted <strong>MCP</strong> to connect AI-assisted development with the local file system, browser, and external API documentation in real time. Key capabilities this unlocks:<ul><li><strong>Real-time doc queries:</strong> Library behavior is checked against current documentation instead of stale model memory.</li><li><strong>Browser validation:</strong> UI changes are verified against actual rendered pages, console health, and layout behavior before completion.</li></ul>`
   },
 ]} />
 
 ## 💭 Retrospective
 
-**Focus shift to design and validation.** Delegating repetitive and mechanical coding work to agents lets me concentrate on the 'lead engineer' role: designing architecture, reviewing logical integrity of agent outputs, and deciding what to build next.
+**Focus shift to design and validation.** AI assistance is useful when the engineer still owns architecture, tradeoffs, review, and verification. The workflow is designed to make that ownership explicit.
 
 **Exponential development velocity.** Complex refactors and boilerplate tasks that used to take days now take a single session. Product launch cycles shorten in proportion to how well the directive infrastructure is maintained.
 

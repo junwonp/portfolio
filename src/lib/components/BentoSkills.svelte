@@ -44,8 +44,8 @@
         {/each}
       </div>
       {#if skill.detailLink}
-        <div class={['card-footer', skill.id === 'ai_workflow' && 'no-divider']}>
-          {#if skill.description && skill.id !== 'ai_workflow'}
+        <div class="card-footer">
+          {#if skill.description}
             <div class="card-prose">
               <p>{skill.description}</p>
             </div>
@@ -122,12 +122,6 @@
     margin-top: 1rem;
     border-top: 1px solid color-mix(in srgb, var(--cat-color) 15%, var(--color-bg-divider));
     padding-top: 0.75rem;
-  }
-
-  .card-footer.no-divider {
-    border-top: none;
-    margin-top: 0.75rem;
-    padding-top: 0;
   }
 
   .card-prose p {
