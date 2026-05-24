@@ -70,4 +70,14 @@ describe('+page (home)', () => {
     ).toBeGreaterThan(0);
     expect(getAllByText('Web-based Document Viewer').length).toBeGreaterThan(0);
   });
+
+  it('renders a role-specific tailored view from the role query string', () => {
+    pageState.url = new URL('http://localhost/?role=aiFrontend');
+
+    const { getAllByText, getByRole } = render(Page, { data: baseData });
+
+    expect(getByRole('heading', { level: 2, name: 'Role-Fit Projects' })).toBeInTheDocument();
+    expect(getAllByText('AI-assisted Engineering Workflow').length).toBeGreaterThan(0);
+    expect(getAllByText(/verified AI-assisted workflows/i).length).toBeGreaterThan(0);
+  });
 });

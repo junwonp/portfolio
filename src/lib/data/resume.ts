@@ -1,5 +1,5 @@
 import type { ProjectContentEntry } from '$lib/content/projects';
-import { getProjectsBySection } from '$lib/content/projects';
+import { getProjectsBySection, projectCatalog } from '$lib/content/projects';
 import { i18nData } from '$lib/data/resume.i18n';
 import {
   certificateOrder,
@@ -22,15 +22,43 @@ import type {
 } from '$lib/types/about';
 import type { Language } from '$lib/utils/language';
 
-export const summaryPresetIds = ['default', 'ops-data', 'web', 'rn', 'web-rn'] as const;
+export const summaryPresetIds = ['default', 'ops-data', 'web', 'rn', 'web-rn', 'ai'] as const;
 
 export type SummaryPresetId = (typeof summaryPresetIds)[number];
 
 type SummaryPresetContent = Pick<IntroductionProps, 'metrics' | 'pillars' | 'tagline'>;
 
+export const rolePresetIds = ['web', 'mobile', 'ai'] as const;
+
+export type RolePresetId = (typeof rolePresetIds)[number];
+
 const summaryPresetAliases: Partial<Record<string, SummaryPresetId>> = {
   opsData: 'ops-data',
   webRn: 'web-rn',
+};
+
+const rolePresetAliases: Partial<Record<string, RolePresetId>> = {
+  aiFrontend: 'ai',
+  frontend: 'web',
+  mobileFrontend: 'mobile',
+  reactNative: 'mobile',
+  rn: 'mobile',
+  webFrontend: 'web',
+};
+
+const rolePresets: Record<RolePresetId, { projectIds: string[]; summary: SummaryPresetId }> = {
+  web: {
+    summary: 'web',
+    projectIds: ['camerafi_studio', 'today_weather', 'web_viewer', 'admin_dashboard'],
+  },
+  mobile: {
+    summary: 'rn',
+    projectIds: ['aira', 'onelinebank_rebuild', 'today_weather', 'day_planner'],
+  },
+  ai: {
+    summary: 'ai',
+    projectIds: ['aira', 'sveltekit_portfolio', 'agentic_workflow', 'today_weather'],
+  },
 };
 
 const summaryPresets: Record<Language, Record<SummaryPresetId, Partial<SummaryPresetContent>>> = {
@@ -136,6 +164,35 @@ const summaryPresets: Record<Language, Record<SummaryPresetId, Partial<SummaryPr
         },
       ],
     },
+    ai: {
+      tagline:
+        'Frontend Engineer using verified AI-assisted workflows to ship product UI faster without giving up engineering ownership',
+      metrics: [
+        { value: '0', label: 'Check Warnings' },
+        { value: 'Browser', label: 'UI Verification' },
+        { value: 'Review', label: 'Guardrail' },
+      ],
+      pillars: [
+        {
+          index: '01',
+          title: 'Engineering-Controlled AI',
+          description:
+            'Using AI tools under scoped prompts, code review, type checks, tests, and browser verification.',
+        },
+        {
+          index: '02',
+          title: 'Frontend Delivery Speed',
+          description:
+            'Applying automation to repetitive implementation while keeping architecture and product tradeoffs human-owned.',
+        },
+        {
+          index: '03',
+          title: 'Verification-First Workflow',
+          description:
+            'Closing each change with lint/check, focused tests, rendered-page inspection, and documented outcomes.',
+        },
+      ],
+    },
   },
   ko: {
     default: {},
@@ -233,6 +290,35 @@ const summaryPresets: Record<Language, Record<SummaryPresetId, Partial<SummaryPr
         },
       ],
     },
+    ai: {
+      tagline:
+        '검증 기반 AI 보조 워크플로우로 제품 UI 출시 속도를 높이되 엔지니어링 오너십을 유지하는 프론트엔드 엔지니어',
+      metrics: [
+        { value: '0', label: 'check 경고' },
+        { value: 'Browser', label: 'UI 검증' },
+        { value: 'Review', label: '가드레일' },
+      ],
+      pillars: [
+        {
+          index: '01',
+          title: '엔지니어가 통제하는 AI',
+          description:
+            'AI 도구를 제한된 프롬프트, 코드 리뷰, 타입 체크, 테스트, 브라우저 검증 안에서만 사용합니다.',
+        },
+        {
+          index: '02',
+          title: '프론트엔드 출시 속도',
+          description:
+            '반복 구현은 자동화하되 아키텍처와 제품 트레이드오프는 엔지니어가 직접 결정합니다.',
+        },
+        {
+          index: '03',
+          title: '검증 우선 워크플로우',
+          description:
+            '각 변경을 lint/check, 집중 테스트, 실제 렌더링 확인, 결과 문서화로 마무리합니다.',
+        },
+      ],
+    },
   },
 };
 
@@ -243,6 +329,29 @@ export const resolveSummaryPreset = (value: string | null): SummaryPresetId => {
   return summaryPresetIds.includes(normalized as SummaryPresetId)
     ? (normalized as SummaryPresetId)
     : 'default';
+};
+
+export const resolveRolePreset = (value: string | null): RolePresetId | null => {
+  if (!value) return null;
+  const normalized = rolePresetAliases[value] ?? value;
+
+  return rolePresetIds.includes(normalized as RolePresetId) ? (normalized as RolePresetId) : null;
+};
+
+export const resolveTailoredView = (
+  searchParams: URLSearchParams,
+): { projectIds: string[]; summaryPreset: SummaryPresetId } => {
+  const rolePreset = resolveRolePreset(searchParams.get('role'));
+  const roleConfig = rolePreset ? rolePresets[rolePreset] : null;
+  const explicitProjectIds = resolveFeaturedProjectIds(searchParams);
+  const hasSummaryParam = searchParams.has('summary');
+
+  return {
+    projectIds: explicitProjectIds.length > 0 ? explicitProjectIds : (roleConfig?.projectIds ?? []),
+    summaryPreset: hasSummaryParam
+      ? resolveSummaryPreset(searchParams.get('summary'))
+      : (roleConfig?.summary ?? 'default'),
+  };
 };
 
 export interface ResumeData {
@@ -380,6 +489,9 @@ export const getFeaturedWebProjects = (
     ...resumeData.workExperiences.flatMap((exp) => exp.project),
     ...resumeData.otherExperiences.flatMap((exp) => exp.project),
     ...resumeData.archives.flatMap((exp) => exp.project),
+    ...projectCatalog
+      .filter((project) => project.section === 'standalone')
+      .map((project) => toResumeProject(project, lang)),
   ];
 
   return projectIds.flatMap((id) => {

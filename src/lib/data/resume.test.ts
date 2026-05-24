@@ -5,7 +5,9 @@ import {
   getResumeData,
   getSummaryIntroduction,
   resolveFeaturedProjectIds,
+  resolveRolePreset,
   resolveSummaryPreset,
+  resolveTailoredView,
 } from '$lib/data/resume';
 
 describe('resume data for web frontend applications', () => {
@@ -81,7 +83,11 @@ describe('resume data for web frontend applications', () => {
     expect(resolveSummaryPreset(null)).toBe('default');
     expect(resolveSummaryPreset('opsData')).toBe('ops-data');
     expect(resolveSummaryPreset('webRn')).toBe('web-rn');
+    expect(resolveSummaryPreset('ai')).toBe('ai');
     expect(resolveSummaryPreset('invalid')).toBe('default');
+    expect(resolveRolePreset('webFrontend')).toBe('web');
+    expect(resolveRolePreset('reactNative')).toBe('mobile');
+    expect(resolveRolePreset('aiFrontend')).toBe('ai');
 
     const defaultSummary = getSummaryIntroduction('ko');
     const defaultMetricLabels = defaultSummary.metrics?.map((metric) => metric.label) ?? [];
@@ -99,5 +105,27 @@ describe('resume data for web frontend applications', () => {
     expect(getSummaryIntroduction('en', 'web-rn').pillars?.[0].title).toBe(
       'Shared Code Architecture',
     );
+    expect(getSummaryIntroduction('ko', 'ai').pillars?.[0].title).toBe('엔지니어가 통제하는 AI');
+  });
+
+  it('resolves role-specific tailored views while preserving explicit query overrides', () => {
+    expect(resolveTailoredView(new URLSearchParams('role=webFrontend'))).toEqual({
+      summaryPreset: 'web',
+      projectIds: ['camerafi_studio', 'today_weather', 'web_viewer', 'admin_dashboard'],
+    });
+    expect(resolveTailoredView(new URLSearchParams('role=reactNative'))).toEqual({
+      summaryPreset: 'rn',
+      projectIds: ['aira', 'onelinebank_rebuild', 'today_weather', 'day_planner'],
+    });
+    expect(resolveTailoredView(new URLSearchParams('role=aiFrontend'))).toEqual({
+      summaryPreset: 'ai',
+      projectIds: ['aira', 'sveltekit_portfolio', 'agentic_workflow', 'today_weather'],
+    });
+    expect(
+      resolveTailoredView(new URLSearchParams('role=ai&summary=web&projects=web_viewer')),
+    ).toEqual({
+      summaryPreset: 'web',
+      projectIds: ['web_viewer'],
+    });
   });
 });

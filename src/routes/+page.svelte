@@ -17,8 +17,7 @@
     getFeaturedWebProjects,
     getResumeData,
     getSummaryIntroduction,
-    resolveFeaturedProjectIds,
-    resolveSummaryPreset,
+    resolveTailoredView,
   } from '$lib/data/resume';
   import { skillState } from '$lib/states/skills.svelte';
 
@@ -32,11 +31,12 @@
 
   const SCROLL_KEY = 'home-scroll-y';
 
-  let featuredProjectIds = $derived(resolveFeaturedProjectIds(page.url.searchParams));
+  let tailoredView = $derived(resolveTailoredView(page.url.searchParams));
+  let featuredProjectIds = $derived(tailoredView.projectIds);
   let featuredWebProjects = $derived(getFeaturedWebProjects(data.locale, featuredProjectIds));
   let labels = $derived(getLabels(data.locale));
   let resumeData = $derived(getResumeData(data.locale));
-  let summaryPreset = $derived(resolveSummaryPreset(page.url.searchParams.get('summary')));
+  let summaryPreset = $derived(tailoredView.summaryPreset);
   let summaryIntroduction = $derived(getSummaryIntroduction(data.locale, summaryPreset));
   let navSections = $derived([
     { id: 'section-intro', label: labels.sectionIntro },
