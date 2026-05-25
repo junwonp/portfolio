@@ -389,7 +389,7 @@ code {
   color: #014737;
 }
 
-:global(html.dark) .badge.green {
+html.dark .badge.green {
   background-color: #112a24;
   color: #a7f3d0;
 }
@@ -399,7 +399,7 @@ code {
   color: #9a3412;
 }
 
-:global(html.dark) .badge.orange {
+html.dark .badge.orange {
   background-color: #2a1a10;
   color: #ff9248;
 }
@@ -414,7 +414,7 @@ code {
   background-color: #e6f6eb;
   color: #014737;
 }
-:global(html.dark) .badge.android {
+html.dark .badge.android {
   background-color: #112a24;
   color: #a7f3d0;
 }
@@ -423,7 +423,7 @@ code {
   background-color: #e0f2fe;
   color: #075985;
 }
-:global(html.dark) .badge.ios {
+html.dark .badge.ios {
   background-color: #0c2a3b;
   color: #7dd3fc;
 }
@@ -432,7 +432,7 @@ code {
   background-color: #fff7ed;
   color: #9a3412;
 }
-:global(html.dark) .badge.macos {
+html.dark .badge.macos {
   background-color: #2d1a10;
   color: #fdba74;
 }
@@ -441,7 +441,7 @@ code {
   background-color: #fff0e6;
   color: #9a3412;
 }
-:global(html.dark) .badge.web {
+html.dark .badge.web {
   background-color: #2d1a10;
   color: #ff9248;
 }
