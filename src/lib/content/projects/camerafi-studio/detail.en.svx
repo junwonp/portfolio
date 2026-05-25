@@ -43,9 +43,9 @@ techStack:
 
 **"From Solo Project to Core Business Model"**
 
-CameraFi Studio is a web platform that allows users to apply overlays — scoreboards, subtitles, and more — to sports matches or broadcast feeds. Starting as a **solo developer, I designed the frontend architecture from scratch** and grew the project into the company's second main revenue stream.
+CameraFi Studio is a production web SaaS that lets users apply overlays — scoreboards, subtitles, and more — to sports matches or broadcast feeds. Starting as a **solo developer, I designed the frontend architecture from scratch** and grew the project into the company's second main revenue stream.
 
-Targeting a global market, I implemented **Internationalization (i18n)** and an **Integrated Payment System (Paddle)**, and improved web application performance through **Webpack configuration optimization**.
+The product covered the full web-service surface area: overlay editing, authenticated dashboards, global **Internationalization (i18n)**, subscription checkout, webhook-based renewal handling, and cookie consent flows. I also improved web application performance through **Webpack configuration optimization**.
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
@@ -53,8 +53,13 @@ Targeting a global market, I implemented **Internationalization (i18n)** and an 
 
 <ProjectAchievements achievements={[
   {
-    tag: 'Performance',
+    tag: 'SaaS',
     accent: true,
+    title: 'Production SaaS surface from editor to subscription operations',
+    detail: `Built the frontend for the actual product flow, not a demo: authenticated account pages, overlay editing screens, global language handling, Paddle subscription checkout, webhook-aware subscription state, and GDPR-oriented cookie consent. This made the project presentable as a revenue-generating web SaaS rather than a one-off internal tool.`
+  },
+  {
+    tag: 'Performance',
     title: '15% bundle size reduction via Webpack config optimization (324KB → 277KB)',
     detail: `Audited the production bundle with <strong>webpack-bundle-analyzer</strong> to identify size bottlenecks, then applied targeted Webpack configuration changes:<ul><li><strong>Tree Shaking (lodash):</strong> Replaced whole-library <code>import _ from 'lodash'</code> calls with per-method imports (<code>import debounce from 'lodash/debounce'</code>), eliminating ~200+ unused utility functions from the build.</li><li><strong>Dynamic Import (code splitting):</strong> Wrapped heavy UI panels — charts, overlay editors, modal-heavy screens — in <code>React.lazy()</code> with <code>next/dynamic</code>, moving them out of the initial chunk.</li><li><strong>Vendor chunk tuning:</strong> Configured <code>splitChunks.cacheGroups</code> to group stable third-party libraries into a separate vendor bundle, improving long-term cache reuse across deployments.</li></ul>Result: main entry bundle dropped from <strong>324KB → 277KB (~15%, 47KB saved)</strong>, with a measurable reduction in TTI (Time to Interactive) on first load.<br/><img src="/images/camerafi-studio/optimization_chart.webp" alt="Bundle size reduction chart" style="margin-top:12px;border-radius:8px;width:100%;" />`
   },

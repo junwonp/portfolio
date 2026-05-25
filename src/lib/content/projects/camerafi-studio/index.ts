@@ -42,6 +42,7 @@ export const camerafiStudioProject = defineProject({
       title: 'CameraFi Studio',
       description: 'Web Overlay Scoreboard Service',
       summaryDetails: [
+        '**[Production SaaS Scope]** Built a production web service spanning overlay editing, authenticated dashboards, i18n, subscription checkout, webhook-based renewal handling, and cookie consent flows.',
         '**[Bundle Size Optimization]** Reduced main bundle size by 15% (324KB → 277KB) and improved TTI by establishing Webpack Tree Shaking & Code Splitting strategies and applying Dynamic Import.',
         '**[Secure Auth Architecture]** Designed a secure login process combining **Firebase Custom Tokens** and **HTTP-only Cookies** to synchronize auth state between client and server.',
         '**[Global SaaS Infrastructure]** Built the entire payment lifecycle using **Paddle**, handling subscriptions and webhook-based renewal processing for a global B2B user base.',
@@ -84,6 +85,7 @@ export const camerafiStudioProject = defineProject({
       title: '카메라파이 스튜디오',
       description: '웹 기반 방송용 오버레이 스코어보드 서비스',
       summaryDetails: [
+        '**[프로덕션 SaaS 범위]** 오버레이 에디터, 인증 대시보드, i18n, 구독 결제, 웹훅 기반 갱신 처리, 쿠키 동의 플로우까지 포함한 실제 운영 웹 서비스를 구축했습니다.',
         '**[번들 사이즈 최적화]** Webpack 트리 쉐이킹 및 코드 스플리팅 전략을 수립하고 **Dynamic Import를 적용하여 메인 번들 사이즈를 15% 감량**, TTI를 단축했습니다.',
         '**[보안 인증 아키텍처]** **Firebase Custom Token과 HTTP-only Cookie**를 결합한 인증 프로세스를 설계하여 클라이언트와 서버 간의 인증 상태를 안전하게 동기화했습니다.',
         '**[글로벌 수익화 인프라]** **Paddle 결제 모듈을 연동**하여 글로벌 사용자를 위한 구독 상태 관리 및 웹훅 기반의 결제 갱신 처리 시스템을 구축했습니다.',
