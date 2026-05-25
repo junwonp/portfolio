@@ -62,37 +62,6 @@
   });
 
   let isProjectPage = $derived(page.url.pathname.startsWith('/projects/'));
-
-  $effect(() => {
-    if (!browser) return;
-
-    void page.url.pathname;
-
-    void (async () => {
-      const { default: mermaid } = await import('mermaid');
-      mermaid.initialize({
-        startOnLoad: false,
-        theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
-        securityLevel: 'strict',
-        fontFamily: 'WantedSansVariable, system-ui, sans-serif',
-      });
-
-      const nodes = document.querySelectorAll<HTMLElement>('.language-mermaid');
-      for (const node of nodes) {
-        // Decode HTML entities (like &gt;) before mermaid processes them
-        const rawContent = node.textContent || '';
-        const decodedContent = rawContent
-          .replace(/&gt;/g, '>')
-          .replace(/&lt;/g, '<')
-          .replace(/&amp;/g, '&');
-        node.textContent = decodedContent;
-      }
-
-      await mermaid.run({
-        nodes,
-      });
-    })();
-  });
 </script>
 
 <svelte:head>
