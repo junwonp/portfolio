@@ -29,6 +29,6 @@
 
 ## Technical Cleanup
 
-- [ ] Resolve `.svx` `context="module"` deprecation warnings from the dev server.
+- [x] Resolve `.svx` `context="module"` deprecation warnings from the dev server.
 - [x] Clean `pnpm check` unused CSS selector warnings in `src/routes/print/+page.svelte`.
 - [x] Run `pnpm check`, `pnpm lint`, and route tests after content/layout changes.

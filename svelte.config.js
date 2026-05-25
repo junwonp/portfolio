@@ -2,6 +2,18 @@ import { mdsvex } from 'mdsvex';
 import adapter from '@sveltejs/adapter-cloudflare';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
+const svxModuleScriptCompat = {
+  markup: ({ content, filename }) => {
+    if (!filename?.endsWith('.svx')) {
+      return null;
+    }
+
+    return {
+      code: content.replaceAll('<script context="module">', '<script module>'),
+    };
+  },
+};
+
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   // Consult https://svelte.dev/docs/kit/integrations
@@ -13,6 +25,7 @@ const config = {
         langs: ['javascript', 'typescript', 'mermaid'],
       },
     }),
+    svxModuleScriptCompat,
   ],
   kit: {
     csp: {
