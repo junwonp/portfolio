@@ -60,7 +60,7 @@ describe('+page (home)', () => {
   });
 
   it('renders role-fit projects when project ids are provided in the query string', () => {
-    pageState.url = new URL('http://localhost/?projects=today_weather,web_viewer');
+    pageState.url = new URL('http://localhost/?projects=today_weather,web_viewer,admin_dashboard');
 
     const { getAllByText, getByRole } = render(Page, { data: baseData });
 
@@ -69,6 +69,9 @@ describe('+page (home)', () => {
       getAllByText("Today's Weather — Personalized Weather & Lifestyle Guide").length,
     ).toBeGreaterThan(0);
     expect(getAllByText('Web-based Document Viewer').length).toBeGreaterThan(0);
+    expect(getAllByText('B2B Admin Dashboard').length).toBeGreaterThan(0);
+    expect(getAllByText('Managed Domains').length).toBeGreaterThan(0);
+    expect(getAllByText('Reusable Table Flow').length).toBeGreaterThan(0);
   });
 
   it('renders a role-specific tailored view from the role query string', () => {

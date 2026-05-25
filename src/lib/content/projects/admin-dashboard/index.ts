@@ -34,17 +34,30 @@ export const adminDashboardProject = defineProject({
   content: {
     en: {
       title: 'B2B Admin Dashboard',
-      description: 'Integrated Management System for SaaS',
+      description:
+        'SaaS admin system for accounts, subscriptions, product usage, and revenue monitoring',
+      metrics: [
+        { value: '4+', label: 'Managed Domains' },
+        { value: 'CRUD', label: 'Reusable Table Flow' },
+        { value: 'Realtime', label: 'Usage & Revenue' },
+      ],
       summaryDetails: [
-        '**[Efficiency]** Developed reusable CRUD components using **MUI**, significantly reducing the time required to build new management pages.',
+        '**[Operational Scope]** Built admin surfaces for SaaS operations across accounts, subscriptions, product usage, and revenue monitoring.',
+        '**[Reusable CRUD/Table System]** Combined **React Table**, **MUI**, and **TanStack Query** into reusable list, filter, detail, create, and edit patterns for management pages.',
         '**[Data Visualization]** Implemented real-time usage and revenue monitoring dashboards using **Chart.js**.',
       ],
     },
     ko: {
       title: 'B2B 통합 관리자 대시보드',
-      description: 'SaaS 관리를 위한 통합 관리 시스템',
+      description: '계정, 구독, 제품 사용량, 매출 모니터링을 위한 SaaS 통합 관리 시스템',
+      metrics: [
+        { value: '4+', label: '관리 도메인' },
+        { value: 'CRUD', label: '재사용 테이블 플로우' },
+        { value: 'Realtime', label: '사용량·매출' },
+      ],
       summaryDetails: [
-        '**[개발 효율성]** **MUI를 기반으로 재사용 가능한 CRUD 컴포넌트**들을 개발하여, 새로운 관리 페이지 구축에 필요한 공수를 크게 줄였습니다.',
+        '**[운영 범위]** 계정, 구독, 제품 사용량, 매출 모니터링을 다루는 SaaS 운영용 관리자 화면을 구축했습니다.',
+        '**[재사용 CRUD/Table 시스템]** **React Table**, **MUI**, **TanStack Query**를 조합해 목록, 필터, 상세, 생성, 수정 패턴을 관리 페이지에 재사용 가능한 형태로 정리했습니다.',
         '**[데이터 시각화]** **Chart.js를 활용하여 이용량 및 매출 지표를 실시간으로 모니터링**할 수 있는 대시보드를 구현했습니다.',
       ],
     },

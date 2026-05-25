@@ -46,6 +46,17 @@
             <RichText parts={parseMarkdown(project.description)} />
           </p>
 
+          {#if project.metrics && project.metrics.length > 0}
+            <dl class="metric-strip">
+              {#each project.metrics as metric (metric.label)}
+                <div class="metric-item">
+                  <dt>{metric.label}</dt>
+                  <dd>{metric.value}</dd>
+                </div>
+              {/each}
+            </dl>
+          {/if}
+
           {#if project.detailLink}
             <div class="link-wrapper">
               <ArrowLink href={project.detailLink} label={labels.viewProjectDetails} reload />
@@ -133,6 +144,38 @@
     margin: 0 0 0.5rem 0;
     line-height: 1.5;
     overflow-wrap: anywhere;
+  }
+
+  .metric-strip {
+    border-block: 1px solid var(--color-bg-divider);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 0 0 0.75rem;
+    padding: 0.55rem 0;
+  }
+
+  .metric-item {
+    align-items: baseline;
+    display: flex;
+    gap: 0.45rem;
+    padding: 0.25rem 1rem 0.25rem 0;
+  }
+
+  .metric-item dd {
+    color: var(--color-primary);
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1;
+    margin: 0;
+    order: -1;
+    white-space: nowrap;
+  }
+
+  .metric-item dt {
+    color: var(--color-sub);
+    font-size: 0.75rem;
+    line-height: 1.2;
   }
 
   .tag-list {
