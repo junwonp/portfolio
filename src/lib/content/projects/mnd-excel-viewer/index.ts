@@ -33,11 +33,17 @@ export const mndExcelViewerProject = defineProject({
   content: {
     en: {
       title: 'Web-based Document Viewer',
-      description: 'Large-scale Spreadsheet Viewer for Intranet',
+      description: 'Spreadsheet and text viewer for large intranet documents',
+      metrics: [
+        { value: '2 Views', label: 'Grid + Text' },
+        { value: '2D', label: 'Range Selection' },
+        { value: 'Realtime', label: 'Socket Highlights' },
+      ],
       summaryDetails: [
-        '**[High-Performance Virtualization]** Built an Excel-style grid capable of handling thousands of rows using **react-window**. Optimized row/column rendering to maintain responsiveness under heavy data load.',
-        '**[2D Selection UX]** Implemented complex 2D area selection and drag-to-update logic, using **styled-components** for real-time visual feedback.',
-        '**[Real-time Collaboration]** Integrated **Socket.IO** to allow multiple users to highlight and comment on document areas simultaneously. Built a custom mock socket environment for robust offline development in restricted networks.',
+        '**[Dual Viewer Scope]** Built both an Excel-style grid viewer and a line-based text viewer, separating container interaction logic from pure rendering components.',
+        '**[High-Performance Virtualization]** Used **react-window** for large grid rows and **react-virtualized** for variable-height text lines, keeping scroll and selection responsive under heavy documents.',
+        '**[2D Selection UX]** Implemented rectangular cell selection, reverse line-range normalization, and multi-region drag updates with real-time visual feedback.',
+        '**[Real-time Collaboration]** Integrated **Socket.IO** for shared highlights and comments, plus a mock socket layer for development in restricted intranet environments.',
         '**[Atomic Design System]** Established a scalable component library from scratch using **Atomic Design** principles, ensuring UI consistency across the intranet platform.',
       ],
       detailMetadata: {
@@ -45,6 +51,11 @@ export const mndExcelViewerProject = defineProject({
         description:
           'Large-scale grid and line-based text viewer using React Table, virtualization, and 2D cell selection (Immer)',
         date: '2020-08 ~ 2020-10',
+        metrics: [
+          { value: '2 Views', label: 'Grid + Text' },
+          { value: '2D', label: 'Range Selection' },
+          { value: 'Realtime', label: 'Socket Highlights' },
+        ],
         role: 'Frontend Engineer',
         techStack: [
           'TypeScript',
@@ -62,11 +73,17 @@ export const mndExcelViewerProject = defineProject({
     },
     ko: {
       title: '웹 기반 문서 뷰어',
-      description: '인트라넷용 대용량 스프레드시트 뷰어',
+      description: '인트라넷 대용량 문서를 위한 스프레드시트·텍스트 뷰어',
+      metrics: [
+        { value: '2 Views', label: '그리드+텍스트' },
+        { value: '2D', label: '영역 선택' },
+        { value: 'Realtime', label: '소켓 하이라이트' },
+      ],
       summaryDetails: [
-        '**[고성능 가상화]** **react-window를 활용하여 수천 개의 행을 끊김 없이 렌더링**하는 엑셀 스타일의 그리드를 구축했습니다. 대량 데이터 로드 시의 응답성을 확보했습니다.',
-        '**[2D 영역 선택 UX]** **복잡한 2차원 영역 선택 및 드래그 업데이트 로직**을 구현하고, **styled-components**를 사용해 실시간 시각적 피드백을 최적화했습니다.',
-        '**[실시간 협업 기능]** **Socket.IO를 연동하여 여러 사용자가 동시에 문서의 특정 영역을 강조**하고 코멘트를 남길 수 있는 기능을 구현했습니다. 오프라인 개발을 위한 커스텀 Mock 소켓 환경을 구축했습니다.',
+        '**[이중 뷰어 범위]** 엑셀형 그리드 뷰어와 줄 단위 텍스트 뷰어를 함께 구축하고, 컨테이너 상호작용 로직과 순수 렌더링 컴포넌트를 분리했습니다.',
+        '**[고성능 가상화]** 대용량 그리드는 **react-window**, 가변 높이 텍스트 줄은 **react-virtualized**로 처리해 무거운 문서에서도 스크롤과 선택 응답성을 유지했습니다.',
+        '**[2D 영역 선택 UX]** 직사각형 셀 선택, 역방향 줄 범위 정규화, 다중 영역 드래그 업데이트와 실시간 시각 피드백을 구현했습니다.',
+        '**[실시간 협업 기능]** **Socket.IO**로 공유 하이라이트와 코멘트를 연동하고, 제한된 인트라넷 환경에서도 개발 가능한 Mock 소켓 레이어를 구축했습니다.',
         '**[Atomic 디자인 시스템]** **Atomic Design 원칙에 따라 컴포넌트 라이브러리를 바닥부터 설계**하여, 인트라넷 플랫폼 전체의 UI 일관성을 확보했습니다.',
       ],
       detailMetadata: {
@@ -74,6 +91,11 @@ export const mndExcelViewerProject = defineProject({
         description:
           'React Table·가상화·2D 셀 선택(Immer)을 활용한 대용량 그리드와 줄 단위 텍스트 뷰어',
         date: '2020-08 ~ 2020-10',
+        metrics: [
+          { value: '2 Views', label: '그리드+텍스트' },
+          { value: '2D', label: '영역 선택' },
+          { value: 'Realtime', label: '소켓 하이라이트' },
+        ],
         role: 'Frontend Engineer',
         techStack: [
           'TypeScript',
