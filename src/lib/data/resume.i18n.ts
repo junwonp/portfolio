@@ -403,7 +403,7 @@ export const i18nData: Record<Language, I18nData> = {
         },
       },
       mnd: {
-        companyName: '대한민국 육군',
+        companyName: '대한민국 국방부',
         role: '소프트웨어 개발병',
         highlights: [
           '수천 행의 데이터를 처리하는 **가상화 엑셀 뷰어 및 2D 영역 선택 UX** 구현',
