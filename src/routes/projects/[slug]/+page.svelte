@@ -375,33 +375,22 @@
 
   /* Metrics */
   .metrics-row {
-    border-block: 1px solid var(--color-bg-divider);
-    display: flex;
-    flex-wrap: wrap;
+    border: 1px solid var(--color-bg-divider);
+    border-radius: 10px;
+    display: grid;
     gap: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin: 0;
     max-width: 680px;
-    padding: 14px 0;
+    padding: 4px;
   }
 
   .metric {
-    align-items: baseline;
+    align-items: flex-start;
     display: flex;
-    flex: 1 1 150px;
-    gap: 10px;
-    padding: 6px 22px 6px 0;
-    position: relative;
-  }
-
-  .metric:not(:last-child)::after {
-    background: var(--color-bg-divider);
-    content: '';
-    height: 22px;
-    position: absolute;
-    right: 11px;
-    top: 50%;
-    transform: translateY(-50%) rotate(14deg);
-    width: 1px;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
   }
 
   .metric-val {
@@ -411,7 +400,6 @@
     letter-spacing: -0.02em;
     line-height: 1;
     margin: 0;
-    order: -1;
     white-space: nowrap;
   }
 
@@ -559,20 +547,13 @@
     }
 
     .metrics-row {
-      display: grid;
       grid-template-columns: 1fr;
-      padding: 10px 0;
+      padding: 10px;
     }
 
     .metric {
-      align-items: flex-start;
-      flex-direction: column;
       gap: 3px;
       padding: 7px 0;
-    }
-
-    .metric:not(:last-child)::after {
-      display: none;
     }
   }
 </style>

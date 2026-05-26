@@ -147,19 +147,21 @@
   }
 
   .metric-strip {
-    border-block: 1px solid var(--color-bg-divider);
-    display: flex;
-    flex-wrap: wrap;
+    border: 1px solid var(--color-bg-divider);
+    border-radius: 10px;
+    display: grid;
     gap: 0;
+    grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
     margin: 0 0 0.75rem;
-    padding: 0.55rem 0;
+    padding: 0.25rem;
   }
 
   .metric-item {
-    align-items: baseline;
+    align-items: flex-start;
     display: flex;
-    gap: 0.45rem;
-    padding: 0.25rem 1rem 0.25rem 0;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.65rem;
   }
 
   .metric-item dd {
@@ -168,7 +170,6 @@
     font-weight: 800;
     line-height: 1;
     margin: 0;
-    order: -1;
     white-space: nowrap;
   }
 

@@ -211,19 +211,20 @@
   }
 
   .project-metrics {
+    border: 1px solid var(--color-bg-divider);
+    border-radius: 10px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-    padding: 1rem;
-    background: var(--color-code-bg);
-    border-radius: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+    gap: 0;
     margin-top: 0.5rem;
+    padding: 0.25rem;
   }
 
   .metric-item {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.35rem;
+    padding: 0.65rem;
   }
 
   .metric-value {
