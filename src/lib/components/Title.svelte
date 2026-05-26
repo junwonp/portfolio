@@ -14,7 +14,6 @@
 
   interface Props {
     backLink?: string;
-    focusKeywords?: string[];
     githubLink?: string;
     isHome?: boolean;
     linkedinLink?: string;
@@ -28,7 +27,6 @@
 
   let {
     backLink,
-    focusKeywords,
     githubLink,
     isHome = false,
     linkedinLink,
@@ -130,14 +128,6 @@
       <h2 class="role">{role}</h2>
     {/if}
     <p class="tagline">{tagline}</p>
-
-    {#if focusKeywords && focusKeywords.length > 0}
-      <ul class="focus-keywords" aria-label="Frontend focus keywords">
-        {#each focusKeywords as keyword (keyword)}
-          <li>{keyword}</li>
-        {/each}
-      </ul>
-    {/if}
 
     {#if metrics && metrics.length > 0}
       <dl class="metrics-grid">
@@ -283,55 +273,22 @@
     word-break: keep-all;
   }
 
-  .focus-keywords {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-    list-style: none;
-    margin: 0 0 var(--space-sm);
-    padding: 0;
-  }
-
-  .focus-keywords li {
-    background: color-mix(in srgb, var(--color-primary) 8%, var(--color-basic-bg));
-    border: 1px solid color-mix(in srgb, var(--color-primary) 24%, var(--color-bg-divider));
-    border-radius: 9999px;
-    color: var(--color-primary-hover);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    line-height: 1;
-    padding: 0.42rem 0.62rem;
-    white-space: nowrap;
-  }
-
   .metrics-grid {
-    border-block: 1px solid var(--color-bg-divider);
-    display: flex;
-    flex-wrap: wrap;
+    border: 1px solid var(--color-bg-divider);
+    border-radius: 10px;
+    display: grid;
     gap: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin: var(--space-md) 0 var(--space-sm);
-    padding: 0.875rem 0;
+    padding: 0.25rem;
   }
 
   .metric-cell {
-    align-items: baseline;
+    align-items: flex-start;
     display: flex;
-    flex: 1 1 11rem;
-    gap: 0.625rem;
-    padding: 0.35rem 1.25rem 0.35rem 0;
-    position: relative;
-  }
-
-  .metric-cell:not(:last-child)::after {
-    background: var(--color-bg-divider);
-    content: '';
-    height: 1.4rem;
-    position: absolute;
-    right: 0.625rem;
-    top: 50%;
-    transform: translateY(-50%) rotate(14deg);
-    width: 1px;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.75rem;
   }
 
   .metric-value {
@@ -340,7 +297,6 @@
     font-weight: 700;
     line-height: 1;
     margin: 0;
-    order: -1;
     white-space: nowrap;
   }
 
@@ -490,8 +446,7 @@
     }
 
     .metric-cell {
-      flex-basis: 9rem;
-      padding: 0.35rem 1rem 0.35rem 0;
+      padding: 0.65rem;
     }
 
     .metric-value {
@@ -507,14 +462,7 @@
     }
 
     .metric-cell {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 0.2rem;
       padding: 0.45rem 0;
-    }
-
-    .metric-cell:not(:last-child)::after {
-      display: none;
     }
 
     .pillar-desc {
