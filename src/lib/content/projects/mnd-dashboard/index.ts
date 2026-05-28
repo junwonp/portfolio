@@ -25,18 +25,30 @@ export const mndDashboardProject = defineProject({
   content: {
     en: {
       title: 'Defense Resource Dashboard',
-      description: 'Resource Monitoring & Statistics System',
+      description: 'Closed-network dashboard for resource status, statistics, and drill-down views',
+      metrics: [
+        { value: '2 Modes', label: 'Status + Statistics' },
+        { value: 'Redux', label: 'Shared Filters' },
+        { value: 'React', label: 'Legacy Migration' },
+      ],
       summaryDetails: [
-        '**[Legacy Modernization]** Successfully migrated a legacy statistics system to **React**, improving system reliability and user navigation speed.',
-        '**[Complex State Management]** Managed multi-layered resource data using **Redux**, ensuring consistent state across nested dashboard views.',
+        '**[Legacy Modernization]** Migrated a closed-network resource status and statistics system to **React**, replacing brittle page flows with clearer dashboard sections and drill-down navigation.',
+        '**[Dashboard Behavior]** Structured the UI around resource status tables, aggregate statistics, filter panels, and nested detail views so operators could move from overview to specific records without losing context.',
+        '**[Complex State Management]** Managed selected resource groups, filters, loading states, and nested view state with **Redux**, keeping dashboard panels consistent across route and tab transitions.',
       ],
     },
     ko: {
       title: '국방 자원 모니터링 대시보드',
-      description: '자원 현황 관리 및 통계 시스템',
+      description: '제한망 자원 현황·통계·드릴다운 대시보드',
+      metrics: [
+        { value: '2 Modes', label: '현황+통계' },
+        { value: 'Redux', label: '공유 필터' },
+        { value: 'React', label: '레거시 전환' },
+      ],
       summaryDetails: [
-        '**[레거시 현대화]** 기존의 노후화된 통계 시스템을 **React 기반으로 성공적으로 마이그레이션**하여 시스템 안정성과 유저 내비게이션 속도를 개선했습니다.',
-        '**[복잡한 상태 관리]** **Redux를 사용하여 다층적인 자원 데이터를 체계적으로 관리**하고, 복잡한 대시보드 뷰 간의 데이터 일관성을 유지했습니다.',
+        '**[레거시 현대화]** 제한망에서 동작하던 자원 현황·통계 시스템을 **React 기반으로 마이그레이션**하고, 불안정한 페이지 흐름을 명확한 대시보드 섹션과 드릴다운 내비게이션으로 재구성했습니다.',
+        '**[대시보드 동작]** 자원 현황 테이블, 집계 통계, 필터 패널, 중첩 상세 뷰를 기준으로 UI를 정리해 개요에서 특정 항목까지 맥락을 잃지 않고 이동할 수 있게 했습니다.',
+        '**[복잡한 상태 관리]** **Redux로 선택된 자원 그룹, 필터, 로딩 상태, 중첩 뷰 상태를 관리**하여 라우트·탭 전환 중에도 대시보드 패널 간 데이터 일관성을 유지했습니다.',
       ],
     },
   },
