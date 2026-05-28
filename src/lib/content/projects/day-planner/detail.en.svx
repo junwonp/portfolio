@@ -9,6 +9,7 @@ techStack: ['Swift', 'SwiftUI', 'CloudKit', 'Agentic Workflow', 'Claude Code']
 ---
 
 <script>
+  import DayPlannerEvidence from '$lib/components/DayPlannerEvidence.svelte';
   import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
   import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
 
@@ -22,6 +23,8 @@ techStack: ['Swift', 'SwiftUI', 'CloudKit', 'Agentic Workflow', 'Claude Code']
 **Day Planner** is a timetable-based scheduler built to maximize personal time management. Despite being my first Swift and SwiftUI project, it goes well beyond simple task management — implementing **iOS and macOS (status bar app) support**, **Apple Shortcuts-based Focus Mode automation**, and **real-time cross-device sync via CloudKit**.
 
 I started development to solve clear personal needs that existing apps couldn't meet: having **Focus Mode turn on automatically** based on my schedule, and checking current progress and **remaining time at a glance from the Mac Menu Bar**.
+
+<DayPlannerEvidence {locale} />
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
@@ -49,6 +52,12 @@ I started development to solve clear personal needs that existing apps couldn't 
     tag: 'Sync',
     title: 'Reliable real-time sync with CloudKit',
     detail: `A CloudKit sync layer lets schedules created on iPhone flow seamlessly to Mac and back.<ul><li><strong>Debounce (600ms):</strong> Batches rapid user edits to avoid server overload.</li><li><strong>Last-Write-Wins:</strong> Timestamp-based merge in <code>ScheduleRepository</code> prevents data loss on simultaneous edits across devices.</li></ul>`
+  },
+  {
+    tag: 'Verification',
+    accent: true,
+    title: 'Verification scope and OS-dependent behavior',
+    detail: `In the latest local verification, <strong>79 macOS logic tests passed under the DayPlanner_macOS scheme</strong>. The covered areas include archive merging, CloudKit payload handling, recurrence, overlap validation, notification planning, Live Activity snapshots, and menu bar label logic.<br/><br/>Actual Shortcuts execution, local notification delivery, ActivityKit rendering, and multi-device CloudKit conflicts are intentionally separated as manual OS/device verification paths rather than overstated as fully proven by unit tests.`
   },
   {
     tag: 'UI',

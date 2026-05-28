@@ -9,6 +9,7 @@ techStack: ['Swift', 'SwiftUI', 'CloudKit', 'Agentic Workflow', 'Claude Code']
 ---
 
 <script>
+  import DayPlannerEvidence from '$lib/components/DayPlannerEvidence.svelte';
   import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
   import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
 
@@ -22,6 +23,8 @@ techStack: ['Swift', 'SwiftUI', 'CloudKit', 'Agentic Workflow', 'Claude Code']
 **Day Planner**는 개인적인 시간 관리를 극대화하기 위해 개발한 타임테이블 기반의 스케줄러 애플리케이션입니다. 첫 Swift 및 SwiftUI 프로젝트임에도 불구하고, 단순한 할 일 관리를 넘어 **iOS와 macOS(상태바 앱) 지원**, **Apple Shortcuts 기반의 집중 모드 자동화**, **CloudKit을 통한 기기 간 실시간 동기화**까지 구현했습니다.
 
 시간 관리 앱들을 써봤지만 일정별로 **자동으로 집중 모드**가 켜지고 **Mac 상태바**에서 현재 일정과 남은 시간을 한눈에 볼 수 있었으면 하는 명확한 요구사항을 해결하기 위해 직접 개발을 시작했습니다.
+
+<DayPlannerEvidence {locale} />
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
@@ -49,6 +52,12 @@ techStack: ['Swift', 'SwiftUI', 'CloudKit', 'Agentic Workflow', 'Claude Code']
     tag: 'Sync',
     title: 'CloudKit 기반 안정적인 실시간 동기화',
     detail: `CloudKit 동기화 레이어를 구현해 iPhone과 Mac에서 작성한 일정을 끊김 없이 공유합니다.<ul><li><strong>디바운스(600ms):</strong> 잦은 사용자 조작으로 인한 서버 과부하를 방지합니다.</li><li><strong>Last-Write-Wins:</strong> <code>ScheduleRepository</code>의 타임스탬프 기반 병합 전략으로 기기 간 동시 수정 시 데이터 유실을 방지합니다.</li></ul>`
+  },
+  {
+    tag: 'Verification',
+    accent: true,
+    title: '검증 범위와 OS 의존 동작 분리',
+    detail: `최근 로컬 검증에서 <strong>DayPlanner_macOS 스킴의 macOS 로직 테스트 79개가 통과</strong>했습니다. 테스트 범위에는 Archive 병합, CloudKit payload 처리, 반복 일정, 겹침 검증, 알림 계획, Live Activity 스냅샷, 메뉴바 라벨 로직이 포함됩니다.<br/><br/>반대로 실제 Shortcuts 실행, 로컬 알림 전달, ActivityKit 렌더링, 다중 기기 CloudKit 충돌은 OS 권한과 기기 상태에 의존하므로 자동 테스트 통과로 과장하지 않고 수동 검증 대상으로 분리했습니다.`
   },
   {
     tag: 'UI',
