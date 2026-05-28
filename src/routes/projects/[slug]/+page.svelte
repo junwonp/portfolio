@@ -377,9 +377,9 @@
   .metrics-row {
     border: 1px solid var(--color-bg-divider);
     border-radius: 10px;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     gap: 0;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin: 0;
     max-width: 680px;
     padding: 4px;
@@ -388,6 +388,7 @@
   .metric {
     align-items: flex-start;
     display: flex;
+    flex: 1 1 150px;
     flex-direction: column;
     gap: 6px;
     padding: 12px;
@@ -547,11 +548,11 @@
     }
 
     .metrics-row {
-      grid-template-columns: 1fr;
       padding: 10px;
     }
 
     .metric {
+      flex-basis: 100%;
       gap: 3px;
       padding: 7px 0;
     }

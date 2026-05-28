@@ -276,9 +276,9 @@
   .metrics-grid {
     border: 1px solid var(--color-bg-divider);
     border-radius: 10px;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     gap: 0;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin: var(--space-md) 0 var(--space-sm);
     padding: 0.25rem;
   }
@@ -286,6 +286,7 @@
   .metric-cell {
     align-items: flex-start;
     display: flex;
+    flex: 1 1 10rem;
     flex-direction: column;
     gap: 0.35rem;
     padding: 0.75rem;
@@ -456,12 +457,11 @@
 
   @media (max-width: 576px) {
     .metrics-grid {
-      display: grid;
-      grid-template-columns: 1fr;
       padding: 0.625rem 0;
     }
 
     .metric-cell {
+      flex-basis: 100%;
       padding: 0.45rem 0;
     }
 
