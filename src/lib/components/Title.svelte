@@ -41,6 +41,7 @@
   let langDisplay = $derived(getPageLocale() === 'ko' ? 'English' : '한국어');
   let labels = $derived(getLabels(getPageLocale()));
   let locale = $derived(getPageLocale());
+  let metricColumnCount = $derived(Math.min(metrics?.length ?? 1, 4));
 
   let errorMessage = $state('');
 
@@ -130,7 +131,7 @@
     <p class="tagline">{tagline}</p>
 
     {#if metrics && metrics.length > 0}
-      <dl class="metrics-grid">
+      <dl class="metrics-grid" style:--metric-count={metricColumnCount}>
         {#each metrics as metric (metric.label)}
           <div class="metric-cell">
             <dt class="metric-label">{metric.label}</dt>
@@ -276,9 +277,9 @@
   .metrics-grid {
     border: 1px solid var(--color-bg-divider);
     border-radius: 10px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: 0;
+    grid-template-columns: repeat(var(--metric-count), minmax(0, 1fr));
     margin: var(--space-md) 0 var(--space-sm);
     padding: 0.25rem;
   }
@@ -457,6 +458,7 @@
 
   @media (max-width: 576px) {
     .metrics-grid {
+      grid-template-columns: 1fr;
       padding: 0.625rem 0;
     }
 

@@ -68,7 +68,7 @@
   {#if isOpen}
     <div class="project-content" transition:slide={{ duration: 200 }}>
       {#if project.metrics && project.metrics.length > 0}
-        <div class="project-metrics">
+        <div class="project-metrics" style:--metric-count={Math.min(project.metrics.length, 4)}>
           {#each project.metrics as metric (metric.label)}
             <div class="metric-item">
               <span class="metric-value">{metric.value}</span>
@@ -214,7 +214,7 @@
     border: 1px solid var(--color-bg-divider);
     border-radius: 10px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+    grid-template-columns: repeat(var(--metric-count), minmax(0, 1fr));
     gap: 0;
     margin-top: 0.5rem;
     padding: 0.25rem;
@@ -310,6 +310,10 @@
 
     .project-header {
       padding: 0.875rem;
+    }
+
+    .project-metrics {
+      grid-template-columns: 1fr;
     }
   }
 </style>

@@ -47,7 +47,7 @@
           </p>
 
           {#if project.metrics && project.metrics.length > 0}
-            <dl class="metric-strip">
+            <dl class="metric-strip" style:--metric-count={Math.min(project.metrics.length, 4)}>
               {#each project.metrics as metric (metric.label)}
                 <div class="metric-item">
                   <dt>{metric.label}</dt>
@@ -151,7 +151,7 @@
     border-radius: 10px;
     display: grid;
     gap: 0;
-    grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+    grid-template-columns: repeat(var(--metric-count), minmax(0, 1fr));
     margin: 0 0 0.75rem;
     padding: 0.25rem;
   }
@@ -218,6 +218,10 @@
     .date-wrapper {
       order: -1;
       text-align: left;
+    }
+
+    .metric-strip {
+      grid-template-columns: 1fr;
     }
   }
 </style>

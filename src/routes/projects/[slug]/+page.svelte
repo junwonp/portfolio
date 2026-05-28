@@ -18,6 +18,7 @@
 
   let { component: Component, metadata, slug, locale } = $derived(data);
   let labels = $derived(getLabels(locale));
+  let metricColumnCount = $derived(Math.min(metadata.metrics?.length ?? 1, 4));
 
   let githubHref = $derived(
     metadata.githubLink
@@ -142,7 +143,7 @@
         {/if}
 
         {#if metadata.metrics && metadata.metrics.length > 0}
-          <dl class="metrics-row">
+          <dl class="metrics-row" style:--metric-count={metricColumnCount}>
             {#each metadata.metrics as metric (metric.label)}
               <div class="metric">
                 <dt class="metric-lbl">{metric.label}</dt>
@@ -377,9 +378,9 @@
   .metrics-row {
     border: 1px solid var(--color-bg-divider);
     border-radius: 10px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: 0;
+    grid-template-columns: repeat(var(--metric-count), minmax(0, 1fr));
     margin: 0;
     max-width: 680px;
     padding: 4px;
@@ -548,6 +549,7 @@
     }
 
     .metrics-row {
+      grid-template-columns: 1fr;
       padding: 10px;
     }
 
