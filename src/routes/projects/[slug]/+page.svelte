@@ -548,15 +548,9 @@
       padding: 32px 0 32px;
     }
 
-    .metrics-row {
-      grid-template-columns: 1fr;
-      padding: 10px;
-    }
-
     .metric {
-      flex-basis: 100%;
       gap: 3px;
-      padding: 7px 0;
+      padding: 7px;
     }
   }
 </style>

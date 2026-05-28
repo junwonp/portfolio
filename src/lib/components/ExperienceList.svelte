@@ -220,8 +220,8 @@
       text-align: left;
     }
 
-    .metric-strip {
-      grid-template-columns: 1fr;
+    .metric-item {
+      padding: 0.55rem;
     }
   }
 </style>

@@ -312,8 +312,8 @@
       padding: 0.875rem;
     }
 
-    .project-metrics {
-      grid-template-columns: 1fr;
+    .metric-item {
+      padding: 0.55rem;
     }
   }
 </style>

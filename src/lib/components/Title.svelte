@@ -458,13 +458,11 @@
 
   @media (max-width: 576px) {
     .metrics-grid {
-      grid-template-columns: 1fr;
-      padding: 0.625rem 0;
+      padding: 0.5rem;
     }
 
     .metric-cell {
-      flex-basis: 100%;
-      padding: 0.45rem 0;
+      padding: 0.45rem;
     }
 
     .pillar-desc {
