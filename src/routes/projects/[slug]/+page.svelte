@@ -143,7 +143,11 @@
         {/if}
 
         {#if metadata.metrics && metadata.metrics.length > 0}
-          <dl class="metrics-row" style:--metric-count={metricColumnCount}>
+          <dl
+            class="metrics-row"
+            class:has-four-metrics={metricColumnCount === 4}
+            style:--metric-count={metricColumnCount}
+          >
             {#each metadata.metrics as metric (metric.label)}
               <div class="metric">
                 <dt class="metric-lbl">{metric.label}</dt>
@@ -551,6 +555,12 @@
     .metric {
       gap: 3px;
       padding: 7px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .metrics-row.has-four-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>

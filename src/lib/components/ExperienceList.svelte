@@ -47,7 +47,12 @@
           </p>
 
           {#if project.metrics && project.metrics.length > 0}
-            <dl class="metric-strip" style:--metric-count={Math.min(project.metrics.length, 4)}>
+            {@const metricCount = Math.min(project.metrics.length, 4)}
+            <dl
+              class="metric-strip"
+              class:has-four-metrics={metricCount === 4}
+              style:--metric-count={metricCount}
+            >
               {#each project.metrics as metric (metric.label)}
                 <div class="metric-item">
                   <dt>{metric.label}</dt>
@@ -177,6 +182,12 @@
     color: var(--color-sub);
     font-size: 0.75rem;
     line-height: 1.2;
+  }
+
+  @media (max-width: 420px) {
+    .metric-strip.has-four-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   .tag-list {

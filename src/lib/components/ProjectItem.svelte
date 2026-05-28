@@ -68,7 +68,12 @@
   {#if isOpen}
     <div class="project-content" transition:slide={{ duration: 200 }}>
       {#if project.metrics && project.metrics.length > 0}
-        <div class="project-metrics" style:--metric-count={Math.min(project.metrics.length, 4)}>
+        {@const metricCount = Math.min(project.metrics.length, 4)}
+        <div
+          class="project-metrics"
+          class:has-four-metrics={metricCount === 4}
+          style:--metric-count={metricCount}
+        >
           {#each project.metrics as metric (metric.label)}
             <div class="metric-item">
               <span class="metric-value">{metric.value}</span>
@@ -236,6 +241,12 @@
   .metric-label {
     color: var(--color-sub);
     font-size: 0.75rem;
+  }
+
+  @media (max-width: 420px) {
+    .project-metrics.has-four-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   .detail-grid {

@@ -131,7 +131,11 @@
     <p class="tagline">{tagline}</p>
 
     {#if metrics && metrics.length > 0}
-      <dl class="metrics-grid" style:--metric-count={metricColumnCount}>
+      <dl
+        class="metrics-grid"
+        class:has-four-metrics={metricColumnCount === 4}
+        style:--metric-count={metricColumnCount}
+      >
         {#each metrics as metric (metric.label)}
           <div class="metric-cell">
             <dt class="metric-label">{metric.label}</dt>
@@ -467,6 +471,12 @@
 
     .pillar-desc {
       display: none;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .metrics-grid.has-four-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>
