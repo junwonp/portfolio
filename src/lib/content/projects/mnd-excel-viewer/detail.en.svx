@@ -19,6 +19,7 @@ techStack:
 ---
 
 <script>
+  import MndExcelViewerDiagram from '$lib/components/MndExcelViewerDiagram.svelte';
   import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
   import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
 
@@ -33,7 +34,9 @@ I built a **spreadsheet-style grid** on `react-table` plus a **line-based text v
 
 > For security and confidentiality I cannot share the work context or original repository; this page covers implementation only. Code snippets are reconstructed excerpts.
 
-**Public scale summary:** the viewer covered two document modes — an Excel-like grid and a line-based text reader. The main interaction model combined virtualized scrolling, rectangular cell selection, reverse text-range normalization, multi-region highlights, and Socket.IO-based shared annotations.
+**Public scale summary:** the viewer covered two document modes — an Excel-like grid and a line-based text reader. Without exposing original data, I validated virtual scrolling, selection anchors, and heavy-document rendering with **reconstructed fixtures of 1,000+ rows**. The main interaction model combined rectangular cell selection, reverse text-range normalization, multi-region highlights, and Socket.IO-based shared annotations.
+
+<MndExcelViewerDiagram {locale} />
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
@@ -62,6 +65,12 @@ I built a **spreadsheet-style grid** on `react-table` plus a **line-based text v
       tag: 'Performance',
       title: 'Per-view virtualization strategies',
       detail: `Two different virtualization strategies are used — one per view type:<ul><li><strong>Grid:</strong> <code>react-window</code> (<code>VariableSizeList</code> + <code>InfiniteLoader</code> + <code>AutoSizer</code>) for row virtualization and incremental data loading as the user scrolls.</li><li><strong>Text:</strong> <code>react-virtualized</code> <code>CellMeasurerCache</code> to measure and cache individual line heights, so variable-height lines stay aligned with selection anchors and scroll position.</li></ul>The key insight: no single virtualization library fits both use cases well. Choosing the right tool per view prevents layout-thrashing and keeps scroll performance smooth.`,
+    },
+    {
+      tag: 'Constraint',
+      accent: true,
+      title: 'Restricted-network development and validation strategy',
+      detail: `Because the project ran in a restricted network, local development could not depend on production data, external APIs, or public SaaS tooling. I separated <strong>reconstructed fixtures</strong> and a <strong>mock socket layer</strong> so UI state transitions and collaboration events could be verified offline. That kept confidential information out of the workflow while preserving repeatable checks for large documents, highlight sync, and error isolation.`,
     },
     {
       tag: 'DX',

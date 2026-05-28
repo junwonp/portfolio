@@ -19,6 +19,7 @@ techStack:
 ---
 
 <script>
+  import MndExcelViewerDiagram from '$lib/components/MndExcelViewerDiagram.svelte';
   import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
   import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
 
@@ -33,7 +34,9 @@ techStack:
 
 > 보안 및 비공개 정책상 업무 맥락과 원본 저장소는 공개할 수 없으며, 이 글은 구현 기술만 정리합니다. 코드 스니펫은 재구성한 발췌입니다.
 
-**공개 가능한 규모 요약:** 뷰어는 엑셀형 그리드와 줄 단위 텍스트 리더라는 두 가지 문서 모드를 다뤘습니다. 핵심 상호작용은 가상 스크롤, 직사각형 셀 선택, 역방향 텍스트 범위 정규화, 다중 하이라이트 영역, Socket.IO 기반 공유 주석 흐름으로 구성했습니다.
+**공개 가능한 규모 요약:** 뷰어는 엑셀형 그리드와 줄 단위 텍스트 리더라는 두 가지 문서 모드를 다뤘습니다. 원본 데이터는 공개하지 않고, **1,000행 이상 재구성 Fixture**로 가상 스크롤, 선택 앵커, 대용량 렌더링 흐름을 검증했습니다. 핵심 상호작용은 직사각형 셀 선택, 역방향 텍스트 범위 정규화, 다중 하이라이트 영역, Socket.IO 기반 공유 주석 흐름으로 구성했습니다.
+
+<MndExcelViewerDiagram {locale} />
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
@@ -62,6 +65,12 @@ techStack:
       tag: 'Performance',
       title: '뷰별 가상화 전략',
       detail: `뷰 유형에 따라 서로 다른 가상화 전략을 적용했습니다:<ul><li><strong>그리드:</strong> <code>react-window</code>의 <code>VariableSizeList</code> + <code>InfiniteLoader</code> + <code>AutoSizer</code>로 행 단위 가상 스크롤 및 스크롤 시 점진적 데이터 로딩.</li><li><strong>텍스트:</strong> <code>react-virtualized</code>의 <code>CellMeasurerCache</code>로 개별 줄 높이를 측정·캐시하여, 가변 높이 줄에서도 선택 앵커와 스크롤 위치가 어긋나지 않게 했습니다.</li></ul>핵심은 하나의 가상화 라이브러리가 두 가지 사용 사례 모두에 적합하지 않다는 점입니다. 뷰별로 적합한 도구를 선택하여 레이아웃 스래싱을 방지하고 스크롤 성능을 유지했습니다.`,
+    },
+    {
+      tag: 'Constraint',
+      accent: true,
+      title: '제한망 개발 제약과 검증 전략',
+      detail: `업무망 특성상 운영 데이터, 외부 API, 공개 SaaS 의존성을 로컬 개발 흐름에 둘 수 없었습니다. 그래서 <strong>재구성 Fixture</strong>와 <strong>Mock Socket 레이어</strong>를 분리해 UI 상태 전이와 협업 이벤트를 검증했습니다. 이 방식은 비공개 정보를 보호하면서도 대용량 문서, 하이라이트 동기화, 오류 격리 같은 핵심 동작을 반복 검증할 수 있게 했습니다.`,
     },
     {
       tag: 'DX',

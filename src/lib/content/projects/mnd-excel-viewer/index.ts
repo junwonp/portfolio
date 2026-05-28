@@ -36,11 +36,13 @@ export const mndExcelViewerProject = defineProject({
       description: 'Spreadsheet and text viewer for large intranet documents',
       metrics: [
         { value: '2 Views', label: 'Grid + Text' },
+        { value: '1K+ Rows', label: 'Rebuilt Fixtures' },
         { value: '2D', label: 'Range Selection' },
         { value: 'Realtime', label: 'Socket Highlights' },
       ],
       summaryDetails: [
         '**[Dual Viewer Scope]** Built both an Excel-style grid viewer and a line-based text viewer, separating container interaction logic from pure rendering components.',
+        '**[Safe Scale Evidence]** Recreated large-document fixtures with **1,000+ rows** to validate virtual scrolling, selection anchors, and heavy-document rendering without exposing private data.',
         '**[High-Performance Virtualization]** Used **react-window** for large grid rows and **react-virtualized** for variable-height text lines, keeping scroll and selection responsive under heavy documents.',
         '**[2D Selection UX]** Implemented rectangular cell selection, reverse line-range normalization, and multi-region drag updates with real-time visual feedback.',
         '**[Real-time Collaboration]** Integrated **Socket.IO** for shared highlights and comments, plus a mock socket layer for development in restricted intranet environments.',
@@ -53,6 +55,7 @@ export const mndExcelViewerProject = defineProject({
         date: '2020-08 ~ 2020-10',
         metrics: [
           { value: '2 Views', label: 'Grid + Text' },
+          { value: '1K+ Rows', label: 'Rebuilt Fixtures' },
           { value: '2D', label: 'Range Selection' },
           { value: 'Realtime', label: 'Socket Highlights' },
         ],
@@ -76,11 +79,13 @@ export const mndExcelViewerProject = defineProject({
       description: '인트라넷 대용량 문서를 위한 스프레드시트·텍스트 뷰어',
       metrics: [
         { value: '2 Views', label: '그리드+텍스트' },
+        { value: '1K+ 행', label: '재구성 Fixture' },
         { value: '2D', label: '영역 선택' },
         { value: 'Realtime', label: '소켓 하이라이트' },
       ],
       summaryDetails: [
         '**[이중 뷰어 범위]** 엑셀형 그리드 뷰어와 줄 단위 텍스트 뷰어를 함께 구축하고, 컨테이너 상호작용 로직과 순수 렌더링 컴포넌트를 분리했습니다.',
+        '**[안전한 규모 근거]** 비공개 데이터를 노출하지 않기 위해 **1,000행 이상 재구성 Fixture**로 가상 스크롤, 선택 앵커, 대용량 렌더링을 검증했습니다.',
         '**[고성능 가상화]** 대용량 그리드는 **react-window**, 가변 높이 텍스트 줄은 **react-virtualized**로 처리해 무거운 문서에서도 스크롤과 선택 응답성을 유지했습니다.',
         '**[2D 영역 선택 UX]** 직사각형 셀 선택, 역방향 줄 범위 정규화, 다중 영역 드래그 업데이트와 실시간 시각 피드백을 구현했습니다.',
         '**[실시간 협업 기능]** **Socket.IO**로 공유 하이라이트와 코멘트를 연동하고, 제한된 인트라넷 환경에서도 개발 가능한 Mock 소켓 레이어를 구축했습니다.',
@@ -93,6 +98,7 @@ export const mndExcelViewerProject = defineProject({
         date: '2020-08 ~ 2020-10',
         metrics: [
           { value: '2 Views', label: '그리드+텍스트' },
+          { value: '1K+ 행', label: '재구성 Fixture' },
           { value: '2D', label: '영역 선택' },
           { value: 'Realtime', label: '소켓 하이라이트' },
         ],
