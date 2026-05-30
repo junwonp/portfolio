@@ -10,9 +10,10 @@
 
   interface Props {
     images: LightboxImage[];
+    variant?: 'default' | 'phone';
   }
 
-  let { images }: Props = $props();
+  let { images, variant = 'default' }: Props = $props();
 
   const VELOCITY_THRESHOLD = 0.3; // px/ms
   const DRAG_THRESHOLD_RATIO = 0.25;
@@ -221,7 +222,7 @@
 
 <svelte:window onkeydown={onKeydown} />
 
-<div class="lightbox-masonry" class:mobile={isMobile}>
+<div class="lightbox-masonry" class:mobile={isMobile} class:phone-preview={variant === 'phone'}>
   {#if isMobile && images.length > 1}
     <button
       class="masonry-item first-only"
@@ -383,6 +384,11 @@
     margin-bottom: 48px;
   }
 
+  .lightbox-masonry.phone-preview {
+    display: flex;
+    justify-content: center;
+  }
+
   .masonry-item {
     display: block;
     width: 100%;
@@ -400,6 +406,10 @@
       transform 0.2s ease;
   }
 
+  .phone-preview .masonry-item {
+    max-width: 360px;
+  }
+
   /* Force image to fill the frame width and override global max-height */
   .masonry-item img {
     width: 100% !important;
@@ -408,6 +418,11 @@
     display: block;
     object-fit: cover;
     transition: transform 0.3s ease;
+  }
+
+  .phone-preview .masonry-item img {
+    max-height: 640px !important;
+    object-position: top;
   }
 
   .masonry-item:hover {
@@ -694,6 +709,14 @@
     .lightbox-masonry {
       columns: 1;
       gap: 16px;
+    }
+
+    .phone-preview .masonry-item {
+      max-width: min(100%, 340px);
+    }
+
+    .phone-preview .masonry-item img {
+      max-height: 520px !important;
     }
 
     .overlay-nav {

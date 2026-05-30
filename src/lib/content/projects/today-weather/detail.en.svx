@@ -36,6 +36,7 @@ techStack:
 
 <script>
   import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
+  import ProjectLightbox from '$lib/components/ProjectLightbox.svelte';
   import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
 
   let { metadata, locale } = $props();
@@ -48,6 +49,16 @@ techStack:
 Existing weather apps share three frustrations: global data sources that miss Korea's local forecasts, information scattered across too many screens, and raw numbers that still make the user do the mental math — "is 15°C a jacket or a coat day?" **Today's Weather** uses the most accurate local sources (KMA, Air Korea) and translates the data into immediate action plans: what to wear, whether to take an umbrella, and whether to bring a mask.
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
+
+## 📸 Screenshots
+
+<ProjectLightbox variant="phone" images={[
+  {
+    src: '/images/today-weather/web-home.png',
+    alt: "Today's Weather web app home screen",
+    caption: 'Mobile web home screen showing current weather, lifestyle alerts, and outfit, umbrella, and mask decisions from KMA and Air Korea data'
+  },
+]} />
 
 ## ⚙️ Key work
 

@@ -36,6 +36,7 @@ techStack:
 
 <script>
   import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
+  import ProjectLightbox from '$lib/components/ProjectLightbox.svelte';
   import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
 
   let { metadata, locale } = $props();
@@ -48,6 +49,16 @@ techStack:
 기존 날씨 앱들의 공통적인 불편함은 세 가지입니다: 국내 로컬 예보를 빗나가는 해외 데이터 소스, 여러 화면에 흩어진 정보, 그리고 결국 사용자가 직접 해석해야 하는 숫자들 — "15도면 자켓인가, 코트인가?" **오늘날씨**는 가장 정확한 국산 데이터(기상청, 에어코리아)를 활용해 즉시 실행 가능한 답변을 제공합니다: 오늘 어떻게 입을지, 우산을 챙길지, 마스크가 필요한지.
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
+
+## 📸 스크린샷
+
+<ProjectLightbox variant="phone" images={[
+  {
+    src: '/images/today-weather/web-home.png',
+    alt: '오늘날씨 웹 앱 홈 화면',
+    caption: '기상청·에어코리아 데이터를 바탕으로 현재 날씨, 생활 알림, 복장·우산·마스크 판단을 한 화면에서 보여주는 모바일 웹 홈 화면'
+  },
+]} />
 
 ## ⚙️ 주요 작업
 
