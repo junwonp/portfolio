@@ -7,6 +7,7 @@ import { camerafiStudioProject } from './camerafi-studio';
 import { campusTownProject } from './campus-town';
 import { dayPlannerProject } from './day-planner';
 import { electionAggregatorProject } from './election-aggregator';
+import { kftcPlatformProject } from './kftc-platform';
 import { mndDashboardProject } from './mnd-dashboard';
 import { mndExcelViewerProject } from './mnd-excel-viewer';
 import { onelineBankProject } from './oneline-bank';
@@ -25,6 +26,7 @@ export const projectCatalog: ProjectContentEntry[] = [
   mndDashboardProject,
   dayPlannerProject,
   todayWeatherProject,
+  kftcPlatformProject,
   onelineBankProject,
   campusTownProject,
   sveltekitPortfolioProject,
