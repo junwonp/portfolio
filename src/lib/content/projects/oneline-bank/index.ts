@@ -37,11 +37,17 @@ export const onelineBankProject = defineProject({
   content: {
     en: {
       title: 'OnelineBank',
-      titleBadge: '2021 Hackathon Finalist',
+      titleBadge: '2021 Finalist to 2026 Rebuild',
       description:
-        'Advanced to the 2021 Woori Bank Hackathon finals by independently building a fintech app in 5 days. In 2026, fully rewrote the original JavaScript codebase from scratch in TypeScript with a modern stack.',
+        'A before-and-after fintech project: independently built a conversational banking MVP in 5 days for the 2021 Woori Bank Hackathon finals, then rebuilt it in 2026 with TypeScript, Expo Router, and production-minded mobile architecture.',
+      metrics: [
+        { value: '2021', label: 'Hackathon Finalist' },
+        { value: '5 days', label: 'Solo MVP Build' },
+        { value: '2026', label: 'TypeScript Rebuild' },
+      ],
       summaryDetails: [
-        '**[Architecture Evolution]** Rebuilt a legacy JS app into a modular, feature-based architecture using **TypeScript** and **Expo Router**, applying production-grade design patterns.',
+        '**[Before and After]** Preserved the original hackathon product idea while replacing the legacy JavaScript codebase with a modular **TypeScript** and **Expo Router** architecture.',
+        '**[Architecture Evolution]** Reorganized the banking flow into feature-based modules, route guards, query boundaries, and reusable UI primitives to show concrete engineering growth.',
         '**[Robust Form Handling]** Integrated **TanStack Form** and **Zod** for type-safe schema validation and consistent error handling across the banking flow.',
         '**[Developer Experience]** Optimized the delivery pipeline using **EAS** and automated crash reporting with **Crashlytics**, ensuring a stable demo environment.',
       ],
@@ -75,11 +81,17 @@ export const onelineBankProject = defineProject({
     },
     ko: {
       title: '한줄은행 (리빌드)',
-      titleBadge: '2021 해커톤 본선 진출작',
+      titleBadge: '2021 본선 진출작 → 2026 리빌드',
       description:
-        '2021 우리은행 해커톤 출품작을 최신 기술 스택인 TypeScript, Expo Router 등으로 전면 재구성한 성장 스토리 기반 프로젝트.',
+        '2021 우리은행 해커톤 본선에서 5일 만에 1인으로 구현한 대화형 뱅킹 MVP를, 2026년에 TypeScript·Expo Router·모바일 아키텍처 중심으로 다시 만든 전후 비교형 프로젝트.',
+      metrics: [
+        { value: '2021', label: '해커톤 본선' },
+        { value: '5일', label: '1인 MVP 구현' },
+        { value: '2026', label: 'TypeScript 리빌드' },
+      ],
       summaryDetails: [
-        '**[아키텍처의 진화]** 레거시 JS 앱을 **TypeScript와 Expo Router 기반의 기능 단위(Feature-based) 모듈 아키텍처**로 리빌딩하여 생산성을 극대화했습니다.',
+        '**[Before & After]** 해커톤 당시의 제품 아이디어는 유지하되, 레거시 JavaScript 코드베이스를 **TypeScript와 Expo Router 기반 모듈 구조**로 전면 교체했습니다.',
+        '**[아키텍처의 진화]** 뱅킹 플로우를 기능 단위 모듈, 라우터 가드, query boundary, 재사용 UI primitive로 재구성해 엔지니어링 성장 폭이 보이도록 정리했습니다.',
         '**[견고한 폼 핸들링]** **TanStack Form과 Zod를 결합**하여 타입 안전한 스키마 검증과 일관된 에러 피드백 시스템을 뱅킹 플로우에 적용했습니다.',
         '**[개발자 경험 개선]** **EAS를 통한 배포 자동화와 Crashlytics 연동**으로 안정적인 데모 환경과 장애 추적 인프라를 구축했습니다.',
       ],
