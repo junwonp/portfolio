@@ -20,7 +20,7 @@
 - [x] `Day Planner`: add reconstructed surface evidence for iOS, macOS menu bar, focus automation, timeline layout, and sync behavior.
 - [x] `Day Planner`: add verification evidence such as test/build status, sync debounce behavior, and timeline overlap cases.
 - [ ] `Today’s Weather`: add screenshots for web, mobile, widget, and recommendation output.
-- [ ] `Today’s Weather`: document cache flow, TTL, hit/miss model, and current product status.
+- [x] `Today’s Weather`: document cache flow, TTL, hit/miss model, and current product status.
 - [ ] `OnelineBank`: surface the 2021 hackathon to 2026 rebuild story more clearly on the homepage.
 - [ ] `Campus Town`: add concrete support details and connect it to Orca AI business validation.
 - [ ] `SvelteKit Portfolio`: refresh Lighthouse/performance evidence after mobile overflow is fixed.

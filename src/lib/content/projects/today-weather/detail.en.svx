@@ -87,6 +87,36 @@ Existing weather apps share three frustrations: global data sources that miss Ko
   },
 ]} />
 
+### Cache and data flow
+
+Today's Weather is not just a public API client. It is a data pipeline designed around the latency, regional blocking, and rate-limit constraints of Korean public APIs.
+
+1. The app normalizes the user's GPS or IP-based location into coordinates.
+2. Next.js Route Handlers run in Vercel's `icn1` region so Korean public APIs can be called from a Korean IP region.
+3. Each API route checks Upstash Redis first and returns `fromCache: true` immediately on a cache hit.
+4. Only cache misses call KMA, Air Korea, or Kakao, then store the result in Redis with a route-specific TTL.
+5. The web and Expo apps consume the same `packages/shared` API client and TanStack Query key factory.
+6. The iOS widget calls the same `/api/weather` and `/api/dust` endpoints using the persisted `apiBaseUrl`, `lat`, and `lon`, and skips network refreshes when data was updated within the last 5 minutes.
+
+| Data | Cache key basis | TTL | Why |
+| --- | --- | --- | --- |
+| Weather forecast | KMA grid `nx`, `ny` | 30 minutes | Short-term weather changes often, but this still batches rapid user requests |
+| Fine dust | Coordinates rounded to 0.1° | 30 minutes | Users in the same area share the same regional air-quality reading |
+| Weather alerts | Coordinates rounded to 0.1° | 10 minutes | Alerts can change quickly, so the TTL is shorter |
+| UV index | Coordinates rounded to 0.1° | 1 hour | UV changes more slowly than current weather |
+| Pollen | Coordinates rounded to 0.1° | 6 hours | Published on a slower daily cadence |
+| Address label | Coordinates rounded to 0.01° | 24 hours | Administrative address labels rarely change |
+
+On the client, TanStack Query uses a 5-minute default `staleTime`, and only successful queries are persisted for up to 24 hours in IndexedDB on web and AsyncStorage on Expo. Returning users see the last successful data immediately while the app revalidates only the queries that need fresh data.
+
+### Current product status
+
+- The web app is running on Next.js App Router and reads live KMA and Air Korea data.
+- The Expo app uses the same shared package and revalidates forecast queries when the app returns to the foreground.
+- The iOS Home Screen widget is implemented as a Swift target inside the Expo project via `@bacons/apple-targets`.
+- Outfit, umbrella, and mask recommendations are calculated by the same shared logic across surfaces.
+- Remaining evidence to add: real-device mobile/widget screenshots and deployment-status proof.
+
 ## 💭 Retrospective
 
 **Latest tech in production:** Navigating the breaking changes in Next.js 16 and React 19 gave me a hands-on understanding of the modern React ecosystem — including where the React Compiler genuinely reduces boilerplate and where it still requires manual guidance.
