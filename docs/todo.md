@@ -22,7 +22,7 @@
 - [ ] `Today’s Weather`: add screenshots for web, mobile, widget, and recommendation output.
 - [x] `Today’s Weather`: document cache flow, TTL, hit/miss model, and current product status.
 - [x] `OnelineBank`: surface the 2021 hackathon to 2026 rebuild story more clearly on the homepage.
-- [ ] `Campus Town`: add concrete support details and connect it to Orca AI business validation.
+- [x] `Campus Town`: add concrete support details and connect it to Orca AI business validation.
 - [ ] `SvelteKit Portfolio`: refresh Lighthouse/performance evidence after mobile overflow is fixed.
 - [ ] `Election Aggregator`: keep as archive and add team size/responsibility details only if needed.
 - [ ] `Agentic Workflow`: add concrete examples, verification guardrails, and a workflow diagram.
