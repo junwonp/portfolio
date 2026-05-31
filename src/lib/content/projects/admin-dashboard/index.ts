@@ -23,24 +23,15 @@ export const adminDashboardProject = defineProject({
     SKILL.frameworks.react,
     SKILL.ui.styledComponents,
     SKILL.ui.mui,
-    SKILL.ui.atomicDesign,
     SKILL.ui.reactTable,
     SKILL.ui.chartJs,
     SKILL.state.tanstackQuery,
-    SKILL.devops.firebaseHosting,
-    SKILL.devops.githubActions,
-    SKILL.aiWorkflow.githubCopilot,
   ],
   content: {
     en: {
       title: 'B2B Admin Dashboard',
       description:
         'SaaS admin system for accounts, subscriptions, product usage, and revenue monitoring',
-      metrics: [
-        { value: '4+', label: 'Managed Domains' },
-        { value: 'CRUD', label: 'Reusable Table Flow' },
-        { value: 'Realtime', label: 'Usage & Revenue' },
-      ],
       summaryDetails: [
         '**[Operational Scope]** Built admin surfaces for SaaS operations across accounts, subscriptions, product usage, and revenue monitoring.',
         '**[Reusable CRUD/Table System]** Combined **React Table**, **MUI**, and **TanStack Query** into reusable list, filter, detail, create, and edit patterns for management pages.',
@@ -50,11 +41,6 @@ export const adminDashboardProject = defineProject({
     ko: {
       title: 'B2B 통합 관리자 대시보드',
       description: '계정, 구독, 제품 사용량, 매출 모니터링을 위한 SaaS 통합 관리 시스템',
-      metrics: [
-        { value: '4+', label: '관리 도메인' },
-        { value: 'CRUD', label: '재사용 테이블 플로우' },
-        { value: 'Realtime', label: '사용량·매출' },
-      ],
       summaryDetails: [
         '**[운영 범위]** 계정, 구독, 제품 사용량, 매출 모니터링을 다루는 SaaS 운영용 관리자 화면을 구축했습니다.',
         '**[재사용 CRUD/Table 시스템]** **React Table**, **MUI**, **TanStack Query**를 조합해 목록, 필터, 상세, 생성, 수정 패턴을 관리 페이지에 재사용 가능한 형태로 정리했습니다.',

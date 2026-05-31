@@ -102,12 +102,7 @@ interface SkillGroup {
 export const skillsShared: SkillGroup[] = [
   {
     id: 'languages',
-    list: [
-      SKILL.languages.typescript,
-      SKILL.languages.javascript,
-      SKILL.languages.swift,
-      SKILL.languages.kotlin,
-    ],
+    list: [SKILL.languages.typescript, SKILL.languages.javascript, SKILL.languages.swift],
   },
   {
     id: 'frameworks',
@@ -120,7 +115,6 @@ export const skillsShared: SkillGroup[] = [
       SKILL.frameworks.svelte,
       SKILL.frameworks.svelteKit,
       SKILL.frameworks.swiftUi,
-      SKILL.frameworks.nativeModules,
     ],
   },
   {
@@ -132,12 +126,8 @@ export const skillsShared: SkillGroup[] = [
       SKILL.ui.tailwindCss,
       SKILL.ui.unistyles,
       SKILL.ui.shadcnUi,
-      SKILL.ui.cva,
-      SKILL.ui.storybook,
-      SKILL.ui.lottie,
       SKILL.ui.reactTable,
       SKILL.ui.chartJs,
-      SKILL.ui.atomicDesign,
     ],
   },
   {
@@ -149,7 +139,6 @@ export const skillsShared: SkillGroup[] = [
       SKILL.state.zod,
       SKILL.state.zustand,
       SKILL.state.redux,
-      SKILL.state.reduxSaga,
       SKILL.state.graphql,
       SKILL.state.reactNativeMmkv,
     ],
@@ -174,7 +163,6 @@ export const skillsShared: SkillGroup[] = [
       SKILL.backend.awsAmplify,
       SKILL.backend.socketIo,
       SKILL.backend.paddle,
-      SKILL.backend.nodeJs,
     ],
   },
   {
@@ -182,23 +170,10 @@ export const skillsShared: SkillGroup[] = [
     list: [
       SKILL.devops.githubActions,
       SKILL.devops.cloudflarePages,
-      SKILL.devops.firebaseHosting,
       SKILL.devops.sentry,
-      SKILL.devops.crashlytics,
       SKILL.devops.vitest,
       SKILL.devops.eas,
       SKILL.devops.webpack,
-    ],
-  },
-  {
-    id: 'ai_workflow',
-    detailLink: '/projects/agentic-workflow',
-    list: [
-      SKILL.aiWorkflow.agenticWorkflow,
-      SKILL.aiWorkflow.claudeCode,
-      SKILL.aiWorkflow.cursor,
-      SKILL.aiWorkflow.githubCopilot,
-      SKILL.aiWorkflow.gemini,
     ],
   },
 ];

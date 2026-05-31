@@ -18,7 +18,6 @@ export const electionAggregatorProject = defineProject({
   skills: [
     SKILL.languages.javascript,
     SKILL.frameworks.react,
-    SKILL.ui.styledComponents,
     SKILL.state.graphql,
     SKILL.backend.awsAmplify,
   ],
@@ -39,7 +38,7 @@ export const electionAggregatorProject = defineProject({
         image: '/images/election-aggregator/1.webp',
         githubLink: 'ITE3068_team8',
         role: 'Team Leader · Full Stack',
-        techStack: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components'],
+        techStack: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL'],
       },
     },
     ko: {
@@ -58,7 +57,7 @@ export const electionAggregatorProject = defineProject({
         image: '/images/election-aggregator/1.webp',
         githubLink: 'ITE3068_team8',
         role: 'Team Leader · Full Stack',
-        techStack: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components'],
+        techStack: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL'],
       },
     },
   },

@@ -186,7 +186,7 @@ export const i18nData: Record<Language, I18nData> = {
         role: 'Software Developer',
         highlights: [
           'Built a virtualized Excel viewer handling thousands of rows with 2D cell selection UX',
-          'Designed Atomic Design-based component system in a restricted closed-network environment',
+          'Designed a reusable component system in a restricted closed-network environment',
           'Integrated Socket.IO for real-time highlight collaboration with mock socket for offline testing',
         ],
         projects: {
@@ -197,7 +197,7 @@ export const i18nData: Record<Language, I18nData> = {
               '**[High-Performance Virtualization]** Built an Excel-style grid capable of handling thousands of rows using **react-window**. Optimized row/column rendering to maintain responsiveness under heavy data load.',
               '**[2D Selection UX]** Implemented complex 2D area selection and drag-to-update logic, using **styled-components** for real-time visual feedback.',
               '**[Real-time Collaboration]** Integrated **Socket.IO** to allow multiple users to highlight and comment on document areas simultaneously. Built a custom mock socket environment for robust offline development in restricted networks.',
-              '**[Atomic Design System]** Established a scalable component library from scratch using **Atomic Design** principles, ensuring UI consistency across the intranet platform.',
+              '**[Component System]** Established a reusable component library from scratch, ensuring UI consistency across the intranet platform.',
             ],
           },
           mnd_dashboard: {
@@ -241,7 +241,7 @@ export const i18nData: Record<Language, I18nData> = {
         detail: [
           '**[Architecture Evolution]** Rebuilt a legacy JS app into a modular, feature-based architecture using **TypeScript** and **Expo Router**, applying production-grade design patterns.',
           '**[Robust Form Handling]** Integrated **TanStack Form** and **Zod** for type-safe schema validation and consistent error handling across the banking flow.',
-          '**[Developer Experience]** Optimized the delivery pipeline using **EAS** and automated crash reporting with **Crashlytics**, ensuring a stable demo environment.',
+          '**[Developer Experience]** Optimized the delivery pipeline using **EAS** and kept the rebuilt demo reproducible across local and device builds.',
         ],
       },
       campus_town: {
@@ -407,7 +407,7 @@ export const i18nData: Record<Language, I18nData> = {
         role: '소프트웨어 개발병',
         highlights: [
           '수천 행의 데이터를 처리하는 **가상화 엑셀 뷰어 및 2D 영역 선택 UX** 구현',
-          '폐쇄망 환경에서 **Atomic Design 기반의 컴포넌트 시스템** 직접 설계 및 도입',
+          '폐쇄망 환경에서 **재사용 가능한 컴포넌트 시스템** 직접 설계 및 도입',
           '**Socket.IO를 활용한 실시간 협업** 기능 및 오프라인 테스트용 Mock 서버 구축',
         ],
         projects: {
@@ -418,7 +418,7 @@ export const i18nData: Record<Language, I18nData> = {
               '**[고성능 가상화]** **react-window를 활용하여 수천 개의 행을 끊김 없이 렌더링**하는 엑셀 스타일의 그리드를 구축했습니다. 대량 데이터 로드 시의 응답성을 확보했습니다.',
               '**[2D 영역 선택 UX]** **복잡한 2차원 영역 선택 및 드래그 업데이트 로직**을 구현하고, **styled-components**를 사용해 실시간 시각적 피드백을 최적화했습니다.',
               '**[실시간 협업 기능]** **Socket.IO를 연동하여 여러 사용자가 동시에 문서의 특정 영역을 강조**하고 코멘트를 남길 수 있는 기능을 구현했습니다. 오프라인 개발을 위한 커스텀 Mock 소켓 환경을 구축했습니다.',
-              '**[Atomic 디자인 시스템]** **Atomic Design 원칙에 따라 컴포넌트 라이브러리를 바닥부터 설계**하여, 인트라넷 플랫폼 전체의 UI 일관성을 확보했습니다.',
+              '**[컴포넌트 시스템]** 재사용 가능한 컴포넌트 라이브러리를 바닥부터 설계하여, 인트라넷 플랫폼 전체의 UI 일관성을 확보했습니다.',
             ],
           },
           mnd_dashboard: {
@@ -462,7 +462,7 @@ export const i18nData: Record<Language, I18nData> = {
         detail: [
           '**[아키텍처의 진화]** 레거시 JS 앱을 **TypeScript와 Expo Router 기반의 기능 단위(Feature-based) 모듈 아키텍처**로 리빌딩하여 생산성을 극대화했습니다.',
           '**[견고한 폼 핸들링]** **TanStack Form과 Zod를 결합**하여 타입 안전한 스키마 검증과 일관된 에러 피드백 시스템을 뱅킹 플로우에 적용했습니다.',
-          '**[개발자 경험 개선]** **EAS를 통한 배포 자동화와 Crashlytics 연동**으로 안정적인 데모 환경과 장애 추적 인프라를 구축했습니다.',
+          '**[개발자 경험 개선]** **EAS를 통한 빌드 파이프라인**을 정리해 로컬과 실기기 환경에서 리빌드 데모를 재현 가능하게 만들었습니다.',
         ],
       },
       campus_town: {

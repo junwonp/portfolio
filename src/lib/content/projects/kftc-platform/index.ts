@@ -20,14 +20,10 @@ export const kftcPlatformProject = defineProject({
     SKILL.languages.typescript,
     SKILL.frameworks.react,
     SKILL.ui.tailwindCss,
-    SKILL.ui.cva,
-    SKILL.ui.storybook,
-    SKILL.ui.lottie,
     SKILL.state.tanstackQuery,
     SKILL.state.reactHookForm,
     SKILL.state.zod,
     SKILL.devops.vitest,
-    SKILL.performance.reactCompiler,
   ],
   content: {
     en: {
@@ -35,11 +31,6 @@ export const kftcPlatformProject = defineProject({
       titleBadge: 'Freelance Frontend',
       description:
         'Frontend contract project for a FinCert-based promotion platform covering signup, consent, events, challenges, rewards, notifications, and account flows.',
-      metrics: [
-        { value: 'React 19', label: 'Frontend Stack' },
-        { value: 'FinCert', label: 'Auth Flow' },
-        { value: 'Vitest', label: 'Regression Tests' },
-      ],
       summaryDetails: [
         '**[FinCert User Flow]** Implemented signup, consent maintenance, profile edit, withdrawal, and user-facing error handling around the FinCert integration.',
         '**[Promotion Domain]** Built event, challenge, attendance, ticket, point, voucher, FAQ, notice, and notification screens with reusable promotion detail flows.',
@@ -52,11 +43,6 @@ export const kftcPlatformProject = defineProject({
       titleBadge: '프론트엔드 외주',
       description:
         '금융인증서 기반 프로모션 플랫폼의 회원가입, 동의, 이벤트, 챌린지, 리워드, 알림, 마이페이지 흐름을 구현한 프론트엔드 외주 프로젝트',
-      metrics: [
-        { value: 'React 19', label: '프론트엔드 스택' },
-        { value: 'FinCert', label: '인증 플로우' },
-        { value: 'Vitest', label: '회귀 테스트' },
-      ],
       summaryDetails: [
         '**[금융인증서 사용자 플로우]** FinCert 연동을 중심으로 회원가입, 동의 유지, 프로필 수정, 탈퇴, 사용자 오류 처리 흐름을 구현했습니다.',
         '**[프로모션 도메인]** 이벤트, 챌린지, 출석, 행운권, 포인트, 쿠폰, FAQ, 공지, 알림 화면을 재사용 가능한 프로모션 상세 플로우로 구성했습니다.',

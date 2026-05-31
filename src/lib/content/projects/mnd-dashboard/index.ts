@@ -18,7 +18,6 @@ export const mndDashboardProject = defineProject({
   skills: [
     SKILL.languages.javascript,
     SKILL.frameworks.react,
-    SKILL.ui.styledComponents,
     SKILL.ui.antDesign,
     SKILL.state.redux,
   ],
@@ -26,11 +25,6 @@ export const mndDashboardProject = defineProject({
     en: {
       title: 'Defense Resource Dashboard',
       description: 'Closed-network dashboard for resource status, statistics, and drill-down views',
-      metrics: [
-        { value: '2 Modes', label: 'Status + Statistics' },
-        { value: 'Redux', label: 'Shared Filters' },
-        { value: 'React', label: 'Legacy Migration' },
-      ],
       summaryDetails: [
         '**[Legacy Modernization]** Migrated a closed-network resource status and statistics system to **React**, replacing brittle page flows with clearer dashboard sections and drill-down navigation.',
         '**[Dashboard Behavior]** Structured the UI around resource status tables, aggregate statistics, filter panels, and nested detail views so operators could move from overview to specific records without losing context.',
@@ -40,11 +34,6 @@ export const mndDashboardProject = defineProject({
     ko: {
       title: '국방 자원 모니터링 대시보드',
       description: '제한망 자원 현황·통계·드릴다운 대시보드',
-      metrics: [
-        { value: '2 Modes', label: '현황+통계' },
-        { value: 'Redux', label: '공유 필터' },
-        { value: 'React', label: '레거시 전환' },
-      ],
       summaryDetails: [
         '**[레거시 현대화]** 제한망에서 동작하던 자원 현황·통계 시스템을 **React 기반으로 마이그레이션**하고, 불안정한 페이지 흐름을 명확한 대시보드 섹션과 드릴다운 내비게이션으로 재구성했습니다.',
         '**[대시보드 동작]** 자원 현황 테이블, 집계 통계, 필터 패널, 중첩 상세 뷰를 기준으로 UI를 정리해 개요에서 특정 항목까지 맥락을 잃지 않고 이동할 수 있게 했습니다.',

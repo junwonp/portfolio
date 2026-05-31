@@ -10,13 +10,7 @@ export const dayPlannerProject = defineProject({
   detailPath: '/projects/day-planner',
   paradigm: 'agentic',
   featuredSkills: [SKILL.languages.swift, SKILL.frameworks.swiftUi, SKILL.backend.cloudKit],
-  skills: [
-    SKILL.languages.swift,
-    SKILL.frameworks.swiftUi,
-    SKILL.backend.cloudKit,
-    SKILL.aiWorkflow.agenticWorkflow,
-    SKILL.aiWorkflow.claudeCode,
-  ],
+  skills: [SKILL.languages.swift, SKILL.frameworks.swiftUi, SKILL.backend.cloudKit],
   content: {
     en: {
       title: 'Day Planner — Cross-platform Scheduler for Time Management',
@@ -45,7 +39,7 @@ export const dayPlannerProject = defineProject({
         ],
         role: 'Solo developer',
         platforms: ['iOS', 'macOS'],
-        techStack: ['Swift', 'SwiftUI', 'CloudKit', 'Agentic Workflow', 'Claude Code'],
+        techStack: ['Swift', 'SwiftUI', 'CloudKit'],
       },
     },
     ko: {
@@ -75,7 +69,7 @@ export const dayPlannerProject = defineProject({
         ],
         role: '1인 개발',
         platforms: ['iOS', 'macOS'],
-        techStack: ['Swift', 'SwiftUI', 'CloudKit', 'Agentic Workflow', 'Claude Code'],
+        techStack: ['Swift', 'SwiftUI', 'CloudKit'],
       },
     },
   },
