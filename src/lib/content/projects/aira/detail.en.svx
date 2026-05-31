@@ -147,7 +147,7 @@ My ownership covered product planning, frontend architecture, streaming chat UX,
 
 ---
 
-## 🔬 V2 R&D: Next-gen interface experiment
+### V2 R&D: Next-gen interface experiment
 
 For service enhancement, I developed a **V2 version** implementing a **new interface maximizing user immersion**, breaking the mold of traditional chat apps.
 (※ Although not officially released due to business reasons, the features were verified during the development phase.)
@@ -162,7 +162,9 @@ I introduced a **Full-screen Swipe UI** so users can enjoy characters like conte
 - **Adopting iOS 26 Liquid Glass:** Directly applied the new **Liquid Glass** introduced in iOS 26 via `UIGlassView`. I called system native APIs without heavy JS-based graphic computations, **maximizing battery efficiency while following the latest iOS system design.**
 
 
-## 💭 Retrospective: "The essence of engineering learned in a startup"
+## 💭 Retrospective
+
+**"The essence of engineering learned in a startup"**
 
 ### 1. Streaming and Cache Synchronization are More Complex Than Expected
 
