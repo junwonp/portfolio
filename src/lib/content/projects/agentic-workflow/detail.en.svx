@@ -7,10 +7,16 @@ techStack: ['Claude Code', 'MCP', 'dotfiles', 'AGENTS.md']
 ---
 
 <script>
+  import MermaidDiagram from '$lib/components/MermaidDiagram.svelte';
   import ProjectAchievements from '$lib/components/ProjectAchievements.svelte';
   import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
 
   let { metadata, locale } = $props();
+
+  const workflowChart = `flowchart TD
+    A["1. Gather context<br/>Files · docs · browser"] --> B["2. Constrain scope<br/>Keep related diffs only"]
+    B --> C["3. Verify<br/>check · lint · test · browser"]
+    C --> D["4. Review & commit<br/>Diff review · split commits"]`;
 </script>
 
 ## 📋 Project overview
@@ -42,6 +48,34 @@ I use AI tools as an engineering acceleration layer, not as the decision-maker. 
     detail: `I actively adopted <strong>MCP</strong> to connect AI-assisted development with the local file system, browser, and external API documentation in real time. Key capabilities this unlocks:<ul><li><strong>Real-time doc queries:</strong> Library behavior is checked against current documentation instead of stale model memory.</li><li><strong>Browser validation:</strong> UI changes are verified against actual rendered pages, console health, and layout behavior before completion.</li></ul>`
   },
 ]} />
+
+## 🧭 Workflow & verification guardrails
+
+<MermaidDiagram
+  chart={workflowChart}
+  eyebrow="Verification flow"
+  title="Verified AI-assisted engineering workflow"
+/>
+
+The point of this loop is not to let AI write code immediately. Every change must pass through **context gathering → scoped implementation → verification → review**. As the task grows, I care less about “what was generated” and more about “what evidence proves it is safe to ship.”
+
+**Verification guardrails**
+
+| Step | Standard | If it fails |
+| --- | --- | --- |
+| Context gathering | Read relevant files and existing patterns first | Stop guessing and inspect the source |
+| Scope control | Touch only files directly tied to the request | Split unrelated diffs before commit |
+| Static validation | Pass `pnpm check` and `pnpm lint` | Fix from logs, not blind retries |
+| Content validation | Keep localized detail, alt, caption, and links in sync | Block one-locale-only changes |
+| Browser validation | Verify the rendered local page | Rework from DOM/screenshot evidence |
+| Commit review | Separate logical diff groups | Split mixed concerns before commit |
+
+**Concrete examples**
+
+- **Metric cleanup:** Removed years, technology names, and status labels from metric cards, keeping only values that represent outcome, scale, or measurable improvement.
+- **Tech-stack pruning:** Removed weak signals such as `Lottie`, `CVA`, and generic AI tools from project stacks, keeping AI usage represented only in the workflow card.
+- **Browser-based UI verification:** Checked responsive metric layouts, project-detail table styling, and homepage visibility directly in the local browser before marking work complete.
+- **Evidence hygiene:** Removed screenshots that looked AI-generated and avoided using images as portfolio evidence unless they came from real product or reproducible local output.
 
 ## 💭 Retrospective
 

@@ -25,7 +25,7 @@
 - [x] `Campus Town`: add concrete support details and connect it to Orca AI business validation.
 - [ ] `SvelteKit Portfolio`: refresh Lighthouse/performance evidence after mobile overflow is fixed.
 - [ ] `Election Aggregator`: keep as archive and add team size/responsibility details only if needed.
-- [ ] `Agentic Workflow`: add concrete examples, verification guardrails, and a workflow diagram.
+- [x] `Agentic Workflow`: add concrete examples, verification guardrails, and a workflow diagram.
 
 ## Technical Cleanup
 
