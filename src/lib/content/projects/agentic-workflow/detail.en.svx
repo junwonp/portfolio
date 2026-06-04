@@ -1,9 +1,9 @@
 ---
 title: AI-assisted Engineering Workflow
-description: Verified AI-assisted engineering workflow — dotfiles, AGENTS.md directives, MCP context, code review, tests, and browser validation.
+description: Verified AI-assisted engineering workflow — scoped context, AGENTS.md directives, MCP context, code review, tests, and browser validation.
 date: '2026-04-22'
 role: 'Workflow Design & Verification'
-techStack: ['Claude Code', 'MCP', 'dotfiles', 'AGENTS.md']
+techStack: ['Claude Code', 'Codex']
 ---
 
 <script>
@@ -25,29 +25,39 @@ techStack: ['Claude Code', 'MCP', 'dotfiles', 'AGENTS.md']
 
 I use AI tools as an engineering acceleration layer, not as the decision-maker. The workflow combines centralized configuration, project-specific directives, MCP context, code review, automated checks, and browser validation so generated work stays bounded by explicit engineering standards.
 
+The core problem is not “using more AI.” It is deciding **which context to provide, which tasks to delegate, and which verification gates must pass**. Claude Code and Codex handle the main implementation path, while Antigravity and Cursor stay in supporting roles for reading, docs, and quick edits.
+
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
 ## ⚙️ Key work
 
-<ProjectAchievements achievements={[
-  {
-    tag: 'Infrastructure',
-    accent: true,
-    title: 'Centralized agent configuration via dotfiles',
-    detail: `All AI agent configs and custom skills (Claude Code, Cursor, Vercel Skills, etc.) are managed in a single <code>dotfiles</code> repository. Each project environment links to this repo via symbolic links, so every workspace draws from a <strong>single source of truth</strong> — one update propagates to all environments simultaneously, eliminating configuration drift across projects.`
-  },
-  {
-    tag: 'Architecture',
-    accent: true,
-    title: 'Precision project directives (AGENTS.md / CLAUDE.md)',
-    detail: `I design <code>AGENTS.md</code> files so that every AI-assisted change starts from the project's architecture, conventions, and technical decision history. Rather than delegating judgment blindly, these directives define <strong>review boundaries, validation gates, and implementation constraints</strong>. The result is shorter ramp-up time without removing engineering ownership.`
-  },
-  {
-    tag: 'Platform',
-    title: 'Environment expansion via MCP (Model Context Protocol)',
-    detail: `I actively adopted <strong>MCP</strong> to connect AI-assisted development with the local file system, browser, and external API documentation in real time. Key capabilities this unlocks:<ul><li><strong>Real-time doc queries:</strong> Library behavior is checked against current documentation instead of stale model memory.</li><li><strong>Browser validation:</strong> UI changes are verified against actual rendered pages, console health, and layout behavior before completion.</li></ul>`
-  },
-]} />
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Infrastructure',
+      accent: true,
+      title: 'Centralized agent configuration via dotfiles',
+      detail: `I manage shared directives and custom skills in a single <code>dotfiles</code> repository so the baseline stays consistent across Claude Code, Codex, Antigravity, Cursor, and other AI-assisted environments. Each project links to this repo via symbolic links, giving every workspace a <strong>single source of truth</strong> for common engineering rules.`,
+    },
+    {
+      tag: 'Cost',
+      accent: true,
+      title: 'Reduced context cost by splitting global and project skills',
+      detail: `Injecting the same rules into every agent session increases token cost and adds irrelevant noise. I keep <strong>global skills</strong> limited to cross-repo rules such as commits, verification, and browser use, while <strong>project skills</strong> hold repo-specific guidance such as SvelteKit structure, portfolio content rules, and bilingual sync requirements. That lets each task load only the context it actually needs.`,
+    },
+    {
+      tag: 'Architecture',
+      accent: true,
+      title: 'Precision project directives (AGENTS.md / CLAUDE.md)',
+      detail: `I design <code>AGENTS.md</code> files so that every AI-assisted change starts from the project's architecture, conventions, and technical decision history. Rather than delegating judgment blindly, these directives define <strong>review boundaries, validation gates, and implementation constraints</strong>. The result is shorter ramp-up time without removing engineering ownership.`,
+    },
+    {
+      tag: 'Platform',
+      title: 'Environment expansion via MCP (Model Context Protocol)',
+      detail: `I actively adopted <strong>MCP</strong> to connect AI-assisted development with the local file system, browser, and external API documentation in real time. Key capabilities this unlocks:<ul><li><strong>Real-time doc queries:</strong> Library behavior is checked against current documentation instead of stale model memory.</li><li><strong>Browser validation:</strong> UI changes are verified against actual rendered pages, console health, and layout behavior before completion.</li></ul>`,
+    },
+  ]}
+/>
 
 ## 🧭 Workflow & verification guardrails
 
@@ -59,11 +69,14 @@ I use AI tools as an engineering acceleration layer, not as the decision-maker. 
 
 The point of this loop is not to let AI write code immediately. Every change must pass through **context gathering → scoped implementation → verification → review**. As the task grows, I care less about “what was generated” and more about “what evidence proves it is safe to ship.”
 
+**Boundary of AI usage.** I use AI for documentation search, repetitive implementation, refactoring candidates, and narrowing down test failures. Product judgment, architecture decisions, security standards, data-handling rules, and final diff review remain my responsibility. This boundary keeps the workflow fast without blurring ownership.
+
 **Verification guardrails**
 
 | Step | Standard | If it fails |
 | --- | --- | --- |
 | Context gathering | Read relevant files and existing patterns first | Stop guessing and inspect the source |
+| Context budget | Split global and project skills so only necessary rules are loaded | Remove unrelated directives from the task context |
 | Scope control | Touch only files directly tied to the request | Split unrelated diffs before commit |
 | Static validation | Pass `pnpm check` and `pnpm lint` | Fix from logs, not blind retries |
 | Content validation | Keep localized detail, alt, caption, and links in sync | Block one-locale-only changes |
@@ -81,6 +94,8 @@ The point of this loop is not to let AI write code immediately. Every change mus
 
 **Focus shift to design and validation.** AI assistance is useful when the engineer still owns architecture, tradeoffs, review, and verification. The workflow is designed to make that ownership explicit.
 
-**Exponential development velocity.** Complex refactors and boilerplate tasks that used to take days now take a single session. Product launch cycles shorten in proportion to how well the directive infrastructure is maintained.
+**Faster handling of repetitive work.** Repetitive refactoring, content synchronization, and verification work can now be broken down into smaller, safer units. The important part is not raw speed, but leaving behind clear evidence for why a change is safe.
 
-**Consistent quality floor.** Agents enforce conventions and type checks at the infrastructure level that humans routinely miss under time pressure — code quality becomes a baseline, not a target to aim at.
+**Consistent quality floor.** Agents enforce conventions and type checks at the infrastructure level that humans routinely miss under time pressure. Code quality becomes a baseline, not a target to aim at.
+
+**Operating discipline matters more than brand names.** The workflow works when context, scope, and verification are explicit. This is a safety model for AI-assisted engineering, not a tool showcase.

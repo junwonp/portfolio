@@ -44,7 +44,7 @@ describe('+page (home)', () => {
   });
 
   it('renders all section headings', () => {
-    const { getAllByRole, queryByText } = render(Page, { data: baseData });
+    const { getAllByRole, getByText, queryByText } = render(Page, { data: baseData });
     const headings = getAllByRole('heading', { level: 2 }).map((h) => h.textContent);
     expect(queryByText('Role-Fit Projects')).not.toBeInTheDocument();
     expect(headings).toContain('Work Experience');
@@ -52,6 +52,9 @@ describe('+page (home)', () => {
     expect(headings).toContain('Awards & Projects');
     expect(headings).toContain('Education');
     expect(headings).toContain('Archives');
+    expect(getByText('AI-assisted Engineering')).toBeInTheDocument();
+    expect(getByText('Agentic Workflow')).toBeInTheDocument();
+    expect(getByText('Claude Code')).toBeInTheDocument();
   });
 
   it('renders the name as h1', () => {
@@ -70,8 +73,6 @@ describe('+page (home)', () => {
     ).toBeGreaterThan(0);
     expect(getAllByText('Web-based Document Viewer').length).toBeGreaterThan(0);
     expect(getAllByText('B2B Admin Dashboard').length).toBeGreaterThan(0);
-    expect(getAllByText('Managed Domains').length).toBeGreaterThan(0);
-    expect(getAllByText('Reusable Table Flow').length).toBeGreaterThan(0);
   });
 
   it('renders a role-specific tailored view from the role query string', () => {

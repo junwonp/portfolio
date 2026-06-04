@@ -2,6 +2,7 @@ export const SKILL = {
   aiWorkflow: {
     agenticWorkflow: 'Agentic Workflow',
     claudeCode: 'Claude Code',
+    codex: 'Codex',
     cursor: 'Cursor',
     gemini: 'Gemini',
     githubCopilot: 'GitHub Copilot',
@@ -175,5 +176,10 @@ export const skillsShared: SkillGroup[] = [
       SKILL.devops.eas,
       SKILL.devops.webpack,
     ],
+  },
+  {
+    id: 'ai_workflow',
+    detailLink: '/projects/agentic-workflow',
+    list: [SKILL.aiWorkflow.agenticWorkflow, SKILL.aiWorkflow.claudeCode, SKILL.aiWorkflow.codex],
   },
 ];
