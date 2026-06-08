@@ -49,6 +49,13 @@
 
     el.addEventListener('canplay', onLoad);
 
+    if (priority) {
+      if (!el.src) {
+        el.src = src;
+        el.load();
+      }
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -63,7 +70,10 @@
           }
         }
       },
-      { threshold: 0.25 },
+      {
+        rootMargin: '200px',
+        threshold: 0.01,
+      },
     );
 
     observer.observe(el);
@@ -91,7 +101,7 @@
         loop
         muted
         playsinline
-        preload="none"
+        preload={priority ? 'auto' : 'none'}
         class:loaded={loaded || !hasDimensions}
       >
         <track kind="captions" src="/captions/empty.vtt" label="No dialogue" default />
