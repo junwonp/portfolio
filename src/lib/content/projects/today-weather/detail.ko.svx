@@ -42,7 +42,7 @@ techStack:
   let { metadata, locale } = $props();
 </script>
 
-## 📋 프로젝트 소개
+## 프로젝트 소개
 
 **"데이터가 아닌 가이드를 원했습니다"**
 
@@ -50,7 +50,7 @@ techStack:
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## 📸 스크린샷
+## 스크린샷
 
 <ProjectLightbox variant="phone" images={[
   {
@@ -60,7 +60,7 @@ techStack:
   },
 ]} />
 
-## ⚙️ 주요 작업
+## 주요 작업
 
 <ProjectAchievements achievements={[
   {
@@ -117,7 +117,7 @@ techStack:
 - 추천 결과는 복장·우산·마스크 판단을 같은 shared logic에서 계산하도록 구성했습니다.
 - 남은 보강 지점은 모바일 앱/위젯 실기기 스크린샷과 배포 상태 증거를 추가하는 것입니다.
 
-## 💭 회고
+## 회고
 
 **최신 기술 스택의 실전 도입:** Next.js 16과 React 19의 파괴적 변경 사항을 직접 해결하며 React Compiler가 실제로 보일러플레이트를 줄여주는 경우와 수동 안내가 여전히 필요한 경우를 체감으로 이해했습니다.
 

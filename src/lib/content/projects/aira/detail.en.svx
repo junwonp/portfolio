@@ -46,7 +46,7 @@ techStack:
   let { metadata, locale } = $props();
 </script>
 
-## 📋 Project overview
+## Project overview
 
 **"AI Character Chat Service used by 23k people"**
 
@@ -60,7 +60,7 @@ My ownership covered product planning, frontend architecture, streaming chat UX,
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
 
-## ⚙️ Key work
+## Key work
 
 <ProjectAchievements achievements={[
   {
@@ -118,7 +118,7 @@ My ownership covered product planning, frontend architecture, streaming chat UX,
   },
 ]} />
 
-## 📸 Screenshots
+## Screenshots
 
 <ProjectLightbox images={[
   { 
@@ -138,7 +138,7 @@ My ownership covered product planning, frontend architecture, streaming chat UX,
   { src: '/images/aira/reward_ads.webp', alt: 'aira Reward Ads', caption: 'Reward ad screen for point recharge' },
 ]} />
 
-### ⚡ Performance demos
+### Performance demos
 
 <ImageGallery>
   <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat FlashList Demo"/>
@@ -162,7 +162,7 @@ I introduced a **Full-screen Swipe UI** so users can enjoy characters like conte
 - **Adopting iOS 26 Liquid Glass:** Directly applied the new **Liquid Glass** introduced in iOS 26 via `UIGlassView`. I called system native APIs without heavy JS-based graphic computations, **maximizing battery efficiency while following the latest iOS system design.**
 
 
-## 💭 Retrospective
+## Retrospective
 
 **"The essence of engineering learned in a startup"**
 

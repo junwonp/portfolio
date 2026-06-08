@@ -26,7 +26,7 @@ techStack:
   let { metadata, locale } = $props();
 </script>
 
-## 📋 프로젝트 소개
+## 프로젝트 소개
 
 **"수천 행도 끊기지 않게, 엑셀에 가까운 그리드와 텍스트를 브라우저에서"**
 
@@ -40,7 +40,7 @@ techStack:
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## ⚙️ 주요 작업
+## 주요 작업
 
 <ProjectAchievements
   achievements={[
@@ -85,7 +85,7 @@ techStack:
   ]}
 />
 
-## 💭 회고
+## 회고
 
 초기에 프레젠테이션과 컨테이너를 분리한 것이 가장 큰 설계 결정이었습니다. 테스트 용이성에서 즉각 효과가 나타났습니다 — 베이스 컴포넌트의 스토리북 스토리는 모킹이 전혀 필요 없었고, 시각적 회귀를 빠르게 포착할 수 있었습니다.
 

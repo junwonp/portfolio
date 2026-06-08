@@ -16,7 +16,7 @@ techStack: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components'
   let { metadata, locale } = $props();
 </script>
 
-## 📋 Project overview
+## Project overview
 
 **"What if scattered election information was gathered in one place?"**
 
@@ -24,7 +24,7 @@ During the election period, news, polls, and candidate pledges were scattered ac
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## ⚙️ Key work
+## Key work
 
 <ProjectAchievements achievements={[
   {
@@ -56,7 +56,7 @@ During the election period, news, polls, and candidate pledges were scattered ac
   },
 ]} />
 
-## 📸 Screenshots
+## Screenshots
 
 <ProjectLightbox images={[
   { src: '/images/election-aggregator/1.webp', mobileSrc: '/images/election-aggregator/1_mobile.jpg', alt: 'Main dashboard', caption: 'Main dashboard — D-Day counter, headlines, and election timeline' },
@@ -67,6 +67,6 @@ During the election period, news, polls, and candidate pledges were scattered ac
   { src: '/images/election-aggregator/13.webp', mobileSrc: '/images/election-aggregator/13_mobile.jpg', alt: 'Poll charts', caption: 'Approval-rating trends visualized with Recharts' },
 ]} />
 
-## 💭 Retrospective
+## Retrospective
 
 Adopting **AWS Amplify** instead of hand-rolling a backend let the team focus on business logic and data visualization. We shipped Auth, DB, and API within the project deadline — something that would have taken far longer with a custom server setup. The experience showed me how much leverage the right infrastructure choice can give a small team.

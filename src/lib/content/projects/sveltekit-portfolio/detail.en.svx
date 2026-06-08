@@ -18,7 +18,7 @@ techStack: ['Svelte / SvelteKit', 'TypeScript', 'Cloudflare Pages', 'GitHub Acti
   let { metadata, locale } = $props();
 </script>
 
-## 📋 Project overview
+## Project overview
 
 **"Adding the flexibility of dynamic routing to the performance of a static site"**
 
@@ -26,7 +26,7 @@ Traditional static hosting like GitHub Pages cannot execute server-side logic, s
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## ⚙️ Key work
+## Key work
 
 <ProjectAchievements achievements={[
   {
@@ -53,7 +53,7 @@ Traditional static hosting like GitHub Pages cannot execute server-side logic, s
   },
 ]} />
 
-## 📸 Screenshots
+## Screenshots
 
 <ProjectLightbox images={[
   { src: '/images/sveltekit-portfolio/1.webp', mobileSrc: '/images/sveltekit-portfolio/1_mobile.jpg', alt: 'Main page', caption: 'Homepage — résumé-style layout for quick information scanning' },
@@ -61,7 +61,7 @@ Traditional static hosting like GitHub Pages cannot execute server-side logic, s
   { src: '/images/sveltekit-portfolio/3.webp', alt: 'Lighthouse performance score', caption: 'Lighthouse results: Performance 97, Accessibility 100, Best Practices 100' },
 ]} />
 
-## 💭 Retrospective
+## Retrospective
 
 **Why Cloudflare Pages over GitHub Pages?** The core issue was the initial load experience. Static hosting forces a blank-page → JS language check → redirect cycle that causes a visible flicker. Edge Functions intercept the request before anything reaches the browser, so the first HTML is already correct.
 

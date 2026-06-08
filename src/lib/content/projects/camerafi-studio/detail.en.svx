@@ -39,7 +39,7 @@ techStack:
   let { metadata, locale } = $props();
 </script>
 
-## 📋 Project overview
+## Project overview
 
 **"From Solo Project to Core Business Model"**
 
@@ -49,7 +49,7 @@ The product covered the full web-service surface area: overlay editing, authenti
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## ⚙️ Key work
+## Key work
 
 <ProjectAchievements achievements={[
   {
@@ -81,7 +81,7 @@ The product covered the full web-service surface area: overlay editing, authenti
   },
 ]} />
 
-## 💭 Retrospective
+## Retrospective
 
 **Scalable initial design:** In a solo project, a poor initial structure compounds into unmanageable technical debt. I held firm on **Next.js** folder conventions and strong **TypeScript** typing — building a codebase that could scale to a team without rearchitecting.
 

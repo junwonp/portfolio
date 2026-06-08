@@ -6,7 +6,6 @@
   interface NavSection {
     id: string;
     label: string;
-    emoji: string;
   }
 
   let sections = $state<NavSection[]>([]);
@@ -30,8 +29,8 @@
   );
 
   function parseHeader(text: string) {
-    const { emoji, main } = parseHeading(text);
-    return { emoji: emoji || '📄', label: main };
+    const { main } = parseHeading(text);
+    return { label: main };
   }
 
   $effect(() => {
@@ -48,8 +47,8 @@
         if (!el.id) {
           el.id = slugify(el.textContent || '', i);
         }
-        const { emoji, label } = parseHeader(el.textContent || '');
-        return { id: el.id, label, emoji };
+        const { label } = parseHeader(el.textContent || '');
+        return { id: el.id, label };
       });
 
       sections = parsed;
@@ -106,7 +105,6 @@
               }}
               aria-current={activeId === section.id ? 'location' : undefined}
             >
-              <span class="nav-emoji">{section.emoji}</span>
               <span class="nav-label">{section.label}</span>
             </button>
           </li>
@@ -176,11 +174,6 @@
     transition: color 0.15s;
     width: 100%;
     border-radius: 6px;
-  }
-
-  .nav-emoji {
-    font-size: 1.1rem;
-    flex-shrink: 0;
   }
 
   .nav-label {

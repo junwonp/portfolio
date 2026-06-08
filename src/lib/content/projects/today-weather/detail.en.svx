@@ -42,7 +42,7 @@ techStack:
   let { metadata, locale } = $props();
 </script>
 
-## 📋 Project overview
+## Project overview
 
 **"A guide, not just data"**
 
@@ -50,7 +50,7 @@ Existing weather apps share three frustrations: global data sources that miss Ko
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## 📸 Screenshots
+## Screenshots
 
 <ProjectLightbox variant="phone" images={[
   {
@@ -60,7 +60,7 @@ Existing weather apps share three frustrations: global data sources that miss Ko
   },
 ]} />
 
-## ⚙️ Key work
+## Key work
 
 <ProjectAchievements achievements={[
   {
@@ -117,7 +117,7 @@ On the client, TanStack Query uses a 5-minute default `staleTime`, and only succ
 - Outfit, umbrella, and mask recommendations are calculated by the same shared logic across surfaces.
 - Remaining evidence to add: real-device mobile/widget screenshots and deployment-status proof.
 
-## 💭 Retrospective
+## Retrospective
 
 **Latest tech in production:** Navigating the breaking changes in Next.js 16 and React 19 gave me a hands-on understanding of the modern React ecosystem — including where the React Compiler genuinely reduces boilerplate and where it still requires manual guidance.
 

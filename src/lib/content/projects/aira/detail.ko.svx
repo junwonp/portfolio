@@ -46,7 +46,7 @@ techStack:
   let { metadata, locale } = $props();
 </script>
 
-## 📋 프로젝트 소개
+## 프로젝트 소개
 
 **"2.3만 명이 사용한 AI 캐릭터 채팅 서비스"**
 
@@ -60,7 +60,7 @@ techStack:
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
 
-## ⚙️ 주요 작업
+## 주요 작업
 
 <ProjectAchievements achievements={[
   {
@@ -118,7 +118,7 @@ techStack:
   },
 ]} />
 
-## 📸 스크린샷
+## 스크린샷
 
 <ProjectLightbox images={[
   { 
@@ -138,7 +138,7 @@ techStack:
   { src: '/images/aira/reward_ads.webp', alt: '아이라 리워드 광고', caption: '포인트 충전을 위한 보상형 광고 화면' },
 ]} />
 
-### ⚡ 성능 데모
+### 성능 데모
 
 <ImageGallery>
   <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat FlashList Demo"/>
@@ -162,7 +162,7 @@ techStack:
 - **iOS 26 Liquid Glass 도입:** iOS 26에서 새롭게 선보인 **Liquid Glass**를 `UIGlassView`를 통해 직접 적용했습니다. JS 기반의 무거운 그래픽 연산 없이 시스템 네이티브 API를 호출하여, **최신 iOS 시스템 디자인을 따르면서도 배터리 효율을 극대화했습니다.**
 
 
-## 💭 회고
+## 회고
 
 **"스타트업에서 배운 엔지니어링의 본질"**
 

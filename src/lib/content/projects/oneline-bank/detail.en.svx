@@ -34,7 +34,7 @@ techStack:
   let { metadata, locale } = $props();
 </script>
 
-## 📋 Project overview
+## Project overview
 
 **"Simplifying money transfers into a single line of chat."**
 
@@ -42,7 +42,7 @@ OnelineBank is a **conversational banking demo**: the user describes a transfer 
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## ⚙️ Key work
+## Key work
 
 <ProjectAchievements achievements={[
   {
@@ -79,7 +79,7 @@ OnelineBank is a **conversational banking demo**: the user describes a transfer 
   },
 ]} />
 
-## 📸 Screenshots
+## Screenshots
 
 <ProjectLightbox images={[
   { src: '/images/oneline-bank/1.webp', alt: 'Splash page', caption: 'App identity — logo and intro screen' },
@@ -90,7 +90,7 @@ OnelineBank is a **conversational banking demo**: the user describes a transfer 
   { src: '/images/oneline-bank/6.webp', alt: 'Account list', caption: 'Firestore for accounts and transfer history in real time' },
 ]} />
 
-## 💭 Retrospective
+## Retrospective
 
 **Hackathon speed:** I leaned on existing React web experience to pick up React Native and native modules quickly and **ship a working demo**, not a polished architecture.
 

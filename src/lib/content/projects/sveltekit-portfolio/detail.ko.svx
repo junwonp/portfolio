@@ -18,7 +18,7 @@ techStack: ['Svelte / SvelteKit', 'TypeScript', 'Cloudflare Pages', 'GitHub Acti
   let { metadata, locale } = $props();
 </script>
 
-## 📋 프로젝트 소개
+## 프로젝트 소개
 
 **"정적 사이트의 성능에 동적 라우팅의 유연함을 더하다"**
 
@@ -26,7 +26,7 @@ GitHub Pages 같은 순수 정적 호스팅에서는 서버 사이드 로직을 
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## ⚙️ 주요 작업
+## 주요 작업
 
 <ProjectAchievements achievements={[
   {
@@ -53,7 +53,7 @@ GitHub Pages 같은 순수 정적 호스팅에서는 서버 사이드 로직을 
   },
 ]} />
 
-## 📸 스크린샷
+## 스크린샷
 
 <ProjectLightbox images={[
   { src: '/images/sveltekit-portfolio/1.webp', mobileSrc: '/images/sveltekit-portfolio/1_mobile.jpg', alt: '메인 페이지', caption: '홈 화면 — 빠른 정보 파악을 위한 이력서 스타일 레이아웃' },
@@ -61,7 +61,7 @@ GitHub Pages 같은 순수 정적 호스팅에서는 서버 사이드 로직을 
   { src: '/images/sveltekit-portfolio/3.webp', alt: 'Lighthouse 성능 점수', caption: 'Lighthouse 결과: Performance 97, Accessibility 100, Best Practices 100' },
 ]} />
 
-## 💭 회고
+## 회고
 
 **왜 GitHub Pages에서 Cloudflare Pages로?** 핵심 문제는 초기 로딩 경험이었습니다. 정적 호스팅에서는 빈 화면 → JS 언어 확인 → 리다이렉트 순서로 동작해 눈에 띄는 깜빡임이 발생합니다. Edge Functions가 요청을 브라우저에 도달하기 전에 가로채어 처리하므로, 첫 번째 HTML이 처음부터 올바릅니다.
 

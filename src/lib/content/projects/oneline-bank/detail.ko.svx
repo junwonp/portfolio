@@ -34,7 +34,7 @@ techStack:
   let { metadata, locale } = $props();
 </script>
 
-## 📋 프로젝트 소개
+## 프로젝트 소개
 
 **"복잡한 송금을 한 줄의 채팅으로."**
 
@@ -42,7 +42,7 @@ techStack:
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## ⚙️ 주요 작업
+## 주요 작업
 
 <ProjectAchievements achievements={[
   {
@@ -79,7 +79,7 @@ techStack:
   },
 ]} />
 
-## 📸 스크린샷
+## 스크린샷
 
 <ProjectLightbox images={[
   { src: '/images/oneline-bank/1.webp', alt: '스플래시 화면', caption: '앱의 정체성을 보여주는 로고와 인트로 화면' },
@@ -90,7 +90,7 @@ techStack:
   { src: '/images/oneline-bank/6.webp', alt: '계좌 목록 화면', caption: 'Firestore로 계좌·송금 내역을 실시간 관리' },
 ]} />
 
-## 💭 회고
+## 회고
 
 **해커톤:** 웹 React 경험을 바탕으로 React Native와 네이티브 모듈을 빠르게 익히고 **동작하는 데모**를 만드는 데 집중했습니다.
 

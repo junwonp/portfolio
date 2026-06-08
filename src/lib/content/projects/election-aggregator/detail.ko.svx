@@ -16,7 +16,7 @@ techStack: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components'
   let { metadata, locale } = $props();
 </script>
 
-## 📋 프로젝트 소개
+## 프로젝트 소개
 
 **"파편화된 선거 정보를 한 곳에서 볼 수 있다면?"**
 
@@ -24,7 +24,7 @@ techStack: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components'
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## ⚙️ 주요 작업
+## 주요 작업
 
 <ProjectAchievements achievements={[
   {
@@ -56,7 +56,7 @@ techStack: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components'
   },
 ]} />
 
-## 📸 스크린샷
+## 스크린샷
 
 <ProjectLightbox images={[
   { src: '/images/election-aggregator/1.webp', mobileSrc: '/images/election-aggregator/1_mobile.jpg', alt: '메인 대시보드', caption: '메인 대시보드 — D-Day 카운터, 주요 뉴스, 선거 일정' },
@@ -67,6 +67,6 @@ techStack: ['React', 'JavaScript', 'AWS Amplify', 'GraphQL', 'styled-components'
   { src: '/images/election-aggregator/13.webp', mobileSrc: '/images/election-aggregator/13_mobile.jpg', alt: '여론조사 차트', caption: 'Recharts로 시각화한 지지율 추이' },
 ]} />
 
-## 💭 회고
+## 회고
 
 직접 백엔드를 구축하는 대신 **AWS Amplify**를 도입하자 팀이 비즈니스 로직과 데이터 시각화에 집중할 수 있었습니다. 제한된 프로젝트 기간 안에 인증, DB, API를 모두 갖춘 서비스를 배포할 수 있었고, 올바른 인프라 선택이 소규모 팀에 얼마나 큰 레버리지를 주는지 직접 경험할 수 있었습니다.
