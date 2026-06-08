@@ -189,7 +189,6 @@ export const otherExperiencesShared = [
   {
     id: 'day_planner',
     dateFrom: '2026-04',
-    detailLink: '/projects/day-planner',
     paradigm: 'agentic',
     featuredSkills: [SKILL.languages.swift, SKILL.frameworks.swiftUi, SKILL.backend.cloudKit],
     skills: [SKILL.languages.swift, SKILL.frameworks.swiftUi, SKILL.backend.cloudKit],
