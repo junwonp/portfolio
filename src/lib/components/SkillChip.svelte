@@ -32,15 +32,14 @@
 <style>
   .skill-chip {
     --cat-color: var(--color-primary);
-    --cat-text-hover: white;
 
     appearance: none;
     background: color-mix(in srgb, var(--cat-color) 4%, transparent);
-    border: 1px solid color-mix(in srgb, var(--cat-color) 28%, var(--color-bg-divider));
-    border-radius: 6px;
+    border: 1px solid color-mix(in srgb, var(--cat-color) 15%, var(--color-bg-divider));
+    border-radius: 9999px; /* Capsule shape */
     color: var(--color-sub);
-    font-size: 0.875rem;
-    padding: 0.35rem 0.65rem;
+    font-size: 0.875rem; /* 14px for better Apple HIG web readability */
+    padding: 0.35rem 0.8rem; /* Balanced padding for 14px font size */
     font-weight: 500;
     line-height: 1;
     white-space: nowrap;
@@ -48,23 +47,27 @@
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: all 0.15s ease;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     font-family: inherit;
     text-align: center;
   }
 
   .skill-chip:not(.readonly):hover {
-    color: var(--cat-text-hover);
-    background: var(--cat-color);
+    color: var(--cat-color);
+    background: color-mix(in srgb, var(--cat-color) 10%, transparent); /* Subtle hover fill */
     border-color: var(--cat-color);
   }
 
   .skill-chip.active {
-    background: var(--cat-color);
+    background: color-mix(
+      in srgb,
+      var(--cat-color) 12%,
+      transparent
+    ); /* Elegant translucent active fill */
     border-color: var(--cat-color);
-    color: var(--cat-text-hover);
-    font-weight: 700;
-    box-shadow: 0 2px 6px color-mix(in srgb, var(--cat-color) 30%, transparent);
+    color: var(--cat-color);
+    font-weight: 600;
+    box-shadow: none; /* Removed heavy shadow for clean HIG look */
   }
 </style>

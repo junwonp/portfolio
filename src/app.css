@@ -1,3 +1,5 @@
+@import '$lib/styles/typography.css';
+
 @font-face {
   font-family: 'Wanted Sans';
   font-weight: 400 800;
@@ -20,19 +22,6 @@
   --space-md: 2rem;
   --space-lg: 4rem;
   --space-xl: 6rem;
-
-  --font-h1: 3.5rem;
-  --font-h2: 2.25rem;
-  --font-h3: 1.5rem;
-  --font-h4: 1.25rem;
-  --font-h5: 1.125rem;
-  --font-h6: 1rem;
-  --font-body: 1rem;
-
-  --line-height-tight: 1.1;
-  --line-height-heading: 1.3;
-  --line-height-body: 1.4;
-  --line-height-default: 1.15;
 
   --font-family-code: 'Geist Mono', monospace;
   --font-family-text: 'Wanted Sans';
@@ -371,79 +360,80 @@ code {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  padding: 0.4rem 0.6rem;
+  border-radius: 9999px; /* Capsule shape */
+  font-size: 0.75rem; /* Reduced size for elegance */
+  font-weight: 500;
+  padding: 0.25rem 0.65rem; /* Balanced horizontal padding */
   line-height: 1;
   white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 
 .badge.primary {
-  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
   color: var(--color-primary);
 }
 
 .badge.green {
-  background-color: #e6f6eb;
-  color: #014737;
+  background-color: rgba(52, 199, 89, 0.1); /* Apple HIG System Green 10% */
+  color: #1a7532;
 }
 
 html.dark .badge.green {
-  background-color: #112a24;
-  color: #a7f3d0;
+  background-color: rgba(48, 209, 88, 0.15);
+  color: #30d158;
 }
 
 .badge.orange {
-  background-color: #fff0e6;
-  color: #9a3412;
+  background-color: rgba(255, 149, 0, 0.1); /* Apple HIG System Orange 10% */
+  color: #ab6400;
 }
 
 html.dark .badge.orange {
-  background-color: #2a1a10;
-  color: #ff9248;
+  background-color: rgba(255, 159, 10, 0.15);
+  color: #ff9f0a;
 }
 
 .badge.sub {
-  background: color-mix(in srgb, var(--color-sub) 10%, transparent);
+  background: color-mix(in srgb, var(--color-sub) 8%, transparent);
   color: var(--color-sub);
 }
 
-/* Platform Specific Badges */
+/* Platform Specific Badges (Apple HIG Matching) */
 .badge.android {
-  background-color: #e6f6eb;
-  color: #014737;
+  background-color: rgba(61, 220, 132, 0.1);
+  color: #1e8048;
 }
 html.dark .badge.android {
-  background-color: #112a24;
-  color: #a7f3d0;
+  background-color: rgba(61, 220, 132, 0.15);
+  color: #3ddc84;
 }
 
 .badge.ios {
-  background-color: #e0f2fe;
-  color: #075985;
+  background-color: rgba(0, 122, 255, 0.1); /* Apple System Blue */
+  color: #007aff;
 }
 html.dark .badge.ios {
-  background-color: #0c2a3b;
-  color: #7dd3fc;
+  background-color: rgba(10, 132, 255, 0.15);
+  color: #0a84ff;
 }
 
 .badge.macos {
-  background-color: #fff7ed;
-  color: #9a3412;
+  background-color: rgba(255, 149, 0, 0.1); /* System Orange */
+  color: #ab6400;
 }
 html.dark .badge.macos {
-  background-color: #2d1a10;
-  color: #fdba74;
+  background-color: rgba(255, 159, 10, 0.15);
+  color: #ff9f0a;
 }
 
 .badge.web {
-  background-color: #fff0e6;
-  color: #9a3412;
+  background-color: rgba(255, 59, 48, 0.1); /* Apple System Red */
+  color: #d62d20;
 }
 html.dark .badge.web {
-  background-color: #2d1a10;
-  color: #ff9248;
+  background-color: rgba(255, 69, 58, 0.15);
+  color: #ff453a;
 }
 
 pre {
@@ -505,9 +495,6 @@ article img {
 
 @media (max-width: 960px) {
   :root {
-    --font-h1: 2.5rem;
-    --font-h2: 1.375rem;
-    --font-h3: 1.15rem;
     --space-xl: 4rem;
     --space-lg: 3rem;
     --space-project-gap: var(--space-sm);
@@ -518,22 +505,12 @@ article img {
 
 @media (max-width: 576px) {
   :root {
-    --font-h1: 2.25rem;
-    --font-h2: 1.75rem;
-    --font-h3: 1.25rem;
-    --font-h4: 1.1rem;
-
     --space-xl: 3rem;
     --space-lg: 2.5rem;
     --space-md: 1.5rem;
     --space-project-gap: var(--space-sm);
     --space-row-padding: var(--space-xs);
     --space-row-gap: var(--space-sm);
-  }
-
-  html,
-  body {
-    font-size: 15px;
   }
 
   h2 {
