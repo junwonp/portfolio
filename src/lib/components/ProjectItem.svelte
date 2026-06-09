@@ -161,7 +161,7 @@
 
   .project-title {
     color: var(--color-bold);
-    font-size: 1.125rem;
+    font-size: var(--font-h3);
     font-weight: 600;
     margin: 0;
     overflow-wrap: anywhere;

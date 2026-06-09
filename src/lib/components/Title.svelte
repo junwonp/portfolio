@@ -321,7 +321,7 @@
   }
 
   .title {
-    font-size: 3rem;
+    font-size: var(--font-h1);
     overflow-wrap: anywhere;
     line-height: 1.1;
     margin: 0;
@@ -386,7 +386,7 @@
   }
 
   .role {
-    font-size: 2rem;
+    font-size: var(--font-role);
     line-height: 1.1;
     margin: 0 0 0.67em 0;
     overflow-wrap: anywhere;
@@ -395,7 +395,7 @@
 
   .tagline {
     color: var(--color-sub);
-    font-size: 1.5rem;
+    font-size: var(--font-tagline);
     line-height: 1.1;
     margin: 0 0 0.67em 0;
     overflow-wrap: anywhere;
@@ -815,10 +815,6 @@
   }
 
   @media (max-width: 960px) {
-    .title {
-      font-size: 2.25rem;
-    }
-
     .metric-cell {
       padding: 0.65rem;
     }
