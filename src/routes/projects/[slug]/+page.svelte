@@ -156,14 +156,6 @@
             {/each}
           </dl>
         {/if}
-
-        {#if metadata.platforms && metadata.platforms.length > 0}
-          <div class="platforms">
-            {#each metadata.platforms as platform (platform)}
-              <Badge text={platform} />
-            {/each}
-          </div>
-        {/if}
       </div>
 
       <!-- MDX content -->
@@ -389,13 +381,6 @@
     .nav-wrapper {
       display: none;
     }
-  }
-
-  .platforms {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
   }
 
   /* Hero */
