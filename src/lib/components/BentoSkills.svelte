@@ -75,7 +75,7 @@
 
   .card {
     background: var(--color-basic-bg);
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -85,7 +85,7 @@
       box-shadow 0.2s,
       background-color 0.2s,
       border-color 0.2s;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
     border: 0.5px solid rgba(0, 0, 0, 0.06);
   }
 
@@ -102,7 +102,7 @@
 
   :global(html.dark) .card {
     background: var(--color-code-bg);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
     border: 0.5px solid rgba(255, 255, 255, 0.05);
   }
 
