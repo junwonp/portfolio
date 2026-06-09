@@ -31,7 +31,10 @@
 <div class="bento-grid">
   {#each skills as skill (skill.title)}
     {@const Icon = categoryIcons[skill.id]}
-    <div class="card" style:--cat-color="var(--color-cat-{skill.id})">
+    <div
+      class={['card', (skill.id === 'frameworks' || skill.id === 'ai_workflow') && 'span-2']}
+      style:--cat-color="var(--color-cat-{skill.id})"
+    >
       <div class="card-header">
         {#if Icon}
           <Icon class="category-icon" size={18} strokeWidth={2.5} />
@@ -71,21 +74,42 @@
   }
 
   .card {
-    background: transparent;
-    border: 1px solid color-mix(in srgb, var(--cat-color) 20%, var(--color-bg-divider));
-    border-radius: 12px;
+    background: var(--color-basic-bg);
+    border-radius: 16px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
     min-width: 0;
     transition:
-      border-color 0.2s,
-      background-color 0.2s;
+      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.2s,
+      background-color 0.2s,
+      border-color 0.2s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: 0.5px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .card.span-2 {
+    grid-column: span 2;
   }
 
   .card:hover {
-    border-color: var(--cat-color);
-    background: color-mix(in srgb, var(--cat-color) 2%, transparent);
+    transform: translateY(-3px);
+    background: color-mix(in srgb, var(--cat-color) 4%, var(--color-basic-bg));
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    border-color: color-mix(in srgb, var(--cat-color) 20%, rgba(0, 0, 0, 0.06));
+  }
+
+  :global(html.dark) .card {
+    background: var(--color-code-bg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border: 0.5px solid rgba(255, 255, 255, 0.05);
+  }
+
+  :global(html.dark) .card:hover {
+    background: color-mix(in srgb, var(--cat-color) 6%, var(--color-code-bg));
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    border-color: color-mix(in srgb, var(--cat-color) 30%, rgba(255, 255, 255, 0.05));
   }
 
   .card-header {
@@ -120,7 +144,7 @@
     flex-direction: column;
     gap: 0.75rem;
     margin-top: 1rem;
-    border-top: 1px solid color-mix(in srgb, var(--cat-color) 15%, var(--color-bg-divider));
+    border-top: 0.5px solid color-mix(in srgb, var(--cat-color) 15%, var(--color-bg-divider));
     padding-top: 0.75rem;
   }
 
@@ -135,6 +159,10 @@
   @media (max-width: 768px) {
     .bento-grid {
       grid-template-columns: 1fr;
+    }
+
+    .card.span-2 {
+      grid-column: auto;
     }
   }
 </style>

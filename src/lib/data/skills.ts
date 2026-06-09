@@ -106,19 +106,6 @@ export const skillsShared: SkillGroup[] = [
     list: [SKILL.languages.typescript, SKILL.languages.javascript, SKILL.languages.swift],
   },
   {
-    id: 'frameworks',
-    list: [
-      SKILL.frameworks.react,
-      SKILL.frameworks.nextJs,
-      SKILL.frameworks.reactNative,
-      SKILL.frameworks.expo,
-      SKILL.frameworks.expoRouter,
-      SKILL.frameworks.svelte,
-      SKILL.frameworks.svelteKit,
-      SKILL.frameworks.swiftUi,
-    ],
-  },
-  {
     id: 'ui',
     list: [
       SKILL.ui.styledComponents,
@@ -129,6 +116,19 @@ export const skillsShared: SkillGroup[] = [
       SKILL.ui.shadcnUi,
       SKILL.ui.reactTable,
       SKILL.ui.chartJs,
+    ],
+  },
+  {
+    id: 'frameworks',
+    list: [
+      SKILL.frameworks.react,
+      SKILL.frameworks.nextJs,
+      SKILL.frameworks.reactNative,
+      SKILL.frameworks.expo,
+      SKILL.frameworks.expoRouter,
+      SKILL.frameworks.svelte,
+      SKILL.frameworks.svelteKit,
+      SKILL.frameworks.swiftUi,
     ],
   },
   {
