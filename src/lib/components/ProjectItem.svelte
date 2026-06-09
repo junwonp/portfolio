@@ -121,12 +121,15 @@
 <style>
   .project-item {
     min-width: 0;
-    transition: background-color 0.15s;
+    transition:
+      background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 8px;
   }
 
   .project-item:hover {
     background-color: var(--color-surface-hover);
+    transform: translateY(-2px);
   }
 
   .project-header {
