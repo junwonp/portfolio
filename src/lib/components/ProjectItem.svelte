@@ -121,15 +121,13 @@
 <style>
   .project-item {
     min-width: 0;
-    transition:
-      background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-      transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 8px;
+    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Flat table row — no border-radius */
   }
 
   .project-item:hover {
     background-color: var(--color-surface-hover);
-    transform: translateY(-2px);
+    /* No lift — row hover fills in place */
   }
 
   .project-header {
@@ -140,7 +138,7 @@
     display: flex;
     gap: 1rem;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 1rem 1.5rem; /* Extend to card edges */
     text-align: left;
     width: 100%;
     font-family: inherit;
@@ -215,7 +213,7 @@
     flex-direction: column;
     gap: 1.25rem;
     min-width: 0;
-    padding: 0 1rem 1.25rem 1rem;
+    padding: 0 1.5rem 1.25rem 1.5rem; /* Extend to card edges */
   }
 
   .project-metrics {
@@ -329,7 +327,11 @@
     }
 
     .project-header {
-      padding: 0.875rem;
+      padding: 0.875rem 1.25rem; /* Match mobile card padding (1.25rem) */
+    }
+
+    .project-content {
+      padding: 0 1.25rem 1.25rem 1.25rem;
     }
 
     .metric-item {

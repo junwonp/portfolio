@@ -129,6 +129,7 @@
     display: flex;
     flex-direction: column;
     min-width: 0;
+    overflow: hidden; /* Clip table rows at rounded card corners */
     padding: 1.5rem;
     transition:
       transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
@@ -283,15 +284,18 @@
     overflow-wrap: anywhere;
   }
 
+  /* Apple Table View: extend to card edges, separate from header with hairline */
   .project-list {
-    background: transparent;
-    border: none;
-    border-radius: 0;
+    border-top: 0.5px solid var(--color-bg-divider);
     display: flex;
     flex-direction: column;
-    margin-top: 0.75rem;
+    margin: 0.75rem -1.5rem -1.5rem -1.5rem;
     min-width: 0;
-    overflow: visible;
+  }
+
+  /* 0.5px hairline divider between adjacent project rows */
+  .project-list :global(.project-item + .project-item) {
+    border-top: 0.5px solid var(--color-bg-divider);
   }
 
   .additional-link {
@@ -318,6 +322,10 @@
 
     .company-card {
       padding: 1.25rem;
+    }
+
+    .project-list {
+      margin: 0.5rem -1.25rem -1.25rem -1.25rem;
     }
 
     .company-info-row {
