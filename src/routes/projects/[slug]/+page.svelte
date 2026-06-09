@@ -179,32 +179,63 @@
 </div>
 
 <style>
-  /* Desktop-only sticky header */
+  /* Desktop-only sticky header (iOS UINavigationBar Style with Gradient Blur) */
   .project-topbar {
     position: sticky;
     top: 0;
     z-index: 40;
     display: flex;
     align-items: center;
-    height: 52px;
+    height: 56px;
     padding: 0 24px;
-    background: color-mix(in srgb, var(--color-basic-bg) 88%, transparent);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--color-bg-divider);
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.95) 45%,
+      rgba(255, 255, 255, 0.7) 75%,
+      transparent
+    );
+    :global(html.dark) & {
+      background: linear-gradient(
+        to bottom,
+        rgba(28, 28, 30, 0.95) 45%,
+        rgba(28, 28, 30, 0.7) 75%,
+        transparent
+      );
+    }
+    backdrop-filter: saturate(190%) blur(20px);
+    -webkit-backdrop-filter: saturate(190%) blur(20px);
+    border-bottom: none;
   }
 
   .topbar-back {
-    font-size: 14px;
-    color: var(--color-sub);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-primary); /* iOS System Blue */
     text-decoration: none;
     white-space: nowrap;
-    transition: color 0.15s;
+    background-color: color-mix(in srgb, var(--color-surface-hover) 80%, transparent);
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 8%, transparent);
+    border-radius: 9999px;
+    height: 32px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    transition:
+      background-color 0.15s,
+      color 0.15s,
+      transform 0.1s;
     z-index: 1;
   }
 
   .topbar-back:hover {
-    color: var(--color-bold);
+    background-color: var(--color-disabled-bg);
+  }
+
+  .topbar-back:active {
+    transform: scale(0.94);
   }
 
   .topbar-crumb {
@@ -214,59 +245,82 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 14px;
+    font-size: 0.9375rem; /* iOS Navigation Title size */
     color: var(--color-sub);
     white-space: nowrap;
     pointer-events: none;
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 0;
   }
 
   .crumb-sep {
-    opacity: 0.4;
+    opacity: 0.3;
+    color: var(--color-sub);
   }
 
   .crumb-current {
-    color: var(--color-main);
-    font-weight: 500;
+    color: var(--color-bold);
+    font-weight: 600;
   }
 
   .topbar-links {
     margin-left: auto;
     display: flex;
-    gap: 8px;
+    gap: 4px;
     align-items: center;
     z-index: 1;
   }
 
   .topbar-link {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 5px;
-    font-size: 13px;
+    justify-content: center;
+    gap: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
     font-family: inherit;
-    color: var(--color-sub);
+    color: var(--color-primary);
     text-decoration: none;
-    padding: 5px 10px;
-    border: 1px solid var(--color-bg-divider);
-    border-radius: 6px;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid color-mix(in srgb, var(--color-primary) 8%, transparent);
+    background-color: color-mix(in srgb, var(--color-surface-hover) 80%, transparent);
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border-radius: 9999px;
     white-space: nowrap;
     transition:
+      background-color 0.15s,
       color 0.15s,
-      border-color 0.15s;
+      transform 0.1s;
   }
 
   .topbar-link:hover {
-    color: var(--color-bold);
-    border-color: var(--color-main);
+    background-color: var(--color-disabled-bg);
+  }
+
+  .topbar-link:active {
+    transform: scale(0.94);
   }
 
   .topbar-link.primary {
     background: var(--color-primary);
-    color: #fff;
-    border-color: var(--color-primary);
+    color: #fff !important;
+    border-radius: 9999px; /* Visit Site is kept as a primary filled pill */
+    padding: 6px 14px;
+    opacity: 1;
   }
 
   .topbar-link.primary:hover {
-    opacity: 0.85;
+    background: var(--color-primary-hover);
+    opacity: 0.95;
+  }
+
+  .topbar-link.primary:active {
+    transform: scale(0.96);
+    opacity: 0.8;
   }
 
   /* Hide desktop header on mobile — BottomNav handles navigation there */

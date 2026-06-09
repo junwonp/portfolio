@@ -139,7 +139,6 @@
             role={summaryIntroduction.role}
             tagline={summaryIntroduction.tagline}
           />
-          <div id="intro-header-sentinel" aria-hidden="true"></div>
         </section>
       {/if}
 

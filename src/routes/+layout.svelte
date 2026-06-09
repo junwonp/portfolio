@@ -121,7 +121,7 @@
 
 <div class="wrapper">
   <div class="content-wrapper">
-    <main id="main-content" class="content" tabindex="-1">
+    <main id="main-content" class="content" class:is-project={isProjectPage} tabindex="-1">
       {@render children()}
     </main>
   </div>
@@ -152,6 +152,10 @@
     max-width: 100%;
     min-width: 0;
     padding: 2rem;
+  }
+
+  main.content.is-project {
+    padding-top: 0 !important;
   }
 
   @media (max-width: 576px) {

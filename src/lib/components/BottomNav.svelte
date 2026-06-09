@@ -414,10 +414,16 @@
 
 <style>
   .tab-bar {
-    background: color-mix(in srgb, var(--color-basic-bg) 85%, transparent);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--color-bg-divider);
+    background: rgba(255, 255, 255, 0.45);
+    :global(html.dark) & {
+      background: rgba(255, 255, 255, 0.06);
+    }
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    :global(html.dark) & {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
     border-radius: 999px;
     bottom: calc(1rem + env(safe-area-inset-bottom));
     display: flex; /* Changed from none to flex */
@@ -428,7 +434,14 @@
     width: calc(100% - 1.5rem);
     max-width: 500px;
     z-index: 50;
-    box-shadow: 0 4px 20px var(--color-shadow);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.06),
+      inset 0 1px 1px rgba(255, 255, 255, 0.8);
+    :global(html.dark) & {
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
     touch-action: none;
   }
 
@@ -525,12 +538,25 @@
   }
 
   .island {
-    background: color-mix(in srgb, var(--color-basic-bg) 85%, transparent);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--color-bg-divider);
+    background: rgba(255, 255, 255, 0.45);
+    :global(html.dark) & {
+      background: rgba(255, 255, 255, 0.06);
+    }
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    :global(html.dark) & {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
     border-radius: 999px;
-    box-shadow: 0 4px 20px var(--color-shadow);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.06),
+      inset 0 1px 1px rgba(255, 255, 255, 0.8);
+    :global(html.dark) & {
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
     pointer-events: auto;
   }
 
