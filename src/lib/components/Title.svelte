@@ -328,6 +328,7 @@
     word-break: keep-all;
     flex: 1;
     min-width: 0;
+    padding-right: 160px;
   }
 
   .icons {
@@ -822,5 +823,10 @@
     .metrics-grid.has-four-metrics {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+  }
+
+  .action-group,
+  .lang-toggle-wrapper {
+    display: none !important;
   }
 </style>

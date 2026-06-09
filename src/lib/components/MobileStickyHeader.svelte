@@ -88,9 +88,15 @@
 
 <header class="sticky-header" aria-label="Quick navigation header">
   <div class="actions">
+    <div class="lang-toggle-wrapper pc-only">
+      <button class="lang-toggle" onclick={toggleLanguage} title={labels.toggleLanguage}>
+        {locale === 'ko' ? 'English' : '한국어'}
+      </button>
+    </div>
+
     <div class="action-group">
       <button
-        class="lang-toggle-btn"
+        class="lang-toggle-btn mobile-only"
         onclick={toggleLanguage}
         aria-label={labels.toggleLanguage}
         title={labels.toggleLanguage}
@@ -98,13 +104,10 @@
         {locale === 'ko' ? 'EN' : 'KO'}
       </button>
 
-      <div class="divider"></div>
-
       {#if githubLink}
         <IconLink href={githubLink} title={labels.goToGithubPage} type="github">
           <Github width={20} height={20} />
         </IconLink>
-        <div class="divider"></div>
       {/if}
 
       <div class="more-menu-container">
@@ -178,19 +181,121 @@
     -webkit-backdrop-filter: none;
     display: none;
     justify-content: flex-end;
-    left: auto;
-    padding: 0 1rem;
-    padding-top: calc(16px + env(safe-area-inset-top));
     position: fixed;
-    right: 0;
     top: 0;
     z-index: 50;
     height: auto;
   }
 
+  @media (min-width: 576px) {
+    .sticky-header {
+      display: flex;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 800px;
+      padding: 0 2rem;
+      padding-top: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .sticky-header {
+      max-width: 900px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .sticky-header {
+      max-width: 1000px;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .sticky-header {
+      max-width: 1200px;
+    }
+  }
+
   @media (max-width: 576px) {
     .sticky-header {
       display: flex;
+      left: auto;
+      right: 0;
+      transform: none;
+      width: auto;
+      padding: 0 1rem;
+      padding-top: calc(16px + env(safe-area-inset-top));
+    }
+  }
+  /* Language toggle styles for desktop sticky header */
+  .lang-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+  }
+
+  .lang-toggle {
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.45);
+    :global(html.dark) & {
+      background-color: rgba(255, 255, 255, 0.06);
+    }
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    :global(html.dark) & {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    border-radius: 9999px;
+    color: var(--color-sub);
+    cursor: pointer;
+    display: flex;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    height: 36px;
+    padding: 0 0.875rem;
+    transition:
+      background-color 0.15s,
+      color 0.15s,
+      transform 0.1s;
+    box-sizing: border-box;
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.03),
+      inset 0 1px 1px rgba(255, 255, 255, 0.8);
+    :global(html.dark) & {
+      box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  .lang-toggle:active {
+    transform: scale(0.88);
+    background-color: var(--color-disabled-bg);
+    color: var(--color-bold);
+  }
+
+  .lang-toggle:hover {
+    color: var(--color-bold);
+  }
+
+  /* Responsive Display Utilities */
+  .mobile-only {
+    display: none !important;
+  }
+
+  .pc-only {
+    display: block;
+  }
+
+  @media (max-width: 576px) {
+    .mobile-only {
+      display: inline-flex !important;
+    }
+
+    .pc-only {
+      display: none !important;
     }
   }
 
@@ -262,13 +367,6 @@
         0 4px 12px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
-  }
-
-  .divider {
-    background: color-mix(in srgb, var(--color-main) 15%, transparent);
-    height: 14px;
-    width: 1px;
-    margin: 0 3px;
   }
 
   .error {
