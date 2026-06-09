@@ -396,18 +396,27 @@
     margin-bottom: 24px;
     position: relative;
     overflow: hidden;
-    border-radius: 12px;
-    border: 1px solid var(--color-bg-divider);
+    border-radius: 16px;
     background: var(--color-disabled-bg);
     cursor: zoom-in;
     padding: 0;
     transition:
-      border-color 0.2s,
-      transform 0.2s ease;
+      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.2s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+    border: none;
+    :global(html.dark) & {
+      border: 0.5px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
   }
 
-  .phone-preview .masonry-item {
-    max-width: 360px;
+  .masonry-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    :global(html.dark) & {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
   }
 
   /* Force image to fill the frame width and override global max-height */
@@ -423,12 +432,6 @@
   .phone-preview .masonry-item img {
     max-height: 640px !important;
     object-position: top;
-  }
-
-  .masonry-item:hover {
-    border-color: var(--color-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--color-shadow);
   }
 
   .masonry-item:hover img {

@@ -120,13 +120,13 @@
 
 <style>
   .project-item {
-    border-bottom: 1px solid var(--color-bg-divider);
     min-width: 0;
     transition: background-color 0.15s;
+    border-radius: 8px;
   }
 
-  .project-item:last-child {
-    border-bottom: none;
+  .project-item:hover {
+    background-color: var(--color-surface-hover);
   }
 
   .project-header {
@@ -216,13 +216,19 @@
   }
 
   .project-metrics {
-    border: 1px solid var(--color-bg-divider);
-    border-radius: 10px;
+    background: color-mix(in srgb, var(--color-surface-hover) 35%, var(--color-basic-bg));
+    border-radius: 12px;
     display: grid;
     grid-template-columns: repeat(var(--metric-count), minmax(0, 1fr));
     gap: 0;
-    margin-top: 0.5rem;
-    padding: 0.25rem;
+    margin-top: 0.75rem;
+    padding: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    :global(html.dark) & {
+      background: rgba(255, 255, 255, 0.03);
+      box-shadow: none;
+      border: 0.5px solid rgba(255, 255, 255, 0.05);
+    }
   }
 
   .metric-item {

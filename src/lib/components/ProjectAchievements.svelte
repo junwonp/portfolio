@@ -80,21 +80,33 @@
   }
 
   .ach-card {
-    border: 1px solid var(--color-bg-divider);
-    border-radius: 12px;
+    border-radius: 16px;
     background: var(--color-basic-bg);
     overflow: hidden;
     min-width: 0;
-    transition: all 0.2s ease;
+    transition:
+      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.2s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    :global(html.dark) & {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      border: 0.5px solid rgba(255, 255, 255, 0.05);
+    }
   }
 
   .ach-card:hover {
-    border-color: var(--color-sub);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
+    :global(html.dark) & {
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+    }
   }
 
   .ach-card.open {
-    border-color: var(--color-primary);
-    box-shadow: 0 4px 12px var(--color-shadow);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    :global(html.dark) & {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    }
   }
 
   .ach-header {

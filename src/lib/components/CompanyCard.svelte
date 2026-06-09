@@ -125,17 +125,26 @@
 
   .company-card {
     background: var(--color-basic-bg);
-    border: 1px solid var(--color-bg-divider);
-    border-radius: 12px;
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
     min-width: 0;
     padding: 1.5rem;
-    transition: all 0.2s ease;
+    transition:
+      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.2s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    :global(html.dark) & {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      border: 0.5px solid rgba(255, 255, 255, 0.05); /* Very subtle hairline for dark mode layering */
+    }
   }
 
   .company-card.open {
-    border-color: var(--color-primary);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    :global(html.dark) & {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    }
   }
 
   .company-header {
@@ -275,14 +284,14 @@
   }
 
   .project-list {
-    background: var(--color-basic-bg);
-    border: 1px solid var(--color-bg-divider);
-    border-radius: 8px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
     display: flex;
     flex-direction: column;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .additional-link {

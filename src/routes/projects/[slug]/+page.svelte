@@ -434,14 +434,20 @@
 
   /* Metrics */
   .metrics-row {
-    border: 1px solid var(--color-bg-divider);
-    border-radius: 10px;
+    background: color-mix(in srgb, var(--color-surface-hover) 35%, var(--color-basic-bg));
+    border-radius: 14px;
     display: grid;
     gap: 0;
     grid-template-columns: repeat(var(--metric-count), minmax(0, 1fr));
     margin: 0;
     max-width: 680px;
-    padding: 4px;
+    padding: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    :global(html.dark) & {
+      background: rgba(255, 255, 255, 0.03);
+      box-shadow: none;
+      border: 0.5px solid rgba(255, 255, 255, 0.05);
+    }
   }
 
   .metric {
