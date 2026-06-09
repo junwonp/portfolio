@@ -152,13 +152,21 @@
   }
 
   .metric-strip {
-    border: 1px solid var(--color-bg-divider);
-    border-radius: 10px;
+    background: color-mix(in srgb, var(--color-surface-hover) 35%, var(--color-basic-bg));
+    border-radius: 12px;
     display: grid;
     gap: 0;
     grid-template-columns: repeat(var(--metric-count), minmax(0, 1fr));
     margin: 0 0 0.75rem;
-    padding: 0.25rem;
+    padding: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    border: none;
+  }
+
+  :global(html.dark) .metric-strip {
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: none;
+    border: 0.5px solid rgba(255, 255, 255, 0.05);
   }
 
   .metric-item {

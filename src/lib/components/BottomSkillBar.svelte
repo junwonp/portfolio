@@ -133,16 +133,26 @@
   }
 
   .bottom-skill-bar {
-    background: color-mix(in srgb, var(--color-basic-bg) 95%, transparent);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--color-bg-divider);
-    border-radius: 16px;
-    box-shadow: 0 10px 40px var(--color-shadow);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: saturate(140%) blur(24px);
+    -webkit-backdrop-filter: saturate(140%) blur(24px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     overflow: hidden;
     pointer-events: auto;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  :global(html.dark) .bottom-skill-bar {
+    background: rgba(22, 27, 34, 0.85);
+    border: 0.5px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
   }
 
   .bar-header {
@@ -150,8 +160,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.25rem;
-    border-bottom: 1px solid var(--color-bg-divider);
-    background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+    background: color-mix(in srgb, var(--color-primary) 4%, transparent);
+  }
+
+  :global(html.dark) .bar-header {
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
   }
 
   .status-info {
@@ -191,24 +205,42 @@
 
   .toggle-btn,
   .close-btn {
-    background: var(--color-bg-subdivider);
+    background: rgba(0, 0, 0, 0.05);
     border: none;
-    border-radius: 6px;
+    border-radius: 9999px;
     color: var(--color-sub);
     font-size: 0.8125rem;
     font-weight: 600;
-    padding: 0.4rem 0.75rem;
+    padding: 0.4rem 0.85rem;
     cursor: pointer;
-    transition: all 0.2s;
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      transform 0.1s;
     display: flex;
     align-items: center;
     gap: 0.25rem;
   }
 
+  :global(html.dark) .toggle-btn,
+  :global(html.dark) .close-btn {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
   .toggle-btn:hover,
   .close-btn:hover {
-    background: var(--color-bg-divider);
+    background: rgba(0, 0, 0, 0.08);
     color: var(--color-bold);
+  }
+
+  :global(html.dark) .toggle-btn:hover,
+  :global(html.dark) .close-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .toggle-btn:active,
+  .close-btn:active {
+    transform: scale(0.95);
   }
 
   .bar-body {
