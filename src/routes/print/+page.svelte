@@ -429,6 +429,7 @@
     background: white;
     color: #1a1a1a;
     font-family:
+      'Wanted Sans',
       'Apple SD Gothic Neo',
       'Noto Sans KR',
       system-ui,
