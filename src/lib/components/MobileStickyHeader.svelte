@@ -237,16 +237,10 @@
 
   .lang-toggle {
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.45);
-    :global(html.dark) & {
-      background-color: rgba(255, 255, 255, 0.06);
-    }
-    backdrop-filter: saturate(140%) blur(12px);
-    -webkit-backdrop-filter: saturate(140%) blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    :global(html.dark) & {
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
+    background-color: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
     border-radius: 9999px;
     color: var(--color-sub);
     cursor: pointer;
@@ -342,16 +336,10 @@
   }
 
   .action-group {
-    background-color: rgba(255, 255, 255, 0.45);
-    :global(html.dark) & {
-      background-color: rgba(255, 255, 255, 0.06);
-    }
-    backdrop-filter: saturate(140%) blur(12px);
-    -webkit-backdrop-filter: saturate(140%) blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    :global(html.dark) & {
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
+    background-color: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
     border-radius: 9999px;
     display: flex;
     align-items: center;

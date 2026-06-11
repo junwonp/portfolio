@@ -414,16 +414,10 @@
 
 <style>
   .tab-bar {
-    background: rgba(255, 255, 255, 0.45);
-    :global(html.dark) & {
-      background: rgba(255, 255, 255, 0.06);
-    }
-    backdrop-filter: saturate(140%) blur(12px);
-    -webkit-backdrop-filter: saturate(140%) blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    :global(html.dark) & {
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
     border-radius: 999px;
     bottom: calc(1rem + env(safe-area-inset-bottom));
     display: flex; /* Changed from none to flex */
@@ -538,16 +532,10 @@
   }
 
   .island {
-    background: rgba(255, 255, 255, 0.45);
-    :global(html.dark) & {
-      background: rgba(255, 255, 255, 0.06);
-    }
-    backdrop-filter: saturate(140%) blur(12px);
-    -webkit-backdrop-filter: saturate(140%) blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    :global(html.dark) & {
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
     border-radius: 999px;
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.06),
