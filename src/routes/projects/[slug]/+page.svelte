@@ -80,12 +80,6 @@
 
 <!-- Desktop-only sticky header with back link and project links -->
 <header class="project-topbar">
-  <a class="topbar-back" href="/">← {labels.resumeTitle}</a>
-  <div class="topbar-crumb">
-    <span>{labels.authorName}</span>
-    <span class="crumb-sep">/</span>
-    <span class="crumb-current">{metadata.title || slug}</span>
-  </div>
   <div class="topbar-links">
     {#if githubHref}
       <a
@@ -171,90 +165,31 @@
 </div>
 
 <style>
-  /* Desktop-only sticky header (iOS UINavigationBar Style with Gradient Blur) */
+  /* Desktop-only fixed header without background blur */
   .project-topbar {
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 40;
-    display: flex;
-    align-items: center;
-    height: 56px;
-    padding: 0 24px;
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.95) 45%,
-      rgba(255, 255, 255, 0.7) 75%,
-      transparent
-    );
-    :global(html.dark) & {
-      background: linear-gradient(
-        to bottom,
-        rgba(28, 28, 30, 0.95) 45%,
-        rgba(28, 28, 30, 0.7) 75%,
-        transparent
-      );
-    }
-    backdrop-filter: saturate(190%) blur(20px);
-    -webkit-backdrop-filter: saturate(190%) blur(20px);
-    border-bottom: none;
-  }
-
-  .topbar-back {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-primary); /* iOS System Blue */
-    text-decoration: none;
-    white-space: nowrap;
-    background-color: color-mix(in srgb, var(--color-surface-hover) 80%, transparent);
-    backdrop-filter: saturate(140%) blur(12px);
-    -webkit-backdrop-filter: saturate(140%) blur(12px);
-    border: 1px solid color-mix(in srgb, var(--color-primary) 8%, transparent);
-    border-radius: 9999px;
-    height: 32px;
-    padding: 0 12px;
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-    transition:
-      background-color 0.15s,
-      color 0.15s,
-      transform 0.1s;
-    z-index: 1;
-  }
-
-  .topbar-back:hover {
-    background-color: var(--color-disabled-bg);
-  }
-
-  .topbar-back:active {
-    transform: scale(0.94);
-  }
-
-  .topbar-crumb {
-    position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    width: 100%;
+    max-width: 800px;
+    padding: 0;
+    padding-top: 2rem;
+    z-index: 50;
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.9375rem; /* iOS Navigation Title size */
-    color: var(--color-sub);
-    white-space: nowrap;
-    pointer-events: none;
-    background: transparent;
-    border: none;
+    justify-content: flex-end;
     height: auto;
-    padding: 0;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: none;
+    box-sizing: border-box;
+    pointer-events: none;
   }
 
-  .crumb-sep {
-    opacity: 0.3;
-    color: var(--color-sub);
-  }
-
-  .crumb-current {
-    color: var(--color-bold);
-    font-weight: 600;
+  .project-topbar * {
+    pointer-events: auto;
   }
 
   .topbar-links {
@@ -330,6 +265,12 @@
     width: 100%;
     padding: 0 clamp(0px, 4vw, 48px) 120px; /* Use 0px as minimum since parent has padding */
     margin-top: var(--space-md);
+  }
+
+  @media (min-width: 961px) {
+    .layout {
+      margin-top: 80px;
+    }
   }
 
   .nav-wrapper {
