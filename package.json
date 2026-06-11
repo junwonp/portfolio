@@ -54,5 +54,12 @@
       "undici": ">=7.24.0",
       "ws": ">=8.20.1"
     }
-  }
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "safari >= 13",
+    "ios_saf >= 13",
+    "last 2 Firefox versions",
+    "last 2 Edge versions"
+  ]
 }
