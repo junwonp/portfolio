@@ -89,12 +89,16 @@
 <header class="sticky-header" aria-label="Quick navigation header">
   <div class="actions">
     <div class="lang-toggle-wrapper pc-only">
-      <button class="lang-toggle" onclick={toggleLanguage} title={labels.toggleLanguage}>
+      <button
+        class="lang-toggle glass-effect"
+        onclick={toggleLanguage}
+        title={labels.toggleLanguage}
+      >
         {locale === 'ko' ? 'English' : '한국어'}
       </button>
     </div>
 
-    <div class="action-group">
+    <div class="action-group glass-effect">
       <button
         class="lang-toggle-btn mobile-only"
         onclick={toggleLanguage}
@@ -237,10 +241,6 @@
 
   .lang-toggle {
     align-items: center;
-    background-color: var(--glass-bg);
-    backdrop-filter: saturate(140%) blur(20px);
-    -webkit-backdrop-filter: saturate(140%) blur(20px);
-    border: var(--glass-border);
     border-radius: 9999px;
     color: var(--color-sub);
     cursor: pointer;
@@ -336,10 +336,6 @@
   }
 
   .action-group {
-    background-color: var(--glass-bg);
-    backdrop-filter: saturate(140%) blur(20px);
-    -webkit-backdrop-filter: saturate(140%) blur(20px);
-    border: var(--glass-border);
     border-radius: 9999px;
     display: flex;
     align-items: center;

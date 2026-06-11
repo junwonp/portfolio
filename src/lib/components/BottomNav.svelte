@@ -291,7 +291,7 @@
   <!-- Home Mode -->
   <nav
     bind:this={tabBarRef}
-    class="tab-bar"
+    class="tab-bar glass-effect"
     aria-label={labels.navAriaLabel}
     onpointerdown={handlePointerDown}
     onpointermove={handlePointerMove}
@@ -325,7 +325,7 @@
   <div class="project-nav">
     <div class="island-slot left" in:receive={{ key: 'back' }} out:send={{ key: 'back' }}>
       <button
-        class="island circle back-btn"
+        class="island circle back-btn glass-effect"
         aria-label="Go back"
         onclick={() => {
           history.back();
@@ -351,7 +351,7 @@
       {#if tabs.length > 0}
         <nav
           bind:this={tabBarRef}
-          class="tab-bar island"
+          class="tab-bar island glass-effect"
           aria-label="Project navigation"
           onpointerdown={handlePointerDown}
           onpointermove={handlePointerMove}
@@ -383,7 +383,7 @@
 
     <div class="island-slot right" in:receive={{ key: 'links' }} out:send={{ key: 'links' }}>
       {#if resolvedGithubHref || navLinks?.productLink}
-        <div class="island links-pill">
+        <div class="island links-pill glass-effect">
           {#if resolvedGithubHref}
             <a
               href={resolvedGithubHref}
@@ -414,10 +414,6 @@
 
 <style>
   .tab-bar {
-    background: var(--glass-bg);
-    backdrop-filter: saturate(140%) blur(20px);
-    -webkit-backdrop-filter: saturate(140%) blur(20px);
-    border: var(--glass-border);
     border-radius: 999px;
     bottom: calc(1rem + env(safe-area-inset-bottom));
     display: flex; /* Changed from none to flex */
@@ -532,10 +528,6 @@
   }
 
   .island {
-    background: var(--glass-bg);
-    backdrop-filter: saturate(140%) blur(20px);
-    -webkit-backdrop-filter: saturate(140%) blur(20px);
-    border: var(--glass-border);
     border-radius: 999px;
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.06),
