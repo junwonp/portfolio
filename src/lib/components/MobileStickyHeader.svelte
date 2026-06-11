@@ -238,8 +238,8 @@
   .lang-toggle {
     align-items: center;
     background-color: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: saturate(140%) blur(20px);
+    -webkit-backdrop-filter: saturate(140%) blur(20px);
     border: var(--glass-border);
     border-radius: 9999px;
     color: var(--color-sub);
@@ -337,8 +337,8 @@
 
   .action-group {
     background-color: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: saturate(140%) blur(20px);
+    -webkit-backdrop-filter: saturate(140%) blur(20px);
     border: var(--glass-border);
     border-radius: 9999px;
     display: flex;

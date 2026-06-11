@@ -415,8 +415,8 @@
 <style>
   .tab-bar {
     background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: saturate(140%) blur(20px);
+    -webkit-backdrop-filter: saturate(140%) blur(20px);
     border: var(--glass-border);
     border-radius: 999px;
     bottom: calc(1rem + env(safe-area-inset-bottom));
@@ -533,8 +533,8 @@
 
   .island {
     background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
+    backdrop-filter: saturate(140%) blur(20px);
+    -webkit-backdrop-filter: saturate(140%) blur(20px);
     border: var(--glass-border);
     border-radius: 999px;
     box-shadow:
