@@ -9,6 +9,7 @@
   import { browser } from '$app/environment';
   import { page } from '$app/state';
   import favicon from '$lib/assets/favicon.svg';
+  import AnalyticsTracker from '$lib/components/AnalyticsTracker.svelte';
   import BottomNav from '$lib/components/BottomNav.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import ReadingProgress from '$lib/components/ReadingProgress.svelte';
@@ -62,6 +63,7 @@
   });
 
   let isProjectPage = $derived(page.url.pathname.startsWith('/projects/'));
+  let isAdminPage = $derived(page.url.pathname.startsWith('/admin'));
 </script>
 
 <svelte:head>
@@ -114,20 +116,25 @@
   {@html '<script type="application/ld+json">' + jsonLd + '<' + '/script>'}
 </svelte:head>
 
-<ReadingProgress />
-<BottomNav isProject={isProjectPage} />
+<AnalyticsTracker />
+{#if !isAdminPage}
+  <ReadingProgress />
+  <BottomNav isProject={isProjectPage} />
+{/if}
 
 <a href="#main-content" class="skip-link">{metadata.skipLink}</a>
 
-<div class="wrapper">
+<div class="wrapper" class:is-admin={isAdminPage}>
   <div class="content-wrapper">
     <main id="main-content" class="content" class:is-project={isProjectPage} tabindex="-1">
       {@render children()}
     </main>
   </div>
-  <div class="footer-wrapper">
-    <Footer />
-  </div>
+  {#if !isAdminPage}
+    <div class="footer-wrapper">
+      <Footer />
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -165,7 +172,7 @@
   }
 
   @media (max-width: 960px) {
-    .wrapper {
+    .wrapper:not(.is-admin) {
       /* Extra bottom space for the fixed tab bar (approx 56px height + 1rem bottom + safe area) */
       padding-bottom: calc(64px + env(safe-area-inset-bottom));
     }

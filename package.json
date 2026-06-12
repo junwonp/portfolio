@@ -17,6 +17,7 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260611.1",
     "@eslint/compat": "^2.0.3",
     "@eslint/js": "^10.0.0",
     "@sveltejs/adapter-cloudflare": "^7.2.8",

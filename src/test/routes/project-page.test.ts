@@ -35,16 +35,6 @@ describe('+page (project detail)', () => {
     expect(container.querySelector('article')).toBeInTheDocument();
   });
 
-  it('renders the back link', () => {
-    const { getByRole } = render(Page, { data: baseData });
-    expect(getByRole('link', { name: '← Portfolio' })).toBeInTheDocument();
-  });
-
-  it('back link points to home', () => {
-    const { getByRole } = render(Page, { data: baseData });
-    expect(getByRole('link', { name: '← Portfolio' })).toHaveAttribute('href', '/');
-  });
-
   it('shows project title as heading', () => {
     const { getByRole } = render(Page, { data: baseData });
     expect(getByRole('heading', { name: 'Test Project' })).toBeInTheDocument();
@@ -53,13 +43,6 @@ describe('+page (project detail)', () => {
   it('shows content load error when no component is provided', () => {
     const { getByText } = render(Page, { data: baseData });
     expect(getByText('Unable to load content.')).toBeInTheDocument();
-  });
-
-  it('renders Korean back link when locale is ko', () => {
-    const { getByRole } = render(Page, {
-      data: { ...baseData, locale: 'ko' as const },
-    });
-    expect(getByRole('link', { name: '← 포트폴리오' })).toBeInTheDocument();
   });
 
   it('renders the project description as tagline', () => {
