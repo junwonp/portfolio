@@ -10,9 +10,19 @@ export const POST: RequestHandler = async ({ request, platform, cookies }) => {
   const host = request.headers.get('host') || '';
   const isAdmin = cookies.get('is_admin') === 'true';
   const userEmail = request.headers.get('Cf-Access-Authenticated-User-Email');
+  const clientIp = request.headers.get('CF-Connecting-IP') || '';
 
-  // 관리자 쿠키 세션 또는 Cloudflare Access 로그인 헤더 존재 여부를 통한 관리자 판별
-  const isConfirmedAdmin = isAdmin || !!userEmail;
+  // 환경변수 IGNORE_IPS에 등록된 본인 IP 필터링
+  const ignoreIps = platform.env.IGNORE_IPS || '';
+  const isIgnoredIp =
+    clientIp &&
+    ignoreIps
+      .split(',')
+      .map((ip) => ip.trim())
+      .includes(clientIp);
+
+  // 관리자 세션, Cloudflare Access 헤더 또는 IP 제외 조건에 해당하는지 판별
+  const isConfirmedAdmin = isAdmin || !!userEmail || isIgnoredIp;
 
   // 로컬 개발 환경 및 관리자 세션은 적재를 건너뜀 (단, 스크립트 에러 방지를 위해 200 OK 응답)
   if (host.includes('localhost') || host.includes('127.0.0.1') || isConfirmedAdmin) {

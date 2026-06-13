@@ -39,15 +39,26 @@
   // SVG 라인 차트 계산을 위한 데이터 좌표화
   const chartWidth = 700;
   const chartHeight = 220;
-  const padding = 30;
+  const paddingLeft = 55;
+  const paddingRight = 25;
+  const paddingTop = 20;
+  const paddingBottom = 35;
 
   let maxVal = $derived(Math.max(...dailyChart.map((d) => Math.max(d.sessions, d.views)), 10));
 
   let points = $derived(
     dailyChart.map((d, i) => {
-      const x = padding + (i / Math.max(dailyChart.length - 1, 1)) * (chartWidth - padding * 2);
-      const ySessions = chartHeight - padding - (d.sessions / maxVal) * (chartHeight - padding * 2);
-      const yViews = chartHeight - padding - (d.views / maxVal) * (chartHeight - padding * 2);
+      const x =
+        paddingLeft +
+        (i / Math.max(dailyChart.length - 1, 1)) * (chartWidth - paddingLeft - paddingRight);
+      const ySessions =
+        chartHeight -
+        paddingBottom -
+        (d.sessions / maxVal) * (chartHeight - paddingTop - paddingBottom);
+      const yViews =
+        chartHeight -
+        paddingBottom -
+        (d.views / maxVal) * (chartHeight - paddingTop - paddingBottom);
       return { x, ySessions, yViews, date: d.date, sessions: d.sessions, views: d.views };
     }),
   );
@@ -140,26 +151,76 @@
         <svg viewBox="0 0 {chartWidth} {chartHeight}" class="svg-chart">
           <!-- 격자 보조선 -->
           <line
-            x1={padding}
-            y1={padding}
-            x2={chartWidth - padding}
-            y2={padding}
+            x1={paddingLeft}
+            y1={paddingTop}
+            x2={chartWidth - paddingRight}
+            y2={paddingTop}
             class="grid-line"
           />
           <line
-            x1={padding}
-            y1={chartHeight / 2}
-            x2={chartWidth - padding}
-            y2={chartHeight / 2}
+            x1={paddingLeft}
+            y1={(chartHeight - paddingTop - paddingBottom) / 2 + paddingTop}
+            x2={chartWidth - paddingRight}
+            y2={(chartHeight - paddingTop - paddingBottom) / 2 + paddingTop}
             class="grid-line"
           />
           <line
-            x1={padding}
-            y1={chartHeight - padding}
-            x2={chartWidth - padding}
-            y2={chartHeight - padding}
+            x1={paddingLeft}
+            y1={chartHeight - paddingBottom}
+            x2={chartWidth - paddingRight}
+            y2={chartHeight - paddingBottom}
             class="grid-line"
           />
+
+          <!-- Y축 눈금 레이블 (단위) -->
+          <text x={paddingLeft - 10} y={paddingTop + 4} class="axis-label y-axis" text-anchor="end"
+            >{maxVal}</text
+          >
+          <text
+            x={paddingLeft - 10}
+            y={(chartHeight - paddingTop - paddingBottom) / 2 + paddingTop + 4}
+            class="axis-label y-axis"
+            text-anchor="end">{Math.round(maxVal / 2)}</text
+          >
+          <text
+            x={paddingLeft - 10}
+            y={chartHeight - paddingBottom + 4}
+            class="axis-label y-axis"
+            text-anchor="end">0</text
+          >
+
+          <!-- X축 눈금 레이블 (날짜) -->
+          {#if points.length > 0}
+            <text
+              x={points[0].x}
+              y={chartHeight - paddingBottom + 18}
+              class="axis-label x-axis"
+              text-anchor="middle"
+            >
+              {points[0].date.slice(5)}
+            </text>
+            {#if points.length > 2}
+              {@const midIdx = Math.floor(points.length / 2)}
+              <text
+                x={points[midIdx].x}
+                y={chartHeight - paddingBottom + 18}
+                class="axis-label x-axis"
+                text-anchor="middle"
+              >
+                {points[midIdx].date.slice(5)}
+              </text>
+            {/if}
+            {#if points.length > 1}
+              <text
+                x={points[points.length - 1].x}
+                y={chartHeight - paddingBottom + 18}
+                class="axis-label x-axis"
+                text-anchor="middle"
+              >
+                {points[points.length - 1].date.slice(5)}
+              </text>
+            {/if}
+          {/if}
 
           <!-- 라인 드로잉 -->
           {#if viewsPath}
@@ -442,6 +503,13 @@
   .grid-line {
     stroke: var(--color-bg-divider);
     stroke-width: 1;
+  }
+
+  .axis-label {
+    fill: var(--color-sub);
+    font-size: 10px;
+    font-family: inherit;
+    font-weight: 500;
   }
 
   .interactive-dot {

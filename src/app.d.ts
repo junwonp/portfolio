@@ -8,6 +8,7 @@ declare global {
       env?: {
         'portfolio-assets': R2Bucket;
         portfolio_db: D1Database;
+        IGNORE_IPS?: string;
       };
       context?: {
         waitUntil(promise: Promise<unknown>): void;
