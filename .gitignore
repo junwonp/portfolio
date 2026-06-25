@@ -45,4 +45,13 @@ next-env.d.ts
 .antigravitycli/
 .dev.vars
 .open-next/
+.agents/
+.claude/
+
+# vscode
+.vscode/
+
+
+
+
 
