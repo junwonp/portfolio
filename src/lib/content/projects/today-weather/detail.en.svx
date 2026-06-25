@@ -50,16 +50,6 @@ Existing weather apps share three frustrations: global data sources that miss Ko
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## Screenshots
-
-<ProjectLightbox variant="phone" images={[
-  {
-    src: '/images/today-weather/web-home.png',
-    alt: "Today's Weather web app home screen",
-    caption: 'Mobile web home screen showing current weather, lifestyle alerts, and outfit, umbrella, and mask decisions from KMA and Air Korea data'
-  },
-]} />
-
 ## Key work
 
 <ProjectAchievements achievements={[
@@ -116,6 +106,16 @@ On the client, TanStack Query uses a 5-minute default `staleTime`, and only succ
 - The iOS Home Screen widget is implemented as a Swift target inside the Expo project via `@bacons/apple-targets`.
 - Outfit, umbrella, and mask recommendations are calculated by the same shared logic across surfaces.
 - Remaining evidence to add: real-device mobile/widget screenshots and deployment-status proof.
+
+## Screenshots
+
+<ProjectLightbox variant="phone" images={[
+  {
+    src: '/images/today-weather/web-home.png',
+    alt: "Today's Weather web app home screen",
+    caption: 'Mobile web home screen showing current weather, lifestyle alerts, and outfit, umbrella, and mask decisions from KMA and Air Korea data'
+  },
+]} />
 
 ## Retrospective
 

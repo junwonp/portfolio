@@ -1,4 +1,4 @@
-import { SKILL } from '$lib/data/skills';
+import { SKILL } from '@/lib/data/skills';
 
 import { defineProject } from '../types';
 

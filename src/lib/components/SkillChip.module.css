@@ -1,0 +1,44 @@
+.skill-chip {
+  --cat-color: var(--color-primary);
+
+  appearance: none;
+  background: color-mix(in srgb, var(--cat-color) 4%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cat-color) 15%, var(--color-bg-divider));
+  border-radius: 9999px;
+  color: var(--color-sub);
+  font-size: 0.875rem;
+  padding: 0.35rem 0.8rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+}
+
+.skill-chip.readonly {
+  cursor: default;
+}
+
+.skill-chip:not(.readonly):hover {
+  color: var(--cat-color);
+  background: color-mix(in srgb, var(--cat-color) 10%, transparent);
+  border-color: var(--cat-color);
+}
+
+.skill-chip.active {
+  background: color-mix(
+    in srgb,
+    var(--cat-color) 12%,
+    transparent
+  );
+  border-color: var(--cat-color);
+  color: var(--cat-color);
+  font-weight: 600;
+  box-shadow: none;
+}

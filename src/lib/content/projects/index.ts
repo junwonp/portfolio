@@ -1,4 +1,4 @@
-import type { Language } from '$lib/utils/language';
+import type { Language } from '@/lib/utils/language';
 
 import { adminDashboardProject } from './admin-dashboard';
 import { agenticWorkflowProject } from './agentic-workflow';

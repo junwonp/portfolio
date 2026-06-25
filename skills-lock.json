@@ -6,11 +6,6 @@
       "sourceType": "github",
       "computedHash": "f1fed683b76913d26fbf1aa1e008e6932f7771701fc3a79925b042236aa4681a"
     },
-    "sveltekit-structure": {
-      "source": "spences10/svelte-skills-kit",
-      "sourceType": "github",
-      "computedHash": "eef66314ca437f13272afc3db7e149b0e39a8b734040d4b0affa01697352e511"
-    },
     "wrangler": {
       "source": "cloudflare/skills",
       "sourceType": "github",

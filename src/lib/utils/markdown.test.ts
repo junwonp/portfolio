@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseMarkdown } from '$lib/utils/markdown';
+import { parseMarkdown } from '@/lib/utils/markdown';
 
 describe('parseMarkdown', () => {
   describe('plain text', () => {

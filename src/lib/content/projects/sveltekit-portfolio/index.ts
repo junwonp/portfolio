@@ -1,4 +1,4 @@
-import { SKILL } from '$lib/data/skills';
+import { SKILL } from '@/lib/data/skills';
 
 import { defineProject } from '../types';
 
@@ -29,9 +29,10 @@ export const sveltekitPortfolioProject = defineProject({
       description:
         'A website maximizing development efficiency and user experience with Svelte 5 (Runes) and Claude Code.',
       summaryDetails: [
-        '**[Performance-First Hosting]** Migrated from purely static hosting to **Cloudflare Pages**, using **Edge Functions** for zero-latency server-side language detection.',
-        '**[Modern Reactivity]** Fully embraced **Svelte 5 Runes** for fine-grained reactivity, reducing runtime overhead and improving code maintainability.',
-        '**[AI Infrastructure]** Managed the entire development lifecycle via **AI-agentic orchestration**, using a centralized **dotfiles** repo and **AGENTS.md** as a single source of truth for multiple AI agents.',
+        '**[Edge-based i18n & Performance]** Implemented zero-delay bilingual support by detecting preferred languages in Edge Functions, eliminating layout shifts and wrong-language flashes.',
+        '**[Interviewer-Centric UX]** Provided a custom print-friendly single-page view, one-click technology tag filtering, and scroll restoration to make evaluation frictionless for hiring managers.',
+        '**[Svelte 5 & Compiling Compatibility]** Migrated to **Svelte 5 Runes** for modern state management, solving library integration blockers with a custom preprocessor during build.',
+        '**[DX & Integrity Testing]** Established a lightweight **Vitest script** that automatically asserts the integrity and symmetry of localized content files, preventing human errors.',
       ],
       detailMetadata: {
         title: 'SvelteKit Portfolio',
@@ -50,9 +51,10 @@ export const sveltekitPortfolioProject = defineProject({
       title: 'SvelteKit 포트폴리오',
       description: 'Svelte 5 (Runes)와 AI 에이전트를 활용하여 구축한 고성능 개인 웹사이트.',
       summaryDetails: [
-        '**[성능 중심 호스팅]** 순수 정적 호스팅에서 **Cloudflare Pages**로 전환하고, **Edge Functions를 통해 요청 단계에서 언어를 자동 감지하는 무지연 다국어 처리**를 구현했습니다.',
-        '**[모던 반응성 모델]** **Svelte 5 Runes를 전면 도입**하여 세밀한 반응성 제어를 실현하고, 런타임 오버헤드를 줄여 유지보수 효율을 높였습니다.',
-        '**[AI 에이전트 인프라]** 중앙 관리형 **dotfiles와 AGENTS.md**를 구축하여 여러 AI 에이전트가 단일 소스를 공유하며 작업을 수행하는 에이전틱 개발 환경을 설계했습니다.',
+        '**[엣지 기반 다국어 및 최적화]** Edge Functions를 이용해 최초 요청 단계에서 언어를 자동 판별하고, 폰트 헤더 프리로딩 및 캐싱을 활용해 화면 깜빡임이 없는 Lighthouse 97점의 고성능 다국어 사이트를 구축했습니다.',
+        '**[면접관 지향적 UX 설계]** 인쇄/PDF 저장용 별도 페이지 뷰 제공, 필요한 기술 스택만 모아보는 다차원 태그 필터링, 상세 회고 탐색 후 돌아올 때 스크롤 위치 보존 등으로 서류 검토 피로도를 획기적으로 줄였습니다.',
+        '**[Svelte 5 및 빌드 호환성 해결]** Svelte 5 Runes로 마이그레이션하면서 발생한 구버전 마크다운 모듈 충돌을, 별도의 라이브러리 추가 없이 빌드 단계의 커스텀 전처리기를 통해 컴파일 타임에 독립적으로 해결했습니다.',
+        '**[테스트 기반 콘텐츠 무결성 검증]** 포트폴리오 업데이트 시 영어/한국어 번역본 누락이나 오타 등의 휴먼 에러를 방지하기 위해, 초경량 Vitest 검증 체계를 설계하여 다국어 데이터의 정합성을 보장했습니다.',
       ],
       detailMetadata: {
         title: 'SvelteKit 포트폴리오',

@@ -1,0 +1,122 @@
+---
+title: Today's Weather
+description: Personalized weather and lifestyle guide using KMA and Air Korea data — monorepo serving web, Expo mobile, and iOS widgets from a single shared logic layer.
+date: '2026-04 ~'
+role: 'Solo developer'
+platforms: ['Web', 'iOS', 'Android']
+metrics:
+  [
+    { value: '80%+', label: 'API Load Reduced' },
+  ]
+techStack:
+  [
+    'TypeScript',
+    'Next.js',
+    'React',
+    'React Native',
+    'Expo',
+    'Expo Router',
+    'Tailwind CSS',
+    'shadcn/ui',
+    'CVA',
+    'TanStack Query',
+    'Reanimated',
+    'React Compiler',
+    'Supabase',
+    'Upstash Redis',
+    'Node.js',
+    'Native Modules',
+    'Swift',
+    'Kotlin',
+    'Vitest',
+    'Agentic Workflow',
+    'Claude Code',
+  ]
+---
+
+import ProjectAchievements from '@/lib/components/ProjectAchievements';
+import ProjectLightbox from '@/lib/components/ProjectLightbox';
+import ProjectTechStack from '@/lib/components/ProjectTechStack';
+
+## Project overview
+
+**"A guide, not just data"**
+
+Existing weather apps share three frustrations: global data sources that miss Korea's local forecasts, information scattered across too many screens, and raw numbers that still make the user do the mental math — "is 15°C a jacket or a coat day?" **Today's Weather** uses the most accurate local sources (KMA, Air Korea) and translates the data into immediate action plans: what to wear, whether to take an umbrella, and whether to bring a mask.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## Key work
+
+<ProjectAchievements achievements={[
+  {
+    tag: 'Architecture',
+    accent: true,
+    title: 'pnpm Monorepo — 100% shared business logic',
+    detail: `Designed a monorepo with three workspaces: <code>apps/web</code> (Next.js 16 App Router), <code>apps/mobile</code> (Expo / React Native), and <code>packages/shared</code> (common logic and TypeScript types). The weather recommendation algorithm, outfit-calculation logic, and all TypeScript type definitions live in <code>packages/shared</code> and are consumed identically by both apps and by iOS widgets — zero duplication across platforms. Enabled the <strong>React Compiler</strong> in the Next.js app to eliminate manual <code>useMemo</code> / <code>useCallback</code> declarations.`
+  },
+  {
+    tag: 'Performance',
+    accent: true,
+    title: 'Edge-optimized backend + Upstash Redis caching (80%+ load reduction)',
+    detail: `Korean public APIs (KMA, Air Korea) block requests from non-Korean IP addresses. Fixed the Vercel serverless execution region to <strong>icn1 (Seoul)</strong> to resolve this at the infrastructure level. Layered <strong>Upstash Redis</strong> in front of both APIs with a 30-minute TTL, batching rapid user requests into a single upstream call per window. This reduced upstream API load by over 80% and cut p99 response latency significantly.`
+  },
+  {
+    tag: 'Platform',
+    title: 'iOS Home Screen widget via @bacons/apple-targets',
+    detail: `Implemented a <strong>Swift-based iOS Home Screen widget</strong> inside the Expo project using <code>@bacons/apple-targets</code>. The widget reads weather data from the same Supabase backend as the app, keeping the widget display synchronized in real time without a separate data pipeline. Combined <strong>Anonymous Auth</strong> with Supabase Edge Functions to deliver personalized weather alerts as push notifications in a fully serverless environment.`
+  },
+  {
+    tag: 'Data',
+    title: 'Multi-factor recommendation engine',
+    detail: `The recommendation engine synthesizes temperature, wind speed, precipitation probability (POP), precipitation type (PTY), and fine dust concentrations into three daily verdicts:<ul><li><strong>Outfit:</strong> 6-level clothing recommendation based on apparent temperature, with a wind-chill correction that adjusts the category when wind speed is high.</li><li><strong>Umbrella:</strong> Triggered when POP ≥ 60% or when active precipitation is detected (PTY ≠ 0).</li><li><strong>Mask:</strong> Graded against the worse of PM2.5 or PM10 — so a good PM2.5 reading doesn't mask a bad PM10 day.</li></ul>`
+  },
+]} />
+
+### Cache and data flow
+
+Today's Weather is not just a public API client. It is a data pipeline designed around the latency, regional blocking, and rate-limit constraints of Korean public APIs.
+
+1. The app normalizes the user's GPS or IP-based location into coordinates.
+2. Next.js Route Handlers run in Vercel's `icn1` region so Korean public APIs can be called from a Korean IP region.
+3. Each API route checks Upstash Redis first and returns `fromCache: true` immediately on a cache hit.
+4. Only cache misses call KMA, Air Korea, or Kakao, then store the result in Redis with a route-specific TTL.
+5. The web and Expo apps consume the same `packages/shared` API client and TanStack Query key factory.
+6. The iOS widget calls the same `/api/weather` and `/api/dust` endpoints using the persisted `apiBaseUrl`, `lat`, and `lon`, and skips network refreshes when data was updated within the last 5 minutes.
+
+| Data | Cache key basis | TTL | Why |
+| --- | --- | --- | --- |
+| Weather forecast | KMA grid `nx`, `ny` | 30 minutes | Short-term weather changes often, but this still batches rapid user requests |
+| Fine dust | Coordinates rounded to 0.1° | 30 minutes | Users in the same area share the same regional air-quality reading |
+| Weather alerts | Coordinates rounded to 0.1° | 10 minutes | Alerts can change quickly, so the TTL is shorter |
+| UV index | Coordinates rounded to 0.1° | 1 hour | UV changes more slowly than current weather |
+| Pollen | Coordinates rounded to 0.1° | 6 hours | Published on a slower daily cadence |
+| Address label | Coordinates rounded to 0.01° | 24 hours | Administrative address labels rarely change |
+
+On the client, TanStack Query uses a 5-minute default `staleTime`, and only successful queries are persisted for up to 24 hours in IndexedDB on web and AsyncStorage on Expo. Returning users see the last successful data immediately while the app revalidates only the queries that need fresh data.
+
+### Current product status
+
+- The web app is running on Next.js App Router and reads live KMA and Air Korea data.
+- The Expo app uses the same shared package and revalidates forecast queries when the app returns to the foreground.
+- The iOS Home Screen widget is implemented as a Swift target inside the Expo project via `@bacons/apple-targets`.
+- Outfit, umbrella, and mask recommendations are calculated by the same shared logic across surfaces.
+- Remaining evidence to add: real-device mobile/widget screenshots and deployment-status proof.
+
+## Screenshots
+
+<ProjectLightbox variant="phone" images={[
+  {
+    src: '/images/today-weather/web-home.png',
+    alt: "Today's Weather web app home screen",
+    caption: 'Mobile web home screen showing current weather, lifestyle alerts, and outfit, umbrella, and mask decisions from KMA and Air Korea data'
+  },
+]} />
+
+## Retrospective
+
+**Latest tech in production:** Navigating the breaking changes in Next.js 16 and React 19 gave me a hands-on understanding of the modern React ecosystem — including where the React Compiler genuinely reduces boilerplate and where it still requires manual guidance.
+
+**Infrastructure constraints:** IP blocking and rate limiting are real problems that documentation rarely prepares you for. Region-pinning serverless functions and Redis caching were the right fixes, and working through them sharpened my instinct for solving infra problems at the right layer.
+
+**Cross-platform abstraction:** Sharing business logic across a web app, a mobile app, and an iOS widget without duplication validated the monorepo design. The shared package pattern is now a default in how I structure multi-platform projects.

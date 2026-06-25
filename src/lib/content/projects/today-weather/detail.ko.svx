@@ -50,16 +50,6 @@ techStack:
 
 <ProjectTechStack techStack={metadata.techStack} {locale} />
 
-## 스크린샷
-
-<ProjectLightbox variant="phone" images={[
-  {
-    src: '/images/today-weather/web-home.png',
-    alt: '오늘날씨 웹 앱 홈 화면',
-    caption: '기상청·에어코리아 데이터를 바탕으로 현재 날씨, 생활 알림, 복장·우산·마스크 판단을 한 화면에서 보여주는 모바일 웹 홈 화면'
-  },
-]} />
-
 ## 주요 작업
 
 <ProjectAchievements achievements={[
@@ -116,6 +106,16 @@ techStack:
 - iOS 홈 화면 위젯은 `@bacons/apple-targets`로 Expo 프로젝트 내부에 Swift target을 붙여 구현했습니다.
 - 추천 결과는 복장·우산·마스크 판단을 같은 shared logic에서 계산하도록 구성했습니다.
 - 남은 보강 지점은 모바일 앱/위젯 실기기 스크린샷과 배포 상태 증거를 추가하는 것입니다.
+
+## 스크린샷
+
+<ProjectLightbox variant="phone" images={[
+  {
+    src: '/images/today-weather/web-home.png',
+    alt: '오늘날씨 웹 앱 홈 화면',
+    caption: '기상청·에어코리아 데이터를 바탕으로 현재 날씨, 생활 알림, 복장·우산·마스크 판단을 한 화면에서 보여주는 모바일 웹 홈 화면'
+  },
+]} />
 
 ## 회고
 

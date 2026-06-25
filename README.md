@@ -1,38 +1,52 @@
-# sv
+# Portfolio
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A personal portfolio website built with **Next.js 16** and deployed on **Cloudflare Workers** via [OpenNext](https://opennext.js.org/cloudflare).
 
-## Creating a project
+## Tech Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Framework**: [Next.js 16](https://nextjs.org/) (Turbopack)
+- **Language**: TypeScript
+- **Styling**: Vanilla CSS with CSS Custom Properties
+- **Content**: MDX
+- **Database**: Cloudflare D1
+- **Storage**: Cloudflare R2
+- **Deployment**: Cloudflare Workers (via `@opennextjs/cloudflare`)
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Getting Started
 
-# create a new project in my-app
-npx sv create my-app
+```bash
+# Install dependencies
+pnpm install
+
+# Start development server
+pnpm dev
+
+# Build for production
+pnpm build
+
+# Preview locally in Workers runtime
+pnpm preview
+
+# Deploy to Cloudflare Workers
+pnpm deploy
 ```
 
-## Developing
+## Project Structure
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```
+src/
+├── app/              # Next.js App Router pages and layouts
+├── lib/
+│   ├── components/   # React components
+│   ├── content/      # MDX project content
+│   ├── data/         # Static data and constants
+│   ├── hooks/        # Custom React hooks
+│   ├── server/       # Server-side utilities (D1, R2)
+│   ├── types/        # TypeScript type definitions
+│   └── utils/        # Shared utility functions
+└── proxy.ts          # Edge proxy (middleware)
 ```
 
-## Building
+## License
 
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Private

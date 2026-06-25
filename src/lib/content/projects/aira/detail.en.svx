@@ -116,6 +116,12 @@ My ownership covered product planning, frontend architecture, streaming chat UX,
     title: 'Compile-time i18n safety with typesafe-i18n',
     detail: `<code>typesafe-i18n</code> auto-generates TypeScript types from translation files — invalid keys and missing parameters caught at <strong>compile time</strong>. Children render only after locale files fully load, preventing garbled display names on first screen. Language switches sync OS locale, save to MMKV, async-load translation files, then update the i18n context in sequence.`
   },
+  {
+    tag: 'R&D',
+    accent: true,
+    title: 'Next-Gen Shorts UI & iOS 26 Liquid Glass Native Acceleration Experiment',
+    detail: `Designed and prototyped a <strong>full-screen Shorts-style swipe UI</strong> to maximize user immersion, allowing users to transition from browsing to chatting seamlessly. To optimize runtime graphic overhead, bypassed Javascript calculation bottlenecks by integrating native iOS rendering APIs via <strong>UIGlassView</strong>, implementing fluid Liquid Glass visual effect while maximizing battery efficiency.`
+  },
 ]} />
 
 ## Screenshots
@@ -138,29 +144,21 @@ My ownership covered product planning, frontend architecture, streaming chat UX,
   { src: '/images/aira/reward_ads.webp', alt: 'aira Reward Ads', caption: 'Reward ad screen for point recharge' },
 ]} />
 
-### Performance demos
+### Real-Device Interactions & Performance Demos
+
+Recorded videos verifying runtime usability, performance improvements, and interface experiments.
+
+* **60fps Scroll Performance (FlashList):** Implemented view recycling mechanism to avoid memory bottlenecks and frame drops even under long scroll logs. Integrated Reanimated worklets running on the UI thread to dynamically adjust scrolling behavior according to the keyboard height, ensuring smooth 60fps scrolling experience even when JS thread is highly occupied.
+* **Shorts-style Character Swiping & iOS 26 Liquid Glass R&D:** Designed a unified layout mimicking mobile short-form video feeds where users can navigate character profiles by swiping up/down, instantly beginning conversation on the spot. Leveraged iOS native rendering APIs (`UIGlassView`) to bypass heavy Javascript CPU/GPU bottlenecks, achieving the fluid Liquid Glass effect with extreme battery efficiency.
 
 <ImageGallery>
   <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat FlashList Demo"/>
   <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home FlashList Demo"/>
 </ImageGallery>
 
----
-
-### V2 R&D: Next-gen interface experiment
-
-For service enhancement, I developed a **V2 version** implementing a **new interface maximizing user immersion**, breaking the mold of traditional chat apps.
-(※ Although not officially released due to business reasons, the features were verified during the development phase.)
-
-### Shorts-style Navigation & iOS 26 Liquid Glass
-
-<ImageDescription src="/images/aira/v2_home.mp4" alt="aira V2 Shorts UI and Liquid Glass demo"/>
-
-I introduced a **Full-screen Swipe UI** so users can enjoy characters like content.
-
-- **Immersive UX Design:** Designed a **natural flow** where users can browse characters by swiping up and down, and if they like one, **start chatting immediately without screen transitions**.
-- **Adopting iOS 26 Liquid Glass:** Directly applied the new **Liquid Glass** introduced in iOS 26 via `UIGlassView`. I called system native APIs without heavy JS-based graphic computations, **maximizing battery efficiency while following the latest iOS system design.**
-
+<ImageGallery>
+  <ImageDescription src="/images/aira/v2_home.mp4" alt="aira V2 Shorts UI and Liquid Glass demo"/>
+</ImageGallery>
 
 ## Retrospective
 

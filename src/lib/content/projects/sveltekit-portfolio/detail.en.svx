@@ -32,24 +32,29 @@ Traditional static hosting like GitHub Pages cannot execute server-side logic, s
   {
     tag: 'Architecture',
     accent: true,
-    title: 'Hybrid UX — Resume + Portfolio in one site',
-    detail: `The home screen functions as a dense <strong>résumé</strong> that delivers core information at a glance. Clicking "View Details" transitions to a <strong>project retrospective page</strong> rendered from mdsvex. This two-layer model lets interviewers scan quickly and then dive deep — without a context switch to a separate portfolio site.`
+    title: 'Hybrid UX: Combining Résumé and Portfolio',
+    detail: `Instead of a generic blog format or a heavy single-page app, the home screen is designed as a dense <strong>résumé</strong> for quick scanning, while deep-dive details are rendered from Markdown retrospectives. This design focuses on the primary goal of a portfolio — helping hiring managers explore information efficiently without unnecessary navigation.`
   },
   {
-    tag: 'i18n',
+    tag: 'i18n & Performance',
     accent: true,
-    title: 'Server-side language detection (zero flash)',
-    detail: `Client-side language detection (<code>navigator.language</code>) causes the browser to render a blank page first, check the language, then redirect — a noticeable flash. The <code>hooks.server.ts</code> handle function reads the <code>Accept-Language</code> header and a persistent cookie at the <strong>edge</strong>, injects the correct locale into <code>event.locals</code>, and patches <code>%lang%</code> in <code>app.html</code> before the response leaves the server. The browser receives the final HTML in the correct language on the very first request.`
+    title: 'Edge-Based Zero-Delay i18n & Cache Optimization',
+    detail: `To eliminate layout shifts or wrong-language flashes, the edge middleware (Cloudflare Pages handle) detects cookies and the <code>Accept-Language</code> header to serve pre-rendered HTML instantly. Light integrations like font preloading and immutable assets caching were added to guarantee a Lighthouse Performance score of 97.`
   },
   {
-    tag: 'Performance',
-    title: 'Lighthouse 97 Performance / 100 Accessibility',
-    detail: `Achieved <strong>Performance 97, Accessibility 100, Best Practices 100</strong>. Key decisions: semantic HTML throughout, explicit image dimensions with <code>loading="lazy"</code> for below-the-fold assets, CSS custom properties for zero-runtime theming, and Svelte's compile-time output — which ships no virtual DOM or hydration runtime. The SEO score of 66 is intentional: <code>noindex</code> is applied via <code>robots.txt</code> to prevent sensitive résumé data from being indexed.`
+    tag: 'Troubleshooting',
+    title: 'Svelte 5 Migration & Build-Time Compatibility Bridge',
+    detail: `While migrating to Svelte 5 (Runes) to simplify state management, I encountered a build error where the markdown renderer (mdsvex) generated Svelte 4 legacy module scripts. Rather than relying on heavy or unverified third-party libraries, I wrote a lightweight regex-based preprocessor for the build pipeline to solve the blocker independently.`
   },
   {
-    tag: 'UI',
-    title: 'Pure CSS responsive design — no framework',
-    detail: `Built the responsive layout with <strong>pure CSS and CSS custom properties</strong> — no Tailwind or utility-class framework. The mobile layout is a redesigned experience, not just a resized desktop, with a <strong>sticky bottom tab bar</strong> replacing the desktop side navigation. This keeps the information density high on large screens while making navigation thumb-friendly on phones.`
+    tag: 'DX & Integrity',
+    title: 'Automated Translation Integrity Checking',
+    detail: `Updating bilingual content frequently led to human errors, such as missing translations or mismatched metadata. Instead of using complex translation management tools, I wrote a lightweight Vitest script to automatically assert the structural symmetry of localized files during the build stage, ensuring translation integrity at minimum cost.`
+  },
+  {
+    tag: 'UX & Context',
+    title: 'Interviewer-Centric User Experience Design',
+    detail: `Designed three core UX features to facilitate seamless evaluation by hiring managers: 1) <strong>One-click technology filtering</strong> that dynamically isolates relevant projects based on chosen tech stacks, 2) <strong>intelligent scroll restoration</strong> using session history to preserve the reading position when returning from detailed project pages, and 3) a dedicated, print-friendly <strong>Print View</strong> for clean paper/PDF export without broken layouts.`
   },
 ]} />
 

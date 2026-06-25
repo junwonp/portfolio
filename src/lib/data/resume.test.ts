@@ -8,7 +8,7 @@ import {
   resolveRolePreset,
   resolveSummaryPreset,
   resolveTailoredView,
-} from '$lib/data/resume';
+} from '@/lib/data/resume';
 
 describe('resume data for web frontend applications', () => {
   it('keeps the previous product-growth summary as the default introduction', () => {
@@ -126,6 +126,30 @@ describe('resume data for web frontend applications', () => {
     ).toEqual({
       summaryPreset: 'web',
       projectIds: ['web_viewer'],
+    });
+  });
+
+  it('uses application link overrides when query params are absent', () => {
+    expect(
+      resolveTailoredView(new URLSearchParams(), {
+        projectIds: ['today_weather', 'camerafi_studio'],
+        role: 'web',
+        summaryPreset: 'ops-data',
+      }),
+    ).toEqual({
+      summaryPreset: 'ops-data',
+      projectIds: ['today_weather', 'camerafi_studio'],
+    });
+
+    expect(
+      resolveTailoredView(new URLSearchParams('summary=ai&projects=aira'), {
+        projectIds: ['today_weather'],
+        role: 'web',
+        summaryPreset: 'ops-data',
+      }),
+    ).toEqual({
+      summaryPreset: 'ai',
+      projectIds: ['aira'],
     });
   });
 });

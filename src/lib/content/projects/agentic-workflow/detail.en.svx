@@ -59,7 +59,7 @@ The result is not a tool showcase. It is a repeatable delivery loop for turning 
   ]}
 />
 
-## Workflow & verification guardrails
+### Workflow & verification guardrails
 
 <MermaidDiagram
   chart={workflowChart}

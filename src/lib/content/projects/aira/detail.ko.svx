@@ -116,6 +116,12 @@ techStack:
     title: 'typesafe-i18n으로 컴파일 타임 i18n 타입 안전성 확보',
     detail: `<code>typesafe-i18n</code>이 번역 파일에서 TypeScript 타입을 자동 생성 — 잘못된 키와 누락된 파라미터가 <strong>컴파일 타임에</strong> 잡힙니다. 로케일 파일 로드 완료 후에만 자식을 렌더링하여 첫 화면의 언어 표시 오류를 방지합니다. 언어 전환 시 OS 로케일 동기화 → MMKV 저장 → 번역 파일 비동기 로드 → i18n 컨텍스트 업데이트를 순차 처리합니다.`
   },
+  {
+    tag: 'R&D',
+    accent: true,
+    title: '차세대 숏폼 UI 및 iOS 26 Liquid Glass 네이티브 가속 실험',
+    detail: `정형화된 채팅 앱의 틀을 깨고 사용자의 몰입감을 극대화하기 위해 <strong>풀스크린 숏폼(Shorts) 스와이프 UI</strong>를 자체 설계 및 연구 개발했습니다. 캐릭터 카드를 쓸어넘겨 즉각적으로 대화를 시작하는 자연스러운 UX를 지원합니다. 또한 그래픽 연산 부하를 최소화하고자 JS 스레드를 거치지 않고 시스템 네이티브 API인 <strong>iOS Liquid Glass(UIGlassView)</strong>를 연동해 배터리 효율과 부드러운 렌더링을 동시에 잡는 하드웨어 가속 기법을 적용 및 검증했습니다.`
+  },
 ]} />
 
 ## 스크린샷
@@ -138,29 +144,21 @@ techStack:
   { src: '/images/aira/reward_ads.webp', alt: '아이라 리워드 광고', caption: '포인트 충전을 위한 보상형 광고 화면' },
 ]} />
 
-### 성능 데모
+### 실기기 인터랙션 및 성능 데모
+
+서비스의 실사용 성능과 차세대 UI 실험 결과를 직접 검증한 화면 녹화본입니다.
+
+* **60fps 채팅 스크롤 성능 검증 (FlashList):** 대량의 대화 로그가 누적되더라도 끊김이 없도록 메모리를 효율적으로 재사용하는 뷰 리사이클링 아키텍처를 도입했습니다. JS 스레드 부하가 큰 상황에서도 UI 스레드 상에서 실시간 키보드 높이에 맞추어 부드럽게 스크롤되도록 Reanimated 워크렛을 적용하여 60fps 수준의 끊김 없는 사용자 흐름을 구현했습니다.
+* **숏폼 스타일의 캐릭터 탐색 UX 및 iOS 26 Liquid Glass R&D:** 사용자가 캐릭터 카드를 숏폼 피드처럼 가로/세로 스와이프로 빠르고 즐겁게 탐색하다가 마음에 들면 별도 화면 전환 없이 그 자리에서 즉시 대화를 이어나가는 몰입형 레이아웃입니다. 또한 무거운 자바스크립트 그래픽 연산 병목 없이 최신 애플의 렌더링 스타일을 재현하기 위해 iOS 네이티브 하드웨어 가속 API(`UIGlassView`)를 연동하여 배터리 효율과 독창적인 비주얼을 실현했습니다.
 
 <ImageGallery>
   <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat FlashList Demo"/>
   <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home FlashList Demo"/>
 </ImageGallery>
 
----
-
-### V2 R&D: 차세대 인터페이스 실험
-
-서비스 고도화를 위해 개발했던 **V2 버전**에서는 기존 채팅 앱의 정형화된 틀을 깨고, **사용자의 몰입감을 극대화할 수 있는 새로운 인터페이스**를 구현했습니다.
-(※ 비즈니스 사정으로 정식 출시는 되지 않았으나, 개발 단계에서 기능 검증을 마친 결과물입니다.)
-
-### 숏폼(Shorts) 스타일의 탐색 경험과 iOS 26 Liquid Glass
-
-<ImageDescription src="/images/aira/v2_home.mp4" alt="aira V2 Shorts UI and Liquid Glass demo"/>
-
-사용자가 캐릭터를 콘텐츠처럼 즐길 수 있도록 **풀스크린 스와이프 UI**를 도입했습니다.
-
-- **몰입형 UX 설계:** 캐릭터를 위아래로 넘겨보다가, 마음에 들면 별도의 화면 이동 없이 **즉시 대화를 시작할 수 있는 자연스럽게 이어지는 구조**를 설계했습니다.
-- **iOS 26 Liquid Glass 도입:** iOS 26에서 새롭게 선보인 **Liquid Glass**를 `UIGlassView`를 통해 직접 적용했습니다. JS 기반의 무거운 그래픽 연산 없이 시스템 네이티브 API를 호출하여, **최신 iOS 시스템 디자인을 따르면서도 배터리 효율을 극대화했습니다.**
-
+<ImageGallery>
+  <ImageDescription src="/images/aira/v2_home.mp4" alt="aira V2 Shorts UI and Liquid Glass demo"/>
+</ImageGallery>
 
 ## 회고
 

@@ -1,6 +1,6 @@
-import type { ProjectContentEntry } from '$lib/content/projects';
-import { getProjectsBySection, projectCatalog } from '$lib/content/projects';
-import { i18nData } from '$lib/data/resume.i18n';
+import type { ProjectContentEntry } from '@/lib/content/projects';
+import { getProjectsBySection, projectCatalog } from '@/lib/content/projects';
+import { i18nData } from '@/lib/data/resume.i18n';
 import {
   certificateOrder,
   certificatesShared,
@@ -9,7 +9,7 @@ import {
   sharedIntroduction,
   skillsShared,
   workExperiencesShared,
-} from '$lib/data/resume.shared';
+} from '@/lib/data/resume.shared';
 import type {
   ArchiveProps,
   CertificateProps,
@@ -19,8 +19,8 @@ import type {
   ProjectItem,
   SkillProps,
   WorkExperienceProps,
-} from '$lib/types/about';
-import type { Language } from '$lib/utils/language';
+} from '@/lib/types/about';
+import type { Language } from '@/lib/utils/language';
 
 export const summaryPresetIds = ['default', 'ops-data', 'web', 'rn', 'web-rn', 'ai'] as const;
 
@@ -338,19 +338,32 @@ export const resolveRolePreset = (value: string | null): RolePresetId | null => 
   return rolePresetIds.includes(normalized as RolePresetId) ? (normalized as RolePresetId) : null;
 };
 
+export interface TailoredViewOverride {
+  projectIds?: string[];
+  role?: RolePresetId | null;
+  summaryPreset?: SummaryPresetId;
+}
+
 export const resolveTailoredView = (
   searchParams: URLSearchParams,
+  override?: TailoredViewOverride | null,
 ): { projectIds: string[]; summaryPreset: SummaryPresetId } => {
   const rolePreset = resolveRolePreset(searchParams.get('role'));
-  const roleConfig = rolePreset ? rolePresets[rolePreset] : null;
+  const overrideRoleConfig = override?.role ? rolePresets[override.role] : null;
+  const roleConfig = rolePreset
+    ? rolePresets[rolePreset]
+    : (overrideRoleConfig ?? (override?.role ? rolePresets[override.role] : null));
   const explicitProjectIds = resolveFeaturedProjectIds(searchParams);
   const hasSummaryParam = searchParams.has('summary');
 
   return {
-    projectIds: explicitProjectIds.length > 0 ? explicitProjectIds : (roleConfig?.projectIds ?? []),
+    projectIds:
+      explicitProjectIds.length > 0
+        ? explicitProjectIds
+        : (override?.projectIds ?? roleConfig?.projectIds ?? []),
     summaryPreset: hasSummaryParam
       ? resolveSummaryPreset(searchParams.get('summary'))
-      : (roleConfig?.summary ?? 'default'),
+      : (override?.summaryPreset ?? roleConfig?.summary ?? 'default'),
   };
 };
 

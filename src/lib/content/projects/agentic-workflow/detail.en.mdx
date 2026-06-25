@@ -1,0 +1,90 @@
+---
+title: AI-assisted Engineering Workflow
+description: Verification-first AI workflow for shipping portfolio and product UI work faster without weakening engineering ownership.
+date: '2026-04-22'
+role: 'Workflow Design & Verification'
+techStack: ['Claude Code', 'Codex']
+---
+
+import ProjectAchievements from '@/lib/components/ProjectAchievements';
+import ProjectLightbox from '@/lib/components/ProjectLightbox';
+import ProjectTechStack from '@/lib/components/ProjectTechStack';
+import MermaidDiagram from '@/lib/components/MermaidDiagram';
+
+export const workflowChart = `flowchart TD
+  A["1. Gather context<br/>Files · docs · browser"] --> B["2. Constrain scope<br/>Keep related diffs only"]
+  B --> C["3. Verify<br/>check · lint · test · browser"]
+  C --> D["4. Review & commit<br/>Diff review · split commits"]`;
+
+## Project overview
+
+**"Use AI for speed, keep engineering ownership explicit."**
+
+This workflow is how I use AI tools to move faster on portfolio and product UI work while keeping product judgment, architecture, and final review under my control. It starts from the user-facing outcome and existing code, then constrains the agent with project rules, scoped context, check/lint/test gates, browser verification, and final diff review.
+
+The result is not a tool showcase. It is a repeatable delivery loop for turning AI output into reviewed, tested, and rendered changes that can be defended in an engineering conversation.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## Key work
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Scope',
+      accent: true,
+      title: 'Start from product intent before implementation',
+      detail: `Each task begins with the intended user-facing result, the current code shape, and the smallest acceptable change. AI is used only after the work is scoped enough to review, test, and explain.`,
+    },
+    {
+      tag: 'Context',
+      accent: true,
+      title: 'Split global rules from project-specific directives',
+      detail: `Shared directives live in <code>dotfiles</code>, while repo-specific rules stay in files such as <code>AGENTS.md</code>. This keeps repeated standards consistent without flooding each task with irrelevant context.`,
+    },
+    {
+      tag: 'Review',
+      accent: true,
+      title: 'Keep architecture and final diff review human-owned',
+      detail: `AI can draft repetitive implementation, but product tradeoffs, data handling, security boundaries, and final diff review remain my responsibility. That boundary makes the workflow faster without hiding ownership.`,
+    },
+    {
+      tag: 'Evidence',
+      title: 'Require checks, tests, browser rendering, and diff review',
+      detail: `Changes are accepted only after static checks, focused tests, rendered-page inspection when relevant, and a final review of the actual diff. The output is judged by evidence, not by whether AI generated it quickly.`,
+    },
+  ]}
+/>
+
+### Workflow & verification guardrails
+
+<MermaidDiagram
+  chart={workflowChart}
+  eyebrow="Verification flow"
+  title="Verified AI-assisted engineering workflow"
+/>
+
+**Verification guardrails**
+
+| Step | Standard | If it fails |
+| --- | --- | --- |
+| Context gathering | Read relevant files and existing patterns first | Stop guessing and inspect the source |
+| Context budget | Split global and project skills so only necessary rules are loaded | Remove unrelated directives from the task context |
+| Scope control | Touch only files directly tied to the request | Split unrelated diffs before commit |
+| Static validation | Pass `pnpm check` and `pnpm lint` | Fix from logs, not blind retries |
+| Content validation | Keep localized detail, alt, caption, and links in sync | Block one-locale-only changes |
+| Browser validation | Verify the rendered local page | Rework from DOM/screenshot evidence |
+| Commit review | Separate logical diff groups | Split mixed concerns before commit |
+
+**Concrete examples**
+
+- **Portfolio positioning:** Reworked the home page so product growth and release ownership stay ahead of AI-tool messaging.
+- **Metric cleanup:** Kept metric cards focused on outcome, scale, and measurable improvement instead of years, technology names, or status labels.
+- **Browser-based UI verification:** Checked responsive metric layouts, project-detail table styling, and homepage visibility directly in the local browser before marking work complete.
+- **Evidence hygiene:** Avoided using screenshots as portfolio evidence unless they came from real product screens or reproducible local output.
+
+## Retrospective
+
+**The main value is not raw speed.** The useful part is breaking repetitive work into reviewable units and leaving behind evidence that each change is safe.
+
+**AI does not replace engineering judgment.** The workflow works only when context, scope, and verification are explicit. That is the part I can defend in a code review or interview.

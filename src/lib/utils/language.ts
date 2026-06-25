@@ -1,4 +1,4 @@
-import { COOKIE_MAX_AGE } from '$lib/data/constants';
+import { COOKIE_MAX_AGE } from '@/lib/data/constants';
 
 export type Language = 'ko' | 'en';
 

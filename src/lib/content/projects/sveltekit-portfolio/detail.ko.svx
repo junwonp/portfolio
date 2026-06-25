@@ -32,24 +32,29 @@ GitHub Pages 같은 순수 정적 호스팅에서는 서버 사이드 로직을 
   {
     tag: 'Architecture',
     accent: true,
-    title: '하이브리드 UX — 이력서와 포트폴리오를 하나로',
-    detail: `홈 화면은 핵심 정보를 한눈에 전달하는 <strong>이력서</strong> 형식으로 구성했습니다. '자세히 보기'를 클릭하면 mdsvex로 렌더링된 <strong>프로젝트 회고 페이지</strong>로 전환됩니다. 이 2단계 구조 덕분에 면접관이 빠르게 훑어보고 원하는 프로젝트로 깊이 들어갈 수 있어, 별도의 포트폴리오 사이트로 이동할 필요가 없습니다.`
+    title: '이력서와 포트폴리오의 하이브리드 결합',
+    detail: `단순한 블로그 형식이나 무거운 단일 페이지 앱 대신, 홈 화면은 정보를 한눈에 전달하는 <strong>Dense Résumé</strong> 형식으로 설계하고 상세 정보는 마크다운 회고록으로 구현했습니다. 방문자(면접관)가 불필요한 링크 이동 없이 효율적으로 정보를 탐색하도록 돕는 포트폴리오 본연의 목적에 집중한 설계입니다.`
   },
   {
-    tag: 'i18n',
+    tag: 'i18n & Performance',
     accent: true,
-    title: '서버 사이드 언어 감지 (깜빡임 없음)',
-    detail: `클라이언트 사이드 언어 감지(<code>navigator.language</code>)는 빈 화면 로드 → JS로 언어 확인 → 리다이렉트 순서로 동작해 눈에 띄는 깜빡임이 발생했습니다. <code>hooks.server.ts</code>의 handle 함수가 <strong>엣지에서</strong> <code>Accept-Language</code> 헤더와 쿠키를 읽어 올바른 로케일을 <code>event.locals</code>에 주입하고, 응답이 서버를 떠나기 전에 <code>app.html</code>의 <code>%lang%</code>를 교체합니다. 브라우저는 첫 요청부터 완성된 HTML을 올바른 언어로 받습니다.`
+    title: '엣지 기반 무지연 다국어 대응 및 캐시 최적화',
+    detail: `다국어 제공 시 프론트엔드 단에서 발생하는 화면 깜빡임(Flicker)을 제거하기 위해, 엣지 미들웨어(Cloudflare Pages handle)에서 HTTP 요청의 쿠키와 <code>Accept-Language</code>를 즉시 파악하여 첫 HTML부터 알맞게 렌더링했습니다. 또한 폰트 헤더 프리로드 및 브라우저 영구 캐싱 설정을 가볍게 적용하여 Lighthouse Performance 97점을 확보했습니다.`
   },
   {
-    tag: 'Performance',
-    title: 'Lighthouse Performance 97 / Accessibility 100',
-    detail: `<strong>Performance 97점, Accessibility 100점, Best Practices 100점</strong>을 달성했습니다. 핵심 결정들: 전체적으로 시맨틱 HTML 사용, 뷰포트 아래 이미지에 <code>loading="lazy"</code> 적용, 런타임 없는 테마를 위한 CSS 커스텀 프로퍼티 활용, 가상 DOM이나 하이드레이션 런타임을 배포하지 않는 Svelte의 컴파일 결과물 활용. SEO 점수 66점은 의도된 설계로, 이력서의 민감한 개인정보 노출을 막기 위해 <code>robots.txt</code>로 <code>noindex</code>를 적용했습니다.`
+    tag: 'Troubleshooting',
+    title: 'Svelte 5 마이그레이션 및 빌드 타임 컴파일 호환성 확보',
+    detail: `코드 유지보수를 위해 Svelte 5(Runes)로 전환하는 과정에서, 마크다운 렌더러인 mdsvex가 Svelte 4 스펙의 모듈 스크립트를 출력하는 빌드 호환성 충돌이 발생했습니다. 무겁거나 검증되지 않은 외부 라이브러리에 의존하는 대신, 빌드 파이프라인에 간단한 정규식 전처리기를 직접 구현하여 호환성 블로커를 독립적으로 해결했습니다.`
   },
   {
-    tag: 'UI',
-    title: 'Pure CSS 반응형 디자인 — 프레임워크 없음',
-    detail: `Tailwind 같은 유틸리티 클래스 프레임워크 없이 <strong>순수 CSS와 CSS 커스텀 프로퍼티</strong>로 반응형 레이아웃을 직접 설계했습니다. 모바일 레이아웃은 데스크탑을 단순히 줄인 것이 아니라, 데스크탑의 사이드 내비게이션을 엄지 손가락으로 조작하기 좋은 <strong>하단 고정 탭 바</strong>로 대체한 독립적인 경험입니다.`
+    tag: 'DX & Integrity',
+    title: '다국어 리소스 정합성 검증 테스트 자동화',
+    detail: `콘텐츠를 업데이트할 때 한국어/영어 중 한쪽이 누락되거나 메타데이터 필드가 어긋나는 휴먼 에러가 자주 일어났습니다. 거창한 번역 관리 도구 대신, 빌드 전에 작동하는 가벼운 Vitest 테스트 하나로 양국어 파일 쌍의 완벽한 대칭성을 검사하도록 설계하여 최소한의 비용으로 다국어 콘텐츠 정합성을 확보했습니다.`
+  },
+  {
+    tag: 'UX & Context',
+    title: '면접관의 탐색 흐름을 고려한 사용자 경험 설계',
+    detail: `서류 검토자(면접관)가 정보를 편리하게 검토할 수 있도록 세 가지 장치를 마련했습니다. 1) 관심 있는 기술 스택만 선택해 관련 프로젝트를 모아볼 수 있는 <strong>원클릭 기술 태그 필터링</strong>, 2) 상세 프로젝트 회고를 읽고 홈으로 돌아왔을 때 보던 위치를 유지해주는 <strong>스크롤 위치 보존 및 복원</strong>, 3) 종이나 PDF로 인쇄/저장할 때 깨짐 없이 가독성을 확보해주는 <strong>인쇄 전용 단일 페이지 뷰(Print View)</strong>를 제공합니다.`
   },
 ]} />
 

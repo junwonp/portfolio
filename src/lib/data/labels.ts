@@ -1,4 +1,4 @@
-import type { Language } from '$lib/utils/language';
+import type { Language } from '@/lib/utils/language';
 
 export interface Labels {
   authorName: string;

@@ -59,7 +59,7 @@ techStack: ['Claude Code', 'Codex']
   ]}
 />
 
-## 워크플로우와 검증 가드레일
+### 워크플로우와 검증 가드레일
 
 <MermaidDiagram
   chart={workflowChart}

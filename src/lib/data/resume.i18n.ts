@@ -4,9 +4,9 @@ import type {
   EducationId,
   OtherExpId,
   WorkExpId,
-} from '$lib/data/resume.shared';
-import type { MetricItem, PillarItem } from '$lib/types/about';
-import type { Language } from '$lib/utils/language';
+} from '@/lib/data/resume.shared';
+import type { MetricItem, PillarItem } from '@/lib/types/about';
+import type { Language } from '@/lib/utils/language';
 
 interface I18nProject {
   title: string;
@@ -52,9 +52,9 @@ export interface I18nData {
     tagline: string;
   };
   otherExperiences: Record<OtherExpId, I18nOtherExp>;
-  skills: Record<import('$lib/data/resume.shared').SkillId, string>;
-  skillDetailsLabel?: Partial<Record<import('$lib/data/resume.shared').SkillId, string>>;
-  skillDescriptions?: Partial<Record<import('$lib/data/resume.shared').SkillId, string>>;
+  skills: Record<import('@/lib/data/resume.shared').SkillId, string>;
+  skillDetailsLabel?: Partial<Record<import('@/lib/data/resume.shared').SkillId, string>>;
+  skillDescriptions?: Partial<Record<import('@/lib/data/resume.shared').SkillId, string>>;
   workExperiences: Record<WorkExpId, I18nWorkExp>;
 }
 

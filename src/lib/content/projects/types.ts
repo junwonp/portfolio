@@ -1,7 +1,7 @@
-import type { SkillName } from '$lib/data/skills';
-import type { MetricItem } from '$lib/types/about';
-import type { PostMetadata } from '$lib/types/post';
-import type { Language } from '$lib/utils/language';
+import type { SkillName } from '@/lib/data/skills';
+import type { MetricItem } from '@/lib/types/about';
+import type { PostMetadata } from '@/lib/types/post';
+import type { Language } from '@/lib/utils/language';
 
 export type ProjectContentSection = 'archive' | 'other' | 'standalone' | 'work';
 

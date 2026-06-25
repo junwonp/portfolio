@@ -1,0 +1,145 @@
+.day-planner-evidence {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0 0 var(--space-md);
+}
+
+.section-heading p {
+  margin: 0;
+  color: var(--color-sub);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.surface-map,
+.verification-card {
+  border: 1px solid var(--color-bg-divider);
+  border-radius: 18px;
+  background: var(--color-basic-bg);
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--color-shadow) 70%, transparent);
+}
+
+.surface-map {
+  padding: var(--space-sm);
+  background:
+    radial-gradient(
+      circle at top left,
+      color-mix(in srgb, var(--color-primary) 14%, transparent),
+      transparent 42%
+    ),
+    var(--color-basic-bg);
+}
+
+h3 {
+  margin: 0 0 var(--space-sm);
+  color: var(--color-bold);
+  font-size: 1rem;
+}
+
+.surface-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.surface-list li {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 170px;
+  padding: 14px;
+  border: 1px solid var(--color-bg-subdivider);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--color-basic-bg) 88%, var(--color-primary) 12%);
+}
+
+.surface-list span {
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.surface-list strong {
+  color: var(--color-bold);
+  font-size: 0.92rem;
+  line-height: 1.25;
+}
+
+.surface-list p {
+  margin: 0;
+  color: var(--color-main);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.verification-card {
+  padding: var(--space-sm);
+}
+
+.verification-card dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.verification-card div {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--color-code-bg) 74%, transparent);
+}
+
+.verification-card dt {
+  color: var(--color-sub);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.verification-card dd {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+
+.verification-card strong {
+  color: var(--color-primary);
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.verification-card span {
+  color: var(--color-main);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 860px) {
+  .surface-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .verification-card dl {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 440px) {
+  .surface-map,
+  .verification-card {
+    border-radius: 14px;
+  }
+
+  .surface-list {
+    grid-template-columns: 1fr;
+  }
+
+  .surface-list li {
+    min-height: auto;
+  }
+}

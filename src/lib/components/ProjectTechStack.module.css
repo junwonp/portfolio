@@ -1,0 +1,36 @@
+.project-tech-stack {
+  margin: 2rem 0 3rem;
+}
+
+.tech-category-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tech-category {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-bold);
+  opacity: 0.8;
+}
+
+.tech-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+@media (max-width: 640px) {
+  .project-tech-stack {
+    margin: 1.5rem 0 2.5rem;
+  }
+}

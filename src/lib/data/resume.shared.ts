@@ -1,12 +1,11 @@
-import { GITHUB_PROFILE, LINKEDIN_PROFILE } from '$lib/data/constants';
-import { SKILL, type SkillName } from '$lib/data/skills';
+import { SKILL, type SkillName } from '@/lib/data/skills';
 
-export type { SkillId } from '$lib/data/skills';
-export { skillsShared } from '$lib/data/skills';
+export type { SkillId } from '@/lib/data/skills';
+export { skillsShared } from '@/lib/data/skills';
 
 export const sharedIntroduction = {
-  githubLink: GITHUB_PROFILE,
-  linkedinLink: LINKEDIN_PROFILE,
+  githubLink: '/github',
+  linkedinLink: '/linkedin',
   role: 'Frontend Engineer' as const,
 };
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { sanitizeProjectHtml } from '$lib/utils/safeHtml';
+import { sanitizeProjectHtml } from '@/lib/utils/safeHtml';
 
 describe('sanitizeProjectHtml', () => {
   it('keeps the rich text tags used by project achievements', () => {
