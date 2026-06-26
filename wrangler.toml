@@ -26,33 +26,23 @@ enabled = false
 # before allowing content edits or other write traffic in develop.
 [env.develop]
 name = "portfolio-develop"
+main = "vinext/server/app-router-entry"
+compatibility_date = "2026-06-17"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 
 [env.develop.assets]
-directory = ".open-next/assets"
 binding = "ASSETS"
+not_found_handling = "none"
 
 [env.develop.images]
 binding = "IMAGES"
-
-[[env.develop.services]]
-binding = "WORKER_SELF_REFERENCE"
-service = "portfolio-develop"
 
 [[env.develop.r2_buckets]]
 binding = "portfolio_assets"
 bucket_name = "portfolio-assets"
 
-[[env.develop.r2_buckets]]
-binding = "NEXT_INC_CACHE_R2_BUCKET"
-bucket_name = "portfolio-assets"
-
 [[env.develop.d1_databases]]
 binding = "portfolio_db"
-database_name = "portfolio-db"
-database_id = "3c7cc643-2ad9-4c9a-97c3-2e2105b3e8ef"
-
-[[env.develop.d1_databases]]
-binding = "NEXT_TAG_CACHE_D1"
 database_name = "portfolio-db"
 database_id = "3c7cc643-2ad9-4c9a-97c3-2e2105b3e8ef"
 
