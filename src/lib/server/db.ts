@@ -1,15 +1,11 @@
-import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { env } from 'cloudflare:workers';
 
 interface RuntimeEnv {
   portfolio_db?: unknown;
 }
 
 export function getCloudflareEnv(): CloudflareEnv | undefined {
-  try {
-    return getCloudflareContext().env as CloudflareEnv;
-  } catch {
-    return undefined;
-  }
+  return env as CloudflareEnv;
 }
 
 export function resolveDbFromEnv(env: RuntimeEnv | undefined): D1Database | undefined {

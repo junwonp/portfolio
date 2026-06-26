@@ -1,16 +1,17 @@
 # Portfolio
 
-A personal portfolio website built with **Next.js 16** and deployed on **Cloudflare Workers** via [OpenNext](https://opennext.js.org/cloudflare).
+A personal portfolio website built with the **Next.js 16 App Router API** on [vinext](https://www.npmjs.com/package/vinext) and deployed to **Cloudflare Workers**.
 
 ## Tech Stack
 
-- **Framework**: [Next.js 16](https://nextjs.org/) (Turbopack)
+- **Framework**: [vinext](https://www.npmjs.com/package/vinext) with the [Next.js 16](https://nextjs.org/) App Router API
+- **Build Tool**: Vite
 - **Language**: TypeScript
 - **Styling**: Vanilla CSS with CSS Custom Properties
 - **Content**: MDX
 - **Database**: Cloudflare D1
 - **Storage**: Cloudflare R2
-- **Deployment**: Cloudflare Workers (via `@opennextjs/cloudflare`)
+- **Deployment**: Cloudflare Workers (via `vinext` and `@cloudflare/vite-plugin`)
 
 ## Getting Started
 
@@ -24,7 +25,7 @@ pnpm dev
 # Build for production
 pnpm build
 
-# Preview locally in Workers runtime
+# Start the local production server
 pnpm preview
 
 # Deploy to Cloudflare Workers
@@ -44,7 +45,7 @@ src/
 │   ├── server/       # Server-side utilities (D1, R2)
 │   ├── types/        # TypeScript type definitions
 │   └── utils/        # Shared utility functions
-└── proxy.ts          # Edge proxy (middleware)
+└── proxy.ts          # Request proxy
 ```
 
 ## License

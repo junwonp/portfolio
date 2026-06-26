@@ -1,5 +1,8 @@
 import type { NextConfig } from 'next';
 import createMDX from '@next/mdx';
+import remarkFrontmatter from 'remark-frontmatter';
+import remarkGfm from 'remark-gfm';
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 
 const nextConfig: NextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
@@ -18,33 +21,12 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  webpack: (config) => {
-    if (config.watchOptions) {
-      const existingIgnored = config.watchOptions.ignored;
-      config.watchOptions.ignored = [
-        ...(Array.isArray(existingIgnored)
-          ? existingIgnored
-          : existingIgnored
-            ? [existingIgnored]
-            : []),
-        '**/node_modules/**',
-        '**/.wrangler/**',
-        '**/.open-next/**',
-        '**/.next/**',
-        '**/.git/**',
-      ];
-    }
-    return config;
-  },
 };
 
 const withMDX = createMDX({
   options: {
-    remarkPlugins: ['remark-gfm', 'remark-frontmatter', 'remark-mdx-frontmatter'],
+    remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
   },
 });
 
 export default withMDX(nextConfig);
-
-import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
-initOpenNextCloudflareForDev();

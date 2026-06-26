@@ -5,6 +5,9 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      'cloudflare:workers': fileURLToPath(
+        new URL('./src/lib/server/cloudflare-workers.mock.ts', import.meta.url),
+      ),
     },
   },
   test: {
