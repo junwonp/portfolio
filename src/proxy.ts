@@ -2,12 +2,21 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { LANGUAGE_COOKIE } from '@/lib/data/constants';
-import { detectLanguageFromHeader, getLocaleCookieOptions, isValidLanguage } from '@/lib/utils/language';
+import {
+  detectLanguageFromHeader,
+  getLocaleCookieOptions,
+  isValidLanguage,
+} from '@/lib/utils/language';
 
 const ASSET_CACHE_PATHS = [/^\/fonts\//, /^\/images\//, /^\/certificates\//];
 const ASSET_CACHE_HEADER = 'public, max-age=31536000, immutable';
 const PAGE_CACHE_HEADER = 'private, no-cache, no-store, must-revalidate';
-const PRIVATE_ROBOTS_PATHS = [/^\/admin(?:\/|$)/, /^\/a(?:\/|$)/, /^\/api(?:\/|$)/, /^\/print(?:\/|$)/];
+const PRIVATE_ROBOTS_PATHS = [
+  /^\/admin(?:\/|$)/,
+  /^\/a(?:\/|$)/,
+  /^\/api(?:\/|$)/,
+  /^\/print(?:\/|$)/,
+];
 
 const SECURITY_HEADERS = {
   'Cross-Origin-Opener-Policy': 'same-origin',
@@ -18,7 +27,7 @@ const SECURITY_HEADERS = {
   'X-Frame-Options': 'DENY',
 } as const;
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 1. Determine Locale
