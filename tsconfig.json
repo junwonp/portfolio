@@ -23,15 +23,6 @@
     },
     "types": ["mdx"]
   },
-  "include": [
-    "next-env.d.ts",
-    "src/env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts",
-    "**/*.mdx"
-  ],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "src/env.d.ts", "**/*.ts", "**/*.tsx", "**/*.mts", "**/*.mdx"],
+  "exclude": ["node_modules", ".next", ".vinext", "dist"]
 }
