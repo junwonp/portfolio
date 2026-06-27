@@ -1,5 +1,5 @@
 name = "portfolio"
-main = "vinext/server/app-router-entry"
+main = "./worker/index.ts"
 compatibility_date = "2026-06-17"
 compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 
@@ -9,6 +9,10 @@ not_found_handling = "none"
 
 [images]
 binding = "IMAGES"
+
+[[kv_namespaces]]
+binding = "VINEXT_KV_CACHE"
+id = "3e1abd66f922442ea1112d74db04292c"
 
 [[r2_buckets]]
 binding = "portfolio_assets"
@@ -26,7 +30,7 @@ enabled = false
 # before allowing content edits or other write traffic in develop.
 [env.develop]
 name = "portfolio-develop"
-main = "vinext/server/app-router-entry"
+main = "./worker/index.ts"
 compatibility_date = "2026-06-17"
 compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 
@@ -36,6 +40,10 @@ not_found_handling = "none"
 
 [env.develop.images]
 binding = "IMAGES"
+
+[[env.develop.kv_namespaces]]
+binding = "VINEXT_KV_CACHE"
+id = "4e5d5aa8077a4e3d94175c14845346dd"
 
 [[env.develop.r2_buckets]]
 binding = "portfolio_assets"
