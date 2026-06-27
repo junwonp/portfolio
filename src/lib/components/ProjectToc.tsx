@@ -1,68 +1,103 @@
 "use client";
 
-import React, { useCallback,useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import BaseSideNav from "@/lib/components/BaseSideNav";
-import { getPageScrollY, scrollPageTo,useScrollSpy } from "@/lib/hooks/useScrollSpy";
-import { parseHeading, slugify } from "@/lib/utils/markdown";
+import { getPageScrollY, scrollPageTo, useScrollSpy } from "@/lib/hooks/useScrollSpy";
+import { parseHeading } from "@/lib/utils/markdown";
 
 interface NavSection {
   id: string;
   label: string;
 }
 
+function areNavSectionsEqual(
+  current: NavSection[],
+  next: NavSection[]
+): boolean {
+  if (current.length !== next.length) {
+    return false;
+  }
+
+  return current.every((section, index) => {
+    const other = next[index];
+    return section.id === other.id && section.label === other.label;
+  });
+}
+
 export default function ProjectToc() {
   const [sections, setSections] = useState<NavSection[]>([]);
+
+  const parseHeader = useCallback((text: string) => {
+    const { main } = parseHeading(text);
+    return { label: main };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const article = document.querySelector(".project-article");
+    if (!article) {
+      return;
+    }
+
+    const readSections = (): NavSection[] => {
+      const headings = Array.from(
+        article.querySelectorAll<HTMLElement>("h2")
+      );
+
+      return headings.flatMap((el) => {
+        if (!el.id) {
+          return [];
+        }
+
+        const { label } = parseHeader(el.textContent || "");
+        return [{ id: el.id, label }];
+      });
+    };
+
+    const syncSections = () => {
+      const nextSections = readSections();
+      setSections((current) =>
+        areNavSectionsEqual(current, nextSections) ? current : nextSections
+      );
+    };
+
+    syncSections();
+
+    let frameId: number | null = null;
+    const observer = new MutationObserver(() => {
+      if (frameId !== null) {
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+        syncSections();
+      });
+    });
+
+    observer.observe(article, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+
+    return () => {
+      observer.disconnect();
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
+  }, [parseHeader]);
 
   const sectionIds = useMemo(() => sections.map((s) => s.id), [sections]);
 
   const activeId = useScrollSpy(
     useCallback(() => sectionIds, [sectionIds])
   );
-
-  const parseHeader = (text: string) => {
-    const { main } = parseHeading(text);
-    return { label: main };
-  };
-
-  useEffect(() => {
-    const setup = (): boolean => {
-      const headings = Array.from(
-        document.querySelectorAll<HTMLElement>(".project-article h2")
-      );
-      if (headings.length === 0) {
-        setSections([]);
-        return false;
-      }
-
-      const parsed: NavSection[] = headings.map((el, i) => {
-        if (!el.id) {
-          el.id = slugify(el.textContent || "", i);
-        }
-        const { label } = parseHeader(el.textContent || "");
-        return { id: el.id, label };
-      });
-
-      setSections(parsed);
-      return true;
-    };
-
-    if (!setup()) {
-      const article = document.querySelector(".project-article");
-      if (article) {
-        const mutObs = new MutationObserver(() => {
-          if (document.querySelectorAll(".project-article h2").length > 0) {
-            mutObs.disconnect();
-            setup();
-          }
-        });
-        mutObs.observe(article, { childList: true, subtree: true });
-        return () => {
-          mutObs.disconnect();
-        };
-      }
-    }
-  }, []);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);

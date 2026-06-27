@@ -85,6 +85,7 @@ export default async function RootLayout({
         <script
           id="theme-initializer"
           nonce={cspNonce}
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `
               if (window.matchMedia('(prefers-color-scheme: dark)').matches) {

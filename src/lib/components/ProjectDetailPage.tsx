@@ -1,17 +1,14 @@
-"use client";
-
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 
 import Badge from "@/lib/components/Badge";
 import ProjectToc from "@/lib/components/ProjectToc";
 import { getLabels } from "@/lib/data/labels";
-import { projectNavLinks } from "@/lib/stores/bottomNav";
 import type { PostMetadata } from "@/lib/types/post";
 import type { Language } from "@/lib/utils/language";
-import { parseHeading } from "@/lib/utils/markdown";
 
 import Github from "./Icon/Github";
 import Globe from "./Icon/Globe";
+import ProjectDetailClientEffects from "./ProjectDetailClientEffects";
 import styles from "./ProjectDetailPage.module.css";
 
 interface Props {
@@ -29,53 +26,20 @@ export default function ProjectDetailPage({
 }: Props) {
   const labels = getLabels(locale);
   const metricColumnCount = Math.min(metadata.metrics?.length ?? 1, 4);
-
-  const githubHref = useMemo(() => {
-    if (!metadata.githubLink) return "";
-    return metadata.githubLink.startsWith("http")
-      ? metadata.githubLink
-      : `https://github.com/${metadata.githubLink}`;
-  }, [metadata.githubLink]);
-
-  // Set project links in bottom nav store
-  useEffect(() => {
-    projectNavLinks.set({
-      githubLink: metadata.githubLink,
-      productLink: metadata.productLink,
-    });
-    return () => {
-      projectNavLinks.set(null);
-    };
-  }, [metadata.githubLink, metadata.productLink]);
-
-  // Transform headings to split subtitles
-  useEffect(() => {
-    const headings = document.querySelectorAll<HTMLElement>(
-      ".project-article h2"
-    );
-    headings.forEach((h2) => {
-      if (h2.getAttribute("data-transformed")) return;
-
-      const originalText = h2.textContent || "";
-      const { emoji, main, sub } = parseHeading(originalText);
-
-      if (sub) {
-        const hiddenColon = document.createElement("span");
-        const subtitle = document.createElement("span");
-
-        hiddenColon.className = "visually-hidden-colon";
-        hiddenColon.textContent = ":";
-        subtitle.className = styles["h2-subtitle"];
-        subtitle.textContent = sub;
-
-        h2.replaceChildren(`${emoji} ${main}`, hiddenColon, subtitle);
-      }
-      h2.setAttribute("data-transformed", "true");
-    });
-  }, [children]);
+  const githubHref =
+    !metadata.githubLink
+      ? ""
+      : metadata.githubLink.startsWith("http")
+        ? metadata.githubLink
+        : `https://github.com/${metadata.githubLink}`;
 
   return (
     <>
+      <ProjectDetailClientEffects
+        githubLink={metadata.githubLink}
+        productLink={metadata.productLink}
+      />
+
       <div id="intro-header-sentinel"></div>
 
       {/* Desktop-only sticky header with back link and project links */}
