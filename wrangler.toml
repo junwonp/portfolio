@@ -10,6 +10,9 @@ not_found_handling = "none"
 [images]
 binding = "IMAGES"
 
+[vars]
+APP_ENV = "production"
+
 [[kv_namespaces]]
 binding = "VINEXT_KV_CACHE"
 id = "3e1abd66f922442ea1112d74db04292c"
@@ -33,6 +36,9 @@ name = "portfolio-develop"
 main = "./worker/index.ts"
 compatibility_date = "2026-06-17"
 compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+
+[env.develop.vars]
+APP_ENV = "develop"
 
 [env.develop.assets]
 binding = "ASSETS"

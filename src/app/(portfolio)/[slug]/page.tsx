@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 import HomePage from '@/lib/components/HomePage';
-import { isCurrentRequestAdmin } from '@/lib/server/adminRequest';
+import { canCurrentRequestWriteAdminContent } from '@/lib/server/adminRequest';
 import type { ApplicationLinkRow } from '@/lib/server/applicationLinks';
 import { RESERVED_APPLICATION_SLUGS, toApplicationLink } from '@/lib/server/applicationLinks';
 import { getDb } from '@/lib/server/db';
@@ -47,7 +47,7 @@ export default async function ShortUrlPage({ params }: PageProps) {
   const locale = isValidLanguage(localeHeader) ? localeHeader : 'ko';
 
   const homeContentOverride = await getPublishedHomeOverride(db, locale);
-  const isAdminEditor = await isCurrentRequestAdmin();
+  const isAdminEditor = await canCurrentRequestWriteAdminContent();
 
   const tailoredView = {
     projectIds: applicationLink.projectIds,

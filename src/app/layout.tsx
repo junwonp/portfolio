@@ -60,6 +60,7 @@ export default async function RootLayout({
 }>) {
   const headersList = await headers();
   const localeHeader = headersList.get("x-locale");
+  const cspNonce = headersList.get("x-csp-nonce") ?? undefined;
   const locale = isValidLanguage(localeHeader) ? localeHeader : "ko";
 
   return (
@@ -83,6 +84,7 @@ export default async function RootLayout({
       <body>
         <script
           id="theme-initializer"
+          nonce={cspNonce}
           dangerouslySetInnerHTML={{
             __html: `
               if (window.matchMedia('(prefers-color-scheme: dark)').matches) {

@@ -1,10 +1,10 @@
 'use client';
 
-import { useRef,useState } from 'react';
+import { useRef, useState } from 'react';
 
 import Select from '@/lib/components/Select';
 
-import { deleteApplicationLink,logout } from './actions';
+import { deleteApplicationLink, logout } from './actions';
 import styles from './admin.module.css';
 import { LinkForm } from './LinkForm';
 
@@ -58,6 +58,7 @@ interface DashboardClientProps {
     rangeViews: number;
   };
   initialTab: 'analytics' | 'links';
+  writesEnabled: boolean;
 }
 
 export function DashboardClient({
@@ -73,6 +74,7 @@ export function DashboardClient({
   trafficRange,
   trafficSummary,
   initialTab,
+  writesEnabled,
 }: DashboardClientProps) {
   const [activeTab, setActiveTab] = useState<'analytics' | 'links'>(initialTab);
   const [activeDot, setActiveDot] = useState<{
@@ -528,9 +530,17 @@ export function DashboardClient({
                   <div>
                     <h3 id="link-create-title">지원 링크 생성</h3>
                     <p className={styles.sectionSubtitle}>회사별 짧은 URL과 맞춤 프로젝트 순서를 설정합니다.</p>
+                    {!writesEnabled && (
+                      <p className={styles.sectionSubtitle}>
+                        develop 환경에서는 production D1/R2 공유를 막기 위해 링크 생성과 삭제가 비활성화됩니다.
+                      </p>
+                    )}
                   </div>
                 </div>
-                <LinkForm applicationProjectOptions={applicationProjectOptions} />
+                <LinkForm
+                  applicationProjectOptions={applicationProjectOptions}
+                  writesEnabled={writesEnabled}
+                />
               </div>
             </section>
 
@@ -606,13 +616,28 @@ export function DashboardClient({
                               <form
                                 action={deleteApplicationLink}
                                 onSubmit={(e) => {
+                                  if (!writesEnabled) {
+                                    e.preventDefault();
+                                    return;
+                                  }
                                   if (!confirm(`/${link.slug} 링크를 삭제할까요?`)) {
                                     e.preventDefault();
                                   }
                                 }}
                               >
                                 <input type="hidden" name="linkId" value={link.id} />
-                                <button type="submit" className={styles.dangerBtn}>삭제</button>
+                                <button
+                                  type="submit"
+                                  className={styles.dangerBtn}
+                                  disabled={!writesEnabled}
+                                  title={
+                                    writesEnabled
+                                      ? undefined
+                                      : 'develop 환경에서는 production 데이터 보호를 위해 삭제가 비활성화됩니다.'
+                                  }
+                                >
+                                  삭제
+                                </button>
                               </form>
                             </td>
                           </tr>

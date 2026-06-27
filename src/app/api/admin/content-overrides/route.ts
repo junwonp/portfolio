@@ -1,7 +1,7 @@
 import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 
-import { isCurrentRequestAdmin } from '@/lib/server/adminRequest';
+import { isAdminWriteEnabledForCurrentRuntime, isCurrentRequestAdmin } from '@/lib/server/adminRequest';
 import { parseContentOverrideRequest } from '@/lib/server/contentOverrideRequest';
 import { getDb } from '@/lib/server/db';
 import { saveContentOverride } from '@/lib/server/editableContentStore';
@@ -9,6 +9,12 @@ import { saveContentOverride } from '@/lib/server/editableContentStore';
 export async function POST(request: Request) {
   if (!(await isCurrentRequestAdmin())) {
     return NextResponse.json({ error: 'Admin access is required' }, { status: 401 });
+  }
+  if (!isAdminWriteEnabledForCurrentRuntime()) {
+    return NextResponse.json(
+      { error: 'Admin writes are disabled in this environment' },
+      { status: 403 },
+    );
   }
 
   let body: unknown;

@@ -1,4 +1,5 @@
 import { projectCatalog } from '@/lib/content/projects';
+import { isAdminWriteEnabledForCurrentRuntime } from '@/lib/server/adminRequest';
 import { buildDailyChartRange, buildMonthlyChartRange, getTrafficRangeConfig, summarizeDailyChart } from '@/lib/server/analyticsMetrics';
 import { ApplicationLinkStatsRow, toApplicationLinkStats } from '@/lib/server/applicationLinks';
 import { getDb } from '@/lib/server/db';
@@ -6,6 +7,7 @@ import { getDb } from '@/lib/server/db';
 import { DashboardClient } from './DashboardClient';
 
 export async function AdminDashboard({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+  const writesEnabled = isAdminWriteEnabledForCurrentRuntime();
   const db = getDb();
   if (!db) {
     if (process.env.NODE_ENV === "development") {
@@ -23,6 +25,7 @@ export async function AdminDashboard({ searchParams }: { searchParams: { [key: s
           topReferrers={[]}
           topCountries={[]}
           initialTab="analytics"
+          writesEnabled={writesEnabled}
         />
       );
     }
@@ -298,6 +301,7 @@ export async function AdminDashboard({ searchParams }: { searchParams: { [key: s
       topReferrers={topReferrers}
       topCountries={topCountries}
       initialTab={initialTab}
+      writesEnabled={writesEnabled}
     />
   );
 }

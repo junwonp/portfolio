@@ -26,6 +26,8 @@ interface VerifyCloudflareAccessJwtInput {
 }
 
 interface CloudflareAccessRuntimeEnv {
+  ALLOW_ADMIN_WRITES?: unknown;
+  APP_ENV?: unknown;
   CF_ACCESS_AUD?: unknown;
   CF_ACCESS_TEAM_DOMAIN?: unknown;
   POLICY_AUD?: unknown;
@@ -44,6 +46,8 @@ export const OWNER_DEVICE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
 const CF_ACCESS_AUD_KEYS = ['CF_ACCESS_AUD', 'POLICY_AUD'] as const;
 const CF_ACCESS_TEAM_DOMAIN_KEYS = ['CF_ACCESS_TEAM_DOMAIN', 'TEAM_DOMAIN'] as const;
+const APP_ENV_KEYS = ['APP_ENV'] as const;
+const ALLOW_ADMIN_WRITES_KEYS = ['ALLOW_ADMIN_WRITES'] as const;
 
 const base64UrlToArrayBuffer = (value: string): ArrayBuffer => {
   const base64 = value.replaceAll('-', '+').replaceAll('_', '/');
@@ -102,6 +106,24 @@ export const getCloudflareAccessConfig = (
     policyAud,
     teamDomain: teamDomain.replace(/\/$/, ''),
   };
+};
+
+export const isAdminWriteEnabled = (env: object | undefined): boolean => {
+  const runtimeEnv = {
+    ...process.env,
+    ...(env ?? {}),
+  } as CloudflareAccessRuntimeEnv;
+  const appEnv =
+    getStringValue(runtimeEnv, APP_ENV_KEYS)?.toLowerCase() ??
+    (process.env.NODE_ENV === 'production' ? 'production' : 'development');
+  const allowAdminWrites =
+    getStringValue(runtimeEnv, ALLOW_ADMIN_WRITES_KEYS)?.toLowerCase() === 'true';
+
+  if (appEnv === 'develop') {
+    return allowAdminWrites;
+  }
+
+  return true;
 };
 
 export const verifyCloudflareAccessJwt = async ({

@@ -9,9 +9,10 @@ import styles from './admin.module.css';
 
 interface LinkFormProps {
   applicationProjectOptions: { id: string; title: string }[];
+  writesEnabled: boolean;
 }
 
-export function LinkForm({ applicationProjectOptions }: LinkFormProps) {
+export function LinkForm({ applicationProjectOptions, writesEnabled }: LinkFormProps) {
   const positioningOptions = [
     { value: 'web', label: '웹 프론트엔드' },
     { value: 'ops-data', label: '운영/데이터 웹' },
@@ -49,23 +50,29 @@ export function LinkForm({ applicationProjectOptions }: LinkFormProps) {
     <form className={styles.applicationForm} action={createApplicationLink}>
       <label>
         <span>회사명</span>
-        <input name="companyName" placeholder="예: Toss" required />
+        <input name="companyName" placeholder="예: Toss" required disabled={!writesEnabled} />
       </label>
 
       <label>
         <span>라벨</span>
-        <input name="label" placeholder="예: Toss Frontend 2026-06" />
+        <input name="label" placeholder="예: Toss Frontend 2026-06" disabled={!writesEnabled} />
       </label>
 
       <label>
         <span>커스텀 slug</span>
-        <input name="slug" placeholder="비워두면 4자리 자동 생성" maxLength={32} />
+        <input
+          name="slug"
+          placeholder="비워두면 4자리 자동 생성"
+          maxLength={32}
+          disabled={!writesEnabled}
+        />
       </label>
 
       <label>
         <span>포지셔닝</span>
         <Select
           name="positioning"
+          disabled={!writesEnabled}
           value={positioning}
           onChange={setPositioning}
           options={positioningOptions}
@@ -74,7 +81,7 @@ export function LinkForm({ applicationProjectOptions }: LinkFormProps) {
 
       <label>
         <span>유효 기간 (일)</span>
-        <input name="ttlDays" type="number" min="1" max="90" defaultValue="60" />
+        <input name="ttlDays" type="number" min="1" max="90" defaultValue="60" disabled={!writesEnabled} />
       </label>
 
       <div className={styles.projectOrderField}>
@@ -93,7 +100,7 @@ export function LinkForm({ applicationProjectOptions }: LinkFormProps) {
                 <span>{rank}순위</span>
                 <Select
                   name="projectIds"
-                  disabled={isProjectSelectDisabled(i)}
+                  disabled={!writesEnabled || isProjectSelectDisabled(i)}
                   value={selectedProjectIds[i]}
                   onChange={(val) => updateSelectedProject(i, val)}
                   options={projectOptions}
@@ -104,7 +111,9 @@ export function LinkForm({ applicationProjectOptions }: LinkFormProps) {
         </div>
       </div>
 
-      <button type="submit" className={styles.primaryBtn}>링크 생성</button>
+      <button type="submit" className={styles.primaryBtn} disabled={!writesEnabled}>
+        링크 생성
+      </button>
     </form>
   );
 }

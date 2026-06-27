@@ -9,7 +9,7 @@ import {
   OWNER_DEVICE_COOKIE,
   OWNER_DEVICE_COOKIE_MAX_AGE,
 } from '@/lib/server/adminAccess';
-import { isCurrentRequestAdmin } from '@/lib/server/adminRequest';
+import { isAdminWriteEnabledForCurrentRuntime, isCurrentRequestAdmin } from '@/lib/server/adminRequest';
 
 export async function login() {
   const isDev = process.env.NODE_ENV !== 'production';
@@ -49,6 +49,9 @@ export async function deleteApplicationLink(formData: FormData) {
   if (!(await isCurrentRequestAdmin())) {
     throw new Error('Admin access is required');
   }
+  if (!isAdminWriteEnabledForCurrentRuntime()) {
+    throw new Error('Admin writes are disabled in this environment');
+  }
 
   const linkIdStr = formData.get('linkId');
   const id = Number(linkIdStr);
@@ -69,6 +72,9 @@ export async function deleteApplicationLink(formData: FormData) {
 export async function createApplicationLink(formData: FormData): Promise<void> {
   if (!(await isCurrentRequestAdmin())) {
     throw new Error('Admin access is required');
+  }
+  if (!isAdminWriteEnabledForCurrentRuntime()) {
+    throw new Error('Admin writes are disabled in this environment');
   }
 
   const { getDb } = await import('@/lib/server/db');

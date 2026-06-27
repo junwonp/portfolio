@@ -3,7 +3,7 @@ import { headers } from 'next/headers';
 import HomePage from '@/lib/components/HomePage';
 import type { TailoredViewOverride } from '@/lib/data/resume';
 import { resolveRolePreset, resolveSummaryPreset } from '@/lib/data/resume';
-import { isCurrentRequestAdmin } from '@/lib/server/adminRequest';
+import { canCurrentRequestWriteAdminContent } from '@/lib/server/adminRequest';
 import { getDb } from '@/lib/server/db';
 import { getPublishedHomeOverride } from '@/lib/server/editableContentStore';
 import { isValidLanguage } from '@/lib/utils/language';
@@ -20,7 +20,7 @@ export default async function Home({ searchParams }: PageProps) {
 
   const db = getDb();
   const homeContentOverride = await getPublishedHomeOverride(db, locale);
-  const isAdminEditor = await isCurrentRequestAdmin();
+  const isAdminEditor = await canCurrentRequestWriteAdminContent();
 
   const tailoredView: TailoredViewOverride = {};
 

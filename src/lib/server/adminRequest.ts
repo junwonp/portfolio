@@ -4,6 +4,7 @@ import {
   ADMIN_COOKIE,
   getAdminAccessDecision,
   getCloudflareAccessConfig,
+  isAdminWriteEnabled,
   verifyCloudflareAccessJwt,
 } from '@/lib/server/adminAccess';
 import { getCloudflareEnv } from '@/lib/server/db';
@@ -41,4 +42,16 @@ export async function getCurrentAdminAccessDecision() {
 export async function isCurrentRequestAdmin() {
   const decision = await getCurrentAdminAccessDecision();
   return decision.isAuthorized;
+}
+
+export function isAdminWriteEnabledForCurrentRuntime() {
+  return isAdminWriteEnabled(getCloudflareEnv());
+}
+
+export async function canCurrentRequestWriteAdminContent() {
+  if (!isAdminWriteEnabledForCurrentRuntime()) {
+    return false;
+  }
+
+  return isCurrentRequestAdmin();
 }
