@@ -10,7 +10,8 @@ import {
 
 const ASSET_CACHE_PATHS = [/^\/fonts\//, /^\/images\//, /^\/certificates\//];
 const ASSET_CACHE_HEADER = 'public, max-age=31536000, immutable';
-const PAGE_CACHE_HEADER = 'private, no-cache, no-store, must-revalidate';
+const PAGE_CACHE_HEADER = 'private, max-age=0, must-revalidate';
+const PRIVATE_PAGE_CACHE_HEADER = 'private, no-cache, no-store, must-revalidate';
 const PRIVATE_ROBOTS_PATHS = [
   /^\/admin(?:\/|$)/,
   /^\/a(?:\/|$)/,
@@ -41,6 +42,18 @@ const buildContentSecurityPolicy = () =>
     "form-action 'self'",
     "frame-ancestors 'none'",
   ].join('; ');
+
+export const getCacheControlForPath = (pathname: string): string => {
+  if (ASSET_CACHE_PATHS.some((regex) => regex.test(pathname))) {
+    return ASSET_CACHE_HEADER;
+  }
+
+  if (PRIVATE_ROBOTS_PATHS.some((regex) => regex.test(pathname))) {
+    return PRIVATE_PAGE_CACHE_HEADER;
+  }
+
+  return PAGE_CACHE_HEADER;
+};
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -75,11 +88,8 @@ export function proxy(request: NextRequest) {
   response.headers.set('Content-Security-Policy', buildContentSecurityPolicy());
 
   // 4. Cache headers
-  if (ASSET_CACHE_PATHS.some((regex) => regex.test(pathname))) {
-    response.headers.set('Cache-Control', ASSET_CACHE_HEADER);
-  } else {
-    // Default to page cache for HTML pages / routes
-    response.headers.set('Cache-Control', PAGE_CACHE_HEADER);
+  response.headers.set('Cache-Control', getCacheControlForPath(pathname));
+  if (!ASSET_CACHE_PATHS.some((regex) => regex.test(pathname))) {
     response.headers.set('Vary', 'Accept-Language, Cookie');
     response.headers.set('X-Locale', locale);
   }
