@@ -2,21 +2,28 @@ import "./globals.css";
 
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-
-import { THEME_INITIALIZER_SCRIPT } from "@/lib/security/themeInitializer";
+import { headers } from "next/headers";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://junwonpark.dev"),
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const nonce = (await headers()).get("x-nonce");
+
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
+        <Script
+          src="/theme-initializer.js"
+          strategy="beforeInteractive"
+          nonce={nonce ?? undefined}
+        />
         <link
           rel="preload"
           href="/fonts/WantedSansVariable.woff2"
@@ -33,13 +40,6 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <script
-          id="theme-initializer"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: THEME_INITIALIZER_SCRIPT,
-          }}
-        />
         {children}
       </body>
     </html>

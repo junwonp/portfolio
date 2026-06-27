@@ -2,7 +2,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { LANGUAGE_COOKIE } from '@/lib/data/constants';
-import { THEME_INITIALIZER_SCRIPT_SHA256 } from '@/lib/security/themeInitializer';
 import {
   detectLanguageFromHeader,
   getLocaleCookieOptions,
@@ -28,10 +27,10 @@ const SECURITY_HEADERS = {
   'X-Frame-Options': 'DENY',
 } as const;
 
-const buildContentSecurityPolicy = () =>
+const buildContentSecurityPolicy = (nonce: string) =>
   [
     "default-src 'self'",
-    `script-src 'self' ${THEME_INITIALIZER_SCRIPT_SHA256}`,
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
@@ -45,6 +44,7 @@ const buildContentSecurityPolicy = () =>
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
 
   // 1. Determine Locale
   const cookieLocale = request.cookies.get(LANGUAGE_COOKIE)?.value;
@@ -62,6 +62,7 @@ export function proxy(request: NextRequest) {
   // 2. Setup request headers (to pass locale to server components)
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-locale', locale);
+  requestHeaders.set('x-nonce', nonce);
 
   const response = NextResponse.next({
     request: {
@@ -73,7 +74,7 @@ export function proxy(request: NextRequest) {
   for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
     response.headers.set(name, value);
   }
-  response.headers.set('Content-Security-Policy', buildContentSecurityPolicy());
+  response.headers.set('Content-Security-Policy', buildContentSecurityPolicy(nonce));
 
   // 4. Cache headers
   if (ASSET_CACHE_PATHS.some((regex) => regex.test(pathname))) {
