@@ -2,6 +2,8 @@
 
 A personal portfolio website built with the **Next.js 16 App Router API** on [vinext](https://www.npmjs.com/package/vinext) and deployed to **Cloudflare Workers**.
 
+This repository is operated through `vinext`. Use the package scripts below for development, verification, and deployment instead of `next dev`, `next build`, or `next start`.
+
 ## Tech Stack
 
 - **Framework**: [vinext](https://www.npmjs.com/package/vinext) with the [Next.js 16](https://nextjs.org/) App Router API
@@ -25,6 +27,9 @@ pnpm dev
 # Build for production
 pnpm build
 
+# Run vinext-specific verification
+pnpm exec vinext check
+
 # Start the local production server
 pnpm preview
 
@@ -47,6 +52,12 @@ src/
 │   └── utils/        # Shared utility functions
 └── proxy.ts          # Request proxy
 ```
+
+## Operational Notes
+
+- Runtime-specific imports such as `cloudflare:workers` are part of the supported production path.
+- `src/lib/server/cloudflare-workers.mock.ts` exists only for Vitest aliases and is not a fallback for a plain `next build` workflow.
+- For production-shape validation, prefer `pnpm build`, `pnpm exec vinext check`, and `wrangler deploy --dry-run`.
 
 ## License
 
