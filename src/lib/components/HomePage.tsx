@@ -13,26 +13,35 @@ import SectionHeader from "@/lib/components/SectionHeader";
 import Title from "@/lib/components/Title";
 import WorkAccordion from "@/lib/components/WorkAccordion";
 import type { HomeContentOverride } from "@/lib/content/editableContent";
-import { applyHomeContentOverride } from "@/lib/content/editableContent";
-import { getLabels } from "@/lib/data/labels";
-import type { TailoredViewOverride } from "@/lib/data/resume";
-import {
-  getFeaturedWebProjects,
-  getResumeData,
-  getSummaryIntroduction,
-} from "@/lib/data/resume";
+import type { Labels } from "@/lib/data/labels";
+import type { ResumeData } from "@/lib/data/resume";
 import { useSkillState } from "@/lib/states/skills";
+import type {
+  IntroductionProps,
+  OtherExperienceProps,
+} from "@/lib/types/about";
 import type { Language } from "@/lib/utils/language";
 
 import styles from "./HomePage.module.css";
 
+interface NavSection {
+  id: string;
+  label: string;
+}
+
+interface HomePageData {
+  featuredWebProjects: OtherExperienceProps[];
+  homeContentOverride?: HomeContentOverride | null;
+  isAdminEditor?: boolean;
+  labels: Labels;
+  locale: Language;
+  navSections: NavSection[];
+  resumeData: ResumeData;
+  summaryIntroduction: IntroductionProps;
+}
+
 interface Props {
-  data: {
-    homeContentOverride?: HomeContentOverride | null;
-    isAdminEditor?: boolean;
-    locale: Language;
-    tailoredView?: TailoredViewOverride;
-  };
+  data: HomePageData;
 }
 
 const SCROLL_KEY = "home-scroll-y";
@@ -69,43 +78,12 @@ export default function HomePage({ data }: Props) {
     };
   }, []);
 
-  const tailoredView = data.tailoredView || {};
-  const featuredProjectIds = tailoredView.projectIds;
   const isAdminEditor = data.isAdminEditor === true;
-  const labels = getLabels(data.locale);
-
-  const resumeData = useMemo(() => {
-    return applyHomeContentOverride(
-      getResumeData(data.locale),
-      data.homeContentOverride
-    );
-  }, [data.locale, data.homeContentOverride]);
-
-  const featuredWebProjects = useMemo(() => {
-    return getFeaturedWebProjects(data.locale, featuredProjectIds);
-  }, [data.locale, featuredProjectIds]);
-
-  const summaryPreset = tailoredView.summaryPreset;
-
-  const summaryIntroduction = useMemo(() => {
-    return {
-      ...getSummaryIntroduction(data.locale, summaryPreset),
-      ...data.homeContentOverride?.introduction,
-    };
-  }, [data.locale, summaryPreset, data.homeContentOverride?.introduction]);
-
-  const navSections = useMemo(() => {
-    return [
-      { id: "section-intro", label: labels.sectionIntro },
-      ...(featuredWebProjects.length > 0
-        ? [{ id: "section-featured", label: labels.sectionFeaturedProjects }]
-        : []),
-      { id: "section-work", label: labels.sectionWork },
-      { id: "section-skills", label: labels.sectionSkills },
-      { id: "section-projects", label: labels.sectionAwards },
-      { id: "section-education", label: labels.sectionEducation },
-    ];
-  }, [labels, featuredWebProjects]);
+  const labels = data.labels;
+  const resumeData = data.resumeData;
+  const featuredWebProjects = data.featuredWebProjects;
+  const summaryIntroduction = data.summaryIntroduction;
+  const navSections = data.navSections;
 
   const filteredWork = useMemo(() => {
     if (isSkillStateEmpty) return resumeData.workExperiences;

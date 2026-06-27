@@ -2,6 +2,9 @@ import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 import HomePage from '@/lib/components/HomePage';
+import { applyHomeContentOverride } from '@/lib/content/editableContent';
+import { getLabels } from '@/lib/data/labels';
+import { getFeaturedWebProjects, getResumeData, getSummaryIntroduction } from '@/lib/data/resume';
 import { canCurrentRequestWriteAdminContent } from '@/lib/server/adminRequest';
 import type { ApplicationLinkRow } from '@/lib/server/applicationLinks';
 import { RESERVED_APPLICATION_SLUGS, toApplicationLink } from '@/lib/server/applicationLinks';
@@ -48,20 +51,44 @@ export default async function ShortUrlPage({ params }: PageProps) {
 
   const homeContentOverride = await getPublishedHomeOverride(db, locale);
   const isAdminEditor = await canCurrentRequestWriteAdminContent();
+  const labels = getLabels(locale);
 
   const tailoredView = {
     projectIds: applicationLink.projectIds,
     role: applicationLink.role,
     summaryPreset: applicationLink.summaryPreset,
   };
+  const resumeData = applyHomeContentOverride(
+    getResumeData(locale),
+    homeContentOverride,
+  );
+  const featuredWebProjects = getFeaturedWebProjects(locale, tailoredView.projectIds);
+  const summaryIntroduction = {
+    ...getSummaryIntroduction(locale, tailoredView.summaryPreset),
+    ...homeContentOverride?.introduction,
+  };
+  const navSections = [
+    { id: 'section-intro', label: labels.sectionIntro },
+    ...(featuredWebProjects.length > 0
+      ? [{ id: 'section-featured', label: labels.sectionFeaturedProjects }]
+      : []),
+    { id: 'section-work', label: labels.sectionWork },
+    { id: 'section-skills', label: labels.sectionSkills },
+    { id: 'section-projects', label: labels.sectionAwards },
+    { id: 'section-education', label: labels.sectionEducation },
+  ];
 
   return (
     <HomePage
       data={{
+        featuredWebProjects,
         homeContentOverride,
-        locale,
-        tailoredView,
         isAdminEditor,
+        labels,
+        locale,
+        navSections,
+        resumeData,
+        summaryIntroduction,
       }}
     />
   );
