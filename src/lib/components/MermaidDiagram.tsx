@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 import styles from './MermaidDiagram.module.css';
 
@@ -16,17 +16,10 @@ function getCssVariable(name: string): string {
 }
 
 export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Props) {
-  const [renderId] = useState(() => `mermaid-${Math.random().toString(36).slice(2)}`);
+  const renderId = useId().replaceAll(':', '-');
   const [errorMessage, setErrorMessage] = useState('');
   const [svg, setSvg] = useState('');
-  
-  // Track chart change and clear state during rendering to avoid set-state-in-effect error
-  const [prevChart, setPrevChart] = useState(chart);
-  if (chart !== prevChart) {
-    setPrevChart(chart);
-    setSvg('');
-    setErrorMessage('');
-  }
+  const [renderedChart, setRenderedChart] = useState('');
 
   useEffect(() => {
     let isCancelled = false;
@@ -77,6 +70,7 @@ export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Pr
 
         setErrorMessage('');
         setSvg(result.svg);
+        setRenderedChart(chart);
       } catch (error: unknown) {
         if (isCancelled) {
           return;
@@ -84,6 +78,7 @@ export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Pr
 
         setErrorMessage(error instanceof Error ? error.message : 'Failed to render diagram.');
         setSvg('');
+        setRenderedChart(chart);
       }
     }
 
@@ -101,12 +96,12 @@ export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Pr
         <strong>{title}</strong>
       </figcaption>
       <div className={styles['diagram-frame']}>
-        {svg ? (
+        {svg && renderedChart === chart ? (
           <div
             className={styles['diagram-surface']}
             dangerouslySetInnerHTML={{ __html: svg }}
           />
-        ) : errorMessage ? (
+        ) : errorMessage && renderedChart === chart ? (
           <>
             <p className={styles['diagram-error']}>{errorMessage}</p>
             <pre className={styles['diagram-fallback']}>{chart}</pre>
