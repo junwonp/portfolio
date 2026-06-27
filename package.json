@@ -7,17 +7,10 @@
     "build": "vinext build",
     "preview": "vinext start",
     "deploy": "vinext deploy",
-    "deploy:branch": "vinext deploy --env develop",
     "deploy:develop": "vinext deploy --env develop",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "start": "vinext start",
-    "lint": "eslint",
-    "dev:vinext": "vinext dev --port 3001",
-    "build:vinext": "vinext build",
-    "start:vinext": "vinext start",
-    "dev:next": "next dev",
-    "build:next": "next build",
-    "start:next": "next start"
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "lint": "eslint"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
