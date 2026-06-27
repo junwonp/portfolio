@@ -1,57 +1,68 @@
-"use client";
+import type { ReactNode } from "react";
+import type { Metadata } from "next";
+import { headers } from "next/headers";
 
-import React from "react";
-import { usePathname } from "next/navigation";
-
-import AnalyticsTracker from "@/lib/components/AnalyticsTracker";
-import BottomNav from "@/lib/components/BottomNav";
-import Footer from "@/lib/components/Footer";
-import ReadingProgress from "@/lib/components/ReadingProgress";
-import { useLocale } from "@/lib/contexts/LocaleContext";
+import PortfolioShell from "@/app/(portfolio)/PortfolioShell";
+import { GITHUB_USERNAME, PORTFOLIO_URL } from "@/lib/data/constants";
+import { isValidLanguage } from "@/lib/utils/language";
 import { getMetadata } from "@/lib/utils/metadata";
 
-export default function PortfolioLayout({
+function getPortfolioLocaleFromHeaders(headerList: Headers) {
+  const localeHeader = headerList.get("x-locale");
+  return isValidLanguage(localeHeader) ? localeHeader : "ko";
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const headerList = await headers();
+  const locale = getPortfolioLocaleFromHeaders(headerList);
+  const data = getMetadata(locale);
+
+  return {
+    metadataBase: new URL(PORTFOLIO_URL),
+    title: data.title,
+    description: data.description,
+    authors: [{ name: "Junwon Park" }],
+    alternates: {
+      canonical: PORTFOLIO_URL,
+      languages: {
+        "ko-KR": PORTFOLIO_URL,
+        "en-US": PORTFOLIO_URL,
+      },
+    },
+    openGraph: {
+      type: "website",
+      url: PORTFOLIO_URL,
+      title: data.ogTitle,
+      description: data.ogDescription,
+      images: [
+        {
+          url: `${PORTFOLIO_URL}/images/preview.webp`,
+          width: 2400,
+          height: 1260,
+          type: "image/webp",
+          alt: data.imageAlt,
+        },
+      ],
+      siteName: data.siteName,
+      locale: data.locale,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: data.twitterTitle,
+      description: data.twitterDescription,
+      images: [`${PORTFOLIO_URL}/images/preview.webp`],
+      site: `@${GITHUB_USERNAME}`,
+    },
+  };
+}
+
+export default async function PortfolioLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname();
-  const { locale } = useLocale();
+}: Readonly<{
+  children: ReactNode;
+}>) {
+  const headerList = await headers();
+  const locale = getPortfolioLocaleFromHeaders(headerList);
 
-  const isAdminPage = pathname.startsWith("/admin");
-  const isProjectPage = pathname.startsWith("/projects/");
-  const metadata = getMetadata(locale);
-
-  return (
-    <>
-      <AnalyticsTracker />
-      {!isAdminPage && (
-        <>
-          <ReadingProgress />
-          <BottomNav isProject={isProjectPage} />
-        </>
-      )}
-
-      <a href="#main-content" className="skip-link">
-        {metadata.skipLink}
-      </a>
-
-      <div className={`wrapper ${isAdminPage ? "is-admin" : ""}`}>
-        <div className="content-wrapper">
-          <main
-            id="main-content"
-            className={`content ${isProjectPage ? "is-project" : ""}`}
-            tabIndex={-1}
-          >
-            {children}
-          </main>
-        </div>
-        {!isAdminPage && (
-          <div className="footer-wrapper">
-            <Footer />
-          </div>
-        )}
-      </div>
-    </>
-  );
+  return <PortfolioShell locale={locale}>{children}</PortfolioShell>;
 }

@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { LANGUAGE_COOKIE } from '@/lib/data/constants';
+import { THEME_INITIALIZER_SCRIPT_SHA256 } from '@/lib/security/themeInitializer';
 import {
   detectLanguageFromHeader,
   getLocaleCookieOptions,
@@ -11,7 +12,6 @@ import {
 const ASSET_CACHE_PATHS = [/^\/fonts\//, /^\/images\//, /^\/certificates\//];
 const ASSET_CACHE_HEADER = 'public, max-age=31536000, immutable';
 const PAGE_CACHE_HEADER = 'private, no-cache, no-store, must-revalidate';
-const CSP_NONCE_HEADER = 'x-csp-nonce';
 const PRIVATE_ROBOTS_PATHS = [
   /^\/admin(?:\/|$)/,
   /^\/a(?:\/|$)/,
@@ -28,12 +28,10 @@ const SECURITY_HEADERS = {
   'X-Frame-Options': 'DENY',
 } as const;
 
-const createCspNonce = () => Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString('base64');
-
-const buildContentSecurityPolicy = (nonce: string) =>
+const buildContentSecurityPolicy = () =>
   [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}'`,
+    `script-src 'self' ${THEME_INITIALIZER_SCRIPT_SHA256}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
@@ -47,7 +45,6 @@ const buildContentSecurityPolicy = (nonce: string) =>
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const cspNonce = createCspNonce();
 
   // 1. Determine Locale
   const cookieLocale = request.cookies.get(LANGUAGE_COOKIE)?.value;
@@ -65,7 +62,6 @@ export function proxy(request: NextRequest) {
   // 2. Setup request headers (to pass locale to server components)
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-locale', locale);
-  requestHeaders.set(CSP_NONCE_HEADER, cspNonce);
 
   const response = NextResponse.next({
     request: {
@@ -77,7 +73,7 @@ export function proxy(request: NextRequest) {
   for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
     response.headers.set(name, value);
   }
-  response.headers.set('Content-Security-Policy', buildContentSecurityPolicy(cspNonce));
+  response.headers.set('Content-Security-Policy', buildContentSecurityPolicy());
 
   // 4. Cache headers
   if (ASSET_CACHE_PATHS.some((regex) => regex.test(pathname))) {
