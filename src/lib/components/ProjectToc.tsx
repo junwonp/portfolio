@@ -34,10 +34,6 @@ export default function ProjectToc() {
   }, []);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
     const article = document.querySelector(".project-article");
     if (!article) {
       return;
@@ -66,46 +62,19 @@ export default function ProjectToc() {
     };
 
     syncSections();
-
-    let frameId: number | null = null;
-    const observer = new MutationObserver(() => {
-      if (frameId !== null) {
-        return;
-      }
-
-      frameId = window.requestAnimationFrame(() => {
-        frameId = null;
-        syncSections();
-      });
-    });
-
-    observer.observe(article, {
-      childList: true,
-      subtree: true,
-      characterData: true,
-    });
-
-    return () => {
-      observer.disconnect();
-      if (frameId !== null) {
-        window.cancelAnimationFrame(frameId);
-      }
-    };
   }, [parseHeader]);
 
   const sectionIds = useMemo(() => sections.map((s) => s.id), [sections]);
 
-  const activeId = useScrollSpy(
-    useCallback(() => sectionIds, [sectionIds])
-  );
+  const activeId = useScrollSpy(useCallback(() => sectionIds, [sectionIds]));
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
 
     const top = el.getBoundingClientRect().top + getPageScrollY() - 80;
     scrollPageTo(top);
-  };
+  }, []);
 
   if (sections.length === 0) return null;
 
