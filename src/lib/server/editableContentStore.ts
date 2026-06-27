@@ -1,5 +1,9 @@
 import type { HomeContentOverride } from "@/lib/content/editableContent";
 import { renderEditableMarkdown } from "@/lib/content/editableContent";
+import {
+  isValidHomeOverridePayload,
+  isValidProjectDetailOverridePayload,
+} from "@/lib/server/contentOverrideValidation";
 import type { Language } from "@/lib/utils/language";
 
 export type ContentOverrideArea = "home" | "project-detail";
@@ -64,9 +68,6 @@ const parseJson = (
   }
 };
 
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null;
-
 const isMissingTableError = (error: unknown): boolean =>
   error instanceof Error &&
   error.message.includes("no such table: content_overrides");
@@ -111,7 +112,7 @@ export const getPublishedHomeOverride = async (
     const key = row.target_key;
     const parsed = parseJson(row.payload);
 
-    if (!parsed.ok) {
+    if (!parsed.ok || !isValidHomeOverridePayload(key, parsed.value)) {
       continue;
     }
 
@@ -164,13 +165,14 @@ export const getProjectDetailOverrides = async (
     if (heading === "techStack") return [];
 
     const parsed = parseJson(row.payload);
-    const markdown =
-      parsed.ok &&
-      isRecord(parsed.value) &&
-      typeof parsed.value.markdown === "string"
-        ? parsed.value.markdown
-        : "";
+    if (
+      !parsed.ok ||
+      !isValidProjectDetailOverridePayload(row.target_key, parsed.value)
+    ) {
+      return [];
+    }
 
+    const markdown = (parsed.value as { markdown: string }).markdown;
     if (!heading || !markdown) return [];
 
     return [
@@ -205,10 +207,9 @@ export const getProjectTechStackOverride = async (
     const parsed = parseJson(row.payload);
     if (
       parsed.ok &&
-      isRecord(parsed.value) &&
-      Array.isArray(parsed.value.list)
+      isValidProjectDetailOverridePayload(`${slug}::techStack`, parsed.value)
     ) {
-      return parsed.value.list as string[];
+      return (parsed.value as { list: string[] }).list;
     }
   } catch (error: unknown) {
     if (isMissingTableError(error)) {
