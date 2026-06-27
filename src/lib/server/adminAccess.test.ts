@@ -1,9 +1,17 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { getAdminAccessDecision, verifyCloudflareAccessJwt } from '@/lib/server/adminAccess';
+import {
+  getAdminAccessDecision,
+  isAdminWriteEnabled,
+  verifyCloudflareAccessJwt,
+} from '@/lib/server/adminAccess';
 
 const encodeJwtPart = (value: Record<string, unknown>): string =>
   Buffer.from(JSON.stringify(value)).toString('base64url');
+
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
 
 describe('getAdminAccessDecision', () => {
   it('rejects production requests that only spoof a Cloudflare Access email header', () => {
@@ -77,5 +85,29 @@ describe('getAdminAccessDecision', () => {
         token,
       }),
     ).resolves.toBe(false);
+  });
+});
+
+describe('isAdminWriteEnabled', () => {
+  it('keeps develop deploys read-only even if writes are explicitly enabled', () => {
+    vi.stubEnv('NODE_ENV', 'production');
+
+    expect(
+      isAdminWriteEnabled({
+        APP_ENV: 'develop',
+        ALLOW_ADMIN_WRITES: 'true',
+      }),
+    ).toBe(false);
+  });
+
+  it('allows local develop writes when explicitly enabled for development', () => {
+    vi.stubEnv('NODE_ENV', 'development');
+
+    expect(
+      isAdminWriteEnabled({
+        APP_ENV: 'develop',
+        ALLOW_ADMIN_WRITES: 'true',
+      }),
+    ).toBe(true);
   });
 });

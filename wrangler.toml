@@ -39,6 +39,7 @@ compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 
 [env.develop.vars]
 APP_ENV = "develop"
+ALLOW_ADMIN_WRITES = "false"
 
 [env.develop.assets]
 binding = "ASSETS"

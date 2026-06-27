@@ -58,6 +58,7 @@ src/
 - Runtime-specific imports such as `cloudflare:workers` are part of the supported production path.
 - `src/lib/server/cloudflare-workers.mock.ts` exists only for Vitest aliases and is not a fallback for a plain `next build` workflow.
 - For production-shape validation, prefer `pnpm build`, `pnpm exec vinext check`, and `wrangler deploy --dry-run`.
+- The `develop` deploy environment is intentionally read-only: admin writes stay disabled even if the app is pointed at production-backed bindings.
 
 ## License
 

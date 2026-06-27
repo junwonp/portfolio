@@ -118,9 +118,10 @@ export const isAdminWriteEnabled = (env: object | undefined): boolean => {
     (process.env.NODE_ENV === 'production' ? 'production' : 'development');
   const allowAdminWrites =
     getStringValue(runtimeEnv, ALLOW_ADMIN_WRITES_KEYS)?.toLowerCase() === 'true';
+  const isDeployRuntime = process.env.NODE_ENV === 'production';
 
   if (appEnv === 'develop') {
-    return allowAdminWrites;
+    return !isDeployRuntime && allowAdminWrites;
   }
 
   return true;
