@@ -9,9 +9,14 @@ import {
 } from '@/lib/server/adminAccess';
 import { getCloudflareEnv } from '@/lib/server/db';
 
+async function getCurrentRequestAdminContext() {
+  const [cookieStore, headersList] = await Promise.all([cookies(), headers()]);
+
+  return { cookieStore, headersList };
+}
+
 export async function getCurrentAdminAccessDecision() {
-  const cookieStore = await cookies();
-  const headersList = await headers();
+  const { cookieStore, headersList } = await getCurrentRequestAdminContext();
   const isAdminCookieSet = cookieStore.get(ADMIN_COOKIE)?.value === 'true';
   const userEmail = headersList.get('Cf-Access-Authenticated-User-Email');
   const isDev = process.env.NODE_ENV !== 'production';
