@@ -1,20 +1,13 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 
 import PortfolioShell from "@/app/(portfolio)/PortfolioShell";
 import { GITHUB_USERNAME, PORTFOLIO_URL } from "@/lib/data/constants";
-import { isValidLanguage } from "@/lib/utils/language";
+import { getPortfolioLocale } from "@/lib/server/portfolioLocale";
 import { getMetadata } from "@/lib/utils/metadata";
 
-function getPortfolioLocaleFromHeaders(headerList: Headers) {
-  const localeHeader = headerList.get("x-locale");
-  return isValidLanguage(localeHeader) ? localeHeader : "ko";
-}
-
 export async function generateMetadata(): Promise<Metadata> {
-  const headerList = await headers();
-  const locale = getPortfolioLocaleFromHeaders(headerList);
+  const locale = await getPortfolioLocale();
   const data = getMetadata(locale);
 
   return {
@@ -61,8 +54,7 @@ export default async function PortfolioLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const headerList = await headers();
-  const locale = getPortfolioLocaleFromHeaders(headerList);
+  const locale = await getPortfolioLocale();
 
   return <PortfolioShell locale={locale}>{children}</PortfolioShell>;
 }

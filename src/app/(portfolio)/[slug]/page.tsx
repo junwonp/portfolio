@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 import HomePage from '@/lib/components/HomePage';
@@ -10,7 +9,7 @@ import type { ApplicationLinkRow } from '@/lib/server/applicationLinks';
 import { RESERVED_APPLICATION_SLUGS, toApplicationLink } from '@/lib/server/applicationLinks';
 import { getDb } from '@/lib/server/db';
 import { getPublishedHomeOverride } from '@/lib/server/editableContentStore';
-import { isValidLanguage } from '@/lib/utils/language';
+import { getPortfolioLocale } from '@/lib/server/portfolioLocale';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -45,9 +44,7 @@ export default async function ShortUrlPage({ params }: PageProps) {
 
   const applicationLink = toApplicationLink(row);
 
-  const headersList = await headers();
-  const localeHeader = headersList.get('x-locale');
-  const locale = isValidLanguage(localeHeader) ? localeHeader : 'ko';
+  const locale = await getPortfolioLocale();
 
   const homeContentOverride = await getPublishedHomeOverride(db, locale);
   const isAdminEditor = await canCurrentRequestWriteAdminContent();

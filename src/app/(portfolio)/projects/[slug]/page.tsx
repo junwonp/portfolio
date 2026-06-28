@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 import ProjectDetailPage from '@/lib/components/ProjectDetailPage';
@@ -9,7 +8,7 @@ import { getProjectMetadata } from '@/lib/content/projects';
 import { GITHUB_PROFILE } from '@/lib/data/constants';
 import { getDb } from '@/lib/server/db';
 import { getProjectTechStackOverride } from '@/lib/server/editableContentStore';
-import { isValidLanguage } from '@/lib/utils/language';
+import { getPortfolioLocale } from '@/lib/server/portfolioLocale';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -54,9 +53,7 @@ const projectMdxMap: Record<string, Record<string, React.ComponentType<any>>> = 
 // Generate metadata dynamically
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const headersList = await headers();
-  const localeHeader = headersList.get('x-locale');
-  const locale = isValidLanguage(localeHeader) ? localeHeader : 'ko';
+  const locale = await getPortfolioLocale();
 
   const rawMetadata = getProjectMetadata(slug, locale);
   if (!rawMetadata) return {};
@@ -83,9 +80,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProjectDetail({ params }: PageProps) {
   const { slug } = await params;
-  const headersList = await headers();
-  const localeHeader = headersList.get('x-locale');
-  const locale = isValidLanguage(localeHeader) ? localeHeader : 'ko';
+  const locale = await getPortfolioLocale();
 
   const rawMetadata = getProjectMetadata(slug, locale);
   const mdxComponent = projectMdxMap[slug]?.[locale];

@@ -1,5 +1,3 @@
-import { headers } from 'next/headers';
-
 import HomePage from '@/lib/components/HomePage';
 import { applyHomeContentOverride } from '@/lib/content/editableContent';
 import { getLabels } from '@/lib/data/labels';
@@ -9,7 +7,7 @@ import { resolveRolePreset, resolveSummaryPreset } from '@/lib/data/resume';
 import { canCurrentRequestWriteAdminContent } from '@/lib/server/adminRequest';
 import { getDb } from '@/lib/server/db';
 import { getPublishedHomeOverride } from '@/lib/server/editableContentStore';
-import { isValidLanguage } from '@/lib/utils/language';
+import { getPortfolioLocale } from '@/lib/server/portfolioLocale';
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -17,9 +15,7 @@ interface PageProps {
 
 export default async function Home({ searchParams }: PageProps) {
   const resolvedParams = await searchParams;
-  const headersList = await headers();
-  const localeHeader = headersList.get('x-locale');
-  const locale = isValidLanguage(localeHeader) ? localeHeader : 'ko';
+  const locale = await getPortfolioLocale();
 
   const db = getDb();
   const homeContentOverride = await getPublishedHomeOverride(db, locale);
