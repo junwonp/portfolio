@@ -1,8 +1,4 @@
-"use client";
-
-import React, { useMemo } from "react";
-
-import SkillChip from "@/lib/components/SkillChip";
+import ReadonlySkillChip from "@/lib/components/ReadonlySkillChip";
 import { getResumeData } from "@/lib/data/resume";
 import type { Language } from "@/lib/utils/language";
 
@@ -14,17 +10,15 @@ interface Props {
 }
 
 export default function ProjectTechStack({ techStack, locale }: Props) {
-  const resumeData = useMemo(() => getResumeData(locale), [locale]);
+  const resumeData = getResumeData(locale);
 
-  const techStackByCategory = useMemo(() => {
-    return resumeData.skills
-      .map((category) => ({
-        title: category.title,
-        id: category.id,
-        skills: category.list.filter((skill) => techStack.includes(skill)),
-      }))
-      .filter((group) => group.skills.length > 0);
-  }, [resumeData.skills, techStack]);
+  const techStackByCategory = resumeData.skills
+    .map((category) => ({
+      title: category.title,
+      id: category.id,
+      skills: category.list.filter((skill) => techStack.includes(skill)),
+    }))
+    .filter((group) => group.skills.length > 0);
 
   return (
     <div className={styles["project-tech-stack"]}>
@@ -34,7 +28,7 @@ export default function ProjectTechStack({ techStack, locale }: Props) {
             <span className={styles["category-title"]}>{group.title}</span>
             <div className={styles["tech-grid"]}>
               {group.skills.map((tech) => (
-                <SkillChip key={tech} skill={tech} readonly />
+                <ReadonlySkillChip key={tech} skill={tech} />
               ))}
             </div>
           </div>

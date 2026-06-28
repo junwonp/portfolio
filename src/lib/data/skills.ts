@@ -100,6 +100,8 @@ interface SkillGroup {
   list: SkillName[];
 }
 
+const skillCategoryMap = new Map<string, SkillId>();
+
 export const skillsShared: SkillGroup[] = [
   {
     id: 'languages',
@@ -183,3 +185,13 @@ export const skillsShared: SkillGroup[] = [
     list: [SKILL.aiWorkflow.agenticWorkflow, SKILL.aiWorkflow.claudeCode, SKILL.aiWorkflow.codex],
   },
 ];
+
+for (const category of skillsShared) {
+  for (const skill of category.list) {
+    skillCategoryMap.set(skill, category.id);
+  }
+}
+
+export function getSkillCategory(skill: string): SkillId | 'default' {
+  return skillCategoryMap.get(skill) ?? 'default';
+}

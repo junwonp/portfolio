@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import type { CSSProperties, KeyboardEvent, MouseEvent } from "react";
 
+import { getSkillCategory } from "@/lib/data/skills";
 import { useSkillState } from "@/lib/states/skills";
 
 import styles from "./SkillChip.module.css";
@@ -12,9 +13,9 @@ interface Props {
 }
 
 export default function SkillChip({ skill, readonly = false }: Props) {
-  const { has, toggle, getCategory } = useSkillState();
+  const { has, toggle } = useSkillState();
 
-  const category = getCategory(skill);
+  const category = getSkillCategory(skill);
   const isActive = !readonly && has(skill);
 
   const inlineStyles = {
@@ -22,7 +23,7 @@ export default function SkillChip({ skill, readonly = false }: Props) {
     "--cat-text-hover": category === "ai_workflow"
       ? "var(--color-cat-ai_workflow-text, white)"
       : "white",
-  } as React.CSSProperties;
+  } as CSSProperties;
 
   const combinedClass = [
     styles["skill-chip"],
@@ -32,7 +33,7 @@ export default function SkillChip({ skill, readonly = false }: Props) {
     .filter(Boolean)
     .join(" ");
 
-  const handleClick = (e: React.MouseEvent | React.KeyboardEvent) => {
+  const handleClick = (e: MouseEvent | KeyboardEvent) => {
     if (readonly) return;
     if ("key" in e && e.key !== "Enter" && e.key !== " ") return;
     toggle(skill);
