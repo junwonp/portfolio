@@ -49,7 +49,13 @@ export const getProjectBySlug = (slug: string): ProjectContentEntry | undefined 
 };
 
 export const getProjectMetadata = (slug: string, locale: Language) => {
-  return getProjectBySlug(slug)?.content[locale].detailMetadata;
+  const project = getProjectBySlug(slug);
+
+  if (!project?.detailPath) {
+    return undefined;
+  }
+
+  return project.content[locale].detailMetadata;
 };
 
 export const getProjectsBySection = (
