@@ -1,14 +1,10 @@
 import { notFound } from 'next/navigation';
 
 import HomePage from '@/lib/components/HomePage';
-import { applyHomeContentOverride } from '@/lib/content/editableContent';
-import { getLabels } from '@/lib/data/labels';
-import { getFeaturedWebProjects, getResumeData, getSummaryIntroduction } from '@/lib/data/resume';
-import { canCurrentRequestWriteAdminContent } from '@/lib/server/adminRequest';
 import type { ApplicationLinkRow } from '@/lib/server/applicationLinks';
 import { RESERVED_APPLICATION_SLUGS, toApplicationLink } from '@/lib/server/applicationLinks';
 import { getDb } from '@/lib/server/db';
-import { getPublishedHomeOverride } from '@/lib/server/editableContentStore';
+import { getHomePageData, resolveHomeTailoredViewFromOverride } from '@/lib/server/homePageData';
 import { getPortfolioLocale } from '@/lib/server/portfolioLocale';
 
 interface PageProps {
@@ -45,48 +41,16 @@ export default async function ShortUrlPage({ params }: PageProps) {
   const applicationLink = toApplicationLink(row);
 
   const locale = await getPortfolioLocale();
-
-  const homeContentOverride = await getPublishedHomeOverride(db, locale);
-  const isAdminEditor = await canCurrentRequestWriteAdminContent();
-  const labels = getLabels(locale);
-
-  const tailoredView = {
+  const tailoredView = resolveHomeTailoredViewFromOverride({
     projectIds: applicationLink.projectIds,
     role: applicationLink.role,
     summaryPreset: applicationLink.summaryPreset,
-  };
-  const resumeData = applyHomeContentOverride(
-    getResumeData(locale),
-    homeContentOverride,
-  );
-  const featuredWebProjects = getFeaturedWebProjects(locale, tailoredView.projectIds);
-  const summaryIntroduction = {
-    ...getSummaryIntroduction(locale, tailoredView.summaryPreset),
-    ...homeContentOverride?.introduction,
-  };
-  const navSections = [
-    { id: 'section-intro', label: labels.sectionIntro },
-    ...(featuredWebProjects.length > 0
-      ? [{ id: 'section-featured', label: labels.sectionFeaturedProjects }]
-      : []),
-    { id: 'section-work', label: labels.sectionWork },
-    { id: 'section-skills', label: labels.sectionSkills },
-    { id: 'section-projects', label: labels.sectionAwards },
-    { id: 'section-education', label: labels.sectionEducation },
-  ];
+  });
+  const data = await getHomePageData({ db, locale, tailoredView });
 
   return (
     <HomePage
-      data={{
-        featuredWebProjects,
-        homeContentOverride,
-        isAdminEditor,
-        labels,
-        locale,
-        navSections,
-        resumeData,
-        summaryIntroduction,
-      }}
+      data={data}
     />
   );
 }
