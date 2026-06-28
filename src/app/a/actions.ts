@@ -10,6 +10,7 @@ import {
   OWNER_DEVICE_COOKIE_MAX_AGE,
 } from '@/lib/server/adminAccess';
 import { isAdminWriteEnabledForCurrentRuntime, isCurrentRequestAdmin } from '@/lib/server/adminRequest';
+import { ADMIN_SESSION_COOKIE } from '@/lib/server/adminSession';
 
 export async function login() {
   const isDev = process.env.NODE_ENV !== 'production';
@@ -41,7 +42,9 @@ export async function login() {
 
 export async function logout() {
   const cookieStore = await cookies();
+  cookieStore.delete(ADMIN_SESSION_COOKIE);
   cookieStore.delete(ADMIN_COOKIE);
+  cookieStore.delete(OWNER_DEVICE_COOKIE);
   redirect('/a');
 }
 

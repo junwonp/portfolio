@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+
 import { getCurrentAdminAccessDecision } from '@/lib/server/adminRequest';
 
 import { AdminDashboard } from './AdminDashboard';
@@ -9,6 +11,10 @@ export default async function AdminPage(props: {
   const searchParams = await props.searchParams;
   const isDev = process.env.NODE_ENV !== 'production';
   const accessDecision = await getCurrentAdminAccessDecision();
+
+  if (accessDecision.shouldSetAdminSessionCookie) {
+    redirect('/a/session?returnTo=/a');
+  }
 
   if (!accessDecision.isAuthorized) {
     return <AdminLogin isLocal={isDev} />;
