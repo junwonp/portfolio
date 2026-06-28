@@ -6,7 +6,7 @@ import ArrowLink from "@/lib/components/ArrowLink";
 import Badge from "@/lib/components/Badge";
 import RichText from "@/lib/components/RichText";
 import SkillChip from "@/lib/components/SkillChip";
-import { useLocale } from "@/lib/contexts/LocaleContext";
+import type { Labels } from "@/lib/data/labels";
 import { skillState } from "@/lib/states/skills";
 import type { OtherExperienceProps } from "@/lib/types/about";
 import { parseMarkdown } from "@/lib/utils/markdown";
@@ -15,12 +15,11 @@ import styles from "./ExperienceList.module.css";
 
 interface Props {
   experiences: OtherExperienceProps[];
+  labels: Labels;
   skillLimit?: number;
 }
 
-export default function ExperienceList({ experiences, skillLimit }: Props) {
-  const { labels } = useLocale();
-
+export default function ExperienceList({ experiences, labels, skillLimit }: Props) {
   const formatDate = (dateFrom?: string, dateTo?: string) => {
     if (!dateFrom) return "";
     if (dateFrom.length === 4) return dateFrom; // e.g. 2024
