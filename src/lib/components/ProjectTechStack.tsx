@@ -1,5 +1,5 @@
 import ReadonlySkillChip from "@/lib/components/ReadonlySkillChip";
-import { getResumeData } from "@/lib/data/resume";
+import { getProjectTechStackGroups } from "@/lib/content/projects/techStack";
 import type { Language } from "@/lib/utils/language";
 
 import styles from "./ProjectTechStack.module.css";
@@ -10,15 +10,7 @@ interface Props {
 }
 
 export default function ProjectTechStack({ techStack, locale }: Props) {
-  const resumeData = getResumeData(locale);
-
-  const techStackByCategory = resumeData.skills
-    .map((category) => ({
-      title: category.title,
-      id: category.id,
-      skills: category.list.filter((skill) => techStack.includes(skill)),
-    }))
-    .filter((group) => group.skills.length > 0);
+  const techStackByCategory = getProjectTechStackGroups(techStack, locale);
 
   return (
     <div className={styles["project-tech-stack"]}>
