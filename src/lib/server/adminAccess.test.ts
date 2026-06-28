@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import {
   getAdminAccessDecision,
+  getCloudflareAccessConfig,
   isAdminWriteEnabled,
   verifyCloudflareAccessJwt,
 } from '@/lib/server/adminAccess';
@@ -9,8 +10,72 @@ import {
 const encodeJwtPart = (value: Record<string, unknown>): string =>
   Buffer.from(JSON.stringify(value)).toString('base64url');
 
+const signAccessJwt = async ({
+  aud,
+  email = 'owner@example.com',
+  exp = Math.floor(Date.now() / 1000) + 60,
+  iss = 'https://team.cloudflareaccess.com',
+}: {
+  aud: string | string[];
+  email?: string;
+  exp?: number;
+  iss?: string;
+}) => {
+  const keyPair = await crypto.subtle.generateKey(
+    {
+      hash: 'SHA-256',
+      modulusLength: 2048,
+      name: 'RSASSA-PKCS1-v1_5',
+      publicExponent: new Uint8Array([1, 0, 1]),
+    },
+    true,
+    ['sign', 'verify'],
+  );
+  const publicJwk = (await crypto.subtle.exportKey('jwk', keyPair.publicKey)) as JsonWebKey & {
+    kid?: string;
+  };
+  publicJwk.alg = 'RS256';
+  publicJwk.kid = 'test-key';
+  publicJwk.use = 'sig';
+
+  const encodedHeader = encodeJwtPart({ alg: 'RS256', kid: 'test-key' });
+  const encodedPayload = encodeJwtPart({
+    aud,
+    email,
+    exp,
+    iss,
+    nbf: Math.floor(Date.now() / 1000) - 60,
+    type: 'app',
+  });
+  const signedData = `${encodedHeader}.${encodedPayload}`;
+  const signature = await crypto.subtle.sign(
+    { name: 'RSASSA-PKCS1-v1_5' },
+    keyPair.privateKey,
+    new TextEncoder().encode(signedData),
+  );
+
+  return {
+    publicJwk,
+    token: `${signedData}.${Buffer.from(signature).toString('base64url')}`,
+  };
+};
+
 afterEach(() => {
   vi.unstubAllEnvs();
+});
+
+describe('getCloudflareAccessConfig', () => {
+  it('parses comma-separated Access audience values', () => {
+    expect(
+      getCloudflareAccessConfig({
+        CF_ACCESS_AUD: 'aud-one, aud-two',
+        CF_ACCESS_TEAM_DOMAIN: 'https://team.cloudflareaccess.com/',
+      }),
+    ).toEqual({
+      policyAudiences: ['aud-one', 'aud-two'],
+      teamDomain: 'https://team.cloudflareaccess.com',
+    });
+  });
 });
 
 describe('getAdminAccessDecision', () => {
@@ -23,26 +88,30 @@ describe('getAdminAccessDecision', () => {
         isDev: false,
         userEmail: 'attacker@example.com',
       }),
-    ).toEqual({
+    ).toMatchObject({
       isAuthorized: false,
       shouldClearAdminCookie: false,
       shouldSetAdminCookie: false,
+      shouldSetAdminSessionCookie: false,
       shouldSetOwnerDeviceCookie: false,
     });
   });
 
-  it('authorizes production requests only when Access config and JWT verification pass', () => {
+  it('authorizes production requests and requests a local session when Access JWT verification passes', () => {
     expect(
       getAdminAccessDecision({
+        accessEmail: 'owner@example.com',
         isAccessConfigured: true,
         isAccessJwtValid: true,
         isAdminCookieSet: false,
+        isAdminSessionValid: false,
         isDev: false,
         userEmail: 'owner@example.com',
       }),
     ).toMatchObject({
       isAuthorized: true,
-      shouldSetAdminCookie: true,
+      shouldSetAdminCookie: false,
+      shouldSetAdminSessionCookie: true,
       shouldSetOwnerDeviceCookie: true,
     });
   });
@@ -53,12 +122,30 @@ describe('getAdminAccessDecision', () => {
         isAccessConfigured: false,
         isAccessJwtValid: false,
         isAdminCookieSet: true,
+        isAdminSessionValid: false,
         isDev: false,
         userEmail: 'owner@example.com',
       }),
     ).toMatchObject({
       isAuthorized: false,
       shouldClearAdminCookie: true,
+    });
+  });
+
+  it('authorizes production requests when a signed admin session is valid', () => {
+    expect(
+      getAdminAccessDecision({
+        isAccessConfigured: false,
+        isAccessJwtValid: false,
+        isAdminCookieSet: false,
+        isAdminSessionValid: true,
+        isDev: false,
+        userEmail: null,
+      }),
+    ).toMatchObject({
+      isAuthorized: true,
+      shouldSetAdminCookie: false,
+      shouldSetOwnerDeviceCookie: false,
     });
   });
 
@@ -76,7 +163,7 @@ describe('getAdminAccessDecision', () => {
     await expect(
       verifyCloudflareAccessJwt({
         config: {
-          policyAud: 'test-aud',
+          policyAudiences: ['test-aud'],
           teamDomain: 'https://team.cloudflareaccess.com',
         },
         fetcher: (async () => {
@@ -84,7 +171,30 @@ describe('getAdminAccessDecision', () => {
         }) as typeof fetch,
         token,
       }),
-    ).resolves.toBe(false);
+    ).resolves.toBeNull();
+  });
+
+  it('returns verified claims when any configured audience matches', async () => {
+    const { publicJwk, token } = await signAccessJwt({
+      aud: ['aud-two'],
+      email: 'owner@example.com',
+    });
+
+    await expect(
+      verifyCloudflareAccessJwt({
+        config: {
+          policyAudiences: ['aud-one', 'aud-two'],
+          teamDomain: 'https://team.cloudflareaccess.com',
+        },
+        fetcher: (async () =>
+          new Response(JSON.stringify({ keys: [publicJwk] }), {
+            status: 200,
+          })) as typeof fetch,
+        token,
+      }),
+    ).resolves.toMatchObject({
+      email: 'owner@example.com',
+    });
   });
 });
 

@@ -1,21 +1,35 @@
 interface AdminAccessDecision {
+  hasValidAccessJwt: boolean;
+  hasValidAdminSession: boolean;
   isAuthorized: boolean;
   shouldClearAdminCookie: boolean;
+  shouldSetAdminSessionCookie: boolean;
   shouldSetAdminCookie: boolean;
   shouldSetOwnerDeviceCookie: boolean;
 }
 
 export interface AdminAccessInput {
+  accessEmail?: string | null;
   isAccessConfigured?: boolean;
   isAccessJwtValid?: boolean;
   isAdminCookieSet: boolean;
+  isAdminSessionValid?: boolean;
   isDev: boolean;
   userEmail: string | null;
 }
 
 export interface CloudflareAccessConfig {
-  policyAud: string;
+  policyAudiences: string[];
   teamDomain: string;
+}
+
+export interface CloudflareAccessClaims {
+  aud: string | string[];
+  email?: string;
+  exp?: number;
+  iss: string;
+  nbf?: number;
+  type?: string;
 }
 
 interface VerifyCloudflareAccessJwtInput {
@@ -96,14 +110,17 @@ export const getCloudflareAccessConfig = (
     ...(env ?? {}),
   } as CloudflareAccessRuntimeEnv;
   const teamDomain = getStringValue(runtimeEnv, CF_ACCESS_TEAM_DOMAIN_KEYS);
-  const policyAud = getStringValue(runtimeEnv, CF_ACCESS_AUD_KEYS);
+  const policyAudiences = getStringValue(runtimeEnv, CF_ACCESS_AUD_KEYS)
+    ?.split(',')
+    .map((value) => value.trim())
+    .filter(Boolean);
 
-  if (!teamDomain || !policyAud) {
+  if (!teamDomain || !policyAudiences?.length) {
     return null;
   }
 
   return {
-    policyAud,
+    policyAudiences,
     teamDomain: teamDomain.replace(/\/$/, ''),
   };
 };
@@ -132,37 +149,37 @@ export const verifyCloudflareAccessJwt = async ({
   fetcher = fetch,
   now = new Date(),
   token,
-}: VerifyCloudflareAccessJwtInput): Promise<boolean> => {
-  if (!token) return false;
+}: VerifyCloudflareAccessJwtInput): Promise<CloudflareAccessClaims | null> => {
+  if (!token) return null;
 
   const [encodedHeader, encodedPayload, encodedSignature] = token.split('.');
-  if (!encodedHeader || !encodedPayload || !encodedSignature) return false;
+  if (!encodedHeader || !encodedPayload || !encodedSignature) return null;
 
   const header = decodeJsonPart(encodedHeader);
   const payload = decodeJsonPart(encodedPayload);
   const kid = typeof header?.kid === 'string' ? header.kid : null;
 
-  if (!kid || header?.alg !== 'RS256' || !payload) return false;
-  if (payload.iss !== config.teamDomain) return false;
+  if (!kid || header?.alg !== 'RS256' || !payload) return null;
+  if (payload.iss !== config.teamDomain) return null;
 
   const audience = payload.aud;
   const audienceMatches = Array.isArray(audience)
-    ? audience.includes(config.policyAud)
-    : audience === config.policyAud;
+    ? audience.some((value) => typeof value === 'string' && config.policyAudiences.includes(value))
+    : typeof audience === 'string' && config.policyAudiences.includes(audience);
 
-  if (!audienceMatches) return false;
+  if (!audienceMatches) return null;
 
   const nowSeconds = Math.floor(now.getTime() / 1000);
-  if (typeof payload.exp === 'number' && payload.exp < nowSeconds) return false;
-  if (typeof payload.nbf === 'number' && payload.nbf > nowSeconds) return false;
+  if (typeof payload.exp === 'number' && payload.exp < nowSeconds) return null;
+  if (typeof payload.nbf === 'number' && payload.nbf > nowSeconds) return null;
 
   try {
     const certsResponse = await fetcher(`${config.teamDomain}/cdn-cgi/access/certs`);
-    if (!certsResponse.ok) return false;
+    if (!certsResponse.ok) return null;
 
     const certs = (await certsResponse.json()) as { keys?: AccessJwk[] };
     const jwk = certs.keys?.find((key) => key.kid === kid);
-    if (!jwk) return false;
+    if (!jwk) return null;
 
     const key = await crypto.subtle.importKey(
       'jwk',
@@ -172,55 +189,87 @@ export const verifyCloudflareAccessJwt = async ({
       ['verify'],
     );
 
-    return crypto.subtle.verify(
+    const isValidSignature = await crypto.subtle.verify(
       { name: 'RSASSA-PKCS1-v1_5' },
       key,
       base64UrlToArrayBuffer(encodedSignature),
       new TextEncoder().encode(`${encodedHeader}.${encodedPayload}`),
     );
+
+    if (!isValidSignature) {
+      return null;
+    }
+
+    return {
+      aud: audience as string | string[],
+      email: typeof payload.email === 'string' ? payload.email : undefined,
+      exp: typeof payload.exp === 'number' ? payload.exp : undefined,
+      iss: payload.iss as string,
+      nbf: typeof payload.nbf === 'number' ? payload.nbf : undefined,
+      type: typeof payload.type === 'string' ? payload.type : undefined,
+    };
   } catch {
-    return false;
+    return null;
   }
 };
 
 export const getAdminAccessDecision = ({
+  accessEmail = null,
   isAccessConfigured = false,
   isAccessJwtValid = false,
   isAdminCookieSet,
+  isAdminSessionValid = false,
   isDev,
   userEmail,
 }: AdminAccessInput): AdminAccessDecision => {
+  const normalizedAccessEmail =
+    typeof accessEmail === 'string' && accessEmail.trim() ? accessEmail.trim() : null;
+  const hasValidAccessJwt = isAccessConfigured && isAccessJwtValid && !!normalizedAccessEmail;
+  const hasValidAdminSession = isAdminSessionValid;
+
   if (isDev) {
     return {
-      isAuthorized: isAdminCookieSet || !!userEmail,
+      hasValidAccessJwt,
+      hasValidAdminSession,
+      isAuthorized: isAdminCookieSet || !!userEmail || hasValidAdminSession || hasValidAccessJwt,
       shouldClearAdminCookie: false,
-      shouldSetAdminCookie: !isAdminCookieSet && !!userEmail,
-      shouldSetOwnerDeviceCookie: isAdminCookieSet || !!userEmail,
+      shouldSetAdminCookie: !isAdminCookieSet && (!!userEmail || hasValidAccessJwt),
+      shouldSetAdminSessionCookie: hasValidAccessJwt && !hasValidAdminSession,
+      shouldSetOwnerDeviceCookie: isAdminCookieSet || !!userEmail || hasValidAdminSession || hasValidAccessJwt,
     };
   }
 
-  if (!userEmail) {
+  if (hasValidAdminSession) {
     return {
-      isAuthorized: false,
+      hasValidAccessJwt,
+      hasValidAdminSession,
+      isAuthorized: true,
       shouldClearAdminCookie: isAdminCookieSet,
       shouldSetAdminCookie: false,
+      shouldSetAdminSessionCookie: false,
       shouldSetOwnerDeviceCookie: false,
     };
   }
 
-  if (!isAccessConfigured || !isAccessJwtValid) {
+  if (!hasValidAccessJwt) {
     return {
+      hasValidAccessJwt,
+      hasValidAdminSession,
       isAuthorized: false,
       shouldClearAdminCookie: isAdminCookieSet,
       shouldSetAdminCookie: false,
+      shouldSetAdminSessionCookie: false,
       shouldSetOwnerDeviceCookie: false,
     };
   }
 
   return {
+    hasValidAccessJwt,
+    hasValidAdminSession,
     isAuthorized: true,
-    shouldClearAdminCookie: false,
-    shouldSetAdminCookie: !isAdminCookieSet,
+    shouldClearAdminCookie: isAdminCookieSet,
+    shouldSetAdminCookie: false,
+    shouldSetAdminSessionCookie: !hasValidAdminSession,
     shouldSetOwnerDeviceCookie: true,
   };
 };

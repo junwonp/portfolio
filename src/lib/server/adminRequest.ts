@@ -2,11 +2,17 @@ import { cookies, headers } from 'next/headers';
 
 import {
   ADMIN_COOKIE,
+  type CloudflareAccessClaims,
   getAdminAccessDecision,
   getCloudflareAccessConfig,
   isAdminWriteEnabled,
   verifyCloudflareAccessJwt,
 } from '@/lib/server/adminAccess';
+import {
+  ADMIN_SESSION_COOKIE,
+  getAdminSessionSecret,
+  verifyAdminSessionCookie,
+} from '@/lib/server/adminSession';
 import { getCloudflareEnv } from '@/lib/server/db';
 
 async function getCurrentRequestAdminContext() {
@@ -20,25 +26,34 @@ export async function getCurrentAdminAccessDecision() {
   const isAdminCookieSet = cookieStore.get(ADMIN_COOKIE)?.value === 'true';
   const userEmail = headersList.get('Cf-Access-Authenticated-User-Email');
   const isDev = process.env.NODE_ENV !== 'production';
-  const accessConfig = getCloudflareAccessConfig(getCloudflareEnv());
+  const cloudflareEnv = getCloudflareEnv();
+  const accessConfig = getCloudflareAccessConfig(cloudflareEnv);
   const accessJwt = headersList.get('Cf-Access-Jwt-Assertion');
-  let isAccessJwtValid = false;
+  const adminSessionSecret = getAdminSessionSecret(cloudflareEnv);
+  const adminSessionCookie = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
+  const adminSession = await verifyAdminSessionCookie({
+    cookie: adminSessionCookie,
+    secret: adminSessionSecret,
+  });
+  let accessClaims: CloudflareAccessClaims | null = null;
 
   if (accessConfig) {
     try {
-      isAccessJwtValid = await verifyCloudflareAccessJwt({
+      accessClaims = await verifyCloudflareAccessJwt({
         config: accessConfig,
         token: accessJwt,
       });
     } catch {
-      isAccessJwtValid = false;
+      accessClaims = null;
     }
   }
 
   return getAdminAccessDecision({
+    accessEmail: accessClaims?.email ?? null,
     isAccessConfigured: accessConfig !== null,
-    isAccessJwtValid,
+    isAccessJwtValid: accessClaims !== null,
     isAdminCookieSet,
+    isAdminSessionValid: adminSession !== null,
     isDev,
     userEmail,
   });
