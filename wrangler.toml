@@ -12,6 +12,8 @@ binding = "IMAGES"
 
 [vars]
 APP_ENV = "production"
+CF_ACCESS_AUD = ""
+CF_ACCESS_TEAM_DOMAIN = ""
 
 [[kv_namespaces]]
 binding = "VINEXT_KV_CACHE"
@@ -40,6 +42,8 @@ compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 [env.develop.vars]
 APP_ENV = "develop"
 ALLOW_ADMIN_WRITES = "false"
+CF_ACCESS_AUD = ""
+CF_ACCESS_TEAM_DOMAIN = ""
 
 [env.develop.assets]
 binding = "ASSETS"

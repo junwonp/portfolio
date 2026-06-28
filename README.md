@@ -60,6 +60,22 @@ src/
 - For production-shape validation, prefer `pnpm build`, `pnpm exec vinext check`, and `wrangler deploy --dry-run`.
 - The `develop` deploy environment is intentionally read-only: admin writes stay disabled even if the app is pointed at production-backed bindings.
 
+## Admin Access
+
+Cloudflare Access should protect only the private admin surface:
+
+- `/a`
+- `/a/*`
+- `/api/admin/*`
+
+Keep `/` public. After Access authenticates `/a`, the app verifies `Cf-Access-Jwt-Assertion` and issues a signed `admin_session` cookie so the public home page can show editor controls only to the authenticated owner.
+
+Required Worker settings:
+
+- `CF_ACCESS_TEAM_DOMAIN`: `https://<team-name>.cloudflareaccess.com`
+- `CF_ACCESS_AUD`: the Access application audience tag. Use a comma-separated list only during AUD rotation.
+- `ADMIN_SESSION_SECRET`: set with `pnpm exec wrangler secret put ADMIN_SESSION_SECRET`; do not store this value in the repository.
+
 ## License
 
 Private
