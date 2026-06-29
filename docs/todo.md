@@ -29,6 +29,11 @@
 
 ## Technical Cleanup
 
-- [x] Resolve `.svx` `context="module"` deprecation warnings from the dev server.
-- [x] Clean `pnpm check` unused CSS selector warnings in `src/routes/print/+page.svelte`.
-- [x] Run `pnpm check`, `pnpm lint`, and route tests after content/layout changes.
+- [x] Keep legacy SvelteKit cleanup notes out of current Next.js/vinext implementation instructions.
+- [x] Update the content guide from `.svx`/`static/images` to `.mdx`/`public/images`.
+- [x] Run `pnpm lint`, `pnpm exec vitest run`, and `pnpm exec tsc --noEmit --pretty false` after content/layout changes.
+
+## Admin Analytics
+
+- [x] Document `/a`, short URLs, D1 analytics tables, Cloudflare Access/session auth, and production/develop write gates.
+- [x] Add tests around short URL slug extraction and link-attributed analytics writes.

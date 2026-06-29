@@ -30,6 +30,12 @@ pnpm build
 # Run vinext-specific verification
 pnpm exec vinext check
 
+# Run the full unit test suite
+pnpm exec vitest run
+
+# Type-check without emitting files
+pnpm exec tsc --noEmit --pretty false
+
 # Start the local production server
 pnpm preview
 
@@ -57,8 +63,19 @@ src/
 
 - Runtime-specific imports such as `cloudflare:workers` are part of the supported production path.
 - `src/lib/server/cloudflare-workers.mock.ts` exists only for Vitest aliases and is not a fallback for a plain `next build` workflow.
-- For production-shape validation, prefer `pnpm build`, `pnpm exec vinext check`, and `wrangler deploy --dry-run`.
+- For production-shape validation, prefer `pnpm build`, `pnpm exec vinext check`, and `pnpm exec wrangler deploy --dry-run`.
 - The `develop` deploy environment is intentionally read-only: admin writes stay disabled even if the app is pointed at production-backed bindings.
+
+## Admin Analytics and Short Links
+
+The private `/a` surface includes:
+
+- visitor analytics from the public `/api/analytics/track` beacon endpoint,
+- application-specific short URL creation and deletion,
+- link-filtered metrics for sessions, page views, dwell time, scroll depth, referrers, countries, and top pages,
+- content-editing write gates shared with `/api/admin/content-overrides`.
+
+See [Admin Analytics and Short Links](docs/admin-analytics.md) for the data model, auth flow, D1 tables, Cloudflare bindings, and verification commands.
 
 ## Admin Access
 

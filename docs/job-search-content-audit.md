@@ -4,6 +4,8 @@ Date: 2026-05-23
 
 This note documents why the current portfolio may be underperforming at resume-screening stage and what content should be strengthened before more applications are sent.
 
+Update, 2026-06-28: this is a historical content audit, not the current runtime map. The repository now runs on Next.js 16 App Router through vinext on Cloudflare Workers. References to SvelteKit, `.svx`, `pnpm check`, and `src/routes` below describe the older portfolio implementation or the archived `SvelteKit Portfolio` project narrative unless explicitly marked as current.
+
 ## Current Diagnosis
 
 The portfolio already has strong raw material: product ownership, React Native/Expo, SvelteKit, Next.js, SwiftUI, CloudKit, performance work, and agentic workflow. The issue is not a lack of experience. The main risk is that the first-screen story is too broad and not yet mapped tightly enough to recruiter filters.
@@ -255,14 +257,11 @@ Improve:
    - Affects homepage and project detail pages.
    - Likely sources: long bullets, metric grid, bottom nav, accordion/card content, code tags.
 
-2. Resolve `.svx` module deprecation warnings.
-   - Vite logs show mdsvex/Svelte warning: `context="module"` is deprecated.
-   - Not currently blocking, but should be cleaned up before major polish.
+2. Keep current runtime documentation separate from legacy portfolio content.
+   - Current source uses Next.js/vinext, MDX files under `src/lib/content/projects`, and assets under `public/images`.
+   - `docs/legacy-mdx/*` and the `SvelteKit Portfolio` project page are historical content references, not implementation instructions for this checkout.
 
-3. Clean existing `pnpm check` warnings.
-   - `src/routes/print/+page.svelte` has unused CSS selector warnings.
-
-4. Re-run visual checks after content changes.
+3. Re-run visual checks after content changes.
    - Desktop: 1440px.
    - Mobile: 390px and 375px.
    - At minimum: home, `aira`, `today-weather`, `day-planner`.
