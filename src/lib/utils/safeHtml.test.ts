@@ -13,6 +13,12 @@ describe('sanitizeProjectHtml', () => {
     );
   });
 
+  it('keeps markdown-rendered block tags used by structured project content', () => {
+    expect(sanitizeProjectHtml('<p>Intro</p><ol><li>First</li></ol><h3>Note</h3>')).toBe(
+      '<p>Intro</p><ol><li>First</li></ol><h3>Note</h3>',
+    );
+  });
+
   it('removes attributes except safe local image metadata', () => {
     expect(
       sanitizeProjectHtml(

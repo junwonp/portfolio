@@ -1,8 +1,12 @@
 const ALLOWED_TAGS = new Set([
   'br',
   'code',
+  'h2',
+  'h3',
   'img',
   'li',
+  'ol',
+  'p',
   'strong',
   'table',
   'tbody',
