@@ -58,6 +58,7 @@ interface DashboardClientProps {
     rangeViews: number;
   };
   initialTab: 'analytics' | 'links';
+  writesDisabledReason: string | null;
   writesEnabled: boolean;
 }
 
@@ -74,6 +75,7 @@ export function DashboardClient({
   trafficRange,
   trafficSummary,
   initialTab,
+  writesDisabledReason,
   writesEnabled,
 }: DashboardClientProps) {
   const [activeTab, setActiveTab] = useState<'analytics' | 'links'>(initialTab);
@@ -530,10 +532,8 @@ export function DashboardClient({
                   <div>
                     <h3 id="link-create-title">지원 링크 생성</h3>
                     <p className={styles.sectionSubtitle}>회사별 짧은 URL과 맞춤 프로젝트 순서를 설정합니다.</p>
-                    {!writesEnabled && (
-                      <p className={styles.sectionSubtitle}>
-                        develop 환경에서는 production D1/R2 공유를 막기 위해 링크 생성과 삭제가 비활성화됩니다.
-                      </p>
+                    {writesDisabledReason && (
+                      <p className={styles.sectionSubtitle}>{writesDisabledReason}</p>
                     )}
                   </div>
                 </div>

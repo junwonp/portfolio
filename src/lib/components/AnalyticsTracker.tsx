@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
+import { extractApplicationSlugFromPath } from "@/lib/utils/applicationSlug";
+
 const SESSION_KEY = "junuuon_analytics_session_id";
 
 interface SessionInfo {
@@ -38,7 +40,10 @@ export default function AnalyticsTracker() {
       return;
     }
 
+    const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
+    const applicationSlug = extractApplicationSlugFromPath(currentPath);
     const payload = JSON.stringify({
+      ...(applicationSlug ? { applicationSlug } : {}),
       sessionId: currentSessionId,
       userAgent: navigator.userAgent,
       ...data,

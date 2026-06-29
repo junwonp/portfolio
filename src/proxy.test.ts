@@ -19,5 +19,8 @@ describe('getCacheControlForPath', () => {
     expect(getCacheControlForPath('/admin')).toBe(
       'private, no-cache, no-store, must-revalidate',
     );
+    expect(getCacheControlForPath('/a')).toBe(
+      'private, no-cache, no-store, must-revalidate',
+    );
   });
 });

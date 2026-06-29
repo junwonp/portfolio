@@ -1,4 +1,13 @@
 import type { RolePresetId, SummaryPresetId } from '@/lib/data/resume';
+import { APPLICATION_SLUG_LENGTH } from '@/lib/utils/applicationSlug';
+
+export {
+  APPLICATION_SLUG_LENGTH,
+  extractApplicationSlugFromPath,
+  isReservedApplicationSlug,
+  normalizeApplicationSlug,
+  RESERVED_APPLICATION_SLUGS,
+} from '@/lib/utils/applicationSlug';
 
 export interface ApplicationLink {
   companyName: string;
@@ -42,21 +51,6 @@ export interface ApplicationLinkStats extends ApplicationLink {
 
 export const APPLICATION_LINK_TTL_DAYS = 60;
 
-export const APPLICATION_SLUG_LENGTH = 4;
-
-export const RESERVED_APPLICATION_SLUGS = new Set([
-  'admin',
-  'api',
-  'certificates',
-  'favicon.ico',
-  'github',
-  'images',
-  'linkedin',
-  'print',
-  'projects',
-  'robots.txt',
-]);
-
 const APPLICATION_SLUG_ALPHABET = '23456789abcdefghijkmnopqrstuvwxyz';
 
 export const getDefaultExpiresAt = (date = new Date()): string => {
@@ -68,16 +62,6 @@ export const getDefaultExpiresAt = (date = new Date()): string => {
 
 export const toSqlDateTime = (date: Date): string =>
   date.toISOString().replace('T', ' ').slice(0, 19);
-
-export const isReservedApplicationSlug = (slug: string): boolean =>
-  RESERVED_APPLICATION_SLUGS.has(slug.toLowerCase());
-
-export const normalizeApplicationSlug = (value: string): string =>
-  value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9-]/g, '')
-    .slice(0, 32);
 
 export const generateApplicationSlug = (): string => {
   const values = crypto.getRandomValues(new Uint32Array(APPLICATION_SLUG_LENGTH));

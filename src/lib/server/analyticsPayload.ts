@@ -1,4 +1,7 @@
-import { isReservedApplicationSlug, normalizeApplicationSlug } from '@/lib/server/applicationLinks';
+import {
+  extractApplicationSlugFromPath,
+  normalizeApplicationSlug,
+} from '@/lib/utils/applicationSlug';
 
 export interface AnalyticsPayload {
   applicationSlug?: string;
@@ -43,24 +46,6 @@ const getOptionalSlug = (value: unknown): string | undefined => {
   return slug || undefined;
 };
 
-const inferApplicationSlugFromPath = (path: string | undefined): string | undefined => {
-  if (!path) {
-    return undefined;
-  }
-
-  const match = /^\/([^/]+)\/?$/.exec(path);
-  if (!match) {
-    return undefined;
-  }
-
-  const slug = normalizeApplicationSlug(match[1]);
-  if (!slug || isReservedApplicationSlug(slug)) {
-    return undefined;
-  }
-
-  return slug;
-};
-
 const getRequiredString = (value: unknown, maxLength: number): string | null => {
   if (typeof value !== 'string') {
     return null;
@@ -96,7 +81,7 @@ export const parseAnalyticsPayloadBody = (rawBody: unknown): AnalyticsPayload | 
   }
 
   const path = getOptionalPath(body.path);
-  const applicationSlug = getOptionalSlug(body.applicationSlug) ?? inferApplicationSlugFromPath(path);
+  const applicationSlug = getOptionalSlug(body.applicationSlug) ?? extractApplicationSlugFromPath(path);
 
   return {
     applicationSlug,

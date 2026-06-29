@@ -40,6 +40,32 @@ describe('parseAnalyticsPayloadBody', () => {
     ).toBe('abcd');
   });
 
+  it('does not infer application slugs from reserved or invalid paths', () => {
+    expect(
+      parseAnalyticsPayloadBody({
+        dwellTime: 0,
+        isInitial: false,
+        path: '/a',
+        referrer: 'direct',
+        scrollDepth: 0,
+        sessionId: 'session-1',
+        userAgent: 'Vitest',
+      })?.applicationSlug,
+    ).toBeUndefined();
+
+    expect(
+      parseAnalyticsPayloadBody({
+        dwellTime: 0,
+        isInitial: false,
+        path: '/ab_cd',
+        referrer: 'direct',
+        scrollDepth: 0,
+        sessionId: 'session-1',
+        userAgent: 'Vitest',
+      })?.applicationSlug,
+    ).toBeUndefined();
+  });
+
   it('rejects payloads without a valid session id', () => {
     expect(parseAnalyticsPayloadBody({ sessionId: '' })).toBeNull();
     expect(parseAnalyticsPayloadBody(null)).toBeNull();
