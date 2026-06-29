@@ -60,6 +60,12 @@
   min-width: 0;
 }
 
+.company-admin-actions {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+}
+
 .company-name {
   color: var(--color-bold);
   font-size: var(--font-h3);
@@ -174,8 +180,17 @@
   min-width: 0;
 }
 
-.project-list :global(.project-item + .project-item) {
+.project-list :global(.project-item) {
   border-top: 0.5px solid var(--color-bg-divider);
+}
+
+.company-inline-editor {
+  padding-bottom: 0.25rem;
+}
+
+.project-inline-editor {
+  border-bottom: 0.5px solid var(--color-bg-divider);
+  padding: 1rem 1.5rem;
 }
 
 .additional-link {
@@ -206,6 +221,10 @@
 
   .project-list {
     margin: 0.5rem -1.25rem -1.25rem -1.25rem;
+  }
+
+  .project-inline-editor {
+    padding: 0.875rem 1.25rem;
   }
 
   .company-info-row {

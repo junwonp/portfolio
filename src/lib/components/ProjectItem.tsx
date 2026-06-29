@@ -17,12 +17,23 @@ import SkillChip from "./SkillChip";
 
 interface Props {
   companyName: string;
+  editTrigger?: React.ReactNode;
+  editor?: React.ReactNode;
+  isEditing?: boolean;
   isFiltered: boolean;
   labels: Labels;
   project: ProjectItemType;
 }
 
-export default function ProjectItem({ companyName, isFiltered, labels, project }: Props) {
+export default function ProjectItem({
+  companyName,
+  editTrigger,
+  editor,
+  isEditing = false,
+  isFiltered,
+  labels,
+  project,
+}: Props) {
   const { isProjectOpen, toggleProject } = useAccordionState();
   const { sort } = useSkillState();
 
@@ -46,18 +57,47 @@ export default function ProjectItem({ companyName, isFiltered, labels, project }
 
   const metricCount = project.metrics ? Math.min(project.metrics.length, 4) : 0;
 
+  const handleToggle = () => {
+    if (!isFiltered) toggleProject(companyName, project.title);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (!isFiltered && (event.key === "Enter" || event.key === " ")) {
+      event.preventDefault();
+      toggleProject(companyName, project.title);
+    }
+  };
+
+  if (isEditing) {
+    return (
+      <div className={`${ProjectItemStyles["project-item"]} ${ProjectItemStyles["is-open"]}`}>
+        <div className={ProjectItemStyles["project-editor-slot"]}>{editor}</div>
+      </div>
+    );
+  }
+
   return (
     <div className={`${ProjectItemStyles["project-item"]} ${isOpen ? ProjectItemStyles["is-open"] : ""}`}>
-      <button
+      <div
         className={ProjectItemStyles["project-header"]}
-        onClick={() => {
-          if (!isFiltered) toggleProject(companyName, project.title);
-        }}
+        onClick={handleToggle}
+        onKeyDown={handleKeyDown}
         aria-expanded={isOpen}
+        role="button"
+        tabIndex={0}
       >
         <div className={ProjectItemStyles["project-title-area"]}>
           <div className={ProjectItemStyles["project-title-row"]}>
             <span className={ProjectItemStyles["project-title"]}>{project.title}</span>
+            {editTrigger && (
+              <span
+                className={ProjectItemStyles["project-edit-action"]}
+                onClick={(event) => event.stopPropagation()}
+                onKeyDown={(event) => event.stopPropagation()}
+              >
+                {editTrigger}
+              </span>
+            )}
             <span className={`${ProjectItemStyles["project-period"]} ${ProjectItemStyles["mobile-only"]}`}>
               <Period dateFrom={project.dateFrom} dateTo={project.dateTo} />
             </span>
@@ -82,7 +122,7 @@ export default function ProjectItem({ companyName, isFiltered, labels, project }
             className={`${ProjectItemStyles["project-chevron"]} ${isOpen ? ProjectItemStyles.open : ""}`}
           />
         </div>
-      </button>
+      </div>
 
       {isOpen && (
         <div className={ProjectItemStyles["project-content"]}>

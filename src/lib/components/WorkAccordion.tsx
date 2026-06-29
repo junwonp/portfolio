@@ -1,35 +1,53 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
-import { getLabels } from "@/lib/data/labels";
-import { useSkillState } from "@/lib/states/skills";
-import type { WorkExperienceProps } from "@/lib/types/about";
-import type { Language } from "@/lib/utils/language";
+import { getLabels } from '@/lib/data/labels';
+import { useSkillState } from '@/lib/states/skills';
+import type { WorkExperienceProps } from '@/lib/types/about';
+import type { Language } from '@/lib/utils/language';
 
-import CompanyCard from "./CompanyCard";
-import styles from "./WorkAccordion.module.css";
+import CompanyCard from './CompanyCard';
+import styles from './WorkAccordion.module.css';
 
 interface Props {
+  editorConfig?: {
+    allExperiences: WorkExperienceProps[];
+    locale: Language;
+  };
   experiences: WorkExperienceProps[];
   locale: Language;
 }
 
-export default function WorkAccordion({ experiences, locale }: Props) {
+export default function WorkAccordion({ editorConfig, experiences, locale }: Props) {
   const labels = getLabels(locale);
   const { isEmpty } = useSkillState();
   const isFiltered = !isEmpty;
 
   return (
     <div className={styles.accordion}>
-      {experiences.map((exp) => (
-        <CompanyCard
-          key={exp.companyName}
-          exp={exp}
-          isFiltered={isFiltered}
-          labels={labels}
-        />
-      ))}
+      {experiences.map((exp) => {
+        const companyIndex =
+          editorConfig?.allExperiences.findIndex((item) => item.companyName === exp.companyName) ??
+          -1;
+
+        return (
+          <CompanyCard
+            key={`${companyIndex}:${exp.companyName}`}
+            editorConfig={
+              editorConfig && companyIndex >= 0
+                ? {
+                    ...editorConfig,
+                    companyIndex,
+                  }
+                : undefined
+            }
+            exp={exp}
+            isFiltered={isFiltered}
+            labels={labels}
+          />
+        );
+      })}
     </div>
   );
 }

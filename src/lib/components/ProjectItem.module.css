@@ -22,6 +22,11 @@
   min-width: 0;
 }
 
+.project-header:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
 .project-title-area {
   display: flex;
   flex-direction: column;
@@ -34,15 +39,21 @@
   align-items: center;
   display: flex;
   gap: 0.5rem;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .project-title {
   color: var(--color-bold);
+  flex: 0 1 auto;
   font-size: var(--font-h3);
   font-weight: 600;
   margin: 0;
   overflow-wrap: anywhere;
+}
+
+.project-edit-action {
+  display: inline-flex;
+  flex: 0 0 auto;
 }
 
 .project-desc-line {
@@ -91,6 +102,10 @@
   gap: 1.25rem;
   min-width: 0;
   padding: 0 1.5rem 1.25rem 1.5rem;
+}
+
+.project-editor-slot {
+  padding: 1rem 1.5rem;
 }
 
 .project-metrics {
@@ -210,6 +225,10 @@
 
   .project-content {
     padding: 0 1.25rem 1.25rem 1.25rem;
+  }
+
+  .project-editor-slot {
+    padding: 0.875rem 1.25rem;
   }
 
   .metric-item {

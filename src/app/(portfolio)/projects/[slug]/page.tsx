@@ -2,11 +2,13 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import ProjectDetailPage from '@/lib/components/ProjectDetailPage';
+import { applyProjectDetailContentOverride } from '@/lib/content/editableContent';
 import { getProjectMetadata } from '@/lib/content/projects';
-import { projectMdxMap } from '@/lib/content/projects/detailMdx';
+import { getProjectDetailBlocks } from '@/lib/content/projects/detailContent';
 import { GITHUB_PROFILE } from '@/lib/data/constants';
+import { canCurrentRequestWriteAdminContent } from '@/lib/server/adminRequest';
 import { getDb } from '@/lib/server/db';
-import { getProjectTechStackOverride } from '@/lib/server/editableContentStore';
+import { getProjectDetailContentOverride } from '@/lib/server/editableContentStore';
 import { getPortfolioLocale } from '@/lib/server/portfolioLocale';
 
 interface PageProps {
@@ -46,29 +48,41 @@ export default async function ProjectDetail({ params }: PageProps) {
   const locale = await getPortfolioLocale();
 
   const rawMetadata = getProjectMetadata(slug, locale);
-  const mdxComponent = projectMdxMap[slug]?.[locale];
+  const detailBlocks = getProjectDetailBlocks(slug, locale);
 
-  if (!rawMetadata || !mdxComponent) {
+  if (!rawMetadata || !detailBlocks) {
     notFound();
   }
 
   const db = getDb();
-  const techStackOverride = await getProjectTechStackOverride(db, slug, locale);
+  const [projectContentOverride, isAdminEditor] = await Promise.all([
+    getProjectDetailContentOverride(db, slug, locale),
+    canCurrentRequestWriteAdminContent(),
+  ]);
+
+  const projectContent = applyProjectDetailContentOverride(
+    {
+      blocks: detailBlocks,
+      metadata: rawMetadata,
+    },
+    projectContentOverride,
+  );
 
   const metadata = {
-    ...rawMetadata,
+    ...projectContent.metadata,
     githubLink:
-      rawMetadata.githubLink && !rawMetadata.githubLink.startsWith('http')
-        ? `${GITHUB_PROFILE}/${rawMetadata.githubLink}`
-        : rawMetadata.githubLink,
-    techStack: techStackOverride ?? rawMetadata.techStack,
+      projectContent.metadata.githubLink && !projectContent.metadata.githubLink.startsWith('http')
+        ? `${GITHUB_PROFILE}/${projectContent.metadata.githubLink}`
+        : projectContent.metadata.githubLink,
   };
 
-  const MdxComponent = mdxComponent;
-
   return (
-    <ProjectDetailPage slug={slug} locale={locale} metadata={metadata}>
-      {MdxComponent ? <MdxComponent metadata={metadata} locale={locale} /> : null}
-    </ProjectDetailPage>
+    <ProjectDetailPage
+      slug={slug}
+      locale={locale}
+      metadata={metadata}
+      detailBlocks={projectContent.blocks}
+      isAdminEditor={isAdminEditor}
+    />
   );
 }

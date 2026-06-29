@@ -1,7 +1,10 @@
 import React from "react";
 
-import EditableContentButton from "@/lib/components/EditableContentButton";
 import EducationList from "@/lib/components/EducationList";
+import {
+  EditableEducationSection,
+  EditableIntroSection,
+} from "@/lib/components/HomeEditableSections";
 import HomePageClient from "@/lib/components/HomePageClient";
 import MobileStickyHeader from "@/lib/components/MobileStickyHeader";
 import SectionHeader from "@/lib/components/SectionHeader";
@@ -52,49 +55,45 @@ export default function HomePage({ data }: Props) {
   );
 
   const introSection = (
-    <section id="section-intro" className={styles["fade-slide-enter"]}>
-      {isAdminEditor && (
-        <div className={styles["section-edit-row"]}>
-          <EditableContentButton
-            area="home"
-            initialValue={summaryIntroduction}
-            label="Intro"
-            locale={data.locale}
-            targetKey="introduction"
-            textareaLabel="Intro content JSON"
-          />
-        </div>
-      )}
-      <Title
-        githubLink={summaryIntroduction.githubLink}
-        linkedinLink={summaryIntroduction.linkedinLink}
+    isAdminEditor ? (
+      <EditableIntroSection
         labels={labels}
-        metrics={summaryIntroduction.metrics}
-        name={summaryIntroduction.name}
-        pillars={summaryIntroduction.pillars}
-        role={summaryIntroduction.role}
-        tagline={summaryIntroduction.tagline}
+        locale={data.locale}
+        summaryIntroduction={summaryIntroduction}
       />
-    </section>
+    ) : (
+      <section id="section-intro" className={styles["fade-slide-enter"]}>
+        <Title
+          githubLink={summaryIntroduction.githubLink}
+          linkedinLink={summaryIntroduction.linkedinLink}
+          labels={labels}
+          metrics={summaryIntroduction.metrics}
+          name={summaryIntroduction.name}
+          pillars={summaryIntroduction.pillars}
+          role={summaryIntroduction.role}
+          tagline={summaryIntroduction.tagline}
+        />
+      </section>
+    )
   );
 
   const educationSection = (
-    <section id="section-education" className={styles["fade-slide-enter"]}>
-      <div className={styles["section-heading-row"]}>
-        <SectionHeader title={labels.sectionEducation} />
-        {isAdminEditor && (
-          <EditableContentButton
-            area="home"
-            initialValue={resumeData.education}
-            label="Education"
-            locale={data.locale}
-            targetKey="education"
-            textareaLabel="Education section JSON"
-          />
-        )}
-      </div>
-      {resumeData.education && <EducationList education={resumeData.education} />}
-    </section>
+    isAdminEditor && resumeData.education ? (
+      <EditableEducationSection
+        education={resumeData.education}
+        labels={labels}
+        locale={data.locale}
+      />
+    ) : (
+      <section id="section-education" className={styles["fade-slide-enter"]}>
+        <>
+          <div className={styles["section-heading-row"]}>
+            <SectionHeader title={labels.sectionEducation} />
+          </div>
+          {resumeData.education && <EducationList education={resumeData.education} />}
+        </>
+      </section>
+    )
   );
 
   return (

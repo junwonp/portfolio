@@ -1,37 +1,88 @@
-import React from "react";
+import React from 'react';
 
-import Badge from "@/lib/components/Badge";
-import ProjectToc from "@/lib/components/ProjectToc";
-import { getLabels } from "@/lib/data/labels";
-import type { PostMetadata } from "@/lib/types/post";
-import type { Language } from "@/lib/utils/language";
+import Badge from '@/lib/components/Badge';
+import ProjectDetailBlocks from '@/lib/components/ProjectDetailBlocks';
+import {
+  EditableProjectArticle,
+  EditableProjectHero,
+} from '@/lib/components/ProjectDetailEditableRegions';
+import ProjectToc from '@/lib/components/ProjectToc';
+import type { ProjectDetailBlock } from '@/lib/content/editableContent';
+import { getLabels } from '@/lib/data/labels';
+import type { PostMetadata } from '@/lib/types/post';
+import type { Language } from '@/lib/utils/language';
 
-import Github from "./Icon/Github";
-import Globe from "./Icon/Globe";
-import ProjectDetailClientEffects from "./ProjectDetailClientEffects";
-import styles from "./ProjectDetailPage.module.css";
+import Github from './Icon/Github';
+import Globe from './Icon/Globe';
+import ProjectDetailClientEffects from './ProjectDetailClientEffects';
+import styles from './ProjectDetailPage.module.css';
 
 interface Props {
   slug: string;
   locale: Language;
   metadata: PostMetadata;
-  children: React.ReactNode;
+  detailBlocks?: ProjectDetailBlock[];
+  isAdminEditor?: boolean;
 }
 
 export default function ProjectDetailPage({
   slug,
   locale,
   metadata,
-  children,
+  detailBlocks,
+  isAdminEditor = false,
 }: Props) {
   const labels = getLabels(locale);
   const metricColumnCount = Math.min(metadata.metrics?.length ?? 1, 4);
-  const githubHref =
-    !metadata.githubLink
-      ? ""
-      : metadata.githubLink.startsWith("http")
-        ? metadata.githubLink
-        : `https://github.com/${metadata.githubLink}`;
+  const githubHref = !metadata.githubLink
+    ? ''
+    : metadata.githubLink.startsWith('http')
+      ? metadata.githubLink
+      : `https://github.com/${metadata.githubLink}`;
+
+  const heroContent = (
+    <>
+      <div className={styles['hero-meta']}>
+        {metadata.role && <Badge text={metadata.role} color="primary" />}
+        {metadata.status && <Badge text={metadata.status} color="green" />}
+        {metadata.date && <Badge text={metadata.date} color="sub" />}
+      </div>
+
+      <h1 className={styles['hero-title']}>{metadata.title || slug}</h1>
+
+      {metadata.tagline ? (
+        <p className={styles['hero-tagline']}>{metadata.tagline}</p>
+      ) : (
+        metadata.description && <p className={styles['hero-tagline']}>{metadata.description}</p>
+      )}
+
+      {metadata.metrics && metadata.metrics.length > 0 && (
+        <dl
+          className={`${styles['metrics-row']} ${
+            metricColumnCount === 4 ? styles['has-four-metrics'] : ''
+          }`}
+          style={
+            {
+              '--metric-count': metricColumnCount,
+            } as React.CSSProperties
+          }
+        >
+          {metadata.metrics.map((metric) => (
+            <div key={metric.label} className={styles.metric}>
+              <dt className={styles['metric-lbl']}>{metric.label}</dt>
+              <dd className={styles['metric-val']}>{metric.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </>
+  );
+
+  const detailContent = detailBlocks ? (
+    <ProjectDetailBlocks blocks={detailBlocks} locale={locale} metadata={metadata} />
+  ) : (
+    <p className={styles['error-msg']}>{labels.contentLoadError}</p>
+  );
 
   return (
     <>
@@ -43,11 +94,11 @@ export default function ProjectDetailPage({
       <div id="intro-header-sentinel"></div>
 
       {/* Desktop-only sticky header with back link and project links */}
-      <header className={styles["project-topbar"]}>
-        <div className={styles["topbar-links"]}>
+      <header className={styles['project-topbar']}>
+        <div className={styles['topbar-links']}>
           {githubHref && (
             <a
-              className={styles["topbar-link"]}
+              className={styles['topbar-link']}
               href={githubHref}
               target="_blank"
               rel="noopener noreferrer"
@@ -59,7 +110,7 @@ export default function ProjectDetailPage({
           )}
           {metadata.productLink && (
             <a
-              className={`${styles["topbar-link"]} ${styles.primary}`}
+              className={`${styles['topbar-link']} ${styles.primary}`}
               href={metadata.productLink}
               target="_blank"
               rel="noopener noreferrer"
@@ -72,63 +123,31 @@ export default function ProjectDetailPage({
       </header>
 
       <div className={styles.layout}>
-        <div className={styles["nav-wrapper"]}>
+        <div className={styles['nav-wrapper']}>
           <ProjectToc />
         </div>
 
-        <div className={styles["main-content"]}>
+        <div className={styles['main-content']}>
           <div className={styles.content}>
             {/* Hero */}
             <div className={styles.hero}>
-              <div className={styles["hero-meta"]}>
-                {metadata.role && (
-                  <Badge text={metadata.role} color="primary" />
-                )}
-                {metadata.status && (
-                  <Badge text={metadata.status} color="green" />
-                )}
-                {metadata.date && <Badge text={metadata.date} color="sub" />}
-              </div>
-
-              <h1 className={styles["hero-title"]}>{metadata.title || slug}</h1>
-
-              {metadata.tagline ? (
-                <p className={styles["hero-tagline"]}>{metadata.tagline}</p>
+              {isAdminEditor ? (
+                <EditableProjectHero locale={locale} metadata={metadata} slug={slug} />
               ) : (
-                metadata.description && (
-                  <p className={styles["hero-tagline"]}>
-                    {metadata.description}
-                  </p>
-                )
-              )}
-
-              {metadata.metrics && metadata.metrics.length > 0 && (
-                <dl
-                  className={`${styles["metrics-row"]} ${
-                    metricColumnCount === 4 ? styles["has-four-metrics"] : ""
-                  }`}
-                  style={
-                    {
-                      "--metric-count": metricColumnCount,
-                    } as React.CSSProperties
-                  }
-                >
-                  {metadata.metrics.map((metric) => (
-                    <div key={metric.label} className={styles.metric}>
-                      <dt className={styles["metric-lbl"]}>{metric.label}</dt>
-                      <dd className={styles["metric-val"]}>{metric.value}</dd>
-                    </div>
-                  ))}
-                </dl>
+                heroContent
               )}
             </div>
 
-            {/* MDX content */}
-            <article className={`project-article ${styles["project-article"]}`}>
-              {children ? (
-                children
+            <article className={`project-article ${styles['project-article']}`}>
+              {isAdminEditor ? (
+                <EditableProjectArticle
+                  detailBlocks={detailBlocks}
+                  locale={locale}
+                  metadata={metadata}
+                  slug={slug}
+                />
               ) : (
-                <p className={styles["error-msg"]}>{labels.contentLoadError}</p>
+                detailContent
               )}
             </article>
           </div>
