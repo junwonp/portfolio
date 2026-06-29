@@ -1,9 +1,14 @@
-import type { HomeContentOverride } from "@/lib/content/editableContent";
+import type {
+  HomeContentOverride,
+  ProjectDetailBlock,
+  ProjectDetailContentOverride,
+} from "@/lib/content/editableContent";
 import { renderEditableMarkdown } from "@/lib/content/editableContent";
 import {
   isValidHomeOverridePayload,
   isValidProjectDetailOverridePayload,
 } from "@/lib/server/contentOverrideValidation";
+import type { PostMetadata } from "@/lib/types/post";
 import type { Language } from "@/lib/utils/language";
 
 export type ContentOverrideArea = "home" | "project-detail";
@@ -220,6 +225,56 @@ export const getProjectTechStackOverride = async (
   }
 
   return null;
+};
+
+export const getProjectDetailContentOverride = async (
+  db: D1Database | undefined,
+  slug: string,
+  locale: Language
+): Promise<ProjectDetailContentOverride | null> => {
+  if (!db) return null;
+
+  let result;
+
+  try {
+    result = await db
+      .prepare(
+        `SELECT target_key, payload
+         FROM content_overrides
+         WHERE area = ? AND locale = ? AND target_key LIKE ? AND status = ?`
+      )
+      .bind("project-detail", locale, `${slug}::%`, PUBLISHED_STATUS)
+      .all<ContentOverrideRow>();
+  } catch (error: unknown) {
+    if (isMissingTableError(error)) {
+      return null;
+    }
+
+    throw error;
+  }
+
+  const override: ProjectDetailContentOverride = {};
+
+  for (const row of result.results) {
+    if (!row.target_key.startsWith(`${slug}::`)) {
+      continue;
+    }
+
+    const parsed = parseJson(row.payload);
+    if (!parsed.ok || !isValidProjectDetailOverridePayload(row.target_key, parsed.value)) {
+      continue;
+    }
+
+    if (row.target_key.endsWith("::metadata")) {
+      override.metadata = parsed.value as Partial<PostMetadata>;
+    } else if (row.target_key.endsWith("::techStack")) {
+      override.techStack = (parsed.value as { list: string[] }).list;
+    } else if (row.target_key.endsWith("::blocks")) {
+      override.blocks = (parsed.value as { blocks: ProjectDetailBlock[] }).blocks;
+    }
+  }
+
+  return Object.keys(override).length > 0 ? override : null;
 };
 
 export const saveContentOverride = async (

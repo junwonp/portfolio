@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  getProjectDetailContentOverride,
   getProjectDetailOverrides,
   getProjectTechStackOverride,
   getPublishedHomeOverride,
@@ -63,5 +64,36 @@ describe('editableContentStore read helpers', () => {
     await expect(
       getProjectTechStackOverride(db, 'agentic-workflow', 'ko'),
     ).resolves.toBeNull();
+  });
+
+  it('reads project metadata, tech stack, and block overrides together', async () => {
+    const db = createDbMock({
+      allRows: [
+        {
+          payload: JSON.stringify({ title: 'Updated title' }),
+          target_key: 'agentic-workflow::metadata',
+        },
+        {
+          payload: JSON.stringify({ list: ['React', 'TypeScript'] }),
+          target_key: 'agentic-workflow::techStack',
+        },
+        {
+          payload: JSON.stringify({
+            blocks: [{ id: 'overview', type: 'markdown', markdown: 'Updated' }],
+          }),
+          target_key: 'agentic-workflow::blocks',
+        },
+        {
+          payload: JSON.stringify({ blocks: [] }),
+          target_key: 'other-project::blocks',
+        },
+      ],
+    });
+
+    await expect(getProjectDetailContentOverride(db, 'agentic-workflow', 'ko')).resolves.toEqual({
+      blocks: [{ id: 'overview', type: 'markdown', markdown: 'Updated' }],
+      metadata: { title: 'Updated title' },
+      techStack: ['React', 'TypeScript'],
+    });
   });
 });

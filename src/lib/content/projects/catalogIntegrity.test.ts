@@ -1,15 +1,27 @@
 import { describe, expect, it } from 'vitest';
 
+import { detailProjectSlugs, getProjectMetadata, projectCatalog } from '@/lib/content/projects';
 import {
-  detailProjectSlugs,
-  getProjectMetadata,
-  projectCatalog,
-} from '@/lib/content/projects';
-import { projectMdxSlugs } from '@/lib/content/projects/detailMdx';
+  projectDetailContentMap,
+  projectDetailContentSlugs,
+} from '@/lib/content/projects/detailContent';
+import { isValidProjectDetailOverridePayload } from '@/lib/server/contentOverrideValidation';
 
 describe('project detail catalog integrity', () => {
-  it('keeps detail project routes backed by an MDX component', () => {
-    expect([...projectMdxSlugs].sort()).toEqual([...detailProjectSlugs].sort());
+  it('keeps detail project routes backed by structured detail content', () => {
+    expect([...projectDetailContentSlugs].sort()).toEqual([...detailProjectSlugs].sort());
+  });
+
+  it('keeps structured detail blocks compatible with override validation', () => {
+    for (const [slug, localizedContent] of Object.entries(projectDetailContentMap)) {
+      for (const [locale, blocks] of Object.entries(localizedContent)) {
+        expect(blocks.length, `${slug}/${locale} has blocks`).toBeGreaterThan(0);
+        expect(
+          isValidProjectDetailOverridePayload(`${slug}::blocks`, { blocks }),
+          `${slug}/${locale} blocks are valid`,
+        ).toBe(true);
+      }
+    }
   });
 
   it('does not expose detail metadata for projects without a detail route', () => {

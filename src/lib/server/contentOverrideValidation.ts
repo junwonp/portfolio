@@ -18,6 +18,14 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 
 const isString = (value: unknown): value is string => typeof value === 'string';
 
+const isBoolean = (value: unknown): value is boolean => typeof value === 'boolean';
+
+const isEditableDateString = (value: unknown): value is string =>
+  isString(value) && /^(\d{4}|\d{4}-(0[1-9]|1[0-2]))$/.test(value);
+
+const isOptionalEditableDateString = (value: unknown): value is string =>
+  value === '' || isEditableDateString(value);
+
 const isStringArray = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every(isString);
 
@@ -30,7 +38,9 @@ const isMetricItem = (value: unknown): value is { label: string; value: string }
   isString(value.label) &&
   isString(value.value);
 
-const isPillarItem = (value: unknown): value is {
+const isPillarItem = (
+  value: unknown,
+): value is {
   description: string;
   index: string;
   title: string;
@@ -68,7 +78,8 @@ const isIntroductionOverride = (value: unknown): boolean => {
     (!('githubLink' in value) || isString(value.githubLink)) &&
     (!('linkedinLink' in value) || isString(value.linkedinLink)) &&
     (!('focusKeywords' in value) || isStringArray(value.focusKeywords)) &&
-    (!('metrics' in value) || (Array.isArray(value.metrics) && value.metrics.every(isMetricItem))) &&
+    (!('metrics' in value) ||
+      (Array.isArray(value.metrics) && value.metrics.every(isMetricItem))) &&
     (!('pillars' in value) || (Array.isArray(value.pillars) && value.pillars.every(isPillarItem)))
   );
 };
@@ -96,8 +107,8 @@ const isProjectItem = (value: unknown): boolean => {
   }
 
   return (
-    isString(value.dateFrom) &&
-    (!('dateTo' in value) || isString(value.dateTo)) &&
+    isEditableDateString(value.dateFrom) &&
+    (!('dateTo' in value) || isOptionalEditableDateString(value.dateTo)) &&
     isString(value.description) &&
     isStringArray(value.detail) &&
     (!('detailLink' in value) || isString(value.detailLink)) &&
@@ -105,8 +116,7 @@ const isProjectItem = (value: unknown): boolean => {
     isString(value.id) &&
     isString(value.title) &&
     (!('skills' in value) || isStringArray(value.skills)) &&
-    (!('metrics' in value) ||
-      (Array.isArray(value.metrics) && value.metrics.every(isMetricItem)))
+    (!('metrics' in value) || (Array.isArray(value.metrics) && value.metrics.every(isMetricItem)))
   );
 };
 
@@ -141,8 +151,8 @@ const isWorkExperienceOverride = (value: unknown): boolean => {
 
   return (
     isString(value.companyName) &&
-    isString(value.dateFrom) &&
-    (!('dateTo' in value) || isString(value.dateTo)) &&
+    isEditableDateString(value.dateFrom) &&
+    (!('dateTo' in value) || isOptionalEditableDateString(value.dateTo)) &&
     (!('highlights' in value) || isStringArray(value.highlights)) &&
     isString(value.role) &&
     (!('titleBadge' in value) || isString(value.titleBadge)) &&
@@ -158,9 +168,7 @@ const isOtherExperienceOverride = (value: unknown): boolean =>
   isProjectArrayOverride(value.project);
 
 const isArchiveOverride = (value: unknown): boolean =>
-  isRecord(value) &&
-  hasOnlyKeys(value, ['project']) &&
-  isProjectArrayOverride(value.project);
+  isRecord(value) && hasOnlyKeys(value, ['project']) && isProjectArrayOverride(value.project);
 
 const isSkillOverride = (value: unknown): boolean =>
   isRecord(value) &&
@@ -176,9 +184,139 @@ const isEducationOverride = (value: unknown): boolean =>
   isRecord(value) &&
   hasOnlyKeys(value, ['dateFrom', 'dateTo', 'major', 'school']) &&
   isString(value.school) &&
-  isString(value.dateFrom) &&
-  (!('dateTo' in value) || isString(value.dateTo)) &&
+  isEditableDateString(value.dateFrom) &&
+  (!('dateTo' in value) || isOptionalEditableDateString(value.dateTo)) &&
   (!('major' in value) || isString(value.major));
+
+const isLocalImagePath = (value: unknown): value is string =>
+  isString(value) && value.startsWith('/images/');
+
+const isOptionalLocalImagePath = (value: unknown): value is string =>
+  isString(value) && (value === '' || value.startsWith('/images/'));
+
+const isProjectMetadataOverride = (value: unknown): boolean => {
+  if (!isRecord(value)) {
+    return false;
+  }
+
+  if (
+    !hasOnlyKeys(value, [
+      'date',
+      'description',
+      'githubLink',
+      'image',
+      'metrics',
+      'name',
+      'platforms',
+      'productLink',
+      'role',
+      'status',
+      'tagline',
+      'techStack',
+      'title',
+    ])
+  ) {
+    return false;
+  }
+
+  return (
+    (!('date' in value) || isString(value.date)) &&
+    (!('description' in value) || isString(value.description)) &&
+    (!('githubLink' in value) || isString(value.githubLink)) &&
+    (!('image' in value) || isOptionalLocalImagePath(value.image)) &&
+    (!('metrics' in value) ||
+      (Array.isArray(value.metrics) && value.metrics.every(isMetricItem))) &&
+    (!('name' in value) || isString(value.name)) &&
+    (!('platforms' in value) || isStringArray(value.platforms)) &&
+    (!('productLink' in value) || isString(value.productLink)) &&
+    (!('role' in value) || isString(value.role)) &&
+    (!('status' in value) || isString(value.status)) &&
+    (!('tagline' in value) || isString(value.tagline)) &&
+    (!('techStack' in value) || isStringArray(value.techStack)) &&
+    (!('title' in value) || isString(value.title))
+  );
+};
+
+const isProjectDetailImage = (value: unknown): boolean =>
+  isRecord(value) &&
+  hasOnlyKeys(value, ['alt', 'caption', 'mobileSrc', 'src']) &&
+  isString(value.alt) &&
+  isLocalImagePath(value.src) &&
+  (!('caption' in value) || isString(value.caption)) &&
+  (!('mobileSrc' in value) || isOptionalLocalImagePath(value.mobileSrc));
+
+const isProjectDetailAchievement = (value: unknown): boolean =>
+  isRecord(value) &&
+  hasOnlyKeys(value, ['accent', 'detail', 'tag', 'title']) &&
+  isString(value.detail) &&
+  isString(value.tag) &&
+  isString(value.title) &&
+  (!('accent' in value) || isBoolean(value.accent));
+
+const hasBlockBase = (value: Record<string, unknown>, keys: readonly string[]): boolean =>
+  hasOnlyKeys(value, keys) && isString(value.id) && isString(value.type);
+
+const isProjectDetailBlock = (value: unknown): boolean => {
+  if (!isRecord(value) || !isString(value.type)) {
+    return false;
+  }
+
+  if (value.type === 'markdown') {
+    return (
+      hasBlockBase(value, ['id', 'markdown', 'type']) &&
+      isString(value.markdown) &&
+      value.markdown.trim().length > 0
+    );
+  }
+
+  if (value.type === 'techStack') {
+    return hasBlockBase(value, ['id', 'type']);
+  }
+
+  if (value.type === 'achievements') {
+    return (
+      hasBlockBase(value, ['achievements', 'id', 'type']) &&
+      Array.isArray(value.achievements) &&
+      value.achievements.every(isProjectDetailAchievement)
+    );
+  }
+
+  if (value.type === 'lightbox') {
+    return (
+      hasBlockBase(value, ['id', 'images', 'type', 'variant']) &&
+      Array.isArray(value.images) &&
+      value.images.every(isProjectDetailImage) &&
+      (!('variant' in value) || value.variant === 'default' || value.variant === 'phone')
+    );
+  }
+
+  if (value.type === 'mediaGallery') {
+    return (
+      hasBlockBase(value, ['id', 'images', 'type']) &&
+      Array.isArray(value.images) &&
+      value.images.every(isProjectDetailImage)
+    );
+  }
+
+  if (value.type === 'mermaid') {
+    return (
+      hasBlockBase(value, ['chart', 'eyebrow', 'id', 'title', 'type']) &&
+      isString(value.chart) &&
+      value.chart.trim().length > 0 &&
+      isString(value.title) &&
+      (!('eyebrow' in value) || isString(value.eyebrow))
+    );
+  }
+
+  return false;
+};
+
+const isProjectDetailBlocksOverride = (value: unknown): boolean =>
+  isRecord(value) &&
+  hasOnlyKeys(value, ['blocks']) &&
+  Array.isArray(value.blocks) &&
+  value.blocks.length > 0 &&
+  value.blocks.every(isProjectDetailBlock);
 
 export const isValidContentOverrideArea = (value: unknown): value is ContentOverrideArea =>
   typeof value === 'string' && VALID_AREAS.has(value as ContentOverrideArea);
@@ -237,11 +375,24 @@ export const isValidProjectDetailOverridePayload = (
   targetKey: string,
   payload: unknown,
 ): boolean => {
+  if (targetKey.endsWith('::metadata')) {
+    return isProjectMetadataOverride(payload);
+  }
+
   if (targetKey.endsWith('::techStack')) {
     return isRecord(payload) && hasOnlyKeys(payload, ['list']) && isStringArray(payload.list);
   }
 
-  return isRecord(payload) && hasOnlyKeys(payload, ['markdown']) && isString(payload.markdown) && payload.markdown.trim().length > 0;
+  if (targetKey.endsWith('::blocks')) {
+    return isProjectDetailBlocksOverride(payload);
+  }
+
+  return (
+    isRecord(payload) &&
+    hasOnlyKeys(payload, ['markdown']) &&
+    isString(payload.markdown) &&
+    payload.markdown.trim().length > 0
+  );
 };
 
 const isWorkExperienceOverrideArray = (value: unknown): boolean =>

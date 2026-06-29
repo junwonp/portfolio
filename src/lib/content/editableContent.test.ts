@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { applyHomeContentOverride, renderEditableMarkdown } from '@/lib/content/editableContent';
+import {
+  applyHomeContentOverride,
+  applyProjectDetailContentOverride,
+  renderEditableMarkdown,
+} from '@/lib/content/editableContent';
 import type { ResumeData } from '@/lib/data/resume';
+import type { PostMetadata } from '@/lib/types/post';
 
 const baseResumeData: ResumeData = {
   archives: [],
@@ -57,5 +62,57 @@ describe('renderEditableMarkdown', () => {
     ).toBe(
       '<p>&lt;script&gt;alert(1)&lt;/script&gt;</p><p><img src="/images/chart.webp" alt="Chart"></p>',
     );
+  });
+
+  it('renders headings, ordered lists, unordered lists, and markdown tables', () => {
+    expect(
+      renderEditableMarkdown(
+        '## Flow\n\n- First unordered\n* Second unordered\n\n1. First\n2. Second\n\n| Name | Value |\n| --- | --- |\n| API | 80% |',
+      ),
+    ).toBe(
+      '<h2>Flow</h2><ul><li>First unordered</li><li>Second unordered</li></ul><ol><li>First</li><li>Second</li></ol><table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody><tr><td>API</td><td>80%</td></tr></tbody></table>',
+    );
+  });
+});
+
+describe('applyProjectDetailContentOverride', () => {
+  const baseMetadata: PostMetadata = {
+    title: 'Old title',
+    description: 'Old description',
+    techStack: ['React'],
+  };
+
+  it('merges metadata and tech stack overrides without mutating the base metadata', () => {
+    const result = applyProjectDetailContentOverride(
+      {
+        blocks: [{ id: 'overview', type: 'markdown', markdown: 'Old' }],
+        metadata: baseMetadata,
+      },
+      {
+        metadata: { title: 'New title' },
+        techStack: ['React', 'TypeScript'],
+      },
+    );
+
+    expect(result.metadata).toEqual({
+      title: 'New title',
+      description: 'Old description',
+      techStack: ['React', 'TypeScript'],
+    });
+    expect(baseMetadata.title).toBe('Old title');
+  });
+
+  it('replaces blocks when a block override is present', () => {
+    const result = applyProjectDetailContentOverride(
+      {
+        blocks: [{ id: 'overview', type: 'markdown', markdown: 'Old' }],
+        metadata: baseMetadata,
+      },
+      {
+        blocks: [{ id: 'overview', type: 'markdown', markdown: 'New' }],
+      },
+    );
+
+    expect(result.blocks).toEqual([{ id: 'overview', type: 'markdown', markdown: 'New' }]);
   });
 });
