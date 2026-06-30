@@ -61,7 +61,7 @@ const rolePresets: Record<RolePresetId, { projectIds: string[]; summary: Summary
   },
   ai: {
     summary: 'ai',
-    projectIds: ['aira', 'sveltekit_portfolio', 'agentic_workflow', 'today_weather'],
+    projectIds: ['aira', 'nextjs_portfolio', 'agentic_workflow', 'today_weather'],
   },
 };
 

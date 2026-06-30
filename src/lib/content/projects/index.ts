@@ -10,8 +10,8 @@ import { electionAggregatorProject } from './election-aggregator';
 import { kftcPlatformProject } from './kftc-platform';
 import { mndDashboardProject } from './mnd-dashboard';
 import { mndExcelViewerProject } from './mnd-excel-viewer';
+import { nextjsPortfolioProject } from './nextjs-portfolio';
 import { onelineBankProject } from './oneline-bank';
-import { sveltekitPortfolioProject } from './sveltekit-portfolio';
 import { todayWeatherProject } from './today-weather';
 import type { ProjectContentEntry, ProjectContentSection } from './types';
 
@@ -29,7 +29,7 @@ export const projectCatalog: ProjectContentEntry[] = [
   kftcPlatformProject,
   onelineBankProject,
   campusTownProject,
-  sveltekitPortfolioProject,
+  nextjsPortfolioProject,
   electionAggregatorProject,
   agenticWorkflowProject,
 ];

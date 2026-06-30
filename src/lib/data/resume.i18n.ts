@@ -87,7 +87,7 @@ export const i18nData: Record<Language, I18nData> = {
         'Next.js',
         'React Native',
         'TanStack Query',
-        'SvelteKit',
+        'Cloudflare',
       ],
       metrics: [
         { value: '23,000', label: 'MAU (Peak)' },
@@ -250,14 +250,14 @@ export const i18nData: Record<Language, I18nData> = {
           'Selected for office space and commercialization funding support from the Seoul Metropolitan Government and universities in recognition of business potential and technical capability.',
         detail: [],
       },
-      sveltekit_portfolio: {
-        title: 'SvelteKit Portfolio Website',
+      nextjs_portfolio: {
+        title: 'Next.js & Cloudflare Portfolio',
         description:
-          'A website maximizing development efficiency and user experience with Svelte 5 (Runes) and Claude Code.',
+          'A high-performance portfolio website built with Next.js App Router on Cloudflare Workers.',
         detail: [
-          '**[Performance-First Hosting]** Migrated from purely static hosting to **Cloudflare Pages**, using **Edge Functions** for zero-latency server-side language detection.',
-          '**[Modern Reactivity]** Fully embraced **Svelte 5 Runes** for fine-grained reactivity, reducing runtime overhead and improving code maintainability.',
-          '**[AI Infrastructure]** Managed the entire development lifecycle via **AI-agentic orchestration**, using a centralized **dotfiles** repo and **AGENTS.md** as a single source of truth for multiple AI agents.',
+          '**[Next.js App Router on Edge]** Implemented dynamic server-side rendering and zero-delay bilingual support by detecting preferred languages in Edge Functions using Next.js.',
+          '**[Cloudflare Ecosystem]** Integrated Cloudflare D1 for DB, R2 for assets, and KV for cache storage, enabling a fully serverless, highly-scalable architecture.',
+          '**[AI-Agent Integration]** Configured development workflows using **Claude Code** and customized **AGENTS.md** rules, enabling smooth multi-agent orchestration.',
         ],
       },
     },
@@ -309,7 +309,7 @@ export const i18nData: Record<Language, I18nData> = {
         'Next.js',
         'React Native',
         'TanStack Query',
-        'SvelteKit',
+        'Cloudflare',
       ],
       metrics: [
         { value: '23,000', label: 'MAU (최대)' },
@@ -471,13 +471,13 @@ export const i18nData: Record<Language, I18nData> = {
           '사업의 시장성과 기술력을 인정받아 서울시 및 대학으로부터 사무 공간 및 사업화 자금을 지원받았습니다.',
         detail: [],
       },
-      sveltekit_portfolio: {
-        title: 'SvelteKit 포트폴리오',
-        description: 'Svelte 5 (Runes)와 AI 에이전트를 활용하여 구축한 고성능 개인 웹사이트.',
+      nextjs_portfolio: {
+        title: 'Next.js & Cloudflare 포트폴리오',
+        description: 'Next.js App Router와 Cloudflare Workers를 사용하여 개발한 고성능 에지 기반 포트폴리오 사이트.',
         detail: [
-          '**[성능 중심 호스팅]** 순수 정적 호스팅에서 **Cloudflare Pages**로 전환하고, **Edge Functions를 통해 요청 단계에서 언어를 자동 감지하는 무지연 다국어 처리**를 구현했습니다.',
-          '**[모던 반응성 모델]** **Svelte 5 Runes를 전면 도입**하여 세밀한 반응성 제어를 실현하고, 런타임 오버헤드를 줄여 유지보수 효율을 높였습니다.',
-          '**[AI 에이전트 인프라]** 중앙 관리형 **dotfiles와 AGENTS.md**를 구축하여 여러 AI 에이전트가 단일 소스를 공유하며 작업을 수행하는 에이전틱 개발 환경을 설계했습니다.',
+          '**[Next.js App Router와 에지]** Cloudflare Edge Functions에서 사용자 언어를 판별하여 첫 응답 단계부터 올바른 다국어 HTML을 전송하며, Next.js App Router 기반의 서버 사이드 렌더링을 구현했습니다.',
+          '**[Cloudflare 스택 통합]** D1 데이터베이스, R2 에셋 스토리지, KV 캐시 스토리지를 유기적으로 바인딩하여 백엔드 오버헤드가 없는 완전한 서버리스 아키텍처를 설계했습니다.',
+          '**[AI 에이전트 인프라]** **Claude Code**와 커스텀 에이전트 규칙(AGENTS.md)을 구축하여 복수의 AI 에이전트가 충돌 없이 효율적으로 협업하는 개발 프로세스를 실현했습니다.',
         ],
       },
     },

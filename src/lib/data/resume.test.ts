@@ -22,7 +22,7 @@ describe('resume data for web frontend applications', () => {
       'Next.js',
       'React Native',
       'TanStack Query',
-      'SvelteKit',
+      'Cloudflare',
     ]);
     expect(metricLabels).toContain('MAU (최대)');
     expect(metricLabels).toContain('평균 체류시간');
@@ -119,7 +119,7 @@ describe('resume data for web frontend applications', () => {
     });
     expect(resolveTailoredView(new URLSearchParams('role=aiFrontend'))).toEqual({
       summaryPreset: 'ai',
-      projectIds: ['aira', 'sveltekit_portfolio', 'agentic_workflow', 'today_weather'],
+      projectIds: ['aira', 'nextjs_portfolio', 'agentic_workflow', 'today_weather'],
     });
     expect(
       resolveTailoredView(new URLSearchParams('role=ai&summary=web&projects=web_viewer')),

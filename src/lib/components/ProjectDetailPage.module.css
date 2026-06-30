@@ -235,6 +235,7 @@
   color: var(--color-sub);
   font-size: 12px;
   line-height: 1.25;
+  min-height: 2.5em;
   overflow-wrap: anywhere;
 }
 

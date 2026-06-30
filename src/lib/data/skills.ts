@@ -18,7 +18,7 @@ export const SKILL = {
     upstashRedis: 'Upstash Redis',
   },
   devops: {
-    cloudflarePages: 'Cloudflare Pages',
+    cloudflareWorkers: 'Cloudflare Workers',
     crashlytics: 'Crashlytics',
     eas: 'EAS',
     firebaseHosting: 'Firebase Hosting',
@@ -34,8 +34,6 @@ export const SKILL = {
     nextJs: 'Next.js',
     react: 'React',
     reactNative: 'React Native',
-    svelte: 'Svelte',
-    svelteKit: 'SvelteKit',
     swiftUi: 'SwiftUI',
   },
   languages: {
@@ -128,8 +126,6 @@ export const skillsShared: SkillGroup[] = [
       SKILL.frameworks.reactNative,
       SKILL.frameworks.expo,
       SKILL.frameworks.expoRouter,
-      SKILL.frameworks.svelte,
-      SKILL.frameworks.svelteKit,
       SKILL.frameworks.swiftUi,
     ],
   },
@@ -172,7 +168,7 @@ export const skillsShared: SkillGroup[] = [
     id: 'devops',
     list: [
       SKILL.devops.githubActions,
-      SKILL.devops.cloudflarePages,
+      SKILL.devops.cloudflareWorkers,
       SKILL.devops.sentry,
       SKILL.devops.vitest,
       SKILL.devops.eas,

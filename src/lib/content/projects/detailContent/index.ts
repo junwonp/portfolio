@@ -6,8 +6,8 @@ import { airaDetailContent } from './aira';
 import { camerafiStudioDetailContent } from './camerafi-studio';
 import { electionAggregatorDetailContent } from './election-aggregator';
 import { mndExcelViewerDetailContent } from './mnd-excel-viewer';
+import { nextjsPortfolioDetailContent } from './nextjs-portfolio';
 import { onelineBankDetailContent } from './oneline-bank';
-import { sveltekitPortfolioDetailContent } from './sveltekit-portfolio';
 import { todayWeatherDetailContent } from './today-weather';
 
 export type ProjectDetailContentMap = Record<string, Record<Language, ProjectDetailBlock[]>>;
@@ -19,7 +19,7 @@ export const projectDetailContentMap: ProjectDetailContentMap = {
   'election-aggregator': electionAggregatorDetailContent,
   'mnd-excel-viewer': mndExcelViewerDetailContent,
   'oneline-bank': onelineBankDetailContent,
-  'sveltekit-portfolio': sveltekitPortfolioDetailContent,
+  'nextjs-portfolio': nextjsPortfolioDetailContent,
   'today-weather': todayWeatherDetailContent,
 };
 
