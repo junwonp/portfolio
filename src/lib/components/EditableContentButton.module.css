@@ -147,6 +147,44 @@
   padding: var(--space-sm) 0 0;
 }
 
+.locale-tabs {
+  align-items: center;
+  border-bottom: 0.5px solid var(--color-bg-divider);
+  display: flex;
+  gap: 4px;
+  padding-bottom: 8px;
+}
+
+.locale-tab {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--color-sub);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  min-height: 32px;
+  padding: 6px 10px;
+}
+
+.locale-tab:hover,
+.locale-tab:focus-visible {
+  background: var(--color-surface-hover);
+  color: var(--color-text);
+}
+
+.locale-tab:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.locale-tab.active {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  color: var(--color-primary);
+}
+
 .icon-button,
 .ghost-button,
 .save-button {

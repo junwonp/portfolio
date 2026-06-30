@@ -1,6 +1,7 @@
 import type { ProjectDetailBlock } from "@/lib/content/editableContent";
 import { skillsShared } from "@/lib/data/skills";
 import type { ContentOverrideArea } from "@/lib/server/editableContentStore";
+import type { Language } from "@/lib/utils/language";
 
 export type EditableValue =
   | boolean
@@ -12,6 +13,7 @@ export type EditableValue =
 
 export type EditableRecord = Record<string, EditableValue>;
 export type EditablePath = Array<number | string>;
+export type EditableValuesByLocale = Partial<Record<Language, EditableValue>>;
 
 export const blockTypes: ProjectDetailBlock["type"][] = [
   "markdown",
@@ -151,6 +153,200 @@ export const updateAtPath = (
 
   return value;
 };
+
+const sharedEditableFieldKeys = new Set([
+  "date",
+  "dateFrom",
+  "dateTo",
+  "detailLink",
+  "featuredSkills",
+  "githubLink",
+  "id",
+  "image",
+  "linkedinLink",
+  "mobileSrc",
+  "platforms",
+  "productLink",
+  "skills",
+  "src",
+  "techStack",
+  "type",
+  "variant",
+]);
+
+const hasPathSegment = (path: EditablePath, key: string): boolean => path.includes(key);
+
+const getLastStringSegment = (path: EditablePath): string | undefined => {
+  for (let index = path.length - 1; index >= 0; index -= 1) {
+    const segment = path[index];
+    if (typeof segment === "string") {
+      return segment;
+    }
+  }
+
+  return undefined;
+};
+
+export const isSharedEditablePath = (targetKey: string, path: EditablePath): boolean => {
+  if (targetKey.endsWith("::techStack") && path.length === 0) {
+    return true;
+  }
+
+  const key = getLastStringSegment(path);
+  if (!key) {
+    return false;
+  }
+
+  if (targetKey === "skills" && key === "list") {
+    return true;
+  }
+
+  if (key === "link" && hasPathSegment(path, "additional")) {
+    return true;
+  }
+
+  if (key === "value" && hasPathSegment(path, "metrics")) {
+    return true;
+  }
+
+  return sharedEditableFieldKeys.has(key);
+};
+
+interface TransformValuesByLocaleAtPathInput {
+  activeLocale: Language;
+  enabledLocales: Language[];
+  fallbackValue: EditableValue;
+  path: EditablePath;
+  targetKey: string;
+  transformValue: (current: EditableValue | undefined, locale: Language) => EditableValue;
+  valuesByLocale: EditableValuesByLocale;
+}
+
+export const transformValuesByLocaleAtPath = ({
+  activeLocale,
+  enabledLocales,
+  fallbackValue,
+  path,
+  targetKey,
+  transformValue,
+  valuesByLocale,
+}: TransformValuesByLocaleAtPathInput): Record<Language, EditableValue> => {
+  const shouldSyncAcrossLocales = isSharedEditablePath(targetKey, path);
+
+  return Object.fromEntries(
+    enabledLocales.map((targetLocale) => {
+      const current = valuesByLocale[targetLocale] ?? fallbackValue;
+
+      if (!shouldSyncAcrossLocales && targetLocale !== activeLocale) {
+        return [targetLocale, current];
+      }
+
+      return [
+        targetLocale,
+        updateAtPath(
+          current,
+          path,
+          transformValue(getValueAtPath(current, path), targetLocale),
+        ),
+      ];
+    }),
+  ) as Record<Language, EditableValue>;
+};
+
+interface UpdateValuesByLocaleAtPathInput {
+  activeLocale: Language;
+  enabledLocales: Language[];
+  fallbackValue: EditableValue;
+  nextValue: EditableValue;
+  path: EditablePath;
+  targetKey: string;
+  valuesByLocale: EditableValuesByLocale;
+}
+
+export const updateValuesByLocaleAtPath = ({
+  nextValue,
+  ...input
+}: UpdateValuesByLocaleAtPathInput): Record<Language, EditableValue> =>
+  transformValuesByLocaleAtPath({
+    ...input,
+    transformValue: () => nextValue,
+  });
+
+interface SyncSharedEditableValuesInput {
+  enabledLocales: Language[];
+  fallbackValue: EditableValue;
+  sourceLocale: Language;
+  targetKey: string;
+  valuesByLocale: EditableValuesByLocale;
+}
+
+const syncSharedEditableValue = (
+  targetKey: string,
+  path: EditablePath,
+  source: EditableValue | undefined,
+  current: EditableValue | undefined,
+): EditableValue => {
+  if (isSharedEditablePath(targetKey, path)) {
+    return source ?? "";
+  }
+
+  if (Array.isArray(source) && Array.isArray(current)) {
+    return current.map((item, index) =>
+      syncSharedEditableValue(targetKey, [...path, index], source[index], item),
+    );
+  }
+
+  if (isRecord(source) && isRecord(current)) {
+    return Object.fromEntries(
+      Object.entries(current).map(([key, item]) => [
+        key,
+        syncSharedEditableValue(targetKey, [...path, key], source[key], item),
+      ]),
+    );
+  }
+
+  return current ?? "";
+};
+
+export const syncSharedEditableValuesFromLocale = ({
+  enabledLocales,
+  fallbackValue,
+  sourceLocale,
+  targetKey,
+  valuesByLocale,
+}: SyncSharedEditableValuesInput): Record<Language, EditableValue> => {
+  const source = valuesByLocale[sourceLocale] ?? fallbackValue;
+
+  return Object.fromEntries(
+    enabledLocales.map((targetLocale) => {
+      const current = valuesByLocale[targetLocale] ?? fallbackValue;
+
+      return [
+        targetLocale,
+        targetLocale === sourceLocale
+          ? current
+          : syncSharedEditableValue(targetKey, [], source, current),
+      ];
+    }),
+  ) as Record<Language, EditableValue>;
+};
+
+export const replaceEditableArrayItem = (
+  list: EditableValue[],
+  index: number,
+  nextItem: EditableValue,
+): EditableValue[] => list.map((item, itemIndex) => (itemIndex === index ? nextItem : item));
+
+export const replaceEditableArrayRange = (
+  list: EditableValue[],
+  startIndex: number,
+  deleteCount: number,
+  nextItems: EditableValue[],
+): EditableValue[] => [
+  ...list.slice(0, startIndex),
+  ...nextItems,
+  ...list.slice(startIndex + deleteCount),
+];
 
 export const removeAtPath = (
   value: EditableValue,

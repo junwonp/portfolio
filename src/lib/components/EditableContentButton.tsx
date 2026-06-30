@@ -6,7 +6,7 @@ import { ArrowDown, ArrowUp, Pencil, Plus, Trash2, X } from 'lucide-react';
 import SkillSelectorDialog from '@/lib/components/SkillSelectorDialog';
 import type { ProjectDetailBlock } from '@/lib/content/editableContent';
 import type { ContentOverrideArea } from '@/lib/server/editableContentStore';
-import type { Language } from '@/lib/utils/language';
+import { type Language,SUPPORTED_LANGUAGES } from '@/lib/utils/language';
 
 import styles from './EditableContentButton.module.css';
 import {
@@ -29,11 +29,18 @@ import {
   moveAtPath,
   normalizeInitialValue,
   parseMarkdownListTextarea,
-  removeAtPath,
   syncFeaturedSkillsWithSkills,
+  syncSharedEditableValuesFromLocale,
   toStringList,
+  transformValuesByLocaleAtPath,
   updateAtPath,
+  updateValuesByLocaleAtPath,
 } from './editableContentEditorModel';
+
+const localeLabels: Record<Language, string> = {
+  en: 'English',
+  ko: '한국어',
+};
 
 export interface EditableContentRenderProps {
   editor: React.ReactNode;
@@ -44,12 +51,15 @@ export interface EditableContentRenderProps {
 interface Props {
   area: ContentOverrideArea;
   children?: React.ReactNode | ((props: EditableContentRenderProps) => React.ReactNode);
+  editableLocales?: Language[];
   hiddenFields?: string[];
   initialValue: unknown;
+  initialValuesByLocale?: Partial<Record<Language, unknown>>;
   label: string;
   locale: Language;
   mode?: 'dialog' | 'inline';
-  payloadBuilder?: (value: EditableValue) => unknown;
+  payloadBuilder?: (value: EditableValue, locale: Language) => unknown;
+  showEditorHeader?: boolean;
   stopPropagation?: boolean;
   targetKey: string;
   textareaLabel?: string;
@@ -59,12 +69,15 @@ interface Props {
 export default function EditableContentButton({
   area,
   children,
+  editableLocales = SUPPORTED_LANGUAGES,
   hiddenFields = [],
   initialValue,
+  initialValuesByLocale,
   label,
   locale,
   mode = 'inline',
   payloadBuilder,
+  showEditorHeader = true,
   stopPropagation = false,
   targetKey,
   textareaLabel = label,
@@ -72,39 +85,105 @@ export default function EditableContentButton({
 }: Props) {
   const buttonLabel = label.endsWith('수정') || label.endsWith('추가') ? label : `${label} 수정`;
   const actionKind = triggerKind ?? (buttonLabel.includes('추가') ? 'add' : 'edit');
-  const TriggerIcon = actionKind === 'add' ? Plus : Pencil;
   const hiddenFieldSet = new Set(hiddenFields);
+  const isMultilingual = initialValuesByLocale !== undefined;
+  const enabledLocales = editableLocales.length > 0 ? editableLocales : SUPPORTED_LANGUAGES;
+  const fallbackValue = () => normalizeInitialValue(area, targetKey, initialValue);
+
+  const normalizeValuesByLocale = (): Record<Language, EditableValue> => {
+    const normalized = Object.fromEntries(
+      enabledLocales.map((targetLocale) => [
+        targetLocale,
+        normalizeInitialValue(
+          area,
+          targetKey,
+          initialValuesByLocale?.[targetLocale] ?? initialValue,
+        ),
+      ]),
+    ) as Record<Language, EditableValue>;
+
+    return isMultilingual
+      ? syncSharedEditableValuesFromLocale({
+          enabledLocales,
+          fallbackValue: fallbackValue(),
+          sourceLocale: locale,
+          targetKey,
+          valuesByLocale: normalized,
+        })
+      : normalized;
+  };
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [activeLocale, setActiveLocale] = useState<Language>(locale);
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [value, setValue] = useState<EditableValue>(() =>
-    normalizeInitialValue(area, targetKey, initialValue),
+  const [valuesByLocale, setValuesByLocale] = useState<Record<Language, EditableValue>>(
+    normalizeValuesByLocale,
   );
+  const value =
+    valuesByLocale[activeLocale] ?? normalizeInitialValue(area, targetKey, initialValue);
 
   const handleOpen = (event?: React.MouseEvent<HTMLButtonElement>) => {
     if (stopPropagation) {
       event?.stopPropagation();
     }
-    setValue(normalizeInitialValue(area, targetKey, initialValue));
+    setActiveLocale(locale);
+    setValuesByLocale(normalizeValuesByLocale());
     setIsOpen(true);
   };
 
+  const handleTriggerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (isOpen) {
+      if (stopPropagation) {
+        event.stopPropagation();
+      }
+      setIsOpen(false);
+      return;
+    }
+
+    handleOpen(event);
+  };
+
+  const setActiveValue = (updater: (current: EditableValue) => EditableValue) => {
+    setValuesByLocale((current) => ({
+      ...current,
+      [activeLocale]: updater(
+        current[activeLocale] ?? normalizeInitialValue(area, targetKey, initialValue),
+      ),
+    }));
+  };
+
   const updateValue = (path: EditablePath, nextValue: EditableValue) => {
-    setValue((current) => updateAtPath(current, path, nextValue));
+    setValuesByLocale((current) =>
+      updateValuesByLocaleAtPath({
+        activeLocale,
+        enabledLocales,
+        fallbackValue: fallbackValue(),
+        nextValue,
+        path,
+        targetKey,
+        valuesByLocale: current,
+      }),
+    );
   };
 
   const addArrayItem = (path: EditablePath, key: string) => {
-    setValue((current) => {
-      const list = getValueAtPath(current, path);
-      if (!Array.isArray(list)) return current;
-
-      return updateAtPath(current, path, [...list, createArrayItemTemplate(key, list.length)]);
-    });
+    setValuesByLocale((current) =>
+      transformValuesByLocaleAtPath({
+        activeLocale,
+        enabledLocales,
+        fallbackValue: fallbackValue(),
+        path,
+        targetKey,
+        transformValue: (item) =>
+          Array.isArray(item) ? [...item, createArrayItemTemplate(key, item.length)] : item ?? [],
+        valuesByLocale: current,
+      }),
+    );
   };
 
   const handleBlockTypeChange = (path: EditablePath, type: ProjectDetailBlock['type']) => {
-    setValue((current) => {
+    setActiveValue((current) => {
       const currentValue = getValueAtPath(current, path);
       const next = createBlockTemplate(type, 0);
       if (isRecord(currentValue) && typeof currentValue.id === 'string') {
@@ -119,7 +198,25 @@ export default function EditableContentButton({
     setIsSaving(true);
 
     try {
-      const normalizedValue = syncFeaturedSkillsWithSkills(value);
+      const normalizedValuesByLocale = Object.fromEntries(
+        enabledLocales.map((targetLocale) => [
+          targetLocale,
+          syncFeaturedSkillsWithSkills(
+            valuesByLocale[targetLocale] ?? normalizeInitialValue(area, targetKey, initialValue),
+          ),
+        ]),
+      ) as Record<Language, EditableValue>;
+      const buildPayload = (nextValue: EditableValue, targetLocale: Language) =>
+        payloadBuilder
+          ? payloadBuilder(nextValue, targetLocale)
+          : buildContentOverridePayload(area, targetKey, nextValue);
+      const payload = buildPayload(normalizedValuesByLocale[locale], locale);
+      const payloadByLocale = Object.fromEntries(
+        enabledLocales.map((targetLocale) => [
+          targetLocale,
+          buildPayload(normalizedValuesByLocale[targetLocale], targetLocale),
+        ]),
+      ) as Partial<Record<Language, unknown>>;
       const response = await fetch('/api/admin/content-overrides', {
         method: 'POST',
         headers: {
@@ -128,9 +225,7 @@ export default function EditableContentButton({
         body: JSON.stringify({
           area,
           locale,
-          payload: payloadBuilder
-            ? payloadBuilder(normalizedValue)
-            : buildContentOverridePayload(area, targetKey, normalizedValue),
+          ...(isMultilingual ? { payloadByLocale } : { payload }),
           targetKey,
         }),
       });
@@ -190,20 +285,67 @@ export default function EditableContentButton({
                 <IconButton
                   label="위로 이동"
                   disabled={index === 0}
-                  onClick={() => setValue((current) => moveAtPath(current, path, index, -1))}
+                  onClick={() =>
+                    setValuesByLocale((current) =>
+                      transformValuesByLocaleAtPath({
+                        activeLocale,
+                        enabledLocales,
+                        fallbackValue: fallbackValue(),
+                        path,
+                        targetKey,
+                        transformValue: (item) => {
+                          if (!Array.isArray(item)) return item ?? [];
+                          const next = moveAtPath(item, [], index, -1);
+                          return Array.isArray(next) ? next : item;
+                        },
+                        valuesByLocale: current,
+                      }),
+                    )
+                  }
                 >
                   <ArrowUp size={15} />
                 </IconButton>
                 <IconButton
                   label="아래로 이동"
                   disabled={index === list.length - 1}
-                  onClick={() => setValue((current) => moveAtPath(current, path, index, 1))}
+                  onClick={() =>
+                    setValuesByLocale((current) =>
+                      transformValuesByLocaleAtPath({
+                        activeLocale,
+                        enabledLocales,
+                        fallbackValue: fallbackValue(),
+                        path,
+                        targetKey,
+                        transformValue: (item) => {
+                          if (!Array.isArray(item)) return item ?? [];
+                          const next = moveAtPath(item, [], index, 1);
+                          return Array.isArray(next) ? next : item;
+                        },
+                        valuesByLocale: current,
+                      }),
+                    )
+                  }
                 >
                   <ArrowDown size={15} />
                 </IconButton>
                 <IconButton
                   label="삭제"
-                  onClick={() => setValue((current) => removeAtPath(current, path, index))}
+                  onClick={() =>
+                    setValuesByLocale((current) =>
+                      transformValuesByLocaleAtPath({
+                        activeLocale,
+                        enabledLocales,
+                        fallbackValue: fallbackValue(),
+                        path,
+                        targetKey,
+                        transformValue: (item) =>
+                          Array.isArray(item)
+                            ? item.filter((_, itemIndex) => itemIndex !== index)
+                            : item ?? [],
+                        valuesByLocale: current,
+                      }),
+                    )
+                  }
                 >
                   <Trash2 size={15} />
                 </IconButton>
@@ -258,20 +400,67 @@ export default function EditableContentButton({
                 <IconButton
                   label="위로 이동"
                   disabled={index === 0}
-                  onClick={() => setValue((current) => moveAtPath(current, path, index, -1))}
+                  onClick={() =>
+                    setValuesByLocale((current) =>
+                      transformValuesByLocaleAtPath({
+                        activeLocale,
+                        enabledLocales,
+                        fallbackValue: fallbackValue(),
+                        path,
+                        targetKey,
+                        transformValue: (item) => {
+                          if (!Array.isArray(item)) return item ?? [];
+                          const next = moveAtPath(item, [], index, -1);
+                          return Array.isArray(next) ? next : item;
+                        },
+                        valuesByLocale: current,
+                      }),
+                    )
+                  }
                 >
                   <ArrowUp size={15} />
                 </IconButton>
                 <IconButton
                   label="아래로 이동"
                   disabled={index === list.length - 1}
-                  onClick={() => setValue((current) => moveAtPath(current, path, index, 1))}
+                  onClick={() =>
+                    setValuesByLocale((current) =>
+                      transformValuesByLocaleAtPath({
+                        activeLocale,
+                        enabledLocales,
+                        fallbackValue: fallbackValue(),
+                        path,
+                        targetKey,
+                        transformValue: (item) => {
+                          if (!Array.isArray(item)) return item ?? [];
+                          const next = moveAtPath(item, [], index, 1);
+                          return Array.isArray(next) ? next : item;
+                        },
+                        valuesByLocale: current,
+                      }),
+                    )
+                  }
                 >
                   <ArrowDown size={15} />
                 </IconButton>
                 <IconButton
                   label="삭제"
-                  onClick={() => setValue((current) => removeAtPath(current, path, index))}
+                  onClick={() =>
+                    setValuesByLocale((current) =>
+                      transformValuesByLocaleAtPath({
+                        activeLocale,
+                        enabledLocales,
+                        fallbackValue: fallbackValue(),
+                        path,
+                        targetKey,
+                        transformValue: (item) =>
+                          Array.isArray(item)
+                            ? item.filter((_, itemIndex) => itemIndex !== index)
+                            : item ?? [],
+                        valuesByLocale: current,
+                      }),
+                    )
+                  }
                 >
                   <Trash2 size={15} />
                 </IconButton>
@@ -397,16 +586,18 @@ export default function EditableContentButton({
     );
   };
 
+  const TriggerIcon = isOpen ? X : actionKind === 'add' ? Plus : Pencil;
+  const triggerLabel = isOpen ? `${buttonLabel} 닫기` : buttonLabel;
   const triggerNode = (
     <button
       className={`${styles['edit-trigger']} ${actionKind === 'add' ? styles['add-trigger'] : ''}`}
       type="button"
-      aria-label={buttonLabel}
-      title={buttonLabel}
-      onClick={handleOpen}
+      aria-label={triggerLabel}
+      title={triggerLabel}
+      onClick={handleTriggerClick}
     >
       <TriggerIcon size={15} aria-hidden="true" />
-      <span className={styles['sr-only']}>{buttonLabel}</span>
+      <span className={styles['sr-only']}>{triggerLabel}</span>
     </button>
   );
 
@@ -415,20 +606,41 @@ export default function EditableContentButton({
       className={`${styles['editor-panel']} ${mode === 'inline' ? styles['inline-editor-panel'] : ''}`}
       aria-label={textareaLabel}
     >
-      <header className={styles['editor-header']}>
-        <div>
-          <span className={styles['editor-kicker']}>{targetKey}</span>
-          <h2>{textareaLabel}</h2>
+      {showEditorHeader && (
+        <header className={styles['editor-header']}>
+          <div>
+            <span className={styles['editor-kicker']}>{targetKey}</span>
+            <h2>{textareaLabel}</h2>
+          </div>
+          <button
+            className={styles['icon-button']}
+            type="button"
+            aria-label="닫기"
+            onClick={() => setIsOpen(false)}
+          >
+            <X size={18} aria-hidden="true" />
+          </button>
+        </header>
+      )}
+
+      {isMultilingual && (
+        <div className={styles['locale-tabs']} role="tablist" aria-label="편집 언어">
+          {enabledLocales.map((targetLocale) => (
+            <button
+              key={targetLocale}
+              className={`${styles['locale-tab']} ${
+                activeLocale === targetLocale ? styles.active : ''
+              }`}
+              type="button"
+              role="tab"
+              aria-selected={activeLocale === targetLocale}
+              onClick={() => setActiveLocale(targetLocale)}
+            >
+              {localeLabels[targetLocale]}
+            </button>
+          ))}
         </div>
-        <button
-          className={styles['icon-button']}
-          type="button"
-          aria-label="닫기"
-          onClick={() => setIsOpen(false)}
-        >
-          <X size={18} aria-hidden="true" />
-        </button>
-      </header>
+      )}
 
       <div className={styles['editor-scroll']}>
         {renderValue(value, [], targetKey.split('::').at(-1) ?? targetKey)}
@@ -446,7 +658,7 @@ export default function EditableContentButton({
           disabled={isSaving}
           onClick={handleSave}
         >
-          {isSaving ? '저장 중...' : '수정 완료'}
+          {isSaving ? '저장 중...' : isMultilingual ? '모든 언어 저장' : '수정 완료'}
         </button>
       </footer>
     </section>
