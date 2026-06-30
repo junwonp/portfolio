@@ -233,17 +233,6 @@ export const i18nData: Record<Language, I18nData> = {
           '**[Agentic Orchestration]** Developed using an advanced AI workflow, utilizing **MCP** to provide the AI agent with real-time documentation and system context for precise implementation.',
         ],
       },
-      onelinebank_rebuild: {
-        title: 'OnelineBank',
-        titleBadge: '2021 Hackathon Finalist',
-        description:
-          'Advanced to the 2021 Woori Bank Hackathon finals by independently building a fintech app in 5 days. In 2026, fully rewrote the original JavaScript codebase from scratch in TypeScript with a modern stack.',
-        detail: [
-          '**[Architecture Evolution]** Rebuilt a legacy JS app into a modular, feature-based architecture using **TypeScript** and **Expo Router**, applying production-grade design patterns.',
-          '**[Robust Form Handling]** Integrated **TanStack Form** and **Zod** for type-safe schema validation and consistent error handling across the banking flow.',
-          '**[Developer Experience]** Optimized the delivery pipeline using **EAS** and kept the rebuilt demo reproducible across local and device builds.',
-        ],
-      },
       campus_town: {
         title: 'Seoul Campus Town Selection (Orca AI)',
         description:
@@ -269,6 +258,16 @@ export const i18nData: Record<Language, I18nData> = {
         detail: [
           '**[Serverless Architecture]** Architected a real-time news crawler and aggregator using **AWS Amplify** and **GraphQL**, handling high-concurrency during election periods.',
           '**[Leadership]** Led a team of 4 as a project manager, coordinating between design, frontend, and backend tasks to ensure on-time delivery.',
+        ],
+      },
+      onelinebank_rebuild: {
+        title: 'OnelineBank',
+        description:
+          'Advanced to the 2021 Woori Bank Hackathon finals by independently building a fintech app in 5 days. In 2026, fully rewrote the original JavaScript codebase from scratch in TypeScript with a modern stack.',
+        detail: [
+          '**[Architecture Evolution]** Rebuilt a legacy JS app into a modular, feature-based architecture using **TypeScript** and **Expo Router**, applying production-grade design patterns.',
+          '**[Robust Form Handling]** Integrated **TanStack Form** and **Zod** for type-safe schema validation and consistent error handling across the banking flow.',
+          '**[Developer Experience]** Optimized the delivery pipeline using **EAS** and kept the rebuilt demo reproducible across local and device builds.',
         ],
       },
     },
@@ -454,17 +453,6 @@ export const i18nData: Record<Language, I18nData> = {
           '**[에이전틱 오케스트레이션]** **MCP를 통해 AI 에이전트에게 실시간 도큐먼트와 시스템 컨텍스트를 제공**하여 고도로 정밀한 기능 구현을 주도했습니다.',
         ],
       },
-      onelinebank_rebuild: {
-        title: '한줄은행 (리빌드)',
-        titleBadge: '2021 해커톤 본선 진출작',
-        description:
-          '2021 우리은행 해커톤 출품작을 최신 기술 스택인 TypeScript, Expo Router 등으로 전면 재구성한 성장 스토리 기반 프로젝트.',
-        detail: [
-          '**[아키텍처의 진화]** 레거시 JS 앱을 **TypeScript와 Expo Router 기반의 기능 단위(Feature-based) 모듈 아키텍처**로 리빌딩하여 생산성을 극대화했습니다.',
-          '**[견고한 폼 핸들링]** **TanStack Form과 Zod를 결합**하여 Type-Safe한 스키마 검증과 일관된 에러 피드백 시스템을 뱅킹 플로우에 적용했습니다.',
-          '**[개발자 경험 개선]** **EAS를 통한 빌드 파이프라인**을 정리해 로컬과 실기기 환경에서 리빌드 데모를 재현 가능하게 만들었습니다.',
-        ],
-      },
       campus_town: {
         title: '서울 캠퍼스타운 사업 선정 (Orca AI)',
         description:
@@ -489,6 +477,16 @@ export const i18nData: Record<Language, I18nData> = {
         detail: [
           '**[서버리스 아키텍처]** **AWS Amplify**와 **GraphQL**을 사용하여 실시간 뉴스 크롤러 및 어그리게이터를 설계, 선거 기간의 고동시성 트래픽을 안정적으로 처리했습니다.',
           '**[리더십]** 팀장으로서 디자인, 프론트엔드, 백엔드 파트 간의 공정을 조율하고 일정을 관리하여 성공적인 산출물을 도출했습니다.',
+        ],
+      },
+      onelinebank_rebuild: {
+        title: '한줄은행',
+        description:
+          '2021 우리은행 해커톤 출품작을 최신 기술 스택인 TypeScript, Expo Router 등으로 전면 재구성한 성장 스토리 기반 프로젝트.',
+        detail: [
+          '**[아키텍처의 진화]** 레거시 JS 앱을 **TypeScript와 Expo Router 기반의 기능 단위(Feature-based) 모듈 아키텍처**로 리빌딩하여 생산성을 극대화했습니다.',
+          '**[견고한 폼 핸들링]** **TanStack Form과 Zod를 결합**하여 Type-Safe한 스키마 검증과 일관된 에러 피드백 시스템을 뱅킹 플로우에 적용했습니다.',
+          '**[개발자 경험 개선]** **EAS를 통한 빌드 파이프라인**을 정리해 로컬과 실기기 환경에서 리빌드 데모를 재현 가능하게 만들었습니다.',
         ],
       },
     },

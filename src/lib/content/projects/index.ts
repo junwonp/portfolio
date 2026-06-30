@@ -27,10 +27,10 @@ export const projectCatalog: ProjectContentEntry[] = [
   dayPlannerProject,
   todayWeatherProject,
   kftcPlatformProject,
-  onelineBankProject,
-  campusTownProject,
   nextjsPortfolioProject,
+  campusTownProject,
   electionAggregatorProject,
+  onelineBankProject,
   agenticWorkflowProject,
 ];
 

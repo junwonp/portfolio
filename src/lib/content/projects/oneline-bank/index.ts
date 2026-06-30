@@ -5,7 +5,7 @@ import { defineProject } from '../types';
 export const onelineBankProject = defineProject({
   id: 'onelinebank_rebuild',
   slug: 'oneline-bank',
-  section: 'other',
+  section: 'archive',
   dateFrom: '2021-04',
   dateTo: '2021-04',
   detailPath: '/projects/oneline-bank',
@@ -32,7 +32,6 @@ export const onelineBankProject = defineProject({
   content: {
     en: {
       title: 'OnelineBank',
-      titleBadge: '2021 Finalist to 2026 Rebuild',
       description:
         'A before-and-after fintech project: independently built a conversational banking MVP in 5 days for the 2021 Woori Bank Hackathon finals, then rebuilt it in 2026 with TypeScript, Expo Router, and production-minded mobile architecture.',
       summaryDetails: [
@@ -66,8 +65,7 @@ export const onelineBankProject = defineProject({
       },
     },
     ko: {
-      title: '한줄은행 (리빌드)',
-      titleBadge: '2021 본선 진출작 → 2026 리빌드',
+      title: '한줄은행',
       description:
         '2021 우리은행 해커톤 본선에서 5일 만에 1인으로 구현한 대화형 뱅킹 MVP를, 2026년에 TypeScript·Expo Router·모바일 아키텍처 중심으로 다시 만든 전후 비교형 프로젝트.',
       summaryDetails: [
