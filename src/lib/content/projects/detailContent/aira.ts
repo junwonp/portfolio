@@ -194,7 +194,7 @@ export const airaDetailContent: Record<Language, ProjectDetailBlock[]> = {
           accent: true,
           title: 'InfiniteQuery 캐시 실시간 패치로 구현한 스트리밍 UI',
           detail:
-            'AI 청크가 스트리밍되는 동안 **TanStack Query InfiniteQuery 캐시를 청크 단위로 직접 패치** — 같은 `message-{index}`면 콘텐츠를 교체(타이핑 효과), 새 인덱스면 레코드를 삽입합니다. Immer 없이 `InfiniteData` 불변 업데이트를 직접 관리합니다. Zod `z.union` 스키마로 콘텐츠/최종 이벤트를 구분하고, `safeParse`로 깨진 청크는 조용히 스킵합니다. 낙관적 업데이트로 사용자 메시지를 즉시 삽입·미리보기 갱신, 오류 시 롤백합니다.',
+            'AI 청크가 스트리밍되는 동안 **TanStack Query InfiniteQuery 캐시를 청크 단위로 직접 패치** — 같은 `message-{index}`면 콘텐츠를 교체(타이핑 효과), 새 인덱스면 레코드를 삽입합니다. Immer 없이 `InfiniteData` 불변 업데이트를 직접 관리합니다. Zod `z.union` 스키마로 콘텐츠/최종 이벤트를 구분하고, `safeParse`로 깨진 청크는 조용히 스킵합니다. Optimistic Update로 사용자 메시지를 즉시 삽입·미리보기 갱신, 오류 시 롤백합니다.',
         },
         {
           tag: 'Performance',
@@ -224,7 +224,7 @@ export const airaDetailContent: Record<Language, ProjectDetailBlock[]> = {
         },
         {
           tag: 'Dx',
-          title: '타입 안전한 쿼리 캐시 파사드 (queryData)',
+          title: 'Type-Safe한 쿼리 캐시 파사드 (queryData)',
           detail:
             '모든 `QueryClient` 접근을 도메인별로 구조화된 `queryData` 파사드로 일원화했습니다. 계층적 키 팩토리(`keys.message.list(sessionId)`)로 안전한 일괄 무효화를 지원합니다. `update.message.list(sessionId)(updater)` 호출 시 `Updater` 제네릭으로 업데이터 타입이 자동 추론 — 캐시 타입 불일치가 컴파일 타임에 잡힙니다.',
         },
@@ -248,7 +248,7 @@ export const airaDetailContent: Record<Language, ProjectDetailBlock[]> = {
         },
         {
           tag: 'I18n',
-          title: 'typesafe-i18n으로 컴파일 타임 i18n 타입 안전성 확보',
+          title: 'typesafe-i18n으로 컴파일 타임 i18n Type Safety 확보',
           detail:
             '`typesafe-i18n`이 번역 파일에서 TypeScript 타입을 자동 생성 — 잘못된 키와 누락된 파라미터가 **컴파일 타임에** 잡힙니다. 로케일 파일 로드 완료 후에만 자식을 렌더링하여 첫 화면의 언어 표시 오류를 방지합니다. 언어 전환 시 OS 로케일 동기화 → MMKV 저장 → 번역 파일 비동기 로드 → i18n 컨텍스트 업데이트를 순차 처리합니다.',
         },

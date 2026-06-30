@@ -73,7 +73,7 @@ export const onelineBankProject = defineProject({
       summaryDetails: [
         '**[Before & After]** 해커톤 당시의 제품 아이디어는 유지하되, 레거시 JavaScript 코드베이스를 **TypeScript와 Expo Router 기반 모듈 구조**로 전면 교체했습니다.',
         '**[아키텍처의 진화]** 뱅킹 플로우를 기능 단위 모듈, 라우터 가드, query boundary, 재사용 UI primitive로 재구성해 엔지니어링 성장 폭이 보이도록 정리했습니다.',
-        '**[견고한 폼 핸들링]** **TanStack Form과 Zod를 결합**하여 타입 안전한 스키마 검증과 일관된 에러 피드백 시스템을 뱅킹 플로우에 적용했습니다.',
+        '**[견고한 폼 핸들링]** **TanStack Form과 Zod를 결합**하여 Type-Safe한 스키마 검증과 일관된 에러 피드백 시스템을 뱅킹 플로우에 적용했습니다.',
         '**[개발자 경험 개선]** **EAS를 통한 빌드 파이프라인**을 정리해 로컬과 실기기 환경에서 리빌드 데모를 재현 가능하게 만들었습니다.',
       ],
       detailMetadata: {
