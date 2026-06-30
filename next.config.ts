@@ -9,6 +9,7 @@ import rehypeHeadingIds from './src/lib/mdx/rehypeHeadingIds';
 const nextConfig: NextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   output: 'standalone',
+  reactCompiler: true,
   async redirects() {
     return [
       {
