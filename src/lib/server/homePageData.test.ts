@@ -72,4 +72,37 @@ describe('createHomePageData', () => {
     expect(data.resumeData.introduction.tagline).toBe('Override tagline');
     expect(data.summaryIntroduction.tagline).toBe('Override tagline');
   });
+
+  it('builds localized edit sources for Korean and English in one page payload', () => {
+    const data = createHomePageData({
+      homeContentOverride: {
+        introduction: {
+          tagline: '한국어 override',
+        },
+      },
+      homeContentOverrideByLocale: {
+        ko: {
+          introduction: {
+            tagline: '한국어 override',
+          },
+        },
+        en: {
+          introduction: {
+            tagline: 'English override',
+          },
+        },
+      },
+      isAdminEditor: true,
+      locale: 'ko',
+      tailoredView: {
+        summaryPreset: 'default',
+        projectIds: [],
+      },
+    });
+
+    expect(data.resumeDataByLocale.ko.introduction.tagline).toBe('한국어 override');
+    expect(data.resumeDataByLocale.en.introduction.tagline).toBe('English override');
+    expect(data.summaryIntroductionByLocale.ko.tagline).toBe('한국어 override');
+    expect(data.summaryIntroductionByLocale.en.tagline).toBe('English override');
+  });
 });

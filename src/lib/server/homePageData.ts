@@ -12,7 +12,7 @@ import {
 } from '@/lib/data/resume';
 import { canCurrentRequestWriteAdminContent } from '@/lib/server/adminRequest';
 import { getPublishedHomeOverride } from '@/lib/server/editableContentStore';
-import type { Language } from '@/lib/utils/language';
+import { type Language,SUPPORTED_LANGUAGES } from '@/lib/utils/language';
 
 export type PageSearchParamsRecord = Record<string, string | string[] | undefined>;
 
@@ -23,6 +23,7 @@ interface ResolvedHomeTailoredView {
 
 interface CreateHomePageDataInput {
   homeContentOverride: HomeContentOverride | null;
+  homeContentOverrideByLocale?: Partial<Record<Language, HomeContentOverride | null>>;
   isAdminEditor: boolean;
   locale: Language;
   tailoredView: ResolvedHomeTailoredView;
@@ -102,17 +103,35 @@ export const resolveHomeTailoredViewFromOverride = (
 
 export const createHomePageData = ({
   homeContentOverride,
+  homeContentOverrideByLocale,
   isAdminEditor,
   locale,
   tailoredView,
 }: CreateHomePageDataInput): HomePageData => {
   const labels = getLabels(locale);
-  const resumeData = applyHomeContentOverride(getResumeData(locale), homeContentOverride);
+  const resumeDataByLocale = Object.fromEntries(
+    SUPPORTED_LANGUAGES.map((targetLocale) => [
+      targetLocale,
+      applyHomeContentOverride(
+        getResumeData(targetLocale),
+        homeContentOverrideByLocale?.[targetLocale] ??
+          (targetLocale === locale ? homeContentOverride : null),
+      ),
+    ]),
+  ) as Record<Language, ReturnType<typeof getResumeData>>;
+  const resumeData = resumeDataByLocale[locale];
   const featuredWebProjects = getFeaturedWebProjects(locale, tailoredView.projectIds);
-  const summaryIntroduction = {
-    ...getSummaryIntroduction(locale, tailoredView.summaryPreset),
-    ...homeContentOverride?.introduction,
-  };
+  const summaryIntroductionByLocale = Object.fromEntries(
+    SUPPORTED_LANGUAGES.map((targetLocale) => [
+      targetLocale,
+      {
+        ...getSummaryIntroduction(targetLocale, tailoredView.summaryPreset),
+        ...homeContentOverrideByLocale?.[targetLocale]?.introduction,
+        ...(targetLocale === locale ? homeContentOverride?.introduction : undefined),
+      },
+    ]),
+  ) as Record<Language, ReturnType<typeof getSummaryIntroduction>>;
+  const summaryIntroduction = summaryIntroductionByLocale[locale];
   const navSections = [
     { id: 'section-intro', label: labels.sectionIntro },
     ...(featuredWebProjects.length > 0
@@ -132,7 +151,9 @@ export const createHomePageData = ({
     locale,
     navSections,
     resumeData,
+    resumeDataByLocale,
     summaryIntroduction,
+    summaryIntroductionByLocale,
   };
 };
 
@@ -141,13 +162,23 @@ export const getHomePageData = async ({
   locale,
   tailoredView,
 }: GetHomePageDataInput): Promise<HomePageData> => {
-  const [homeContentOverride, isAdminEditor] = await Promise.all([
-    getPublishedHomeOverride(db, locale),
+  const [homeContentOverrideByLocaleEntries, isAdminEditor] = await Promise.all([
+    Promise.all(
+      SUPPORTED_LANGUAGES.map(async (targetLocale) => [
+        targetLocale,
+        await getPublishedHomeOverride(db, targetLocale),
+      ] as const),
+    ),
     canCurrentRequestWriteAdminContent(),
   ]);
+  const homeContentOverrideByLocale = Object.fromEntries(
+    homeContentOverrideByLocaleEntries,
+  ) as Record<Language, HomeContentOverride | null>;
+  const homeContentOverride = homeContentOverrideByLocale[locale];
 
   return createHomePageData({
     homeContentOverride,
+    homeContentOverrideByLocale,
     isAdminEditor,
     locale,
     tailoredView,

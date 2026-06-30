@@ -2,6 +2,8 @@ import { COOKIE_MAX_AGE } from '@/lib/data/constants';
 
 export type Language = 'ko' | 'en';
 
+export const SUPPORTED_LANGUAGES: Language[] = ['ko', 'en'];
+
 export const isValidLanguage = (value: unknown): value is Language => {
   return value === 'ko' || value === 'en';
 };
