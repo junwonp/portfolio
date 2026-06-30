@@ -106,7 +106,7 @@ export default function ProjectDetailPage({
         <div className={styles['topbar-links']}>
           {githubHref && (
             <a
-              className={styles['topbar-link']}
+              className={`${styles['topbar-link']} ${styles.github}`}
               href={githubHref}
               target="_blank"
               rel="noopener noreferrer"

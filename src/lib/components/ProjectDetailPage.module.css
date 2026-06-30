@@ -82,6 +82,26 @@
   opacity: 0.8;
 }
 
+.topbar-link.github {
+  color: #1f2328;
+  border-color: rgba(31, 35, 40, 0.15);
+  background-color: rgba(31, 35, 40, 0.04);
+}
+
+.topbar-link.github:hover {
+  background-color: rgba(31, 35, 40, 0.08);
+}
+
+:global(html.dark) .topbar-link.github {
+  color: #f0f6fc;
+  border-color: rgba(240, 246, 252, 0.15);
+  background-color: rgba(240, 246, 252, 0.08);
+}
+
+:global(html.dark) .topbar-link.github:hover {
+  background-color: rgba(240, 246, 252, 0.15);
+}
+
 @media (max-width: 960px) {
   .project-topbar {
     display: none;
