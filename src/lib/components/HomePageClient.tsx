@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import BentoSkills from '@/lib/components/BentoSkills';
 import BottomSkillBar from '@/lib/components/BottomSkillBar';
@@ -22,8 +22,6 @@ interface HomePageClientProps {
   introSection: ReactNode;
   mobileHeader: ReactNode;
 }
-
-const SCROLL_KEY = 'home-scroll-y';
 
 const createWorkExperienceDraft = (): EditableValue => ({
   companyName: '',
@@ -48,28 +46,6 @@ export default function HomePageClient({
     close: closeSkillState,
   } = useSkillState();
   const [bottomBarHeight, setBottomBarHeight] = useState(0);
-
-  useEffect(() => {
-    const saved = sessionStorage.getItem(SCROLL_KEY);
-    if (saved) {
-      requestAnimationFrame(() => {
-        window.scrollTo({
-          top: parseInt(saved, 10),
-          behavior: 'instant' as ScrollBehavior,
-        });
-      });
-    }
-
-    const handleScrollSave = () => {
-      sessionStorage.setItem(SCROLL_KEY, String(window.scrollY));
-    };
-
-    window.addEventListener('beforeunload', handleScrollSave);
-    return () => {
-      handleScrollSave();
-      window.removeEventListener('beforeunload', handleScrollSave);
-    };
-  }, []);
 
   const isAdminEditor = data.isAdminEditor === true;
   const labels = data.labels;

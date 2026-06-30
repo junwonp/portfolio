@@ -1,13 +1,11 @@
-import { useEffect,useState } from "react";
-
-const STORAGE_KEY = "accordion-open-state";
+import { useEffect, useState } from "react";
 
 interface AccordionStateData {
   companies: string[];
   projects: string[];
 }
 
-let state: AccordionStateData = {
+const state: AccordionStateData = {
   companies: [],
   projects: [],
 };
@@ -16,22 +14,6 @@ const listeners = new Set<() => void>();
 
 function notify() {
   listeners.forEach((l) => l());
-}
-
-if (typeof window !== "undefined") {
-  try {
-    const saved = sessionStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      state = JSON.parse(saved) as AccordionStateData;
-    }
-  } catch {
-    // ignore parse errors
-  }
-}
-
-function persist(): void {
-  if (typeof window === "undefined") return;
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
 export const accordionState = {
@@ -50,7 +32,6 @@ export const accordionState = {
     } else {
       state.companies = [...state.companies, name];
     }
-    persist();
     notify();
   },
 
@@ -63,7 +44,6 @@ export const accordionState = {
     } else {
       state.projects = [...state.projects, key];
     }
-    persist();
     notify();
   },
 };
