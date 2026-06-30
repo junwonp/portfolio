@@ -29,9 +29,85 @@ describe('parseContentOverrideRequest', () => {
           role: 'Frontend Engineer',
           tagline: 'Updated',
         },
+        overrides: [
+          {
+            area: 'home',
+            locale: 'ko',
+            payload: {
+              githubLink: 'https://github.com/junwonp',
+              linkedinLink: 'https://www.linkedin.com/in/junwonp',
+              name: 'Junwon Park',
+              role: 'Frontend Engineer',
+              tagline: 'Updated',
+            },
+            targetKey: 'introduction',
+          },
+        ],
         targetKey: 'introduction',
       },
     });
+  });
+
+  it('accepts localized payloads in one content override request', () => {
+    expect(
+      parseContentOverrideRequest({
+        area: 'home',
+        locale: 'ko',
+        payloadByLocale: {
+          ko: { tagline: '한국어 소개' },
+          en: { tagline: 'English intro' },
+        },
+        targetKey: 'introduction',
+      }),
+    ).toEqual({
+      ok: true,
+      value: {
+        area: 'home',
+        locale: 'ko',
+        payload: { tagline: '한국어 소개' },
+        targetKey: 'introduction',
+        overrides: [
+          {
+            area: 'home',
+            locale: 'ko',
+            payload: { tagline: '한국어 소개' },
+            targetKey: 'introduction',
+          },
+          {
+            area: 'home',
+            locale: 'en',
+            payload: { tagline: 'English intro' },
+            targetKey: 'introduction',
+          },
+        ],
+      },
+    });
+  });
+
+  it('rejects localized payloads with invalid locale keys or invalid localized data', () => {
+    expect(
+      parseContentOverrideRequest({
+        area: 'home',
+        locale: 'ko',
+        payloadByLocale: {
+          ko: { tagline: '한국어 소개' },
+          ja: { tagline: 'Japanese intro' },
+        },
+        targetKey: 'introduction',
+      }),
+    ).toMatchObject({ ok: false });
+
+    expect(
+      parseContentOverrideRequest({
+        area: 'home',
+        locale: 'ko',
+        payloadByLocale: {
+          ko: { tagline: '한국어 소개' },
+          en: { tagline: 42 },
+        },
+        targetKey: 'introduction',
+      }),
+    ).toMatchObject({ ok: false });
   });
 
   it('accepts company-level work experience payloads with nested project edits', () => {

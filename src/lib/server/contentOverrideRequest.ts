@@ -11,6 +11,14 @@ interface ContentOverrideRequestBody {
   area: ContentOverrideArea;
   locale: Language;
   payload: unknown;
+  overrides: ContentOverrideWriteInput[];
+  targetKey: string;
+}
+
+interface ContentOverrideWriteInput {
+  area: ContentOverrideArea;
+  locale: Language;
+  payload: unknown;
   targetKey: string;
 }
 
@@ -28,7 +36,7 @@ export const parseContentOverrideRequest = (body: unknown): ParseContentOverride
     return { error: 'Invalid request body', ok: false };
   }
 
-  const { area, locale, payload, targetKey } = body;
+  const { area, locale, payload, payloadByLocale, targetKey } = body;
 
   if (!isValidContentOverrideArea(area)) {
     return { error: 'Invalid content area', ok: false };
@@ -42,15 +50,62 @@ export const parseContentOverrideRequest = (body: unknown): ParseContentOverride
     return { error: 'Invalid target key', ok: false };
   }
 
-  let serializedPayload: string;
+  let serializedPayload: string | undefined;
   try {
-    serializedPayload = JSON.stringify(payload);
+    serializedPayload = JSON.stringify(payloadByLocale ?? payload);
   } catch {
     return { error: 'Payload must be serializable JSON', ok: false };
   }
 
+  if (typeof serializedPayload !== 'string') {
+    return { error: 'Payload is required', ok: false };
+  }
+
   if (serializedPayload.length > MAX_JSON_PAYLOAD_LENGTH) {
     return { error: 'Payload is too large', ok: false };
+  }
+
+  if (payloadByLocale !== undefined) {
+    if (!isRecord(payloadByLocale)) {
+      return { error: 'Localized payload must be an object', ok: false };
+    }
+
+    const overrides: ContentOverrideWriteInput[] = [];
+
+    for (const [payloadLocale, localizedPayload] of Object.entries(payloadByLocale)) {
+      if (!isValidContentOverrideLocale(payloadLocale)) {
+        return { error: 'Invalid localized payload locale', ok: false };
+      }
+
+      if (!isValidContentOverridePayload(area, targetKey, localizedPayload)) {
+        return { error: 'Invalid localized content override payload', ok: false };
+      }
+
+      overrides.push({
+        area,
+        locale: payloadLocale,
+        payload: localizedPayload,
+        targetKey,
+      });
+    }
+
+    if (overrides.length === 0) {
+      return { error: 'Localized payload cannot be empty', ok: false };
+    }
+
+    const currentLocalePayload =
+      overrides.find((override) => override.locale === locale)?.payload ?? overrides[0]?.payload;
+
+    return {
+      ok: true,
+      value: {
+        area,
+        locale,
+        payload: currentLocalePayload,
+        overrides,
+        targetKey,
+      },
+    };
   }
 
   if (!isValidContentOverridePayload(area, targetKey, payload)) {
@@ -63,6 +118,14 @@ export const parseContentOverrideRequest = (body: unknown): ParseContentOverride
       area,
       locale,
       payload,
+      overrides: [
+        {
+          area,
+          locale,
+          payload,
+          targetKey,
+        },
+      ],
       targetKey,
     },
   };

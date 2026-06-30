@@ -34,7 +34,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Database binding is missing' }, { status: 500 });
   }
 
-  await saveContentOverride(db, parsed.value);
+  await Promise.all(
+    parsed.value.overrides.map((override) => saveContentOverride(db, override)),
+  );
   revalidatePath('/');
 
   if (parsed.value.area === 'project-detail') {
