@@ -11,22 +11,31 @@
 
 .item {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--space-md);
+  flex-direction: column;
+  gap: 0.5rem;
   min-width: 0;
+  width: 100%;
 }
 
 .content {
-  flex: 1;
+  width: 100%;
   min-width: 0;
 }
 
 .header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  width: 100%;
+}
+
+.title-row {
+  display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  min-width: 0;
+  flex: 1;
 }
 
 .title {
@@ -59,6 +68,7 @@
   padding: 4px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
   border: none;
+  width: 100%;
 }
 
 :global(html.dark) .metric-strip {
@@ -68,11 +78,12 @@
 }
 
 .metric-item {
-  align-items: flex-start;
+  align-items: center;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   padding: 0.65rem;
+  text-align: center;
 }
 
 .metric-item dd {
@@ -82,12 +93,14 @@
   line-height: 1;
   margin: 0;
   white-space: nowrap;
+  text-align: center;
 }
 
 .metric-item dt {
   color: var(--color-sub);
   font-size: 0.75rem;
   line-height: 1.2;
+  text-align: center;
 }
 
 @media (max-width: 420px) {
@@ -119,6 +132,7 @@
 .date-wrapper {
   flex-shrink: 0;
   text-align: right;
+  margin-left: 1rem;
 }
 
 .date {
@@ -128,13 +142,15 @@
 }
 
 @media (max-width: 768px) {
-  .item {
-    flex-direction: column;
-    gap: 0.5rem;
+  .header {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 0.25rem;
   }
+
   .date-wrapper {
-    order: -1;
     text-align: left;
+    margin-left: 0;
   }
 
   .metric-item {

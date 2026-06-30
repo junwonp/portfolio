@@ -55,11 +55,19 @@ export default function ExperienceList({ experiences, labels, skillLimit }: Prop
             className={styles["item-wrapper"]}
           >
             <div className={styles.item}>
-              <div className={styles.content}>
-                <div className={styles.header}>
+              <div className={styles.header}>
+                <div className={styles["title-row"]}>
                   <h3 className={styles.title}>{project.title}</h3>
                   {exp.titleBadge && <Badge text={exp.titleBadge} />}
                 </div>
+                <div className={styles["date-wrapper"]}>
+                  <span className={styles.date}>
+                    {formatDate(project.dateFrom, project.dateTo)}
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.content}>
                 <p className={styles.description}>
                   <RichText parts={parseMarkdown(project.description)} />
                 </p>
@@ -105,11 +113,6 @@ export default function ExperienceList({ experiences, labels, skillLimit }: Prop
                     )}
                   </div>
                 )}
-              </div>
-              <div className={styles["date-wrapper"]}>
-                <span className={styles.date}>
-                  {formatDate(project.dateFrom, project.dateTo)}
-                </span>
               </div>
             </div>
           </div>
