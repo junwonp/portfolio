@@ -117,6 +117,7 @@
   margin-top: 0.75rem;
   padding: 4px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  width: 100%;
 }
 
 :global(.dark) .project-metrics {
@@ -130,17 +131,21 @@
   flex-direction: column;
   gap: 0.35rem;
   padding: 0.65rem;
+  align-items: center;
+  text-align: center;
 }
 
 .metric-value {
   color: var(--color-primary);
   font-size: 1.125rem;
   font-weight: 700;
+  text-align: center;
 }
 
 .metric-label {
   color: var(--color-sub);
   font-size: 0.75rem;
+  text-align: center;
 }
 
 @media (max-width: 420px) {
