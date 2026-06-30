@@ -13,6 +13,7 @@ import styles from './WorkAccordion.module.css';
 interface Props {
   editorConfig?: {
     allExperiences: WorkExperienceProps[];
+    allExperiencesByLocale: Record<Language, WorkExperienceProps[]>;
     locale: Language;
   };
   experiences: WorkExperienceProps[];

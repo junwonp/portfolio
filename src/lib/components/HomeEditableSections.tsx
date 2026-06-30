@@ -16,20 +16,24 @@ interface EditableIntroSectionProps {
   labels: Labels;
   locale: Language;
   summaryIntroduction: IntroductionProps;
+  summaryIntroductionByLocale: Record<Language, IntroductionProps>;
 }
 
 export function EditableIntroSection({
   labels,
   locale,
   summaryIntroduction,
+  summaryIntroductionByLocale,
 }: EditableIntroSectionProps) {
   return (
     <section id="section-intro" className={styles['fade-slide-enter']}>
       <EditableContentButton
         area="home"
         initialValue={summaryIntroduction}
+        initialValuesByLocale={summaryIntroductionByLocale}
         label="소개"
         locale={locale}
+        showEditorHeader={false}
         targetKey="introduction"
         textareaLabel="소개 수정"
       >
@@ -59,12 +63,14 @@ export function EditableIntroSection({
 
 interface EditableEducationSectionProps {
   education: EducationProps[];
+  educationByLocale: Record<Language, EducationProps[]>;
   labels: Labels;
   locale: Language;
 }
 
 export function EditableEducationSection({
   education,
+  educationByLocale,
   labels,
   locale,
 }: EditableEducationSectionProps) {
@@ -73,8 +79,10 @@ export function EditableEducationSection({
       <EditableContentButton
         area="home"
         initialValue={education}
+        initialValuesByLocale={educationByLocale}
         label="학력"
         locale={locale}
+        showEditorHeader={false}
         targetKey="education"
         textareaLabel="학력 수정"
       >

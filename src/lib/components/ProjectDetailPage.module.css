@@ -242,6 +242,28 @@
   margin-bottom: 56px;
 }
 
+.editable-detail-section {
+  display: flow-root;
+}
+
+.editable-section-heading {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.editable-section-heading h2 {
+  margin: 0;
+}
+
+.section-fallback-title {
+  color: var(--color-bold);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
 .h2-subtitle {
   display: block;
   font-size: 0.9rem;

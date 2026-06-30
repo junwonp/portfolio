@@ -151,9 +151,17 @@ export default function HomePageClient({
                       area="home"
                       hiddenFields={['project']}
                       initialValue={createWorkExperienceDraft()}
+                      initialValuesByLocale={{
+                        en: createWorkExperienceDraft(),
+                        ko: createWorkExperienceDraft(),
+                      }}
                       label="경력 추가"
                       locale={data.locale}
-                      payloadBuilder={(value) => [...resumeData.workExperiences, value]}
+                      payloadBuilder={(value, targetLocale) => [
+                        ...data.resumeDataByLocale[targetLocale].workExperiences,
+                        value,
+                      ]}
+                      showEditorHeader={false}
                       targetKey="workExperiences"
                       textareaLabel="경력 추가"
                       triggerKind="add"
@@ -168,6 +176,10 @@ export default function HomePageClient({
                           <WorkAccordion
                             editorConfig={{
                               allExperiences: resumeData.workExperiences,
+                              allExperiencesByLocale: {
+                                en: data.resumeDataByLocale.en.workExperiences,
+                                ko: data.resumeDataByLocale.ko.workExperiences,
+                              },
                               locale: data.locale,
                             }}
                             experiences={filteredWork}
@@ -194,8 +206,13 @@ export default function HomePageClient({
                   <EditableContentButton
                     area="home"
                     initialValue={resumeData.skills}
+                    initialValuesByLocale={{
+                      en: data.resumeDataByLocale.en.skills,
+                      ko: data.resumeDataByLocale.ko.skills,
+                    }}
                     label="스킬"
                     locale={data.locale}
+                    showEditorHeader={false}
                     targetKey="skills"
                     textareaLabel="스킬 수정"
                   >
@@ -232,8 +249,13 @@ export default function HomePageClient({
                   <EditableContentButton
                     area="home"
                     initialValue={resumeData.otherExperiences}
+                    initialValuesByLocale={{
+                      en: data.resumeDataByLocale.en.otherExperiences,
+                      ko: data.resumeDataByLocale.ko.otherExperiences,
+                    }}
                     label="프로젝트"
                     locale={data.locale}
+                    showEditorHeader={false}
                     targetKey="otherExperiences"
                     textareaLabel="프로젝트 수정"
                   >
@@ -264,8 +286,13 @@ export default function HomePageClient({
                   <EditableContentButton
                     area="home"
                     initialValue={resumeData.archives}
+                    initialValuesByLocale={{
+                      en: data.resumeDataByLocale.en.archives,
+                      ko: data.resumeDataByLocale.ko.archives,
+                    }}
                     label="아카이브"
                     locale={data.locale}
+                    showEditorHeader={false}
                     targetKey="archives"
                     textareaLabel="아카이브 수정"
                   >

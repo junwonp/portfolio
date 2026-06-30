@@ -8,7 +8,7 @@ import type { EditableValue } from '@/lib/components/editableContentEditorModel'
 import type { Labels } from '@/lib/data/labels';
 import { useAccordionState } from '@/lib/states/accordion';
 import type { ProjectItem as ProjectItemType, WorkExperienceProps } from '@/lib/types/about';
-import type { Language } from '@/lib/utils/language';
+import { type Language,SUPPORTED_LANGUAGES } from '@/lib/utils/language';
 import { parseMarkdown } from '@/lib/utils/markdown';
 
 import Badge from './Badge';
@@ -20,6 +20,7 @@ import RichText from './RichText';
 interface Props {
   editorConfig?: {
     allExperiences: WorkExperienceProps[];
+    allExperiencesByLocale: Record<Language, WorkExperienceProps[]>;
     companyIndex: number;
     locale: Language;
   };
@@ -75,24 +76,37 @@ export default function CompanyCard({ editorConfig, exp, isFiltered, labels }: P
   const isCompanyOpen = hasCompany(exp.companyName) || isFiltered;
   const editableCompany = editorConfig?.allExperiences[editorConfig.companyIndex];
 
-  const buildCompanyPayload = (value: EditableValue) => {
-    if (!editorConfig || !editableCompany) return [];
+  const getEditableCompany = (targetLocale: Language): WorkExperienceProps | undefined =>
+    editorConfig?.allExperiencesByLocale[targetLocale]?.[editorConfig.companyIndex];
 
-    return editorConfig.allExperiences.map((item, index) =>
+  const buildCompanyPayload = (value: EditableValue, targetLocale: Language) => {
+    if (!editorConfig) return [];
+
+    const allExperiences = editorConfig.allExperiencesByLocale[targetLocale] ?? [];
+    const targetCompany = getEditableCompany(targetLocale);
+    if (!targetCompany) return allExperiences;
+
+    return allExperiences.map((item, index) =>
       index === editorConfig.companyIndex
         ? {
             ...(value as unknown as WorkExperienceProps),
-            ...(editableCompany.additional ? { additional: editableCompany.additional } : {}),
-            project: editableCompany.project,
+            ...(targetCompany.additional ? { additional: targetCompany.additional } : {}),
+            project: targetCompany.project,
           }
         : item,
     );
   };
 
-  const buildProjectPayload = (value: EditableValue, projectIndex: number) => {
-    if (!editorConfig || !editableCompany) return [];
+  const buildProjectPayload = (
+    value: EditableValue,
+    projectIndex: number,
+    targetLocale: Language,
+  ) => {
+    if (!editorConfig) return [];
 
-    return editorConfig.allExperiences.map((item, index) =>
+    const allExperiences = editorConfig.allExperiencesByLocale[targetLocale] ?? [];
+
+    return allExperiences.map((item, index) =>
       index === editorConfig.companyIndex
         ? {
             ...item,
@@ -104,10 +118,12 @@ export default function CompanyCard({ editorConfig, exp, isFiltered, labels }: P
     );
   };
 
-  const buildAddProjectPayload = (value: EditableValue) => {
+  const buildAddProjectPayload = (value: EditableValue, targetLocale: Language) => {
     if (!editorConfig) return [];
 
-    return editorConfig.allExperiences.map((item, index) =>
+    const allExperiences = editorConfig.allExperiencesByLocale[targetLocale] ?? [];
+
+    return allExperiences.map((item, index) =>
       index === editorConfig.companyIndex
         ? {
             ...item,
@@ -232,9 +248,19 @@ export default function CompanyCard({ editorConfig, exp, isFiltered, labels }: P
                 key={`${project.id}:${project.title}`}
                 area="home"
                 initialValue={normalizeProjectForEditor(editableProject)}
+                initialValuesByLocale={Object.fromEntries(
+                  SUPPORTED_LANGUAGES.map((targetLocale) => {
+                    const localizedProject =
+                      getEditableCompany(targetLocale)?.project[projectIndex] ?? editableProject;
+
+                    return [targetLocale, normalizeProjectForEditor(localizedProject)];
+                  }),
+                ) as Record<Language, EditableValue>}
                 label="프로젝트 수정"
                 locale={editorConfig.locale}
-                payloadBuilder={(value) => buildProjectPayload(value, projectIndex)}
+                payloadBuilder={(value, targetLocale) =>
+                  buildProjectPayload(value, projectIndex, targetLocale)
+                }
                 stopPropagation
                 targetKey="workExperiences"
                 textareaLabel="프로젝트 수정"
@@ -278,6 +304,16 @@ export default function CompanyCard({ editorConfig, exp, isFiltered, labels }: P
               editableCompany.companyName,
               editableCompany.project.length,
             )}
+            initialValuesByLocale={Object.fromEntries(
+              SUPPORTED_LANGUAGES.map((targetLocale) => {
+                const localizedCompany = getEditableCompany(targetLocale) ?? editableCompany;
+
+                return [
+                  targetLocale,
+                  createProjectDraft(localizedCompany.companyName, localizedCompany.project.length),
+                ];
+              }),
+            ) as Record<Language, EditableValue>}
             label="프로젝트 추가"
             locale={editorConfig.locale}
             payloadBuilder={buildAddProjectPayload}
@@ -291,6 +327,12 @@ export default function CompanyCard({ editorConfig, exp, isFiltered, labels }: P
                 area="home"
                 hiddenFields={['project']}
                 initialValue={normalizeCompanyForEditor(editableCompany)}
+                initialValuesByLocale={Object.fromEntries(
+                  SUPPORTED_LANGUAGES.map((targetLocale) => [
+                    targetLocale,
+                    normalizeCompanyForEditor(getEditableCompany(targetLocale) ?? editableCompany),
+                  ]),
+                ) as Record<Language, EditableValue>}
                 label="경력 수정"
                 locale={editorConfig.locale}
                 payloadBuilder={buildCompanyPayload}

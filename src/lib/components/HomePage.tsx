@@ -33,7 +33,9 @@ export interface HomePageData {
   locale: Language;
   navSections: NavSection[];
   resumeData: ResumeData;
+  resumeDataByLocale: Record<Language, ResumeData>;
   summaryIntroduction: IntroductionProps;
+  summaryIntroductionByLocale: Record<Language, IntroductionProps>;
 }
 
 interface Props {
@@ -60,6 +62,7 @@ export default function HomePage({ data }: Props) {
         labels={labels}
         locale={data.locale}
         summaryIntroduction={summaryIntroduction}
+        summaryIntroductionByLocale={data.summaryIntroductionByLocale}
       />
     ) : (
       <section id="section-intro" className={styles["fade-slide-enter"]}>
@@ -81,6 +84,10 @@ export default function HomePage({ data }: Props) {
     isAdminEditor && resumeData.education ? (
       <EditableEducationSection
         education={resumeData.education}
+        educationByLocale={{
+          en: data.resumeDataByLocale.en.education,
+          ko: data.resumeDataByLocale.ko.education,
+        }}
         labels={labels}
         locale={data.locale}
       />

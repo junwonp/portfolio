@@ -10,6 +10,7 @@ import { canCurrentRequestWriteAdminContent } from '@/lib/server/adminRequest';
 import { getDb } from '@/lib/server/db';
 import { getProjectDetailContentOverride } from '@/lib/server/editableContentStore';
 import { getPortfolioLocale } from '@/lib/server/portfolioLocale';
+import { SUPPORTED_LANGUAGES } from '@/lib/utils/language';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -55,33 +56,63 @@ export default async function ProjectDetail({ params }: PageProps) {
   }
 
   const db = getDb();
-  const [projectContentOverride, isAdminEditor] = await Promise.all([
-    getProjectDetailContentOverride(db, slug, locale),
+  const [projectContentOverrideByLocaleEntries, isAdminEditor] = await Promise.all([
+    Promise.all(
+      SUPPORTED_LANGUAGES.map(async (targetLocale) => [
+        targetLocale,
+        await getProjectDetailContentOverride(db, slug, targetLocale),
+      ] as const),
+    ),
     canCurrentRequestWriteAdminContent(),
   ]);
+  const projectContentOverrideByLocale = Object.fromEntries(projectContentOverrideByLocaleEntries);
 
-  const projectContent = applyProjectDetailContentOverride(
-    {
-      blocks: detailBlocks,
-      metadata: rawMetadata,
-    },
-    projectContentOverride,
-  );
-
-  const metadata = {
-    ...projectContent.metadata,
+  const normalizeMetadata = (metadata: typeof rawMetadata) => ({
+    ...metadata,
     githubLink:
-      projectContent.metadata.githubLink && !projectContent.metadata.githubLink.startsWith('http')
-        ? `${GITHUB_PROFILE}/${projectContent.metadata.githubLink}`
-        : projectContent.metadata.githubLink,
-  };
+      metadata.githubLink && !metadata.githubLink.startsWith('http')
+        ? `${GITHUB_PROFILE}/${metadata.githubLink}`
+        : metadata.githubLink,
+  });
+  const projectContentByLocale = Object.fromEntries(
+    SUPPORTED_LANGUAGES.map((targetLocale) => {
+      const localizedMetadata = getProjectMetadata(slug, targetLocale) ?? rawMetadata;
+      const localizedBlocks = getProjectDetailBlocks(slug, targetLocale) ?? detailBlocks;
+      const localizedProjectContent = applyProjectDetailContentOverride(
+        {
+          blocks: localizedBlocks,
+          metadata: localizedMetadata,
+        },
+        projectContentOverrideByLocale[targetLocale],
+      );
+
+      return [
+        targetLocale,
+        {
+          blocks: localizedProjectContent.blocks,
+          metadata: normalizeMetadata(localizedProjectContent.metadata),
+        },
+      ];
+    }),
+  );
+  const projectContent = projectContentByLocale[locale];
 
   return (
     <ProjectDetailPage
       slug={slug}
       locale={locale}
-      metadata={metadata}
+      metadata={projectContent.metadata}
       detailBlocks={projectContent.blocks}
+      projectContentByLocale={{
+        en: {
+          detailBlocks: projectContentByLocale.en.blocks,
+          metadata: projectContentByLocale.en.metadata,
+        },
+        ko: {
+          detailBlocks: projectContentByLocale.ko.blocks,
+          metadata: projectContentByLocale.ko.metadata,
+        },
+      }}
       isAdminEditor={isAdminEditor}
     />
   );

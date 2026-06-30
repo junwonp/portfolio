@@ -18,79 +18,79 @@ interface Props {
   metadata: PostMetadata;
 }
 
+interface ProjectDetailBlockRendererProps {
+  block: ProjectDetailBlock;
+  locale: Language;
+  metadata: PostMetadata;
+}
+
+export function ProjectDetailBlockRenderer({
+  block,
+  locale,
+  metadata,
+}: ProjectDetailBlockRendererProps) {
+  if (block.type === "markdown") {
+    return (
+      <div
+        dangerouslySetInnerHTML={{
+          __html: renderEditableMarkdown(block.markdown),
+        }}
+      />
+    );
+  }
+
+  if (block.type === "techStack") {
+    return metadata.techStack ? (
+      <ProjectTechStack techStack={metadata.techStack} locale={locale} />
+    ) : null;
+  }
+
+  if (block.type === "achievements") {
+    return (
+      <ProjectAchievements
+        achievements={block.achievements.map((achievement) => ({
+          ...achievement,
+          detail: renderEditableMarkdown(achievement.detail),
+        }))}
+      />
+    );
+  }
+
+  if (block.type === "lightbox") {
+    return <ProjectLightbox variant={block.variant} images={block.images} />;
+  }
+
+  if (block.type === "mediaGallery") {
+    return (
+      <ImageGallery>
+        {block.images.map((image) => (
+          <ImageDescription
+            key={`${image.src}:${image.alt}`}
+            src={image.src}
+            mobileSrc={image.mobileSrc}
+            alt={image.alt}
+          >
+            {image.caption}
+          </ImageDescription>
+        ))}
+      </ImageGallery>
+    );
+  }
+
+  return <MermaidDiagram chart={block.chart} eyebrow={block.eyebrow} title={block.title} />;
+}
+
 export default function ProjectDetailBlocks({ blocks, locale, metadata }: Props) {
   return (
     <>
-      {blocks.map((block) => {
-        if (block.type === "markdown") {
-          return (
-            <div
-              key={block.id}
-              dangerouslySetInnerHTML={{
-                __html: renderEditableMarkdown(block.markdown),
-              }}
-            />
-          );
-        }
-
-        if (block.type === "techStack") {
-          return metadata.techStack ? (
-            <ProjectTechStack
-              key={block.id}
-              techStack={metadata.techStack}
-              locale={locale}
-            />
-          ) : null;
-        }
-
-        if (block.type === "achievements") {
-          return (
-            <ProjectAchievements
-              key={block.id}
-              achievements={block.achievements.map((achievement) => ({
-                ...achievement,
-                detail: renderEditableMarkdown(achievement.detail),
-              }))}
-            />
-          );
-        }
-
-        if (block.type === "lightbox") {
-          return (
-            <ProjectLightbox
-              key={block.id}
-              variant={block.variant}
-              images={block.images}
-            />
-          );
-        }
-
-        if (block.type === "mediaGallery") {
-          return (
-            <ImageGallery key={block.id}>
-              {block.images.map((image) => (
-                <ImageDescription
-                  key={`${image.src}:${image.alt}`}
-                  src={image.src}
-                  mobileSrc={image.mobileSrc}
-                  alt={image.alt}
-                >
-                  {image.caption}
-                </ImageDescription>
-              ))}
-            </ImageGallery>
-          );
-        }
-
-        return (
-          <MermaidDiagram
-            key={block.id}
-            chart={block.chart}
-            eyebrow={block.eyebrow}
-            title={block.title}
-          />
-        );
-      })}
+      {blocks.map((block) => (
+        <ProjectDetailBlockRenderer
+          key={block.id}
+          block={block}
+          locale={locale}
+          metadata={metadata}
+        />
+      ))}
     </>
   );
 }

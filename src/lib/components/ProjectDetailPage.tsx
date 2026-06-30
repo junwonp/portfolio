@@ -22,6 +22,13 @@ interface Props {
   locale: Language;
   metadata: PostMetadata;
   detailBlocks?: ProjectDetailBlock[];
+  projectContentByLocale: Record<
+    Language,
+    {
+      detailBlocks?: ProjectDetailBlock[];
+      metadata: PostMetadata;
+    }
+  >;
   isAdminEditor?: boolean;
 }
 
@@ -30,6 +37,7 @@ export default function ProjectDetailPage({
   locale,
   metadata,
   detailBlocks,
+  projectContentByLocale,
   isAdminEditor = false,
 }: Props) {
   const labels = getLabels(locale);
@@ -132,7 +140,15 @@ export default function ProjectDetailPage({
             {/* Hero */}
             <div className={styles.hero}>
               {isAdminEditor ? (
-                <EditableProjectHero locale={locale} metadata={metadata} slug={slug} />
+                <EditableProjectHero
+                  locale={locale}
+                  metadata={metadata}
+                  metadataByLocale={{
+                    en: projectContentByLocale.en.metadata,
+                    ko: projectContentByLocale.ko.metadata,
+                  }}
+                  slug={slug}
+                />
               ) : (
                 heroContent
               )}
@@ -142,6 +158,10 @@ export default function ProjectDetailPage({
               {isAdminEditor ? (
                 <EditableProjectArticle
                   detailBlocks={detailBlocks}
+                  detailBlocksByLocale={{
+                    en: projectContentByLocale.en.detailBlocks,
+                    ko: projectContentByLocale.ko.detailBlocks,
+                  }}
                   locale={locale}
                   metadata={metadata}
                   slug={slug}
