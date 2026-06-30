@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import AnalyticsTracker from "@/lib/components/AnalyticsTracker";
 import BottomNav from "@/lib/components/BottomNav";
 import Footer from "@/lib/components/Footer";
-import ReadingProgress from "@/lib/components/ReadingProgress";
 import { LocaleProvider } from "@/lib/contexts/LocaleContext";
 import type { Language } from "@/lib/utils/language";
 import { getMetadata } from "@/lib/utils/metadata";
@@ -33,7 +32,6 @@ export default function PortfolioShell({
       <AnalyticsTracker />
       {!isAdminPage && (
         <>
-          <ReadingProgress />
           <BottomNav isProject={isProjectPage} />
         </>
       )}
