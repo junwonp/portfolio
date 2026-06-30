@@ -9,7 +9,10 @@ import {
   OWNER_DEVICE_COOKIE,
   OWNER_DEVICE_COOKIE_MAX_AGE,
 } from '@/lib/server/adminAccess';
-import { isAdminWriteEnabledForCurrentRuntime, isCurrentRequestAdmin } from '@/lib/server/adminRequest';
+import {
+  isAdminWriteEnabledForCurrentRuntime,
+  isCurrentRequestAdmin,
+} from '@/lib/server/adminRequest';
 import { ADMIN_SESSION_COOKIE } from '@/lib/server/adminSession';
 
 export async function login() {
@@ -91,6 +94,7 @@ export async function createApplicationLink(formData: FormData): Promise<void> {
     normalizeApplicationSlug,
     generateApplicationSlug,
     isReservedApplicationSlug,
+    normalizeApplicationProjectIds,
     toSqlDateTime,
   } = await import('@/lib/server/applicationLinks');
 
@@ -105,7 +109,11 @@ export async function createApplicationLink(formData: FormData): Promise<void> {
   const label = ((formData.get('label') as string) || '').slice(0, 160) || companyName;
   const positioningStr = (formData.get('positioning') as string) || 'web';
   const ttlDays = Number(formData.get('ttlDays') || '60');
-  const projectIds = formData.getAll('projectIds').filter(Boolean) as string[];
+  const projectIds = normalizeApplicationProjectIds(
+    formData
+      .getAll('projectIds')
+      .filter((value): value is string => typeof value === 'string' && value.length > 0),
+  );
 
   let role: string | null = 'web';
   let summaryPreset = 'web';

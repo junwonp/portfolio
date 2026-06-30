@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import { normalizeApplicationProjectIds } from '@/lib/server/applicationLinks';
 import { getActiveApplicationLinkBySlug } from '@/lib/server/applicationLinkStore';
 
 class ApplicationLinkDbMock {
@@ -36,6 +37,18 @@ class ApplicationLinkDbMock {
 }
 
 describe('getActiveApplicationLinkBySlug', () => {
+  it('normalizes submitted project identifiers before persistence', () => {
+    expect(
+      normalizeApplicationProjectIds([
+        'today-weather',
+        'day-planner',
+        'today_weather',
+        'unknown-project',
+        'aira',
+      ]),
+    ).toEqual(['today_weather', 'day_planner', 'aira']);
+  });
+
   it('returns null when the application links table is not provisioned locally', async () => {
     const db = new ApplicationLinkDbMock({ missingTable: true });
 
@@ -68,6 +81,28 @@ describe('getActiveApplicationLinkBySlug', () => {
       role: 'web',
       slug: 'abcd',
       summaryPreset: 'web',
+    });
+  });
+
+  it('normalizes stored project slugs to canonical project ids', async () => {
+    const db = new ApplicationLinkDbMock({
+      row: {
+        company_name: 'Example',
+        created_at: '2026-06-28 00:00:00',
+        expires_at: '2026-07-28 00:00:00',
+        id: 1,
+        label: 'Frontend',
+        project_ids: '["today-weather","day-planner","unknown-project","today_weather"]',
+        role: 'web',
+        slug: 'abcd',
+        summary_preset: 'web',
+      },
+    });
+
+    await expect(
+      getActiveApplicationLinkBySlug(db as unknown as D1Database, 'abcd'),
+    ).resolves.toMatchObject({
+      projectIds: ['today_weather', 'day_planner'],
     });
   });
 });

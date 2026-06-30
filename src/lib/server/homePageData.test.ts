@@ -53,6 +53,23 @@ describe('createHomePageData', () => {
     expect(data.navSections.map((section) => section.id)).toContain('section-featured');
   });
 
+  it('resolves stored project slugs in tailored short-link data', () => {
+    const data = createHomePageData({
+      homeContentOverride: null,
+      isAdminEditor: false,
+      locale: 'ko',
+      tailoredView: {
+        summaryPreset: 'web',
+        projectIds: ['aira', 'today-weather'],
+      },
+    });
+
+    expect(data.featuredWebProjects.map((experience) => experience.project[0].id)).toEqual([
+      'aira',
+      'today_weather',
+    ]);
+  });
+
   it('applies published home overrides to the resume and summary introduction', () => {
     const data = createHomePageData({
       homeContentOverride: {

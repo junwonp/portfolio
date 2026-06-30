@@ -1,4 +1,4 @@
-import { projectCatalog } from '@/lib/content/projects';
+import { applicationProjectCatalog } from '@/lib/content/projects';
 import type { AdminDashboardSearchParams } from '@/lib/server/adminDashboardData';
 import { getAdminDashboardData } from '@/lib/server/adminDashboardData';
 import { isAdminWriteEnabledForCurrentRuntime } from '@/lib/server/adminRequest';
@@ -22,12 +22,10 @@ export async function AdminDashboard({
     );
   }
 
-  const applicationProjectOptions = projectCatalog
-    .filter((project) => project.section !== 'standalone')
-    .map((project) => ({
-      id: project.id,
-      title: project.content.ko.title,
-    }));
+  const applicationProjectOptions = applicationProjectCatalog.map((project) => ({
+    id: project.id,
+    title: project.content.ko.title,
+  }));
   const dashboardData = await getAdminDashboardData({
     applicationProjectOptions,
     db,

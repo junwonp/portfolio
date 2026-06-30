@@ -1,3 +1,4 @@
+import { normalizeApplicationProjectIdentifiers } from '@/lib/content/projects';
 import type { RolePresetId, SummaryPresetId } from '@/lib/data/resume';
 import { APPLICATION_SLUG_LENGTH } from '@/lib/utils/applicationSlug';
 
@@ -86,13 +87,16 @@ export const parseProjectIds = (value: string): string[] => {
   }
 };
 
+export const normalizeApplicationProjectIds = (projectIds: readonly string[]): string[] =>
+  normalizeApplicationProjectIdentifiers(projectIds);
+
 export const toApplicationLink = (row: ApplicationLinkRow): ApplicationLink => ({
   companyName: row.company_name,
   createdAt: row.created_at,
   expiresAt: row.expires_at,
   id: row.id,
   label: row.label,
-  projectIds: parseProjectIds(row.project_ids),
+  projectIds: normalizeApplicationProjectIds(parseProjectIds(row.project_ids)),
   role: row.role === 'web' || row.role === 'mobile' || row.role === 'ai' ? row.role : null,
   slug: row.slug,
   summaryPreset:
