@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
-import { detailProjectSlugs, getProjectMetadata, projectCatalog } from '@/lib/content/projects';
+import {
+  applicationProjectCatalog,
+  detailProjectSlugs,
+  getProjectMetadata,
+  normalizeApplicationProjectIdentifiers,
+  normalizeProjectIdentifiers,
+  projectCatalog,
+  resolveProjectIdentifier,
+} from '@/lib/content/projects';
 import {
   projectDetailContentMap,
   projectDetailContentSlugs,
@@ -32,5 +40,34 @@ describe('project detail catalog integrity', () => {
     expect(nonDetailSlugs).toContain('day-planner');
     expect(getProjectMetadata('day-planner', 'ko')).toBeUndefined();
     expect(getProjectMetadata('day-planner', 'en')).toBeUndefined();
+  });
+
+  it('resolves every project id and slug to a canonical project id', () => {
+    for (const project of projectCatalog) {
+      expect(resolveProjectIdentifier(project.id), `${project.id} resolves by id`).toBe(project.id);
+      expect(resolveProjectIdentifier(project.slug), `${project.slug} resolves by slug`).toBe(
+        project.id,
+      );
+    }
+
+    expect(
+      normalizeProjectIdentifiers(['today-weather', 'today_weather', 'aira', 'missing']),
+    ).toEqual(['today_weather', 'aira']);
+  });
+
+  it('keeps application-link project normalization aligned with dashboard options', () => {
+    const selectableProjectIds = applicationProjectCatalog.map((project) => project.id);
+    const selectableProjectSlugs = applicationProjectCatalog.map((project) => project.slug);
+
+    expect(normalizeApplicationProjectIdentifiers(selectableProjectSlugs)).toEqual(
+      selectableProjectIds,
+    );
+    expect(
+      normalizeApplicationProjectIdentifiers([
+        'agentic-workflow',
+        'missing',
+        ...selectableProjectIds,
+      ]),
+    ).toEqual(selectableProjectIds);
   });
 });

@@ -38,11 +38,51 @@ export const resumeProjectCatalog = projectCatalog.filter(
   (project) => project.section !== 'standalone',
 );
 
+export const applicationProjectCatalog = resumeProjectCatalog;
+
 export const detailProjectCatalog = projectCatalog.filter((project) => project.detailPath);
 
 export const projectSlugs = projectCatalog.map((project) => project.slug);
 
 export const detailProjectSlugs = detailProjectCatalog.map((project) => project.slug);
+
+const toProjectIdentifierMap = (projects: ProjectContentEntry[]): Map<string, string> =>
+  new Map(
+    projects.flatMap((project) => [
+      [project.id, project.id],
+      [project.slug, project.id],
+    ]),
+  );
+
+const projectIdentifierToId = toProjectIdentifierMap(projectCatalog);
+
+const applicationProjectIdentifierToId = toProjectIdentifierMap(applicationProjectCatalog);
+
+const normalizeProjectIdentifiersWithMap = (
+  identifiers: readonly string[],
+  identifierToId: ReadonlyMap<string, string>,
+): string[] =>
+  Array.from(
+    new Set(
+      identifiers.flatMap((identifier) => {
+        const projectId = identifierToId.get(identifier);
+
+        return projectId ? [projectId] : [];
+      }),
+    ),
+  );
+
+export const resolveProjectIdentifier = (identifier: string): string | null =>
+  projectIdentifierToId.get(identifier) ?? null;
+
+export const normalizeProjectIdentifiers = (identifiers: readonly string[]): string[] =>
+  normalizeProjectIdentifiersWithMap(identifiers, projectIdentifierToId);
+
+export const resolveApplicationProjectIdentifier = (identifier: string): string | null =>
+  applicationProjectIdentifierToId.get(identifier) ?? null;
+
+export const normalizeApplicationProjectIdentifiers = (identifiers: readonly string[]): string[] =>
+  normalizeProjectIdentifiersWithMap(identifiers, applicationProjectIdentifierToId);
 
 export const getProjectBySlug = (slug: string): ProjectContentEntry | undefined => {
   return projectCatalog.find((project) => project.slug === slug);

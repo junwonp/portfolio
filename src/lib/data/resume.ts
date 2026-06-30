@@ -1,5 +1,9 @@
 import type { ProjectContentEntry } from '@/lib/content/projects';
-import { getProjectsBySection, projectCatalog } from '@/lib/content/projects';
+import {
+  getProjectsBySection,
+  normalizeProjectIdentifiers,
+  projectCatalog,
+} from '@/lib/content/projects';
 import { i18nData } from '@/lib/data/resume.i18n';
 import {
   certificateOrder,
@@ -507,7 +511,7 @@ export const getFeaturedWebProjects = (
       .map((project) => toResumeProject(project, lang)),
   ];
 
-  return projectIds.flatMap((id) => {
+  return normalizeProjectIdentifiers(projectIds).flatMap((id) => {
     const project = projects.find((item) => item.id === id);
     if (!project) return [];
 
