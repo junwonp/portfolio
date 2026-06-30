@@ -35,7 +35,7 @@ export default function ProjectItem({
   project,
 }: Props) {
   const { isProjectOpen, toggleProject } = useAccordionState();
-  const { sort } = useSkillState();
+  const { sort, getCategory } = useSkillState();
 
   const isOpen = isProjectOpen(companyName, project.title) || isFiltered;
 
@@ -44,8 +44,10 @@ export default function ProjectItem({
   }, [project.skills, sort]);
 
   const mainSkillsLabel = useMemo(() => {
-    return sortedSkills.slice(0, 2).join(", ");
-  }, [sortedSkills]);
+    const language = sortedSkills.find((skill) => getCategory(skill) === "languages");
+    const framework = sortedSkills.find((skill) => getCategory(skill) === "frameworks");
+    return [language, framework].filter(Boolean).join(", ");
+  }, [sortedSkills, getCategory]);
 
   function parseDetailLine(line: string) {
     const match = line.match(/^\*\*\[(.*?)\]\*\*(.*)$/);
@@ -104,7 +106,7 @@ export default function ProjectItem({
           </div>
           <div className={ProjectItemStyles["project-desc-line"]}>
             <span className={ProjectItemStyles["project-description-short"]}>{project.description}</span>
-            {project.skills && project.skills.length > 0 && (
+            {mainSkillsLabel && (
               <>
                 <span className={ProjectItemStyles["desc-separator"]}>·</span>
                 <span className={ProjectItemStyles["main-skills"]}>{mainSkillsLabel}</span>
