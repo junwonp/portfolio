@@ -23,9 +23,10 @@ export default function ExperienceList({ experiences, labels, skillLimit }: Prop
   const formatDate = (dateFrom?: string, dateTo?: string) => {
     if (!dateFrom) return "";
     if (dateFrom.length === 4) return dateFrom; // e.g. 2024
-    const formatted = dateFrom.replace("-", ".");
-    const isOngoing = !dateTo || dateTo !== dateFrom;
-    return isOngoing ? `${formatted} ~` : formatted;
+    const formattedFrom = dateFrom.replace("-", ".");
+    if (!dateTo) return `${formattedFrom} ~`;
+    if (dateTo === dateFrom) return formattedFrom;
+    return `${formattedFrom} ~ ${dateTo.replace("-", ".")}`;
   };
 
   return (
