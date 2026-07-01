@@ -5,6 +5,7 @@ import { agenticWorkflowDetailContent } from './agentic-workflow';
 import { airaDetailContent } from './aira';
 import { camerafiStudioDetailContent } from './camerafi-studio';
 import { electionAggregatorDetailContent } from './election-aggregator';
+import { kftcPlatformDetailContent } from './kftc-platform';
 import { mndExcelViewerDetailContent } from './mnd-excel-viewer';
 import { nextjsPortfolioDetailContent } from './nextjs-portfolio';
 import { onelineBankDetailContent } from './oneline-bank';
@@ -17,6 +18,7 @@ export const projectDetailContentMap: ProjectDetailContentMap = {
   aira: airaDetailContent,
   'camerafi-studio': camerafiStudioDetailContent,
   'election-aggregator': electionAggregatorDetailContent,
+  'kftc-platform': kftcPlatformDetailContent,
   'mnd-excel-viewer': mndExcelViewerDetailContent,
   'oneline-bank': onelineBankDetailContent,
   'nextjs-portfolio': nextjsPortfolioDetailContent,
