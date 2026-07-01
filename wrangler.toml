@@ -32,38 +32,38 @@ database_id = "3c7cc643-2ad9-4c9a-97c3-2e2105b3e8ef"
 enabled = false
 
 # Replace these bindings with dedicated non-production resources
-# before allowing content edits or other write traffic in develop.
-[env.develop]
-name = "portfolio-develop"
+# before allowing content edits or other write traffic in development.
+[env.development]
+name = "portfolio-development"
 main = "./worker/index.ts"
 compatibility_date = "2026-06-17"
 compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 
-[env.develop.vars]
-APP_ENV = "develop"
+[env.development.vars]
+APP_ENV = "development"
 ALLOW_ADMIN_WRITES = "false"
 CF_ACCESS_AUD = ""
 CF_ACCESS_TEAM_DOMAIN = ""
 
-[env.develop.assets]
+[env.development.assets]
 binding = "ASSETS"
 not_found_handling = "none"
 
-[env.develop.images]
+[env.development.images]
 binding = "IMAGES"
 
-[[env.develop.kv_namespaces]]
+[[env.development.kv_namespaces]]
 binding = "VINEXT_KV_CACHE"
 id = "4e5d5aa8077a4e3d94175c14845346dd"
 
-[[env.develop.r2_buckets]]
+[[env.development.r2_buckets]]
 binding = "portfolio_assets"
 bucket_name = "portfolio-assets"
 
-[[env.develop.d1_databases]]
+[[env.development.d1_databases]]
 binding = "portfolio_db"
 database_name = "portfolio-db"
 database_id = "3c7cc643-2ad9-4c9a-97c3-2e2105b3e8ef"
 
-[env.develop.observability]
+[env.development.observability]
 enabled = false

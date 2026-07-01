@@ -7,7 +7,7 @@
     "build": "vinext build",
     "preview": "vinext start",
     "deploy": "vinext deploy",
-    "deploy:develop": "vinext deploy --env develop",
+    "deploy:development": "vinext deploy --env development",
     "start": "vinext start",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "lint": "eslint"

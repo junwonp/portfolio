@@ -199,24 +199,32 @@ describe('getAdminAccessDecision', () => {
 });
 
 describe('isAdminWriteEnabled', () => {
-  it('keeps develop deploys read-only even if writes are explicitly enabled', () => {
+  it('keeps development deploys read-only even if writes are explicitly enabled', () => {
     vi.stubEnv('NODE_ENV', 'production');
 
     expect(
       isAdminWriteEnabled({
-        APP_ENV: 'develop',
+        APP_ENV: 'development',
         ALLOW_ADMIN_WRITES: 'true',
       }),
     ).toBe(false);
   });
 
-  it('allows local develop writes when explicitly enabled for development', () => {
+  it('allows local development writes when explicitly enabled for development', () => {
     vi.stubEnv('NODE_ENV', 'development');
 
     expect(
       isAdminWriteEnabled({
-        APP_ENV: 'develop',
+        APP_ENV: 'development',
         ALLOW_ADMIN_WRITES: 'true',
+      }),
+    ).toBe(true);
+  });
+
+  it('allows local writes by default when APP_ENV is local', () => {
+    expect(
+      isAdminWriteEnabled({
+        APP_ENV: 'local',
       }),
     ).toBe(true);
   });

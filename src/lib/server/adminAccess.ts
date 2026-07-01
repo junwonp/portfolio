@@ -132,12 +132,12 @@ export const isAdminWriteEnabled = (env: object | undefined): boolean => {
   } as CloudflareAccessRuntimeEnv;
   const appEnv =
     getStringValue(runtimeEnv, APP_ENV_KEYS)?.toLowerCase() ??
-    (process.env.NODE_ENV === 'production' ? 'production' : 'development');
+    (process.env.NODE_ENV === 'production' ? 'production' : 'local');
   const allowAdminWrites =
     getStringValue(runtimeEnv, ALLOW_ADMIN_WRITES_KEYS)?.toLowerCase() === 'true';
   const isDeployRuntime = process.env.NODE_ENV === 'production';
 
-  if (appEnv === 'develop') {
+  if (appEnv === 'development') {
     return !isDeployRuntime && allowAdminWrites;
   }
 
