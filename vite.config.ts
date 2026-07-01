@@ -6,6 +6,9 @@ import vinext from 'vinext';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  build: {
+    cssCodeSplit: false,
+  },
   plugins: [
     vinext({
       cache: {
@@ -18,3 +21,4 @@ export default defineConfig({
     }),
   ],
 });
+
