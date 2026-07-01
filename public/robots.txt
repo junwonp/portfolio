@@ -1,10 +1,11 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /a/
 Disallow: /api/
 Disallow: /print/
 
-Sitemap: https://junwon.pages.dev/sitemap.xml
+Sitemap: https://junwon.dev/sitemap.xml
 
 # Specifically block AI crawlers
 User-agent: GPTBot

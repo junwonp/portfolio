@@ -45,11 +45,18 @@ export const nextjsPortfolioProject = defineProject({
           'Edge-enhanced portfolio built with Cloudflare Workers and Next.js App Router — server-side language detection, hybrid Resume + Portfolio UX, and Lighthouse 97 performance.',
         date: '2021-02 ~',
         image: '/images/nextjs-portfolio/1.webp',
-        productLink: 'https://junwon.pages.dev',
+        productLink: 'https://junwon.dev',
         githubLink: 'portfolio',
         role: 'Solo developer',
         platforms: ['Web'],
-        techStack: ['Next.js', 'React', 'TypeScript', 'Cloudflare Workers', 'Vitest', 'Claude Code'],
+        techStack: [
+          'Next.js',
+          'React',
+          'TypeScript',
+          'Cloudflare Workers',
+          'Vitest',
+          'Claude Code',
+        ],
         metrics: [
           { value: '192ms', label: 'FCP (Edge-rendered)' },
           { value: '-80%', label: 'JS Bundle Reduced' },
@@ -60,7 +67,8 @@ export const nextjsPortfolioProject = defineProject({
     },
     ko: {
       title: 'Next.js & Cloudflare 포트폴리오',
-      description: 'Next.js App Router와 Cloudflare Workers를 사용하여 개발한 고성능 에지 기반 포트폴리오 사이트.',
+      description:
+        'Next.js App Router와 Cloudflare Workers를 사용하여 개발한 고성능 에지 기반 포트폴리오 사이트.',
       metrics: [
         { value: '192ms', label: '초기 렌더링 속도 (FCP)' },
         { value: '-80%', label: 'JS 번들 크기 감소' },
@@ -78,11 +86,18 @@ export const nextjsPortfolioProject = defineProject({
           'Cloudflare Workers와 Next.js App Router로 구축한 에지 기반 포트폴리오 — 서버 사이드 언어 감지, 이력서+포트폴리오 하이브리드 UX, Lighthouse 97점 성능.',
         date: '2021-02 ~',
         image: '/images/nextjs-portfolio/1.webp',
-        productLink: 'https://junwon.pages.dev',
+        productLink: 'https://junwon.dev',
         githubLink: 'portfolio',
         role: '1인 개발',
         platforms: ['Web'],
-        techStack: ['Next.js', 'React', 'TypeScript', 'Cloudflare Workers', 'Vitest', 'Claude Code'],
+        techStack: [
+          'Next.js',
+          'React',
+          'TypeScript',
+          'Cloudflare Workers',
+          'Vitest',
+          'Claude Code',
+        ],
         metrics: [
           { value: '192ms', label: '초기 렌더링 속도 (FCP)' },
           { value: '-80%', label: 'JS 번들 크기 감소' },

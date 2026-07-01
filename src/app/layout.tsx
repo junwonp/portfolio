@@ -4,8 +4,10 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 
+import { PORTFOLIO_URL } from "@/lib/data/constants";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://junwonpark.dev"),
+  metadataBase: new URL(PORTFOLIO_URL),
 };
 
 const themeInitializerScript = `
@@ -28,6 +30,7 @@ export default async function RootLayout({
       <head>
         <script
           nonce={nonce}
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: themeInitializerScript }}
         />
         <link
