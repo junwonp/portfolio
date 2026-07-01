@@ -1,8 +1,8 @@
 import React from "react";
 
+import DeferredMobileStickyHeader from "@/lib/components/DeferredMobileStickyHeader";
 import EducationList from "@/lib/components/EducationList";
 import HomePageClient from "@/lib/components/HomePageClient";
-import MobileStickyHeader from "@/lib/components/MobileStickyHeader";
 import SectionHeader from "@/lib/components/SectionHeader";
 import Title from "@/lib/components/Title";
 import type { HomeContentOverride } from "@/lib/content/editableContent";
@@ -51,7 +51,7 @@ export default async function HomePage({ data }: Props) {
   }
 
   const mobileHeader = (
-    <MobileStickyHeader
+    <DeferredMobileStickyHeader
       githubLink={resumeData.introduction.githubLink}
       linkedinLink={resumeData.introduction.linkedinLink}
       name={resumeData.introduction.name}
@@ -61,9 +61,6 @@ export default async function HomePage({ data }: Props) {
   const introSection = (
     <section id="section-intro" className={styles["fade-slide-enter"]}>
       <Title
-        githubLink={summaryIntroduction.githubLink}
-        linkedinLink={summaryIntroduction.linkedinLink}
-        labels={labels}
         metrics={summaryIntroduction.metrics}
         name={summaryIntroduction.name}
         pillars={summaryIntroduction.pillars}

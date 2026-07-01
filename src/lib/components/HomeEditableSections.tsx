@@ -13,14 +13,12 @@ import type { Language } from '@/lib/utils/language';
 import styles from './HomePage.module.css';
 
 interface EditableIntroSectionProps {
-  labels: Labels;
   locale: Language;
   summaryIntroduction: IntroductionProps;
   summaryIntroductionByLocale: Record<Language, IntroductionProps>;
 }
 
 export function EditableIntroSection({
-  labels,
   locale,
   summaryIntroduction,
   summaryIntroductionByLocale,
@@ -44,9 +42,6 @@ export function EditableIntroSection({
               editor
             ) : (
               <Title
-                githubLink={summaryIntroduction.githubLink}
-                linkedinLink={summaryIntroduction.linkedinLink}
-                labels={labels}
                 metrics={summaryIntroduction.metrics}
                 name={summaryIntroduction.name}
                 pillars={summaryIntroduction.pillars}

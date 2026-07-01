@@ -22,9 +22,9 @@
   z-index: 0;
   transition:
     transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-    height 0.25s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.2s;
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .nav-list {
@@ -56,7 +56,7 @@
   font-size: 0.875rem;
   padding: 0.5rem 1rem;
   text-align: left;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease;
   width: 100%;
   border-radius: 8px;
 }

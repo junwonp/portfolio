@@ -27,7 +27,6 @@ export default function EditableHomePage({ data }: Props) {
 
   const introSection = (
     <EditableIntroSection
-      labels={labels}
       locale={data.locale}
       summaryIntroduction={summaryIntroduction}
       summaryIntroductionByLocale={data.summaryIntroductionByLocale}

@@ -293,7 +293,7 @@ export default function BottomNav({ isProject = false }: Props) {
         <div
           className={`${styles["active-bg"]} ${isDragging ? styles.dragging : ""}`}
           style={{
-            left: `${pillLeft + (isDragging ? dragOffset : 0)}px`,
+            transform: `translateX(${pillLeft + (isDragging ? dragOffset : 0)}px)`,
             width: `${pillWidth}px`,
           }}
         />
@@ -344,7 +344,7 @@ export default function BottomNav({ isProject = false }: Props) {
             <div
               className={`${styles["active-bg"]} ${isDragging ? styles.dragging : ""}`}
               style={{
-                left: `${pillLeft + (isDragging ? dragOffset : 0)}px`,
+                transform: `translateX(${pillLeft + (isDragging ? dragOffset : 0)}px)`,
                 width: `${pillWidth}px`,
               }}
             />

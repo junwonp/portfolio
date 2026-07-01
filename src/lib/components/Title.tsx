@@ -1,15 +1,10 @@
 import type { CSSProperties } from "react";
 
-import type { Labels } from "@/lib/data/labels";
 import type { MetricItem, PillarItem } from "@/lib/types/about";
 
 import styles from "./Title.module.css";
-import HomeTitleActions from "./TitleActions";
 
 interface Props {
-  githubLink?: string;
-  labels: Labels;
-  linkedinLink?: string;
   metrics?: MetricItem[];
   name: string;
   pillars?: PillarItem[];
@@ -18,9 +13,6 @@ interface Props {
 }
 
 export default function Title({
-  githubLink,
-  labels,
-  linkedinLink,
   metrics,
   name,
   pillars,
@@ -33,15 +25,6 @@ export default function Title({
     <header className={styles.header}>
       <div className={styles["title-container"]}>
         <h1 className={styles.title}>{name}</h1>
-        <div className={styles.icons}>
-          <HomeTitleActions
-            githubLink={githubLink}
-            labels={labels}
-            linkedinLink={linkedinLink}
-            name={name}
-            tagline={tagline}
-          />
-        </div>
       </div>
       {role && <h2 className={styles.role}>{role}</h2>}
       <p className={styles.tagline}>{tagline}</p>
