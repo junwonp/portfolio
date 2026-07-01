@@ -1,10 +1,9 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import React, { useMemo, useState } from 'react';
+import React, { lazy, Suspense, useMemo, useState } from 'react';
 
 import BentoSkills from '@/lib/components/BentoSkills';
-import BottomSkillBar from '@/lib/components/BottomSkillBar';
 import DesktopSideNav from '@/lib/components/DesktopSideNav';
 import ExperienceList from '@/lib/components/ExperienceList';
 import type { HomePageData } from '@/lib/components/HomePage';
@@ -13,6 +12,8 @@ import WorkAccordion from '@/lib/components/WorkAccordion';
 import { useSkillState } from '@/lib/states/skills';
 
 import styles from './HomePage.module.css';
+
+const BottomSkillBar = lazy(() => import('@/lib/components/BottomSkillBar'));
 
 interface HomePageClientProps {
   data: HomePageData;
@@ -167,7 +168,9 @@ export default function HomePageClient({
       </div>
 
       {isSkillPanelOpen && resumeData.skills && (
-        <BottomSkillBar skills={resumeData.skills} onHeightChange={setBottomBarHeight} />
+        <Suspense fallback={null}>
+          <BottomSkillBar skills={resumeData.skills} onHeightChange={setBottomBarHeight} />
+        </Suspense>
       )}
     </article>
   );
