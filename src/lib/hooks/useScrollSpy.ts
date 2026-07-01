@@ -64,7 +64,9 @@ export function useScrollSpy(getIds: () => string[], options: ScrollSpyOptions =
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const onScroll = () => {
+    let frameId: number | null = null;
+
+    const updateActiveId = () => {
       const currentOptions = optionsRef.current;
       if (currentOptions.isDisabled?.()) return;
 
@@ -95,16 +97,27 @@ export function useScrollSpy(getIds: () => string[], options: ScrollSpyOptions =
       setActiveId(current);
     };
 
+    const scheduleUpdate = () => {
+      if (frameId !== null) return;
+
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+        updateActiveId();
+      });
+    };
+
     const scrollElement = getPageScrollElement();
-    scrollElement.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("scroll", onScroll, { passive: true });
-    
-    // Resolve initial active ID on mount
-    void Promise.resolve().then(onScroll);
+    scrollElement.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+
+    scheduleUpdate();
 
     return () => {
-      scrollElement.removeEventListener("scroll", onScroll);
-      window.removeEventListener("scroll", onScroll);
+      scrollElement.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("scroll", scheduleUpdate);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
     };
   }, []);
 
