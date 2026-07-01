@@ -1,10 +1,6 @@
 import React from "react";
 
 import EducationList from "@/lib/components/EducationList";
-import {
-  EditableEducationSection,
-  EditableIntroSection,
-} from "@/lib/components/HomeEditableSections";
 import HomePageClient from "@/lib/components/HomePageClient";
 import MobileStickyHeader from "@/lib/components/MobileStickyHeader";
 import SectionHeader from "@/lib/components/SectionHeader";
@@ -42,11 +38,17 @@ interface Props {
   data: HomePageData;
 }
 
-export default function HomePage({ data }: Props) {
+export default async function HomePage({ data }: Props) {
   const isAdminEditor = data.isAdminEditor === true;
   const resumeData = data.resumeData;
   const summaryIntroduction = data.summaryIntroduction;
   const labels = data.labels;
+
+  if (isAdminEditor) {
+    const { default: EditableHomePage } = await import("@/lib/components/EditableHomePage");
+
+    return <EditableHomePage data={data} />;
+  }
 
   const mobileHeader = (
     <MobileStickyHeader
@@ -57,50 +59,29 @@ export default function HomePage({ data }: Props) {
   );
 
   const introSection = (
-    isAdminEditor ? (
-      <EditableIntroSection
+    <section id="section-intro" className={styles["fade-slide-enter"]}>
+      <Title
+        githubLink={summaryIntroduction.githubLink}
+        linkedinLink={summaryIntroduction.linkedinLink}
         labels={labels}
-        locale={data.locale}
-        summaryIntroduction={summaryIntroduction}
-        summaryIntroductionByLocale={data.summaryIntroductionByLocale}
+        metrics={summaryIntroduction.metrics}
+        name={summaryIntroduction.name}
+        pillars={summaryIntroduction.pillars}
+        role={summaryIntroduction.role}
+        tagline={summaryIntroduction.tagline}
       />
-    ) : (
-      <section id="section-intro" className={styles["fade-slide-enter"]}>
-        <Title
-          githubLink={summaryIntroduction.githubLink}
-          linkedinLink={summaryIntroduction.linkedinLink}
-          labels={labels}
-          metrics={summaryIntroduction.metrics}
-          name={summaryIntroduction.name}
-          pillars={summaryIntroduction.pillars}
-          role={summaryIntroduction.role}
-          tagline={summaryIntroduction.tagline}
-        />
-      </section>
-    )
+    </section>
   );
 
   const educationSection = (
-    isAdminEditor && resumeData.education ? (
-      <EditableEducationSection
-        education={resumeData.education}
-        educationByLocale={{
-          en: data.resumeDataByLocale.en.education,
-          ko: data.resumeDataByLocale.ko.education,
-        }}
-        labels={labels}
-        locale={data.locale}
-      />
-    ) : (
-      <section id="section-education" className={styles["fade-slide-enter"]}>
-        <>
-          <div className={styles["section-heading-row"]}>
-            <SectionHeader title={labels.sectionEducation} />
-          </div>
-          {resumeData.education && <EducationList education={resumeData.education} />}
-        </>
-      </section>
-    )
+    <section id="section-education" className={styles["fade-slide-enter"]}>
+      <>
+        <div className={styles["section-heading-row"]}>
+          <SectionHeader title={labels.sectionEducation} />
+        </div>
+        {resumeData.education && <EducationList education={resumeData.education} />}
+      </>
+    </section>
   );
 
   return (

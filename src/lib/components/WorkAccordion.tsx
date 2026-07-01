@@ -11,16 +11,11 @@ import CompanyCard from './CompanyCard';
 import styles from './WorkAccordion.module.css';
 
 interface Props {
-  editorConfig?: {
-    allExperiences: WorkExperienceProps[];
-    allExperiencesByLocale: Record<Language, WorkExperienceProps[]>;
-    locale: Language;
-  };
   experiences: WorkExperienceProps[];
   locale: Language;
 }
 
-export default function WorkAccordion({ editorConfig, experiences, locale }: Props) {
+export default function WorkAccordion({ experiences, locale }: Props) {
   const labels = getLabels(locale);
   const { isEmpty } = useSkillState();
   const isFiltered = !isEmpty;
@@ -28,21 +23,9 @@ export default function WorkAccordion({ editorConfig, experiences, locale }: Pro
   return (
     <div className={styles.accordion}>
       {experiences.map((exp) => {
-        const companyIndex =
-          editorConfig?.allExperiences.findIndex((item) => item.companyName === exp.companyName) ??
-          -1;
-
         return (
           <CompanyCard
-            key={`${companyIndex}:${exp.companyName}`}
-            editorConfig={
-              editorConfig && companyIndex >= 0
-                ? {
-                    ...editorConfig,
-                    companyIndex,
-                  }
-                : undefined
-            }
+            key={exp.companyName}
             exp={exp}
             isFiltered={isFiltered}
             labels={labels}
