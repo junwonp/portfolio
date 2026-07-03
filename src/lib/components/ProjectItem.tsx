@@ -10,6 +10,7 @@ import type { ProjectItem as ProjectItemType } from "@/lib/types/about";
 import { parseMarkdown } from "@/lib/utils/markdown";
 
 import ArrowLink from "./ArrowLink";
+import MetricCard from "./MetricCard";
 import Period from "./Period";
 import ProjectItemStyles from "./ProjectItem.module.css";
 import type { ProjectDetailsMode } from "./projectItemDisplay";
@@ -19,6 +20,7 @@ import {
 } from "./projectItemDisplay";
 import RichText from "./RichText";
 import SkillChip from "./SkillChip";
+
 
 interface Props {
   companyName: string;
@@ -149,19 +151,20 @@ export default function ProjectItem({
       {isOpen && (
         <div className={ProjectItemStyles["project-content"]}>
           {project.metrics && project.metrics.length > 0 && (
-            <div
+            <dl
               className={`${ProjectItemStyles["project-metrics"]} ${
                 metricCount === 4 ? ProjectItemStyles["has-four-metrics"] : ""
               }`}
               style={{ "--metric-count": metricCount } as React.CSSProperties}
             >
               {project.metrics.map((metric) => (
-                <div className={ProjectItemStyles["metric-item"]} key={metric.label}>
-                  <span className={ProjectItemStyles["metric-value"]}>{metric.value}</span>
-                  <span className={ProjectItemStyles["metric-label"]}>{metric.label}</span>
-                </div>
+                <MetricCard
+                  key={metric.label}
+                  value={metric.value}
+                  label={metric.label}
+                />
               ))}
-            </div>
+            </dl>
           )}
 
           {hasDetailRows && (

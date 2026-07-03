@@ -14,8 +14,10 @@ import type { Language } from '@/lib/utils/language';
 
 import Github from './Icon/Github';
 import Globe from './Icon/Globe';
+import MetricCard from './MetricCard';
 import ProjectDetailClientEffects from './ProjectDetailClientEffects';
 import styles from './ProjectDetailPage.module.css';
+
 
 interface Props {
   slug: string;
@@ -76,10 +78,11 @@ export default function ProjectDetailPage({
           }
         >
           {metadata.metrics.map((metric) => (
-            <div key={metric.label} className={styles.metric}>
-              <dt className={styles['metric-lbl']}>{metric.label}</dt>
-              <dd className={styles['metric-val']}>{metric.value}</dd>
-            </div>
+            <MetricCard
+              key={metric.label}
+              value={metric.value}
+              label={metric.label}
+            />
           ))}
         </dl>
       )}

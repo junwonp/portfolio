@@ -215,49 +215,20 @@
 }
 
 .metrics-row {
-  background: color-mix(in srgb, var(--color-surface-hover) 35%, var(--color-basic-bg));
-  border-radius: 14px;
   display: grid;
-  gap: 0;
+  gap: 12px;
   grid-template-columns: repeat(var(--metric-count), minmax(0, 1fr));
   margin: 0;
   max-width: 680px;
-  padding: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  width: 100%;
 }
 
 :global(html.dark) .metrics-row {
-  background: rgba(255, 255, 255, 0.03);
+  background: transparent;
   box-shadow: none;
-  border: 0.5px solid rgba(255, 255, 255, 0.05);
+  border: none;
 }
 
-.metric {
-  align-items: flex-start;
-  display: flex;
-  flex: 1 1 150px;
-  flex-direction: column;
-  gap: 6px;
-  padding: 12px;
-}
-
-.metric-val {
-  color: var(--color-primary);
-  font-size: 21px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  margin: 0;
-  white-space: nowrap;
-}
-
-.metric-lbl {
-  color: var(--color-sub);
-  font-size: 12px;
-  line-height: 1.25;
-  min-height: 2.5em;
-  overflow-wrap: anywhere;
-}
 
 .project-article {
   margin-bottom: 56px;
@@ -303,15 +274,10 @@
   .hero {
     padding: 32px 0 32px;
   }
-
-  .metric {
-    gap: 3px;
-    padding: 7px;
-  }
 }
 
-@media (max-width: 420px) {
-  .metrics-row.has-four-metrics {
+@media (max-width: 480px) {
+  .metrics-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
