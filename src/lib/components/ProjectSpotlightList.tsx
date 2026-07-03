@@ -3,12 +3,11 @@
 import React from 'react';
 import Image from 'next/image';
 
-import ArrowLink from '@/lib/components/ArrowLink';
 import SkillChip from '@/lib/components/SkillChip';
 import type { Labels } from '@/lib/data/labels';
-import { skillState } from '@/lib/states/skills';
 import type { OtherExperienceProps } from '@/lib/types/about';
 import { parseMarkdown } from '@/lib/utils/markdown';
+import { sortSkills } from '@/lib/utils/skills';
 
 import MetricCard from './MetricCard';
 import styles from './ProjectSpotlightList.module.css';
@@ -33,17 +32,17 @@ export default function ProjectSpotlightList({
         if (!project) return null;
 
         const featuredSkills = project.featuredSkills ?? [];
-        const remainingSkills = skillState
-          .sort(project.skills ?? [])
-          .filter((skill) => !featuredSkills.includes(skill));
+        const remainingSkills = sortSkills(project.skills ?? [])
+          .filter((skill: string) => !featuredSkills.includes(skill));
         const sortedSkills = [...featuredSkills, ...remainingSkills];
         const visibleSkills = sortedSkills.slice(0, skillLimit);
         const hiddenSkillCount = sortedSkills.length - visibleSkills.length;
         const metrics = project.metrics?.slice(0, 3) ?? [];
 
         return (
-          <article
+          <a
             key={project.id}
+            href={project.detailLink ?? '#'}
             className={`${styles.card} ${project.thumbnail ? styles['has-thumbnail'] : ''}`}
           >
             {project.thumbnail && (
@@ -77,12 +76,9 @@ export default function ProjectSpotlightList({
                   )}
                 </div>
                 {project.detailLink && (
-                  <ArrowLink
-                    href={project.detailLink}
-                    label={labels.viewProjectDetails}
-                    className={styles.link}
-                    reload
-                  />
+                  <span className={styles['link-mock']}>
+                    {labels.viewProjectDetails} →
+                  </span>
                 )}
               </div>
 
@@ -104,8 +100,8 @@ export default function ProjectSpotlightList({
 
               {visibleSkills.length > 0 && (
                 <div className={styles.skills}>
-                  {visibleSkills.map((skill) => (
-                    <SkillChip key={skill} skill={skill} readonly />
+                  {visibleSkills.map((skill: string) => (
+                    <SkillChip key={skill} skill={skill} />
                   ))}
                   {hiddenSkillCount > 0 && (
                     <span className={styles['more-chip']}>+{hiddenSkillCount}</span>
@@ -113,7 +109,7 @@ export default function ProjectSpotlightList({
                 </div>
               )}
             </div>
-          </article>
+          </a>
         );
       })}
     </div>

@@ -18,6 +18,8 @@
     border-color 0.18s ease,
     box-shadow 0.18s ease,
     transform 0.18s ease;
+  text-decoration: none;
+  color: inherit;
 }
 
 .card:hover {
@@ -110,9 +112,27 @@
   padding: 0.35rem 0.5rem;
 }
 
-.link {
+.link-mock {
   flex: 0 0 auto;
   white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  margin-left: -0.5rem;
+  border-radius: 4px;
+  width: fit-content;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
+}
+
+.card:hover .link-mock {
+  background-color: var(--color-primary-transparent);
+  text-decoration: underline;
+  transform: translateX(2px);
 }
 
 .description {
