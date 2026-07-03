@@ -7,9 +7,9 @@ import Badge from "@/lib/components/Badge";
 import RichText from "@/lib/components/RichText";
 import SkillChip from "@/lib/components/SkillChip";
 import type { Labels } from "@/lib/data/labels";
-import { skillState } from "@/lib/states/skills";
 import type { OtherExperienceProps } from "@/lib/types/about";
 import { parseMarkdown } from "@/lib/utils/markdown";
+import { sortSkills } from "@/lib/utils/skills";
 
 import styles from "./ExperienceList.module.css";
 import MetricCard from "./MetricCard";
@@ -38,12 +38,11 @@ export default function ExperienceList({ experiences, labels, skillLimit }: Prop
         if (!project) return null;
 
         const featuredSkills = project.featuredSkills ?? [];
-        const remainingSkills = skillState
-          .sort(project.skills ?? [])
-          .filter((skill) => !featuredSkills.includes(skill));
+        const remainingSkills = sortSkills(project.skills ?? [])
+          .filter((skill: string) => !featuredSkills.includes(skill));
         const sortedSkills = skillLimit
           ? [...featuredSkills, ...remainingSkills]
-          : skillState.sort(project.skills ?? []);
+          : sortSkills(project.skills ?? []);
         const visibleSkills = skillLimit
           ? sortedSkills.slice(0, skillLimit)
           : sortedSkills;
@@ -104,7 +103,7 @@ export default function ExperienceList({ experiences, labels, skillLimit }: Prop
 
                 {project.skills && project.skills.length > 0 && (
                   <div className={styles["tag-list"]}>
-                    {visibleSkills.map((skill) => (
+                    {visibleSkills.map((skill: string) => (
                       <SkillChip key={skill} skill={skill} />
                     ))}
                     {hiddenSkillCount > 0 && (

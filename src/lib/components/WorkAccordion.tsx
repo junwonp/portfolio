@@ -3,7 +3,6 @@
 import React from 'react';
 
 import { getLabels } from '@/lib/data/labels';
-import { useSkillState } from '@/lib/states/skills';
 import type { WorkExperienceProps } from '@/lib/types/about';
 import type { Language } from '@/lib/utils/language';
 
@@ -17,8 +16,7 @@ interface Props {
 
 export default function WorkAccordion({ experiences, locale }: Props) {
   const labels = getLabels(locale);
-  const { isEmpty } = useSkillState();
-  const isFiltered = !isEmpty;
+  const isFiltered = false;
 
   return (
     <div className={styles.accordion}>

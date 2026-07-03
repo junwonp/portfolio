@@ -16,29 +16,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
+  cursor: default;
   font-family: inherit;
   text-align: center;
 }
 
 .skill-chip.readonly {
   cursor: default;
-}
-
-.skill-chip:not(.readonly):hover {
-  color: var(--cat-color);
-  background: color-mix(in srgb, var(--cat-color) 10%, transparent);
-  border-color: var(--cat-color);
-}
-
-.skill-chip.active {
-  background: color-mix(
-    in srgb,
-    var(--cat-color) 12%,
-    transparent
-  );
-  border-color: var(--cat-color);
-  color: var(--cat-color);
-  font-weight: 600;
-  box-shadow: none;
 }

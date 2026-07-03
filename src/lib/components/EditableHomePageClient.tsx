@@ -1,10 +1,9 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 
 import BentoSkills from '@/lib/components/BentoSkills';
-import BottomSkillBar from '@/lib/components/BottomSkillBar';
 import DesktopSideNav from '@/lib/components/DesktopSideNav';
 import EditableContentButton from '@/lib/components/EditableContentButton';
 import type { EditableValue } from '@/lib/components/editableContentEditorModel';
@@ -13,7 +12,6 @@ import ExperienceList from '@/lib/components/ExperienceList';
 import type { HomePageData } from '@/lib/components/HomePage';
 import ProjectSpotlightList from '@/lib/components/ProjectSpotlightList';
 import SectionHeader from '@/lib/components/SectionHeader';
-import { useSkillState } from '@/lib/states/skills';
 
 import styles from './HomePage.module.css';
 
@@ -40,14 +38,6 @@ export default function EditableHomePageClient({
   introSection,
   mobileHeader,
 }: EditableHomePageClientProps) {
-  const {
-    selectedTechs,
-    isEmpty: isSkillStateEmpty,
-    isPanelOpen: isSkillPanelOpen,
-    close: closeSkillState,
-  } = useSkillState();
-  const [bottomBarHeight, setBottomBarHeight] = useState(0);
-
   const isAdminEditor = data.isAdminEditor === true;
   const labels = data.labels;
   const resumeData = data.resumeData;
@@ -58,62 +48,26 @@ export default function EditableHomePageClient({
       : labels.sectionSelectedProjects;
   const navSections = data.navSections;
 
-  const filteredWork = useMemo(() => {
-    if (isSkillStateEmpty) return resumeData.workExperiences;
-    return resumeData.workExperiences
-      .map((exp) => ({
-        ...exp,
-        project: exp.project.filter((p) => selectedTechs.every((tech) => p.skills?.includes(tech))),
-      }))
-      .filter((exp) => exp.project.length > 0);
-  }, [isSkillStateEmpty, selectedTechs, resumeData.workExperiences]);
-
-  const filteredProjects = useMemo(() => {
-    if (isSkillStateEmpty) return resumeData.otherExperiences;
-    return resumeData.otherExperiences.filter((exp) =>
-      exp.project.some((p) => selectedTechs.every((tech) => p.skills?.includes(tech))),
-    );
-  }, [isSkillStateEmpty, selectedTechs, resumeData.otherExperiences]);
-
-  const filteredArchives = useMemo(() => {
-    if (isSkillStateEmpty) return resumeData.archives;
-    return resumeData.archives.filter((exp) =>
-      exp.project.some((p) => selectedTechs.every((tech) => p.skills?.includes(tech))),
-    );
-  }, [isSkillStateEmpty, selectedTechs, resumeData.archives]);
-
-  const isAllEmpty = useMemo(() => {
-    return (
-      !isSkillStateEmpty &&
-      filteredWork.length === 0 &&
-      filteredProjects.length === 0 &&
-      filteredArchives.length === 0
-    );
-  }, [isSkillStateEmpty, filteredWork, filteredProjects, filteredArchives]);
+  const filteredWork = resumeData.workExperiences;
+  const filteredProjects = resumeData.otherExperiences;
+  const filteredArchives = resumeData.archives;
 
   return (
-    <article
-      style={{
-        paddingBottom: isSkillPanelOpen ? `${bottomBarHeight + 64}px` : '0px',
-        transition: 'padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-      }}
-    >
+    <article>
       {mobileHeader}
 
-      <div className={`${styles.layout} ${isSkillPanelOpen ? styles['is-selection-mode'] : ''}`}>
-        {!isSkillPanelOpen && (
-          <div className={styles['nav-wrapper']}>
-            <DesktopSideNav sections={navSections} />
-          </div>
-        )}
+      <div className={styles.layout}>
+        <div className={styles['nav-wrapper']}>
+          <DesktopSideNav sections={navSections} />
+        </div>
 
         <div className={styles['main-content']}>
-          {!isSkillPanelOpen && introSection}
+          {introSection}
 
           <div className={styles['content-wrapper']}>
             {filteredWork.length > 0 && (
               <>
-                {!isSkillPanelOpen && featuredWebProjects.length > 0 && (
+                {featuredWebProjects.length > 0 && (
                   <section id="section-featured" className={styles['fade-slide-enter']}>
                     <div className={styles['section-heading-row']}>
                       <SectionHeader title={featuredProjectsTitle} />
@@ -192,48 +146,46 @@ export default function EditableHomePageClient({
               </>
             )}
 
-            {!isSkillPanelOpen && (
-              <section id="section-skills" className={styles['fade-slide-enter']}>
-                {isAdminEditor ? (
-                  <EditableContentButton
-                    area="home"
-                    initialValue={resumeData.skills}
-                    initialValuesByLocale={{
-                      en: data.resumeDataByLocale.en.skills,
-                      ko: data.resumeDataByLocale.ko.skills,
-                    }}
-                    label="스킬"
-                    locale={data.locale}
-                    showEditorHeader={false}
-                    targetKey="skills"
-                    textareaLabel="스킬 수정"
-                  >
-                    {({ editor, isEditing, trigger }) => (
-                      <>
-                        <div className={styles['section-heading-row']}>
-                          <SectionHeader title={labels.sectionSkills} />
-                          {trigger}
-                        </div>
-                        {isEditing
-                          ? editor
-                          : resumeData.skills && (
-                              <BentoSkills locale={data.locale} skills={resumeData.skills} />
-                            )}
-                      </>
-                    )}
-                  </EditableContentButton>
-                ) : (
-                  <>
-                    <div className={styles['section-heading-row']}>
-                      <SectionHeader title={labels.sectionSkills} />
-                    </div>
-                    {resumeData.skills && (
-                      <BentoSkills locale={data.locale} skills={resumeData.skills} />
-                    )}
-                  </>
-                )}
-              </section>
-            )}
+            <section id="section-skills" className={styles['fade-slide-enter']}>
+              {isAdminEditor ? (
+                <EditableContentButton
+                  area="home"
+                  initialValue={resumeData.skills}
+                  initialValuesByLocale={{
+                    en: data.resumeDataByLocale.en.skills,
+                    ko: data.resumeDataByLocale.ko.skills,
+                  }}
+                  label="스킬"
+                  locale={data.locale}
+                  showEditorHeader={false}
+                  targetKey="skills"
+                  textareaLabel="스킬 수정"
+                >
+                  {({ editor, isEditing, trigger }) => (
+                    <>
+                      <div className={styles['section-heading-row']}>
+                        <SectionHeader title={labels.sectionSkills} />
+                        {trigger}
+                      </div>
+                      {isEditing
+                        ? editor
+                        : resumeData.skills && (
+                            <BentoSkills locale={data.locale} skills={resumeData.skills} />
+                          )}
+                    </>
+                  )}
+                </EditableContentButton>
+              ) : (
+                <>
+                  <div className={styles['section-heading-row']}>
+                    <SectionHeader title={labels.sectionSkills} />
+                  </div>
+                  {resumeData.skills && (
+                    <BentoSkills locale={data.locale} skills={resumeData.skills} />
+                  )}
+                </>
+              )}
+            </section>
 
             {filteredProjects.length > 0 && (
               <section id="section-projects" className={styles['fade-slide-enter']}>
@@ -309,29 +261,10 @@ export default function EditableHomePageClient({
               </section>
             )}
 
-            {!isSkillPanelOpen && educationSection}
-
-            {isAllEmpty && (
-              <div className={styles['empty-state']}>
-                <div className={styles['empty-icon']}>📂</div>
-                <h3>{labels.noProjectsFound}</h3>
-                <button
-                  className={styles['empty-clear-btn']}
-                  onClick={() => {
-                    closeSkillState();
-                  }}
-                >
-                  {labels.skillFilterClear}
-                </button>
-              </div>
-            )}
+            {educationSection}
           </div>
         </div>
       </div>
-
-      {isSkillPanelOpen && resumeData.skills && (
-        <BottomSkillBar skills={resumeData.skills} onHeightChange={setBottomBarHeight} />
-      )}
     </article>
   );
 }

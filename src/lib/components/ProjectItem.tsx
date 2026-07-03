@@ -4,10 +4,11 @@ import React, { useMemo } from "react";
 import { ChevronDown } from "lucide-react";
 
 import type { Labels } from "@/lib/data/labels";
+import { getSkillCategory } from "@/lib/data/skills";
 import { useAccordionState } from "@/lib/states/accordion";
-import { useSkillState } from "@/lib/states/skills";
 import type { ProjectItem as ProjectItemType } from "@/lib/types/about";
 import { parseMarkdown } from "@/lib/utils/markdown";
+import { sortSkills } from "@/lib/utils/skills";
 
 import ArrowLink from "./ArrowLink";
 import MetricCard from "./MetricCard";
@@ -44,7 +45,6 @@ export default function ProjectItem({
   project,
 }: Props) {
   const { isProjectOpen, toggleProject } = useAccordionState();
-  const { sort, getCategory } = useSkillState();
 
   const isCompact = detailsMode === "compact";
   const isOpen =
@@ -53,14 +53,14 @@ export default function ProjectItem({
     isFiltered;
 
   const sortedSkills = useMemo(() => {
-    return project.skills ? sort(project.skills) : [];
-  }, [project.skills, sort]);
+    return project.skills ? sortSkills(project.skills) : [];
+  }, [project.skills]);
 
   const mainSkillsLabel = useMemo(() => {
-    const language = sortedSkills.find((skill) => getCategory(skill) === "languages");
-    const framework = sortedSkills.find((skill) => getCategory(skill) === "frameworks");
+    const language = sortedSkills.find((skill) => getSkillCategory(skill) === "languages");
+    const framework = sortedSkills.find((skill) => getSkillCategory(skill) === "frameworks");
     return [language, framework].filter(Boolean).join(", ");
-  }, [sortedSkills, getCategory]);
+  }, [sortedSkills]);
 
   function parseDetailLine(line: string) {
     const match = line.match(/^\*\*\[(.*?)\]\*\*(.*)$/);
