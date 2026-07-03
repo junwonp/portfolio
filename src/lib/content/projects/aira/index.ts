@@ -1,5 +1,8 @@
 import { SKILL } from '@/lib/data/skills';
 
+import { frontmatter as enMetadata } from './detail.en.mdx';
+import { frontmatter as koMetadata } from './detail.ko.mdx';
+
 import { defineProject } from '../types';
 
 export const airaProject = defineProject({
@@ -25,16 +28,16 @@ export const airaProject = defineProject({
     SKILL.frameworks.reactNative,
     SKILL.frameworks.expo,
     SKILL.frameworks.expoRouter,
-    SKILL.ui.unistyles,
     SKILL.state.tanstackQuery,
+    SKILL.state.reactHookForm,
     SKILL.state.zod,
-    SKILL.state.reactNativeMmkv,
     SKILL.performance.flashList,
-    SKILL.performance.reactNativeReanimated,
+    SKILL.performance.reanimated,
     SKILL.performance.reactCompiler,
     SKILL.backend.firebase,
     SKILL.devops.eas,
     SKILL.devops.sentry,
+    SKILL.devops.githubActions,
   ],
   content: {
     en: {
@@ -59,37 +62,7 @@ export const airaProject = defineProject({
         '**[Service Stability]** Built a precise error tracking environment by integrating Sentry and dSYM, and prevented user churn with a rapid rollback process when Android-specific issues arose.',
         '**[Operational Efficiency]** Built CI/CD pipelines using **EAS** and **GitHub Actions** (automated Android closed-track deployment, iOS TestFlight) and established a device compatibility testing process via **Samsung Test Lab**.',
       ],
-      detailMetadata: {
-        title: 'aira',
-        description:
-          'Global AI character chat platform. Led the entire journey from planning to 23k MAU as Co-Founder and Frontend Lead.',
-        role: 'Co-Founder · Frontend Lead',
-        date: '2024-07 ~ 2025-12',
-        image: '/images/aira/v2_main.webp',
-        platforms: ['Android', 'iOS', 'Web'],
-        metrics: [
-          { value: '23K', label: 'Monthly Active Users' },
-          { value: '$3K', label: 'Monthly Revenue' },
-          { value: '46min', label: 'Avg. Session Time' },
-          { value: '#57', label: 'GP Entertainment' },
-        ],
-        techStack: [
-          'React Native',
-          'TypeScript',
-          'Expo',
-          'Expo Router',
-          'TanStack Query',
-          'FlashList',
-          'Reanimated',
-          'React Compiler',
-          'Zod',
-          'MMKV',
-          'Unistyles',
-          'Firebase',
-          'Sentry',
-          'EAS',
-        ],
-      },
+      detailMetadata: enMetadata,
     },
     ko: {
       title: '아이라 (aira)',
@@ -113,37 +86,7 @@ export const airaProject = defineProject({
         '**[서비스 안정성]** Sentry와 dSYM 연동으로 **정밀한 에러 추적 환경**을 구축하고, 안드로이드 특정 기기 이슈 발생 시 신속한 롤백 프로세스를 통해 유저 이탈을 방지했습니다.',
         '**[운영 효율화]** **EAS와 GitHub Actions**로 안드로이드 폐쇄 테스트 및 iOS TestFlight **배포 파이프라인을 자동화**하고, **삼성 테스트랩**을 통한 기기 호환성 검증 프로세스를 수립했습니다.',
       ],
-      detailMetadata: {
-        title: '아이라',
-        description:
-          '글로벌 AI 캐릭터 채팅 플랫폼. 공동 창업자이자 프론트엔드 리드로서 기획부터 2.3만 MAU 달성까지 전 과정을 주도했습니다.',
-        role: 'Co-Founder · Frontend Lead',
-        date: '2024-07 ~ 2025-12',
-        image: '/images/aira/v2_main.webp',
-        platforms: ['Android', 'iOS', 'Web'],
-        metrics: [
-          { value: '2.3만', label: '월간 활성 사용자' },
-          { value: '$3K', label: '월 매출' },
-          { value: '46분', label: '평균 체류 시간' },
-          { value: '#57', label: 'GP 엔터테인먼트' },
-        ],
-        techStack: [
-          'React Native',
-          'TypeScript',
-          'Expo',
-          'Expo Router',
-          'TanStack Query',
-          'FlashList',
-          'Reanimated',
-          'React Compiler',
-          'Zod',
-          'MMKV',
-          'Unistyles',
-          'Firebase',
-          'Sentry',
-          'EAS',
-        ],
-      },
+      detailMetadata: koMetadata,
     },
   },
 });

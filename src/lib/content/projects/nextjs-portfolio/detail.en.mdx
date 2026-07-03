@@ -7,7 +7,13 @@ productLink: 'https://junwon.pages.dev'
 githubLink: 'portfolio'
 role: 'Solo developer'
 platforms: ['Web']
-techStack: ['Next.js', 'React', 'TypeScript', 'Cloudflare Workers', 'Vitest', 'Claude Code']
+metrics: [
+  { value: '192ms', label: 'FCP (Edge-rendered)' },
+  { value: '-80%', label: 'JS Bundle Reduced' },
+  { value: '97', label: 'Lighthouse Performance' },
+  { value: '< 0.5s', label: 'CMS Sync Time' }
+]
+techStack: ['Next.js', 'React', 'TypeScript', 'Cloudflare', 'Vitest', 'Claude Code']
 ---
 
 import ProjectAchievements from '@/lib/components/ProjectAchievements';
@@ -24,48 +30,60 @@ This project details the migration of a portfolio website to **Cloudflare Worker
 
 ## Key Work
 
-<ProjectAchievements achievements={[
-  {
-    tag: 'Architecture',
-    accent: true,
-    title: 'Hybrid UX: Combining Résumé and Portfolio',
-    detail: `Instead of a generic blog format or a heavy single-page app, the home screen is designed as a dense **résumé** for quick scanning, while deep-dive details are rendered from Markdown-like dynamically editable retrospectives. The Next.js edge engine delivers localized HTML instantly without hydration delay.`
-  },
-  {
-    tag: 'i18n & Performance',
-    accent: true,
-    title: 'Edge-Based Zero-Delay i18n & Cache Optimization',
-    detail: `To eliminate layout shifts or wrong-language flashes, the edge middleware detects cookies and the <code>Accept-Language</code> header to serve Next.js pre-rendered HTML instantly. Achieved an ultra-fast First Contentful Paint (FCP) of **192ms** and a Lighthouse Performance score of 97.`
-  },
-  {
-    tag: 'Cloudflare Integration',
-    title: 'Full-Stack Serverless Binding (D1, R2, KV)',
-    detail: `Bound Cloudflare D1 (SQLite) for admin data writes, R2 for project screenshots, and KV for fast static-asset routing, proving that a complex full-stack Next.js app can run seamlessly within a single Worker.`
-  },
-  {
-    tag: 'RSC & Bundle Optimization',
-    accent: true,
-    title: 'Islands Architecture & JS Bundle Size Reduction',
-    detail: `Avoided rendering-blocking hydration on the client side by dynamic-importing heavy client-side visualization dependencies (e.g., Mermaid.js) only when needed. This reduced the initial client-side JS bundle size by **~80% (approx. 860KB)**.`
-  },
-  {
-    tag: 'Security & Admin CMS',
-    title: 'Cloudflare Access Integration & Real-time CMS',
-    detail: `Created a secure, in-browser content editor integrated with Cloudflare Access. By connecting it with D1 and KV, content changes are dynamically updated on the production site in **under 0.5 seconds**, bypassing the traditional **2-minute git-build-deploy process**.`
-  },
-  {
-    tag: 'AI-Agent Integration',
-    title: 'Multi-Agent Orchestration & DX Optimization',
-    detail: `Configured a robust developer workspace by defining specialized **custom agents** using <strong>Claude Code</strong>. The system aligns multiple agents with clear project guidelines in <code>AGENTS.md</code> and uses <code>Vitest</code> to enforce content integrity across translations.`
-  },
-]} />
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Architecture',
+      accent: true,
+      title: 'Hybrid UX: Combining Résumé and Portfolio',
+      detail: `Instead of a generic blog format or a heavy single-page app, the home screen is designed as a dense **résumé** for quick scanning, while deep-dive details are rendered from Markdown-like dynamically editable retrospectives. The Next.js edge engine delivers localized HTML instantly without hydration delay.`,
+    },
+    {
+      tag: 'i18n & Performance',
+      accent: true,
+      title: 'Edge-Based Zero-Delay i18n & Cache Optimization',
+      detail: `To eliminate layout shifts or wrong-language flashes, the edge middleware detects cookies and the <code>Accept-Language</code> header to serve Next.js pre-rendered HTML instantly. Achieved an ultra-fast First Contentful Paint (FCP) of **192ms** and a Lighthouse Performance score of 97.`,
+    },
+    {
+      tag: 'Cloudflare Integration',
+      title: 'Full-Stack Serverless Binding (D1, R2, KV)',
+      detail: `Bound Cloudflare D1 (SQLite) for admin data writes, R2 for project screenshots, and KV for fast static-asset routing, proving that a complex full-stack Next.js app can run seamlessly within a single Worker.`,
+    },
+    {
+      tag: 'RSC & Bundle Optimization',
+      accent: true,
+      title: 'Islands Architecture & JS Bundle Size Reduction',
+      detail: `Avoided rendering-blocking hydration on the client side by dynamic-importing heavy client-side visualization dependencies (e.g., Mermaid.js) only when needed. This reduced the initial client-side JS bundle size by **~80% (approx. 860KB)**.`,
+    },
+    {
+      tag: 'Security & Admin CMS',
+      title: 'Cloudflare Access Integration & Real-time CMS',
+      detail: `Created a secure, in-browser content editor integrated with Cloudflare Access. By connecting it with D1 and KV, content changes are dynamically updated on the production site in **under 0.5 seconds**, bypassing the traditional **2-minute git-build-deploy process**.`,
+    },
+    {
+      tag: 'AI-Agent Integration',
+      title: 'Multi-Agent Orchestration & DX Optimization',
+      detail: `Configured a robust developer workspace by defining specialized **custom agents** using <strong>Claude Code</strong>. The system aligns multiple agents with clear project guidelines in <code>AGENTS.md</code> and uses <code>Vitest</code> to enforce content integrity across translations.`,
+    },
+  ]}
+/>
 
 ## Screenshots
 
-<ProjectLightbox images={[
-  { src: '/images/nextjs-portfolio/1.webp', alt: 'Main page', caption: 'Homepage — résumé-style layout for quick information scanning' },
-  { src: '/images/nextjs-portfolio/2.webp', alt: 'Responsive design demo', caption: 'Pure CSS responsive design — optimized layouts for mobile and desktop' },
-]} />
+<ProjectLightbox
+  images={[
+    {
+      src: '/images/nextjs-portfolio/1.webp',
+      alt: 'Main page',
+      caption: 'Homepage — résumé-style layout for quick information scanning',
+    },
+    {
+      src: '/images/nextjs-portfolio/2.webp',
+      alt: 'Responsive design demo',
+      caption: 'Pure CSS responsive design — optimized layouts for mobile and desktop',
+    },
+  ]}
+/>
 
 ## Retrospective
 

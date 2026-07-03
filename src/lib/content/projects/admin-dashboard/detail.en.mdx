@@ -1,0 +1,65 @@
+---
+title: B2B Admin Dashboard
+description: Internal SaaS operations dashboard for accounts, subscriptions, product usage, and revenue monitoring.
+date: '2022.03 ~ 2023.06'
+role: 'Frontend Developer'
+status: 'Internal Operations'
+tagline: Reusable CRUD, table, filter, chart, and detail-view patterns for SaaS back-office workflows.
+platforms: ['Web', 'Internal Admin', 'B2B SaaS']
+metrics: [
+  { value: 'CRUD', label: 'Reusable Page Pattern' },
+  { value: 'Chart.js', label: 'Operational Metrics' },
+  { value: 'TanStack Query', label: 'Server State' }
+]
+techStack: ['TypeScript', 'React', 'React Table', 'Chart.js', 'TanStack Query', 'MUI']
+---
+
+import ProjectAchievements from '@/lib/components/ProjectAchievements';
+import ProjectTechStack from '@/lib/components/ProjectTechStack';
+
+## Project overview
+
+**"Reusable back-office patterns for SaaS operations"**
+
+This project was an internal B2B SaaS admin dashboard used to operate accounts, subscriptions, product usage, and revenue monitoring. Because it was an internal company system, screenshots and raw business data cannot be shared; this page focuses on the frontend architecture and reusable interaction patterns.
+
+The important part was not a single screen. It was the repeated operational workflow: list data, filter and search it, inspect detail records, create or edit entities, and monitor usage/revenue signals without losing context. I worked on that surface with **TypeScript**, **React**, **React Table**, **MUI**, **TanStack Query**, and **Chart.js**.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## Key work
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'CRUD',
+      accent: true,
+      title: 'Reusable list, filter, detail, create, and edit page pattern',
+      detail: `Built admin pages around a repeated CRUD workflow instead of treating each management page as a one-off screen. List tables, filter panels, detail areas, and edit/create flows shared the same interaction model, which made new admin surfaces faster to add and easier for operators to learn.`,
+    },
+    {
+      tag: 'Table UX',
+      title: 'Data-dense tables with React Table and MUI',
+      detail: `Combined <strong>React Table</strong> with <strong>MUI</strong> components to support operational table behavior such as pagination, search, filter state, row-level actions, and stable column layouts. The goal was to make dense back-office data scannable without forcing operators through separate pages for every check.`,
+    },
+    {
+      tag: 'Server State',
+      accent: true,
+      title: 'TanStack Query-based server-state handling',
+      detail: `Used <strong>TanStack Query</strong> for loading, refetching, mutation, and cache invalidation flows across account, subscription, and usage-management views. This kept page state predictable after create/edit actions and reduced duplicated request state inside UI components.`,
+    },
+    {
+      tag: 'Visualization',
+      title: 'Operational usage and revenue monitoring with Chart.js',
+      detail: `Implemented dashboard charts for usage and revenue signals with <strong>Chart.js</strong>, keeping chart data close to the same query layer used by the table views. The dashboards were designed as operational checks rather than decorative analytics.`,
+    },
+  ]}
+/>
+
+## What this project demonstrates
+
+This is not a public-facing product case study. Its value in the portfolio is showing that I can build the type of internal product companies often need: dense tables, filters, forms, charts, and repeatable operational workflows. Those surfaces are less flashy than consumer UI, but they require careful state management, predictable interactions, and maintainable component boundaries.
+
+## Retrospective
+
+The main lesson was that admin dashboards become expensive when every page invents its own table, filter, and mutation behavior. Treating those screens as a shared product surface made the code easier to extend and made the UI more consistent for internal users.

@@ -1,5 +1,8 @@
 import { SKILL } from '@/lib/data/skills';
 
+import { frontmatter as enMetadata } from './detail.en.mdx';
+import { frontmatter as koMetadata } from './detail.ko.mdx';
+
 import { defineProject } from '../types';
 
 export const todayWeatherProject = defineProject({
@@ -15,7 +18,7 @@ export const todayWeatherProject = defineProject({
     SKILL.frameworks.nextJs,
     SKILL.frameworks.react,
     SKILL.state.tanstackQuery,
-    SKILL.backend.upstashRedis,
+    SKILL.backend.upstash,
     SKILL.devops.vitest,
   ],
   skills: [
@@ -28,10 +31,10 @@ export const todayWeatherProject = defineProject({
     SKILL.ui.tailwindCss,
     SKILL.ui.shadcnUi,
     SKILL.state.tanstackQuery,
-    SKILL.performance.reactNativeReanimated,
+    SKILL.performance.reanimated,
     SKILL.performance.reactCompiler,
     SKILL.backend.supabase,
-    SKILL.backend.upstashRedis,
+    SKILL.backend.upstash,
     SKILL.languages.swift,
     SKILL.devops.vitest,
   ],
@@ -46,33 +49,7 @@ export const todayWeatherProject = defineProject({
         '**[Modern Tech Stack]** Leveraged **Next.js 16 (App Router)** and **React 19** with the **React Compiler** for optimal performance without manual memoization.',
         '**[Agentic Orchestration]** Developed using an advanced AI workflow, utilizing **MCP** to provide the AI agent with real-time documentation and system context for precise implementation.',
       ],
-      detailMetadata: {
-        title: "Today's Weather",
-        description:
-          'Personalized weather and lifestyle guide using KMA and Air Korea data — monorepo serving web, Expo mobile, and iOS widgets from a single shared logic layer.',
-        date: '2026-04 ~',
-        image: '/images/today-weather/web-home.png',
-        role: 'Solo developer',
-        platforms: ['Web', 'iOS', 'Android'],
-        metrics: [{ value: '80%+', label: 'API Load Reduced' }],
-        techStack: [
-          'TypeScript',
-          'Next.js',
-          'React',
-          'React Native',
-          'Expo',
-          'Expo Router',
-          'Tailwind CSS',
-          'shadcn/ui',
-          'TanStack Query',
-          'Reanimated',
-          'React Compiler',
-          'Supabase',
-          'Upstash Redis',
-          'Swift',
-          'Vitest',
-        ],
-      },
+      detailMetadata: enMetadata,
     },
     ko: {
       title: '오늘날씨 (Today’s Weather) — 맞춤형 날씨 및 생활 가이드',
@@ -84,33 +61,7 @@ export const todayWeatherProject = defineProject({
         '**[최신 스택 도입]** **Next.js 16 (App Router) 및 React 19**를 선제적으로 도입하고 **React Compiler**를 활용하여 수동 메모이제이션 없는 최적의 성능을 확보했습니다.',
         '**[에이전틱 오케스트레이션]** **MCP를 통해 AI 에이전트에게 실시간 도큐먼트와 시스템 컨텍스트를 제공**하여 고도로 정밀한 기능 구현을 주도했습니다.',
       ],
-      detailMetadata: {
-        title: "오늘날씨 (Today's Weather)",
-        description:
-          '기상청·에어코리아 데이터를 활용한 맞춤형 날씨·생활 가이드 — 단일 공유 로직 레이어로 웹, Expo 앱, iOS 위젯을 동시에 서빙하는 모노레포 서비스.',
-        date: '2026-04 ~',
-        image: '/images/today-weather/web-home.png',
-        role: '1인 개발',
-        platforms: ['Web', 'iOS', 'Android'],
-        metrics: [{ value: '80%+', label: 'API 부하 절감' }],
-        techStack: [
-          'TypeScript',
-          'Next.js',
-          'React',
-          'React Native',
-          'Expo',
-          'Expo Router',
-          'Tailwind CSS',
-          'shadcn/ui',
-          'TanStack Query',
-          'Reanimated',
-          'React Compiler',
-          'Supabase',
-          'Upstash Redis',
-          'Swift',
-          'Vitest',
-        ],
-      },
+      detailMetadata: koMetadata,
     },
   },
 });

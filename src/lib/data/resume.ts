@@ -473,9 +473,9 @@ export const getResumeData = (lang: Language): ResumeData => {
     id: skill.id,
     title: i18n.skills[skill.id],
     description: i18n.skillDescriptions?.[skill.id],
-    detailLink: skill.detailLink,
+    detailLink: 'detailLink' in skill ? skill.detailLink : undefined,
     detailLabel: i18n.skillDetailsLabel?.[skill.id],
-    list: skill.list,
+    list: [...skill.list],
   }));
 
   return {

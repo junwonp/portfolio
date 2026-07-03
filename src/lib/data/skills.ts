@@ -3,34 +3,26 @@ export const SKILL = {
     agenticWorkflow: 'Agentic Workflow',
     claudeCode: 'Claude Code',
     codex: 'Codex',
-    cursor: 'Cursor',
-    gemini: 'Gemini',
-    githubCopilot: 'GitHub Copilot',
   },
   backend: {
-    awsAmplify: 'AWS Amplify',
+    aws: 'AWS',
     cloudKit: 'CloudKit',
     firebase: 'Firebase',
-    nodeJs: 'Node.js',
-    paddle: 'Paddle',
     socketIo: 'Socket.IO',
     supabase: 'Supabase',
-    upstashRedis: 'Upstash Redis',
+    upstash: 'Upstash',
   },
   devops: {
-    cloudflareWorkers: 'Cloudflare Workers',
-    crashlytics: 'Crashlytics',
+    cloudflare: 'Cloudflare',
     eas: 'EAS',
-    firebaseHosting: 'Firebase Hosting',
     githubActions: 'GitHub Actions',
     sentry: 'Sentry',
     vitest: 'Vitest',
-    webpack: 'webpack',
+    webpack: 'Webpack',
   },
   frameworks: {
     expo: 'Expo',
     expoRouter: 'Expo Router',
-    nativeModules: 'Native Modules',
     nextJs: 'Next.js',
     react: 'React',
     reactNative: 'React Native',
@@ -38,23 +30,20 @@ export const SKILL = {
   },
   languages: {
     javascript: 'JavaScript',
-    kotlin: 'Kotlin',
     swift: 'Swift',
     typescript: 'TypeScript',
   },
   performance: {
     flashList: 'FlashList',
     reactCompiler: 'React Compiler',
-    reactNativeReanimated: 'React Native Reanimated',
+    reanimated: 'Reanimated',
     reactVirtualized: 'react-virtualized',
     reactWindow: 'react-window',
   },
   state: {
     graphql: 'GraphQL',
     reactHookForm: 'React Hook Form',
-    reactNativeMmkv: 'React Native MMKV',
     redux: 'Redux',
-    reduxSaga: 'redux-saga',
     tanstackForm: 'TanStack Form',
     tanstackQuery: 'TanStack Query',
     zod: 'Zod',
@@ -62,25 +51,14 @@ export const SKILL = {
   },
   ui: {
     antDesign: 'Ant Design',
-    atomicDesign: 'Atomic Design',
     chartJs: 'Chart.js',
-    cva: 'CVA',
-    lottie: 'Lottie',
     mui: 'MUI',
     reactTable: 'React Table',
     shadcnUi: 'shadcn/ui',
-    storybook: 'Storybook',
     styledComponents: 'styled-components',
     tailwindCss: 'Tailwind CSS',
-    unistyles: 'Unistyles',
   },
 } as const;
-
-type ValueOf<T> = T[keyof T];
-
-export type SkillName = ValueOf<{
-  [Category in keyof typeof SKILL]: ValueOf<(typeof SKILL)[Category]>;
-}>;
 
 export type SkillId =
   | 'ai_workflow'
@@ -92,15 +70,13 @@ export type SkillId =
   | 'state'
   | 'ui';
 
-interface SkillGroup {
+interface SkillGroupDefinition {
   id: SkillId;
   detailLink?: string;
-  list: SkillName[];
+  list: readonly string[];
 }
 
-const skillCategoryMap = new Map<string, SkillId>();
-
-export const skillsShared: SkillGroup[] = [
+export const skillsShared = [
   {
     id: 'languages',
     list: [SKILL.languages.typescript, SKILL.languages.javascript, SKILL.languages.swift],
@@ -112,7 +88,6 @@ export const skillsShared: SkillGroup[] = [
       SKILL.ui.mui,
       SKILL.ui.antDesign,
       SKILL.ui.tailwindCss,
-      SKILL.ui.unistyles,
       SKILL.ui.shadcnUi,
       SKILL.ui.reactTable,
       SKILL.ui.chartJs,
@@ -139,13 +114,12 @@ export const skillsShared: SkillGroup[] = [
       SKILL.state.zustand,
       SKILL.state.redux,
       SKILL.state.graphql,
-      SKILL.state.reactNativeMmkv,
     ],
   },
   {
     id: 'performance',
     list: [
-      SKILL.performance.reactNativeReanimated,
+      SKILL.performance.reanimated,
       SKILL.performance.flashList,
       SKILL.performance.reactWindow,
       SKILL.performance.reactVirtualized,
@@ -157,18 +131,17 @@ export const skillsShared: SkillGroup[] = [
     list: [
       SKILL.backend.firebase,
       SKILL.backend.supabase,
-      SKILL.backend.upstashRedis,
+      SKILL.backend.upstash,
       SKILL.backend.cloudKit,
-      SKILL.backend.awsAmplify,
+      SKILL.backend.aws,
       SKILL.backend.socketIo,
-      SKILL.backend.paddle,
     ],
   },
   {
     id: 'devops',
     list: [
       SKILL.devops.githubActions,
-      SKILL.devops.cloudflareWorkers,
+      SKILL.devops.cloudflare,
       SKILL.devops.sentry,
       SKILL.devops.vitest,
       SKILL.devops.eas,
@@ -180,7 +153,21 @@ export const skillsShared: SkillGroup[] = [
     detailLink: '/projects/agentic-workflow',
     list: [SKILL.aiWorkflow.agenticWorkflow, SKILL.aiWorkflow.claudeCode, SKILL.aiWorkflow.codex],
   },
-];
+] as const satisfies readonly SkillGroupDefinition[];
+
+export type SkillName = (typeof skillsShared)[number]['list'][number];
+
+export interface SkillGroup {
+  id: SkillId;
+  detailLink?: string;
+  list: readonly SkillName[];
+}
+
+export const registeredSkillNames = skillsShared.flatMap((group) => group.list);
+
+const registeredSkillNameSet = new Set<string>(registeredSkillNames);
+
+const skillCategoryMap = new Map<string, SkillId>();
 
 for (const category of skillsShared) {
   for (const skill of category.list) {
@@ -190,4 +177,8 @@ for (const category of skillsShared) {
 
 export function getSkillCategory(skill: string): SkillId | 'default' {
   return skillCategoryMap.get(skill) ?? 'default';
+}
+
+export function isRegisteredSkillName(skill: string): skill is SkillName {
+  return registeredSkillNameSet.has(skill);
 }

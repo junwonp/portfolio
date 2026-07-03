@@ -19,20 +19,15 @@ techStack:
     'Expo',
     'Expo Router',
     'TanStack Query',
+    'React Hook Form',
     'FlashList',
     'Reanimated',
     'React Compiler',
     'Zod',
-    'MMKV',
-    'Unistyles',
     'Firebase',
     'Sentry',
-    'React Hook Form',
-    'Lottie',
-    'GitHub Actions',
     'EAS',
-    'Cursor',
-    'Gemini',
+    'GitHub Actions',
   ]
 ---
 
@@ -55,105 +50,120 @@ My ownership covered product planning, frontend architecture, streaming chat UX,
 
 <ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
 
-
 ## Key work
 
-<ProjectAchievements achievements={[
-  {
-    tag: 'Streaming',
-    accent: true,
-    title: 'Real-time streaming UI with live InfiniteQuery cache patching',
-    detail: `As AI chunks stream in, patches the <strong>TanStack Query InfiniteQuery cache directly per chunk</strong> — same <code>message-{index}</code> replaces content (typing effect), new index inserts a record. Manages <code>InfiniteData</code> immutable updates without Immer. A Zod <code>z.union</code> schema distinguishes content / final event types; <code>safeParse</code> silently skips malformed chunks. Optimistic updates pre-insert user messages and update session previews simultaneously; rollback on error.`
-  },
-  {
-    tag: 'Performance',
-    accent: true,
-    title: 'Smooth 60fps chat on low-end devices via FlashList + worklet keyboard',
-    detail: `Replaced <code>FlatList</code> with <strong>FlashList</strong> (view recycling) to eliminate frame drops and white-screen flickering in large chat logs. Keyboard scroll handler runs in a <strong>Reanimated worklet on the UI thread</strong> — never dropped even under heavy JS load. Delegated <code>scrollToEnd</code> to the RN thread via <code>scheduleOnRN</code> to respect thread boundaries. Cursor-based pagination via <code>useInfiniteQuery</code> keeps retrieval speed stable as history grows.`
-  },
-  {
-    tag: 'Caching',
-    accent: true,
-    title: 'Instant app launch: MMKV-backed TanStack Query persistence',
-    detail: `Integrated <strong>TanStack Query</strong> persistence (<code>PersistQueryClientProvider</code>) with <strong>MMKV</strong> to display cached data immediately on launch — zero network wait. Separated MMKV into <code>document</code> / <code>cache</code> / <code>settings</code> instances for independent invalidation. Using <code>buster: uid</code> auto-isolates per-user caches on login, eliminating manual <code>queryClient.clear()</code> calls and timing-related bugs.`
-  },
-  {
-    tag: 'Architecture',
-    title: 'Cross-platform: single codebase for Android, iOS, and Web',
-    detail: `Built on <strong>Expo Router</strong>, sharing all business logic while using <code>*.ios.ts</code> / <code>*.web.ts</code> extensions for platform-specific UI. Applied a <code>.web.tsx</code> Context separation pattern so native-only packages (<code>expo-iap</code>, <code>google-mobile-ads</code>) are excluded from the web bundle via Metro's file extension resolution — blocking both bundle bloat and runtime errors at the build level.`
-  },
-  {
-    tag: 'Migration',
-    title: 'Zero-loss data migration: Realm → Firestore',
-    detail: `When a privacy policy change forced a shift from local-first to server storage, built a <strong>Retry Logic + Transaction Flag</strong> mechanism: even if the app is killed or loses network mid-migration, it resumes from the exact checkpoint on the next launch. Transferred tens of thousands of users' conversation records without data loss.`
-  },
-  {
-    tag: 'Dx',
-    title: 'Type-safe query cache facade (queryData)',
-    detail: `All <code>QueryClient</code> access funneled through a domain-organized <code>queryData</code> facade. Hierarchical key factories (<code>keys.message.list(sessionId)</code>) enable safe bulk invalidation. <code>update.message.list(sessionId)(updater)</code> infers updater types via <code>Updater&lt;T, T&gt;</code> generics — cache type mismatches are caught at compile time.`
-  },
-  {
-    tag: 'Dx',
-    title: 'Adopted React Compiler — removed all manual memoization',
-    detail: `Removed <code>useMemo</code> / <code>useCallback</code> scattered across the complex chat UI by introducing <strong>React Compiler</strong>. The compiler handles most optimizations automatically; manual overrides are applied only where fine-grained control is genuinely needed. Result: noticeably cleaner code with no performance regression.`
-  },
-  {
-    tag: 'Dx',
-    title: 'Design token system: Unistyles numeric-scale palette + zero theme flicker',
-    detail: `Numeric-scale color palette via <strong>Unistyles</strong>; light/dark themes select different steps from the same palette. MMKV's synchronous read applies the theme before the first render, <strong>eliminating the AsyncStorage flicker</strong>. Typography scales with device accessibility settings (<code>UnistylesRuntime.fontScale</code>), clamped to 1–1.2 to prevent layout breakage.`
-  },
-  {
-    tag: 'Ux',
-    title: 'Non-intrusive monetization: custom Native Ads format',
-    detail: `Designed a <strong>Native Ads</strong> format showing only the 'AD' tag and title in a thin bar at the top of the chat screen — minimal footprint, zero disruption to conversation flow. Continuously monitored post-launch <strong>drop-off rate data</strong> to quantitatively track the revenue/UX trade-off.`
-  },
-  {
-    tag: 'I18n',
-    title: 'Compile-time i18n safety with typesafe-i18n',
-    detail: `<code>typesafe-i18n</code> auto-generates TypeScript types from translation files — invalid keys and missing parameters caught at <strong>compile time</strong>. Children render only after locale files fully load, preventing garbled display names on first screen. Language switches sync OS locale, save to MMKV, async-load translation files, then update the i18n context in sequence.`
-  },
-  {
-    tag: 'R&D',
-    accent: true,
-    title: 'Next-Gen Shorts UI & iOS 26 Liquid Glass Native Acceleration Experiment',
-    detail: `Designed and prototyped a <strong>full-screen Shorts-style swipe UI</strong> to maximize user immersion, allowing users to transition from browsing to chatting seamlessly. To optimize runtime graphic overhead, bypassed Javascript calculation bottlenecks by integrating native iOS rendering APIs via <strong>UIGlassView</strong>, implementing fluid Liquid Glass visual effect while maximizing battery efficiency.`
-  },
-]} />
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Streaming',
+      accent: true,
+      title: 'Real-time streaming UI with live InfiniteQuery cache patching',
+      detail: `As AI chunks stream in, patches the <strong>TanStack Query InfiniteQuery cache directly per chunk</strong> — same <code>message-{index}</code> replaces content (typing effect), new index inserts a record. Manages <code>InfiniteData</code> immutable updates without Immer. A Zod <code>z.union</code> schema distinguishes content / final event types; <code>safeParse</code> silently skips malformed chunks. Optimistic updates pre-insert user messages and update session previews simultaneously; rollback on error.`,
+    },
+    {
+      tag: 'Performance',
+      accent: true,
+      title: 'Smooth 60fps chat on low-end devices via FlashList + worklet keyboard',
+      detail: `Replaced <code>FlatList</code> with <strong>FlashList</strong> (view recycling) to eliminate frame drops and white-screen flickering in large chat logs. Keyboard scroll handler runs in a <strong>Reanimated worklet on the UI thread</strong> — never dropped even under heavy JS load. Delegated <code>scrollToEnd</code> to the RN thread via <code>scheduleOnRN</code> to respect thread boundaries. Cursor-based pagination via <code>useInfiniteQuery</code> keeps retrieval speed stable as history grows.`,
+    },
+    {
+      tag: 'Caching',
+      accent: true,
+      title: 'Instant app launch: MMKV-backed TanStack Query persistence',
+      detail: `Integrated <strong>TanStack Query</strong> persistence (<code>PersistQueryClientProvider</code>) with <strong>MMKV</strong> to display cached data immediately on launch — zero network wait. Separated MMKV into <code>document</code> / <code>cache</code> / <code>settings</code> instances for independent invalidation. Using <code>buster: uid</code> auto-isolates per-user caches on login, eliminating manual <code>queryClient.clear()</code> calls and timing-related bugs.`,
+    },
+    {
+      tag: 'Architecture',
+      title: 'Cross-platform: single codebase for Android, iOS, and Web',
+      detail: `Built on <strong>Expo Router</strong>, sharing all business logic while using <code>*.ios.ts</code> / <code>*.web.ts</code> extensions for platform-specific UI. Applied a <code>.web.tsx</code> Context separation pattern so native-only packages (<code>expo-iap</code>, <code>google-mobile-ads</code>) are excluded from the web bundle via Metro's file extension resolution — blocking both bundle bloat and runtime errors at the build level.`,
+    },
+    {
+      tag: 'Migration',
+      title: 'Zero-loss data migration: Realm → Firestore',
+      detail: `When a privacy policy change forced a shift from local-first to server storage, built a <strong>Retry Logic + Transaction Flag</strong> mechanism: even if the app is killed or loses network mid-migration, it resumes from the exact checkpoint on the next launch. Transferred tens of thousands of users' conversation records without data loss.`,
+    },
+    {
+      tag: 'Dx',
+      title: 'Type-safe query cache facade (queryData)',
+      detail: `All <code>QueryClient</code> access funneled through a domain-organized <code>queryData</code> facade. Hierarchical key factories (<code>keys.message.list(sessionId)</code>) enable safe bulk invalidation. <code>update.message.list(sessionId)(updater)</code> infers updater types via <code>Updater&lt;T, T&gt;</code> generics — cache type mismatches are caught at compile time.`,
+    },
+    {
+      tag: 'Dx',
+      title: 'Adopted React Compiler — removed all manual memoization',
+      detail: `Removed <code>useMemo</code> / <code>useCallback</code> scattered across the complex chat UI by introducing <strong>React Compiler</strong>. The compiler handles most optimizations automatically; manual overrides are applied only where fine-grained control is genuinely needed. Result: noticeably cleaner code with no performance regression.`,
+    },
+    {
+      tag: 'Dx',
+      title: 'Design token system: Unistyles numeric-scale palette + zero theme flicker',
+      detail: `Numeric-scale color palette via <strong>Unistyles</strong>; light/dark themes select different steps from the same palette. MMKV's synchronous read applies the theme before the first render, <strong>eliminating the AsyncStorage flicker</strong>. Typography scales with device accessibility settings (<code>UnistylesRuntime.fontScale</code>), clamped to 1–1.2 to prevent layout breakage.`,
+    },
+    {
+      tag: 'Ux',
+      title: 'Non-intrusive monetization: custom Native Ads format',
+      detail: `Designed a <strong>Native Ads</strong> format showing only the 'AD' tag and title in a thin bar at the top of the chat screen — minimal footprint, zero disruption to conversation flow. Continuously monitored post-launch <strong>drop-off rate data</strong> to quantitatively track the revenue/UX trade-off.`,
+    },
+    {
+      tag: 'I18n',
+      title: 'Compile-time i18n safety with typesafe-i18n',
+      detail: `<code>typesafe-i18n</code> auto-generates TypeScript types from translation files — invalid keys and missing parameters caught at <strong>compile time</strong>. Children render only after locale files fully load, preventing garbled display names on first screen. Language switches sync OS locale, save to MMKV, async-load translation files, then update the i18n context in sequence.`,
+    },
+    {
+      tag: 'R&D',
+      accent: true,
+      title: 'Next-Gen Shorts UI & iOS 26 Liquid Glass Native Acceleration Experiment',
+      detail: `Designed and prototyped a <strong>full-screen Shorts-style swipe UI</strong> to maximize user immersion, allowing users to transition from browsing to chatting seamlessly. To optimize runtime graphic overhead, bypassed Javascript calculation bottlenecks by integrating native iOS rendering APIs via <strong>UIGlassView</strong>, implementing fluid Liquid Glass visual effect while maximizing battery efficiency.`,
+    },
+  ]}
+/>
 
 ## Screenshots
 
-<ProjectLightbox images={[
-  { 
-    src: '/images/aira/desktop_main.webp', 
-    mobileSrc: '/images/aira/desktop_main_mobile.jpg',
-    alt: 'aira Desktop Main Screen', 
-    caption: 'Desktop/Web main interface (responsive)' 
-  },
-  { 
-    src: '/images/aira/desktop_chat.webp', 
-    mobileSrc: '/images/aira/desktop_chat_mobile.jpg',
-    alt: 'aira Desktop Chat Screen', 
-    caption: 'Chat experience optimized for desktop' 
-  },
-  { src: '/images/aira/home_ads.webp', alt: 'aira Home Ads', caption: 'Home feed ads designed to not disrupt flow' },
-  { src: '/images/aira/chat_ads.webp', alt: 'aira Chat Ads', caption: 'Slim-bar native ads at the top of chat' },
-  { src: '/images/aira/reward_ads.webp', alt: 'aira Reward Ads', caption: 'Reward ad screen for point recharge' },
-]} />
+<ProjectLightbox
+  images={[
+    {
+      src: '/images/aira/desktop_main.webp',
+      mobileSrc: '/images/aira/desktop_main_mobile.jpg',
+      alt: 'aira Desktop Main Screen',
+      caption: 'Desktop/Web main interface (responsive)',
+    },
+    {
+      src: '/images/aira/desktop_chat.webp',
+      mobileSrc: '/images/aira/desktop_chat_mobile.jpg',
+      alt: 'aira Desktop Chat Screen',
+      caption: 'Chat experience optimized for desktop',
+    },
+    {
+      src: '/images/aira/home_ads.webp',
+      alt: 'aira Home Ads',
+      caption: 'Home feed ads designed to not disrupt flow',
+    },
+    {
+      src: '/images/aira/chat_ads.webp',
+      alt: 'aira Chat Ads',
+      caption: 'Slim-bar native ads at the top of chat',
+    },
+    {
+      src: '/images/aira/reward_ads.webp',
+      alt: 'aira Reward Ads',
+      caption: 'Reward ad screen for point recharge',
+    },
+  ]}
+/>
 
 ### Real-Device Interactions & Performance Demos
 
 Recorded videos verifying runtime usability, performance improvements, and interface experiments.
 
-* **60fps Scroll Performance (FlashList):** Implemented view recycling mechanism to avoid memory bottlenecks and frame drops even under long scroll logs. Integrated Reanimated worklets running on the UI thread to dynamically adjust scrolling behavior according to the keyboard height, ensuring smooth 60fps scrolling experience even when JS thread is highly occupied.
-* **Shorts-style Character Swiping & iOS 26 Liquid Glass R&D:** Designed a unified layout mimicking mobile short-form video feeds where users can navigate character profiles by swiping up/down, instantly beginning conversation on the spot. Leveraged iOS native rendering APIs (`UIGlassView`) to bypass heavy Javascript CPU/GPU bottlenecks, achieving the fluid Liquid Glass effect with extreme battery efficiency.
+- **60fps Scroll Performance (FlashList):** Implemented view recycling mechanism to avoid memory bottlenecks and frame drops even under long scroll logs. Integrated Reanimated worklets running on the UI thread to dynamically adjust scrolling behavior according to the keyboard height, ensuring smooth 60fps scrolling experience even when JS thread is highly occupied.
+- **Shorts-style Character Swiping & iOS 26 Liquid Glass R&D:** Designed a unified layout mimicking mobile short-form video feeds where users can navigate character profiles by swiping up/down, instantly beginning conversation on the spot. Leveraged iOS native rendering APIs (`UIGlassView`) to bypass heavy Javascript CPU/GPU bottlenecks, achieving the fluid Liquid Glass effect with extreme battery efficiency.
 
 <ImageGallery>
-  <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat FlashList Demo"/>
-  <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home FlashList Demo"/>
+  <ImageDescription src="/images/aira/chat_flashlist.mp4" alt="aira Chat FlashList Demo" />
+  <ImageDescription src="/images/aira/home_flashlist.mp4" alt="aira Home FlashList Demo" />
 </ImageGallery>
 
 <ImageGallery>
-  <ImageDescription src="/images/aira/v2_home.mp4" alt="aira V2 Shorts UI and Liquid Glass demo"/>
+  <ImageDescription src="/images/aira/v2_home.mp4" alt="aira V2 Shorts UI and Liquid Glass demo" />
 </ImageGallery>
 
 ## Retrospective

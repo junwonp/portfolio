@@ -7,7 +7,13 @@ productLink: 'https://junwon.pages.dev'
 githubLink: 'portfolio'
 role: '1인 개발'
 platforms: ['Web']
-techStack: ['Next.js', 'React', 'TypeScript', 'Cloudflare Workers', 'Vitest', 'Claude Code']
+metrics: [
+  { value: '192ms', label: '초기 렌더링 속도 (FCP)' },
+  { value: '-80%', label: 'JS 번들 크기 감소' },
+  { value: '97점', label: 'Lighthouse 성능 점수' },
+  { value: '< 0.5초', label: '실시간 CMS 반영' }
+]
+techStack: ['Next.js', 'React', 'TypeScript', 'Cloudflare', 'Vitest', 'Claude Code']
 ---
 
 import ProjectAchievements from '@/lib/components/ProjectAchievements';
@@ -24,48 +30,60 @@ import ProjectTechStack from '@/lib/components/ProjectTechStack';
 
 ## 주요 작업
 
-<ProjectAchievements achievements={[
-  {
-    tag: 'Architecture',
-    accent: true,
-    title: '이력서와 포트폴리오의 하이브리드 결합',
-    detail: `단순한 블로그 형식이나 무거운 단일 페이지 앱 대신, 홈 화면은 정보를 한눈에 전달하는 **Dense Résumé** 형식으로 설계하고 상세 정보는 동적으로 수정 가능한 프로젝트 회고록으로 구현했습니다. Next.js 에지 엔진이 클라이언트 하이드레이션 지연 없이 다국어 HTML을 즉각 렌더링하여 효율적인 정보 탐색을 돕습니다.`
-  },
-  {
-    tag: 'i18n & Performance',
-    accent: true,
-    title: '엣지 기반 무지연 다국어 대응 및 캐시 최적화',
-    detail: `다국어 제공 시 프론트엔드 단에서 발생하는 화면 깜빡임(Flicker)을 제거하기 위해, 엣지 미들웨어에서 쿠키와 <code>Accept-Language</code>를 분석하여 첫 응답부터 알맞은 언어로 완성된 Next.js HTML을 전송합니다. **192ms**의 초고속 FCP(First Contentful Paint)와 Lighthouse Performance 97점을 확보했습니다.`
-  },
-  {
-    tag: 'Cloudflare Integration',
-    title: '풀스택 서버리스 바인딩 (D1, R2, KV)',
-    detail: `관리자 페이지 데이터 및 콘텐츠 재정의를 위한 Cloudflare D1(SQLite), 프로젝트 스크린샷 저장을 위한 R2, 정적 에셋 라우팅을 위한 KV를 바인딩하여 복잡한 풀스택 Next.js 애플리케이션이 하나의 Workers 인프라에서 부드럽게 구동됨을 입증했습니다.`
-  },
-  {
-    tag: 'RSC & Bundle Optimization',
-    accent: true,
-    title: 'Islands 아키텍처 도입 및 JS 번들 크기 경량화',
-    detail: `Mermaid.js 등 대용량 클라이언트 시각화 라이브러리를 동적 임포트(Dynamic Import)로 필요 시점에만 비동기 로딩(Islands)하도록 설계했습니다. 이를 통해 초기 클라이언트 JS 번들 크기를 **약 80%(~860KB)** 줄이고 로딩 성능을 획기적으로 개선했습니다.`
-  },
-  {
-    tag: 'Security & Admin CMS',
-    title: 'Cloudflare Access 연동 및 실시간 콘텐츠 에디터',
-    detail: `Cloudflare Access 권한 제어 연동을 통해 브라우저에서 직접 데이터를 수정할 수 있는 안전한 관리자 웹 에디터를 구현했습니다. D1 데이터베이스 및 KV 캐시 무효화를 결합하여, 기존 마크다운 파일 수정-빌드-배포(약 2분 소요) 프로세스를 **0.5초 이내 즉시 반영**되도록 개편했습니다.`
-  },
-  {
-    tag: 'AI-Agent Integration',
-    title: 'AI 에이전트 다중 협업 및 DX 최적화',
-    detail: `<strong>Claude Code</strong>와 커스텀 에이전트 규칙(AGENTS.md)을 설계하여 개발 환경의 완성도를 높였습니다. 다수의 자율 에이전트가 충돌 없이 효율적으로 기능 개발과 리팩토링을 수행하며, <code>Vitest</code> 무결성 테스트를 통해 다국어 번역 리소스의 완벽한 대칭성을 상시 검증합니다.`
-  },
-]} />
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Architecture',
+      accent: true,
+      title: '이력서와 포트폴리오의 하이브리드 결합',
+      detail: `단순한 블로그 형식이나 무거운 단일 페이지 앱 대신, 홈 화면은 정보를 한눈에 전달하는 **Dense Résumé** 형식으로 설계하고 상세 정보는 동적으로 수정 가능한 프로젝트 회고록으로 구현했습니다. Next.js 에지 엔진이 클라이언트 하이드레이션 지연 없이 다국어 HTML을 즉각 렌더링하여 효율적인 정보 탐색을 돕습니다.`,
+    },
+    {
+      tag: 'i18n & Performance',
+      accent: true,
+      title: '엣지 기반 무지연 다국어 대응 및 캐시 최적화',
+      detail: `다국어 제공 시 프론트엔드 단에서 발생하는 화면 깜빡임(Flicker)을 제거하기 위해, 엣지 미들웨어에서 쿠키와 <code>Accept-Language</code>를 분석하여 첫 응답부터 알맞은 언어로 완성된 Next.js HTML을 전송합니다. **192ms**의 초고속 FCP(First Contentful Paint)와 Lighthouse Performance 97점을 확보했습니다.`,
+    },
+    {
+      tag: 'Cloudflare Integration',
+      title: '풀스택 서버리스 바인딩 (D1, R2, KV)',
+      detail: `관리자 페이지 데이터 및 콘텐츠 재정의를 위한 Cloudflare D1(SQLite), 프로젝트 스크린샷 저장을 위한 R2, 정적 에셋 라우팅을 위한 KV를 바인딩하여 복잡한 풀스택 Next.js 애플리케이션이 하나의 Workers 인프라에서 부드럽게 구동됨을 입증했습니다.`,
+    },
+    {
+      tag: 'RSC & Bundle Optimization',
+      accent: true,
+      title: 'Islands 아키텍처 도입 및 JS 번들 크기 경량화',
+      detail: `Mermaid.js 등 대용량 클라이언트 시각화 라이브러리를 동적 임포트(Dynamic Import)로 필요 시점에만 비동기 로딩(Islands)하도록 설계했습니다. 이를 통해 초기 클라이언트 JS 번들 크기를 **약 80%(~860KB)** 줄이고 로딩 성능을 획기적으로 개선했습니다.`,
+    },
+    {
+      tag: 'Security & Admin CMS',
+      title: 'Cloudflare Access 연동 및 실시간 콘텐츠 에디터',
+      detail: `Cloudflare Access 권한 제어 연동을 통해 브라우저에서 직접 데이터를 수정할 수 있는 안전한 관리자 웹 에디터를 구현했습니다. D1 데이터베이스 및 KV 캐시 무효화를 결합하여, 기존 마크다운 파일 수정-빌드-배포(약 2분 소요) 프로세스를 **0.5초 이내 즉시 반영**되도록 개편했습니다.`,
+    },
+    {
+      tag: 'AI-Agent Integration',
+      title: 'AI 에이전트 다중 협업 및 DX 최적화',
+      detail: `<strong>Claude Code</strong>와 커스텀 에이전트 규칙(AGENTS.md)을 설계하여 개발 환경의 완성도를 높였습니다. 다수의 자율 에이전트가 충돌 없이 효율적으로 기능 개발과 리팩토링을 수행하며, <code>Vitest</code> 무결성 테스트를 통해 다국어 번역 리소스의 완벽한 대칭성을 상시 검증합니다.`,
+    },
+  ]}
+/>
 
 ## 스크린샷
 
-<ProjectLightbox images={[
-  { src: '/images/nextjs-portfolio/1.webp', alt: '메인 페이지', caption: '홈 화면 — 빠른 정보 파악을 위한 이력서 스타일 레이아웃' },
-  { src: '/images/nextjs-portfolio/2.webp', alt: '반응형 디자인 데모', caption: 'Pure CSS 반응형 디자인 — 모바일과 데스크탑에 최적화된 레이아웃' },
-]} />
+<ProjectLightbox
+  images={[
+    {
+      src: '/images/nextjs-portfolio/1.webp',
+      alt: '메인 페이지',
+      caption: '홈 화면 — 빠른 정보 파악을 위한 이력서 스타일 레이아웃',
+    },
+    {
+      src: '/images/nextjs-portfolio/2.webp',
+      alt: '반응형 디자인 데모',
+      caption: 'Pure CSS 반응형 디자인 — 모바일과 데스크탑에 최적화된 레이아웃',
+    },
+  ]}
+/>
 
 ## 회고
 

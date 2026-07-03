@@ -1,5 +1,8 @@
 import { SKILL } from '@/lib/data/skills';
 
+import { frontmatter as enMetadata } from './detail.en.mdx';
+import { frontmatter as koMetadata } from './detail.ko.mdx';
+
 import { defineProject } from '../types';
 
 export const camerafiStudioProject = defineProject({
@@ -17,7 +20,6 @@ export const camerafiStudioProject = defineProject({
     SKILL.frameworks.nextJs,
     SKILL.state.tanstackQuery,
     SKILL.state.reactHookForm,
-    SKILL.backend.paddle,
     SKILL.devops.webpack,
   ],
   skills: [
@@ -28,7 +30,6 @@ export const camerafiStudioProject = defineProject({
     SKILL.state.tanstackQuery,
     SKILL.state.reactHookForm,
     SKILL.backend.firebase,
-    SKILL.backend.paddle,
     SKILL.devops.githubActions,
     SKILL.devops.webpack,
   ],
@@ -43,32 +44,7 @@ export const camerafiStudioProject = defineProject({
         '**[Global SaaS Infrastructure]** Built the entire payment lifecycle using **Paddle**, handling subscriptions and webhook-based renewal processing for a global B2B user base.',
         '**[Custom Cookie Consent]** Developed a native cookie consent banner and control logic from scratch to comply with GDPR/web standards without relying on external scripts, preventing 3rd-party bloat.',
       ],
-      detailMetadata: {
-        title: 'CameraFi Studio',
-        description:
-          "Web-based broadcast overlay platform built solo — from frontend architecture to the company's second main revenue stream.",
-        date: '2022-02 ~ 2023-06',
-        image: '/images/camerafi-studio/optimization_chart.webp',
-        productLink: 'https://studio.camerafi.com',
-        role: 'Frontend Engineer',
-        platforms: ['Web'],
-        metrics: [
-          { value: '15%', label: 'Bundle Size Reduced' },
-          { value: '47KB', label: 'JS Saved' },
-        ],
-        techStack: [
-          'TypeScript',
-          'Next.js',
-          'styled-components',
-          'MUI',
-          'TanStack Query',
-          'React Hook Form',
-          'Firebase',
-          'Paddle',
-          'GitHub Actions',
-          'Webpack',
-        ],
-      },
+      detailMetadata: enMetadata,
     },
     ko: {
       title: '카메라파이 스튜디오',
@@ -80,32 +56,7 @@ export const camerafiStudioProject = defineProject({
         '**[글로벌 수익화 인프라]** **Paddle 결제 모듈을 연동**하여 글로벌 사용자를 위한 구독 상태 관리 및 웹훅 기반의 결제 갱신 처리 시스템을 구축했습니다.',
         '**[자체 쿠키 동의 시스템]** 서드파티 스크립트 없이 **GDPR 규정을 준수하는 쿠키 동의 배너와 제어 로직을 직접 개발**하여 불필요한 외부 라이브러리 의존성을 제거했습니다.',
       ],
-      detailMetadata: {
-        title: 'CameraFi Studio',
-        description:
-          '1인 개발로 설계한 웹 기반 방송 오버레이 플랫폼 — 프론트엔드 아키텍처부터 사내 두 번째 핵심 수익 모델까지.',
-        date: '2022-02 ~ 2023-06',
-        image: '/images/camerafi-studio/optimization_chart.webp',
-        productLink: 'https://studio.camerafi.com',
-        role: 'Frontend Engineer',
-        platforms: ['Web'],
-        metrics: [
-          { value: '15%', label: '번들 사이즈 감소' },
-          { value: '47KB', label: 'JS 절감' },
-        ],
-        techStack: [
-          'TypeScript',
-          'Next.js',
-          'styled-components',
-          'MUI',
-          'TanStack Query',
-          'React Hook Form',
-          'Firebase',
-          'Paddle',
-          'GitHub Actions',
-          'Webpack',
-        ],
-      },
+      detailMetadata: koMetadata,
     },
   },
 });

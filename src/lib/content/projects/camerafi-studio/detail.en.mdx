@@ -6,29 +6,18 @@ image: '/images/camerafi-studio/optimization_chart.webp'
 productLink: 'https://studio.camerafi.com'
 role: 'Frontend Engineer'
 platforms: ['Web']
-metrics:
-  [
-    { value: '15%', label: 'Bundle Size Reduced' },
-    { value: '47KB', label: 'JS Saved' },
-  ]
+metrics: [{ value: '15%', label: 'Bundle Size Reduced' }, { value: '47KB', label: 'JS Saved' }]
 techStack:
   [
     'TypeScript',
     'Next.js',
     'styled-components',
     'MUI',
-    'Atomic Design',
-    'Storybook',
-    'Lottie',
     'TanStack Query',
     'React Hook Form',
     'Firebase',
-    'Paddle',
-    'Node.js',
     'GitHub Actions',
-    'Crashlytics',
     'Webpack',
-    'GitHub Copilot',
   ]
 ---
 
@@ -48,35 +37,37 @@ The product covered the full web-service surface area: overlay editing, authenti
 
 ## Key work
 
-<ProjectAchievements achievements={[
-  {
-    tag: 'SaaS',
-    accent: true,
-    title: 'Production SaaS surface from editor to subscription operations',
-    detail: `Built the frontend for the actual product flow, not a demo: authenticated account pages, overlay editing screens, global language handling, Paddle subscription checkout, webhook-aware subscription state, and GDPR-oriented cookie consent. This made the project presentable as a revenue-generating web SaaS rather than a one-off internal tool.`
-  },
-  {
-    tag: 'Performance',
-    title: '15% bundle size reduction via Webpack config optimization (324KB → 277KB)',
-    detail: `Audited the production bundle with <strong>webpack-bundle-analyzer</strong> to identify size bottlenecks, then applied targeted Webpack configuration changes:<ul><li><strong>Tree Shaking (lodash):</strong> Replaced whole-library <code>import _ from 'lodash'</code> calls with per-method imports (<code>import debounce from 'lodash/debounce'</code>), eliminating ~200+ unused utility functions from the build.</li><li><strong>Dynamic Import (code splitting):</strong> Wrapped heavy UI panels — charts, overlay editors, modal-heavy screens — in <code>React.lazy()</code> with <code>next/dynamic</code>, moving them out of the initial chunk.</li><li><strong>Vendor chunk tuning:</strong> Configured <code>splitChunks.cacheGroups</code> to group stable third-party libraries into a separate vendor bundle, improving long-term cache reuse across deployments.</li></ul>Result: main entry bundle dropped from <strong>324KB → 277KB (~15%, 47KB saved)</strong>, with a measurable reduction in TTI (Time to Interactive) on first load.<br/><img src="/images/camerafi-studio/optimization_chart.webp" alt="Bundle size reduction chart" style="margin-top:12px;border-radius:8px;width:100%;" />`
-  },
-  {
-    tag: 'Auth',
-    accent: true,
-    title: 'Secure integrated authentication system',
-    detail: `Rather than relying solely on libraries, designed a secure login process combining <strong>Firebase Custom Tokens</strong> and <strong>Cookies</strong>. Authentication state is synchronized between client and server via cookies. Built a separate <strong>Integrated Login Page</strong> as a foundation for Single Sign-On (SSO) across future services.`
-  },
-  {
-    tag: 'Architecture',
-    title: 'Scalable global architecture',
-    detail: `Adopted an <strong>i18n</strong> system from the early stages to support global users. Combined <strong>MUI</strong> and <strong>Styled-components</strong> to build a <strong>Global Theme System</strong> — a flexible UI structure that adapts to design changes like brand color updates or Dark Mode without structural refactoring.`
-  },
-  {
-    tag: 'Compliance',
-    title: 'Custom Cookie Consent implementation',
-    detail: `To comply with GDPR and other global standards without relying on third-party tools, <strong>developed the Cookie Consent banner and control logic from scratch</strong>. Avoiding external scripts prevented page speed degradation from unnecessary script loading.`
-  },
-]} />
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'SaaS',
+      accent: true,
+      title: 'Production SaaS surface from editor to subscription operations',
+      detail: `Built the frontend for the actual product flow, not a demo: authenticated account pages, overlay editing screens, global language handling, Paddle subscription checkout, webhook-aware subscription state, and GDPR-oriented cookie consent. This made the project presentable as a revenue-generating web SaaS rather than a one-off internal tool.`,
+    },
+    {
+      tag: 'Performance',
+      title: '15% bundle size reduction via Webpack config optimization (324KB → 277KB)',
+      detail: `Audited the production bundle with <strong>webpack-bundle-analyzer</strong> to identify size bottlenecks, then applied targeted Webpack configuration changes:<ul><li><strong>Tree Shaking (lodash):</strong> Replaced whole-library <code>import _ from 'lodash'</code> calls with per-method imports (<code>import debounce from 'lodash/debounce'</code>), eliminating ~200+ unused utility functions from the build.</li><li><strong>Dynamic Import (code splitting):</strong> Wrapped heavy UI panels — charts, overlay editors, modal-heavy screens — in <code>React.lazy()</code> with <code>next/dynamic</code>, moving them out of the initial chunk.</li><li><strong>Vendor chunk tuning:</strong> Configured <code>splitChunks.cacheGroups</code> to group stable third-party libraries into a separate vendor bundle, improving long-term cache reuse across deployments.</li></ul>Result: main entry bundle dropped from <strong>324KB → 277KB (~15%, 47KB saved)</strong>, with a measurable reduction in TTI (Time to Interactive) on first load.<br/><img src="/images/camerafi-studio/optimization_chart.webp" alt="Bundle size reduction chart" style="margin-top:12px;border-radius:8px;width:100%;" />`,
+    },
+    {
+      tag: 'Auth',
+      accent: true,
+      title: 'Secure integrated authentication system',
+      detail: `Rather than relying solely on libraries, designed a secure login process combining <strong>Firebase Custom Tokens</strong> and <strong>Cookies</strong>. Authentication state is synchronized between client and server via cookies. Built a separate <strong>Integrated Login Page</strong> as a foundation for Single Sign-On (SSO) across future services.`,
+    },
+    {
+      tag: 'Architecture',
+      title: 'Scalable global architecture',
+      detail: `Adopted an <strong>i18n</strong> system from the early stages to support global users. Combined <strong>MUI</strong> and <strong>Styled-components</strong> to build a <strong>Global Theme System</strong> — a flexible UI structure that adapts to design changes like brand color updates or Dark Mode without structural refactoring.`,
+    },
+    {
+      tag: 'Compliance',
+      title: 'Custom Cookie Consent implementation',
+      detail: `To comply with GDPR and other global standards without relying on third-party tools, <strong>developed the Cookie Consent banner and control logic from scratch</strong>. Avoiding external scripts prevented page speed degradation from unnecessary script loading.`,
+    },
+  ]}
+/>
 
 ## Retrospective
 

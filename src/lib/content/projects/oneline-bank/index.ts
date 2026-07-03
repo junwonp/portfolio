@@ -1,5 +1,8 @@
 import { SKILL } from '@/lib/data/skills';
 
+import { frontmatter as enMetadata } from './detail.en.mdx';
+import { frontmatter as koMetadata } from './detail.ko.mdx';
+
 import { defineProject } from '../types';
 
 export const onelineBankProject = defineProject({
@@ -22,11 +25,12 @@ export const onelineBankProject = defineProject({
     SKILL.frameworks.reactNative,
     SKILL.frameworks.expo,
     SKILL.frameworks.expoRouter,
+    SKILL.ui.tailwindCss,
     SKILL.state.tanstackQuery,
     SKILL.state.tanstackForm,
     SKILL.state.zod,
     SKILL.state.zustand,
-    SKILL.performance.reactNativeReanimated,
+    SKILL.performance.reanimated,
     SKILL.backend.firebase,
     SKILL.devops.eas,
   ],
@@ -41,29 +45,7 @@ export const onelineBankProject = defineProject({
         '**[Robust Form Handling]** Integrated **TanStack Form** and **Zod** for type-safe schema validation and consistent error handling across the banking flow.',
         '**[Developer Experience]** Optimized the delivery pipeline using **EAS** and kept the rebuilt demo reproducible across local and device builds.',
       ],
-      detailMetadata: {
-        title: 'OnelineBank',
-        description:
-          'Conversational mobile banking demo — 2021 Woori Bank hackathon app rebuilt in TypeScript with Expo Router, TanStack Query, and feature-based modules.',
-        date: '2021-04',
-        image: '/images/oneline-bank/1.webp',
-        githubLink: 'OnelineBank',
-        role: 'Solo developer',
-        platforms: ['Android', 'iOS'],
-        techStack: [
-          'React Native',
-          'TypeScript',
-          'Expo',
-          'Expo Router',
-          'TanStack Query',
-          'TanStack Form',
-          'Zustand',
-          'Zod',
-          'Firebase',
-          'Reanimated',
-          'EAS',
-        ],
-      },
+      detailMetadata: enMetadata,
     },
     ko: {
       title: '한줄은행',
@@ -75,29 +57,7 @@ export const onelineBankProject = defineProject({
         '**[견고한 폼 핸들링]** **TanStack Form과 Zod를 결합**하여 Type-Safe한 스키마 검증과 일관된 에러 피드백 시스템을 뱅킹 플로우에 적용했습니다.',
         '**[개발자 경험 개선]** **EAS를 통한 빌드 파이프라인**을 정리해 로컬과 실기기 환경에서 리빌드 데모를 재현 가능하게 만들었습니다.',
       ],
-      detailMetadata: {
-        title: '한줄은행',
-        description:
-          '대화형 모바일 뱅킹 데모 — 2021 우리은행 해커톤 출품작을 TypeScript·Expo Router·TanStack Query·기능 모듈 구조로 전면 재작성했습니다.',
-        date: '2021-04',
-        image: '/images/oneline-bank/1.webp',
-        githubLink: 'OnelineBank',
-        role: '1인 개발',
-        platforms: ['Android', 'iOS'],
-        techStack: [
-          'React Native',
-          'TypeScript',
-          'Expo',
-          'Expo Router',
-          'TanStack Query',
-          'TanStack Form',
-          'Zustand',
-          'Zod',
-          'Firebase',
-          'Reanimated',
-          'EAS',
-        ],
-      },
+      detailMetadata: koMetadata,
     },
   },
 });

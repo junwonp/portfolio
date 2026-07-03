@@ -1,7 +1,5 @@
 declare module '*.mdx' {
-  import type { ComponentType } from 'react';
-  const component: ComponentType<unknown>;
+  const component: import('react').ComponentType<unknown>;
   export default component;
+  export const frontmatter: import('./lib/types/post').PostMetadata;
 }
-
-export {};

@@ -1,0 +1,59 @@
+---
+title: KFTC FinCert Marketing Platform
+description: Frontend freelance contract for a FinCert-based promotion platform covering signup, consent, events, challenges, rewards, notifications, and account flows.
+date: '2026-04 ~ 2026-05'
+role: 'Frontend Engineer (Freelance)'
+platforms: ['Web']
+metrics: [
+  { value: '1 Mon', label: 'Duration' },
+  { value: 'React 19', label: 'Version' }
+]
+techStack: ['TypeScript', 'React', 'Tailwind CSS', 'TanStack Query', 'React Hook Form', 'Zod', 'Vitest']
+---
+
+import ProjectAchievements from '@/lib/components/ProjectAchievements';
+import ProjectTechStack from '@/lib/components/ProjectTechStack';
+
+## Project overview
+
+**"KFTC FinCert Promotion and Reward Platform"**
+
+This is a freelance frontend contract project that implemented the signup, consent maintenance, events, challenges, rewards, and account settings flows for a promotional platform integrated with the Korea Financial Telecommunications and Clearings Institute (KFTC) FinCert.
+
+Being a finance-related service, high reliability and robust data consistency were critical. Despite a tight schedule, the project was successfully launched by streamlining the analysis, design, and implementation phases. We developed a robust validation system using `react-hook-form` and `zod`, and optimized offline reliability and page loading by combining `@tanstack/react-query` persisted cache with `idb-keyval` (IndexedDB). In addition, custom Mock servers and Storybook were introduced to allow parallel frontend development independent of the backend.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## Key work
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Architecture',
+      accent: true,
+      title: 'Separation of concerns & type-safe form validation using React 19, Vite, and TailwindCSS v4',
+      detail: `Achieved fast builds and compiler safety using React 19, TypeScript, and Vite. Organized directories by api, components, and hooks to keep code modular. Handled complex signup and marketing consent forms using react-hook-form combined with zod schema definitions, ensuring declarative and robust validation.`,
+    },
+    {
+      tag: 'Performance',
+      title: 'Offline Cache Persistence for offline reliability and FCP optimization',
+      detail: `Built an IndexedDB-based client-side cache using @tanstack/react-query-persist-client and idb-keyval. Safeguarded campaign state during poor network conditions and significantly reduced First Contentful Paint (FCP) to deliver a seamless user experience.`,
+    },
+    {
+      tag: 'DX',
+      title: 'Express-based Mock Server for independent, zero-dependency frontend development',
+      detail: `Built a custom Express Mock server simulating session cookies, auth state, pagination, and artificial network delay (MOCK_DELAY). By decoupling from backend completion, we implemented and validated frontend views in parallel, accelerating the launch timeline.`,
+    },
+    {
+      tag: 'UX',
+      title: 'Abstracting complex campaign rules into custom hooks and implementing Lottie animations',
+      detail: `Abstracted intricate campaign rules (consecutive attendance, lucky draw, reward tickets) into clean custom hooks. Verified UI elements in isolation via Storybook, and enriched user feedback using @lottiefiles/dotlottie-react for ticket roulettes and attendance stamps.`,
+    },
+  ]}
+/>
+
+## Retrospective
+
+**Finance-Grade Stability:** Developing for KFTC emphasized the importance of data integrity and error resilience. Designing with strict TypeScript contracts, Zod-driven forms, and offline-persistent query cache gave me first-hand experience in building highly stable web applications.
+
+**Decoupled Development:** Constructing a local Express Mock server to match predefined API specs allowed the frontend to remain entirely decoupled from backend progress. This strategy proved to be effective for velocity and architectural cleaness in team collaborations.
