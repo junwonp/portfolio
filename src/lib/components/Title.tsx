@@ -2,7 +2,9 @@ import type { CSSProperties } from "react";
 
 import type { MetricItem, PillarItem } from "@/lib/types/about";
 
+import MetricCard from "./MetricCard";
 import styles from "./Title.module.css";
+
 
 interface Props {
   metrics?: MetricItem[];
@@ -35,10 +37,11 @@ export default function Title({
           style={{ "--metric-count": metricColumnCount } as CSSProperties}
         >
           {metrics.map((metric) => (
-            <div className={styles["metric-cell"]} key={metric.label}>
-              <dt className={styles["metric-label"]}>{metric.label}</dt>
-              <dd className={styles["metric-value"]}>{metric.value}</dd>
-            </div>
+            <MetricCard
+              key={metric.label}
+              value={metric.value}
+              label={metric.label}
+            />
           ))}
         </dl>
       )}

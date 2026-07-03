@@ -79,52 +79,19 @@
 }
 
 .metrics-grid {
-  background: color-mix(in srgb, var(--color-surface-hover) 35%, var(--color-basic-bg));
-  border-radius: 14px;
   display: grid;
-  gap: 0;
+  gap: 12px;
   grid-template-columns: repeat(var(--metric-count), minmax(0, 1fr));
   margin: var(--space-md) 0 var(--space-sm);
-  padding: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-  border: none;
   width: 100%;
 }
 
 :global(.dark) .metrics-grid {
-  background: rgba(255, 255, 255, 0.03);
+  background: transparent;
   box-shadow: none;
-  border: 0.5px solid rgba(255, 255, 255, 0.05);
+  border: none;
 }
 
-.metric-cell {
-  align-items: center;
-  display: flex;
-  flex: 1 1 10rem;
-  flex-direction: column;
-  gap: 0.35rem;
-  padding: 0.75rem;
-  text-align: center;
-}
-
-.metric-value {
-  color: var(--color-primary);
-  font-size: 1.35rem;
-  font-weight: 700;
-  line-height: 1;
-  margin: 0;
-  white-space: nowrap;
-  text-align: center;
-}
-
-.metric-label {
-  color: var(--color-sub);
-  font-size: 0.78rem;
-  letter-spacing: 0.02em;
-  line-height: 1.25;
-  overflow-wrap: anywhere;
-  text-align: center;
-}
 
 .pillars {
   display: flex;
@@ -225,21 +192,13 @@
 }
 
 @media (max-width: 576px) {
-  .metrics-grid {
-    padding: 0.5rem;
-  }
-
-  .metric-cell {
-    padding: 0.45rem;
-  }
-
   .pillar-desc {
     display: none;
   }
 }
 
-@media (max-width: 420px) {
-  .metrics-grid.has-four-metrics {
+@media (max-width: 480px) {
+  .metrics-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

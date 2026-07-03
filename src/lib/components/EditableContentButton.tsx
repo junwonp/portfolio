@@ -6,7 +6,7 @@ import { ArrowDown, ArrowUp, Pencil, Plus, Trash2, X } from 'lucide-react';
 import SkillSelectorDialog from '@/lib/components/SkillSelectorDialog';
 import type { ProjectDetailBlock } from '@/lib/content/editableContent';
 import type { ContentOverrideArea } from '@/lib/server/editableContentStore';
-import { type Language,SUPPORTED_LANGUAGES } from '@/lib/utils/language';
+import { type Language, SUPPORTED_LANGUAGES } from '@/lib/utils/language';
 
 import styles from './EditableContentButton.module.css';
 import {
@@ -117,9 +117,8 @@ export default function EditableContentButton({
   const [activeLocale, setActiveLocale] = useState<Language>(locale);
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [valuesByLocale, setValuesByLocale] = useState<Record<Language, EditableValue>>(
-    normalizeValuesByLocale,
-  );
+  const [valuesByLocale, setValuesByLocale] =
+    useState<Record<Language, EditableValue>>(normalizeValuesByLocale);
   const value =
     valuesByLocale[activeLocale] ?? normalizeInitialValue(area, targetKey, initialValue);
 
@@ -176,7 +175,7 @@ export default function EditableContentButton({
         path,
         targetKey,
         transformValue: (item) =>
-          Array.isArray(item) ? [...item, createArrayItemTemplate(key, item.length)] : item ?? [],
+          Array.isArray(item) ? [...item, createArrayItemTemplate(key, item.length)] : (item ?? []),
         valuesByLocale: current,
       }),
     );
@@ -260,7 +259,6 @@ export default function EditableContentButton({
       <div className={styles['list-field']}>
         {usesSkillSuggestions && (
           <SkillSelectorDialog
-            allowCustom={key !== 'featuredSkills'}
             candidates={getSkillCandidates(path, key)}
             emptyMessage={
               key === 'featuredSkills'
@@ -341,7 +339,7 @@ export default function EditableContentButton({
                         transformValue: (item) =>
                           Array.isArray(item)
                             ? item.filter((_, itemIndex) => itemIndex !== index)
-                            : item ?? [],
+                            : (item ?? []),
                         valuesByLocale: current,
                       }),
                     )
@@ -456,7 +454,7 @@ export default function EditableContentButton({
                         transformValue: (item) =>
                           Array.isArray(item)
                             ? item.filter((_, itemIndex) => itemIndex !== index)
-                            : item ?? [],
+                            : (item ?? []),
                         valuesByLocale: current,
                       }),
                     )

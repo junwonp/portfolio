@@ -130,31 +130,6 @@
   margin: 0;
 }
 
-.metric-item {
-  background: color-mix(in srgb, var(--color-surface-hover) 45%, transparent);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 0.3rem;
-  min-width: 0;
-  padding: 0.65rem;
-}
-
-.metric-item dt {
-  color: var(--color-sub);
-  font-size: 0.72rem;
-  line-height: 1.2;
-  overflow-wrap: anywhere;
-}
-
-.metric-item dd {
-  color: var(--color-primary);
-  font-size: 1rem;
-  font-weight: 800;
-  line-height: 1;
-  margin: 0;
-  overflow-wrap: anywhere;
-}
 
 .skills {
   display: flex;

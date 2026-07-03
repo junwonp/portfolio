@@ -10,8 +10,10 @@ import { skillState } from '@/lib/states/skills';
 import type { OtherExperienceProps } from '@/lib/types/about';
 import { parseMarkdown } from '@/lib/utils/markdown';
 
+import MetricCard from './MetricCard';
 import styles from './ProjectSpotlightList.module.css';
 import RichText from './RichText';
+
 
 interface ProjectSpotlightListProps {
   experiences: OtherExperienceProps[];
@@ -91,10 +93,11 @@ export default function ProjectSpotlightList({
               {metrics.length > 0 && (
                 <dl className={styles.metrics}>
                   {metrics.map((metric) => (
-                    <div key={metric.label} className={styles['metric-item']}>
-                      <dt>{metric.label}</dt>
-                      <dd>{metric.value}</dd>
-                    </div>
+                    <MetricCard
+                      key={metric.label}
+                      value={metric.value}
+                      label={metric.label}
+                    />
                   ))}
                 </dl>
               )}

@@ -59,55 +59,25 @@
 }
 
 .metric-strip {
-  background: color-mix(in srgb, var(--color-surface-hover) 35%, var(--color-basic-bg));
-  border-radius: 12px;
   display: grid;
-  gap: 0;
+  gap: 8px;
   grid-template-columns: repeat(var(--metric-count), minmax(0, 1fr));
   margin: 0 0 0.75rem;
-  padding: 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-  border: none;
   width: 100%;
 }
 
 :global(html.dark) .metric-strip {
-  background: rgba(255, 255, 255, 0.03);
+  background: transparent;
   box-shadow: none;
-  border: 0.5px solid rgba(255, 255, 255, 0.05);
+  border: none;
 }
 
-.metric-item {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  padding: 0.65rem;
-  text-align: center;
-}
-
-.metric-item dd {
-  color: var(--color-primary);
-  font-size: 0.95rem;
-  font-weight: 800;
-  line-height: 1;
-  margin: 0;
-  white-space: nowrap;
-  text-align: center;
-}
-
-.metric-item dt {
-  color: var(--color-sub);
-  font-size: 0.75rem;
-  line-height: 1.2;
-  text-align: center;
-}
-
-@media (max-width: 420px) {
-  .metric-strip.has-four-metrics {
+@media (max-width: 480px) {
+  .metric-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
 
 .tag-list {
   display: flex;

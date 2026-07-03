@@ -20,7 +20,7 @@ const uniqueStrings = (values: string[]): string[] =>
   Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)));
 
 export default function SkillSelectorDialog({
-  allowCustom = true,
+  allowCustom = false,
   candidates,
   emptyMessage = '선택 가능한 스킬이 없습니다.',
   label,
@@ -87,11 +87,7 @@ export default function SkillSelectorDialog({
             <span className={styles.placeholder}>선택된 스킬 없음</span>
           )}
         </div>
-        <button
-          className={styles['open-button']}
-          type="button"
-          onClick={() => setIsOpen(true)}
-        >
+        <button className={styles['open-button']} type="button" onClick={() => setIsOpen(true)}>
           <Plus size={15} aria-hidden="true" />
           스킬 선택
         </button>
@@ -161,11 +157,7 @@ export default function SkillSelectorDialog({
                       }
                     }}
                   />
-                  <button
-                    className={styles['add-button']}
-                    type="button"
-                    onClick={addCustomSkill}
-                  >
+                  <button className={styles['add-button']} type="button" onClick={addCustomSkill}>
                     추가
                   </button>
                 </div>

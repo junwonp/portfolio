@@ -12,6 +12,8 @@ import type { OtherExperienceProps } from "@/lib/types/about";
 import { parseMarkdown } from "@/lib/utils/markdown";
 
 import styles from "./ExperienceList.module.css";
+import MetricCard from "./MetricCard";
+
 
 interface Props {
   experiences: OtherExperienceProps[];
@@ -81,10 +83,11 @@ export default function ExperienceList({ experiences, labels, skillLimit }: Prop
                     style={{ "--metric-count": metricCount } as React.CSSProperties}
                   >
                     {project.metrics.map((metric) => (
-                      <div key={metric.label} className={styles["metric-item"]}>
-                        <dt>{metric.label}</dt>
-                        <dd>{metric.value}</dd>
-                      </div>
+                      <MetricCard
+                        key={metric.label}
+                        value={metric.value}
+                        label={metric.label}
+                      />
                     ))}
                   </dl>
                 )}

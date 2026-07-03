@@ -144,6 +144,52 @@ describe('parseContentOverrideRequest', () => {
     ).toMatchObject({ ok: true });
   });
 
+  it('rejects unregistered skill chips in editable project payloads', () => {
+    expect(
+      parseContentOverrideRequest({
+        area: 'home',
+        locale: 'ko',
+        payload: [
+          {
+            companyName: 'Example Inc.',
+            role: 'Frontend Engineer',
+            dateFrom: '2024-01',
+            project: [
+              {
+                id: 'structured_editor',
+                title: 'Structured Editor',
+                description: 'Company-scoped editing workflow',
+                dateFrom: '2024-01',
+                detail: ['Edited as one project item'],
+                featuredSkills: ['Unknown Runtime'],
+                skills: ['React', 'Unknown Runtime'],
+              },
+            ],
+          },
+        ],
+        targetKey: 'workExperiences',
+      }),
+    ).toMatchObject({ ok: false });
+
+    expect(
+      parseContentOverrideRequest({
+        area: 'project-detail',
+        locale: 'ko',
+        payload: { list: ['React', 'Unknown Runtime'] },
+        targetKey: 'my-project::techStack',
+      }),
+    ).toMatchObject({ ok: false });
+
+    expect(
+      parseContentOverrideRequest({
+        area: 'project-detail',
+        locale: 'ko',
+        payload: { techStack: ['React', 'Unknown Runtime'] },
+        targetKey: 'my-project::metadata',
+      }),
+    ).toMatchObject({ ok: false });
+  });
+
   it('rejects malformed year-month values in editable date fields', () => {
     expect(
       parseContentOverrideRequest({

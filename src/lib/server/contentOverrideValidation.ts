@@ -1,3 +1,4 @@
+import { isRegisteredSkillName } from '@/lib/data/skills';
 import type { ContentOverrideArea } from '@/lib/server/editableContentStore';
 import type { Language } from '@/lib/utils/language';
 import { isValidLanguage } from '@/lib/utils/language';
@@ -28,6 +29,9 @@ const isOptionalEditableDateString = (value: unknown): value is string =>
 
 const isStringArray = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every(isString);
+
+const isRegisteredSkillArray = (value: unknown): value is string[] =>
+  isStringArray(value) && value.every(isRegisteredSkillName);
 
 const hasOnlyKeys = (value: Record<string, unknown>, keys: readonly string[]): boolean =>
   Object.keys(value).every((key) => keys.includes(key));
@@ -112,10 +116,10 @@ const isProjectItem = (value: unknown): boolean => {
     isString(value.description) &&
     isStringArray(value.detail) &&
     (!('detailLink' in value) || isString(value.detailLink)) &&
-    (!('featuredSkills' in value) || isStringArray(value.featuredSkills)) &&
+    (!('featuredSkills' in value) || isRegisteredSkillArray(value.featuredSkills)) &&
     isString(value.id) &&
     isString(value.title) &&
-    (!('skills' in value) || isStringArray(value.skills)) &&
+    (!('skills' in value) || isRegisteredSkillArray(value.skills)) &&
     (!('metrics' in value) || (Array.isArray(value.metrics) && value.metrics.every(isMetricItem)))
   );
 };
@@ -175,7 +179,7 @@ const isSkillOverride = (value: unknown): boolean =>
   hasOnlyKeys(value, ['detailLabel', 'detailLink', 'description', 'id', 'list', 'title']) &&
   isString(value.id) &&
   isString(value.title) &&
-  isStringArray(value.list) &&
+  isRegisteredSkillArray(value.list) &&
   (!('description' in value) || isString(value.description)) &&
   (!('detailLabel' in value) || isString(value.detailLabel)) &&
   (!('detailLink' in value) || isString(value.detailLink));
@@ -232,7 +236,7 @@ const isProjectMetadataOverride = (value: unknown): boolean => {
     (!('role' in value) || isString(value.role)) &&
     (!('status' in value) || isString(value.status)) &&
     (!('tagline' in value) || isString(value.tagline)) &&
-    (!('techStack' in value) || isStringArray(value.techStack)) &&
+    (!('techStack' in value) || isRegisteredSkillArray(value.techStack)) &&
     (!('title' in value) || isString(value.title))
   );
 };
@@ -380,7 +384,9 @@ export const isValidProjectDetailOverridePayload = (
   }
 
   if (targetKey.endsWith('::techStack')) {
-    return isRecord(payload) && hasOnlyKeys(payload, ['list']) && isStringArray(payload.list);
+    return (
+      isRecord(payload) && hasOnlyKeys(payload, ['list']) && isRegisteredSkillArray(payload.list)
+    );
   }
 
   if (targetKey.endsWith('::blocks')) {

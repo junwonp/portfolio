@@ -20,7 +20,9 @@ import { getLabels } from '@/lib/data/labels';
 import type { PostMetadata } from '@/lib/types/post';
 import type { Language } from '@/lib/utils/language';
 
+import MetricCard from './MetricCard';
 import styles from './ProjectDetailPage.module.css';
+
 
 interface EditableProjectHeroProps {
   locale: Language;
@@ -60,10 +62,11 @@ function ProjectHeroContent({ metadata, slug }: EditableProjectHeroProps) {
           }
         >
           {metadata.metrics.map((metric) => (
-            <div key={metric.label} className={styles.metric}>
-              <dt className={styles['metric-lbl']}>{metric.label}</dt>
-              <dd className={styles['metric-val']}>{metric.value}</dd>
-            </div>
+            <MetricCard
+              key={metric.label}
+              value={metric.value}
+              label={metric.label}
+            />
           ))}
         </dl>
       )}
