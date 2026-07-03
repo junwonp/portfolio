@@ -18,7 +18,6 @@ import MetricCard from './MetricCard';
 import ProjectDetailClientEffects from './ProjectDetailClientEffects';
 import styles from './ProjectDetailPage.module.css';
 
-
 interface Props {
   slug: string;
   locale: Language;
@@ -68,9 +67,7 @@ export default function ProjectDetailPage({
 
       {metadata.metrics && metadata.metrics.length > 0 && (
         <dl
-          className={`${styles['metrics-row']} ${
-            metricColumnCount === 4 ? styles['has-four-metrics'] : ''
-          }`}
+          className={styles['metrics-row']}
           style={
             {
               '--metric-count': metricColumnCount,
@@ -78,11 +75,7 @@ export default function ProjectDetailPage({
           }
         >
           {metadata.metrics.map((metric) => (
-            <MetricCard
-              key={metric.label}
-              value={metric.value}
-              label={metric.label}
-            />
+            <MetricCard key={metric.label} value={metric.value} label={metric.label} />
           ))}
         </dl>
       )}

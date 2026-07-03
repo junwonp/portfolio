@@ -23,7 +23,6 @@ import type { Language } from '@/lib/utils/language';
 import MetricCard from './MetricCard';
 import styles from './ProjectDetailPage.module.css';
 
-
 interface EditableProjectHeroProps {
   locale: Language;
   metadata: PostMetadata;
@@ -52,9 +51,7 @@ function ProjectHeroContent({ metadata, slug }: EditableProjectHeroProps) {
 
       {metadata.metrics && metadata.metrics.length > 0 && (
         <dl
-          className={`${styles['metrics-row']} ${
-            metricColumnCount === 4 ? styles['has-four-metrics'] : ''
-          }`}
+          className={styles['metrics-row']}
           style={
             {
               '--metric-count': metricColumnCount,
@@ -62,11 +59,7 @@ function ProjectHeroContent({ metadata, slug }: EditableProjectHeroProps) {
           }
         >
           {metadata.metrics.map((metric) => (
-            <MetricCard
-              key={metric.label}
-              value={metric.value}
-              label={metric.label}
-            />
+            <MetricCard key={metric.label} value={metric.value} label={metric.label} />
           ))}
         </dl>
       )}
