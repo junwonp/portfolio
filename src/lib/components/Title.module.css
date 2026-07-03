@@ -107,27 +107,12 @@
   display: flex;
   gap: 0.75rem;
   padding: 0.75rem var(--space-sm);
-  transition:
-    background-color 0.2s ease,
-    transform 0.2s ease,
-    border-color 0.2s ease;
   border: 0.5px solid rgba(0, 0, 0, 0.03);
 }
 
 :global(.dark) .pillar {
   background-color: rgba(255, 255, 255, 0.02);
   border: 0.5px solid rgba(255, 255, 255, 0.04);
-}
-
-.pillar:hover {
-  background-color: var(--color-surface-hover);
-  transform: translateX(2px);
-  border-color: rgba(0, 0, 0, 0.06);
-}
-
-:global(.dark) .pillar:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.08);
 }
 
 .pillar-index {

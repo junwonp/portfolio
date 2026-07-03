@@ -11,10 +11,8 @@
   min-width: 0;
   overflow: hidden;
   padding: 1.5rem;
-  transition:
-    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.2s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  border: 0.5px solid color-mix(in srgb, var(--color-bg-divider) 40%, transparent);
 }
 
 :global(.dark) .company-card {

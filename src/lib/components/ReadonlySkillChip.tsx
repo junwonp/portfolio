@@ -1,31 +1,22 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties } from 'react';
 
-import { getSkillCategory } from "@/lib/data/skills";
+import { getSkillCategory } from '@/lib/data/skills';
 
-import styles from "./SkillChip.module.css";
+import styles from './SkillChip.module.css';
 
 interface ReadonlySkillChipProps {
   skill: string;
 }
 
-export default function ReadonlySkillChip({
-  skill,
-}: ReadonlySkillChipProps) {
+export default function ReadonlySkillChip({ skill }: ReadonlySkillChipProps) {
   const category = getSkillCategory(skill);
 
   const inlineStyles = {
-    "--cat-color": `var(--color-cat-${category})`,
-    "--cat-text-hover":
-      category === "ai_workflow"
-        ? "var(--color-cat-ai_workflow-text, white)"
-        : "white",
+    '--cat-color': `var(--color-cat-${category})`,
   } as CSSProperties;
 
   return (
-    <span
-      className={`${styles["skill-chip"]} ${styles.readonly}`}
-      style={inlineStyles}
-    >
+    <span className={styles['skill-chip']} style={inlineStyles}>
       {skill}
     </span>
   );
