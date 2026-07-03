@@ -5,7 +5,6 @@ import React from 'react';
 
 import BentoSkills from '@/lib/components/BentoSkills';
 import DesktopSideNav from '@/lib/components/DesktopSideNav';
-import ExperienceList from '@/lib/components/ExperienceList';
 import type { HomePageData } from '@/lib/components/HomePage';
 import ProjectSpotlightList from '@/lib/components/ProjectSpotlightList';
 import SectionHeader from '@/lib/components/SectionHeader';
@@ -62,6 +61,7 @@ export default function HomePageClient({
                     <ProjectSpotlightList
                       experiences={featuredWebProjects}
                       labels={labels}
+                      variant="spotlight"
                       skillLimit={6}
                     />
                   </section>
@@ -90,7 +90,7 @@ export default function HomePageClient({
                 <div className={styles['section-heading-row']}>
                   <SectionHeader title={labels.sectionAwards} />
                 </div>
-                <ExperienceList experiences={filteredProjects} labels={labels} />
+                <ProjectSpotlightList experiences={filteredProjects} labels={labels} variant="resume" />
               </section>
             )}
 
@@ -99,7 +99,7 @@ export default function HomePageClient({
                 <div className={styles['section-heading-row']}>
                   <SectionHeader title={labels.sectionArchives} />
                 </div>
-                <ExperienceList experiences={filteredArchives} labels={labels} />
+                <ProjectSpotlightList experiences={filteredArchives} labels={labels} variant="resume" />
               </section>
             )}
 

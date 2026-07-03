@@ -8,7 +8,6 @@ import DesktopSideNav from '@/lib/components/DesktopSideNav';
 import EditableContentButton from '@/lib/components/EditableContentButton';
 import type { EditableValue } from '@/lib/components/editableContentEditorModel';
 import EditableWorkAccordion from '@/lib/components/EditableWorkAccordion';
-import ExperienceList from '@/lib/components/ExperienceList';
 import type { HomePageData } from '@/lib/components/HomePage';
 import ProjectSpotlightList from '@/lib/components/ProjectSpotlightList';
 import SectionHeader from '@/lib/components/SectionHeader';
@@ -75,6 +74,7 @@ export default function EditableHomePageClient({
                     <ProjectSpotlightList
                       experiences={featuredWebProjects}
                       labels={labels}
+                      variant="spotlight"
                       skillLimit={6}
                     />
                   </section>
@@ -209,7 +209,7 @@ export default function EditableHomePageClient({
                           <SectionHeader title={labels.sectionAwards} />
                           {trigger}
                         </div>
-                        {isEditing ? editor : <ExperienceList experiences={filteredProjects} labels={labels} />}
+                        {isEditing ? editor : <ProjectSpotlightList experiences={filteredProjects} labels={labels} variant="resume" />}
                       </>
                     )}
                   </EditableContentButton>
@@ -218,7 +218,7 @@ export default function EditableHomePageClient({
                     <div className={styles['section-heading-row']}>
                       <SectionHeader title={labels.sectionAwards} />
                     </div>
-                    <ExperienceList experiences={filteredProjects} labels={labels} />
+                    <ProjectSpotlightList experiences={filteredProjects} labels={labels} variant="resume" />
                   </>
                 )}
               </section>
@@ -246,7 +246,7 @@ export default function EditableHomePageClient({
                           <SectionHeader title={labels.sectionArchives} />
                           {trigger}
                         </div>
-                        {isEditing ? editor : <ExperienceList experiences={filteredArchives} labels={labels} />}
+                        {isEditing ? editor : <ProjectSpotlightList experiences={filteredArchives} labels={labels} variant="resume" />}
                       </>
                     )}
                   </EditableContentButton>
@@ -255,7 +255,7 @@ export default function EditableHomePageClient({
                     <div className={styles['section-heading-row']}>
                       <SectionHeader title={labels.sectionArchives} />
                     </div>
-                    <ExperienceList experiences={filteredArchives} labels={labels} />
+                    <ProjectSpotlightList experiences={filteredArchives} labels={labels} variant="resume" />
                   </>
                 )}
               </section>
