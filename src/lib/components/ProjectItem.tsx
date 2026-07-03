@@ -12,6 +12,11 @@ import { parseMarkdown } from "@/lib/utils/markdown";
 import ArrowLink from "./ArrowLink";
 import Period from "./Period";
 import ProjectItemStyles from "./ProjectItem.module.css";
+import type { ProjectDetailsMode } from "./projectItemDisplay";
+import {
+  shouldForceProjectContentOpen,
+  shouldRenderProjectDetails,
+} from "./projectItemDisplay";
 import RichText from "./RichText";
 import SkillChip from "./SkillChip";
 
@@ -23,10 +28,12 @@ interface Props {
   isFiltered: boolean;
   labels: Labels;
   project: ProjectItemType;
+  detailsMode?: ProjectDetailsMode;
 }
 
 export default function ProjectItem({
   companyName,
+  detailsMode,
   editTrigger,
   editor,
   isEditing = false,
@@ -37,7 +44,11 @@ export default function ProjectItem({
   const { isProjectOpen, toggleProject } = useAccordionState();
   const { sort, getCategory } = useSkillState();
 
-  const isOpen = isProjectOpen(companyName, project.title) || isFiltered;
+  const isCompact = detailsMode === "compact";
+  const isOpen =
+    shouldForceProjectContentOpen(detailsMode) ||
+    isProjectOpen(companyName, project.title) ||
+    isFiltered;
 
   const sortedSkills = useMemo(() => {
     return project.skills ? sort(project.skills) : [];
@@ -58,12 +69,19 @@ export default function ProjectItem({
   }
 
   const metricCount = project.metrics ? Math.min(project.metrics.length, 4) : 0;
+  const hasDetailRows = shouldRenderProjectDetails(
+    detailsMode,
+    project.detail,
+    Boolean(project.detailLink),
+  );
 
   const handleToggle = () => {
+    if (isCompact) return;
     if (!isFiltered) toggleProject(companyName, project.title);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (isCompact) return;
     if (!isFiltered && (event.key === "Enter" || event.key === " ")) {
       event.preventDefault();
       toggleProject(companyName, project.title);
@@ -82,11 +100,11 @@ export default function ProjectItem({
     <div className={`${ProjectItemStyles["project-item"]} ${isOpen ? ProjectItemStyles["is-open"] : ""}`}>
       <div
         className={ProjectItemStyles["project-header"]}
-        onClick={handleToggle}
-        onKeyDown={handleKeyDown}
-        aria-expanded={isOpen}
-        role="button"
-        tabIndex={0}
+        onClick={isCompact ? undefined : handleToggle}
+        onKeyDown={isCompact ? undefined : handleKeyDown}
+        aria-expanded={isCompact ? undefined : isOpen}
+        role={isCompact ? undefined : "button"}
+        tabIndex={isCompact ? undefined : 0}
       >
         <div className={ProjectItemStyles["project-title-area"]}>
           <div className={ProjectItemStyles["project-title-row"]}>
@@ -118,11 +136,13 @@ export default function ProjectItem({
           <span className={`${ProjectItemStyles["project-period"]} ${ProjectItemStyles["pc-only"]}`}>
             <Period dateFrom={project.dateFrom} dateTo={project.dateTo} />
           </span>
-          <ChevronDown
-            size={20}
-            strokeWidth={2}
-            className={`${ProjectItemStyles["project-chevron"]} ${isOpen ? ProjectItemStyles.open : ""}`}
-          />
+          {!isCompact && (
+            <ChevronDown
+              size={20}
+              strokeWidth={2}
+              className={`${ProjectItemStyles["project-chevron"]} ${isOpen ? ProjectItemStyles.open : ""}`}
+            />
+          )}
         </div>
       </div>
 
@@ -144,7 +164,7 @@ export default function ProjectItem({
             </div>
           )}
 
-          {project.detail.length > 0 && (
+          {hasDetailRows && (
             <div className={ProjectItemStyles["detail-grid"]}>
               {project.detail.map((line) => {
                 const parsed = parseDetailLine(line);

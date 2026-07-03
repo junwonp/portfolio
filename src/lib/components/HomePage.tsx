@@ -23,6 +23,7 @@ interface NavSection {
 
 export interface HomePageData {
   featuredWebProjects: OtherExperienceProps[];
+  featuredProjectsMode: 'role-fit' | 'selected';
   homeContentOverride?: HomeContentOverride | null;
   isAdminEditor?: boolean;
   labels: Labels;

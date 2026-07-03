@@ -114,6 +114,7 @@ export default function CompanyCard({ exp, isFiltered, labels }: Props) {
                 key={`${project.id}:${project.title}`}
                 project={project}
                 companyName={exp.companyName}
+                detailsMode="compact"
                 isFiltered={isFiltered}
                 labels={labels}
               />

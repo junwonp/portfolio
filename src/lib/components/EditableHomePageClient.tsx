@@ -11,6 +11,7 @@ import type { EditableValue } from '@/lib/components/editableContentEditorModel'
 import EditableWorkAccordion from '@/lib/components/EditableWorkAccordion';
 import ExperienceList from '@/lib/components/ExperienceList';
 import type { HomePageData } from '@/lib/components/HomePage';
+import ProjectSpotlightList from '@/lib/components/ProjectSpotlightList';
 import SectionHeader from '@/lib/components/SectionHeader';
 import { useSkillState } from '@/lib/states/skills';
 
@@ -51,6 +52,10 @@ export default function EditableHomePageClient({
   const labels = data.labels;
   const resumeData = data.resumeData;
   const featuredWebProjects = data.featuredWebProjects;
+  const featuredProjectsTitle =
+    data.featuredProjectsMode === 'role-fit'
+      ? labels.sectionFeaturedProjects
+      : labels.sectionSelectedProjects;
   const navSections = data.navSections;
 
   const filteredWork = useMemo(() => {
@@ -111,9 +116,9 @@ export default function EditableHomePageClient({
                 {!isSkillPanelOpen && featuredWebProjects.length > 0 && (
                   <section id="section-featured" className={styles['fade-slide-enter']}>
                     <div className={styles['section-heading-row']}>
-                      <SectionHeader title={labels.sectionFeaturedProjects} />
+                      <SectionHeader title={featuredProjectsTitle} />
                     </div>
-                    <ExperienceList
+                    <ProjectSpotlightList
                       experiences={featuredWebProjects}
                       labels={labels}
                       skillLimit={6}

@@ -268,6 +268,7 @@ export default function EditableCompanyCard({ editorConfig, exp, isFiltered, lab
                 {({ editor, isEditing, trigger }) => (
                   <ProjectItem
                     companyName={exp.companyName}
+                    detailsMode="compact"
                     editTrigger={trigger}
                     editor={editor}
                     isEditing={isEditing}
@@ -285,6 +286,7 @@ export default function EditableCompanyCard({ editorConfig, exp, isFiltered, lab
               key={`${project.id}:${project.title}`}
               project={project}
               companyName={exp.companyName}
+              detailsMode="compact"
               isFiltered={isFiltered}
               labels={labels}
             />
