@@ -20,6 +20,7 @@ export interface ProjectContentEntry {
   dateTo?: string;
   detailPath?: `/projects/${string}`;
   featuredSkills?: SkillName[];
+  icon?: string;
   id: string;
   parentId?: string;
   paradigm?: 'agentic' | 'assisted';

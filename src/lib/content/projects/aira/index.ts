@@ -10,6 +10,7 @@ export const airaProject = defineProject({
   dateFrom: '2024-07',
   dateTo: '2025-12',
   detailPath: '/projects/aira',
+  icon: '/images/aira/icon.webp',
   paradigm: 'assisted',
   featuredSkills: [
     SKILL.languages.typescript,

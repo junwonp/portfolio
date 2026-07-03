@@ -1,6 +1,7 @@
 import type { ProjectDetailBlock } from '@/lib/content/editableContent';
 import type { Language } from '@/lib/utils/language';
 
+import { adminDashboardDetailContent } from './admin-dashboard';
 import { agenticWorkflowDetailContent } from './agentic-workflow';
 import { airaDetailContent } from './aira';
 import { camerafiStudioDetailContent } from './camerafi-studio';
@@ -14,6 +15,7 @@ import { todayWeatherDetailContent } from './today-weather';
 export type ProjectDetailContentMap = Record<string, Record<Language, ProjectDetailBlock[]>>;
 
 export const projectDetailContentMap: ProjectDetailContentMap = {
+  'admin-dashboard': adminDashboardDetailContent,
   'agentic-workflow': agenticWorkflowDetailContent,
   aira: airaDetailContent,
   'camerafi-studio': camerafiStudioDetailContent,

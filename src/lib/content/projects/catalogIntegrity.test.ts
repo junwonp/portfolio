@@ -20,6 +20,18 @@ describe('project detail catalog integrity', () => {
     expect([...projectDetailContentSlugs].sort()).toEqual([...detailProjectSlugs].sort());
   });
 
+  it('documents the B2B admin dashboard as a detail case study', () => {
+    expect(detailProjectSlugs).toContain('admin-dashboard');
+    expect(projectDetailContentSlugs).toContain('admin-dashboard');
+    expect(getProjectMetadata('admin-dashboard', 'ko')?.title).toBe('B2B 통합 관리자 대시보드');
+  });
+
+  it('keeps the defense resource dashboard as an inline career project', () => {
+    expect(detailProjectSlugs).not.toContain('mnd-dashboard');
+    expect(projectDetailContentSlugs).not.toContain('mnd-dashboard');
+    expect(getProjectMetadata('mnd-dashboard', 'ko')).toBeUndefined();
+  });
+
   it('keeps structured detail blocks compatible with override validation', () => {
     for (const [slug, localizedContent] of Object.entries(projectDetailContentMap)) {
       for (const [locale, blocks] of Object.entries(localizedContent)) {

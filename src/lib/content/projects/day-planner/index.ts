@@ -7,6 +7,7 @@ export const dayPlannerProject = defineProject({
   slug: 'day-planner',
   section: 'other',
   dateFrom: '2026-04',
+  icon: '/images/day-planner/icon.webp',
   paradigm: 'agentic',
   featuredSkills: [SKILL.languages.swift, SKILL.frameworks.swiftUi, SKILL.backend.cloudKit],
   skills: [SKILL.languages.swift, SKILL.frameworks.swiftUi, SKILL.backend.cloudKit],

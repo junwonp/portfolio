@@ -34,6 +34,30 @@ describe('resolveHomeTailoredViewFromSearchParams', () => {
 });
 
 describe('createHomePageData', () => {
+  it('uses selected projects by default when no tailored project ids are provided', () => {
+    const data = createHomePageData({
+      homeContentOverride: null,
+      isAdminEditor: false,
+      locale: 'ko',
+      tailoredView: {
+        summaryPreset: 'default',
+        projectIds: [],
+      },
+    });
+
+    expect(data.featuredProjectsMode).toBe('selected');
+    expect(data.featuredWebProjects.map((experience) => experience.project[0].id)).toEqual([
+      'aira',
+      'today_weather',
+      'nextjs_portfolio',
+      'kftc_platform',
+    ]);
+    expect(data.navSections).toContainEqual({
+      id: 'section-featured',
+      label: '대표 프로젝트',
+    });
+  });
+
   it('builds featured project data and navigation from the resolved tailored view', () => {
     const data = createHomePageData({
       homeContentOverride: null,
@@ -49,8 +73,12 @@ describe('createHomePageData', () => {
       'today_weather',
       'web_viewer',
     ]);
+    expect(data.featuredProjectsMode).toBe('role-fit');
     expect(data.summaryIntroduction.tagline).toContain('확장 가능한 웹 제품');
-    expect(data.navSections.map((section) => section.id)).toContain('section-featured');
+    expect(data.navSections).toContainEqual({
+      id: 'section-featured',
+      label: '직무 적합 프로젝트',
+    });
   });
 
   it('resolves stored project slugs in tailored short-link data', () => {

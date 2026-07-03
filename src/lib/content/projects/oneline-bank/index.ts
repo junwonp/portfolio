@@ -5,6 +5,7 @@ import { defineProject } from '../types';
 export const onelineBankProject = defineProject({
   id: 'onelinebank_rebuild',
   slug: 'oneline-bank',
+  icon: '/images/oneline-bank/icon.webp',
   section: 'archive',
   dateFrom: '2021-04',
   dateTo: '2021-04',

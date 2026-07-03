@@ -35,6 +35,8 @@ interface GetHomePageDataInput {
   tailoredView: ResolvedHomeTailoredView;
 }
 
+const defaultSelectedProjectIds = ['aira', 'today_weather', 'nextjs_portfolio', 'kftc_platform'];
+
 const getParamValues = (
   searchParams: PageSearchParamsRecord,
   key: string,
@@ -120,7 +122,10 @@ export const createHomePageData = ({
     ]),
   ) as Record<Language, ReturnType<typeof getResumeData>>;
   const resumeData = resumeDataByLocale[locale];
-  const featuredWebProjects = getFeaturedWebProjects(locale, tailoredView.projectIds);
+  const featuredProjectsMode = tailoredView.projectIds.length > 0 ? 'role-fit' : 'selected';
+  const featuredProjectIds =
+    featuredProjectsMode === 'role-fit' ? tailoredView.projectIds : defaultSelectedProjectIds;
+  const featuredWebProjects = getFeaturedWebProjects(locale, featuredProjectIds);
   const summaryIntroductionByLocale = Object.fromEntries(
     SUPPORTED_LANGUAGES.map((targetLocale) => [
       targetLocale,
@@ -135,7 +140,15 @@ export const createHomePageData = ({
   const navSections = [
     { id: 'section-intro', label: labels.sectionIntro },
     ...(featuredWebProjects.length > 0
-      ? [{ id: 'section-featured', label: labels.sectionFeaturedProjects }]
+      ? [
+          {
+            id: 'section-featured',
+            label:
+              featuredProjectsMode === 'role-fit'
+                ? labels.sectionFeaturedProjects
+                : labels.sectionSelectedProjects,
+          },
+        ]
       : []),
     { id: 'section-work', label: labels.sectionWork },
     { id: 'section-skills', label: labels.sectionSkills },
@@ -144,6 +157,7 @@ export const createHomePageData = ({
   ];
 
   return {
+    featuredProjectsMode,
     featuredWebProjects,
     homeContentOverride,
     isAdminEditor,

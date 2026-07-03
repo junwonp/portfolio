@@ -381,8 +381,31 @@ export interface ResumeData {
   workExperiences: WorkExperienceProps[];
 }
 
+const getProjectThumbnailAlt = (
+  title: string,
+  kind: 'icon' | 'screenshot',
+  lang: Language,
+): string => {
+  if (kind === 'icon') {
+    return lang === 'ko' ? `${title} 아이콘` : `${title} icon`;
+  }
+
+  return lang === 'ko' ? `${title} 대표 화면` : `${title} preview`;
+};
+
 const toResumeProject = (project: ProjectContentEntry, lang: Language): ProjectItem => {
   const content = project.content[lang];
+  const thumbnailKind: NonNullable<ProjectItem['thumbnail']>['kind'] = project.icon
+    ? 'icon'
+    : 'screenshot';
+  const thumbnailSrc = project.icon ?? content.detailMetadata?.image;
+  const thumbnail = thumbnailSrc
+    ? {
+        src: thumbnailSrc,
+        alt: getProjectThumbnailAlt(content.title, thumbnailKind, lang),
+        kind: thumbnailKind,
+      }
+    : undefined;
 
   return {
     dateFrom: project.dateFrom ?? '',
@@ -393,6 +416,7 @@ const toResumeProject = (project: ProjectContentEntry, lang: Language): ProjectI
     skills: project.skills,
     description: content.description,
     detail: content.summaryDetails,
+    thumbnail,
     title: content.title,
     metrics: content.metrics,
   };

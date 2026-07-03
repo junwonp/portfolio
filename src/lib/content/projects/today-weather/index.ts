@@ -8,6 +8,7 @@ export const todayWeatherProject = defineProject({
   section: 'other',
   dateFrom: '2026-04',
   detailPath: '/projects/today-weather',
+  icon: '/images/today-weather/icon.webp',
   paradigm: 'agentic',
   featuredSkills: [
     SKILL.languages.typescript,
@@ -50,6 +51,7 @@ export const todayWeatherProject = defineProject({
         description:
           'Personalized weather and lifestyle guide using KMA and Air Korea data — monorepo serving web, Expo mobile, and iOS widgets from a single shared logic layer.',
         date: '2026-04 ~',
+        image: '/images/today-weather/web-home.png',
         role: 'Solo developer',
         platforms: ['Web', 'iOS', 'Android'],
         metrics: [{ value: '80%+', label: 'API Load Reduced' }],
@@ -87,6 +89,7 @@ export const todayWeatherProject = defineProject({
         description:
           '기상청·에어코리아 데이터를 활용한 맞춤형 날씨·생활 가이드 — 단일 공유 로직 레이어로 웹, Expo 앱, iOS 위젯을 동시에 서빙하는 모노레포 서비스.',
         date: '2026-04 ~',
+        image: '/images/today-weather/web-home.png',
         role: '1인 개발',
         platforms: ['Web', 'iOS', 'Android'],
         metrics: [{ value: '80%+', label: 'API 부하 절감' }],

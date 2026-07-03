@@ -29,6 +29,11 @@ export interface ProjectItem {
   featuredSkills?: string[];
   id: string;
   skills?: string[];
+  thumbnail?: {
+    alt: string;
+    kind: 'icon' | 'screenshot';
+    src: string;
+  };
   title: string;
   metrics?: MetricItem[];
 }

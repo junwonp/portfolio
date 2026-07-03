@@ -55,7 +55,7 @@ describe('resume data for web frontend applications', () => {
       'web_viewer',
       'admin_dashboard',
     ]);
-    expect(featured[2].project[0].detailLink).toBeUndefined();
+    expect(featured[2].project[0].detailLink).toBe('/projects/admin-dashboard');
     expect(featured[2].project[0].featuredSkills).toEqual([
       'TypeScript',
       'React',
@@ -64,6 +64,37 @@ describe('resume data for web frontend applications', () => {
       'TanStack Query',
       'MUI',
     ]);
+  });
+
+  it('keeps the defense resource dashboard as an inline-only career project', () => {
+    const featured = getResumeData('ko')
+      .workExperiences.flatMap((experience) => experience.project)
+      .find((project) => project.id === 'mnd_dashboard');
+
+    expect(featured?.detailLink).toBeUndefined();
+    expect(featured?.detail).toContain(
+      '**[React 전환 참여]** 제한망에서 동작하던 자원 현황·통계 시스템을 **React 기반 대시보드 구조로 전환하는 작업에 참여**했습니다.',
+    );
+  });
+
+  it('maps project icons before falling back to screenshot thumbnails', () => {
+    const featured = getFeaturedWebProjects('ko', ['aira', 'today_weather', 'day_planner']);
+
+    expect(featured[0].project[0].thumbnail).toEqual({
+      src: '/images/aira/icon.webp',
+      alt: '아이라 (aira) 아이콘',
+      kind: 'icon',
+    });
+    expect(featured[1].project[0].thumbnail).toEqual({
+      src: '/images/today-weather/icon.webp',
+      alt: '오늘날씨 (Today’s Weather) — 맞춤형 날씨 및 생활 가이드 아이콘',
+      kind: 'icon',
+    });
+    expect(featured[2].project[0].thumbnail).toEqual({
+      src: '/images/day-planner/icon.webp',
+      alt: 'Day Planner — 시간 관리를 위한 크로스 플랫폼 스케줄러 아이콘',
+      kind: 'icon',
+    });
   });
 
   it('resolves role-fit project ids from query params', () => {

@@ -5,6 +5,7 @@ import { defineProject } from '../types';
 export const camerafiStudioProject = defineProject({
   id: 'camerafi_studio',
   slug: 'camerafi-studio',
+  icon: '/images/camerafi-studio/icon.webp',
   section: 'work',
   parentId: 'vault_micro',
   dateFrom: '2022-02',
