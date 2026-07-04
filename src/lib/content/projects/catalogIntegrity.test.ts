@@ -76,7 +76,7 @@ describe('project detail catalog integrity', () => {
     );
     expect(
       normalizeApplicationProjectIdentifiers([
-        'agentic-workflow',
+        'non-existent-standalone',
         'missing',
         ...selectableProjectIds,
       ]),

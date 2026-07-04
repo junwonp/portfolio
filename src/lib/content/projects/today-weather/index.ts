@@ -1,4 +1,4 @@
-import { SKILL } from '@/lib/data/skills';
+import { isRegisteredSkillName } from '@/lib/data/skills';
 
 import { frontmatter as enMetadata } from './detail.en.mdx';
 import { frontmatter as koMetadata } from './detail.ko.mdx';
@@ -6,61 +6,30 @@ import { frontmatter as koMetadata } from './detail.ko.mdx';
 import { defineProject } from '../types';
 
 export const todayWeatherProject = defineProject({
-  id: 'today_weather',
+  id: koMetadata.id!,
   slug: 'today-weather',
-  section: 'other',
-  dateFrom: '2026-04',
-  detailPath: '/projects/today-weather',
-  icon: '/images/today-weather/icon.webp',
-  paradigm: 'agentic',
-  featuredSkills: [
-    SKILL.languages.typescript,
-    SKILL.frameworks.nextJs,
-    SKILL.frameworks.react,
-    SKILL.state.tanstackQuery,
-    SKILL.backend.upstash,
-    SKILL.devops.vitest,
-  ],
-  skills: [
-    SKILL.languages.typescript,
-    SKILL.frameworks.nextJs,
-    SKILL.frameworks.react,
-    SKILL.frameworks.reactNative,
-    SKILL.frameworks.expo,
-    SKILL.frameworks.expoRouter,
-    SKILL.ui.tailwindCss,
-    SKILL.ui.shadcnUi,
-    SKILL.state.tanstackQuery,
-    SKILL.performance.reanimated,
-    SKILL.performance.reactCompiler,
-    SKILL.backend.supabase,
-    SKILL.backend.upstash,
-    SKILL.languages.swift,
-    SKILL.devops.vitest,
-  ],
+  section: koMetadata.section!,
+  parentId: koMetadata.parentId,
+  dateFrom: koMetadata.dateFrom,
+  dateTo: koMetadata.dateTo,
+  detailPath: koMetadata.detailPath as `/projects/${string}`,
+  icon: koMetadata.icon,
+  paradigm: koMetadata.paradigm as 'assisted' | 'agentic',
+  featuredSkills: (koMetadata.featuredSkills || []).filter(isRegisteredSkillName),
+  skills: (koMetadata.techStack || []).filter(isRegisteredSkillName),
   content: {
     en: {
-      title: "Today's Weather — Personalized Weather & Lifestyle Guide",
-      description:
-        "A service providing personalized 'action plans' such as what to wear or whether to bring an umbrella, using high-precision data from the Korea Meteorological Administration and Air Korea.",
-      summaryDetails: [
-        '**[Edge-Optimized Cache]** Implemented a serverless caching strategy using **Upstash Redis** on Vercel icn1 (Seoul) region, reducing upstream API load by 80%.',
-        '**[Advanced Native Integration]** Built iOS native widgets using **Swift** and `@bacons/apple-targets`, synchronizing real-time weather data between the web app and home screen.',
-        '**[Modern Tech Stack]** Leveraged **Next.js 16 (App Router)** and **React 19** with the **React Compiler** for optimal performance without manual memoization.',
-        '**[Agentic Orchestration]** Developed using an advanced AI workflow, utilizing **MCP** to provide the AI agent with real-time documentation and system context for precise implementation.',
-      ],
+      title: enMetadata.title!,
+      description: enMetadata.description!,
+      metrics: enMetadata.metrics,
+      summaryDetails: enMetadata.summaryDetails || [],
       detailMetadata: enMetadata,
     },
     ko: {
-      title: '오늘날씨 (Today’s Weather) — 맞춤형 날씨 및 생활 가이드',
-      description:
-        '기상청 및 에어코리아 데이터를 활용하여 사용자에게 최적의 복장과 준비물을 제안하는 개인화 서비스.',
-      summaryDetails: [
-        '**[엣지 최적화 캐시]** Vercel icn1(서울) 리전과 **Upstash Redis를 활용한 서버리스 캐싱 전략**을 구축하여 업스트림 API 부하를 80% 이상 절감했습니다.',
-        '**[고도화된 네이티브 연동]** **Swift와 @bacons/apple-targets를 활용해 iOS 네이티브 위젯**을 개발, 웹 앱과 홈 화면 위젯 간의 실시간 데이터 동기화를 구현했습니다.',
-        '**[최신 스택 도입]** **Next.js 16 (App Router) 및 React 19**를 선제적으로 도입하고 **React Compiler**를 활용하여 수동 메모이제이션 없는 최적의 성능을 확보했습니다.',
-        '**[에이전틱 오케스트레이션]** **MCP를 통해 AI 에이전트에게 실시간 도큐먼트와 시스템 컨텍스트를 제공**하여 고도로 정밀한 기능 구현을 주도했습니다.',
-      ],
+      title: koMetadata.title!,
+      description: koMetadata.description!,
+      metrics: koMetadata.metrics,
+      summaryDetails: koMetadata.summaryDetails || [],
       detailMetadata: koMetadata,
     },
   },

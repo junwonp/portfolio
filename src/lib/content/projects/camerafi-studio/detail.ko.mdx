@@ -1,12 +1,24 @@
 ---
-title: CameraFi Studio
-description: 1인 개발로 설계한 웹 기반 방송 오버레이 플랫폼 — 프론트엔드 아키텍처부터 사내 두 번째 핵심 수익 모델까지.
+id: camerafi_studio
+parentId: vault_micro
+section: work
+dateFrom: '2022-02'
+dateTo: '2023-06'
+detailPath: /projects/camerafi-studio
+icon: /images/camerafi-studio/icon.webp
+paradigm: assisted
+title: 카메라파이 스튜디오 (CameraFi Studio)
+description: 웹 기반 방송용 오버레이 스코어보드 서비스
+role: 'Frontend Engineer'
 date: '2022-02 ~ 2023-06'
 image: '/images/camerafi-studio/optimization_chart.webp'
 productLink: 'https://studio.camerafi.com'
-role: 'Frontend Engineer'
 platforms: ['Web']
-metrics: [{ value: '15%', label: '번들 사이즈 감소' }, { value: '47KB', label: 'JS 절감' }]
+metrics:
+  [
+    { value: '15%', label: '번들 사이즈 감소' },
+    { value: '47KB', label: 'JS 절감' },
+  ]
 techStack:
   [
     'TypeScript',
@@ -14,10 +26,24 @@ techStack:
     'styled-components',
     'MUI',
     'TanStack Query',
-    'React Hook Form',
     'Firebase',
     'GitHub Actions',
     'Webpack',
+  ]
+featuredSkills:
+  [
+    'TypeScript',
+    'Next.js',
+    'TanStack Query',
+    'Webpack',
+  ]
+summaryDetails:
+  [
+    '**[프로덕션 SaaS 범위]** 오버레이 에디터, 인증 대시보드, i18n, 구독 결제, 웹훅 기반 갱신 처리, 쿠키 동의 플로우까지 포함한 실제 운영 웹 서비스를 구축했습니다.',
+    '**[번들 사이즈 최적화]** Webpack 트리 쉐이킹 및 코드 스플리팅 전략을 수립하고 **Dynamic Import를 적용하여 메인 번들 사이즈를 15% 감량**, TTI를 단축했습니다.',
+    '**[보안 인증 아키텍처]** **Firebase Custom Token과 HTTP-only Cookie**를 결합한 인증 프로세스를 설계하여 클라이언트와 서버 간의 인증 상태를 안전하게 동기화했습니다.',
+    '**[글로벌 수익화 인프라]** **Paddle 결제 모듈을 연동**하여 글로벌 사용자를 위한 구독 상태 관리 및 웹훅 기반의 결제 갱신 처리 시스템을 구축했습니다.',
+    '**[자체 쿠키 동의 시스템]** 서드파티 스크립트 없이 **GDPR 규정을 준수하는 쿠키 동의 배너와 제어 로직을 직접 개발**하여 불필요한 외부 라이브러리 의존성을 제거했습니다.',
   ]
 ---
 
@@ -65,6 +91,11 @@ CameraFi Studio는 스포츠 경기나 방송 송출 화면에 점수판, 자막
       tag: 'Compliance',
       title: '자체 구현한 규정 준수 (Cookie Consent)',
       detail: `GDPR 등 글로벌 웹 표준 규정을 준수하기 위해 서드파티 도구 없이 <strong>쿠키 동의(Cookie Consent) 배너와 제어 로직을 직접 개발</strong>했습니다. 외부 스크립트에 의존하지 않고 직접 구현함으로써, 불필요한 스크립트 로딩으로 인한 페이지 속도 저하를 방지했습니다.`,
+    },
+    {
+      tag: 'Form',
+      title: '입력 폼 상태 관리 및 유효성 검증',
+      detail: `오버레이 세부 설정 및 계정 정보 입력 양식에서 복잡한 상태 업데이트로 인한 불필요한 렌더링을 방지하기 위해 입력 제어 로직을 최적화했습니다. 선언적인 검증 스키마를 통해 실시간 피드백을 제공하고 비즈니스 규칙에 맞는 정확한 데이터 제출을 보장했습니다.`,
     },
   ]}
 />

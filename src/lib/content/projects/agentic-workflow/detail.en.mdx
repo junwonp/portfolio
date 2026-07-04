@@ -3,7 +3,7 @@ title: AI-assisted Engineering Workflow
 description: A verified AI-assisted engineering workflow built around scoped context, primary agent roles, MCP, code review, tests, and browser validation.
 date: '2026-04-22'
 role: 'Workflow Design & Verification'
-techStack: ['Claude Code', 'Codex']
+techStack: []
 ---
 
 import ProjectAchievements from '@/lib/components/ProjectAchievements';
@@ -23,6 +23,14 @@ export const workflowChart = `flowchart TD
 This workflow is how I use AI tools to move faster on portfolio and product UI work while keeping product judgment, architecture, and final review under my control. It starts from the user-facing outcome and existing code, then constrains the agent with project rules, scoped context, check/lint/test gates, browser verification, and final diff review.
 
 The result is not a tool showcase. It is a repeatable delivery loop for turning AI output into reviewed, tested, and rendered changes that can be defended in an engineering conversation.
+
+Rather than a simple showcase of tool proficiency, this workflow is designed to **control AI's uncertainty (such as hallucinations and unpredictability) through a systematic verification pipeline**, allowing reclaimed engineering resources to be redirected toward high-value domains like high-performance optimization.
+
+### Core Concepts
+- **Engineering Control:** Architecture design, security boundaries, product tradeoffs, and final diff reviews remain 100% human-owned and verified.
+- **Safety Guardrails:** AI-generated drafts are strictly validated by connecting them to static analysis (`tsc`), linting (`eslint`), automated testing (`vitest`), and actual browser UI inspections before deployment.
+- **Context Budgeting:** To maximize the efficiency of LLM's limited context window, global rules and project-specific guides (`AGENTS.md`) are decoupled, enforcing focused and highly accurate iterations.
+- **Value Redirection:** Mechanical coding and repetitive tasks are minimized, freeing up engineering resources to solve high-impact problems such as scroll performance optimization and safe database migration.
 
 <ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
 

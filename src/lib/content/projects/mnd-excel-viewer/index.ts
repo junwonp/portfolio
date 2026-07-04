@@ -1,4 +1,4 @@
-import { SKILL } from '@/lib/data/skills';
+import { isRegisteredSkillName } from '@/lib/data/skills';
 
 import { frontmatter as enMetadata } from './detail.en.mdx';
 import { frontmatter as koMetadata } from './detail.ko.mdx';
@@ -6,66 +6,30 @@ import { frontmatter as koMetadata } from './detail.ko.mdx';
 import { defineProject } from '../types';
 
 export const mndExcelViewerProject = defineProject({
-  id: 'web_viewer',
+  id: koMetadata.id!,
   slug: 'mnd-excel-viewer',
-  section: 'work',
-  parentId: 'mnd',
-  dateFrom: '2020-08',
-  dateTo: '2020-10',
-  detailPath: '/projects/mnd-excel-viewer',
-  featuredSkills: [
-    SKILL.languages.typescript,
-    SKILL.frameworks.react,
-    SKILL.ui.reactTable,
-    SKILL.performance.reactWindow,
-    SKILL.performance.reactVirtualized,
-    SKILL.backend.socketIo,
-  ],
-  skills: [
-    SKILL.languages.typescript,
-    SKILL.frameworks.react,
-    SKILL.ui.styledComponents,
-    SKILL.ui.reactTable,
-    SKILL.state.redux,
-    SKILL.performance.reactWindow,
-    SKILL.performance.reactVirtualized,
-    SKILL.backend.socketIo,
-  ],
+  section: koMetadata.section!,
+  parentId: koMetadata.parentId,
+  dateFrom: koMetadata.dateFrom,
+  dateTo: koMetadata.dateTo,
+  detailPath: koMetadata.detailPath as `/projects/${string}`,
+  icon: koMetadata.icon,
+  paradigm: koMetadata.paradigm as 'assisted' | 'agentic',
+  featuredSkills: (koMetadata.featuredSkills || []).filter(isRegisteredSkillName),
+  skills: (koMetadata.techStack || []).filter(isRegisteredSkillName),
   content: {
     en: {
-      title: 'Web-based Document Viewer',
-      description: 'Spreadsheet and text viewer for large intranet documents',
-      metrics: [
-        { value: '2 Views', label: 'Grid + Text' },
-        { value: '1K+ Rows', label: 'Rebuilt Fixtures' },
-        { value: '2D', label: 'Range Selection' },
-      ],
-      summaryDetails: [
-        '**[Dual Viewer Scope]** Built both an Excel-style grid viewer and a line-based text viewer, separating container interaction logic from pure rendering components.',
-        '**[Safe Scale Evidence]** Recreated large-document fixtures with **1,000+ rows** to validate virtual scrolling, selection anchors, and heavy-document rendering without exposing private data.',
-        '**[High-Performance Virtualization]** Used **react-window** for large grid rows and **react-virtualized** for variable-height text lines, keeping scroll and selection responsive under heavy documents.',
-        '**[2D Selection UX]** Implemented rectangular cell selection, reverse line-range normalization, and multi-region drag updates with real-time visual feedback.',
-        '**[Real-time Collaboration]** Integrated **Socket.IO** for shared highlights and comments, plus a mock socket layer for development in restricted intranet environments.',
-        '**[Component System]** Established a reusable component library from scratch, ensuring UI consistency across the intranet platform.',
-      ],
+      title: enMetadata.title!,
+      description: enMetadata.description!,
+      metrics: enMetadata.metrics,
+      summaryDetails: enMetadata.summaryDetails || [],
       detailMetadata: enMetadata,
     },
     ko: {
-      title: '웹 기반 문서 뷰어',
-      description: '인트라넷 대용량 문서를 위한 스프레드시트·텍스트 뷰어',
-      metrics: [
-        { value: '2 Views', label: '그리드+텍스트' },
-        { value: '1K+ 행', label: '재구성 Fixture' },
-        { value: '2D', label: '영역 선택' },
-      ],
-      summaryDetails: [
-        '**[이중 뷰어 범위]** 엑셀형 그리드 뷰어와 줄 단위 텍스트 뷰어를 함께 구축하고, 컨테이너 상호작용 로직과 순수 렌더링 컴포넌트를 분리했습니다.',
-        '**[안전한 규모 근거]** ①공개 데이터를 노출하지 않기 위해 **1,000행 이상 재구성 Fixture**로 가상 스크롤, 선택 앵커, 대용량 렌더링을 검증했습니다.',
-        '**[고성능 가상화]** 대용량 그리드는 **react-window**, 가변 높이 텍스트 줄은 **react-virtualized**로 처리해 무거운 문서에서도 스크롤과 선택 응답성을 유지했습니다.',
-        '**[2D 영역 선택 UX]** 직사각형 셀 선택, 역방향 줄 범위 정규화, 다중 영역 드래그 업데이트와 실시간 시각 피드백을 구현했습니다.',
-        '**[실시간 협업 기능]** **Socket.IO**로 공유 하이라이트와 코멘트를 연동하고, 제한된 인트라넷 환경에서도 개발 가능한 Mock 소켓 레이어를 구축했습니다.',
-        '**[컴포넌트 시스템]** 재사용 가능한 컴포넌트 라이브러리를 바닥부터 설계하여, 인트라넷 플랫폼 전체의 UI 일관성을 확보했습니다.',
-      ],
+      title: koMetadata.title!,
+      description: koMetadata.description!,
+      metrics: koMetadata.metrics,
+      summaryDetails: koMetadata.summaryDetails || [],
       detailMetadata: koMetadata,
     },
   },

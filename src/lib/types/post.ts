@@ -11,5 +11,17 @@ export type PostMetadata = {
   status?: string;
   tagline?: string;
   techStack?: string[];
+  featuredSkills?: string[];
   title?: string;
+  
+  id?: string;
+  parentId?: string;
+  section?: 'work' | 'other' | 'archive' | 'standalone';
+  dateFrom?: string;
+  dateTo?: string;
+  paradigm?: 'assisted' | 'agentic';
+  detailPath?: string;
+  icon?: string;
+  summaryDetails?: string[];
+  titleBadge?: string;
 };

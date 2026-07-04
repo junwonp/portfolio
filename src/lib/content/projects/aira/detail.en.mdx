@@ -1,4 +1,12 @@
 ---
+id: aira
+parentId: orca_ai
+section: work
+dateFrom: '2024-07'
+dateTo: '2025-12'
+detailPath: /projects/aira
+icon: /images/aira/icon.webp
+paradigm: assisted
 title: aira
 description: Global AI character chat platform. Led the entire journey from planning to 23k MAU as Co-Founder and Frontend Lead.
 role: 'Co-Founder · Frontend Lead'
@@ -7,27 +15,45 @@ image: '/images/aira/v2_main.webp'
 platforms: ['Android', 'iOS', 'Web']
 metrics:
   [
-    { value: '23K', label: 'Monthly Active Users' },
-    { value: '$3K', label: 'Monthly Revenue' },
-    { value: '46min', label: 'Avg. Session Time' },
-    { value: '#57', label: 'GP Entertainment' },
+    { value: '23k', label: 'MAU (Peak)' },
+    { value: '$3,000', label: 'Monthly Revenue' },
+    { value: '46 min', label: 'Avg. Session' },
   ]
 techStack:
   [
-    'React Native',
     'TypeScript',
     'Expo',
-    'Expo Router',
     'TanStack Query',
-    'React Hook Form',
     'FlashList',
     'Reanimated',
-    'React Compiler',
     'Zod',
     'Firebase',
     'Sentry',
     'EAS',
     'GitHub Actions',
+  ]
+featuredSkills:
+  [
+    'TypeScript',
+    'Expo',
+    'TanStack Query',
+    'FlashList',
+    'EAS',
+  ]
+summaryDetails:
+  [
+    "**[Key Achievements]** Achieved 23k MAU and $3,000 monthly revenue with an average session time of 46 minutes — ranked 57th in Google Play Entertainment (as of Feb '25).",
+    '**[Ownership Scope]** Owned the frontend architecture from product planning to release operations, including chat UX, server-state design, EAS/TestFlight delivery, Sentry monitoring, and monetization UI.',
+    '**[Streaming Chat & Optimistic UI]** Validated stream chunks at runtime with **Zod** and patched TanStack Query **InfiniteQuery** cache in real-time per chunk to create typing animations. Applied optimistic update pattern via `onMutate` for instant message insertion with rollback on failure.',
+    '**[Type-Safe Server State Management]** Designed a **queryData facade** that structures `QueryClient` access by domain, providing hierarchical query key factories for bulk invalidation and type-safe cache get/update/delete operations.',
+    '**[Data Persistence & Cache Isolation]** Migrated on-device (Realm) → server (RDB) data without loss using retry logic and transaction flags. Separated **MMKV** into purpose-specific instances (document, cache, settings) and auto-isolated per-user caches via `PersistQueryClientProvider` `buster: uid`.',
+    '**[Rendering Performance Optimization]** Maintained stable 60 FPS with **FlashList** View Recycling and **React Compiler**. Handled keyboard-open scroll on the UI thread via **Reanimated** worklet-based `useAnimatedReaction`, eliminating JS thread bottlenecks.',
+    '**[Cross-Platform Architecture]** Supported Android, iOS, and Web simultaneously from a single codebase using **Expo Router**. Separated platform-specific Contexts via `.web.tsx` file extensions to prevent native-only packages from leaking into the web bundle. Auto-bound **Unistyles** tokens to React Navigation `ThemeProvider` for synchronized theme switching.',
+    '**[Design Token System]** Implemented numeric-scale color palettes and dark/light/auto themes with **Unistyles**. Eliminated theme flicker on app restart via MMKV synchronous reads. Applied fontScale clamping (1–1.2) for accessibility-safe layouts.',
+    '**[Type-Safe i18n]** Enforced compile-time translation key validation with **typesafe-i18n** and deferred rendering until Intl polyfills fully loaded to prevent locale glitches. Synchronized OS settings and dayjs on language switch.',
+    '**[UX-Centric Monetization]** Designed **Native Ads** UI to prevent CLS and monitored drop-off rates to achieve revenue growth without compromising the user experience.',
+    '**[Service Stability]** Built a precise error tracking environment by integrating Sentry and dSYM, and prevented user churn with a rapid rollback process when Android-specific issues arose.',
+    '**[Operational Efficiency]** Built CI/CD pipelines using **EAS** and **GitHub Actions** (automated Android closed-track deployment, iOS TestFlight) and established a device compatibility testing process via **Samsung Test Lab**.',
   ]
 ---
 
@@ -91,6 +117,11 @@ My ownership covered product planning, frontend architecture, streaming chat UX,
       tag: 'Dx',
       title: 'Adopted React Compiler — removed all manual memoization',
       detail: `Removed <code>useMemo</code> / <code>useCallback</code> scattered across the complex chat UI by introducing <strong>React Compiler</strong>. The compiler handles most optimizations automatically; manual overrides are applied only where fine-grained control is genuinely needed. Result: noticeably cleaner code with no performance regression.`,
+    },
+    {
+      tag: 'Form',
+      title: 'Declarative Form Validation with Zod Integration',
+      detail: `Implemented schema-based validation for complex input fields such as character creation and user profiles. Handled submission status and disabled states declaratively in the component tree to maintain consistent error handling and user feedback.`,
     },
     {
       tag: 'Dx',

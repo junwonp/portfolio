@@ -1,3 +1,5 @@
+import { isRegisteredSkillName } from '@/lib/data/skills';
+
 import { frontmatter as enMetadata } from './detail.en.mdx';
 import { frontmatter as koMetadata } from './detail.ko.mdx';
 
@@ -6,8 +8,10 @@ import { defineProject } from '../types';
 export const agenticWorkflowProject = defineProject({
   id: 'agentic_workflow',
   slug: 'agentic-workflow',
-  section: 'standalone',
+  section: 'other',
   detailPath: '/projects/agentic-workflow',
+  featuredSkills: (koMetadata.featuredSkills || []).filter(isRegisteredSkillName),
+  skills: (koMetadata.techStack || []).filter(isRegisteredSkillName),
   content: {
     en: {
       title: 'AI-assisted Engineering Workflow',

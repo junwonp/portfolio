@@ -1,28 +1,48 @@
 ---
-title: Today's Weather
-description: Personalized weather and lifestyle guide using KMA and Air Korea data — monorepo serving web, Expo mobile, and iOS widgets from a single shared logic layer.
+id: today_weather
+section: other
+dateFrom: '2026-04'
+detailPath: /projects/today-weather
+icon: /images/today-weather/icon.webp
+paradigm: agentic
+title: Today's Weather — Personalized Weather & Lifestyle Guide
+description: A service providing personalized 'action plans' such as what to wear or whether to bring an umbrella, using high-precision data from the Korea Meteorological Administration and Air Korea.
+role: 'Solo developer'
 date: '2026-04 ~'
 image: '/images/today-weather/web-home.png'
-role: 'Solo developer'
 platforms: ['Web', 'iOS', 'Android']
-metrics: [{ value: '80%+', label: 'API Load Reduced' }]
+metrics:
+  [
+    { value: '80%+', label: 'API Load Reduced' },
+  ]
 techStack:
   [
     'TypeScript',
     'Next.js',
-    'React',
-    'React Native',
     'Expo',
-    'Expo Router',
     'Tailwind CSS',
     'shadcn/ui',
     'TanStack Query',
     'Reanimated',
-    'React Compiler',
     'Supabase',
     'Upstash',
     'Swift',
     'Vitest',
+  ]
+featuredSkills:
+  [
+    'TypeScript',
+    'Next.js',
+    'TanStack Query',
+    'Upstash',
+    'Vitest',
+  ]
+summaryDetails:
+  [
+    '**[Edge-Optimized Cache]** Implemented a serverless caching strategy using **Upstash Redis** on Vercel icn1 (Seoul) region, reducing upstream API load by 80%.',
+    '**[Advanced Native Integration]** Built iOS native widgets using **Swift** and `@bacons/apple-targets`, synchronizing real-time weather data between the web app and home screen.',
+    '**[Modern Tech Stack]** Leveraged **Next.js 16 (App Router)** and **React 19** with the **React Compiler** for optimal performance without manual memoization.',
+    '**[Agentic Orchestration]** Developed using an advanced AI workflow, utilizing **MCP** to provide the AI agent with real-time documentation and system context for precise implementation.',
   ]
 ---
 
@@ -46,7 +66,7 @@ Existing weather apps share three frustrations: global data sources that miss Ko
       tag: 'Architecture',
       accent: true,
       title: 'pnpm Monorepo — 100% shared business logic',
-      detail: `Designed a monorepo with three workspaces: <code>apps/web</code> (Next.js 16 App Router), <code>apps/mobile</code> (Expo / React Native), and <code>packages/shared</code> (common logic and TypeScript types). The weather recommendation algorithm, outfit-calculation logic, and all TypeScript type definitions live in <code>packages/shared</code> and are consumed identically by both apps and by iOS widgets — zero duplication across platforms. Enabled the <strong>React Compiler</strong> in the Next.js app to eliminate manual <code>useMemo</code> / <code>useCallback</code> declarations.`,
+      detail: `Designed a monorepo with three workspaces: <code>apps/web</code> (Next.js 16 App Router), <code>apps/mobile</code> (Expo / React Native, with Expo Router for file-based routing), and <code>packages/shared</code> (common logic and TypeScript types). The weather recommendation algorithm, outfit-calculation logic, and all TypeScript type definitions live in <code>packages/shared</code> and are consumed identically by both apps and by iOS widgets — zero duplication across platforms. Enabled the <strong>React Compiler</strong> in the Next.js app to eliminate manual <code>useMemo</code> / <code>useCallback</code> declarations.`,
     },
     {
       tag: 'Performance',

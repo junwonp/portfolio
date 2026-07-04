@@ -1,28 +1,48 @@
 ---
-title: 오늘날씨 (Today's Weather)
-description: 기상청·에어코리아 데이터를 활용한 맞춤형 날씨·생활 가이드 — 단일 공유 로직 레이어로 웹, Expo 앱, iOS 위젯을 동시에 서빙하는 모노레포 서비스.
+id: today_weather
+section: other
+dateFrom: '2026-04'
+detailPath: /projects/today-weather
+icon: /images/today-weather/icon.webp
+paradigm: agentic
+title: 오늘날씨 (Today’s Weather) — 맞춤형 날씨 및 생활 가이드
+description: 기상청 및 에어코리아 데이터를 활용하여 사용자에게 최적의 복장과 준비물을 제안하는 개인화 서비스.
+role: '1인 개발'
 date: '2026-04 ~'
 image: '/images/today-weather/web-home.png'
-role: '1인 개발'
 platforms: ['Web', 'iOS', 'Android']
-metrics: [{ value: '80%+', label: 'API 부하 절감' }]
+metrics:
+  [
+    { value: '80%+', label: 'API 부하 절감' },
+  ]
 techStack:
   [
     'TypeScript',
     'Next.js',
-    'React',
-    'React Native',
     'Expo',
-    'Expo Router',
     'Tailwind CSS',
     'shadcn/ui',
     'TanStack Query',
     'Reanimated',
-    'React Compiler',
     'Supabase',
     'Upstash',
     'Swift',
     'Vitest',
+  ]
+featuredSkills:
+  [
+    'TypeScript',
+    'Next.js',
+    'TanStack Query',
+    'Upstash',
+    'Vitest',
+  ]
+summaryDetails:
+  [
+    '**[엣지 최적화 캐시]** Vercel icn1(서울) 리전과 **Upstash Redis를 활용한 서버리스 캐싱 전략**을 구축하여 업스트림 API 부하를 80% 이상 절감했습니다.',
+    '**[고도화된 네이티브 연동]** **Swift와 @bacons/apple-targets를 활용해 iOS 네이티브 위젯**을 개발, 웹 앱과 홈 화면 위젯 간의 실시간 데이터 동기화를 구현했습니다.',
+    '**[최신 스택 도입]** **Next.js 16 (App Router) 및 React 19**를 선제적으로 도입하고 **React Compiler**를 활용하여 수동 메모이제이션 없는 최적의 성능을 확보했습니다.',
+    '**[에이전틱 오케스트레이션]** **MCP를 통해 AI 에이전트에게 실시간 도큐먼트와 시스템 컨텍스트를 제공**하여 고도로 정밀한 기능 구현을 주도했습니다.',
   ]
 ---
 
@@ -46,7 +66,7 @@ import ProjectTechStack from '@/lib/components/ProjectTechStack';
       tag: 'Architecture',
       accent: true,
       title: 'pnpm 모노레포 — 비즈니스 로직 100% 공유',
-      detail: `세 개의 워크스페이스로 모노레포를 설계했습니다: <code>apps/web</code>(Next.js 16 App Router), <code>apps/mobile</code>(Expo / React Native), <code>packages/shared</code>(공통 로직 및 TypeScript 타입). 날씨 추천 알고리즘, 복장 계산 로직, 모든 TypeScript 타입 정의가 <code>packages/shared</code>에 있으며 두 앱과 iOS 위젯에서 동일하게 소비됩니다 — 플랫폼 간 코드 중복이 없습니다. Next.js 앱에서 <strong>React Compiler</strong>를 활성화하여 수동 <code>useMemo</code> / <code>useCallback</code> 선언을 제거했습니다.`,
+      detail: `세 개의 워크스페이스로 모노레포를 설계했습니다: <code>apps/web</code>(Next.js 16 App Router), <code>apps/mobile</code>(Expo / React Native, 파일 기반 라우팅을 위해 Expo Router 적용), <code>packages/shared</code>(공통 로직 및 TypeScript 타입). 날씨 추천 알고리즘, 복장 계산 로직, 모든 TypeScript 타입 정의가 <code>packages/shared</code>에 있으며 두 앱과 iOS 위젯에서 동일하게 소비됩니다 — 플랫폼 간 코드 중복이 없습니다. Next.js 앱에서 <strong>React Compiler</strong>를 활성화하여 수동 <code>useMemo</code> / <code>useCallback</code> 선언을 제거했습니다.`,
     },
     {
       tag: 'Performance',

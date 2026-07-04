@@ -1,12 +1,24 @@
 ---
+id: camerafi_studio
+parentId: vault_micro
+section: work
+dateFrom: '2022-02'
+dateTo: '2023-06'
+detailPath: /projects/camerafi-studio
+icon: /images/camerafi-studio/icon.webp
+paradigm: assisted
 title: CameraFi Studio
-description: Web-based broadcast overlay platform built solo — from frontend architecture to the company's second main revenue stream.
+description: Web Overlay Scoreboard Service
+role: 'Frontend Engineer'
 date: '2022-02 ~ 2023-06'
 image: '/images/camerafi-studio/optimization_chart.webp'
 productLink: 'https://studio.camerafi.com'
-role: 'Frontend Engineer'
 platforms: ['Web']
-metrics: [{ value: '15%', label: 'Bundle Size Reduced' }, { value: '47KB', label: 'JS Saved' }]
+metrics:
+  [
+    { value: '15%', label: 'Bundle Size Reduced' },
+    { value: '47KB', label: 'JS Saved' },
+  ]
 techStack:
   [
     'TypeScript',
@@ -14,10 +26,24 @@ techStack:
     'styled-components',
     'MUI',
     'TanStack Query',
-    'React Hook Form',
     'Firebase',
     'GitHub Actions',
     'Webpack',
+  ]
+featuredSkills:
+  [
+    'TypeScript',
+    'Next.js',
+    'TanStack Query',
+    'Webpack',
+  ]
+summaryDetails:
+  [
+    '**[Production SaaS Scope]** Built a production web service spanning overlay editing, authenticated dashboards, i18n, subscription checkout, webhook-based renewal handling, and cookie consent flows.',
+    '**[Bundle Size Optimization]** Reduced main bundle size by 15% (324KB → 277KB) and improved TTI by establishing Webpack Tree Shaking & Code Splitting strategies and applying Dynamic Import.',
+    '**[Secure Auth Architecture]** Designed a secure login process combining **Firebase Custom Tokens** and **HTTP-only Cookies** to synchronize auth state between client and server.',
+    '**[Global SaaS Infrastructure]** Built the entire payment lifecycle using **Paddle**, handling subscriptions and webhook-based renewal processing for a global B2B user base.',
+    '**[Custom Cookie Consent]** Developed a native cookie consent banner and control logic from scratch to comply with GDPR/web standards without relying on external scripts, preventing 3rd-party bloat.',
   ]
 ---
 
@@ -65,6 +91,11 @@ The product covered the full web-service surface area: overlay editing, authenti
       tag: 'Compliance',
       title: 'Custom Cookie Consent implementation',
       detail: `To comply with GDPR and other global standards without relying on third-party tools, <strong>developed the Cookie Consent banner and control logic from scratch</strong>. Avoiding external scripts prevented page speed degradation from unnecessary script loading.`,
+    },
+    {
+      tag: 'Form',
+      title: 'Form State Management and Input Validation',
+      detail: `Optimized input control logic in complex overlay settings and account configuration forms to prevent unnecessary rendering from frequent state updates. Schema-driven validation was applied to guarantee accurate data submission while maintaining intuitive user feedback.`,
     },
   ]}
 />

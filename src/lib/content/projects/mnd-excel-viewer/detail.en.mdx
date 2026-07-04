@@ -1,23 +1,49 @@
 ---
-title: Spreadsheet-style grid & text viewer
-description: Large-scale grid and line-based text viewer using React Table, virtualization, and 2D cell selection (Immer)
-date: '2020-08 ~ 2020-10'
+id: web_viewer
+parentId: mnd
+section: work
+dateFrom: '2020-08'
+dateTo: '2020-10'
+detailPath: /projects/mnd-excel-viewer
+icon: null
+image: null
+paradigm: assisted
+title: Web-based Document Viewer
+description: Spreadsheet and text viewer for large intranet documents
 role: 'Frontend Engineer'
-metrics: [
-  { value: '2 Views', label: 'Grid + Text' },
-  { value: '1K+ Rows', label: 'Rebuilt Fixtures' },
-  { value: '2D', label: 'Range Selection' }
-]
+date: '2020-08 ~ 2020-10'
+metrics:
+  [
+    { value: '2 Views', label: 'Grid + Text' },
+    { value: '1K+ Rows', label: 'Rebuilt Fixtures' },
+    { value: '2D', label: 'Range Selection' },
+  ]
 techStack:
   [
     'TypeScript',
     'React',
     'styled-components',
-    'React Table',
     'Redux',
     'react-window',
     'react-virtualized',
     'Socket.IO',
+  ]
+featuredSkills:
+  [
+    'TypeScript',
+    'React',
+    'react-window',
+    'react-virtualized',
+    'Socket.IO',
+  ]
+summaryDetails:
+  [
+    '**[Dual Viewer Scope]** Built both an Excel-style grid viewer and a line-based text viewer, separating container interaction logic from pure rendering components.',
+    '**[Safe Scale Evidence]** Recreated large-document fixtures with **1,000+ rows** to validate virtual scrolling, selection anchors, and heavy-document rendering without exposing private data.',
+    '**[High-Performance Virtualization]** Used **react-window** for large grid rows and **react-virtualized** for variable-height text lines, keeping scroll and selection responsive under heavy documents.',
+    '**[2D Selection UX]** Implemented rectangular cell selection, reverse line-range normalization, and multi-region drag updates with real-time visual feedback.',
+    '**[Real-time Collaboration]** Integrated **Socket.IO** for shared highlights and comments, plus a mock socket layer for development in restricted intranet environments.',
+    '**[Component System]** Established a reusable component library from scratch, ensuring UI consistency across the intranet platform.',
   ]
 ---
 

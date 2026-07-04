@@ -1,25 +1,43 @@
 ---
+id: onelinebank_rebuild
+section: archive
+dateFrom: '2021-04'
+dateTo: '2021-04'
+detailPath: /projects/oneline-bank
+icon: /images/oneline-bank/icon.webp
+paradigm: assisted
 title: 한줄은행
-description: 대화형 모바일 뱅킹 데모 — 2021 우리은행 해커톤 출품작을 TypeScript·Expo Router·TanStack Query·기능 모듈 구조로 전면 재작성했습니다.
+description: 2021 우리은행 해커톤 본선에서 5일 만에 1인으로 구현한 대화형 뱅킹 MVP를, 2026년에 TypeScript·Expo Router·모바일 아키텍처 중심으로 다시 만든 전후 비교형 프로젝트.
+role: '1인 개발'
 date: '2021-04'
 image: '/images/oneline-bank/1.webp'
 githubLink: 'OnelineBank'
-role: '1인 개발'
 platforms: ['Android', 'iOS']
 techStack:
   [
-    'React Native',
     'TypeScript',
     'Expo',
-    'Expo Router',
     'Tailwind CSS',
     'TanStack Query',
-    'TanStack Form',
     'Zustand',
     'Zod',
     'Firebase',
     'Reanimated',
     'EAS',
+  ]
+featuredSkills:
+  [
+    'TypeScript',
+    'Expo',
+    'Zod',
+    'EAS',
+  ]
+summaryDetails:
+  [
+    '**[Before & After]** 해커톤 당시의 제품 아이디어는 유지하되, 레거시 JavaScript 코드베이스를 **TypeScript와 Expo Router 기반 모듈 구조**로 전면 교체했습니다.',
+    '**[아키텍처의 진화]** 뱅킹 플로우를 기능 단위 모듈, 라우터 가드, query boundary, 재사용 UI primitive로 재구성해 엔지니어링 성장 폭이 보이도록 정리했습니다.',
+    '**[견고한 폼 핸들링]** **TanStack Form과 Zod를 결합**하여 Type-Safe한 스키마 검증과 일관된 에러 피드백 시스템을 뱅킹 플로우에 적용했습니다.',
+    '**[개발자 경험 개선]** **EAS를 통한 빌드 파이프라인**을 정리해 로컬과 실기기 환경에서 리빌드 데모를 재현 가능하게 만들었습니다.',
   ]
 ---
 
