@@ -59,8 +59,6 @@ describe('resume data for web frontend applications', () => {
     expect(featured[2].project[0].featuredSkills).toEqual([
       'TypeScript',
       'React',
-      'React Table',
-      'Chart.js',
       'TanStack Query',
       'MUI',
     ]);

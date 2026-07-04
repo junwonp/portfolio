@@ -1,12 +1,6 @@
 export const SKILL = {
-  aiWorkflow: {
-    agenticWorkflow: 'Agentic Workflow',
-    claudeCode: 'Claude Code',
-    codex: 'Codex',
-  },
   backend: {
     aws: 'AWS',
-    cloudKit: 'CloudKit',
     firebase: 'Firebase',
     socketIo: 'Socket.IO',
     supabase: 'Supabase',
@@ -22,7 +16,6 @@ export const SKILL = {
   },
   frameworks: {
     expo: 'Expo',
-    expoRouter: 'Expo Router',
     nextJs: 'Next.js',
     react: 'React',
     reactNative: 'React Native',
@@ -35,25 +28,20 @@ export const SKILL = {
   },
   performance: {
     flashList: 'FlashList',
-    reactCompiler: 'React Compiler',
     reanimated: 'Reanimated',
     reactVirtualized: 'react-virtualized',
     reactWindow: 'react-window',
   },
   state: {
     graphql: 'GraphQL',
-    reactHookForm: 'React Hook Form',
     redux: 'Redux',
-    tanstackForm: 'TanStack Form',
     tanstackQuery: 'TanStack Query',
     zod: 'Zod',
     zustand: 'Zustand',
   },
   ui: {
     antDesign: 'Ant Design',
-    chartJs: 'Chart.js',
     mui: 'MUI',
-    reactTable: 'React Table',
     shadcnUi: 'shadcn/ui',
     styledComponents: 'styled-components',
     tailwindCss: 'Tailwind CSS',
@@ -61,7 +49,6 @@ export const SKILL = {
 } as const;
 
 export type SkillId =
-  | 'ai_workflow'
   | 'backend'
   | 'devops'
   | 'frameworks'
@@ -82,6 +69,16 @@ export const skillsShared = [
     list: [SKILL.languages.typescript, SKILL.languages.javascript, SKILL.languages.swift],
   },
   {
+    id: 'frameworks',
+    list: [
+      SKILL.frameworks.react,
+      SKILL.frameworks.nextJs,
+      SKILL.frameworks.reactNative,
+      SKILL.frameworks.expo,
+      SKILL.frameworks.swiftUi,
+    ],
+  },
+  {
     id: 'ui',
     list: [
       SKILL.ui.styledComponents,
@@ -89,27 +86,12 @@ export const skillsShared = [
       SKILL.ui.antDesign,
       SKILL.ui.tailwindCss,
       SKILL.ui.shadcnUi,
-      SKILL.ui.reactTable,
-      SKILL.ui.chartJs,
-    ],
-  },
-  {
-    id: 'frameworks',
-    list: [
-      SKILL.frameworks.react,
-      SKILL.frameworks.nextJs,
-      SKILL.frameworks.reactNative,
-      SKILL.frameworks.expo,
-      SKILL.frameworks.expoRouter,
-      SKILL.frameworks.swiftUi,
     ],
   },
   {
     id: 'state',
     list: [
       SKILL.state.tanstackQuery,
-      SKILL.state.reactHookForm,
-      SKILL.state.tanstackForm,
       SKILL.state.zod,
       SKILL.state.zustand,
       SKILL.state.redux,
@@ -123,7 +105,6 @@ export const skillsShared = [
       SKILL.performance.flashList,
       SKILL.performance.reactWindow,
       SKILL.performance.reactVirtualized,
-      SKILL.performance.reactCompiler,
     ],
   },
   {
@@ -132,7 +113,6 @@ export const skillsShared = [
       SKILL.backend.firebase,
       SKILL.backend.supabase,
       SKILL.backend.upstash,
-      SKILL.backend.cloudKit,
       SKILL.backend.aws,
       SKILL.backend.socketIo,
     ],
@@ -148,11 +128,7 @@ export const skillsShared = [
       SKILL.devops.webpack,
     ],
   },
-  {
-    id: 'ai_workflow',
-    detailLink: '/projects/agentic-workflow',
-    list: [SKILL.aiWorkflow.agenticWorkflow, SKILL.aiWorkflow.claudeCode, SKILL.aiWorkflow.codex],
-  },
+
 ] as const satisfies readonly SkillGroupDefinition[];
 
 export type SkillName = (typeof skillsShared)[number]['list'][number];

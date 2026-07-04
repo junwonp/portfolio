@@ -55,13 +55,13 @@ export default function ProjectItem({
 
   if (isEditing) {
     return (
-      <div className={`${ProjectItemStyles['project-item']} ${ProjectItemStyles['is-open']}`}>
+      <div className={`project-item ${ProjectItemStyles['project-item']} ${ProjectItemStyles['is-open']}`}>
         <div className={ProjectItemStyles['project-editor-slot']}>{editor}</div>
       </div>
     );
   }
 
-  const containerClassName = `${ProjectItemStyles['project-item']} ${isOpen ? ProjectItemStyles['is-open'] : ''}`.trim();
+  const containerClassName = `project-item ${ProjectItemStyles['project-item']} ${isOpen ? ProjectItemStyles['is-open'] : ''}`.trim();
 
   const headerProps = isCompact
     ? {

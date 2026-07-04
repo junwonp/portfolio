@@ -32,62 +32,62 @@
   --font-family-text: 'Wanted Sans';
 
   /* Light theme colors (base palette) */
-  --light-color-bold: #000000;
-  --light-color-inline-code: #212529;
-  --light-color-main: #333333;
-  --light-color-placeholder: #999999;
-  --light-color-quoted: #4d555f;
-  --light-color-sub: #404040; /* 10.6:1 contrast on white */
-  --light-color-basic-bg: #ffffff;
-  --light-color-code-bg: #f5f7f9;
-  --light-color-disabled-bg: #f5f5f5;
-  --light-color-inline-bg: #dbdfe3;
-  --light-color-scroll-thumb: #7d7d7d;
-  --light-color-scroll-track: #fafafa;
-  --light-color-shadow: rgba(0, 0, 0, 0.16);
-  --light-color-table-bg: #f6f8fa;
-  --light-color-bg-divider: #d0d7de;
-  --light-color-bg-subdivider: #ebeef1;
-  --light-color-quoted-border: #cad1d9;
-  --light-color-scroll-border: #e8e8e8;
-  --light-color-selection: #d0e1ff;
-  --light-color-table-border: #d1d7dd;
-  --light-color-primary: #1a5cc5;
-  --light-color-primary-hover: #144ba3;
-  --light-color-primary-transparent: rgba(26, 92, 197, 0.1);
-  --light-color-primary-bg: #1a5cc5;
-  --light-color-on-primary: #ffffff;
-  --light-color-surface-hover: #f1f3f5;
-  --light-color-error: #f04452;
+  --light-color-bold: oklch(0% 0 0);
+  --light-color-inline-code: oklch(22.84% 0.01 250);
+  --light-color-main: oklch(28.26% 0 0);
+  --light-color-placeholder: oklch(67.4% 0 0);
+  --light-color-quoted: oklch(41.13% 0.02 245);
+  --light-color-sub: oklch(33.09% 0 0);
+  --light-color-basic-bg: oklch(100% 0 0);
+  --light-color-code-bg: oklch(97.6% 0.01 230);
+  --light-color-disabled-bg: oklch(97.28% 0 0);
+  --light-color-inline-bg: oklch(88.94% 0.01 230);
+  --light-color-scroll-thumb: oklch(57.51% 0 0);
+  --light-color-scroll-track: oklch(98.61% 0 0);
+  --light-color-shadow: oklch(0% 0 0 / 0.16);
+  --light-color-table-bg: oklch(97.87% 0.01 230);
+  --light-color-bg-divider: oklch(87.56% 0.01 230);
+  --light-color-bg-subdivider: oklch(94.8% 0.01 230);
+  --light-color-quoted-border: oklch(85.34% 0.01 230);
+  --light-color-scroll-border: oklch(92.74% 0 0);
+  --light-color-selection: oklch(90.15% 0.04 250);
+  --light-color-table-border: oklch(87.7% 0.01 230);
+  --light-color-primary: oklch(45.54% 0.16 260);
+  --light-color-primary-hover: oklch(38.08% 0.15 260);
+  --light-color-primary-transparent: oklch(45.54% 0.16 260 / 0.1);
+  --light-color-primary-bg: oklch(45.54% 0.16 260);
+  --light-color-on-primary: oklch(100% 0 0);
+  --light-color-surface-hover: oklch(96.22% 0.01 230);
+  --light-color-error: oklch(60.1% 0.22 17.5);
 
   /* Dark theme colors */
-  --dark-color-bold: #c9d1d9;
-  --dark-color-inline-code: #bcc4cc;
-  --dark-color-main: #c9d1d9;
-  --dark-color-placeholder: #c2c3c4;
-  --dark-color-quoted: #8b939d;
-  --dark-color-sub: #8b949e;
-  --dark-color-basic-bg: #0d1116;
-  --dark-color-code-bg: #161b22;
-  --dark-color-disabled-bg: #21262d;
-  --dark-color-inline-bg: #343941;
-  --dark-color-scroll-thumb: #6b6b6b;
-  --dark-color-scroll-track: #2c2c2c;
-  --dark-color-shadow: rgba(0, 0, 0, 0.16);
-  --dark-color-table-bg: #0d1116;
-  --dark-color-bg-divider: #30363d;
-  --dark-color-bg-subdivider: #2d3239;
-  --dark-color-quoted-border: #30363d;
-  --dark-color-scroll-border: #3d3d3d;
-  --dark-color-selection: #2d4571;
-  --dark-color-table-border: #1e242a;
-  --dark-color-primary: #58a6ff;
-  --dark-color-primary-hover: #79b8ff;
-  --dark-color-primary-transparent: rgba(88, 166, 255, 0.15);
-  --dark-color-primary-bg: #58a6ff;
-  --dark-color-on-primary: #0d1116;
-  --dark-color-surface-hover: #1c2128;
-  --dark-color-error: #ff5d6a;
+  --dark-color-bold: oklch(85.5% 0.01 230);
+  --dark-color-inline-code: oklch(80.59% 0.01 230);
+  --dark-color-main: oklch(85.5% 0.01 230);
+  --dark-color-placeholder: oklch(80% 0 0);
+  --dark-color-quoted: oklch(63.26% 0.02 240);
+  --dark-color-sub: oklch(63.45% 0.02 240);
+  --dark-color-basic-bg: oklch(14.07% 0.02 250);
+  --dark-color-code-bg: oklch(18.66% 0.02 250);
+  --dark-color-disabled-bg: oklch(23.63% 0.02 250);
+  --dark-color-inline-bg: oklch(30.1% 0.02 250);
+  --dark-color-scroll-thumb: oklch(50% 0 0);
+  --dark-color-scroll-track: oklch(27.42% 0 0);
+  --dark-color-shadow: oklch(0% 0 0 / 0.16);
+  --dark-color-table-bg: oklch(14.07% 0.02 250);
+  --dark-color-bg-divider: oklch(28.98% 0.02 250);
+  --dark-color-bg-subdivider: oklch(27.56% 0.02 250);
+  --dark-color-quoted-border: oklch(28.98% 0.02 250);
+  --dark-color-scroll-border: oklch(33.09% 0 0);
+  --dark-color-selection: oklch(35.53% 0.08 260);
+  --dark-color-table-border: oklch(21.46% 0.02 250);
+  --dark-color-primary: oklch(72.76% 0.15 250);
+  --dark-color-primary-hover: oklch(79.35% 0.13 250);
+  --dark-color-primary-transparent: oklch(72.76% 0.15 250 / 0.15);
+  --dark-color-primary-bg: oklch(72.76% 0.15 250);
+  --dark-color-on-primary: oklch(14.07% 0.02 250);
+  --dark-color-surface-hover: oklch(21.68% 0.02 250);
+  --dark-color-error: oklch(67.75% 0.22 17.5);
 
   /* Current theme colors (defaults to light) */
   --color-bold: var(--light-color-bold);
@@ -119,35 +119,22 @@
   --color-error: var(--light-color-error);
 
   /* Category Colors */
-  --color-cat-languages: #3b82f6;
-  --color-cat-frameworks: #10b981;
-  --color-cat-ui: #ec4899;
-  --color-cat-state: #8b5cf6;
-  --color-cat-performance: #f97316;
-  --color-cat-backend: #eab308;
-  --color-cat-devops: #06b6d4;
-  --color-cat-tools: #64748b;
-  --color-cat-ai_workflow: #000000;
-  --color-cat-ai_workflow-text: #ffffff;
-
-  /* Badges & Platforms */
-  --color-badge-green-bg: #e6f6eb;
-  --color-badge-green-text: #008a2e;
-  --color-badge-orange-bg: #fff0e6;
-  --color-badge-orange-text: #ff6b00;
-  --color-platform-android: #3ddc84;
-  --color-platform-ios: #007aff;
-  --color-platform-macos: #ff9500; /* macOS system orange */
-  --color-platform-web: #f97316;
+  --color-cat-languages: oklch(62% 0.16 250);
+  --color-cat-frameworks: oklch(62% 0.16 150);
+  --color-cat-ui: oklch(62% 0.16 340);
+  --color-cat-state: oklch(62% 0.16 295);
+  --color-cat-performance: oklch(62% 0.16 55);
+  --color-cat-backend: oklch(62% 0.15 95);
+  --color-cat-devops: oklch(62% 0.16 195);
 
   --space-project-gap: var(--space-lg);
   --space-row-padding: var(--space-md);
   --space-row-gap: var(--space-lg);
 
   /* Glassmorphism UI Tokens */
-  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-bg: oklch(100% 0 0 / 0.45);
   --glass-blur: saturate(140%) blur(20px);
-  --glass-border: 1px solid rgba(0, 0, 0, 0.06);
+  --glass-border: 1px solid oklch(0% 0 0 / 0.06);
 }
 
 html.dark {
@@ -179,11 +166,8 @@ html.dark {
   --color-surface-hover: var(--dark-color-surface-hover);
   --color-error: var(--dark-color-error);
 
-  --color-cat-ai_workflow: #ffffff;
-  --color-cat-ai_workflow-text: #000000;
-
-  --glass-bg: rgba(255, 255, 255, 0.06);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.12);
+  --glass-bg: oklch(100% 0 0 / 0.06);
+  --glass-border: 1px solid oklch(100% 0 0 / 0.12);
 }
 
 * {

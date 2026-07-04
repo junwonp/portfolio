@@ -395,10 +395,19 @@ const getProjectThumbnailAlt = (
 
 const toResumeProject = (project: ProjectContentEntry, lang: Language): ProjectItem => {
   const content = project.content[lang];
-  const thumbnailKind: NonNullable<ProjectItem['thumbnail']>['kind'] = project.icon
+  const getValidImage = (src: string | null | undefined): string | undefined => {
+    if (!src || src === "null" || src === null) return undefined;
+    return src;
+  };
+
+  const iconSrc = getValidImage(project.icon);
+  const imageSrc = getValidImage(content.detailMetadata?.image);
+  const thumbnailSrc = iconSrc ?? imageSrc;
+
+  const thumbnailKind: NonNullable<ProjectItem['thumbnail']>['kind'] = iconSrc
     ? 'icon'
     : 'screenshot';
-  const thumbnailSrc = project.icon ?? content.detailMetadata?.image;
+
   const thumbnail = thumbnailSrc
     ? {
         src: thumbnailSrc,
@@ -473,7 +482,7 @@ export const getResumeData = (lang: Language): ResumeData => {
     id: skill.id,
     title: i18n.skills[skill.id],
     description: i18n.skillDescriptions?.[skill.id],
-    detailLink: 'detailLink' in skill ? skill.detailLink : undefined,
+    detailLink: undefined,
     detailLabel: i18n.skillDetailsLabel?.[skill.id],
     list: [...skill.list],
   }));
