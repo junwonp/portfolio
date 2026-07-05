@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 
 import { PORTFOLIO_URL } from "@/lib/data/constants";
+import { resolvePortfolioLocale } from "@/lib/server/portfolioLocale";
 
 export const metadata: Metadata = {
   metadataBase: new URL(PORTFOLIO_URL),
@@ -23,10 +24,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const nonce = (await headers()).get("x-nonce") ?? undefined;
+  const headerList = await headers();
+  const nonce = headerList.get("x-nonce") ?? undefined;
+  const locale = resolvePortfolioLocale(headerList.get("x-locale"));
 
   return (
-    <html lang="ko" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <script
           nonce={nonce}

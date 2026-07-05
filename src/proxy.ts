@@ -1,11 +1,9 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { LANGUAGE_COOKIE } from '@/lib/data/constants';
 import {
-  detectLanguageFromHeader,
-  getLocaleCookieOptions,
-  isValidLanguage,
+  resolveLocaleFromPathname,
+  stripLocalePathPrefix,
 } from '@/lib/utils/language';
 
 const ASSET_CACHE_PATHS = [/^\/fonts\//, /^\/images\//, /^\/certificates\//];
@@ -57,25 +55,51 @@ export const getCacheControlForPath = (pathname: string): string => {
   return PAGE_CACHE_HEADER;
 };
 
+export const getDefaultLocaleRedirectPathname = (pathname: string): string | null => {
+  if (pathname === '/ko' || pathname.startsWith('/ko/')) {
+    return stripLocalePathPrefix(pathname);
+  }
+
+  return null;
+};
+
+const applyResponseHeaders = (response: NextResponse, pathname: string, nonce: string): void => {
+  const locale = resolveLocaleFromPathname(pathname);
+
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+    response.headers.set(name, value);
+  }
+  response.headers.set('Content-Security-Policy', buildContentSecurityPolicy(nonce));
+  response.headers.set('Cache-Control', getCacheControlForPath(pathname));
+
+  if (!ASSET_CACHE_PATHS.some((regex) => regex.test(pathname))) {
+    response.headers.set('X-Locale', locale);
+  }
+
+  if (PRIVATE_ROBOTS_PATHS.some((regex) => regex.test(pathname))) {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+  } else {
+    response.headers.set('X-Robots-Tag', 'index, follow');
+  }
+};
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const nonce = createNonce();
+  const defaultLocaleRedirectPathname = getDefaultLocaleRedirectPathname(pathname);
 
-  // 1. Determine Locale
-  const cookieLocale = request.cookies.get(LANGUAGE_COOKIE)?.value;
-  let locale: 'ko' | 'en';
-  let shouldSetCookie = false;
+  if (defaultLocaleRedirectPathname) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = defaultLocaleRedirectPathname;
+    const redirectResponse = NextResponse.redirect(redirectUrl);
+    applyResponseHeaders(redirectResponse, defaultLocaleRedirectPathname, nonce);
 
-  if (isValidLanguage(cookieLocale)) {
-    locale = cookieLocale;
-  } else {
-    const acceptLanguage = request.headers.get('accept-language');
-    locale = detectLanguageFromHeader(acceptLanguage);
-    shouldSetCookie = true;
+    return redirectResponse;
   }
 
-  // 2. Setup request headers (to pass locale to server components)
+  // Setup request headers for Server Components.
   const requestHeaders = new Headers(request.headers);
+  const locale = resolveLocaleFromPathname(pathname);
   requestHeaders.set('x-locale', locale);
   requestHeaders.set('x-nonce', nonce);
 
@@ -84,33 +108,7 @@ export function proxy(request: NextRequest) {
       headers: requestHeaders,
     },
   });
-
-  // 3. Set security headers
-  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
-    response.headers.set(name, value);
-  }
-  response.headers.set('Content-Security-Policy', buildContentSecurityPolicy(nonce));
-
-  // 4. Cache headers
-  response.headers.set('Cache-Control', getCacheControlForPath(pathname));
-  if (!ASSET_CACHE_PATHS.some((regex) => regex.test(pathname))) {
-    response.headers.set('Vary', 'Accept-Language, Cookie');
-    response.headers.set('X-Locale', locale);
-  }
-
-  // 5. Robots tag
-  if (PRIVATE_ROBOTS_PATHS.some((regex) => regex.test(pathname))) {
-    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
-  } else {
-    response.headers.set('X-Robots-Tag', 'index, follow');
-  }
-
-  // 6. Set locale cookie if not set
-  if (shouldSetCookie) {
-    const isHttps = request.nextUrl.protocol === 'https:';
-    const cookieOptions = getLocaleCookieOptions(isHttps);
-    response.cookies.set(LANGUAGE_COOKIE, locale, cookieOptions);
-  }
+  applyResponseHeaders(response, pathname, nonce);
 
   return response;
 }

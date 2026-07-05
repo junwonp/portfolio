@@ -46,11 +46,11 @@ export default function MobileStickyHeaderActions({
     };
   }, [isMenuOpen]);
 
-  const toggleLanguage = async () => {
+  const toggleLanguage = () => {
     setErrorMessage("");
     try {
       const newLang = locale === "ko" ? "en" : "ko";
-      await setLocale(newLang);
+      setLocale(newLang);
     } catch {
       setErrorMessage(labels.languageToggleError);
     }

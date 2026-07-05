@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { detectLanguageFromHeader, isValidLanguage } from '@/lib/utils/language';
+import {
+  getLocalizedPathname,
+  isValidLanguage,
+  resolveLocaleFromPathname,
+  stripLocalePathPrefix,
+} from '@/lib/utils/language';
 
 describe('isValidLanguage', () => {
   it('returns true for "ko"', () => {
@@ -25,54 +30,46 @@ describe('isValidLanguage', () => {
   });
 });
 
-describe('detectLanguageFromHeader', () => {
-  describe('null / empty input', () => {
-    it('returns "en" for null', () => {
-      expect(detectLanguageFromHeader(null)).toBe('en');
-    });
-
-    it('returns "en" for empty string', () => {
-      expect(detectLanguageFromHeader('')).toBe('en');
-    });
+describe('resolveLocaleFromPathname', () => {
+  it('uses English for /en and nested /en paths', () => {
+    expect(resolveLocaleFromPathname('/en')).toBe('en');
+    expect(resolveLocaleFromPathname('/en/projects/aira')).toBe('en');
   });
 
-  describe('single language', () => {
-    it('returns "ko" for "ko"', () => {
-      expect(detectLanguageFromHeader('ko')).toBe('ko');
-    });
-
-    it('returns "ko" for "ko-KR"', () => {
-      expect(detectLanguageFromHeader('ko-KR')).toBe('ko');
-    });
-
-    it('returns "en" for "en"', () => {
-      expect(detectLanguageFromHeader('en')).toBe('en');
-    });
-
-    it('returns "en" for "en-US"', () => {
-      expect(detectLanguageFromHeader('en-US')).toBe('en');
-    });
-
-    it('returns "en" for an unsupported language', () => {
-      expect(detectLanguageFromHeader('fr')).toBe('en');
-    });
+  it('uses Korean for no-prefix paths and treats /ko as the default locale prefix', () => {
+    expect(resolveLocaleFromPathname('/')).toBe('ko');
+    expect(resolveLocaleFromPathname('/projects/aira')).toBe('ko');
+    expect(resolveLocaleFromPathname('/ko/projects/aira')).toBe('ko');
   });
 
-  describe('multiple languages with quality values', () => {
-    it('returns "ko" when ko has the highest quality', () => {
-      expect(detectLanguageFromHeader('ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7')).toBe('ko');
-    });
+  it('does not treat en-like slugs as locale prefixes', () => {
+    expect(resolveLocaleFromPathname('/energy')).toBe('ko');
+    expect(resolveLocaleFromPathname('/enigma/projects')).toBe('ko');
+  });
+});
 
-    it('returns "ko" even when en has higher quality (ko is always preferred when present)', () => {
-      expect(detectLanguageFromHeader('en-US;q=0.9,ko;q=0.8')).toBe('ko');
-    });
+describe('stripLocalePathPrefix', () => {
+  it('removes supported locale prefixes while preserving the rest of the path', () => {
+    expect(stripLocalePathPrefix('/en')).toBe('/');
+    expect(stripLocalePathPrefix('/en/projects/aira')).toBe('/projects/aira');
+    expect(stripLocalePathPrefix('/ko/projects/aira')).toBe('/projects/aira');
+  });
 
-    it('returns "ko" when ko appears with default quality (1.0)', () => {
-      expect(detectLanguageFromHeader('ko,en;q=0.9')).toBe('ko');
-    });
+  it('preserves no-prefix paths unchanged', () => {
+    expect(stripLocalePathPrefix('/projects/aira')).toBe('/projects/aira');
+    expect(stripLocalePathPrefix('/')).toBe('/');
+  });
+});
 
-    it('returns "en" when no ko in the list', () => {
-      expect(detectLanguageFromHeader('fr,de;q=0.9,en;q=0.8')).toBe('en');
-    });
+describe('getLocalizedPathname', () => {
+  it('keeps Korean URLs without a locale prefix', () => {
+    expect(getLocalizedPathname('/en/projects/aira', 'ko')).toBe('/projects/aira');
+    expect(getLocalizedPathname('/projects/aira', 'ko')).toBe('/projects/aira');
+  });
+
+  it('adds the /en prefix for English URLs', () => {
+    expect(getLocalizedPathname('/projects/aira', 'en')).toBe('/en/projects/aira');
+    expect(getLocalizedPathname('/en/projects/aira', 'en')).toBe('/en/projects/aira');
+    expect(getLocalizedPathname('/', 'en')).toBe('/en');
   });
 });

@@ -1,6 +1,6 @@
-import { COOKIE_MAX_AGE } from '@/lib/data/constants';
-
 export type Language = 'ko' | 'en';
+
+export const DEFAULT_LANGUAGE: Language = 'ko';
 
 export const SUPPORTED_LANGUAGES: Language[] = ['ko', 'en'];
 
@@ -8,32 +8,34 @@ export const isValidLanguage = (value: unknown): value is Language => {
   return value === 'ko' || value === 'en';
 };
 
-export const detectLanguageFromHeader = (acceptLanguage: string | null): Language => {
-  if (!acceptLanguage) {
-    return 'en';
-  }
+const localePathPrefixPattern = /^\/(ko|en)(?=\/|$)/;
 
-  const languages = acceptLanguage
-    .split(',')
-    .map((lang) => {
-      const [code, q = 'q=1'] = lang.trim().split(';');
-      const quality = parseFloat(q.replace('q=', ''));
-      return { code: code.toLowerCase().split('-')[0], quality };
-    })
-    .sort((a, b) => b.quality - a.quality);
+const normalizePathname = (pathname: string): string => {
+  if (!pathname) return '/';
 
-  for (const lang of languages) {
-    if (lang.code === 'ko') {
-      return 'ko';
-    }
-  }
-
-  return 'en';
+  return pathname.startsWith('/') ? pathname : `/${pathname}`;
 };
 
-export const getLocaleCookieOptions = (secure: boolean) => ({
-  path: '/',
-  maxAge: COOKIE_MAX_AGE,
-  sameSite: 'lax' as const,
-  secure,
-});
+export const resolveLocaleFromPathname = (pathname: string): Language => {
+  const normalizedPathname = normalizePathname(pathname);
+  const locale = normalizedPathname.match(localePathPrefixPattern)?.[1];
+
+  return isValidLanguage(locale) ? locale : DEFAULT_LANGUAGE;
+};
+
+export const stripLocalePathPrefix = (pathname: string): string => {
+  const normalizedPathname = normalizePathname(pathname);
+  const strippedPathname = normalizedPathname.replace(localePathPrefixPattern, '');
+
+  return strippedPathname || '/';
+};
+
+export const getLocalizedPathname = (pathname: string, locale: Language): string => {
+  const strippedPathname = stripLocalePathPrefix(pathname);
+
+  if (locale === DEFAULT_LANGUAGE) {
+    return strippedPathname;
+  }
+
+  return strippedPathname === '/' ? `/${locale}` : `/${locale}${strippedPathname}`;
+};

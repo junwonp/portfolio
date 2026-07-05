@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { getCacheControlForPath } from '@/proxy';
+import { getCacheControlForPath, getDefaultLocaleRedirectPathname } from '@/proxy';
 
 describe('getCacheControlForPath', () => {
   it('keeps assets cacheable for a long time', () => {
@@ -22,5 +22,17 @@ describe('getCacheControlForPath', () => {
     expect(getCacheControlForPath('/a')).toBe(
       'private, no-cache, no-store, must-revalidate',
     );
+  });
+});
+
+describe('getDefaultLocaleRedirectPathname', () => {
+  it('redirects Korean-prefixed URLs to the no-prefix canonical path', () => {
+    expect(getDefaultLocaleRedirectPathname('/ko')).toBe('/');
+    expect(getDefaultLocaleRedirectPathname('/ko/projects/aira')).toBe('/projects/aira');
+  });
+
+  it('does not redirect no-prefix or English-prefixed URLs', () => {
+    expect(getDefaultLocaleRedirectPathname('/projects/aira')).toBeNull();
+    expect(getDefaultLocaleRedirectPathname('/en/projects/aira')).toBeNull();
   });
 });

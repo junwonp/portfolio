@@ -1,14 +1,14 @@
 "use client";
 
-import React, { createContext, useContext, useTransition } from "react";
+import React, { createContext, useContext } from "react";
 
 import { getLabels } from "@/lib/data/labels";
-import type { Language } from "@/lib/utils/language";
+import { getLocalizedPathname, type Language } from "@/lib/utils/language";
 
 interface LocaleContextType {
   locale: Language;
   labels: ReturnType<typeof getLabels>;
-  setLocale: (newLocale: Language) => Promise<void>;
+  setLocale: (newLocale: Language) => void;
 }
 
 const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
@@ -21,24 +21,15 @@ export function LocaleProvider({
   initialLocale: Language;
 }) {
   const [locale, setLocaleState] = React.useState<Language>(initialLocale);
-  const [, startTransition] = useTransition();
 
-  const setLocale = async (newLocale: Language) => {
-    try {
-      const res = await fetch("/api/locale", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ locale: newLocale }),
-      });
-      if (res.ok) {
-        startTransition(() => {
-          setLocaleState(newLocale);
-          window.location.reload();
-        });
-      }
-    } catch (error) {
-      console.error("Failed to change locale:", error);
-    }
+  const setLocale = (newLocale: Language) => {
+    setLocaleState(newLocale);
+    const currentPathname = window.location.pathname;
+    const nextPathname = getLocalizedPathname(currentPathname, newLocale);
+
+    if (nextPathname === currentPathname) return;
+
+    window.location.assign(`${nextPathname}${window.location.search}${window.location.hash}`);
   };
 
   const labels = getLabels(locale);
