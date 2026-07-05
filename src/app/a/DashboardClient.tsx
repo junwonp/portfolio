@@ -10,6 +10,8 @@ import { LinkForm } from './LinkForm';
 
 interface DashboardClientProps {
   stats: {
+    avgActiveTime: number;
+    avgArticleProgress: number;
     avgDwellTime: number;
     avgScrollDepth: number;
     totalPageViews: number;
@@ -22,6 +24,8 @@ interface DashboardClientProps {
     slug: string;
   }[];
   applicationLinks: {
+    avgActiveTime: number;
+    avgArticleProgress: number;
     avgDwellTime: number;
     avgScrollDepth: number;
     companyName: string;
@@ -41,7 +45,14 @@ interface DashboardClientProps {
   dailyChart: { date: string; hasData: boolean; sessions: number; views: number }[];
   selectedApplicationLinkId: string;
   topCountries: { country: string; count: number }[];
-  topPages: { path: string; avgDwell: number; avgScroll: number; views: number }[];
+  topPages: {
+    avgActive: number;
+    avgArticleProgress: number;
+    avgDwell: number;
+    avgScroll: number;
+    path: string;
+    views: number;
+  }[];
   topReferrers: { count: number; referrer: string }[];
   trafficRange: {
     bucket: 'day' | 'month';
@@ -57,6 +68,14 @@ interface DashboardClientProps {
     rangeStart: string;
     rangeViews: number;
   };
+  webVitals: {
+    avgValue: number;
+    good: number;
+    metricName: string;
+    needsImprovement: number;
+    poor: number;
+    samples: number;
+  }[];
   initialTab: 'analytics' | 'links';
   writesDisabledReason: string | null;
   writesEnabled: boolean;
@@ -74,6 +93,7 @@ export function DashboardClient({
   topReferrers,
   trafficRange,
   trafficSummary,
+  webVitals,
   initialTab,
   writesDisabledReason,
   writesEnabled,
@@ -114,7 +134,9 @@ export function DashboardClient({
       paddingLeft +
       (i / Math.max(dailyChart.length - 1, 1)) * (chartWidth - paddingLeft - paddingRight);
     const ySessions =
-      chartHeight - paddingBottom - (d.sessions / maxVal) * (chartHeight - paddingTop - paddingBottom);
+      chartHeight -
+      paddingBottom -
+      (d.sessions / maxVal) * (chartHeight - paddingTop - paddingBottom);
     const yViews =
       chartHeight - paddingBottom - (d.views / maxVal) * (chartHeight - paddingTop - paddingBottom);
     return {
@@ -131,12 +153,18 @@ export function DashboardClient({
   const sessionsPath =
     points.length > 0
       ? `M ${points[0].x} ${points[0].ySessions} ` +
-        points.slice(1).map((p) => `L ${p.x} ${p.ySessions}`).join(' ')
+        points
+          .slice(1)
+          .map((p) => `L ${p.x} ${p.ySessions}`)
+          .join(' ')
       : '';
   const viewsPath =
     points.length > 0
       ? `M ${points[0].x} ${points[0].yViews} ` +
-        points.slice(1).map((p) => `L ${p.x} ${p.yViews}`).join(' ')
+        points
+          .slice(1)
+          .map((p) => `L ${p.x} ${p.yViews}`)
+          .join(' ')
       : '';
 
   function formatChartDate(date: string) {
@@ -199,11 +227,16 @@ export function DashboardClient({
           <p className={styles.subtitle}>Cloudflare Edge 기반 실시간 방문자 행동 분석</p>
         </div>
         <form action={logout}>
-          <button type="submit" className={styles.logoutBtn}>로그아웃</button>
+          <button type="submit" className={styles.logoutBtn}>
+            로그아웃
+          </button>
         </form>
       </header>
 
-      <section className={`${styles.dashboardViewSwitcher} ${styles.glass}`} aria-label="대시보드 화면 선택">
+      <section
+        className={`${styles.dashboardViewSwitcher} ${styles.glass}`}
+        aria-label="대시보드 화면 선택"
+      >
         <div className={styles.switcherCopy}>
           <span>{activeTab === 'analytics' ? '기본 화면' : '관리 화면'}</span>
           <strong>{activeTab === 'analytics' ? '분석 지표' : '지원 링크 생성 및 관리'}</strong>
@@ -242,7 +275,10 @@ export function DashboardClient({
       >
         {activeTab === 'analytics' ? (
           <div className={styles.dashboardPanel} role="tabpanel">
-            <section className={`${styles.metricFilterCard} ${styles.glass}`} aria-labelledby="metric-filter-title">
+            <section
+              className={`${styles.metricFilterCard} ${styles.glass}`}
+              aria-labelledby="metric-filter-title"
+            >
               <div>
                 <h3 id="metric-filter-title">지표 범위</h3>
                 <p className={styles.sectionSubtitle}>
@@ -259,7 +295,9 @@ export function DashboardClient({
                     value={selectedApplicationLinkId}
                     options={filterOptions}
                     onChange={(val) => {
-                      const form = document.querySelector<HTMLFormElement>(`.${styles.metricFilterForm}`);
+                      const form = document.querySelector<HTMLFormElement>(
+                        `.${styles.metricFilterForm}`,
+                      );
                       if (form) {
                         const input = form.querySelector<HTMLInputElement>('input[name="linkId"]');
                         if (input) {
@@ -294,6 +332,16 @@ export function DashboardClient({
                 <div className={styles.cardValue}>{stats.avgScrollDepth}%</div>
                 <div className={styles.cardDesc}>사용자가 페이지를 내려본 평균 비율</div>
               </div>
+              <div className={`${styles.metricCard} ${styles.glass}`}>
+                <div className={styles.cardLabel}>평균 활성 시간</div>
+                <div className={styles.cardValue}>{stats.avgActiveTime}초</div>
+                <div className={styles.cardDesc}>탭이 실제로 보였던 시간</div>
+              </div>
+              <div className={`${styles.metricCard} ${styles.glass}`}>
+                <div className={styles.cardLabel}>평균 본문 진행률</div>
+                <div className={styles.cardValue}>{stats.avgArticleProgress}%</div>
+                <div className={styles.cardDesc}>프로젝트 글 본문 기준 읽은 깊이</div>
+              </div>
             </section>
 
             <section className={`${styles.chartSection} ${styles.glass}`}>
@@ -301,7 +349,8 @@ export function DashboardClient({
                 <div>
                   <h3>{trafficRange.label} 트래픽</h3>
                   <p className={styles.sectionSubtitle}>
-                    {formatChartDate(trafficSummary.rangeStart)}–{formatChartDate(trafficSummary.rangeEnd)}
+                    {formatChartDate(trafficSummary.rangeStart)}–
+                    {formatChartDate(trafficSummary.rangeEnd)}
                     기준, 기록이 없는 {trafficRange.bucket === 'month' ? '월' : '날짜'}은 0으로 표시
                   </p>
                   <div className={styles.chartLegend}>
@@ -317,7 +366,11 @@ export function DashboardClient({
                 </div>
                 <div className={styles.chartActions}>
                   <div className={styles.rangeTabs} aria-label="트래픽 기간 선택">
-                    {[{ label: '7일', value: '7d' }, { label: '30일', value: '30d' }, { label: '1년', value: '1y' }].map((opt) => (
+                    {[
+                      { label: '7일', value: '7d' },
+                      { label: '30일', value: '30d' },
+                      { label: '1년', value: '1y' },
+                    ].map((opt) => (
                       <a
                         key={opt.value}
                         className={trafficRange.value === opt.value ? styles.active : ''}
@@ -328,7 +381,8 @@ export function DashboardClient({
                     ))}
                   </div>
                   <div className={styles.rangeBadge}>
-                    {trafficSummary.activeDays}{trafficRange.bucket === 'month' ? '개월' : '일'} 활성
+                    {trafficSummary.activeDays}
+                    {trafficRange.bucket === 'month' ? '개월' : '일'} 활성
                   </div>
                 </div>
               </div>
@@ -343,11 +397,15 @@ export function DashboardClient({
                   <strong>{trafficSummary.rangeSessions}</strong>
                 </div>
                 <div className={styles.summaryItem}>
-                  <span className={styles.summaryLabel}>활성 {trafficRange.bucket === 'month' ? '월' : '일'}</span>
+                  <span className={styles.summaryLabel}>
+                    활성 {trafficRange.bucket === 'month' ? '월' : '일'}
+                  </span>
                   <strong>{trafficSummary.activeDays}</strong>
                 </div>
                 <div className={styles.summaryItem}>
-                  <span className={styles.summaryLabel}>무기록 {trafficRange.bucket === 'month' ? '월' : '일'}</span>
+                  <span className={styles.summaryLabel}>
+                    무기록 {trafficRange.bucket === 'month' ? '월' : '일'}
+                  </span>
                   <strong>{trafficSummary.quietDays}</strong>
                 </div>
               </div>
@@ -357,7 +415,13 @@ export function DashboardClient({
               ) : (
                 <div className={styles.chartWrapper}>
                   <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className={styles.svgChart}>
-                    <line x1={paddingLeft} y1={paddingTop} x2={chartWidth - paddingRight} y2={paddingTop} className={styles.gridLine} />
+                    <line
+                      x1={paddingLeft}
+                      y1={paddingTop}
+                      x2={chartWidth - paddingRight}
+                      y2={paddingTop}
+                      className={styles.gridLine}
+                    />
                     <line
                       x1={paddingLeft}
                       y1={(chartHeight - paddingTop - paddingBottom) / 2 + paddingTop}
@@ -365,33 +429,89 @@ export function DashboardClient({
                       y2={(chartHeight - paddingTop - paddingBottom) / 2 + paddingTop}
                       className={styles.gridLine}
                     />
-                    <line x1={paddingLeft} y1={chartHeight - paddingBottom} x2={chartWidth - paddingRight} y2={chartHeight - paddingBottom} className={styles.gridLine} />
+                    <line
+                      x1={paddingLeft}
+                      y1={chartHeight - paddingBottom}
+                      x2={chartWidth - paddingRight}
+                      y2={chartHeight - paddingBottom}
+                      className={styles.gridLine}
+                    />
 
-                    <text x={paddingLeft - 10} y={paddingTop + 4} className={`${styles.axisLabel} ${styles.yAxis}`} textAnchor="end">{maxVal}</text>
-                    <text x={paddingLeft - 10} y={(chartHeight - paddingTop - paddingBottom) / 2 + paddingTop + 4} className={`${styles.axisLabel} ${styles.yAxis}`} textAnchor="end">{Math.round(maxVal / 2)}</text>
-                    <text x={paddingLeft - 10} y={chartHeight - paddingBottom + 4} className={`${styles.axisLabel} ${styles.yAxis}`} textAnchor="end">0</text>
+                    <text
+                      x={paddingLeft - 10}
+                      y={paddingTop + 4}
+                      className={`${styles.axisLabel} ${styles.yAxis}`}
+                      textAnchor="end"
+                    >
+                      {maxVal}
+                    </text>
+                    <text
+                      x={paddingLeft - 10}
+                      y={(chartHeight - paddingTop - paddingBottom) / 2 + paddingTop + 4}
+                      className={`${styles.axisLabel} ${styles.yAxis}`}
+                      textAnchor="end"
+                    >
+                      {Math.round(maxVal / 2)}
+                    </text>
+                    <text
+                      x={paddingLeft - 10}
+                      y={chartHeight - paddingBottom + 4}
+                      className={`${styles.axisLabel} ${styles.yAxis}`}
+                      textAnchor="end"
+                    >
+                      0
+                    </text>
 
                     {points.length > 0 && (
-                      <text x={points[0].x} y={chartHeight - paddingBottom + 18} className={`${styles.axisLabel} ${styles.xAxis}`} textAnchor="middle">
+                      <text
+                        x={points[0].x}
+                        y={chartHeight - paddingBottom + 18}
+                        className={`${styles.axisLabel} ${styles.xAxis}`}
+                        textAnchor="middle"
+                      >
                         {formatChartDate(points[0].date)}
                       </text>
                     )}
                     {points.length > 2 && (
-                      <text x={points[Math.floor(points.length / 2)].x} y={chartHeight - paddingBottom + 18} className={`${styles.axisLabel} ${styles.xAxis}`} textAnchor="middle">
+                      <text
+                        x={points[Math.floor(points.length / 2)].x}
+                        y={chartHeight - paddingBottom + 18}
+                        className={`${styles.axisLabel} ${styles.xAxis}`}
+                        textAnchor="middle"
+                      >
                         {formatChartDate(points[Math.floor(points.length / 2)].date)}
                       </text>
                     )}
                     {points.length > 1 && (
-                      <text x={points[points.length - 1].x} y={chartHeight - paddingBottom + 18} className={`${styles.axisLabel} ${styles.xAxis}`} textAnchor="middle">
+                      <text
+                        x={points[points.length - 1].x}
+                        y={chartHeight - paddingBottom + 18}
+                        className={`${styles.axisLabel} ${styles.xAxis}`}
+                        textAnchor="middle"
+                      >
                         {formatChartDate(points[points.length - 1].date)}
                       </text>
                     )}
 
                     {viewsPath && (
-                      <path d={viewsPath} fill="none" stroke="var(--color-primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                      <path
+                        d={viewsPath}
+                        fill="none"
+                        stroke="var(--color-primary)"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     )}
                     {sessionsPath && (
-                      <path d={sessionsPath} fill="none" stroke="var(--color-cat-frameworks)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                      <path
+                        d={sessionsPath}
+                        fill="none"
+                        stroke="var(--color-cat-frameworks)"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     )}
 
                     {points.map((pt) => (
@@ -421,16 +541,21 @@ export function DashboardClient({
                   {activeDot && (
                     <div
                       className={styles.chartTooltip}
-                      style={{ left: `${activeDot.x}px`, top: `${Math.min(activeDot.ySessions, activeDot.yViews) - 40}px` }}
+                      style={{
+                        left: `${activeDot.x}px`,
+                        top: `${Math.min(activeDot.ySessions, activeDot.yViews) - 40}px`,
+                      }}
                     >
                       <div className={styles.tooltipDate}>{activeDot.date}</div>
                       {activeDot.hasData ? (
                         <>
                           <div className={styles.tooltipRow}>
-                            <span className={`${styles.dot} ${styles.green}`}></span> 세션 수: <strong>{activeDot.sessions}</strong>
+                            <span className={`${styles.dot} ${styles.green}`}></span> 세션 수:{' '}
+                            <strong>{activeDot.sessions}</strong>
                           </div>
                           <div className={styles.tooltipRow}>
-                            <span className={`${styles.dot} ${styles.blue}`}></span> 조회 수: <strong>{activeDot.views}</strong>
+                            <span className={`${styles.dot} ${styles.blue}`}></span> 조회 수:{' '}
+                            <strong>{activeDot.views}</strong>
                           </div>
                         </>
                       ) : (
@@ -455,16 +580,22 @@ export function DashboardClient({
                           <th>페이지 경로</th>
                           <th className={styles.num}>조회 수</th>
                           <th className={styles.num}>평균 체류</th>
+                          <th className={styles.num}>활성 시간</th>
                           <th className={styles.num}>평균 스크롤</th>
+                          <th className={styles.num}>본문 진행</th>
                         </tr>
                       </thead>
                       <tbody>
                         {topPages.map((page) => (
                           <tr key={page.path}>
-                            <td className={styles.pathCell} title={page.path}>{page.path}</td>
+                            <td className={styles.pathCell} title={page.path}>
+                              {page.path}
+                            </td>
                             <td className={styles.num}>{page.views}</td>
                             <td className={styles.num}>{page.avgDwell}초</td>
+                            <td className={styles.num}>{page.avgActive}초</td>
                             <td className={styles.num}>{page.avgScroll}%</td>
+                            <td className={styles.num}>{page.avgArticleProgress}%</td>
                           </tr>
                         ))}
                       </tbody>
@@ -483,13 +614,17 @@ export function DashboardClient({
                       {topReferrers.map((ref) => (
                         <li key={ref.referrer}>
                           <div className={styles.listLabel}>
-                            <span className={styles.labelText} title={ref.referrer}>{ref.referrer}</span>
+                            <span className={styles.labelText} title={ref.referrer}>
+                              {ref.referrer}
+                            </span>
                             <span className={styles.labelVal}>{ref.count}</span>
                           </div>
                           <div className={styles.progressBar}>
                             <div
                               className={`${styles.progressFill} ${styles.blue}`}
-                              style={{ width: `${(ref.count / Math.max(...topReferrers.map(r => r.count))) * 100}%` }}
+                              style={{
+                                width: `${(ref.count / Math.max(...topReferrers.map((r) => r.count))) * 100}%`,
+                              }}
                             ></div>
                           </div>
                         </li>
@@ -507,14 +642,42 @@ export function DashboardClient({
                       {topCountries.map((c) => (
                         <li key={c.country}>
                           <div className={styles.listLabel}>
-                            <span className={styles.labelText}>{c.country === 'unknown' ? '직접 유입 / VPN' : c.country}</span>
+                            <span className={styles.labelText}>
+                              {c.country === 'unknown' ? '직접 유입 / VPN' : c.country}
+                            </span>
                             <span className={styles.labelVal}>{c.count}</span>
                           </div>
                           <div className={styles.progressBar}>
                             <div
                               className={`${styles.progressFill} ${styles.green}`}
-                              style={{ width: `${(c.count / Math.max(...topCountries.map(co => co.count))) * 100}%` }}
+                              style={{
+                                width: `${(c.count / Math.max(...topCountries.map((co) => co.count))) * 100}%`,
+                              }}
                             ></div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <div className={`${styles.subSection} ${styles.spacerTop}`}>
+                  <h3>Core Web Vitals</h3>
+                  {webVitals.length === 0 ? (
+                    <div className={styles.emptyState}>기록된 Web Vitals 샘플이 없습니다.</div>
+                  ) : (
+                    <ul className={styles.progressList}>
+                      {webVitals.map((metric) => (
+                        <li key={metric.metricName}>
+                          <div className={styles.listLabel}>
+                            <span className={styles.labelText}>{metric.metricName}</span>
+                            <span className={styles.labelVal}>
+                              {metric.avgValue} · {metric.samples}회
+                            </span>
+                          </div>
+                          <div className={styles.mutedText}>
+                            good {metric.good} · needs {metric.needsImprovement} · poor{' '}
+                            {metric.poor}
                           </div>
                         </li>
                       ))}
@@ -526,12 +689,17 @@ export function DashboardClient({
           </div>
         ) : (
           <div className={styles.dashboardPanel} role="tabpanel">
-            <section className={`${styles.applicationLinkCard} ${styles.glass}`} aria-labelledby="link-create-title">
+            <section
+              className={`${styles.applicationLinkCard} ${styles.glass}`}
+              aria-labelledby="link-create-title"
+            >
               <div className={styles.applicationLinkPanel}>
                 <div className={styles.sectionHeadingRow}>
                   <div>
                     <h3 id="link-create-title">지원 링크 생성</h3>
-                    <p className={styles.sectionSubtitle}>회사별 짧은 URL과 맞춤 프로젝트 순서를 설정합니다.</p>
+                    <p className={styles.sectionSubtitle}>
+                      회사별 짧은 URL과 맞춤 프로젝트 순서를 설정합니다.
+                    </p>
                     {writesDisabledReason && (
                       <p className={styles.sectionSubtitle}>{writesDisabledReason}</p>
                     )}
@@ -544,16 +712,19 @@ export function DashboardClient({
               </div>
             </section>
 
-            <section className={`${styles.applicationLinkCard} ${styles.glass}`} aria-labelledby="link-list-title">
+            <section
+              className={`${styles.applicationLinkCard} ${styles.glass}`}
+              aria-labelledby="link-list-title"
+            >
               <div className={styles.applicationLinkPanel}>
                 <div className={styles.sectionHeadingRow}>
                   <div>
                     <h3 id="link-list-title">생성된 링크</h3>
-                    <p className={styles.sectionSubtitle}>활성 링크의 설정과 회사별 방문 지표를 확인합니다.</p>
+                    <p className={styles.sectionSubtitle}>
+                      활성 링크의 설정과 회사별 방문 지표를 확인합니다.
+                    </p>
                   </div>
-                  <div className={styles.rangeBadge}>
-                    {applicationLinks.length}개 활성 링크
-                  </div>
+                  <div className={styles.rangeBadge}>{applicationLinks.length}개 활성 링크</div>
                 </div>
                 <div className={`${styles.tableScroll} ${styles.applicationTable}`}>
                   <table>
@@ -565,6 +736,8 @@ export function DashboardClient({
                         <th className={styles.num}>세션</th>
                         <th className={styles.num}>조회</th>
                         <th className={styles.num}>평균 체류</th>
+                        <th className={styles.num}>활성</th>
+                        <th className={styles.num}>본문</th>
                         <th>최근 방문</th>
                         <th>만료</th>
                         <th className={styles.actionCell}>관리</th>
@@ -573,13 +746,17 @@ export function DashboardClient({
                     <tbody>
                       {applicationLinks.length === 0 ? (
                         <tr>
-                          <td colSpan={9} className={styles.emptyTableCell}>아직 생성된 지원 링크가 없습니다.</td>
+                          <td colSpan={11} className={styles.emptyTableCell}>
+                            아직 생성된 지원 링크가 없습니다.
+                          </td>
                         </tr>
                       ) : (
                         applicationLinks.map((link) => (
                           <tr key={link.id}>
                             <td className={styles.pathCell}>
-                              <a href={`/${link.slug}`} target="_blank" rel="noopener noreferrer">/{link.slug}</a>
+                              <a href={`/${link.slug}`} target="_blank" rel="noopener noreferrer">
+                                /{link.slug}
+                              </a>
                             </td>
                             <td>
                               <strong>{link.companyName}</strong>
@@ -597,7 +774,9 @@ export function DashboardClient({
                                     {link.projectIds.length > 0 ? (
                                       <ol className={styles.projectOrderList}>
                                         {link.projectIds.map((projectId, index) => (
-                                          <li key={projectId}>{index + 1}. {formatProjectTitle(projectId)}</li>
+                                          <li key={projectId}>
+                                            {index + 1}. {formatProjectTitle(projectId)}
+                                          </li>
                                         ))}
                                       </ol>
                                     ) : (
@@ -610,6 +789,8 @@ export function DashboardClient({
                             <td className={styles.num}>{link.sessions}</td>
                             <td className={styles.num}>{link.views}</td>
                             <td className={styles.num}>{link.avgDwellTime}초</td>
+                            <td className={styles.num}>{link.avgActiveTime}초</td>
+                            <td className={styles.num}>{link.avgArticleProgress}%</td>
                             <td>{formatDateTime(link.lastSeenAt)}</td>
                             <td>{formatDateTime(link.expiresAt)}</td>
                             <td className={styles.actionCell}>

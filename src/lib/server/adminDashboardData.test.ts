@@ -10,6 +10,9 @@ class MissingSchemaDbMock {
           throw new Error('D1_ERROR: no such table: application_links: SQLITE_ERROR');
         },
       }),
+      run: async () => {
+        throw new Error('D1_ERROR: no such table: page_views: SQLITE_ERROR');
+      },
       all: async () => {
         throw new Error('D1_ERROR: no such table: application_links: SQLITE_ERROR');
       },
@@ -37,6 +40,8 @@ describe('getAdminDashboardData', () => {
       initialTab: 'analytics',
       selectedApplicationLinkId: '',
       stats: {
+        avgActiveTime: 0,
+        avgArticleProgress: 0,
         avgDwellTime: 0,
         avgScrollDepth: 0,
         totalPageViews: 0,
@@ -59,6 +64,7 @@ describe('getAdminDashboardData', () => {
         rangeStart: '2026-05-31',
         rangeViews: 0,
       },
+      webVitals: [],
       writesDisabledReason:
         'D1 analytics schema가 아직 준비되지 않아 링크 생성과 삭제가 비활성화됩니다.',
       writesEnabled: false,

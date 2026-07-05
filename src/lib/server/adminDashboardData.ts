@@ -7,6 +7,7 @@ import {
   type TrafficRangeConfig,
   type TrafficSummary,
 } from '@/lib/server/analyticsMetrics';
+import { ensureAnalyticsStorageSchema } from '@/lib/server/analyticsSchema';
 import {
   type ApplicationLinkStats,
   type ApplicationLinkStatsRow,
@@ -37,16 +38,33 @@ export interface AdminDashboardData {
   initialTab: 'analytics' | 'links';
   selectedApplicationLinkId: string;
   stats: {
+    avgActiveTime: number;
+    avgArticleProgress: number;
     avgDwellTime: number;
     avgScrollDepth: number;
     totalPageViews: number;
     totalSessions: number;
   };
   topCountries: { country: string; count: number }[];
-  topPages: { avgDwell: number; avgScroll: number; path: string; views: number }[];
+  topPages: {
+    avgActive: number;
+    avgArticleProgress: number;
+    avgDwell: number;
+    avgScroll: number;
+    path: string;
+    views: number;
+  }[];
   topReferrers: { count: number; referrer: string }[];
   trafficRange: TrafficRangeConfig;
   trafficSummary: TrafficSummary;
+  webVitals: {
+    avgValue: number;
+    good: number;
+    metricName: string;
+    needsImprovement: number;
+    poor: number;
+    samples: number;
+  }[];
   writesDisabledReason: string | null;
   writesEnabled: boolean;
 }
@@ -75,6 +93,7 @@ const ADMIN_DASHBOARD_TABLES = [
   'application_link_visits',
   'page_views',
   'user_sessions',
+  'web_vitals',
 ] as const;
 const MISSING_SCHEMA_WRITES_DISABLED_REASON =
   'D1 analytics schema가 아직 준비되지 않아 링크 생성과 삭제가 비활성화됩니다.';
@@ -126,6 +145,8 @@ const createEmptyAdminDashboardData = ({
     initialTab: getInitialTab(searchParams),
     selectedApplicationLinkId: '',
     stats: {
+      avgActiveTime: 0,
+      avgArticleProgress: 0,
       avgDwellTime: 0,
       avgScrollDepth: 0,
       totalPageViews: 0,
@@ -136,14 +157,13 @@ const createEmptyAdminDashboardData = ({
     topReferrers: [],
     trafficRange,
     trafficSummary: summarizeDailyChart(dailyChart),
+    webVitals: [],
     writesDisabledReason,
     writesEnabled,
   };
 };
 
-const getApplicationFilterOptions = async (
-  db: D1Database,
-): Promise<ApplicationFilterOption[]> => {
+const getApplicationFilterOptions = async (db: D1Database): Promise<ApplicationFilterOption[]> => {
   const result = await db
     .prepare(
       `SELECT id, slug, label, company_name
@@ -174,7 +194,9 @@ const getSelectedApplicationLinkId = (
     return null;
   }
 
-  return applicationFilterOptions.find((link) => link.id === requestedApplicationLinkId)?.id ?? null;
+  return (
+    applicationFilterOptions.find((link) => link.id === requestedApplicationLinkId)?.id ?? null
+  );
 };
 
 const getStats = async ({
@@ -189,7 +211,9 @@ const getStats = async ({
             COUNT(DISTINCT visits.session_id) as totalSessions,
             COUNT(page_views.id) as totalPageViews,
             ROUND(AVG(page_views.dwell_time), 1) as avgDwellTime,
-            ROUND(AVG(page_views.scroll_depth), 1) as avgScrollDepth
+            ROUND(AVG(page_views.scroll_depth), 1) as avgScrollDepth,
+            ROUND(AVG(COALESCE(page_views.active_time, page_views.dwell_time, 0)), 1) as avgActiveTime,
+            ROUND(AVG(COALESCE(page_views.article_progress, 0)), 1) as avgArticleProgress
            FROM application_link_visits visits
            JOIN user_sessions ON user_sessions.id = visits.session_id
            LEFT JOIN page_views ON page_views.session_id = visits.session_id
@@ -203,7 +227,9 @@ const getStats = async ({
             COUNT(DISTINCT user_sessions.id) as totalSessions,
             COUNT(page_views.id) as totalPageViews,
             ROUND(AVG(page_views.dwell_time), 1) as avgDwellTime,
-            ROUND(AVG(page_views.scroll_depth), 1) as avgScrollDepth
+            ROUND(AVG(page_views.scroll_depth), 1) as avgScrollDepth,
+            ROUND(AVG(COALESCE(page_views.active_time, page_views.dwell_time, 0)), 1) as avgActiveTime,
+            ROUND(AVG(COALESCE(page_views.article_progress, 0)), 1) as avgArticleProgress
            FROM user_sessions
            LEFT JOIN page_views ON page_views.session_id = user_sessions.id
            WHERE user_sessions.is_admin = 0`,
@@ -211,6 +237,8 @@ const getStats = async ({
         .first<AdminDashboardData['stats']>();
 
   return {
+    avgActiveTime: statsQuery?.avgActiveTime || 0,
+    avgArticleProgress: statsQuery?.avgArticleProgress || 0,
     avgDwellTime: statsQuery?.avgDwellTime || 0,
     avgScrollDepth: statsQuery?.avgScrollDepth || 0,
     totalPageViews: statsQuery?.totalPageViews || 0,
@@ -282,32 +310,102 @@ const getTopPages = async ({
             page_views.path,
             COUNT(*) as views,
             ROUND(AVG(page_views.dwell_time), 1) as avgDwell,
-            ROUND(AVG(page_views.scroll_depth), 1) as avgScroll
+            ROUND(AVG(page_views.scroll_depth), 1) as avgScroll,
+            ROUND(AVG(COALESCE(page_views.active_time, page_views.dwell_time, 0)), 1) as avgActive,
+            ROUND(AVG(COALESCE(page_views.article_progress, 0)), 1) as avgArticleProgress
            FROM page_views
            JOIN application_link_visits visits ON visits.session_id = page_views.session_id
            JOIN user_sessions ON user_sessions.id = page_views.session_id
            WHERE visits.application_link_id = ? AND user_sessions.is_admin = 0
            GROUP BY page_views.path
            ORDER BY views DESC
-           LIMIT 10`,
+          LIMIT 10`,
         )
         .bind(selectedApplicationLinkId)
-        .all<{ avgDwell: number; avgScroll: number; path: string; views: number }>()
+        .all<{
+          avgActive: number;
+          avgArticleProgress: number;
+          avgDwell: number;
+          avgScroll: number;
+          path: string;
+          views: number;
+        }>()
     : await db
         .prepare(
           `SELECT
             page_views.path,
             COUNT(*) as views,
             ROUND(AVG(page_views.dwell_time), 1) as avgDwell,
-            ROUND(AVG(page_views.scroll_depth), 1) as avgScroll
+            ROUND(AVG(page_views.scroll_depth), 1) as avgScroll,
+            ROUND(AVG(COALESCE(page_views.active_time, page_views.dwell_time, 0)), 1) as avgActive,
+            ROUND(AVG(COALESCE(page_views.article_progress, 0)), 1) as avgArticleProgress
            FROM page_views
            JOIN user_sessions ON user_sessions.id = page_views.session_id
            WHERE user_sessions.is_admin = 0
            GROUP BY page_views.path
-           ORDER BY views DESC
-           LIMIT 10`,
+          ORDER BY views DESC
+          LIMIT 10`,
         )
-        .all<{ avgDwell: number; avgScroll: number; path: string; views: number }>();
+        .all<{
+          avgActive: number;
+          avgArticleProgress: number;
+          avgDwell: number;
+          avgScroll: number;
+          path: string;
+          views: number;
+        }>();
+
+  return result.results;
+};
+
+const getWebVitals = async ({
+  db,
+  hasApplicationFilter,
+  rangeEnd,
+  rangeStart,
+  selectedApplicationLinkId,
+}: AdminDashboardQueryContext): Promise<AdminDashboardData['webVitals']> => {
+  const result = hasApplicationFilter
+    ? await db
+        .prepare(
+          `SELECT
+            web_vitals.metric_name as metricName,
+            COUNT(*) as samples,
+            ROUND(AVG(web_vitals.value), 1) as avgValue,
+            SUM(CASE WHEN web_vitals.rating = 'good' THEN 1 ELSE 0 END) as good,
+            SUM(CASE WHEN web_vitals.rating = 'needs-improvement' THEN 1 ELSE 0 END) as needsImprovement,
+            SUM(CASE WHEN web_vitals.rating = 'poor' THEN 1 ELSE 0 END) as poor
+           FROM web_vitals
+           JOIN user_sessions ON user_sessions.id = web_vitals.session_id
+           JOIN application_link_visits visits ON visits.session_id = web_vitals.session_id
+           WHERE strftime('%Y-%m-%d', web_vitals.created_at) BETWEEN ? AND ?
+            AND visits.application_link_id = ?
+            AND user_sessions.is_admin = 0
+           GROUP BY web_vitals.metric_name
+           ORDER BY samples DESC
+           LIMIT 6`,
+        )
+        .bind(rangeStart, rangeEnd, selectedApplicationLinkId)
+        .all<AdminDashboardData['webVitals'][number]>()
+    : await db
+        .prepare(
+          `SELECT
+            web_vitals.metric_name as metricName,
+            COUNT(*) as samples,
+            ROUND(AVG(web_vitals.value), 1) as avgValue,
+            SUM(CASE WHEN web_vitals.rating = 'good' THEN 1 ELSE 0 END) as good,
+            SUM(CASE WHEN web_vitals.rating = 'needs-improvement' THEN 1 ELSE 0 END) as needsImprovement,
+            SUM(CASE WHEN web_vitals.rating = 'poor' THEN 1 ELSE 0 END) as poor
+           FROM web_vitals
+           JOIN user_sessions ON user_sessions.id = web_vitals.session_id
+           WHERE strftime('%Y-%m-%d', web_vitals.created_at) BETWEEN ? AND ?
+            AND user_sessions.is_admin = 0
+           GROUP BY web_vitals.metric_name
+           ORDER BY samples DESC
+           LIMIT 6`,
+        )
+        .bind(rangeStart, rangeEnd)
+        .all<AdminDashboardData['webVitals'][number]>();
 
   return result.results;
 };
@@ -401,6 +499,8 @@ const getApplicationLinks = async (db: D1Database): Promise<ApplicationLinkStats
         COUNT(page_views.id) as views,
         ROUND(AVG(page_views.dwell_time), 1) as avg_dwell_time,
         ROUND(AVG(page_views.scroll_depth), 1) as avg_scroll_depth,
+        ROUND(AVG(COALESCE(page_views.active_time, page_views.dwell_time, 0)), 1) as avg_active_time,
+        ROUND(AVG(COALESCE(page_views.article_progress, 0)), 1) as avg_article_progress,
         MAX(page_views.created_at) as last_seen_at
        FROM application_links links
        LEFT JOIN application_link_visits visits ON visits.application_link_id = links.id
@@ -437,6 +537,7 @@ export const getAdminDashboardData = async ({
   }
 
   try {
+    await ensureAnalyticsStorageSchema(db);
     const applicationFilterOptions = await getApplicationFilterOptions(db);
     const selectedApplicationLinkId = getSelectedApplicationLinkId(
       applicationFilterOptions,
@@ -454,7 +555,7 @@ export const getAdminDashboardData = async ({
       today,
       trafficRange,
     };
-    const [stats, dailyChart, topPages, topReferrers, topCountries, applicationLinks] =
+    const [stats, dailyChart, topPages, topReferrers, topCountries, applicationLinks, webVitals] =
       await Promise.all([
         getStats(context),
         getDailyChart(context),
@@ -462,6 +563,7 @@ export const getAdminDashboardData = async ({
         getTopReferrers(context),
         getTopCountries(context),
         getApplicationLinks(db),
+        getWebVitals(context),
       ]);
 
     return {
@@ -477,6 +579,7 @@ export const getAdminDashboardData = async ({
       topReferrers,
       trafficRange,
       trafficSummary: summarizeDailyChart(dailyChart),
+      webVitals,
       writesDisabledReason: writesEnabled ? null : RUNTIME_WRITES_DISABLED_REASON,
       writesEnabled,
     };

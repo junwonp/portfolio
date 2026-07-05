@@ -33,29 +33,38 @@ Required Worker settings for production admin access:
 `schema.sql` defines the operational tables:
 
 - `user_sessions`: one row per browser session. Stores country, user agent, referrer, admin flag, and creation time.
-- `page_views`: page-level dwell time and max scroll depth. Linked to `user_sessions`.
+- `page_views`: one durable row per browser page view when `client_page_view_id` is available. Stores total dwell time, visible-tab active time, document scroll depth, project-article progress, and the farthest visible project section. Linked to `user_sessions`.
 - `application_links`: active or expired short links. Stores slug, company/label, role preset, summary preset, ordered project ids, and expiry.
 - `application_link_visits`: maps one session to one application link. Current v1 attribution is session-scoped, not multi-touch.
+- `web_vitals`: Core Web Vitals samples reported by Next.js `useReportWebVitals`.
 - `content_overrides`: published browser edits for home/project content.
 - `tags` and `revalidations`: vinext cache support tables.
 
 ## Tracking Flow
 
 1. `src/lib/components/AnalyticsTracker.tsx` creates a session id in `sessionStorage`.
-2. It sends an initial beacon with referrer/user agent and page flush beacons with path, dwell time, and scroll depth.
+2. It sends an initial beacon with referrer/user agent and page flush beacons with path, dwell time, active time, document scroll depth, project-article progress, and farthest visible section.
 3. Single-segment public paths such as `/abcd` are interpreted as application-link slugs by `src/lib/utils/applicationSlug.ts`.
 4. `/api/analytics/track` bypasses local, owner-device, and `IGNORE_IPS` traffic.
-5. `src/lib/server/analyticsPayload.ts` validates payload shape, clamps dwell/scroll values, and normalizes optional slugs.
-6. `src/lib/server/analyticsTracking.ts` writes `user_sessions`, `application_link_visits`, and `page_views`.
+5. `src/lib/components/WebVitalsTracker.tsx` reports Next.js Web Vitals to the same endpoint.
+6. `src/lib/server/analyticsPayload.ts` validates payload shape, clamps dwell/active/scroll/article-progress values, and normalizes optional slugs.
+7. `src/lib/server/analyticsTracking.ts` writes `user_sessions`, `application_link_visits`, `page_views`, and `web_vitals`.
 
 Payload rules:
 
 - `sessionId` is required and capped at 128 characters.
+- `pageViewId` is optional but enables upsert-style page updates instead of duplicate flush rows.
 - `path` must start with `/` and is capped at 2048 characters.
 - `dwellTime` is clamped to `0..86400` seconds.
+- `activeTime` is clamped to `0..86400` seconds and only counts visible-tab time.
 - `scrollDepth` is clamped to `0..100`.
+- `articleProgress` is clamped to `0..100` and is measured against `.project-article`, not the full document.
+- `maxVisibleSectionId` and `maxVisibleSectionLabel` capture the farthest reached project `h2`.
+- Web Vital payloads require `metricId`, `metricName`, `metricValue`, and `metricDelta`; rating is normalized to `good`, `needs-improvement`, `poor`, or `unknown`.
 - `referrer` and `userAgent` are trimmed with safe fallbacks.
 - Explicit `applicationSlug` wins; otherwise the server can infer it from a valid single-segment path.
+
+The server performs a lightweight analytics schema bootstrap before writes. Existing D1 databases get the newer `page_views` columns, `client_page_view_id` unique index, and `web_vitals` table without requiring a full table rebuild.
 
 ## Short URL Tailoring
 
@@ -88,12 +97,15 @@ Global and link-filtered metrics include:
 - total page views,
 - average dwell time,
 - average scroll depth,
+- average visible-tab active time,
+- average project-article progress,
 - daily range charts for 7 and 30 days,
 - monthly range chart for 1 year,
 - top pages,
 - top referrers,
 - top countries,
-- active application-link table with sessions, views, average dwell, average scroll, last seen, and expiry.
+- Core Web Vitals samples and rating counts,
+- active application-link table with sessions, views, average dwell, average active time, average article progress, last seen, and expiry.
 
 Admin sessions are excluded with `user_sessions.is_admin = 0`.
 
@@ -129,5 +141,5 @@ For UI smoke tests:
 2. Open `/a`.
 3. In local development, use the local login button.
 4. Check the analytics tab, links tab, range controls, link filter, and generated short URL load path.
-5. If D1 writes are unavailable locally, rely on unit tests for attribution and only smoke-test UI load/disabled states.
-
+5. For local analytics write verification, avoid `localhost` and `127.0.0.1` because they are intentionally bypassed. Use `http://[::1]:3000/...` or direct POST requests to the same host.
+6. If D1 writes are unavailable locally, rely on unit tests for attribution and only smoke-test UI load/disabled states.
