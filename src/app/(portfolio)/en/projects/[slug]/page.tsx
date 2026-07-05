@@ -3,19 +3,18 @@ import type { Metadata } from 'next';
 import {
   getProjectPageMetadata,
   renderProjectDetailRoute,
-} from '../../portfolioRouteViews';
+} from '../../../portfolioRouteViews';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Generate metadata dynamically
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  return getProjectPageMetadata({ locale: 'ko', slug });
+  return getProjectPageMetadata({ locale: 'en', slug });
 }
 
 export default async function ProjectDetail({ params }: PageProps) {
   const { slug } = await params;
-  return renderProjectDetailRoute({ locale: 'ko', slug });
+  return renderProjectDetailRoute({ locale: 'en', slug });
 }

@@ -9,6 +9,7 @@ import DeferredBottomNav from "@/lib/components/DeferredBottomNav";
 import DeferredFooter from "@/lib/components/DeferredFooter";
 import { LocaleProvider } from "@/lib/contexts/LocaleContext";
 import type { Language } from "@/lib/utils/language";
+import { stripLocalePathPrefix } from "@/lib/utils/language";
 import { getMetadata } from "@/lib/utils/metadata";
 
 export default function PortfolioShell({
@@ -19,8 +20,9 @@ export default function PortfolioShell({
   locale: Language;
 }) {
   const pathname = usePathname();
-  const isAdminPage = pathname.startsWith("/admin");
-  const isProjectPage = pathname.startsWith("/projects/");
+  const canonicalPathname = stripLocalePathPrefix(pathname);
+  const isAdminPage = canonicalPathname.startsWith("/admin");
+  const isProjectPage = canonicalPathname.startsWith("/projects/");
   const metadata = getMetadata(locale);
 
   useEffect(() => {
