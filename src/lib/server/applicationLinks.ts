@@ -35,6 +35,8 @@ export interface ApplicationLinkRow {
 }
 
 export interface ApplicationLinkStatsRow extends ApplicationLinkRow {
+  avg_active_time: number | null;
+  avg_article_progress: number | null;
   avg_dwell_time: number | null;
   avg_scroll_depth: number | null;
   last_seen_at: string | null;
@@ -43,6 +45,8 @@ export interface ApplicationLinkStatsRow extends ApplicationLinkRow {
 }
 
 export interface ApplicationLinkStats extends ApplicationLink {
+  avgActiveTime: number;
+  avgArticleProgress: number;
   avgDwellTime: number;
   avgScrollDepth: number;
   lastSeenAt: string | null;
@@ -111,6 +115,8 @@ export const toApplicationLink = (row: ApplicationLinkRow): ApplicationLink => (
 
 export const toApplicationLinkStats = (row: ApplicationLinkStatsRow): ApplicationLinkStats => ({
   ...toApplicationLink(row),
+  avgActiveTime: row.avg_active_time ?? 0,
+  avgArticleProgress: row.avg_article_progress ?? 0,
   avgDwellTime: row.avg_dwell_time ?? 0,
   avgScrollDepth: row.avg_scroll_depth ?? 0,
   lastSeenAt: row.last_seen_at,

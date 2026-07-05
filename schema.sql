@@ -12,17 +12,43 @@ CREATE TABLE IF NOT EXISTS user_sessions (
 
 CREATE TABLE IF NOT EXISTS page_views (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  client_page_view_id TEXT UNIQUE,
   session_id TEXT NOT NULL,
   path TEXT NOT NULL,
   dwell_time INTEGER DEFAULT 0, -- Dwell time in seconds
   scroll_depth INTEGER DEFAULT 0, -- Max scroll percentage (0-100)
+  active_time INTEGER DEFAULT 0, -- Visible-tab active time in seconds
+  article_progress INTEGER DEFAULT 0, -- Max project article progress (0-100)
+  max_visible_section_id TEXT,
+  max_visible_section_label TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_seen_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (session_id) REFERENCES user_sessions(id) ON DELETE CASCADE
 );
 
 CREATE INDEX IF NOT EXISTS idx_page_views_session ON page_views(session_id);
 CREATE INDEX IF NOT EXISTS idx_page_views_created_at ON page_views(created_at);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_page_views_client_page_view_id
+ON page_views(client_page_view_id);
 CREATE INDEX IF NOT EXISTS idx_user_sessions_created_at ON user_sessions(created_at);
+
+CREATE TABLE IF NOT EXISTS web_vitals (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  session_id TEXT NOT NULL,
+  path TEXT NOT NULL,
+  metric_id TEXT NOT NULL,
+  metric_name TEXT NOT NULL,
+  value REAL NOT NULL,
+  delta REAL NOT NULL,
+  rating TEXT NOT NULL,
+  navigation_type TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (session_id) REFERENCES user_sessions(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_web_vitals_session ON web_vitals(session_id);
+CREATE INDEX IF NOT EXISTS idx_web_vitals_created_at ON web_vitals(created_at);
+CREATE INDEX IF NOT EXISTS idx_web_vitals_metric ON web_vitals(metric_name);
 
 CREATE TABLE IF NOT EXISTS application_links (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
