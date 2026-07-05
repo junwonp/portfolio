@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import { headers } from "next/headers";
 
 import { PORTFOLIO_URL } from "@/lib/data/constants";
@@ -19,6 +20,19 @@ const themeInitializerScript = `
 })();
 `;
 
+const wantedSans = localFont({
+  src: [
+    {
+      path: "./fonts/WantedSansVariable.woff2",
+      weight: "400 800",
+      style: "normal",
+    },
+  ],
+  variable: "--font-wanted-sans",
+  display: "swap",
+  preload: true,
+});
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -29,19 +43,16 @@ export default async function RootLayout({
   const locale = resolvePortfolioLocale(headerList.get("x-locale"));
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={wantedSans.variable}
+      suppressHydrationWarning
+    >
       <head>
         <script
           nonce={nonce}
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: themeInitializerScript }}
-        />
-        <link
-          rel="preload"
-          href="/fonts/WantedSansVariable.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
         />
       </head>
       <body>

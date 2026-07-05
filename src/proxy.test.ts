@@ -4,7 +4,7 @@ import { getCacheControlForPath, getDefaultLocaleRedirectPathname } from '@/prox
 
 describe('getCacheControlForPath', () => {
   it('keeps assets cacheable for a long time', () => {
-    expect(getCacheControlForPath('/fonts/WantedSansVariable.woff2')).toBe(
+    expect(getCacheControlForPath('/fonts/GeistMono[wght].woff2')).toBe(
       'public, max-age=31536000, immutable',
     );
   });

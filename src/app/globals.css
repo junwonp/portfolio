@@ -2,16 +2,6 @@
 @import "../lib/styles/typography.css";
 
 @font-face {
-  font-family: 'Wanted Sans';
-  font-weight: 400 800;
-  font-style: normal;
-  font-display: swap;
-  src:
-    url('/fonts/WantedSansVariable.woff2') format('woff2 supports variations'),
-    url('/fonts/WantedSansVariable.woff2') format('woff2');
-}
-
-@font-face {
   font-family: 'Geist Mono';
   font-weight: 100 900;
   font-style: normal;
@@ -28,8 +18,8 @@
   --space-lg: 4rem;
   --space-xl: 6rem;
 
-  --font-family-code: 'Geist Mono', monospace;
-  --font-family-text: 'Wanted Sans';
+  --font-family-code: 'Geist Mono';
+  --font-family-text: var(--font-wanted-sans, 'Wanted Sans');
 
   /* Light theme colors (base palette) */
   --light-color-bold: oklch(0% 0 0);
