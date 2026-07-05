@@ -24,7 +24,7 @@ import type {
   SkillProps,
   WorkExperienceProps,
 } from '@/lib/types/about';
-import type { Language } from '@/lib/utils/language';
+import { getLocalizedPathname, type Language } from '@/lib/utils/language';
 
 export const summaryPresetIds = ['default', 'ops-data', 'web', 'rn', 'web-rn', 'ai'] as const;
 
@@ -419,7 +419,7 @@ const toResumeProject = (project: ProjectContentEntry, lang: Language): ProjectI
   return {
     dateFrom: project.dateFrom ?? '',
     dateTo: project.dateTo,
-    detailLink: project.detailPath,
+    detailLink: project.detailPath ? getLocalizedPathname(project.detailPath, lang) : undefined,
     featuredSkills: project.featuredSkills,
     id: project.id,
     skills: project.skills,

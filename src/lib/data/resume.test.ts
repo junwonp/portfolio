@@ -64,6 +64,13 @@ describe('resume data for web frontend applications', () => {
     ]);
   });
 
+  it('localizes internal project detail links for English pages', () => {
+    const featured = getFeaturedWebProjects('en', ['today_weather', 'admin_dashboard']);
+
+    expect(featured[0].project[0].detailLink).toBe('/en/projects/today-weather');
+    expect(featured[1].project[0].detailLink).toBe('/en/projects/admin-dashboard');
+  });
+
   it('keeps the defense resource dashboard as an inline-only career project', () => {
     const featured = getResumeData('ko')
       .workExperiences.flatMap((experience) => experience.project)

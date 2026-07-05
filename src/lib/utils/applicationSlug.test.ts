@@ -12,11 +12,13 @@ describe('application slug utilities', () => {
     expect(extractApplicationSlugFromPath('/toss')).toBe('toss');
     expect(extractApplicationSlugFromPath('/abcd')).toBe('abcd');
     expect(extractApplicationSlugFromPath('/Toss-Frontend/')).toBe('toss-frontend');
+    expect(extractApplicationSlugFromPath('/en/abcd')).toBe('abcd');
   });
 
   it('excludes reserved routes, nested paths, and invalid slug paths', () => {
     expect(extractApplicationSlugFromPath('/a')).toBeUndefined();
     expect(extractApplicationSlugFromPath('/api')).toBeUndefined();
+    expect(extractApplicationSlugFromPath('/en')).toBeUndefined();
     expect(extractApplicationSlugFromPath('/projects/foo')).toBeUndefined();
     expect(extractApplicationSlugFromPath('')).toBeUndefined();
     expect(extractApplicationSlugFromPath('/ab_cd')).toBeUndefined();

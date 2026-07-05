@@ -12,7 +12,7 @@ import {
 } from '@/lib/data/resume';
 import { canCurrentRequestWriteAdminContent } from '@/lib/server/adminRequest';
 import { getPublishedHomeOverride } from '@/lib/server/editableContentStore';
-import { type Language,SUPPORTED_LANGUAGES } from '@/lib/utils/language';
+import { type Language, SUPPORTED_LANGUAGES } from '@/lib/utils/language';
 
 export type PageSearchParamsRecord = Record<string, string | string[] | undefined>;
 

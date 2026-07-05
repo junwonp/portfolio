@@ -5,9 +5,11 @@ export const RESERVED_APPLICATION_SLUGS = new Set([
   'admin',
   'api',
   'certificates',
+  'en',
   'favicon.ico',
   'github',
   'images',
+  'ko',
   'linkedin',
   'print',
   'projects',
@@ -29,7 +31,7 @@ export const extractApplicationSlugFromPath = (path: string | undefined): string
     return undefined;
   }
 
-  const match = /^\/([^/]+)\/?$/.exec(path);
+  const match = /^\/(?:en\/)?([^/]+)\/?$/.exec(path);
   if (!match) {
     return undefined;
   }
