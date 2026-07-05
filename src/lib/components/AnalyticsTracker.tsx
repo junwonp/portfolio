@@ -1,130 +1,188 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
-import { extractApplicationSlugFromPath } from "@/lib/utils/applicationSlug";
-
-const SESSION_KEY = "junuuon_analytics_session_id";
-
-interface SessionInfo {
-  id: string;
-  isNew: boolean;
-}
+import {
+  calculateArticleProgress,
+  calculateScrollDepth,
+  type ReachedSection,
+  selectFarthestVisibleSection,
+  type VisibleSection,
+} from '@/lib/components/analyticsEngagement';
+import {
+  getOrInitializeAnalyticsSession,
+  sendAnalyticsPayload,
+} from '@/lib/components/analyticsTransport';
+import { parseHeading } from '@/lib/utils/markdown';
 
 export default function AnalyticsTracker() {
   const pathname = usePathname();
-  const [sessionId, setSessionId] = useState("");
+  const [sessionId, setSessionId] = useState('');
+  const activeStartedAtRef = useRef<number | null>(null);
+  const activeTimeMsRef = useRef(0);
+  const maxArticleProgressRef = useRef(0);
   const maxScrollDepthRef = useRef(0);
-  const startTimeRef = useRef(0);
-  const prevPathnameRef = useRef("");
+  const pageStartedAtRef = useRef(0);
+  const pageViewIdRef = useRef('');
+  const prevPathnameRef = useRef('');
+  const reachedSectionRef = useRef<ReachedSection | undefined>(undefined);
 
-  function getOrInitializeSession(): SessionInfo {
-    if (typeof window === "undefined") return { id: "", isNew: false };
+  function captureActiveTime(now = Date.now()) {
+    if (activeStartedAtRef.current === null) return;
 
-    let id = sessionStorage.getItem(SESSION_KEY);
-    let isNew = false;
-
-    if (!id) {
-      id = crypto.randomUUID();
-      sessionStorage.setItem(SESSION_KEY, id);
-      isNew = true;
-    }
-    return { id, isNew };
+    activeTimeMsRef.current += Math.max(0, now - activeStartedAtRef.current);
+    activeStartedAtRef.current = document.visibilityState === 'visible' ? now : null;
   }
 
-  function sendTrackingData(data: Record<string, unknown>, currentSessionId = sessionId) {
-    if (typeof window === "undefined" || !currentSessionId) return;
+  function readVisibleSections(article: Element, scrollTop: number): VisibleSection[] {
+    return Array.from(article.querySelectorAll<HTMLElement>('h2')).flatMap((heading) => {
+      if (!heading.id) {
+        return [];
+      }
 
-    if (localStorage.getItem("junuuon_analytics_ignore") === "true") {
-      return;
-    }
-
-    const currentPath = typeof window !== "undefined" ? window.location.pathname : "";
-    const applicationSlug = extractApplicationSlugFromPath(currentPath);
-    const payload = JSON.stringify({
-      ...(applicationSlug ? { applicationSlug } : {}),
-      sessionId: currentSessionId,
-      userAgent: navigator.userAgent,
-      ...data,
+      const { main } = parseHeading(heading.textContent || '');
+      return [
+        {
+          id: heading.id,
+          label: main || heading.textContent || heading.id,
+          top: heading.getBoundingClientRect().top + scrollTop,
+        },
+      ];
     });
-
-    if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
-      navigator.sendBeacon("/api/analytics/track", payload);
-    } else {
-      void fetch("/api/analytics/track", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: payload,
-        keepalive: true,
-      });
-    }
   }
 
-  function handleScroll() {
-    if (typeof window === "undefined") return;
+  function updateEngagementMetrics() {
+    if (typeof window === 'undefined') return;
 
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
+    const viewportBottom = scrollTop + clientHeight;
+    const scrollDepth = calculateScrollDepth({ clientHeight, scrollHeight, scrollTop });
 
-    if (scrollHeight - clientHeight <= 0) return;
-
-    const percentage = Math.round((scrollTop / (scrollHeight - clientHeight)) * 100);
-    if (percentage > maxScrollDepthRef.current) {
-      maxScrollDepthRef.current = Math.min(percentage, 100);
+    if (scrollDepth > maxScrollDepthRef.current) {
+      maxScrollDepthRef.current = scrollDepth;
     }
+
+    const article = document.querySelector('.project-article');
+    if (!article) {
+      return;
+    }
+
+    const articleTop = article.getBoundingClientRect().top + scrollTop;
+    const articleProgress = calculateArticleProgress({
+      articleHeight: (article as HTMLElement).scrollHeight,
+      articleTop,
+      viewportBottom,
+    });
+
+    if (articleProgress > maxArticleProgressRef.current) {
+      maxArticleProgressRef.current = articleProgress;
+    }
+
+    reachedSectionRef.current = selectFarthestVisibleSection({
+      current: reachedSectionRef.current,
+      sections: readVisibleSections(article, scrollTop),
+      viewportBottom,
+    });
+  }
+
+  function initializePage(path: string) {
+    pageViewIdRef.current = crypto.randomUUID();
+    pageStartedAtRef.current = Date.now();
+    activeTimeMsRef.current = 0;
+    activeStartedAtRef.current = document.visibilityState === 'visible' ? Date.now() : null;
+    maxArticleProgressRef.current = 0;
+    maxScrollDepthRef.current = 0;
+    reachedSectionRef.current = undefined;
+    prevPathnameRef.current = path;
+
+    requestAnimationFrame(updateEngagementMetrics);
   }
 
   function flushPageData(path: string, currentSessionId = sessionId) {
-    if (!startTimeRef.current || !path) return;
+    if (!pageStartedAtRef.current || !path) return;
 
-    const dwellTime = Math.round((Date.now() - startTimeRef.current) / 1000);
-    sendTrackingData(
+    updateEngagementMetrics();
+    captureActiveTime();
+
+    const reachedSection = reachedSectionRef.current;
+    const dwellTime = Math.round((Date.now() - pageStartedAtRef.current) / 1000);
+    sendAnalyticsPayload(
       {
-        path,
+        activeTime: Math.round(activeTimeMsRef.current / 1000),
+        articleProgress: maxArticleProgressRef.current,
         dwellTime,
+        eventType: 'page',
+        maxVisibleSectionId: reachedSection?.id,
+        maxVisibleSectionLabel: reachedSection?.label,
+        pageViewId: pageViewIdRef.current,
+        path,
         scrollDepth: maxScrollDepthRef.current,
       },
       currentSessionId,
     );
   }
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  function handleScroll() {
+    updateEngagementMetrics();
+  }
 
-    const session = getOrInitializeSession();
+  function handleVisible() {
+    if (activeStartedAtRef.current === null) {
+      activeStartedAtRef.current = Date.now();
+    }
+  }
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const session = getOrInitializeAnalyticsSession();
     Promise.resolve().then(() => {
       setSessionId(session.id);
     });
-    startTimeRef.current = Date.now();
-    prevPathnameRef.current = window.location.pathname;
+    initializePage(window.location.pathname);
 
     if (session.isNew) {
-      sendTrackingData(
+      sendAnalyticsPayload(
         {
           isInitial: true,
-          referrer: document.referrer || "direct",
+          referrer: document.referrer || 'direct',
         },
         session.id,
       );
     }
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
 
     const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") {
+      if (document.visibilityState === 'hidden') {
         flushPageData(prevPathnameRef.current, session.id);
       } else {
-        startTimeRef.current = Date.now();
+        handleVisible();
       }
     };
+    const handlePageHide = () => {
+      flushPageData(prevPathnameRef.current, session.id);
+    };
+    const heartbeatId = window.setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        flushPageData(prevPathnameRef.current, session.id);
+      }
+    }, 15000);
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', handlePageHide);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.clearInterval(heartbeatId);
+      flushPageData(prevPathnameRef.current, session.id);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('pagehide', handlePageHide);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only: inner functions reference stable refs
   }, []);
@@ -134,10 +192,7 @@ export default function AnalyticsTracker() {
 
     if (prevPathnameRef.current && prevPathnameRef.current !== pathname) {
       flushPageData(prevPathnameRef.current);
-
-      prevPathnameRef.current = pathname;
-      maxScrollDepthRef.current = 0;
-      startTimeRef.current = Date.now();
+      initializePage(pathname);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- flushPageData uses stable refs only
   }, [pathname, sessionId]);
