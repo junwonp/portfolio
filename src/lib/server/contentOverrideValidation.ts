@@ -21,6 +21,20 @@ const isString = (value: unknown): value is string => typeof value === 'string';
 
 const isBoolean = (value: unknown): value is boolean => typeof value === 'boolean';
 
+const isPositiveInteger = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isInteger(value) && value > 0;
+
+const hasOptionalImageDimensions = (value: Record<string, unknown>): boolean => {
+  const hasWidth = 'width' in value;
+  const hasHeight = 'height' in value;
+
+  if (!hasWidth && !hasHeight) {
+    return true;
+  }
+
+  return hasWidth && hasHeight && isPositiveInteger(value.width) && isPositiveInteger(value.height);
+};
+
 const isEditableDateString = (value: unknown): value is string =>
   isString(value) && /^(\d{4}|\d{4}-(0[1-9]|1[0-2]))$/.test(value);
 
@@ -243,11 +257,12 @@ const isProjectMetadataOverride = (value: unknown): boolean => {
 
 const isProjectDetailImage = (value: unknown): boolean =>
   isRecord(value) &&
-  hasOnlyKeys(value, ['alt', 'caption', 'mobileSrc', 'src']) &&
+  hasOnlyKeys(value, ['alt', 'caption', 'height', 'mobileSrc', 'src', 'width']) &&
   isString(value.alt) &&
   isLocalImagePath(value.src) &&
   (!('caption' in value) || isString(value.caption)) &&
-  (!('mobileSrc' in value) || isOptionalLocalImagePath(value.mobileSrc));
+  (!('mobileSrc' in value) || isOptionalLocalImagePath(value.mobileSrc)) &&
+  hasOptionalImageDimensions(value);
 
 const isProjectDetailAchievement = (value: unknown): boolean =>
   isRecord(value) &&

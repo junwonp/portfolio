@@ -145,10 +145,14 @@ export const airaDetailContent: Record<Language, ProjectDetailBlock[]> = {
         {
           src: '/images/aira/chat_flashlist.mp4',
           alt: 'aira Chat FlashList Demo',
+          width: 1170,
+          height: 2532,
         },
         {
           src: '/images/aira/home_flashlist.mp4',
           alt: 'aira Home FlashList Demo',
+          width: 1170,
+          height: 2532,
         },
       ],
     },
@@ -159,6 +163,8 @@ export const airaDetailContent: Record<Language, ProjectDetailBlock[]> = {
         {
           src: '/images/aira/v2_home.mp4',
           alt: 'aira V2 Shorts UI and Liquid Glass demo',
+          width: 1170,
+          height: 2532,
         },
       ],
     },
@@ -312,10 +318,14 @@ export const airaDetailContent: Record<Language, ProjectDetailBlock[]> = {
         {
           src: '/images/aira/chat_flashlist.mp4',
           alt: 'aira Chat FlashList Demo',
+          width: 1170,
+          height: 2532,
         },
         {
           src: '/images/aira/home_flashlist.mp4',
           alt: 'aira Home FlashList Demo',
+          width: 1170,
+          height: 2532,
         },
       ],
     },
@@ -326,6 +336,8 @@ export const airaDetailContent: Record<Language, ProjectDetailBlock[]> = {
         {
           src: '/images/aira/v2_home.mp4',
           alt: 'aira V2 Shorts UI and Liquid Glass demo',
+          width: 1170,
+          height: 2532,
         },
       ],
     },

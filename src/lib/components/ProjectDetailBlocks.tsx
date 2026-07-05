@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import type { ProjectDetailBlock } from "@/lib/content/editableContent";
-import { renderEditableMarkdown } from "@/lib/content/editableContent";
-import type { PostMetadata } from "@/lib/types/post";
-import type { Language } from "@/lib/utils/language";
+import type { ProjectDetailBlock } from '@/lib/content/editableContent';
+import { renderEditableMarkdown } from '@/lib/content/editableContent';
+import type { PostMetadata } from '@/lib/types/post';
+import type { Language } from '@/lib/utils/language';
 
-import ImageDescription from "./ImageDescription";
-import ImageGallery from "./ImageGallery";
-import MermaidDiagram from "./MermaidDiagram";
-import ProjectAchievements from "./ProjectAchievements";
-import ProjectLightbox from "./ProjectLightbox";
-import ProjectTechStack from "./ProjectTechStack";
+import ImageDescription from './ImageDescription';
+import ImageGallery from './ImageGallery';
+import MermaidDiagram from './MermaidDiagram';
+import ProjectAchievements from './ProjectAchievements';
+import ProjectLightbox from './ProjectLightbox';
+import ProjectTechStack from './ProjectTechStack';
 
 interface Props {
   blocks: ProjectDetailBlock[];
@@ -29,7 +29,7 @@ export function ProjectDetailBlockRenderer({
   locale,
   metadata,
 }: ProjectDetailBlockRendererProps) {
-  if (block.type === "markdown") {
+  if (block.type === 'markdown') {
     return (
       <div
         dangerouslySetInnerHTML={{
@@ -39,13 +39,13 @@ export function ProjectDetailBlockRenderer({
     );
   }
 
-  if (block.type === "techStack") {
+  if (block.type === 'techStack') {
     return metadata.techStack ? (
       <ProjectTechStack techStack={metadata.techStack} locale={locale} />
     ) : null;
   }
 
-  if (block.type === "achievements") {
+  if (block.type === 'achievements') {
     return (
       <ProjectAchievements
         achievements={block.achievements.map((achievement) => ({
@@ -56,11 +56,11 @@ export function ProjectDetailBlockRenderer({
     );
   }
 
-  if (block.type === "lightbox") {
+  if (block.type === 'lightbox') {
     return <ProjectLightbox variant={block.variant} images={block.images} />;
   }
 
-  if (block.type === "mediaGallery") {
+  if (block.type === 'mediaGallery') {
     return (
       <ImageGallery>
         {block.images.map((image) => (
@@ -69,6 +69,8 @@ export function ProjectDetailBlockRenderer({
             src={image.src}
             mobileSrc={image.mobileSrc}
             alt={image.alt}
+            width={image.width}
+            height={image.height}
           >
             {image.caption}
           </ImageDescription>

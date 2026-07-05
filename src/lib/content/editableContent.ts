@@ -20,8 +20,10 @@ export interface ProjectDetailAchievement {
 export interface ProjectDetailImage {
   alt: string;
   caption?: string;
+  height?: number;
   mobileSrc?: string;
   src: string;
+  width?: number;
 }
 
 export type ProjectDetailBlock =

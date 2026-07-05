@@ -326,6 +326,8 @@ describe('parseContentOverrideRequest', () => {
                   mobileSrc: '',
                   alt: 'Home screen',
                   caption: 'Main screen',
+                  width: 1200,
+                  height: 800,
                 },
               ],
             },
@@ -336,6 +338,8 @@ describe('parseContentOverrideRequest', () => {
                 {
                   src: '/images/example/demo.mp4',
                   alt: 'Demo video',
+                  width: 1170,
+                  height: 2532,
                 },
               ],
             },
@@ -420,6 +424,47 @@ describe('parseContentOverrideRequest', () => {
               id: 'bad',
               type: 'lightbox',
               images: [{ src: 'https://example.com/image.png', alt: 'External' }],
+            },
+          ],
+        },
+        targetKey: 'my-project::blocks',
+      }),
+    ).toMatchObject({ ok: false });
+
+    expect(
+      parseContentOverrideRequest({
+        area: 'project-detail',
+        locale: 'ko',
+        payload: {
+          blocks: [
+            {
+              id: 'bad-dimensions',
+              type: 'mediaGallery',
+              images: [{ src: '/images/example/demo.mp4', alt: 'Demo', width: 1170 }],
+            },
+          ],
+        },
+        targetKey: 'my-project::blocks',
+      }),
+    ).toMatchObject({ ok: false });
+
+    expect(
+      parseContentOverrideRequest({
+        area: 'project-detail',
+        locale: 'ko',
+        payload: {
+          blocks: [
+            {
+              id: 'bad-negative-dimensions',
+              type: 'mediaGallery',
+              images: [
+                {
+                  src: '/images/example/demo.mp4',
+                  alt: 'Demo',
+                  width: 1170,
+                  height: -2532,
+                },
+              ],
             },
           ],
         },

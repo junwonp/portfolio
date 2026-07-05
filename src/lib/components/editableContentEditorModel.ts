@@ -1,7 +1,7 @@
-import type { ProjectDetailBlock } from "@/lib/content/editableContent";
-import { skillsShared } from "@/lib/data/skills";
-import type { ContentOverrideArea } from "@/lib/server/editableContentStore";
-import type { Language } from "@/lib/utils/language";
+import type { ProjectDetailBlock } from '@/lib/content/editableContent';
+import { skillsShared } from '@/lib/data/skills';
+import type { ContentOverrideArea } from '@/lib/server/editableContentStore';
+import type { Language } from '@/lib/utils/language';
 
 export type EditableValue =
   | boolean
@@ -15,79 +15,79 @@ export type EditableRecord = Record<string, EditableValue>;
 export type EditablePath = Array<number | string>;
 export type EditableValuesByLocale = Partial<Record<Language, EditableValue>>;
 
-export const blockTypes: ProjectDetailBlock["type"][] = [
-  "markdown",
-  "techStack",
-  "achievements",
-  "lightbox",
-  "mediaGallery",
-  "mermaid",
+export const blockTypes: ProjectDetailBlock['type'][] = [
+  'markdown',
+  'techStack',
+  'achievements',
+  'lightbox',
+  'mediaGallery',
+  'mermaid',
 ];
 
-export const allSkillNames = Array.from(
-  new Set(skillsShared.flatMap((group) => group.list)),
-).sort((a, b) => a.localeCompare(b));
+export const allSkillNames = Array.from(new Set(skillsShared.flatMap((group) => group.list))).sort(
+  (a, b) => a.localeCompare(b),
+);
 
 const fieldLabels: Record<string, string> = {
-  achievements: "성과",
-  accent: "강조",
-  additional: "추가 링크",
-  alt: "대체 텍스트",
-  blocks: "콘텐츠 블록",
-  caption: "캡션",
-  chart: "Mermaid 차트",
-  companyName: "회사명",
-  date: "날짜",
-  dateFrom: "시작일",
-  dateTo: "종료일",
-  description: "설명",
-  detail: "상세 내용",
-  detailLabel: "상세 링크 라벨",
-  detailLink: "상세 링크",
-  eyebrow: "보조 제목",
-  featuredSkills: "대표 스킬",
-  focusKeywords: "핵심 키워드",
-  githubLink: "GitHub 링크",
-  highlights: "하이라이트",
-  id: "ID",
-  image: "대표 이미지",
-  images: "이미지",
-  index: "순서",
-  label: "라벨",
-  linkedinLink: "LinkedIn 링크",
-  list: "스킬 목록",
-  markdown: "마크다운",
-  metrics: "지표",
-  mobileSrc: "모바일 소스",
-  name: "이름",
-  pillars: "핵심 문구",
-  platforms: "플랫폼",
-  productLink: "제품 링크",
-  project: "프로젝트",
-  role: "직책",
-  school: "학교",
-  skills: "스킬",
-  src: "소스",
-  status: "상태",
-  tagline: "소개 문구",
-  tag: "태그",
-  techStack: "기술 스택",
-  title: "제목",
-  titleBadge: "배지",
-  type: "유형",
-  value: "값",
-  variant: "표시 방식",
+  achievements: '성과',
+  accent: '강조',
+  additional: '추가 링크',
+  alt: '대체 텍스트',
+  blocks: '콘텐츠 블록',
+  caption: '캡션',
+  chart: 'Mermaid 차트',
+  companyName: '회사명',
+  date: '날짜',
+  dateFrom: '시작일',
+  dateTo: '종료일',
+  description: '설명',
+  detail: '상세 내용',
+  detailLabel: '상세 링크 라벨',
+  detailLink: '상세 링크',
+  eyebrow: '보조 제목',
+  featuredSkills: '대표 스킬',
+  focusKeywords: '핵심 키워드',
+  githubLink: 'GitHub 링크',
+  highlights: '하이라이트',
+  id: 'ID',
+  image: '대표 이미지',
+  images: '이미지',
+  index: '순서',
+  label: '라벨',
+  linkedinLink: 'LinkedIn 링크',
+  list: '스킬 목록',
+  markdown: '마크다운',
+  metrics: '지표',
+  mobileSrc: '모바일 소스',
+  name: '이름',
+  pillars: '핵심 문구',
+  platforms: '플랫폼',
+  productLink: '제품 링크',
+  project: '프로젝트',
+  role: '직책',
+  school: '학교',
+  skills: '스킬',
+  src: '소스',
+  status: '상태',
+  tagline: '소개 문구',
+  tag: '태그',
+  techStack: '기술 스택',
+  title: '제목',
+  titleBadge: '배지',
+  type: '유형',
+  value: '값',
+  variant: '표시 방식',
 };
 
 export const isRecord = (value: unknown): value is EditableRecord =>
-  typeof value === "object" && value !== null && !Array.isArray(value);
+  typeof value === 'object' && value !== null && !Array.isArray(value);
 
 const toEditableValue = (value: unknown): EditableValue => {
   if (
     value === null ||
-    typeof value === "string" ||
-    typeof value === "number" ||
-    typeof value === "boolean"
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean'
   ) {
     return value;
   }
@@ -96,7 +96,7 @@ const toEditableValue = (value: unknown): EditableValue => {
     return value.map(toEditableValue);
   }
 
-  if (typeof value === "object") {
+  if (typeof value === 'object') {
     return Object.fromEntries(
       Object.entries(value as Record<string, unknown>).map(([key, item]) => [
         key,
@@ -105,7 +105,7 @@ const toEditableValue = (value: unknown): EditableValue => {
     );
   }
 
-  return "";
+  return '';
 };
 
 export const getValueAtPath = (
@@ -115,9 +115,9 @@ export const getValueAtPath = (
   let current: EditableValue | undefined = value;
 
   for (const segment of path) {
-    if (Array.isArray(current) && typeof segment === "number") {
+    if (Array.isArray(current) && typeof segment === 'number') {
       current = current[segment];
-    } else if (isRecord(current) && typeof segment === "string") {
+    } else if (isRecord(current) && typeof segment === 'string') {
       current = current[segment];
     } else {
       return undefined;
@@ -138,16 +138,16 @@ export const updateAtPath = (
 
   const [segment, ...rest] = path;
 
-  if (Array.isArray(value) && typeof segment === "number") {
+  if (Array.isArray(value) && typeof segment === 'number') {
     return value.map((item, index) =>
       index === segment ? updateAtPath(item, rest, nextValue) : item,
     );
   }
 
-  if (isRecord(value) && typeof segment === "string") {
+  if (isRecord(value) && typeof segment === 'string') {
     return {
       ...value,
-      [segment]: updateAtPath(value[segment] ?? "", rest, nextValue),
+      [segment]: updateAtPath(value[segment] ?? '', rest, nextValue),
     };
   }
 
@@ -155,23 +155,23 @@ export const updateAtPath = (
 };
 
 const sharedEditableFieldKeys = new Set([
-  "date",
-  "dateFrom",
-  "dateTo",
-  "detailLink",
-  "featuredSkills",
-  "githubLink",
-  "id",
-  "image",
-  "linkedinLink",
-  "mobileSrc",
-  "platforms",
-  "productLink",
-  "skills",
-  "src",
-  "techStack",
-  "type",
-  "variant",
+  'date',
+  'dateFrom',
+  'dateTo',
+  'detailLink',
+  'featuredSkills',
+  'githubLink',
+  'id',
+  'image',
+  'linkedinLink',
+  'mobileSrc',
+  'platforms',
+  'productLink',
+  'skills',
+  'src',
+  'techStack',
+  'type',
+  'variant',
 ]);
 
 const hasPathSegment = (path: EditablePath, key: string): boolean => path.includes(key);
@@ -179,7 +179,7 @@ const hasPathSegment = (path: EditablePath, key: string): boolean => path.includ
 const getLastStringSegment = (path: EditablePath): string | undefined => {
   for (let index = path.length - 1; index >= 0; index -= 1) {
     const segment = path[index];
-    if (typeof segment === "string") {
+    if (typeof segment === 'string') {
       return segment;
     }
   }
@@ -188,7 +188,7 @@ const getLastStringSegment = (path: EditablePath): string | undefined => {
 };
 
 export const isSharedEditablePath = (targetKey: string, path: EditablePath): boolean => {
-  if (targetKey.endsWith("::techStack") && path.length === 0) {
+  if (targetKey.endsWith('::techStack') && path.length === 0) {
     return true;
   }
 
@@ -197,15 +197,15 @@ export const isSharedEditablePath = (targetKey: string, path: EditablePath): boo
     return false;
   }
 
-  if (targetKey === "skills" && key === "list") {
+  if (targetKey === 'skills' && key === 'list') {
     return true;
   }
 
-  if (key === "link" && hasPathSegment(path, "additional")) {
+  if (key === 'link' && hasPathSegment(path, 'additional')) {
     return true;
   }
 
-  if (key === "value" && hasPathSegment(path, "metrics")) {
+  if (key === 'value' && hasPathSegment(path, 'metrics')) {
     return true;
   }
 
@@ -243,11 +243,7 @@ export const transformValuesByLocaleAtPath = ({
 
       return [
         targetLocale,
-        updateAtPath(
-          current,
-          path,
-          transformValue(getValueAtPath(current, path), targetLocale),
-        ),
+        updateAtPath(current, path, transformValue(getValueAtPath(current, path), targetLocale)),
       ];
     }),
   ) as Record<Language, EditableValue>;
@@ -287,7 +283,7 @@ const syncSharedEditableValue = (
   current: EditableValue | undefined,
 ): EditableValue => {
   if (isSharedEditablePath(targetKey, path)) {
-    return source ?? "";
+    return source ?? '';
   }
 
   if (Array.isArray(source) && Array.isArray(current)) {
@@ -305,7 +301,7 @@ const syncSharedEditableValue = (
     );
   }
 
-  return current ?? "";
+  return current ?? '';
 };
 
 export const syncSharedEditableValuesFromLocale = ({
@@ -382,40 +378,40 @@ export const moveAtPath = (
 };
 
 export const isSkillListField = (key: string, targetKey: string): boolean =>
-  key === "skills" ||
-  key === "featuredSkills" ||
-  key === "techStack" ||
-  targetKey.endsWith("::techStack") ||
-  (targetKey === "skills" && key === "list");
+  key === 'skills' ||
+  key === 'featuredSkills' ||
+  key === 'techStack' ||
+  targetKey.endsWith('::techStack') ||
+  (targetKey === 'skills' && key === 'list');
 
 export const isLongTextField = (key: string, value: string): boolean =>
-  key === "chart" ||
-  key === "description" ||
-  key === "detail" ||
-  key === "highlights" ||
-  key === "markdown" ||
-  key === "tagline" ||
+  key === 'chart' ||
+  key === 'description' ||
+  key === 'detail' ||
+  key === 'highlights' ||
+  key === 'markdown' ||
+  key === 'tagline' ||
   value.length > 96;
 
 export const labelFor = (key: string): string => fieldLabels[key] ?? key;
 
-export const isMonthInputField = (key: string): boolean => key === "dateFrom" || key === "dateTo";
+export const isMonthInputField = (key: string): boolean => key === 'dateFrom' || key === 'dateTo';
 
 export const isMarkdownListTextareaField = (key: string): boolean =>
-  key === "detail" || key === "highlights";
+  key === 'detail' || key === 'highlights';
 
 export const toStringList = (value: EditableValue | undefined): string[] =>
-  Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+  Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
 
 export const parseMarkdownListTextarea = (value: string): string[] =>
   value
-    .split("\n")
+    .split('\n')
     .map((line) => line.trim())
     .filter(Boolean)
-    .map((line) => line.replace(/^[-*]\s+/, ""));
+    .map((line) => line.replace(/^[-*]\s+/, ''));
 
 export const formatMarkdownListTextarea = (list: string[]): string =>
-  list.map((item) => `- ${item}`).join("\n");
+  list.map((item) => `- ${item}`).join('\n');
 
 export const syncFeaturedSkillsWithSkills = (value: EditableValue): EditableValue => {
   if (Array.isArray(value)) {
@@ -437,7 +433,8 @@ export const syncFeaturedSkillsWithSkills = (value: EditableValue): EditableValu
     return {
       ...next,
       featuredSkills: selectedFeaturedSkills.filter(
-        (skill, index) => availableSkills.has(skill) && selectedFeaturedSkills.indexOf(skill) === index,
+        (skill, index) =>
+          availableSkills.has(skill) && selectedFeaturedSkills.indexOf(skill) === index,
       ),
     };
   }
@@ -446,99 +443,112 @@ export const syncFeaturedSkillsWithSkills = (value: EditableValue): EditableValu
 };
 
 export const createBlockTemplate = (
-  type: ProjectDetailBlock["type"],
+  type: ProjectDetailBlock['type'],
   index: number,
 ): EditableRecord => {
   const id = `block-${String(index + 1)}`;
 
-  if (type === "markdown") {
-    return { id, type, markdown: "## Section\n\nWrite content here." };
+  if (type === 'markdown') {
+    return { id, type, markdown: '## Section\n\nWrite content here.' };
   }
 
-  if (type === "techStack") {
+  if (type === 'techStack') {
     return { id, type };
   }
 
-  if (type === "achievements") {
+  if (type === 'achievements') {
     return {
       id,
       type,
       achievements: [
         {
-          tag: "Feature",
+          tag: 'Feature',
           accent: false,
-          title: "Achievement title",
-          detail: "Describe the result with **markdown**.",
+          title: 'Achievement title',
+          detail: 'Describe the result with **markdown**.',
         },
       ],
     };
   }
 
-  if (type === "lightbox") {
+  if (type === 'lightbox') {
     return {
       id,
       type,
-      variant: "default",
-      images: [{ src: "/images/example.webp", alt: "Screenshot", caption: "" }],
+      variant: 'default',
+      images: [
+        {
+          src: '/images/example.webp',
+          alt: 'Screenshot',
+          caption: '',
+          width: 1200,
+          height: 800,
+        },
+      ],
     };
   }
 
-  if (type === "mediaGallery") {
+  if (type === 'mediaGallery') {
     return {
       id,
       type,
-      images: [{ src: "/images/example.webp", alt: "Media", caption: "" }],
+      images: [
+        {
+          src: '/images/example.webp',
+          alt: 'Media',
+          caption: '',
+          width: 1200,
+          height: 800,
+        },
+      ],
     };
   }
 
   return {
     id,
     type,
-    eyebrow: "Diagram",
-    title: "Diagram title",
-    chart: "flowchart TD\nA --> B",
+    eyebrow: 'Diagram',
+    title: 'Diagram title',
+    chart: 'flowchart TD\nA --> B',
   };
 };
 
-export const createArrayItemTemplate = (
-  key: string,
-  length: number,
-): EditableValue => {
-  if (key === "blocks") {
-    return createBlockTemplate("markdown", length);
+export const createArrayItemTemplate = (key: string, length: number): EditableValue => {
+  if (key === 'blocks') {
+    return createBlockTemplate('markdown', length);
   }
 
-  if (key === "metrics") {
-    return { value: "", label: "" };
+  if (key === 'metrics') {
+    return { value: '', label: '' };
   }
 
-  if (key === "pillars") {
+  if (key === 'pillars') {
     return {
-      index: String(length + 1).padStart(2, "0"),
-      title: "",
-      description: "",
+      index: String(length + 1).padStart(2, '0'),
+      title: '',
+      description: '',
     };
   }
 
-  if (key === "workExperiences") {
+  if (key === 'workExperiences') {
     return {
-      companyName: "",
-      role: "",
-      dateFrom: "",
-      dateTo: "",
+      companyName: '',
+      role: '',
+      dateFrom: '',
+      dateTo: '',
       highlights: [],
       project: [],
     };
   }
 
-  if (key === "project") {
+  if (key === 'project') {
     return {
-      id: "",
-      title: "",
-      description: "",
-      dateFrom: "",
-      dateTo: "",
-      detailLink: "",
+      id: '',
+      title: '',
+      description: '',
+      dateFrom: '',
+      dateTo: '',
+      detailLink: '',
       detail: [],
       featuredSkills: [],
       skills: [],
@@ -546,23 +556,30 @@ export const createArrayItemTemplate = (
     };
   }
 
-  if (key === "education") {
-    return { school: "", major: "", dateFrom: "", dateTo: "" };
+  if (key === 'education') {
+    return { school: '', major: '', dateFrom: '', dateTo: '' };
   }
 
-  if (key === "skills") {
-    return { id: "", title: "", list: [], description: "", detailLink: "" };
+  if (key === 'skills') {
+    return { id: '', title: '', list: [], description: '', detailLink: '' };
   }
 
-  if (key === "achievements") {
-    return { tag: "", accent: false, title: "", detail: "" };
+  if (key === 'achievements') {
+    return { tag: '', accent: false, title: '', detail: '' };
   }
 
-  if (key === "images") {
-    return { src: "/images/example.webp", mobileSrc: "", alt: "", caption: "" };
+  if (key === 'images') {
+    return {
+      src: '/images/example.webp',
+      mobileSrc: '',
+      alt: '',
+      caption: '',
+      width: 1200,
+      height: 800,
+    };
   }
 
-  return "";
+  return '';
 };
 
 export const normalizeInitialValue = (
@@ -570,7 +587,7 @@ export const normalizeInitialValue = (
   targetKey: string,
   initialValue: unknown,
 ): EditableValue => {
-  if (area === "project-detail" && targetKey.endsWith("::blocks")) {
+  if (area === 'project-detail' && targetKey.endsWith('::blocks')) {
     if (isRecord(initialValue) && Array.isArray(initialValue.blocks)) {
       return toEditableValue(initialValue.blocks);
     }
@@ -578,7 +595,7 @@ export const normalizeInitialValue = (
     return Array.isArray(initialValue) ? toEditableValue(initialValue) : [];
   }
 
-  if (area === "project-detail" && targetKey.endsWith("::techStack")) {
+  if (area === 'project-detail' && targetKey.endsWith('::techStack')) {
     if (isRecord(initialValue) && Array.isArray(initialValue.list)) {
       return toEditableValue(initialValue.list);
     }
@@ -594,21 +611,21 @@ export const buildContentOverridePayload = (
   targetKey: string,
   value: EditableValue,
 ): unknown => {
-  if (area === "home") {
+  if (area === 'home') {
     return value;
   }
 
-  if (targetKey.endsWith("::techStack")) {
-    return { list: Array.isArray(value) ? value.filter((item) => typeof item === "string") : [] };
+  if (targetKey.endsWith('::techStack')) {
+    return { list: Array.isArray(value) ? value.filter((item) => typeof item === 'string') : [] };
   }
 
-  if (targetKey.endsWith("::blocks")) {
+  if (targetKey.endsWith('::blocks')) {
     return { blocks: Array.isArray(value) ? value : [] };
   }
 
-  if (targetKey.endsWith("::metadata")) {
+  if (targetKey.endsWith('::metadata')) {
     return value;
   }
 
-  return { markdown: typeof value === "string" ? value : "" };
+  return { markdown: typeof value === 'string' ? value : '' };
 };
