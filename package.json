@@ -2,14 +2,15 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@11.7.0",
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
     "preview": "vinext start",
-    "deploy": "vinext deploy",
-    "deploy:development": "vinext deploy --env development",
+    "deploy": "node scripts/guard-worker-branch.mjs production && CLOUDFLARE_CONFIG_PATH=wrangler.jsonc vinext-cloudflare deploy --config dist/server/wrangler.json --name portfolio",
+    "deploy:development": "node scripts/guard-worker-branch.mjs development && CLOUDFLARE_CONFIG_PATH=wrangler.preview.jsonc vinext build && wrangler versions upload --config dist/server/wrangler.json --preview-alias develop",
     "start": "vinext start",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "cf-typegen": "wrangler types --config wrangler.jsonc --env-interface CloudflareEnv cloudflare-env.d.ts",
     "lint": "eslint"
   },
   "dependencies": {
@@ -34,7 +35,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vinext/cloudflare": "0.1.2",
+    "@vinext/cloudflare": "1.0.0-beta.0",
     "@vitejs/plugin-react": "^6.0.3",
     "@vitejs/plugin-rsc": "^0.5.27",
     "babel-plugin-react-compiler": "^1.0.0",
@@ -48,7 +49,7 @@
     "remark-gfm": "^4.0.1",
     "remark-mdx-frontmatter": "^5.2.0",
     "typescript": "^5",
-    "vinext": "^0.1.8",
+    "vinext": "1.0.0-beta.0",
     "vite": "^8.1.0",
     "vitest": "^4.1.9",
     "wrangler": "^4.105.0"

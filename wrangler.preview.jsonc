@@ -1,0 +1,48 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "main": "vinext/server/fetch-handler",
+  "account_id": "963a4a044f575bdfe673802af1222f10",
+  "compatibility_date": "2026-06-17",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": "dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "none"
+  },
+  "cache": {
+    "enabled": true
+  },
+  "images": {
+    "binding": "IMAGES"
+  },
+  "preview_urls": true,
+  "vars": {
+    "APP_ENV": "development",
+    "ALLOW_ADMIN_WRITES": "false",
+    "CF_ACCESS_AUD": "",
+    "CF_ACCESS_TEAM_DOMAIN": ""
+  },
+  "kv_namespaces": [
+    {
+      "binding": "VINEXT_KV_CACHE",
+      "id": "4e5d5aa8077a4e3d94175c14845346dd"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "portfolio_assets",
+      "bucket_name": "portfolio-assets"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "portfolio_db",
+      "database_name": "portfolio-db",
+      "database_id": "3c7cc643-2ad9-4c9a-97c3-2e2105b3e8ef"
+    }
+  ],
+  "observability": {
+    "enabled": false
+  }
+}
