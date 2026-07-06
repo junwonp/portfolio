@@ -43,6 +43,8 @@ const getLanguageAlternates = (pathname: string) => ({
 export const getHomeMetadata = (locale: Language): Metadata => {
   const content = metadataMap[locale];
   const canonical = getAbsoluteUrl('/', locale);
+  const ogImageUrl = locale === 'en' ? '/en/opengraph-image.png' : '/opengraph-image.png';
+  const twitterImageUrl = locale === 'en' ? '/en/twitter-image.png' : '/twitter-image.png';
 
   return {
     title: content.title,
@@ -59,11 +61,11 @@ export const getHomeMetadata = (locale: Language): Metadata => {
       description: content.ogDescription,
       images: [
         {
-          url: `${PORTFOLIO_URL}/images/preview.webp`,
-          width: 2400,
-          height: 1260,
-          type: 'image/webp',
-          alt: content.imageAlt,
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          type: 'image/png',
+          alt: content.imageAlt || (locale === 'en' ? "Junwon Park's Portfolio" : '박준원의 포트폴리오'),
         },
       ],
       siteName: content.siteName,
@@ -73,7 +75,7 @@ export const getHomeMetadata = (locale: Language): Metadata => {
       card: 'summary_large_image',
       title: content.twitterTitle,
       description: content.twitterDescription,
-      images: [`${PORTFOLIO_URL}/images/preview.webp`],
+      images: [twitterImageUrl],
       site: `@${GITHUB_USERNAME}`,
     },
   };

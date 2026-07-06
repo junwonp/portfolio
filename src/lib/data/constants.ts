@@ -1,7 +1,8 @@
 const getPortfolioUrl = () => {
   if (typeof process !== 'undefined' && process.env) {
-    if (process.env.APP_ENV === 'development') {
-      return 'https://preview.junwon.dev';
+    const configuredUrl = process.env.PORTFOLIO_URL?.trim();
+    if (configuredUrl) {
+      return configuredUrl.replace(/\/+$/, '');
     }
     if (process.env.APP_ENV === 'local' || process.env.NODE_ENV === 'development') {
       return 'http://localhost:3000';
