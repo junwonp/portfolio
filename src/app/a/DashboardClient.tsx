@@ -709,6 +709,7 @@ export function DashboardClient({
                     <thead>
                       <tr>
                         <th>접속 시각</th>
+                        <th>유형</th>
                         <th>IP 주소</th>
                         <th>국가</th>
                         <th>유입 경로 (Referrer)</th>
@@ -720,6 +721,17 @@ export function DashboardClient({
                       {recentSessions.map((session) => (
                         <tr key={session.id}>
                           <td style={{ whiteSpace: 'nowrap' }}>{formatDateTime(session.createdAt)}</td>
+                          <td style={{ whiteSpace: 'nowrap' }}>
+                            {session.classification === 'bot' && (
+                              <span className="badge web">봇</span>
+                            )}
+                            {session.classification === 'suspected' && (
+                              <span className="badge orange">봇 의심</span>
+                            )}
+                            {session.classification === 'human' && (
+                              <span className="badge green">사람</span>
+                            )}
+                          </td>
                           <td>
                             <code className={styles.ipBadge}>{session.ipAddress}</code>
                           </td>

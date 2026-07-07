@@ -38,6 +38,7 @@ export interface RecentSession {
   pageViewsCount: number;
   referrer: string;
   userAgent: string;
+  classification: 'bot' | 'suspected' | 'human';
 }
 
 export interface AdminDashboardData {
@@ -528,6 +529,50 @@ const getApplicationLinks = async (db: D1Database): Promise<ApplicationLinkStats
   return result.results.map(toApplicationLinkStats);
 };
 
+const classifySession = (
+  ua: string,
+  totalDwell: number,
+  totalScroll: number,
+  views: number,
+): 'bot' | 'suspected' | 'human' => {
+  const lowercaseUa = ua.toLowerCase();
+
+  const botKeywords = [
+    'bot',
+    'spider',
+    'crawler',
+    'python-requests',
+    'go-http-client',
+    'curl',
+    'wget',
+    'http-client',
+    'zgrab',
+    'censys',
+    'masscan',
+    'headlesschrome',
+    'http_request',
+    'axios',
+    'node-fetch',
+    'fetch',
+    'java/',
+    'scrip',
+  ];
+
+  if (!ua || ua === 'unknown' || ua.trim() === '') {
+    return 'bot';
+  }
+
+  if (botKeywords.some((keyword) => lowercaseUa.includes(keyword))) {
+    return 'bot';
+  }
+
+  if (views === 1 && totalDwell === 0 && totalScroll === 0) {
+    return 'suspected';
+  }
+
+  return 'human';
+};
+
 const getRecentSessions = async (db: D1Database): Promise<RecentSession[]> => {
   const result = await db
     .prepare(
@@ -538,7 +583,9 @@ const getRecentSessions = async (db: D1Database): Promise<RecentSession[]> => {
         s.user_agent as userAgent,
         s.referrer,
         s.created_at as createdAt,
-        COUNT(p.id) as pageViewsCount
+        COUNT(p.id) as pageViewsCount,
+        SUM(COALESCE(p.dwell_time, 0)) as totalDwellTime,
+        SUM(COALESCE(p.scroll_depth, 0)) as totalScrollDepth
        FROM user_sessions s
        LEFT JOIN page_views p ON p.session_id = s.id
        WHERE s.is_admin = 0
@@ -554,9 +601,25 @@ const getRecentSessions = async (db: D1Database): Promise<RecentSession[]> => {
       pageViewsCount: number;
       referrer: string;
       userAgent: string;
+      totalDwellTime: number;
+      totalScrollDepth: number;
     }>();
 
-  return result.results;
+  return result.results.map((row) => ({
+    id: row.id,
+    ipAddress: row.ipAddress,
+    ipCountry: row.ipCountry,
+    userAgent: row.userAgent,
+    referrer: row.referrer,
+    createdAt: row.createdAt,
+    pageViewsCount: row.pageViewsCount,
+    classification: classifySession(
+      row.userAgent,
+      row.totalDwellTime,
+      row.totalScrollDepth,
+      row.pageViewsCount,
+    ),
+  }));
 };
 
 export const getAdminDashboardData = async ({
