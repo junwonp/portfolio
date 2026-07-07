@@ -6,6 +6,7 @@ export interface Labels {
   linkCopied: string;
   shareFooter: string;
   sharePage: string;
+  privacyPolicy: string;
   description: string;
   errorOccurred: string;
   goBack: string;
@@ -54,6 +55,7 @@ export const labelsMap: Record<Language, Labels> = {
     linkCopied: '링크가 복사되었습니다',
     shareFooter: '이 포트폴리오 공유하기',
     sharePage: '공유',
+    privacyPolicy: '개인정보 처리방침',
     description: '설명',
     errorOccurred: '오류가 발생했습니다',
     goBack: '← 뒤로',
@@ -100,6 +102,7 @@ export const labelsMap: Record<Language, Labels> = {
     linkCopied: 'Link copied!',
     shareFooter: 'Share this portfolio',
     sharePage: 'Share',
+    privacyPolicy: 'Privacy Policy',
     description: 'Description',
     errorOccurred: 'An error occurred',
     goBack: '← Back',
