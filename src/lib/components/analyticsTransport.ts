@@ -1,6 +1,6 @@
 import { extractApplicationSlugFromPath } from '@/lib/utils/applicationSlug';
 
-export const ANALYTICS_SESSION_KEY = 'junuuon_analytics_session_id';
+export const ANALYTICS_SESSION_KEY = 'portfolio_analytics_session_id';
 
 export interface AnalyticsSessionInfo {
   id: string;
@@ -28,7 +28,7 @@ export function sendAnalyticsPayload(
 ): void {
   if (typeof window === 'undefined' || !currentSessionId) return;
 
-  if (localStorage.getItem('junuuon_analytics_ignore') === 'true') {
+  if (localStorage.getItem('portfolio_analytics_ignore') === 'true') {
     return;
   }
 
