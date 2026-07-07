@@ -30,6 +30,16 @@ export interface ApplicationFilterOption {
   slug: string;
 }
 
+export interface RecentSession {
+  createdAt: string;
+  id: string;
+  ipAddress: string;
+  ipCountry: string;
+  pageViewsCount: number;
+  referrer: string;
+  userAgent: string;
+}
+
 export interface AdminDashboardData {
   applicationFilterOptions: ApplicationFilterOption[];
   applicationLinks: ApplicationLinkStats[];
@@ -65,6 +75,7 @@ export interface AdminDashboardData {
     poor: number;
     samples: number;
   }[];
+  recentSessions: RecentSession[];
   writesDisabledReason: string | null;
   writesEnabled: boolean;
 }
@@ -158,6 +169,7 @@ const createEmptyAdminDashboardData = ({
     trafficRange,
     trafficSummary: summarizeDailyChart(dailyChart),
     webVitals: [],
+    recentSessions: [],
     writesDisabledReason,
     writesEnabled,
   };
@@ -516,6 +528,37 @@ const getApplicationLinks = async (db: D1Database): Promise<ApplicationLinkStats
   return result.results.map(toApplicationLinkStats);
 };
 
+const getRecentSessions = async (db: D1Database): Promise<RecentSession[]> => {
+  const result = await db
+    .prepare(
+      `SELECT
+        s.id,
+        COALESCE(s.ip_address, 'unknown') as ipAddress,
+        s.ip_country as ipCountry,
+        s.user_agent as userAgent,
+        s.referrer,
+        s.created_at as createdAt,
+        COUNT(p.id) as pageViewsCount
+       FROM user_sessions s
+       LEFT JOIN page_views p ON p.session_id = s.id
+       WHERE s.is_admin = 0
+       GROUP BY s.id, s.ip_address, s.ip_country, s.user_agent, s.referrer, s.created_at
+       ORDER BY s.created_at DESC
+       LIMIT 30`,
+    )
+    .all<{
+      createdAt: string;
+      id: string;
+      ipAddress: string;
+      ipCountry: string;
+      pageViewsCount: number;
+      referrer: string;
+      userAgent: string;
+    }>();
+
+  return result.results;
+};
+
 export const getAdminDashboardData = async ({
   applicationProjectOptions,
   db,
@@ -555,7 +598,7 @@ export const getAdminDashboardData = async ({
       today,
       trafficRange,
     };
-    const [stats, dailyChart, topPages, topReferrers, topCountries, applicationLinks, webVitals] =
+    const [stats, dailyChart, topPages, topReferrers, topCountries, applicationLinks, webVitals, recentSessions] =
       await Promise.all([
         getStats(context),
         getDailyChart(context),
@@ -564,6 +607,7 @@ export const getAdminDashboardData = async ({
         getTopCountries(context),
         getApplicationLinks(db),
         getWebVitals(context),
+        getRecentSessions(db),
       ]);
 
     return {
@@ -580,6 +624,7 @@ export const getAdminDashboardData = async ({
       trafficRange,
       trafficSummary: summarizeDailyChart(dailyChart),
       webVitals,
+      recentSessions,
       writesDisabledReason: writesEnabled ? null : RUNTIME_WRITES_DISABLED_REASON,
       writesEnabled,
     };
