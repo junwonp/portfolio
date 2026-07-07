@@ -13,30 +13,54 @@
 }
 
 .toolbar {
+  bottom: calc(1.5rem + env(safe-area-inset-bottom));
   display: flex;
   justify-content: center;
-  margin: 0 auto 1rem;
-  position: sticky;
-  top: 1rem;
-  z-index: 10;
+  left: 50%;
+  position: fixed;
+  transform: translateX(-50%);
+  z-index: 50;
 }
 
 .printButton {
   align-items: center;
-  background: #111111;
-  border: 1px solid #111111;
-  border-radius: 6px;
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  color: #111111;
   cursor: pointer;
   display: inline-flex;
   font: 700 0.875rem/1 var(--font-family-text), sans-serif;
-  gap: 0.45rem;
-  min-height: 2.4rem;
-  padding: 0.65rem 0.9rem;
+  gap: 0.5rem;
+  height: 48px;
+  padding: 0 1.25rem;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  transition: background 0.15s, transform 0.1s;
 }
 
 .printButton:hover {
-  background: #333333;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.printButton:active {
+  transform: scale(0.95);
+}
+
+:global(.dark) .printButton {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+:global(.dark) .printButton:hover {
+  background: rgba(15, 23, 42, 0.9);
 }
 
 .resumeDocument {
@@ -51,13 +75,13 @@
   color: var(--resume-text);
   min-height: 11in;
   overflow-wrap: anywhere;
-  padding: 0.5in 0.5in 0.44in;
+  padding: 0.6in 0.6in 0.5in;
   width: 8.5in;
   word-break: keep-all;
 }
 
 .hero {
-  margin-bottom: 0.28in;
+  margin-bottom: 0.26in;
 }
 
 .hero h1 {
@@ -80,22 +104,22 @@
 .contactList {
   color: var(--resume-muted);
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   font-size: 10.5pt;
   font-style: normal;
-  gap: 0.03in 0;
+  gap: 0.04in;
   line-height: 1.22;
-  margin: 0 0 0.2in;
+  margin: 0 0 0.16in;
 }
 
-.contactItem {
-  display: inline;
+.contactRow {
+  display: flex;
+  gap: 0.08in;
 }
 
-.contactItem:not(:last-child)::after {
+.divider {
   color: var(--resume-muted);
-  content: "|";
-  padding: 0 0.08in;
+  opacity: 0.6;
 }
 
 .contactList a,
@@ -110,13 +134,9 @@
 }
 
 .section {
-  break-inside: avoid;
-  page-break-inside: avoid;
 }
 
 .sectionFrame {
-  break-inside: avoid;
-  page-break-inside: avoid;
 }
 
 .section h2,
@@ -127,21 +147,19 @@
   font-weight: 800;
   letter-spacing: 0;
   line-height: 1.1;
-  margin: 0 0 0.14in;
-  padding-bottom: 0.07in;
+  margin: 0 0 0.11in;
+  padding-bottom: 0.06in;
 }
 
 .summary h2 {
   border-bottom: 0;
   font-size: 13.3pt;
-  margin-bottom: 0.11in;
+  margin-bottom: 0.08in;
   padding-bottom: 0;
 }
 
 .workEntry {
-  break-inside: avoid;
-  margin-bottom: 0.17in;
-  page-break-inside: avoid;
+  margin-bottom: 0.18in;
 }
 
 .workHeader {
@@ -149,7 +167,7 @@
   display: flex;
   gap: 0.2in;
   justify-content: space-between;
-  margin: 0 0 0.16in;
+  margin: 0 0 0.12in;
 }
 
 .workHeader h3,
@@ -190,9 +208,11 @@
 }
 
 .projectBlock {
-  break-inside: avoid;
-  margin-bottom: 0.17in;
-  page-break-inside: avoid;
+  margin-bottom: 0.11in;
+}
+
+.projectBlock:last-child {
+  margin-bottom: 0;
 }
 
 .projectBlock h4 {
@@ -200,27 +220,27 @@
   font-size: 12.3pt;
   font-weight: 800;
   line-height: 1.2;
-  margin: 0 0 0.11in;
+  margin: 0 0 0.08in;
 }
 
 .projectSummary {
   color: #111111;
   font-size: 10.3pt;
   line-height: 1.34;
-  margin: 0 0 0.11in;
+  margin: 0 0 0.08in;
 }
 
 .bullets {
   color: #111111;
   font-size: 10.25pt;
   list-style: none;
-  margin: 0 0 0.13in;
+  margin: 0;
   padding: 0;
 }
 
 .bullets li {
-  line-height: 1.27;
-  padding: 0.018in 0 0.018in 0.23in;
+  line-height: 1.30;
+  padding: 0.016in 0 0.016in 0.23in;
   position: relative;
 }
 
@@ -241,7 +261,7 @@
 .skills {
   display: grid;
   gap: 0.08in;
-  margin: 0 0 0.34in;
+  margin: 0 0 0.3in;
 }
 
 .skillRow {
@@ -269,8 +289,6 @@
 }
 
 .simpleItem {
-  break-inside: avoid;
-  page-break-inside: avoid;
 }
 
 .simpleItem header {
@@ -321,6 +339,10 @@
   .skillRow {
     grid-template-columns: 1fr;
   }
+
+  .contactRow {
+    flex-wrap: wrap;
+  }
 }
 
 @media print {
@@ -363,5 +385,22 @@
   .resumePage:last-child {
     break-after: auto;
     page-break-after: auto;
+  }
+
+  .workHeader,
+  .simpleItem header {
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+
+  .periodBlock,
+  .simpleItem header p {
+    margin-top: 0 !important;
+    text-align: right !important;
+    flex: 0 0 1.55in !important;
+  }
+
+  .skillRow {
+    grid-template-columns: 1.38in 1fr !important;
   }
 }

@@ -114,12 +114,35 @@ export default function PrintableResume({ resume }: PrintableResumeProps) {
                 <h1>{resume.name}</h1>
                 <p className={styles.headline}>{resume.role}</p>
                 <address className={styles.contactList}>
-                  {resume.contactItems.map((item) => (
-                    <span className={styles.contactItem} key={item.label}>
-                      <strong>{item.label}:</strong>{' '}
-                      {item.href ? <a href={item.href}>{item.value}</a> : item.value}
-                    </span>
-                  ))}
+                  {(() => {
+                    const loc = resume.contactItems.find((item) => item.label === 'Location');
+                    const email = resume.contactItems.find((item) => item.label === 'Email');
+                    const github = resume.contactItems.find((item) => item.label === 'GitHub');
+                    const portfolio = resume.contactItems.find((item) => item.label === 'Portfolio');
+
+                    return (
+                      <>
+                        <div className={styles.contactRow}>
+                          {loc && <span>{loc.value}</span>}
+                          {loc && email && <span className={styles.divider}>|</span>}
+                          {email && <a href={email.href}>{email.value}</a>}
+                        </div>
+                        <div className={styles.contactRow}>
+                          {github && (
+                            <span>
+                              <strong>GitHub:</strong> <a href={github.href}>{github.value}</a>
+                            </span>
+                          )}
+                          {github && portfolio && <span className={styles.divider}>|</span>}
+                          {portfolio && (
+                            <span>
+                              <strong>Portfolio:</strong> <a href={portfolio.href}>{portfolio.value.replace('https://', '')}</a>
+                            </span>
+                          )}
+                        </div>
+                      </>
+                    );
+                  })()}
                 </address>
                 <section className={styles.summary} aria-labelledby="resume-summary-title">
                   <h2 id="resume-summary-title">{resume.summaryTitle}</h2>

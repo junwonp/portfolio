@@ -77,7 +77,6 @@ export const printableResume: PrintableResumeData = {
     { href: 'mailto:junwon.p@icloud.com', label: 'Email', value: 'junwon.p@icloud.com' },
     { href: 'https://junwon.dev', label: 'Portfolio', value: 'https://junwon.dev' },
     { href: 'https://github.com/junwonp', label: 'GitHub', value: 'github.com/junwonp' },
-    { href: 'https://www.linkedin.com/in/junwonp', label: 'LinkedIn', value: 'linkedin.com/in/junwonp' },
   ],
   summaryTitle: '제품의 시작부터 성장까지 직접 경험한 프론트엔드 엔지니어',
   summaryBullets: [
@@ -120,7 +119,7 @@ export const printableResume: PrintableResumeData = {
                     [
                       'Expo Router 기반 ',
                       { strong: true, text: '단일 코드베이스' },
-                      '로 Android, iOS, Web을 지원하고, 플랫폼별 Context 분리로 native-only 패키지의 웹 번들 유입을 방지했습니다.',
+                      '로 Android, iOS, Web을 지원하되, 웹 빌드 시 모바일 앱 전용 라이브러리가 섞여 들어가지 않도록 플랫폼별 코드를 분리하여 빌드 안정성을 확보했습니다.',
                     ],
                     [
                       'Realm -> 서버 DB 마이그레이션 과정에서 재시도 가능한 작업 단위와 상태 플래그를 설계해 ',
@@ -145,7 +144,7 @@ export const printableResume: PrintableResumeData = {
                   ],
                   bullets: [
                     [
-                      { strong: true, text: 'React / Next.js' },
+                      { strong: true, text: 'React' },
                       ' 기반 이벤트 페이지를 구현하고, 다양한 사용자 진입 경로에서도 일관된 화면과 안정적인 사용자 흐름을 제공하도록 구성했습니다.',
                     ],
                     [
@@ -223,9 +222,9 @@ export const printableResume: PrintableResumeData = {
                       '을 적용해 스크롤 지연을 줄였습니다.',
                     ],
                     [
-                      '외부 API나 SaaS 도구를 사용할 수 없는 환경에서 ',
-                      { strong: true, text: 'fixture와 mock socket 계층' },
-                      '을 분리해 UI 상태와 협업 이벤트를 검증했습니다.',
+                      '외부 통신이 차단된 폐쇄망 환경의 한계를 극복하기 위해 ',
+                      { strong: true, text: '모의 데이터(fixture)와 가상 소켓(mock socket) 레이어' },
+                      '를 설계하여 실시간 UI 동작 및 협업 기능을 성공적으로 테스트했습니다.',
                     ],
                     [
                       '선택 영역 오버레이, 고정 헤더, ErrorBoundary를 적용해 대용량 문서 탐색 중 발생할 수 있는 렌더링 오류와 사용성 문제를 줄였습니다.',
@@ -241,12 +240,13 @@ export const printableResume: PrintableResumeData = {
           title: 'Skills Set',
           groups: [
             { label: 'Languages', values: ['TypeScript', 'JavaScript'] },
-            { label: 'Frontend', values: ['React', 'React Native', 'Next.js', 'Expo', 'SvelteKit'] },
+            { label: 'Frontend', values: ['React', 'Next.js', 'React Native', 'Expo'] },
             {
               label: 'Engineering',
-              values: ['TanStack Query', 'Zustand', 'Zod', 'FlashList', 'Reanimated', 'React Compiler'],
+              values: ['TanStack Query', 'Zustand', 'Zod', 'FlashList', 'Reanimated'],
             },
-            { label: 'DevOps & Tools', values: ['Vite', 'Webpack', 'GitHub Actions', 'EAS', 'Sentry', 'Cloudflare'] },
+            { label: 'UI & Styling', values: ['Tailwind CSS', 'shadcn/ui', 'styled-components', 'MUI'] },
+            { label: 'DevOps & Tools', values: ['GitHub Actions', 'Cloudflare', 'Firebase', 'Vitest', 'EAS', 'Sentry', 'Vite', 'Webpack'] },
           ],
         },
         {
@@ -254,11 +254,20 @@ export const printableResume: PrintableResumeData = {
           title: 'Awards & Projects',
           items: [
             {
-              title: '서울 캠퍼스 타운 입주 기업 선정 (오르카에이아이)',
-              period: '2024',
+              title: 'Next.js & Cloudflare 포트폴리오',
+              period: '2026',
               bullets: [
                 [
-                  '사업성과 기술력을 인정받아 서울시 및 대학교로부터 사무 공간 및 사업화 자금 지원 대상에 선정되었습니다.',
+                  'Next.js 16 App Router와 vinext를 Cloudflare Workers에 배포하고, D1/R2/KV 기반 관리자 편집 및 분석 흐름을 운영 가능한 구조로 정리했습니다.',
+                ],
+              ],
+            },
+            {
+              title: '오늘날씨 (Today’s Weather) — 개인화 날씨 서비스',
+              period: '2026.04',
+              bullets: [
+                [
+                  '기상청 및 에어코리아 데이터를 활용해 최적의 복장과 준비물을 제안하는 1인 개발 서비스입니다. Turbopack 기반 모노레포 구조에서 Next.js와 Expo Router로 PWA 환경을 구축하고 API 호출 부하를 80% 이상 절감했습니다.',
                 ],
               ],
             },
@@ -267,16 +276,7 @@ export const printableResume: PrintableResumeData = {
               period: '2021.04',
               bullets: [
                 [
-                  'React Native 기반 핀테크 MVP로 본선에 진출했으며, 이후 Expo Router, TanStack Query, Zustand, EAS 기반으로 리빌드했습니다.',
-                ],
-              ],
-            },
-            {
-              title: 'Next.js & Cloudflare 포트폴리오',
-              period: '2026',
-              bullets: [
-                [
-                  'Next.js 16 App Router와 vinext를 Cloudflare Workers에 배포하고, D1/R2/KV 기반 관리자 편집 및 분석 흐름을 운영 가능한 구조로 정리했습니다.',
+                  'React Native 기반 핀테크 MVP로 본선에 진출했으며, 이후 기존 JavaScript 코드를 TypeScript로 전환하고 Expo Router, TanStack Query, Zustand, EAS 기반으로 리빌드했습니다.',
                 ],
               ],
             },
@@ -289,6 +289,11 @@ export const printableResume: PrintableResumeData = {
             {
               title: '한양대학교 (Hanyang University) | 컴퓨터소프트웨어학부 학사',
               period: '2017.03 - 2024.02',
+              bullets: [],
+            },
+            {
+              title: '세종과학고등학교 (Sejong Science High School)',
+              period: '2014.03 - 2017.02',
               bullets: [],
             },
           ],
