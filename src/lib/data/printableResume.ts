@@ -74,7 +74,7 @@ export const printableResume: PrintableResumeData = {
   role: 'Frontend Engineer',
   contactItems: [
     { label: 'Location', value: 'Seoul, Korea' },
-    { href: 'mailto:junwon.p@icloud.com', label: 'Email', value: 'junwon.p@icloud.com' },
+    { href: 'mailto:me@junwon.dev', label: 'Email', value: 'me@junwon.dev' },
     { href: 'https://junwon.dev', label: 'Portfolio', value: 'https://junwon.dev' },
     { href: 'https://github.com/junwonp', label: 'GitHub', value: 'github.com/junwonp' },
   ],
