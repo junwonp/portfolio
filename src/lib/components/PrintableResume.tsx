@@ -125,7 +125,20 @@ export default function PrintableResume({ resume }: PrintableResumeProps) {
                         <div className={styles.contactRow}>
                           {loc && <span>{loc.value}</span>}
                           {loc && email && <span className={styles.divider}>|</span>}
-                          {email && <a href={email.href}>{email.value}</a>}
+                          {email && (
+                            <a
+                              href="#"
+                              className={styles.secureEmail}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.location.href = `mailto:${'me' + '@' + 'junwon.dev'}`;
+                              }}
+                            >
+                              <span>me</span>
+                              <span className={styles.atSign} />
+                              <span>junwon.dev</span>
+                            </a>
+                          )}
                         </div>
                         <div className={styles.contactRow}>
                           {github && (

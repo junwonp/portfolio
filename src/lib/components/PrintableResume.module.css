@@ -404,3 +404,12 @@
     grid-template-columns: 1.38in 1fr !important;
   }
 }
+
+.secureEmail {
+  display: inline-flex;
+  align-items: center;
+}
+
+.atSign::before {
+  content: "@";
+}
