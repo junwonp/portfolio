@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
 
     await recordAnalyticsPayload({
       country: request.headers.get('cf-ipcountry') || 'unknown',
+      ipAddress: clientIp || 'unknown',
       db,
       payload,
     });

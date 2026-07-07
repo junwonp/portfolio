@@ -3,6 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS user_sessions (
   id TEXT PRIMARY KEY,
+  ip_address TEXT,
   ip_country TEXT,
   user_agent TEXT,
   referrer TEXT,

@@ -19,6 +19,7 @@ class D1Mock {
   }> = [];
   userSessions: Array<{
     id: string;
+    ip_address: string;
     ip_country: string;
     is_admin: number;
     referrer: string;
@@ -52,10 +53,11 @@ class D1Mock {
             }
             this.userSessions.push({
               id: String(values[0]),
-              ip_country: String(values[1]),
-              user_agent: String(values[2]),
-              referrer: String(values[3]),
-              is_admin: Number(values[4]),
+              ip_address: String(values[1]),
+              ip_country: String(values[2]),
+              user_agent: String(values[3]),
+              referrer: String(values[4]),
+              is_admin: Number(values[5]),
             });
           }
 
@@ -144,6 +146,7 @@ describe('recordAnalyticsPayload', () => {
 
     await recordAnalyticsPayload({
       country: 'KR',
+      ipAddress: '1.2.3.4',
       db: db as unknown as D1Database,
       payload,
     });
@@ -151,6 +154,7 @@ describe('recordAnalyticsPayload', () => {
     expect(db.userSessions).toEqual([
       {
         id: 'session-1',
+        ip_address: '1.2.3.4',
         ip_country: 'KR',
         is_admin: 0,
         referrer: 'https://example.com',
@@ -193,11 +197,13 @@ describe('recordAnalyticsPayload', () => {
 
     await recordAnalyticsPayload({
       country: 'KR',
+      ipAddress: '1.2.3.4',
       db: db as unknown as D1Database,
       payload: basePayload,
     });
     await recordAnalyticsPayload({
       country: 'KR',
+      ipAddress: '1.2.3.4',
       db: db as unknown as D1Database,
       payload: {
         ...basePayload,
@@ -239,6 +245,7 @@ describe('recordAnalyticsPayload', () => {
 
     await recordAnalyticsPayload({
       country: 'KR',
+      ipAddress: '1.2.3.4',
       db: db as unknown as D1Database,
       payload,
     });
@@ -279,6 +286,7 @@ describe('recordAnalyticsPayload', () => {
 
     await recordAnalyticsPayload({
       country: 'unknown',
+      ipAddress: '1.2.3.4',
       db: db as unknown as D1Database,
       payload,
     });
