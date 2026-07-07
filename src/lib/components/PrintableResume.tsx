@@ -1,5 +1,3 @@
-"use client";
-
 import type {
   PrintableResumeData,
   ResumePageSection,
@@ -128,18 +126,11 @@ export default function PrintableResume({ resume }: PrintableResumeProps) {
                           {loc && <span>{loc.value}</span>}
                           {loc && email && <span className={styles.divider}>|</span>}
                           {email && (
-                            <a
-                              href="#"
-                              className={styles.secureEmail}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                window.location.href = `mailto:${'me' + '@' + 'junwon.dev'}`;
-                              }}
-                            >
+                            <span className={styles.secureEmail}>
                               <span>me</span>
                               <span className={styles.atSign} />
                               <span>junwon.dev</span>
-                            </a>
+                            </span>
                           )}
                         </div>
                         <div className={styles.contactRow}>
