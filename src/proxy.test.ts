@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { getCacheControlForPath, getDefaultLocaleRedirectPathname } from '@/proxy';
+import {
+  getCacheControlForPath,
+  getDefaultLocaleRedirectPathname,
+  getResumeRewritePathname,
+} from '@/proxy';
 
 describe('getCacheControlForPath', () => {
   it('keeps assets cacheable for a long time', () => {
@@ -34,5 +38,18 @@ describe('getDefaultLocaleRedirectPathname', () => {
   it('does not redirect no-prefix or English-prefixed URLs', () => {
     expect(getDefaultLocaleRedirectPathname('/projects/aira')).toBeNull();
     expect(getDefaultLocaleRedirectPathname('/en/projects/aira')).toBeNull();
+  });
+});
+
+describe('getResumeRewritePathname', () => {
+  it('serves the printable resume at the resume subdomain root', () => {
+    expect(getResumeRewritePathname('resume.junwon.dev', '/')).toBe('/resume');
+    expect(getResumeRewritePathname('resume.junwon.dev:443', '/')).toBe('/resume');
+  });
+
+  it('leaves non-root resume subdomain paths and portfolio hosts unchanged', () => {
+    expect(getResumeRewritePathname('resume.junwon.dev', '/projects/aira')).toBeNull();
+    expect(getResumeRewritePathname('junwon.dev', '/')).toBeNull();
+    expect(getResumeRewritePathname('localhost:3000', '/')).toBeNull();
   });
 });

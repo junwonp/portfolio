@@ -17,6 +17,12 @@
     "binding": "IMAGES"
   },
   "preview_urls": true,
+  "routes": [
+    {
+      "pattern": "resume.junwon.dev",
+      "custom_domain": true
+    }
+  ],
   "vars": {
     "APP_ENV": "production",
     "CF_ACCESS_AUD": "",

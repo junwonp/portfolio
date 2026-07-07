@@ -16,6 +16,7 @@ const PRIVATE_ROBOTS_PATHS = [
   /^\/api(?:\/|$)/,
   /^\/print(?:\/|$)/,
 ];
+const RESUME_HOST = 'resume.junwon.dev';
 
 const SECURITY_HEADERS = {
   'Cross-Origin-Opener-Policy': 'same-origin',
@@ -63,6 +64,16 @@ export const getDefaultLocaleRedirectPathname = (pathname: string): string | nul
   return null;
 };
 
+export const getResumeRewritePathname = (host: string | null, pathname: string): string | null => {
+  const normalizedHost = host?.toLowerCase().split(':')[0];
+
+  if (normalizedHost === RESUME_HOST && pathname === '/') {
+    return '/resume';
+  }
+
+  return null;
+};
+
 const applyResponseHeaders = (response: NextResponse, pathname: string, nonce: string): void => {
   const locale = resolveLocaleFromPathname(pathname);
 
@@ -86,6 +97,27 @@ const applyResponseHeaders = (response: NextResponse, pathname: string, nonce: s
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const nonce = createNonce();
+  const resumeRewritePathname = getResumeRewritePathname(request.headers.get('host'), pathname);
+
+  if (resumeRewritePathname) {
+    const rewriteUrl = request.nextUrl.clone();
+    rewriteUrl.pathname = resumeRewritePathname;
+
+    const requestHeaders = new Headers(request.headers);
+    const locale = resolveLocaleFromPathname(resumeRewritePathname);
+    requestHeaders.set('x-locale', locale);
+    requestHeaders.set('x-nonce', nonce);
+
+    const rewriteResponse = NextResponse.rewrite(rewriteUrl, {
+      request: {
+        headers: requestHeaders,
+      },
+    });
+    applyResponseHeaders(rewriteResponse, resumeRewritePathname, nonce);
+
+    return rewriteResponse;
+  }
+
   const defaultLocaleRedirectPathname = getDefaultLocaleRedirectPathname(pathname);
 
   if (defaultLocaleRedirectPathname) {

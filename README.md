@@ -65,6 +65,7 @@ src/
 - `src/lib/server/cloudflare-workers.mock.ts` exists only for Vitest aliases and is not a fallback for a plain `next build` workflow.
 - For production-shape validation, prefer `pnpm build`, `pnpm exec vinext check`, and `pnpm exec wrangler deploy --dry-run`.
 - The `develop` deploy environment is intentionally read-only: admin writes stay disabled even if the app is pointed at production-backed bindings.
+- The printable resume is served from `/resume`; production also maps `resume.junwon.dev` to the same Worker via a Cloudflare Workers custom domain route.
 
 ## Admin Analytics and Short Links
 
