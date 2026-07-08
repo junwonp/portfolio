@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import BaseSideNav from "@/lib/components/BaseSideNav";
 import { getPageScrollY, scrollPageTo, useScrollSpy } from "@/lib/hooks/useScrollSpy";
-import { parseHeading } from "@/lib/utils/markdown";
+import { parseHeading, slugify } from "@/lib/utils/markdown";
 
 interface NavSection {
   id: string;
@@ -39,29 +39,35 @@ export default function ProjectToc() {
       return;
     }
 
-    const readSections = (): NavSection[] => {
+    const syncSections = () => {
       const headings = Array.from(
         article.querySelectorAll<HTMLElement>("h2")
       );
 
-      return headings.flatMap((el) => {
+      const nextSections = headings.map((el, i) => {
         if (!el.id) {
-          return [];
+          el.id = slugify(el.textContent || "", i);
         }
 
         const { label } = parseHeader(el.textContent || "");
-        return [{ id: el.id, label }];
+        return { id: el.id, label };
       });
-    };
 
-    const syncSections = () => {
-      const nextSections = readSections();
       setSections((current) =>
         areNavSectionsEqual(current, nextSections) ? current : nextSections
       );
     };
 
     syncSections();
+
+    const observer = new MutationObserver(() => {
+      syncSections();
+    });
+    observer.observe(article, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+    };
   }, [parseHeader]);
 
   const sectionIds = useMemo(() => sections.map((s) => s.id), [sections]);
