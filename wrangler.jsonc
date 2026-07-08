@@ -19,6 +19,10 @@
   "preview_urls": true,
   "routes": [
     {
+      "pattern": "junwon.dev",
+      "custom_domain": true
+    },
+    {
       "pattern": "resume.junwon.dev",
       "custom_domain": true
     }
