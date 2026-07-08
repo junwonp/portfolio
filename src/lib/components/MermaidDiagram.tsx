@@ -10,10 +10,23 @@ interface Props {
   title: string;
 }
 
-function getCssVariable(name: string): string {
-  if (typeof window === 'undefined') return '';
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-}
+const LIGHT_COLORS = {
+  background: '#ffffff',
+  border: '#dbe0e2',
+  mutedBackground: '#f7f9fa',
+  primary: '#2e6ebe',
+  text: '#484848',
+  titleText: '#000000',
+};
+
+const DARK_COLORS = {
+  background: '#1a202c',
+  border: '#3f495e',
+  mutedBackground: '#262d3b',
+  primary: '#7daff0',
+  text: '#d4dbde',
+  titleText: '#d4dbde',
+};
 
 export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Props) {
   const renderId = useId().replaceAll(':', '-');
@@ -87,12 +100,9 @@ export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Pr
       try {
         const mermaidModule = await import('mermaid');
         const mermaid = mermaidModule.default;
-        const background = getCssVariable('--color-basic-bg');
-        const border = getCssVariable('--color-bg-divider');
-        const mutedBackground = getCssVariable('--color-code-bg');
-        const primary = getCssVariable('--color-primary');
-        const text = getCssVariable('--color-main');
-        const titleText = getCssVariable('--color-bold');
+
+        const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
+        const colors = isDark ? DARK_COLORS : LIGHT_COLORS;
 
         mermaid.initialize({
           flowchart: {
@@ -103,21 +113,21 @@ export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Pr
           startOnLoad: false,
           theme: 'base',
           themeVariables: {
-            background,
-            clusterBkg: mutedBackground,
-            clusterBorder: border,
-            edgeLabelBackground: background,
+            background: colors.background,
+            clusterBkg: colors.mutedBackground,
+            clusterBorder: colors.border,
+            edgeLabelBackground: colors.background,
             fontFamily: 'Wanted Sans, sans-serif',
-            lineColor: primary,
-            mainBkg: background,
-            nodeBorder: border,
-            primaryBorderColor: border,
-            primaryColor: background,
-            primaryTextColor: titleText,
-            secondaryColor: mutedBackground,
-            secondaryTextColor: text,
-            tertiaryColor: mutedBackground,
-            tertiaryTextColor: text,
+            lineColor: colors.primary,
+            mainBkg: colors.background,
+            nodeBorder: colors.border,
+            primaryBorderColor: colors.border,
+            primaryColor: colors.background,
+            primaryTextColor: colors.titleText,
+            secondaryColor: colors.mutedBackground,
+            secondaryTextColor: colors.text,
+            tertiaryColor: colors.mutedBackground,
+            tertiaryTextColor: colors.text,
           },
         });
 
