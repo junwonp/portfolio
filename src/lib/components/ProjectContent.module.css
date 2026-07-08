@@ -117,15 +117,14 @@
   padding-right: 1.5rem;
 }
 
-.resume-header[role="button"] {
+.resume-header[role='button'] {
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
-.resume-header[role="button"]:hover {
+.resume-header[role='button']:hover {
   background-color: var(--color-surface-hover);
 }
-
 
 .resume-header:focus-visible {
   outline: 2px solid var(--color-primary);
@@ -252,6 +251,15 @@
 }
 
 @media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .link-mock {
+    align-self: flex-start;
+  }
+
   .metrics {
     grid-template-columns: 1fr;
   }
@@ -318,5 +326,3 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-
-

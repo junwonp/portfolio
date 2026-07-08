@@ -92,7 +92,6 @@
   border: none;
 }
 
-
 .pillars {
   display: flex;
   flex-direction: column;
@@ -156,7 +155,13 @@
   .title {
     width: auto !important;
     flex: 1 !important;
-    padding-right: 140px;
+    padding-right: 0;
+    word-break: normal;
+  }
+
+  .role,
+  .tagline {
+    word-break: normal;
   }
 }
 
@@ -182,8 +187,14 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .metrics-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 360px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
   }
 }
