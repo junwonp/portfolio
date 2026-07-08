@@ -1,29 +1,3 @@
-.project-topbar {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 800px;
-  padding: 0;
-  padding-top: 2rem;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  height: auto;
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: none;
-  box-sizing: border-box;
-  pointer-events: none;
-}
-
-.project-topbar * {
-  pointer-events: auto;
-}
-
 .topbar-links {
   margin-left: auto;
   display: flex;
@@ -102,75 +76,9 @@
   background-color: rgba(240, 246, 252, 0.15);
 }
 
-@media (max-width: 960px) {
-  .project-topbar {
-    display: none;
-  }
-}
-
-.layout {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding: 0 clamp(0px, 4vw, 48px) 120px;
-  margin-top: var(--space-md);
-}
-
-@media (min-width: 961px) {
-  .layout {
-    margin-top: 80px;
-  }
-}
-
-.nav-wrapper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: calc(100% + var(--space-md));
-  width: 160px;
-}
-
-.main-content {
-  min-width: 0;
-  width: 100%;
-  max-width: 800px;
-  transition: all 0.3s ease;
-}
-
-@media (max-width: 1400px) {
-  .layout {
-    justify-content: flex-start;
-    gap: var(--space-md);
-  }
-
-  .nav-wrapper {
-    position: relative;
-    right: auto;
-    flex-shrink: 0;
-  }
-
-  .main-content {
-    flex: 1;
-  }
-}
-
 .content {
-  align-self: flex-start;
-  flex: 1;
   min-width: 0;
-}
-
-@media (max-width: 960px) {
-  .layout {
-    display: block;
-    padding-bottom: 80px;
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .nav-wrapper {
-    display: none;
-  }
+  width: 100%;
 }
 
 .hero {
@@ -229,7 +137,6 @@
   border: none;
 }
 
-
 .project-article {
   margin-bottom: 56px;
 }
@@ -271,14 +178,27 @@
 }
 
 @media (max-width: 640px) {
+  .hero-title,
+  .hero-tagline,
+  .project-article :global(p),
+  .project-article :global(li) {
+    word-break: normal;
+  }
+
   .hero {
     padding: 32px 0 32px;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .metrics-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 360px) {
+  .metrics-row {
+    grid-template-columns: 1fr;
   }
 }
 

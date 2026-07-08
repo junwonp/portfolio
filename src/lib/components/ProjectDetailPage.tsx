@@ -15,6 +15,7 @@ import type { Language } from '@/lib/utils/language';
 import Github from './Icon/Github';
 import Globe from './Icon/Globe';
 import MetricCard from './MetricCard';
+import PortfolioContentLayout from './PortfolioContentLayout';
 import ProjectDetailClientEffects from './ProjectDetailClientEffects';
 import styles from './ProjectDetailPage.module.css';
 
@@ -88,6 +89,34 @@ export default function ProjectDetailPage({
     <p className={styles['error-msg']}>{labels.contentLoadError}</p>
   );
 
+  const desktopHeader = (
+    <div className={styles['topbar-links']}>
+      {githubHref && (
+        <a
+          className={`${styles['topbar-link']} ${styles.github}`}
+          href={githubHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+        >
+          <Github width={15} height={15} />
+          GitHub
+        </a>
+      )}
+      {metadata.productLink && (
+        <a
+          className={`${styles['topbar-link']} ${styles.primary}`}
+          href={metadata.productLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Globe width={15} height={15} />
+          {labels.visitSite}
+        </a>
+      )}
+    </div>
+  );
+
   return (
     <>
       <ProjectDetailClientEffects
@@ -97,78 +126,44 @@ export default function ProjectDetailPage({
 
       <div id="intro-header-sentinel"></div>
 
-      {/* Desktop-only sticky header with back link and project links */}
-      <header className={styles['project-topbar']}>
-        <div className={styles['topbar-links']}>
-          {githubHref && (
-            <a
-              className={`${styles['topbar-link']} ${styles.github}`}
-              href={githubHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-            >
-              <Github width={15} height={15} />
-              GitHub
-            </a>
-          )}
-          {metadata.productLink && (
-            <a
-              className={`${styles['topbar-link']} ${styles.primary}`}
-              href={metadata.productLink}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Globe width={15} height={15} />
-              {labels.visitSite}
-            </a>
+      <PortfolioContentLayout
+        contentClassName={styles.content}
+        desktopHeader={desktopHeader}
+        sideNav={<ProjectToc />}
+      >
+        <div className={styles.hero}>
+          {isAdminEditor ? (
+            <EditableProjectHero
+              locale={locale}
+              metadata={metadata}
+              metadataByLocale={{
+                en: projectContentByLocale.en.metadata,
+                ko: projectContentByLocale.ko.metadata,
+              }}
+              slug={slug}
+            />
+          ) : (
+            heroContent
           )}
         </div>
-      </header>
 
-      <div className={styles.layout}>
-        <div className={styles['nav-wrapper']}>
-          <ProjectToc />
-        </div>
-
-        <div className={styles['main-content']}>
-          <div className={styles.content}>
-            {/* Hero */}
-            <div className={styles.hero}>
-              {isAdminEditor ? (
-                <EditableProjectHero
-                  locale={locale}
-                  metadata={metadata}
-                  metadataByLocale={{
-                    en: projectContentByLocale.en.metadata,
-                    ko: projectContentByLocale.ko.metadata,
-                  }}
-                  slug={slug}
-                />
-              ) : (
-                heroContent
-              )}
-            </div>
-
-            <article className={`project-article ${styles['project-article']}`}>
-              {isAdminEditor ? (
-                <EditableProjectArticle
-                  detailBlocks={detailBlocks}
-                  detailBlocksByLocale={{
-                    en: projectContentByLocale.en.detailBlocks,
-                    ko: projectContentByLocale.ko.detailBlocks,
-                  }}
-                  locale={locale}
-                  metadata={metadata}
-                  slug={slug}
-                />
-              ) : (
-                detailContent
-              )}
-            </article>
-          </div>
-        </div>
-      </div>
+        <article className={`project-article ${styles['project-article']}`}>
+          {isAdminEditor ? (
+            <EditableProjectArticle
+              detailBlocks={detailBlocks}
+              detailBlocksByLocale={{
+                en: projectContentByLocale.en.detailBlocks,
+                ko: projectContentByLocale.ko.detailBlocks,
+              }}
+              locale={locale}
+              metadata={metadata}
+              slug={slug}
+            />
+          ) : (
+            detailContent
+          )}
+        </article>
+      </PortfolioContentLayout>
     </>
   );
 }

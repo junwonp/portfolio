@@ -13,22 +13,6 @@
   animation: fadeSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.layout {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-
-.nav-wrapper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: calc(100% + var(--space-md));
-  width: 160px;
-}
-
 .main-content {
   min-width: 0;
   width: 100%;
@@ -52,38 +36,6 @@
   flex: 1;
 }
 
-
-@media (max-width: 1400px) {
-  .layout {
-    justify-content: flex-start;
-    gap: var(--space-md);
-  }
-
-  .nav-wrapper {
-    position: relative;
-    right: auto;
-    flex-shrink: 0;
-  }
-
-  .main-content {
-    flex: 1;
-  }
-}
-
-@media (max-width: 960px) {
-  .layout {
-    display: block;
-  }
-
-  .nav-wrapper {
-    display: none;
-  }
-
-  .main-content {
-    max-width: 100%;
-  }
-}
-
 .main-content > section {
   margin-bottom: var(--space-xl);
 }
@@ -100,4 +52,3 @@
 .content-wrapper > section:last-child {
   margin-bottom: 0;
 }
-

@@ -6,6 +6,7 @@ import React from 'react';
 import BentoSkills from '@/lib/components/BentoSkills';
 import DesktopSideNav from '@/lib/components/DesktopSideNav';
 import type { HomePageData } from '@/lib/components/HomePage';
+import PortfolioContentLayout from '@/lib/components/PortfolioContentLayout';
 import ProjectSpotlightList from '@/lib/components/ProjectSpotlightList';
 import SectionHeader from '@/lib/components/SectionHeader';
 import WorkAccordion from '@/lib/components/WorkAccordion';
@@ -39,74 +40,66 @@ export default function HomePageClient({
   const filteredArchives = resumeData.archives;
 
   return (
-    <article>
-      {mobileHeader}
+    <PortfolioContentLayout
+      contentClassName={styles['main-content']}
+      mobileHeader={mobileHeader}
+      sideNav={<DesktopSideNav sections={navSections} />}
+    >
+      {introSection}
 
-      <div className={styles.layout}>
-        <div className={styles['nav-wrapper']}>
-          <DesktopSideNav sections={navSections} />
-        </div>
-
-        <div className={styles['main-content']}>
-          {introSection}
-
-          <div className={styles['content-wrapper']}>
-            {filteredWork.length > 0 && (
-              <>
-                {featuredWebProjects.length > 0 && (
-                  <section id="section-featured" className={styles['fade-slide-enter']}>
-                    <div className={styles['section-heading-row']}>
-                      <SectionHeader title={featuredProjectsTitle} />
-                    </div>
-                    <ProjectSpotlightList
-                      experiences={featuredWebProjects}
-                      labels={labels}
-                      variant="spotlight"
-                      skillLimit={6}
-                    />
-                  </section>
-                )}
-
-                <section id="section-work" className={styles['fade-slide-enter']}>
-                  <div className={styles['section-heading-row']}>
-                    <SectionHeader title={labels.sectionWork} />
-                  </div>
-                  <WorkAccordion experiences={filteredWork} locale={data.locale} />
-                </section>
-              </>
+      <div className={styles['content-wrapper']}>
+        {filteredWork.length > 0 && (
+          <>
+            {featuredWebProjects.length > 0 && (
+              <section id="section-featured" className={styles['fade-slide-enter']}>
+                <div className={styles['section-heading-row']}>
+                  <SectionHeader title={featuredProjectsTitle} />
+                </div>
+                <ProjectSpotlightList
+                  experiences={featuredWebProjects}
+                  labels={labels}
+                  variant="spotlight"
+                  skillLimit={6}
+                />
+              </section>
             )}
 
-            <section id="section-skills" className={styles['fade-slide-enter']}>
+            <section id="section-work" className={styles['fade-slide-enter']}>
               <div className={styles['section-heading-row']}>
-                <SectionHeader title={labels.sectionSkills} />
+                <SectionHeader title={labels.sectionWork} />
               </div>
-              {resumeData.skills && (
-                <BentoSkills locale={data.locale} skills={resumeData.skills} />
-              )}
+              <WorkAccordion experiences={filteredWork} locale={data.locale} />
             </section>
+          </>
+        )}
 
-            {filteredProjects.length > 0 && (
-              <section id="section-projects" className={styles['fade-slide-enter']}>
-                <div className={styles['section-heading-row']}>
-                  <SectionHeader title={labels.sectionAwards} />
-                </div>
-                <ProjectSpotlightList experiences={filteredProjects} labels={labels} variant="resume" />
-              </section>
-            )}
-
-            {filteredArchives.length > 0 && (
-              <section id="section-archives" className={styles['fade-slide-enter']}>
-                <div className={styles['section-heading-row']}>
-                  <SectionHeader title={labels.sectionArchives} />
-                </div>
-                <ProjectSpotlightList experiences={filteredArchives} labels={labels} variant="resume" />
-              </section>
-            )}
-
-            {educationSection}
+        <section id="section-skills" className={styles['fade-slide-enter']}>
+          <div className={styles['section-heading-row']}>
+            <SectionHeader title={labels.sectionSkills} />
           </div>
-        </div>
+          {resumeData.skills && <BentoSkills locale={data.locale} skills={resumeData.skills} />}
+        </section>
+
+        {filteredProjects.length > 0 && (
+          <section id="section-projects" className={styles['fade-slide-enter']}>
+            <div className={styles['section-heading-row']}>
+              <SectionHeader title={labels.sectionAwards} />
+            </div>
+            <ProjectSpotlightList experiences={filteredProjects} labels={labels} variant="resume" />
+          </section>
+        )}
+
+        {filteredArchives.length > 0 && (
+          <section id="section-archives" className={styles['fade-slide-enter']}>
+            <div className={styles['section-heading-row']}>
+              <SectionHeader title={labels.sectionArchives} />
+            </div>
+            <ProjectSpotlightList experiences={filteredArchives} labels={labels} variant="resume" />
+          </section>
+        )}
+
+        {educationSection}
       </div>
-    </article>
+    </PortfolioContentLayout>
   );
 }
