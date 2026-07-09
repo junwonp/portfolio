@@ -7,7 +7,15 @@ export const mndExcelViewerDetailContent: Record<Language, ProjectDetailBlock[]>
       id: 'mnd-excel-viewer-en-01',
       type: 'markdown',
       markdown:
-        '## Project overview\n\n**"Thousands of rows without jank — spreadsheet-like grids and line-based text in the browser"**\n\nI built a **spreadsheet-style grid** on `react-table` plus a **line-based text viewer** in one package, with drag **2D range selection**, multiple regions, and virtualization. Containers own interaction while base components focus on rendering, keeping testing and extension straightforward.\n\n> For security and confidentiality I cannot share the work context or original repository; this page covers implementation only. Code snippets are reconstructed excerpts.\n\n**Public scale summary:** the viewer covered two document modes — an Excel-like grid and a line-based text reader. Without exposing original data, I validated virtual scrolling, selection anchors, and heavy-document rendering with **reconstructed fixtures of 1,000+ rows**. The main interaction model combined rectangular cell selection, reverse text-range normalization, multi-region highlights, and Socket.IO-based shared annotations.\n\n<MndExcelViewerDiagram locale={props.locale} />',
+        '## Project overview\n\n**"Thousands of rows without jank — spreadsheet-like grids and line-based text in the browser"**\n\nI built a **spreadsheet-style grid** on `react-table` plus a **line-based text viewer** in one package, with drag **2D range selection**, multiple regions, and virtualization. Containers own interaction while base components focus on rendering, keeping testing and extension straightforward.\n\n> For security and confidentiality I cannot share the work context or original repository; this page covers implementation only. Code snippets are reconstructed excerpts.\n\n**Public scale summary:** the viewer covered two document modes — an Excel-like grid and a line-based text reader. Without exposing original data, I validated virtual scrolling, selection anchors, and heavy-document rendering with **reconstructed fixtures of 1,000+ rows**. The main interaction model combined rectangular cell selection, reverse text-range normalization, multi-region highlights, and Socket.IO-based shared annotations.',
+    },
+    {
+      id: 'mnd-excel-viewer-en-diagram',
+      type: 'mermaid',
+      eyebrow: 'System flow',
+      title: 'Restricted document viewer flow',
+      chart:
+        'flowchart TD\n  1["1. Restricted intranet\\nNo public services or production data in local development"] --> 2["2. Mock socket layer\\nSame event contract as Socket.IO for offline UI validation"]\n  2 --> 3["3. Viewer containers\\nOwn state, range selection, popovers, and collaboration events"]\n  3 --> 4["4. Virtualized renderers\\nGrid rows via react-window; variable text lines via react-virtualized"]',
     },
     {
       id: 'mnd-excel-viewer-en-02',
@@ -81,7 +89,15 @@ export const mndExcelViewerDetailContent: Record<Language, ProjectDetailBlock[]>
       id: 'mnd-excel-viewer-ko-01',
       type: 'markdown',
       markdown:
-        '## 프로젝트 소개\n\n**"수천 행도 끊기지 않게, 엑셀에 가까운 그리드와 텍스트를 브라우저에서"**\n\n`react-table` 기반의 **스프레드시트형 그리드**와 **줄 단위 텍스트 뷰어**를 한 패키지로 구성하고, 드래그로 **2D 영역 선택**·다중 영역·가상 스크롤까지 묶었습니다. 컨테이너와 렌더링 베이스를 나누어 테스트와 확장에 유리하게 두었습니다.\n\n> 보안 및 비공개 정책상 업무 맥락과 원본 저장소는 공개할 수 없으며, 이 글은 구현 기술만 정리합니다. 코드 스니펫은 재구성한 발췌입니다.\n\n**공개 가능한 규모 요약:** 뷰어는 엑셀형 그리드와 줄 단위 텍스트 리더라는 두 가지 문서 모드를 다뤘습니다. 원본 데이터는 공개하지 않고, **1,000행 이상 재구성 Fixture**로 가상 스크롤, 선택 앵커, 대용량 렌더링 흐름을 검증했습니다. 핵심 상호작용은 직사각형 셀 선택, 역방향 텍스트 범위 정규화, 다중 하이라이트 영역, Socket.IO 기반 공유 주석 흐름으로 구성했습니다.\n\n<MndExcelViewerDiagram locale={props.locale} />',
+        '## 프로젝트 소개\n\n**"수천 행도 끊기지 않게, 엑셀에 가까운 그리드와 텍스트를 브라우저에서"**\n\n`react-table` 기반의 **스프레드시트형 그리드**와 **줄 단위 텍스트 뷰어**를 한 패키지로 구성하고, 드래그로 **2D 영역 선택**·다중 영역·가상 스크롤까지 묶었습니다. 컨테이너와 렌더링 베이스를 나누어 테스트와 확장에 유리하게 두었습니다.\n\n> 보안 및 비공개 정책상 업무 맥락과 원본 저장소는 공개할 수 없으며, 이 글은 구현 기술만 정리합니다. 코드 스니펫은 재구성한 발췌입니다.\n\n**공개 가능한 규모 요약:** 뷰어는 엑셀형 그리드와 줄 단위 텍스트 리더라는 두 가지 문서 모드를 다뤘습니다. 원본 데이터는 공개하지 않고, **1,000행 이상 재구성 Fixture**로 가상 스크롤, 선택 앵커, 대용량 렌더링 흐름을 검증했습니다. 핵심 상호작용은 직사각형 셀 선택, 역방향 텍스트 범위 정규화, 다중 하이라이트 영역, Socket.IO 기반 공유 주석 흐름으로 구성했습니다.',
+    },
+    {
+      id: 'mnd-excel-viewer-ko-diagram',
+      type: 'mermaid',
+      eyebrow: '시스템 흐름',
+      title: '제한망 문서 뷰어 흐름',
+      chart:
+        'flowchart TD\n  1["1. 제한망 인트라넷\\n로컬 개발에서 외부 서비스와 운영 데이터를 사용하지 않음"] --> 2["2. Mock 소켓 레이어\\nSocket.IO와 동일한 이벤트 계약으로 오프라인 UI 검증"]\n  2 --> 3["3. 뷰어 컨테이너\\n상태, 영역 선택, Popover, 협업 이벤트를 담당"]\n  3 --> 4["4. 가상화 렌더러\\n그리드는 react-window, 가변 텍스트 줄은 react-virtualized"]',
     },
     {
       id: 'mnd-excel-viewer-ko-02',
