@@ -23,7 +23,7 @@ const TAG_REGEX = /<\/?([a-z][a-z0-9-]*)(\s[^<>]*?)?\s*\/?>/gi;
 
 const escapeHtml = (value: string) =>
   value
-    .replaceAll('&', '&amp;')
+    .replace(/&(?!(#[0-9]+|[a-zA-Z]+);)/g, '&amp;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')

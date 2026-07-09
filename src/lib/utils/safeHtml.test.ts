@@ -34,4 +34,12 @@ describe('sanitizeProjectHtml', () => {
       ),
     ).toBe('&lt;script&gt;alert(1)&lt;/script&gt;&lt;iframe src=&quot;/x&quot;&gt;&lt;/iframe&gt;');
   });
+
+  it('does not double-escape existing HTML entities', () => {
+    expect(
+      sanitizeProjectHtml(
+        '<code>import _ from &#39;lodash&#39;;</code>',
+      ),
+    ).toBe('<code>import _ from &#39;lodash&#39;;</code>');
+  });
 });

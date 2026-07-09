@@ -132,7 +132,13 @@ const renderTable = (lines: string[]): string | null => {
     '</tr></thead><tbody>',
     rows
       .map(
-        (row) => `<tr>${row.map((cell) => `<td>${renderInlineMarkdown(cell)}</td>`).join('')}</tr>`,
+        (row) =>
+          `<tr>${row
+            .map(
+              (cell, index) =>
+                `<td data-label="${escapeHtml(headers[index] ?? '')}">${renderInlineMarkdown(cell)}</td>`,
+            )
+            .join('')}</tr>`,
       )
       .join(''),
     '</tbody></table>',
@@ -185,6 +191,13 @@ export const renderEditableMarkdown = (markdown: string): string => {
   return blocks
     .map((block) => {
       const lines = block.split('\n').map((line) => line.trim());
+
+      const isBlockquote = lines.every((line) => line.startsWith('>'));
+      if (isBlockquote) {
+        const innerLines = lines.map((line) => line.replace(/^>\s*/, ''));
+        return `<blockquote>${innerLines.map(renderInlineMarkdown).join('<br>')}</blockquote>`;
+      }
+
       const heading = block.match(/^(#{2,3})\s+(.+)$/);
 
       if (heading && lines.length === 1) {

@@ -70,7 +70,15 @@ describe('renderEditableMarkdown', () => {
         '## Flow\n\n- First unordered\n* Second unordered\n\n1. First\n2. Second\n\n| Name | Value |\n| --- | --- |\n| API | 80% |',
       ),
     ).toBe(
-      '<h2>Flow</h2><ul><li>First unordered</li><li>Second unordered</li></ul><ol><li>First</li><li>Second</li></ol><table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody><tr><td>API</td><td>80%</td></tr></tbody></table>',
+      '<h2>Flow</h2><ul><li>First unordered</li><li>Second unordered</li></ul><ol><li>First</li><li>Second</li></ol><table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody><tr><td data-label="Name">API</td><td data-label="Value">80%</td></tr></tbody></table>',
+    );
+  });
+
+  it('renders blockquotes starting with >', () => {
+    expect(
+      renderEditableMarkdown('> This is a blockquote.\n> Second line of blockquote.'),
+    ).toBe(
+      '<blockquote>This is a blockquote.<br>Second line of blockquote.</blockquote>',
     );
   });
 });
