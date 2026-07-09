@@ -108,9 +108,10 @@
   letter-spacing: -0.03em;
   line-height: 1.1;
   margin-bottom: 12px;
+  max-width: 100%;
   color: var(--color-bold);
   overflow-wrap: anywhere;
-  word-break: keep-all;
+  word-break: break-word;
 }
 
 .hero-tagline {
@@ -139,6 +140,27 @@
 
 .project-article {
   margin-bottom: 56px;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.project-article :global(h2),
+.project-article :global(h3),
+.project-article :global(p),
+.project-article :global(li),
+.project-article :global(blockquote),
+.project-article :global(strong),
+.project-article :global(code) {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.project-article :global(pre),
+.project-article :global(pre code) {
+  white-space: pre-wrap;
 }
 
 .editable-detail-section {
@@ -182,7 +204,8 @@
   .hero-tagline,
   .project-article :global(p),
   .project-article :global(li) {
-    word-break: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .hero {
@@ -243,13 +266,6 @@
   border-bottom-right-radius: 11px;
 }
 
-@media (max-width: 576px) {
-  .project-article :global(table) {
-    display: block;
-    overflow-x: auto;
-  }
-}
-
 .project-article :global(thead) {
   background: var(--color-table-bg);
 }
@@ -280,4 +296,53 @@
 
 .project-article :global(tr:last-child td) {
   border-bottom: 0;
+}
+
+@media (max-width: 576px) {
+  .project-article :global(table) {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    display: block;
+    overflow: visible;
+  }
+
+  .project-article :global(thead) {
+    display: none;
+  }
+
+  .project-article :global(tbody) {
+    display: grid;
+    gap: 10px;
+  }
+
+  .project-article :global(tr) {
+    background: var(--color-basic-bg);
+    border: 1px solid var(--color-table-border);
+    border-radius: 12px;
+    display: block;
+    overflow: hidden;
+  }
+
+  .project-article :global(td) {
+    border-right: 0;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: minmax(92px, 35%) minmax(0, 1fr);
+    min-width: 0;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .project-article :global(td)::before {
+    color: var(--color-sub);
+    content: attr(data-label);
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .project-article :global(td:last-child) {
+    min-width: 0;
+  }
 }

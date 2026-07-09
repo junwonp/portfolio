@@ -341,9 +341,9 @@ code {
     'liga' 1,
     'calt' 1;
   background-color: var(--color-inline-bg);
-  padding: 0.15em 0.2em;
+  padding: 0.08em 0.25em;
   border-radius: 4px;
-  font-size: 0.9em;
+  font-size: 0.85em;
   color: var(--color-inline-code);
 }
 
@@ -457,6 +457,7 @@ blockquote {
   color: var(--color-quoted);
   margin: var(--space-sm) 0;
   padding: var(--space-xs) var(--space-sm);
+  line-height: 1.7;
 }
 
 article img {

@@ -307,7 +307,10 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
 }
 
 .dot.active {
