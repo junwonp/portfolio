@@ -7,7 +7,7 @@ export const nextjsPortfolioDetailContent: Record<Language, ProjectDetailBlock[]
       id: 'nextjs-portfolio-en-01',
       type: 'markdown',
       markdown:
-        '## Project overview\n\n**"Maximizing Edge Potential with Next.js App Router and Cloudflare Workers"**\n\nThis project details the migration of a portfolio website to **Cloudflare Workers** using **Next.js App Router** (compiled via **Vinext** for Edge runtime compatibility). Dynamic routing, multi-region database operations via **Cloudflare D1 (SQLite)**, assets via **R2**, and global caching via **KV** are all bound natively, establishing a fast, hybrid serverless web application that delivers server-side rendering (SSR) at Edge-native speeds.',
+        '## Project overview\n\nA personal portfolio website built by combining the **Next.js App Router** framework and the **Cloudflare Workers** edge environment. It uses the **Vinext** toolchain for edge runtime compatibility. Dynamic routing, multi-region database operations via **Cloudflare D1 (SQLite)**, **R2** media assets, and global caching via **KV** are natively bound to deliver server-side rendering (SSR) at Edge-native speeds.',
     },
     {
       id: 'nextjs-portfolio-en-02',
@@ -27,39 +27,39 @@ export const nextjsPortfolioDetailContent: Record<Language, ProjectDetailBlock[]
           accent: true,
           title: 'Hybrid UX: Combining Résumé and Portfolio',
           detail:
-            'Instead of a generic blog format or a heavy single-page app, the home screen is designed as a dense **résumé** for quick scanning, while deep-dive details are rendered from dynamically editable retrospectives. The Next.js edge engine delivers localized HTML instantly without hydration delay.',
+            'Instead of a generic blog format or a heavy single-page app, the home screen is designed as a dense **résumé** for quick scanning, while deep-dive details are rendered from Markdown-like dynamically editable retrospectives. The Next.js edge engine delivers localized HTML instantly without hydration delay.',
         },
         {
           tag: 'i18n & Performance',
           accent: true,
           title: 'Edge-Based Zero-Delay i18n & Cache Optimization',
           detail:
-            'To eliminate layout shifts or wrong-language flashes, the edge middleware detects cookies and the `Accept-Language` header to serve Next.js pre-rendered HTML instantly. Achieved an ultra-fast First Contentful Paint (FCP) of **192ms** and a Lighthouse Performance score of 97.',
+            'To eliminate layout shifts or wrong-language flashes, the edge middleware detects cookies and the `Accept-Language` header to serve localized Next.js HTML on the first response. Instead of relying on outdated baseline numbers, I established a continuous verification and measurement system to validate performance metrics on every new deployment.',
         },
         {
           tag: 'Cloudflare Integration',
           title: 'Full-Stack Serverless Binding (D1, R2, KV)',
           detail:
-            'Bound Cloudflare D1 (SQLite) for admin data writes, R2 for project screenshots, and KV for fast static-asset routing, proving that a complex full-stack Next.js app can run seamlessly within a single Worker.',
+            'Bound Cloudflare D1 (SQLite) for admin data writes, R2 for project screenshots, and KV for fast static-asset routing to ensure a complex full-stack Next.js app runs seamlessly within a single Worker.',
         },
         {
           tag: 'RSC & Bundle Optimization',
           accent: true,
           title: 'Islands Architecture & JS Bundle Size Reduction',
           detail:
-            'Avoided rendering-blocking hydration on the client side by dynamic-importing heavy client-side visualization dependencies (e.g., Mermaid.js) only when needed. This reduced the initial client-side JS bundle size by **~80% (approx. 860KB)**.',
+            'Avoided rendering-blocking hydration on the client side by dynamic-importing heavy visualization dependencies such as Mermaid.js only when needed. This keeps non-critical visualization runtime out of the first-load path, while bundle changes are verified from current build output instead of reused as stale fixed numbers.',
         },
         {
           tag: 'Security & Admin CMS',
           title: 'Cloudflare Access Integration & Real-time CMS',
           detail:
-            'Created a secure, in-browser content editor integrated with Cloudflare Access. By connecting it with D1 and KV, content changes are dynamically updated on the production site in **under 0.5 seconds**, bypassing the traditional **2-minute git-build-deploy process**.',
+            'Created an in-browser content editor integrated with Cloudflare Access. By connecting it with D1 and KV invalidation, content changes can be reflected at runtime without going through the traditional markdown-edit, build, and deploy loop.',
         },
         {
-          tag: 'AI-Agent Integration',
-          title: 'Multi-Agent Orchestration & DX Optimization',
+          tag: 'Workflow',
+          title: 'Verification-first development workflow',
           detail:
-            'Configured a robust developer workspace by defining specialized **custom agents** using **Claude Code**. The system aligns multiple agents with clear project guidelines in `AGENTS.md` and uses `Vitest` to enforce content integrity across translations.',
+            'Tied project rules, content SSOT, type checks, Vitest, and browser inspection into a repeatable workflow for catching regressions after content or infrastructure changes. The important claim is not automation by itself, but that each change leaves behind evidence through checks and rendered-page verification.',
         },
       ],
     },
@@ -96,7 +96,7 @@ export const nextjsPortfolioDetailContent: Record<Language, ProjectDetailBlock[]
       id: 'nextjs-portfolio-ko-01',
       type: 'markdown',
       markdown:
-        '## 프로젝트 소개\n\n**"Next.js App Router와 Cloudflare Workers로 극대화하는 에지 컴퓨팅의 잠재력"**\n\n이 프로젝트는 **Next.js App Router** 프레임워크를 **Cloudflare Workers** 에지 환경으로 전환한 과정을 다룹니다. (에지 런타임 호환을 위해 **Vinext** 툴체인 사용) 동적 라우팅, **Cloudflare D1 (SQLite)**을 통한 다중 지역 데이터베이스 연동, **R2** 기반의 미디어 에셋 바인딩, **KV**를 활용한 글로벌 캐싱이 에지 단에서 유기적으로 맞물려 작동하며, 정적 사이트 수준의 속도로 동적 서버 사이드 렌더링(SSR)을 제공합니다.',
+        '## 프로젝트 소개\n\n**Next.js App Router** 프레임워크와 **Cloudflare Workers** 에지 환경을 결합하여 구축한 개인 포트폴리오 사이트입니다. 에지 런타임 호환을 위해 **Vinext** 툴체인을 도입했으며, 동적 라우팅과 **Cloudflare D1 (SQLite)**, **R2** 미디어 에셋 바인딩, **KV** 글로벌 캐싱이 유기적으로 맞물려 작동하여 정적 사이트 수준의 속도로 동적 서버 사이드 렌더링(SSR)을 제공합니다.',
     },
     {
       id: 'nextjs-portfolio-ko-02',
@@ -123,32 +123,32 @@ export const nextjsPortfolioDetailContent: Record<Language, ProjectDetailBlock[]
           accent: true,
           title: '엣지 기반 무지연 다국어 대응 및 캐시 최적화',
           detail:
-            '다국어 제공 시 프론트엔드 단에서 발생하는 화면 깜빡임(Flicker)을 제거하기 위해, 엣지 미들웨어에서 쿠키와 `Accept-Language`를 분석하여 첫 응답부터 알맞은 언어로 완성된 Next.js HTML을 전송합니다. **192ms**의 초고속 FCP(First Contentful Paint)와 Lighthouse Performance 97점을 확보했습니다.',
+            '다국어 제공 시 프론트엔드 단에서 발생하는 화면 깜빡임(Flicker)을 제거하기 위해, 엣지 미들웨어에서 쿠키와 `Accept-Language`를 분석하여 첫 응답부터 알맞은 언어로 완성된 Next.js HTML을 전송합니다. 단순히 과거의 특정 수치에 의존하기보다, 실시간으로 최신 배포의 성능을 검증하고 유지할 수 있는 측정 기반의 최적화 체계를 구축했습니다.',
         },
         {
           tag: 'Cloudflare Integration',
           title: '풀스택 서버리스 바인딩 (D1, R2, KV)',
           detail:
-            '관리자 페이지 데이터 및 콘텐츠 재정의를 위한 Cloudflare D1(SQLite), 프로젝트 스크린샷 저장을 위한 R2, 정적 에셋 라우팅을 위한 KV를 바인딩하여 복잡한 풀스택 Next.js 애플리케이션이 하나의 Workers 인프라에서 부드럽게 구동됨을 입증했습니다.',
+            '관리자 페이지 데이터 및 콘텐츠 재정의를 위한 Cloudflare D1(SQLite), 프로젝트 스크린샷 저장을 위한 R2, 정적 에셋 라우팅을 위한 KV를 바인딩하여 복잡한 풀스택 Next.js 애플리케이션이 하나의 Workers 인프라에서 부드럽게 구동되도록 구현했습니다.',
         },
         {
           tag: 'RSC & Bundle Optimization',
           accent: true,
           title: 'Islands 아키텍처 도입 및 JS 번들 크기 경량화',
           detail:
-            'Mermaid.js 등 대용량 클라이언트 시각화 라이브러리를 동적 임포트(Dynamic Import)로 필요 시점에만 비동기 로딩(Islands)하도록 설계했습니다. 이를 통해 초기 클라이언트 JS 번들 크기를 **약 80%(~860KB)** 줄이고 로딩 성능을 획기적으로 개선했습니다.',
+            'Mermaid.js 등 대용량 클라이언트 시각화 라이브러리를 동적 임포트(Dynamic Import)로 필요 시점에만 비동기 로딩(Islands)하도록 설계했습니다. 첫 화면에서 필요하지 않은 시각화 런타임을 분리해 초기 로딩 경로를 가볍게 유지하고, 번들 변화는 빌드 결과를 기준으로 다시 검증할 수 있게 관리합니다.',
         },
         {
           tag: 'Security & Admin CMS',
           title: 'Cloudflare Access 연동 및 실시간 콘텐츠 에디터',
           detail:
-            'Cloudflare Access 권한 제어 연동을 통해 브라우저에서 직접 데이터를 수정할 수 있는 안전한 관리자 웹 에디터를 구현했습니다. D1 데이터베이스 및 KV 캐시 무효화를 결합하여, 기존 마크다운 파일 수정-빌드-배포(약 2분 소요) 프로세스를 **0.5초 이내 즉시 반영**되도록 개편했습니다.',
+            'Cloudflare Access 권한 제어 연동을 통해 브라우저에서 직접 데이터를 수정할 수 있는 관리자 웹 에디터를 구현했습니다. D1 데이터베이스 및 KV 캐시 무효화를 결합하여, 기존 마크다운 파일 수정-빌드-배포 흐름을 거치지 않고 런타임에서 콘텐츠를 반영하는 구조로 개편했습니다.',
         },
         {
-          tag: 'AI-Agent Integration',
-          title: 'AI 에이전트 다중 협업 및 DX 최적화',
+          tag: 'Workflow',
+          title: '검증 중심 개발 워크플로우',
           detail:
-            '**Claude Code**와 커스텀 에이전트 규칙(`AGENTS.md`)을 설계하여 개발 환경의 완성도를 높였습니다. 다수의 자율 에이전트가 충돌 없이 효율적으로 기능 개발과 리팩토링을 수행하며, `Vitest` 무결성 테스트를 통해 다국어 번역 리소스의 완벽한 대칭성을 상시 검증합니다.',
+            '프로젝트 규칙, 콘텐츠 SSOT, 타입 체크, Vitest, 브라우저 확인을 묶어 수정 후 회귀를 빠르게 확인하는 흐름을 만들었습니다. 특히 다국어 메타데이터와 상세 콘텐츠가 한쪽 언어만 어긋나지 않도록 테스트와 카탈로그 검증을 유지합니다.',
         },
       ],
     },

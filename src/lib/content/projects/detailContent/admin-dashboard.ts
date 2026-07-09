@@ -62,7 +62,7 @@ export const adminDashboardDetailContent: Record<Language, ProjectDetailBlock[]>
       id: 'admin-dashboard-en-06',
       type: 'markdown',
       markdown:
-        '## What this project demonstrates\n\nThis is not a public-facing product case study. Its value in the portfolio is showing that I can build the type of internal product companies often need: dense tables, filters, forms, charts, and repeatable operational workflows. Those surfaces are less flashy than consumer UI, but they require careful state management, predictable interactions, and maintainable component boundaries.\n\n## Retrospective\n\nThe main lesson was that admin dashboards become expensive when every page invents its own table, filter, and mutation behavior. Treating those screens as a shared product surface made the code easier to extend and made the UI more consistent for internal users.',
+        '## Retrospective\n\nThis project is less of a public-facing case study and more about demonstrating the ability to build reliable, high-density internal tools. While internal surfaces like tables, filters, forms, and charts may be less flashy than consumer UIs, they demand strict state management, predictable interactions, and clear component boundaries.\n\nI learned that admin dashboards can quickly become expensive to maintain if every new page invents its own table, filter, or mutation logic. Treating these internal tools as a unified product surface with shared patterns was essential for keeping the codebase scalable and the user experience consistent.',
     },
   ],
   ko: [
@@ -125,7 +125,7 @@ export const adminDashboardDetailContent: Record<Language, ProjectDetailBlock[]>
       id: 'admin-dashboard-ko-06',
       type: 'markdown',
       markdown:
-        '## 이 프로젝트가 보여주는 것\n\n이 프로젝트는 공개 사용자용 제품 사례라기보다, 회사 내부에서 자주 필요한 운영 제품을 만들 수 있다는 신호에 가깝습니다. 복잡한 테이블, 필터, 폼, 차트, 반복 가능한 운영 플로우는 소비자용 UI보다 덜 화려하지만, 상태 관리와 상호작용의 예측 가능성, 유지보수 가능한 컴포넌트 경계가 중요합니다.\n\n## 회고\n\n관리자 대시보드는 각 페이지가 별도의 테이블, 필터, mutation 흐름을 가지기 시작하면 빠르게 유지보수 비용이 커집니다. 이 프로젝트를 통해 관리자 화면도 하나의 제품 표면으로 보고 공통 패턴을 잡는 것이 확장성과 사용성 모두에 중요하다는 점을 배웠습니다.',
+        '## 회고\n\n이 프로젝트는 공개 사용자용 제품 사례라기보다, 회사 내부에서 자주 필요한 운영 도구를 안정적으로 구축할 수 있음을 보여주는 사례입니다. 복잡한 테이블, 필터, 폼, 차트 등 내부 시스템은 화려함보다 상태 관리의 예측 가능성과 유지보수 가능한 컴포넌트 경계가 더 중요하기 때문입니다.\n\n특히 페이지가 늘어남에 따라 각 화면이 독자적인 테이블과 필터, Mutation 흐름을 갖게 되면 유지보수 비용이 급격히 증가합니다. 이를 겪으며 관리자 대시보드 역시 하나의 중요한 제품 표면으로 정의하고, 공통 패턴을 설계하여 확장성과 일관된 사용성을 동시에 확보하는 것이 핵심임을 배웠습니다.',
     },
   ],
 };

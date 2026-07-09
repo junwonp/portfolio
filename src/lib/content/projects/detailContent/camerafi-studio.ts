@@ -7,7 +7,7 @@ export const camerafiStudioDetailContent: Record<Language, ProjectDetailBlock[]>
       id: 'camerafi-studio-en-01',
       type: 'markdown',
       markdown:
-        '## Project overview\n\n**"From Solo Project to Core Business Model"**\n\nCameraFi Studio is a production web SaaS that lets users apply overlays — scoreboards, subtitles, and more — to sports matches or broadcast feeds. Starting as a **solo developer, I designed the frontend architecture from scratch** and grew the project into the company\'s second main revenue stream.\n\nThe product covered the full web-service surface area: overlay editing, authenticated dashboards, global **Internationalization (i18n)**, subscription checkout, webhook-based renewal handling, and cookie consent flows. I also improved web application performance through **Webpack configuration optimization**.',
+        '## Project overview\n\n**"From Solo Project to Core Business Model"**\n\nCameraFi Studio is a production web SaaS that lets users apply overlays — scoreboards, subtitles, and more — to sports matches or broadcast feeds. Starting as a **solo developer, I designed the frontend architecture from scratch** and grew the project into the company\'s second main revenue stream.\n\nThe product covered the full web-service surface area: overlay editing, authenticated dashboards, global **Internationalization (i18n)**, subscription checkout, webhook-based renewal handling, and cookie consent flows. I also improved web application performance through **Webpack configuration optimization**.\n\nThe live link is provided for reference, and the current UI may differ from the version I developed. Instead of outdated screenshots, this page captures the specific features and Webpack optimization metrics from the time of the implementation.',
     },
     {
       id: 'camerafi-studio-en-02',
@@ -68,7 +68,7 @@ export const camerafiStudioDetailContent: Record<Language, ProjectDetailBlock[]>
       id: 'camerafi-studio-ko-01',
       type: 'markdown',
       markdown:
-        '## 프로젝트 소개\n\n**"1인 프로젝트에서 사내 핵심 비즈니스 모델로"**\n\nCameraFi Studio는 스포츠 경기나 방송 송출 화면에 점수판, 자막 등의 오버레이를 입힐 수 있는 프로덕션 웹 SaaS입니다. 초기 기획 단계부터 **1인 개발로 시작하여 프론트엔드 아키텍처를 직접 설계**하고, 이후 사내 두 번째 메인 수익 모델로 성장시킨 프로젝트입니다.\n\n제품 범위는 오버레이 에디터, 인증 대시보드, 글로벌 **국제화(i18n)**, 구독 결제, 웹훅 기반 갱신 처리, 쿠키 동의 플로우까지 포함했습니다. 또한 **Webpack 설정 최적화**를 통해 웹 애플리케이션의 성능을 개선했습니다.',
+        '## 프로젝트 소개\n\n**"1인 프로젝트에서 사내 핵심 비즈니스 모델로"**\n\nCameraFi Studio는 스포츠 경기나 방송 송출 화면에 점수판, 자막 등의 오버레이를 입힐 수 있는 프로덕션 웹 SaaS입니다. 초기 기획 단계부터 **1인 개발로 시작하여 프론트엔드 아키텍처를 직접 설계**하고, 이후 사내 두 번째 메인 수익 모델로 성장시킨 프로젝트입니다.\n\n제품 범위는 오버레이 에디터, 인증 대시보드, 글로벌 **국제화(i18n)**, 구독 결제, 웹훅 기반 갱신 처리, 쿠키 동의 플로우까지 포함했습니다. 또한 **Webpack 설정 최적화**를 통해 웹 애플리케이션의 성능을 개선했습니다.\n\n현재 서비스 링크는 참고용으로 제공되며, 운영 상황에 따라 최신 UI는 변경되었을 수 있습니다. 이에 따라 상세 페이지에는 프로젝트 진행 당시 구현한 기능 범위와 Webpack 번들 최적화 지표를 기록해 두었습니다.',
     },
     {
       id: 'camerafi-studio-ko-02',

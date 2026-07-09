@@ -50,7 +50,12 @@ summaryDetails:
 import ProjectAchievements from '@/lib/components/ProjectAchievements';
 import ProjectLightbox from '@/lib/components/ProjectLightbox';
 import ProjectTechStack from '@/lib/components/ProjectTechStack';
-import MndExcelViewerDiagram from '@/lib/components/MndExcelViewerDiagram';
+import MermaidDiagram from '@/lib/components/MermaidDiagram';
+
+export const viewerChart = `flowchart TD
+  1["1. 제한망 인트라넷<br/>로컬 개발에서 외부 서비스와 운영 데이터를 사용하지 않음"] --> 2["2. Mock 소켓 레이어<br/>Socket.IO와 동일한 이벤트 계약으로 오프라인 UI 검증"]
+  2 --> 3["3. 뷰어 컨테이너<br/>상태, 영역 선택, Popover, 협업 이벤트를 담당"]
+  3 --> 4["4. 가상화 렌더러<br/>그리드는 react-window, 가변 텍스트 줄은 react-virtualized"]`;
 
 ## 프로젝트 소개
 
@@ -62,7 +67,11 @@ import MndExcelViewerDiagram from '@/lib/components/MndExcelViewerDiagram';
 
 **공개 가능한 규모 요약:** 뷰어는 엑셀형 그리드와 줄 단위 텍스트 리더라는 두 가지 문서 모드를 다뤘습니다. 원본 데이터는 공개하지 않고, **1,000행 이상 재구성 Fixture**로 가상 스크롤, 선택 앵커, 대용량 렌더링 흐름을 검증했습니다. 핵심 상호작용은 직사각형 셀 선택, 역방향 텍스트 범위 정규화, 다중 하이라이트 영역, Socket.IO 기반 공유 주석 흐름으로 구성했습니다.
 
-<MndExcelViewerDiagram locale={props.locale} />
+<MermaidDiagram
+  chart={viewerChart}
+  eyebrow="시스템 흐름"
+  title="제한망 문서 뷰어 흐름"
+/>
 
 <ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
 

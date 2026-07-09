@@ -13,7 +13,9 @@ image: '/images/today-weather/web-home.png'
 platforms: ['Web', 'iOS', 'Android']
 metrics:
   [
-    { value: '80%+', label: 'API Load Reduced' },
+    { value: '216', label: 'Passing tests' },
+    { value: '3', label: 'Shared surfaces' },
+    { value: 'icn1', label: 'Server region' },
   ]
 techStack:
   [
@@ -29,20 +31,13 @@ techStack:
     'Swift',
     'Vitest',
   ]
-featuredSkills:
-  [
-    'TypeScript',
-    'Next.js',
-    'TanStack Query',
-    'Upstash',
-    'Vitest',
-  ]
+featuredSkills: ['TypeScript', 'Next.js', 'TanStack Query', 'Upstash', 'Vitest']
 summaryDetails:
   [
-    '**[Edge-Optimized Cache]** Implemented a serverless caching strategy using **Upstash Redis** on Vercel icn1 (Seoul) region, reducing upstream API load by 80%.',
+    '**[Edge-Optimized Cache]** Built a serverless cache path with **Upstash Redis TTL caching** on Vercel icn1 (Seoul), reducing duplicate upstream calls for the same coordinate and time window.',
     '**[Advanced Native Integration]** Built iOS native widgets using **Swift** and `@bacons/apple-targets`, synchronizing real-time weather data between the web app and home screen.',
     '**[Modern Tech Stack]** Leveraged **Next.js 16 (App Router)** and **React 19** with the **React Compiler** for optimal performance without manual memoization.',
-    '**[Agentic Orchestration]** Developed using an advanced AI workflow, utilizing **MCP** to provide the AI agent with real-time documentation and system context for precise implementation.',
+    '**[Verification Evidence]** Ran `pnpm test` across web/shared/mobile with **15 test files / 216 passing tests**, and confirmed `pnpm typecheck` passes.',
   ]
 ---
 
@@ -71,13 +66,19 @@ Existing weather apps share three frustrations: global data sources that miss Ko
     {
       tag: 'Performance',
       accent: true,
-      title: 'Edge-optimized backend + Upstash Redis caching (80%+ load reduction)',
-      detail: `Korean public APIs (KMA, Air Korea) block requests from non-Korean IP addresses. Fixed the Vercel serverless execution region to <strong>icn1 (Seoul)</strong> to resolve this at the infrastructure level. Layered <strong>Upstash Redis</strong> in front of both APIs with a 30-minute TTL, batching rapid user requests into a single upstream call per window. This reduced upstream API load by over 80% and cut p99 response latency significantly.`,
+      title: 'Edge-optimized backend + Upstash Redis TTL caching',
+      detail: `Korean public APIs (KMA, Air Korea) block requests from non-Korean IP addresses. Fixed the Vercel serverless execution region to <strong>icn1 (Seoul)</strong> to resolve this at the infrastructure level. Added <strong>Upstash Redis</strong> TTL caches in front of the API routes so repeated requests for the same coordinate and time window do not always hit upstream public APIs. The architecture and test coverage serve as primary validation, and the actual API call reduction rate will be measured using production traffic metrics once deployed.`,
     },
     {
       tag: 'Platform',
       title: 'iOS Home Screen widget via @bacons/apple-targets',
       detail: `Implemented a <strong>Swift-based iOS Home Screen widget</strong> inside the Expo project using <code>@bacons/apple-targets</code>. The widget reads weather data from the same Supabase backend as the app, keeping the widget display synchronized in real time without a separate data pipeline. Combined <strong>Anonymous Auth</strong> with Supabase Edge Functions to deliver personalized weather alerts as push notifications in a fully serverless environment.`,
+    },
+    {
+      tag: 'Quality',
+      accent: true,
+      title: 'Shared domain tests and typecheck passed',
+      detail: `<code>pnpm test</code> passes <strong>15 test files / 216 tests</strong>. That includes 127 shared-package tests for weather decisions, outfit recommendation, and notification rules, 49 mobile tests for location and notification storage, and 40 web tests for storage and weather-scene logic. <code>pnpm typecheck</code> also passes across web, mobile, and shared packages.`,
     },
     {
       tag: 'Data',
@@ -115,6 +116,7 @@ On the client, TanStack Query uses a 5-minute default `staleTime`, and only succ
 - The Expo app uses the same shared package and revalidates forecast queries when the app returns to the foreground.
 - The iOS Home Screen widget is implemented as a Swift target inside the Expo project via `@bacons/apple-targets`.
 - Outfit, umbrella, and mask recommendations are calculated by the same shared logic across surfaces.
+- Local verification passes for web/shared/mobile tests and typecheck.
 - Remaining evidence to add: real-device mobile/widget screenshots and deployment-status proof.
 
 ## Screenshots
@@ -135,6 +137,6 @@ On the client, TanStack Query uses a 5-minute default `staleTime`, and only succ
 
 **Latest tech in production:** Navigating the breaking changes in Next.js 16 and React 19 gave me a hands-on understanding of the modern React ecosystem — including where the React Compiler genuinely reduces boilerplate and where it still requires manual guidance.
 
-**Infrastructure constraints:** IP blocking and rate limiting are real problems that documentation rarely prepares you for. Region-pinning serverless functions and Redis caching were the right fixes, and working through them sharpened my instinct for solving infra problems at the right layer.
+**Infrastructure constraints:** IP blocking and rate limiting are real problems that documentation rarely prepares you for. Region-pinning serverless functions and Redis caching were structurally the right fixes, and the exact traffic-reduction percentage will be measured and validated once production traffic data is available.
 
 **Cross-platform abstraction:** Sharing business logic across a web app, a mobile app, and an iOS widget without duplication validated the monorepo design. The shared package pattern is now a default in how I structure multi-platform projects.

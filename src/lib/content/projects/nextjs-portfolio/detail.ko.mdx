@@ -1,32 +1,33 @@
 ---
 id: nextjs_portfolio
 section: other
-dateFrom: '2021-02'
+dateFrom: '2026-04'
 detailPath: /projects/nextjs-portfolio
 icon: null
 paradigm: agentic
 title: Next.js & Cloudflare 포트폴리오
 description: Next.js App Router와 Cloudflare Workers를 사용하여 개발한 고성능 에지 기반 포트폴리오 사이트.
 role: '1인 개발'
-date: '2021-02 ~'
+date: '2026-04 ~'
 image: '/images/nextjs-portfolio/1.webp'
 productLink: 'https://junwon.pages.dev'
 githubLink: 'portfolio'
 platforms: ['Web']
 metrics:
   [
-    { value: '192ms', label: '초기 렌더링 속도 (FCP)' },
-    { value: '-80%', label: 'JS 번들 크기 감소' },
-    { value: '97점', label: 'Lighthouse 성능 점수' },
-    { value: '< 0.5초', label: '실시간 CMS 반영' },
+    { value: '2026-04', label: 'Next.js 구축' },
+    { value: 'D1/R2/KV', label: '에지 바인딩' },
+    { value: '단축 URL', label: '직무 맞춤 링크' },
+    { value: 'CMS', label: '브라우저 편집' },
   ]
 techStack: ['Next.js', 'TypeScript', 'Cloudflare', 'Vitest']
 featuredSkills: ['TypeScript', 'Next.js', 'Cloudflare', 'Vitest']
 summaryDetails:
   [
-    '**[Next.js App Router와 에지]** Next.js App Router를 Cloudflare Workers 에지 단에서 직접 실행하여 **192ms**의 초고속 FCP(First Contentful Paint)와 **161ms**의 전체 페이지 로드 성능을 달성했습니다.',
-    '**[번들 최적화]** Mermaid.js 등 대용량 클라이언트 의존성 라이브러리를 동적 임포트(Dynamic Import)로 지연 로딩하여, 초기 클라이언트 번들 크기를 **약 80%(~860KB)** 경량화하고 초기 로딩 병목을 해결했습니다.',
-    '**[보안 및 CMS 개발]** Cloudflare Access와 D1 데이터베이스를 연동한 실시간 에디터를 구축하여, 기존 마크다운 수정 후 빌드/배포(약 2분 소요) 흐름을 **0.5초 이내 즉시 반영**되도록 개선했습니다.',
+    '**[Next.js 구축]** 2026년 4월부터 Next.js 16 App Router, vinext, Cloudflare Workers 구조로 사이트를 설계하여 운영하고 있습니다.',
+    '**[Cloudflare 풀스택 바인딩]** D1, R2, KV를 Workers 컨텍스트에 묶고 관리자 편집, 분석, 단축 URL, 콘텐츠 override 흐름을 하나의 런타임에서 다룹니다.',
+    '**[직무 맞춤 지원 링크]** 기본 홈 대표 프로젝트는 유지하면서, 단축 URL로 들어온 방문자에게만 첫 노출 프로젝트와 요약 포지셔닝을 바꾸는 지원자용 뷰를 만들었습니다.',
+    '**[검증 중심 운영]** 과거 Lighthouse 숫자보다 현재 저장소의 `vinext check`, TypeScript, Vitest, 브라우저 확인 결과를 기준으로 최신 상태를 설명합니다.',
   ]
 ---
 
@@ -36,9 +37,7 @@ import ProjectTechStack from '@/lib/components/ProjectTechStack';
 
 ## 프로젝트 소개
 
-**"Next.js App Router와 Cloudflare Workers로 극대화하는 에지 컴퓨팅의 잠재력"**
-
-이 프로젝트는 **Next.js App Router** 프레임워크를 **Cloudflare Workers** 에지 환경으로 전환한 과정을 다룹니다. (에지 런타임 호환을 위해 **Vinext** 툴체인 사용) 동적 라우팅, **Cloudflare D1 (SQLite)**을 통한 다중 지역 데이터베이스 연동, **R2** 기반의 미디어 에셋 바인딩, **KV**를 활용한 글로벌 캐싱이 에지 단에서 유기적으로 맞물려 작동하며, 정적 사이트 수준의 속도로 동적 서버 사이드 렌더링(SSR)을 제공합니다.
+**Next.js App Router** 프레임워크와 **Cloudflare Workers** 에지 환경을 결합하여 구축한 개인 포트폴리오 사이트입니다. 에지 런타임 호환을 위해 **Vinext** 툴체인을 도입했으며, 동적 라우팅과 **Cloudflare D1 (SQLite)**, **R2** 미디어 에셋 바인딩, **KV** 글로벌 캐싱이 유기적으로 맞물려 작동하여 정적 사이트 수준의 속도로 동적 서버 사이드 렌더링(SSR)을 제공합니다.
 
 <ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
 
@@ -56,28 +55,28 @@ import ProjectTechStack from '@/lib/components/ProjectTechStack';
       tag: 'i18n & Performance',
       accent: true,
       title: '엣지 기반 무지연 다국어 대응 및 캐시 최적화',
-      detail: `다국어 제공 시 프론트엔드 단에서 발생하는 화면 깜빡임(Flicker)을 제거하기 위해, 엣지 미들웨어에서 쿠키와 <code>Accept-Language</code>를 분석하여 첫 응답부터 알맞은 언어로 완성된 Next.js HTML을 전송합니다. **192ms**의 초고속 FCP(First Contentful Paint)와 Lighthouse Performance 97점을 확보했습니다.`,
+      detail: `다국어 제공 시 프론트엔드 단에서 발생하는 화면 깜빡임(Flicker)을 제거하기 위해, 엣지 미들웨어에서 쿠키와 <code>Accept-Language</code>를 분석하여 첫 응답부터 알맞은 언어로 완성된 Next.js HTML을 전송합니다. 단순히 과거의 특정 수치에 의존하기보다, 실시간으로 최신 배포의 성능을 검증하고 유지할 수 있는 측정 기반의 최적화 체계를 구축했습니다.`,
     },
     {
       tag: 'Cloudflare Integration',
       title: '풀스택 서버리스 바인딩 (D1, R2, KV)',
-      detail: `관리자 페이지 데이터 및 콘텐츠 재정의를 위한 Cloudflare D1(SQLite), 프로젝트 스크린샷 저장을 위한 R2, 정적 에셋 라우팅을 위한 KV를 바인딩하여 복잡한 풀스택 Next.js 애플리케이션이 하나의 Workers 인프라에서 부드럽게 구동됨을 입증했습니다.`,
+      detail: `관리자 페이지 데이터 및 콘텐츠 재정의를 위한 Cloudflare D1(SQLite), 프로젝트 스크린샷 저장을 위한 R2, 정적 에셋 라우팅을 위한 KV를 바인딩하여 복잡한 풀스택 Next.js 애플리케이션이 하나의 Workers 인프라에서 부드럽게 구동되도록 구현했습니다.`,
     },
     {
       tag: 'RSC & Bundle Optimization',
       accent: true,
       title: 'Islands 아키텍처 도입 및 JS 번들 크기 경량화',
-      detail: `Mermaid.js 등 대용량 클라이언트 시각화 라이브러리를 동적 임포트(Dynamic Import)로 필요 시점에만 비동기 로딩(Islands)하도록 설계했습니다. 이를 통해 초기 클라이언트 JS 번들 크기를 **약 80%(~860KB)** 줄이고 로딩 성능을 획기적으로 개선했습니다.`,
+      detail: `Mermaid.js 등 대용량 클라이언트 시각화 라이브러리를 동적 임포트(Dynamic Import)로 필요 시점에만 비동기 로딩(Islands)하도록 설계했습니다. 첫 화면에서 필요하지 않은 시각화 런타임을 분리해 초기 로딩 경로를 가볍게 유지하고, 번들 변화는 빌드 결과를 기준으로 다시 검증할 수 있게 관리합니다.`,
     },
     {
       tag: 'Security & Admin CMS',
       title: 'Cloudflare Access 연동 및 실시간 콘텐츠 에디터',
-      detail: `Cloudflare Access 권한 제어 연동을 통해 브라우저에서 직접 데이터를 수정할 수 있는 안전한 관리자 웹 에디터를 구현했습니다. D1 데이터베이스 및 KV 캐시 무효화를 결합하여, 기존 마크다운 파일 수정-빌드-배포(약 2분 소요) 프로세스를 **0.5초 이내 즉시 반영**되도록 개편했습니다.`,
+      detail: `Cloudflare Access 권한 제어 연동을 통해 브라우저에서 직접 데이터를 수정할 수 있는 관리자 웹 에디터를 구현했습니다. D1 데이터베이스 및 KV 캐시 무효화를 결합하여, 기존 마크다운 파일 수정-빌드-배포 흐름을 거치지 않고 런타임에서 콘텐츠를 반영하는 구조로 개편했습니다.`,
     },
     {
-      tag: 'AI-Agent Integration',
-      title: 'AI 에이전트 다중 협업 및 DX 최적화',
-      detail: `<strong>Claude Code</strong>와 커스텀 에이전트 규칙(AGENTS.md)을 설계하여 개발 환경의 완성도를 높였습니다. 다수의 자율 에이전트가 충돌 없이 효율적으로 기능 개발과 리팩토링을 수행하며, <code>Vitest</code> 무결성 테스트를 통해 다국어 번역 리소스의 완벽한 대칭성을 상시 검증합니다.`,
+      tag: 'Workflow',
+      title: '검증 중심 개발 워크플로우',
+      detail: `프로젝트 규칙, 콘텐츠 SSOT, 타입 체크, Vitest, 브라우저 확인을 묶어 수정 후 회귀를 빠르게 확인하는 흐름을 만들었습니다. 특히 다국어 메타데이터와 상세 콘텐츠가 한쪽 언어만 어긋나지 않도록 테스트와 카탈로그 검증을 유지합니다.`,
     },
   ]}
 />

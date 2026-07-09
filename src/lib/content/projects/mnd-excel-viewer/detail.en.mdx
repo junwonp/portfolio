@@ -50,7 +50,12 @@ summaryDetails:
 import ProjectAchievements from '@/lib/components/ProjectAchievements';
 import ProjectLightbox from '@/lib/components/ProjectLightbox';
 import ProjectTechStack from '@/lib/components/ProjectTechStack';
-import MndExcelViewerDiagram from '@/lib/components/MndExcelViewerDiagram';
+import MermaidDiagram from '@/lib/components/MermaidDiagram';
+
+export const viewerChart = `flowchart TD
+  1["1. Restricted intranet<br/>No public services or production data in local development"] --> 2["2. Mock socket layer<br/>Same event contract as Socket.IO for offline UI validation"]
+  2 --> 3["3. Viewer containers<br/>Own state, range selection, popovers, and collaboration events"]
+  3 --> 4["4. Virtualized renderers<br/>Grid rows via react-window; variable text lines via react-virtualized"]`;
 
 ## Project overview
 
@@ -62,7 +67,11 @@ I built a **spreadsheet-style grid** on `react-table` plus a **line-based text v
 
 **Public scale summary:** the viewer covered two document modes — an Excel-like grid and a line-based text reader. Without exposing original data, I validated virtual scrolling, selection anchors, and heavy-document rendering with **reconstructed fixtures of 1,000+ rows**. The main interaction model combined rectangular cell selection, reverse text-range normalization, multi-region highlights, and Socket.IO-based shared annotations.
 
-<MndExcelViewerDiagram locale={props.locale} />
+<MermaidDiagram
+  chart={viewerChart}
+  eyebrow="System flow"
+  title="Restricted document viewer flow"
+/>
 
 <ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
 

@@ -1,9 +1,20 @@
 ---
-title: AI-assisted Engineering Workflow
-description: A verified AI-assisted engineering workflow built around scoped context, primary agent roles, MCP, code review, tests, and browser validation.
+id: agentic_workflow
+section: other
+detailPath: /projects/agentic-workflow
+paradigm: agentic
+title: Regression Prevention & Automated Verification Workflow
+description: A development workflow focused on regression prevention and code integrity through scoped context, automated testing, lint checks, and browser rendering validation.
 date: '2026-04-22'
 role: 'Workflow Design & Verification'
-techStack: []
+techStack: ['TypeScript', 'Vitest', 'Cloudflare']
+featuredSkills: ['TypeScript', 'Vitest', 'Cloudflare']
+summaryDetails:
+  [
+    '**[Sustainable Guardrails]** Enforced static type checking (tsc), lint checks, and vitest runs on every change to block regression bugs.',
+    '**[Context Isolation]** Removed irrelevant global rules and loaded only scoped context, minimizing uncertainty in code edits.',
+    '**[Design Authority]** Retained full ownership of architectural modeling, business trade-offs, and final diff reviews while automating boilerplates.',
+  ]
 ---
 
 import ProjectAchievements from '@/lib/components/ProjectAchievements';
@@ -16,23 +27,20 @@ export const workflowChart = `flowchart TD
   B --> C["3. Verify<br/>check · lint · test · browser"]
   C --> D["4. Review & commit<br/>Diff review · split commits"]`;
 
-## Project overview
+## Workflow overview
 
-**"Use AI for speed, keep engineering ownership explicit."**
+**"Designing structured regression prevention to guarantee code stability in the age of rapid implementation."**
 
-This workflow is how I use AI tools to move faster on portfolio and product UI work while keeping product judgment, architecture, and final review under my control. It starts from the user-facing outcome and existing code, then constrains the agent with project rules, scoped context, check/lint/test gates, browser verification, and final diff review.
+This workflow is a strict verification system built to maintain **"type integrity, test stability, and browser rendering precision"** in an environment where fast code generation is common. Every change must pass through automated static checks, lint inspections, unit tests, browser UI rendering validation, and a final logical diff review to prevent regression bugs from entering production.
 
-The result is not a tool showcase. It is a repeatable delivery loop for turning AI output into reviewed, tested, and rendered changes that can be defended in an engineering conversation.
-
-Rather than a simple showcase of tool proficiency, this workflow is designed to **control AI's uncertainty (such as hallucinations and unpredictability) through a systematic verification pipeline**, allowing reclaimed engineering resources to be redirected toward high-value domains like high-performance optimization.
+The developer remains the director—focusing on architectural modeling, domain requirements, and business trade-offs—while controlling the verification of mechanical implementations under automated guardrails.
 
 ### Core Concepts
-- **Engineering Control:** Architecture design, security boundaries, product tradeoffs, and final diff reviews remain 100% human-owned and verified.
-- **Safety Guardrails:** AI-generated drafts are strictly validated by connecting them to static analysis (`tsc`), linting (`eslint`), automated testing (`vitest`), and actual browser UI inspections before deployment.
-- **Context Budgeting:** To maximize the efficiency of LLM's limited context window, global rules and project-specific guides (`AGENTS.md`) are decoupled, enforcing focused and highly accurate iterations.
-- **Value Redirection:** Mechanical coding and repetitive tasks are minimized, freeing up engineering resources to solve high-impact problems such as scroll performance optimization and safe database migration.
 
-<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+- **Conductor Authority:** Architectural modeling, data schemas, exception strategies, and final code approval remain strictly owned and verified by the engineer.
+- **Strict Regression Prevention:** Seamlessly connects static analysis (`tsc`), quality checks (`eslint`), unit testing (`vitest`), and browser UI validation to guarantee code integrity at the point of change.
+- **Context Budgeting:** Decouples global rules from task-specific directives, loading only scoped context to eliminate noise and ensure highly accurate edits.
+- **High-Value Redirection:** Reclaims hours spent on repetitive implementation to invest in rendering optimization, security audits, and advanced type safety.
 
 ## Key work
 
@@ -41,25 +49,25 @@ Rather than a simple showcase of tool proficiency, this workflow is designed to 
     {
       tag: 'Scope',
       accent: true,
-      title: 'Start from product intent before implementation',
-      detail: `Each task begins with the intended user-facing result, the current code shape, and the smallest acceptable change. AI is used only after the work is scoped enough to review, test, and explain.`,
+      title: 'Strict Scope Limitation',
+      detail: `Each task begins with clear intent and the smallest possible change to prevent side effects and unintended modifications.`,
     },
     {
       tag: 'Context',
       accent: true,
-      title: 'Split global rules from project-specific directives',
-      detail: `Shared directives live in <code>dotfiles</code>, while repo-specific rules stay in files such as <code>AGENTS.md</code>. This keeps repeated standards consistent without flooding each task with irrelevant context.`,
+      title: 'Focused Context Budgeting',
+      detail: `Isolates rules to eliminate noise and build highly targeted feedback loops, closely aligning manual reviews with automated checks.`,
     },
     {
       tag: 'Review',
       accent: true,
-      title: 'Keep architecture and final diff review human-owned',
-      detail: `AI can draft repetitive implementation, but product tradeoffs, data handling, security boundaries, and final diff review remain my responsibility. That boundary makes the workflow faster without hiding ownership.`,
+      title: 'Design & Quality Ownership',
+      detail: `The engineer owns architectural design, data flows, and final diff reviews, keeping code patterns consistent even when leveraging fast generation.`,
     },
     {
       tag: 'Evidence',
-      title: 'Require checks, tests, browser rendering, and diff review',
-      detail: `Changes are accepted only after static checks, focused tests, rendered-page inspection when relevant, and a final review of the actual diff. The output is judged by evidence, not by whether AI generated it quickly.`,
+      title: 'Automated Regression Prevention',
+      detail: `Accepts changes only after passing tsc, eslint, vitest, and browser rendering inspections, blocking unverified code from staging.`,
     },
   ]}
 />
@@ -86,13 +94,21 @@ Rather than a simple showcase of tool proficiency, this workflow is designed to 
 
 **Concrete examples**
 
-- **Portfolio positioning:** Reworked the home page so product growth and release ownership stay ahead of AI-tool messaging.
-- **Metric cleanup:** Kept metric cards focused on outcome, scale, and measurable improvement instead of years, technology names, or status labels.
-- **Browser-based UI verification:** Checked responsive metric layouts, project-detail table styling, and homepage visibility directly in the local browser before marking work complete.
-- **Evidence hygiene:** Avoided using screenshots as portfolio evidence unless they came from real product screens or reproducible local output.
+- **Complex Platform Migration (Next.js ➡️ Cloudflare Workers/vinext):** When migrating the codebase to vinext on Cloudflare Workers, we verified routing segments and layouts through `tsc` and integration test gates, ensuring a regression-free transition.
+- **Performance Tuning & Layout Regression Prevention (LCP/INP Optimization):** Verified that dynamic scroll animations and optimized image loading did not introduce Layout Shifts (CLS) using automated browser rendering checks, preserving Core Web Vitals.
+- **Database Schema Update Integrity (D1 SQLite Updates):** Guarded SQL schema migrations by automatically running the application integration test suite, preventing runtime crashes from schema mismatches before any commit.
+
+### Self-Diagnosis & Auto-Recovery Loop
+
+Instead of manual debugging, raw logs from compilers or test runners (`vitest`) are fed back to the agent. The agent runs an autonomous loop—**[Analyze Logs ➡️ Formulate Hypothesis ➡️ Correct Code]**—until all gates pass.
+
+### Multi-Agent Orchestration & Task Isolation
+
+Instead of a single general-purpose prompt, complex tasks are delegated to specialized sub-agents—such as design (`tdd-guide`), quality review (`code-reviewer`), and security auditing (`security-reviewer`)—minimizing context noise.
 
 ## Retrospective
 
 **The main value is not raw speed.** The useful part is breaking repetitive work into reviewable units and leaving behind evidence that each change is safe.
 
 **AI does not replace engineering judgment.** The workflow works only when context, scope, and verification are explicit. That is the part I can defend in a code review or interview.
+
