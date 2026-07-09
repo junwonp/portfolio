@@ -74,7 +74,7 @@ const summaryPresets: Record<Language, Record<SummaryPresetId, Partial<SummaryPr
       metrics: [
         { value: '100k+', label: 'Rows & Logs' },
         { value: '15%', label: 'Bundle Saved' },
-        { value: '80%+', label: 'API Load Cut' },
+        { value: 'TTL', label: 'API Cache' },
       ],
       pillars: [
         {
@@ -205,7 +205,7 @@ const summaryPresets: Record<Language, Record<SummaryPresetId, Partial<SummaryPr
       metrics: [
         { value: '수십만+', label: '행/로그 처리' },
         { value: '15%', label: '번들 절감' },
-        { value: '80%+', label: 'API 부하 절감' },
+        { value: 'TTL', label: 'API 캐시' },
       ],
       pillars: [
         {
@@ -396,7 +396,7 @@ const getProjectThumbnailAlt = (
 const toResumeProject = (project: ProjectContentEntry, lang: Language): ProjectItem => {
   const content = project.content[lang];
   const getValidImage = (src: string | null | undefined): string | undefined => {
-    if (!src || src === "null" || src === null) return undefined;
+    if (!src || src === 'null' || src === null) return undefined;
     return src;
   };
 

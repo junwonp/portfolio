@@ -267,7 +267,7 @@ export const printableResume: PrintableResumeData = {
               period: '2026.04',
               bullets: [
                 [
-                  '기상청 및 에어코리아 데이터를 활용해 최적의 복장과 준비물을 제안하는 1인 개발 서비스입니다. Turbopack 기반 모노레포 구조에서 Next.js와 Expo Router로 PWA 환경을 구축하고 API 호출 부하를 80% 이상 절감했습니다.',
+                  '기상청 및 에어코리아 데이터를 활용해 최적의 복장과 준비물을 제안하는 1인 개발 서비스입니다. Next.js와 Expo Router 기반 모노레포에서 icn1 리전 고정, Upstash Redis TTL 캐시, web/shared/mobile 테스트 216개 통과 근거를 갖췄습니다.',
                 ],
               ],
             },

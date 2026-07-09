@@ -36,7 +36,7 @@ describe('resume data for web frontend applications', () => {
     expect(summary.tagline).toContain('데이터 중심 웹 시스템');
     expect(metricLabels).toContain('행/로그 처리');
     expect(metricLabels).toContain('번들 절감');
-    expect(metricLabels).toContain('API 부하 절감');
+    expect(metricLabels).toContain('API 캐시');
   });
 
   it('omits role-fit projects by default', () => {

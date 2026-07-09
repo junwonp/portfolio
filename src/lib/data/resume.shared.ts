@@ -123,7 +123,7 @@ export const otherExperiencesShared = [
   },
   {
     id: 'nextjs_portfolio',
-    dateFrom: '2021-02',
+    dateFrom: '2026-04',
     detailLink: '/projects/nextjs-portfolio',
     paradigm: 'agentic',
   },
