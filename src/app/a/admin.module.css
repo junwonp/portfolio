@@ -252,6 +252,13 @@
     font-weight: 700;
   }
 
+  .fieldHelp {
+    color: var(--color-sub);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    margin: -0.1rem 0 0;
+  }
+
   .applicationForm input {
     background: var(--color-code-bg);
     border: 0.5px solid var(--color-bg-divider);

@@ -86,6 +86,10 @@ export function LinkForm({ applicationProjectOptions, writesEnabled }: LinkFormP
 
       <div className={styles.projectOrderField}>
         <span>첫 노출 프로젝트 순서</span>
+        <p className={styles.fieldHelp}>
+          기본 홈의 대표 프로젝트는 그대로 두고, 이 단축 링크로 접속한 방문자에게만 첫 노출
+          프로젝트와 요약 포지셔닝을 바꿉니다.
+        </p>
         <div className={styles.projectOrderGrid}>
           {selectRanks.map((rank, i) => {
             const projectOptions = [
