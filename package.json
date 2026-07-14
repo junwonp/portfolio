@@ -11,7 +11,8 @@
     "deploy:development": "node scripts/guard-worker-branch.mjs development && CLOUDFLARE_CONFIG_PATH=wrangler.preview.jsonc vinext build && wrangler versions upload --config dist/server/wrangler.json --preview-alias develop",
     "start": "vinext start",
     "cf-typegen": "wrangler types --config wrangler.jsonc --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "lint": "eslint"
+    "lint": "eslint",
+    "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
@@ -44,6 +45,7 @@
     "eslint-config-prettier": "^10.0.3",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "prettier": "^3.5.1",
+    "react-doctor": "^0.7.6",
     "react-server-dom-webpack": "^19.2.7",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
