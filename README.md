@@ -74,7 +74,9 @@ The private `/a` surface includes:
 - visitor analytics from the public `/api/analytics/track` beacon endpoint,
 - application-specific short URL creation and deletion,
 - link-filtered metrics for sessions, page views, dwell time, scroll depth, referrers, countries, and top pages,
-- content-editing write gates shared with `/api/admin/content-overrides`.
+- authenticated tools for analytics metrics and application links.
+
+Portfolio content is published from repository MDX and typed TypeScript catalog data; `/a` does not provide content editing.
 
 See [Admin Analytics and Short Links](docs/admin-analytics.md) for the data model, auth flow, D1 tables, Cloudflare bindings, and verification commands.
 
@@ -86,7 +88,7 @@ Cloudflare Access should protect only the private admin surface:
 - `/a/*`
 - `/api/admin/*`
 
-Keep `/` public. After Access authenticates `/a`, the app verifies `Cf-Access-Jwt-Assertion` and issues a signed `admin_session` cookie so the public home page can show editor controls only to the authenticated owner.
+Keep `/` public. After Access authenticates `/a`, the app verifies `Cf-Access-Jwt-Assertion` and issues a signed `admin_session` cookie for the retained analytics and application-link tools.
 
 Required Worker settings:
 

@@ -3,21 +3,18 @@ import { notFound } from 'next/navigation';
 
 import HomePage from '@/lib/components/HomePage';
 import ProjectDetailPage from '@/lib/components/ProjectDetailPage';
-import { applyProjectDetailContentOverride } from '@/lib/content/editableContent';
 import { getProjectMetadata } from '@/lib/content/projects';
 import { getProjectDetailBlocks } from '@/lib/content/projects/detailContent';
 import { GITHUB_PROFILE, GITHUB_USERNAME, PORTFOLIO_URL } from '@/lib/data/constants';
-import { canCurrentRequestWriteAdminContent } from '@/lib/server/adminRequest';
 import { RESERVED_APPLICATION_SLUGS } from '@/lib/server/applicationLinks';
 import { getActiveApplicationLinkBySlug } from '@/lib/server/applicationLinkStore';
 import { getDb } from '@/lib/server/db';
-import { getProjectDetailContentOverride } from '@/lib/server/editableContentStore';
 import {
   getHomePageData,
   resolveHomeTailoredViewFromOverride,
   resolveHomeTailoredViewFromSearchParams,
 } from '@/lib/server/homePageData';
-import { getLocalizedPathname, type Language, SUPPORTED_LANGUAGES } from '@/lib/utils/language';
+import { getLocalizedPathname, type Language } from '@/lib/utils/language';
 import { metadataMap } from '@/lib/utils/metadata';
 
 type SearchParams = { [key: string]: string | string[] | undefined };
@@ -113,9 +110,8 @@ export const getProjectPageMetadata = ({ locale, slug }: ProjectRouteInput): Met
 };
 
 export async function renderHomeRoute({ locale, searchParams }: HomeRouteInput) {
-  const db = getDb();
   const tailoredView = resolveHomeTailoredViewFromSearchParams(searchParams);
-  const data = await getHomePageData({ db, locale, tailoredView });
+  const data = await getHomePageData({ locale, tailoredView });
 
   return <HomePage data={data} />;
 }
@@ -141,7 +137,7 @@ export async function renderShortUrlRoute({ locale, slug }: ProjectRouteInput) {
     role: applicationLink.role,
     summaryPreset: applicationLink.summaryPreset,
   });
-  const data = await getHomePageData({ db, locale, tailoredView });
+  const data = await getHomePageData({ locale, tailoredView });
 
   return <HomePage data={data} />;
 }
@@ -154,65 +150,20 @@ export async function renderProjectDetailRoute({ locale, slug }: ProjectRouteInp
     notFound();
   }
 
-  const db = getDb();
-  const [projectContentOverrideByLocaleEntries, isAdminEditor] = await Promise.all([
-    Promise.all(
-      SUPPORTED_LANGUAGES.map(async (targetLocale) => [
-        targetLocale,
-        await getProjectDetailContentOverride(db, slug, targetLocale),
-      ] as const),
-    ),
-    canCurrentRequestWriteAdminContent(),
-  ]);
-  const projectContentOverrideByLocale = Object.fromEntries(projectContentOverrideByLocaleEntries);
-
-  const normalizeMetadata = (metadata: typeof rawMetadata) => ({
-    ...metadata,
+  const metadata = {
+    ...rawMetadata,
     githubLink:
-      metadata.githubLink && !metadata.githubLink.startsWith('http')
-        ? `${GITHUB_PROFILE}/${metadata.githubLink}`
-        : metadata.githubLink,
-  });
-  const projectContentByLocale = Object.fromEntries(
-    SUPPORTED_LANGUAGES.map((targetLocale) => {
-      const localizedMetadata = getProjectMetadata(slug, targetLocale) ?? rawMetadata;
-      const localizedBlocks = getProjectDetailBlocks(slug, targetLocale) ?? detailBlocks;
-      const localizedProjectContent = applyProjectDetailContentOverride(
-        {
-          blocks: localizedBlocks,
-          metadata: localizedMetadata,
-        },
-        projectContentOverrideByLocale[targetLocale],
-      );
-
-      return [
-        targetLocale,
-        {
-          blocks: localizedProjectContent.blocks,
-          metadata: normalizeMetadata(localizedProjectContent.metadata),
-        },
-      ];
-    }),
-  );
-  const projectContent = projectContentByLocale[locale];
+      rawMetadata.githubLink && !rawMetadata.githubLink.startsWith('http')
+        ? `${GITHUB_PROFILE}/${rawMetadata.githubLink}`
+        : rawMetadata.githubLink,
+  };
 
   return (
     <ProjectDetailPage
       slug={slug}
       locale={locale}
-      metadata={projectContent.metadata}
-      detailBlocks={projectContent.blocks}
-      projectContentByLocale={{
-        en: {
-          detailBlocks: projectContentByLocale.en.blocks,
-          metadata: projectContentByLocale.en.metadata,
-        },
-        ko: {
-          detailBlocks: projectContentByLocale.ko.blocks,
-          metadata: projectContentByLocale.ko.metadata,
-        },
-      }}
-      isAdminEditor={isAdminEditor}
+      metadata={metadata}
+      detailBlocks={detailBlocks}
     />
   );
 }

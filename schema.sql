@@ -75,21 +75,6 @@ CREATE INDEX IF NOT EXISTS idx_application_links_slug ON application_links(slug)
 CREATE INDEX IF NOT EXISTS idx_application_links_expires_at ON application_links(expires_at);
 CREATE INDEX IF NOT EXISTS idx_application_link_visits_link ON application_link_visits(application_link_id);
 
-CREATE TABLE IF NOT EXISTS content_overrides (
-  id TEXT PRIMARY KEY,
-  area TEXT NOT NULL,
-  locale TEXT NOT NULL,
-  target_key TEXT NOT NULL,
-  payload TEXT NOT NULL,
-  status TEXT NOT NULL DEFAULT 'published',
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE(area, locale, target_key, status)
-);
-
-CREATE INDEX IF NOT EXISTS idx_content_overrides_lookup
-ON content_overrides(area, locale, target_key, status);
-
 CREATE TABLE IF NOT EXISTS tags (
   tag TEXT NOT NULL,
   path TEXT NOT NULL,

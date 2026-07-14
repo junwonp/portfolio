@@ -2,10 +2,6 @@ import React from 'react';
 
 import Badge from '@/lib/components/Badge';
 import ProjectDetailBlocks from '@/lib/components/ProjectDetailBlocks';
-import {
-  EditableProjectArticle,
-  EditableProjectHero,
-} from '@/lib/components/ProjectDetailEditableRegions';
 import ProjectToc from '@/lib/components/ProjectToc';
 import type { ProjectDetailBlock } from '@/lib/content/editableContent';
 import { getLabels } from '@/lib/data/labels';
@@ -24,14 +20,6 @@ interface Props {
   locale: Language;
   metadata: PostMetadata;
   detailBlocks?: ProjectDetailBlock[];
-  projectContentByLocale: Record<
-    Language,
-    {
-      detailBlocks?: ProjectDetailBlock[];
-      metadata: PostMetadata;
-    }
-  >;
-  isAdminEditor?: boolean;
 }
 
 export default function ProjectDetailPage({
@@ -39,8 +27,6 @@ export default function ProjectDetailPage({
   locale,
   metadata,
   detailBlocks,
-  projectContentByLocale,
-  isAdminEditor = false,
 }: Props) {
   const labels = getLabels(locale);
   const metricColumnCount = Math.min(metadata.metrics?.length ?? 1, 4);
@@ -132,36 +118,11 @@ export default function ProjectDetailPage({
         sideNav={<ProjectToc />}
       >
         <div className={styles.hero}>
-          {isAdminEditor ? (
-            <EditableProjectHero
-              locale={locale}
-              metadata={metadata}
-              metadataByLocale={{
-                en: projectContentByLocale.en.metadata,
-                ko: projectContentByLocale.ko.metadata,
-              }}
-              slug={slug}
-            />
-          ) : (
-            heroContent
-          )}
+          {heroContent}
         </div>
 
         <article className={`project-article ${styles['project-article']}`}>
-          {isAdminEditor ? (
-            <EditableProjectArticle
-              detailBlocks={detailBlocks}
-              detailBlocksByLocale={{
-                en: projectContentByLocale.en.detailBlocks,
-                ko: projectContentByLocale.ko.detailBlocks,
-              }}
-              locale={locale}
-              metadata={metadata}
-              slug={slug}
-            />
-          ) : (
-            detailContent
-          )}
+          {detailContent}
         </article>
       </PortfolioContentLayout>
     </>

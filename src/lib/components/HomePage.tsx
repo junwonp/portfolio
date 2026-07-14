@@ -5,7 +5,6 @@ import EducationList from "@/lib/components/EducationList";
 import HomePageClient from "@/lib/components/HomePageClient";
 import SectionHeader from "@/lib/components/SectionHeader";
 import Title from "@/lib/components/Title";
-import type { HomeContentOverride } from "@/lib/content/editableContent";
 import type { Labels } from "@/lib/data/labels";
 import type { ResumeData } from "@/lib/data/resume";
 import type {
@@ -24,8 +23,6 @@ interface NavSection {
 export interface HomePageData {
   featuredWebProjects: OtherExperienceProps[];
   featuredProjectsMode: 'role-fit' | 'selected';
-  homeContentOverride?: HomeContentOverride | null;
-  isAdminEditor?: boolean;
   labels: Labels;
   locale: Language;
   navSections: NavSection[];
@@ -39,17 +36,10 @@ interface Props {
   data: HomePageData;
 }
 
-export default async function HomePage({ data }: Props) {
-  const isAdminEditor = data.isAdminEditor === true;
+export default function HomePage({ data }: Props) {
   const resumeData = data.resumeData;
   const summaryIntroduction = data.summaryIntroduction;
   const labels = data.labels;
-
-  if (isAdminEditor) {
-    const { default: EditableHomePage } = await import("@/lib/components/EditableHomePage");
-
-    return <EditableHomePage data={data} />;
-  }
 
   const mobileHeader = (
     <DeferredMobileStickyHeader

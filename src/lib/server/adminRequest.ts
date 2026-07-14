@@ -67,11 +67,3 @@ export async function isCurrentRequestAdmin() {
 export function isAdminWriteEnabledForCurrentRuntime() {
   return isAdminWriteEnabled(getCloudflareEnv());
 }
-
-export async function canCurrentRequestWriteAdminContent() {
-  if (!isAdminWriteEnabledForCurrentRuntime()) {
-    return false;
-  }
-
-  return isCurrentRequestAdmin();
-}

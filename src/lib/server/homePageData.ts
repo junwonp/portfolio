@@ -1,6 +1,4 @@
 import type { HomePageData } from '@/lib/components/HomePage';
-import type { HomeContentOverride } from '@/lib/content/editableContent';
-import { applyHomeContentOverride } from '@/lib/content/editableContent';
 import { getLabels } from '@/lib/data/labels';
 import type { TailoredViewOverride } from '@/lib/data/resume';
 import type { SummaryPresetId } from '@/lib/data/resume';
@@ -10,8 +8,6 @@ import {
   getSummaryIntroduction,
   resolveTailoredView,
 } from '@/lib/data/resume';
-import { canCurrentRequestWriteAdminContent } from '@/lib/server/adminRequest';
-import { getPublishedHomeOverride } from '@/lib/server/editableContentStore';
 import { type Language, SUPPORTED_LANGUAGES } from '@/lib/utils/language';
 
 export type PageSearchParamsRecord = Record<string, string | string[] | undefined>;
@@ -22,15 +18,11 @@ interface ResolvedHomeTailoredView {
 }
 
 interface CreateHomePageDataInput {
-  homeContentOverride: HomeContentOverride | null;
-  homeContentOverrideByLocale?: Partial<Record<Language, HomeContentOverride | null>>;
-  isAdminEditor: boolean;
   locale: Language;
   tailoredView: ResolvedHomeTailoredView;
 }
 
 interface GetHomePageDataInput {
-  db: D1Database | undefined;
   locale: Language;
   tailoredView: ResolvedHomeTailoredView;
 }
@@ -104,9 +96,6 @@ export const resolveHomeTailoredViewFromOverride = (
 };
 
 export const createHomePageData = ({
-  homeContentOverride,
-  homeContentOverrideByLocale,
-  isAdminEditor,
   locale,
   tailoredView,
 }: CreateHomePageDataInput): HomePageData => {
@@ -114,11 +103,7 @@ export const createHomePageData = ({
   const resumeDataByLocale = Object.fromEntries(
     SUPPORTED_LANGUAGES.map((targetLocale) => [
       targetLocale,
-      applyHomeContentOverride(
-        getResumeData(targetLocale),
-        homeContentOverrideByLocale?.[targetLocale] ??
-          (targetLocale === locale ? homeContentOverride : null),
-      ),
+      getResumeData(targetLocale),
     ]),
   ) as Record<Language, ReturnType<typeof getResumeData>>;
   const resumeData = resumeDataByLocale[locale];
@@ -129,11 +114,7 @@ export const createHomePageData = ({
   const summaryIntroductionByLocale = Object.fromEntries(
     SUPPORTED_LANGUAGES.map((targetLocale) => [
       targetLocale,
-      {
-        ...getSummaryIntroduction(targetLocale, tailoredView.summaryPreset),
-        ...homeContentOverrideByLocale?.[targetLocale]?.introduction,
-        ...(targetLocale === locale ? homeContentOverride?.introduction : undefined),
-      },
+      getSummaryIntroduction(targetLocale, tailoredView.summaryPreset),
     ]),
   ) as Record<Language, ReturnType<typeof getSummaryIntroduction>>;
   const summaryIntroduction = summaryIntroductionByLocale[locale];
@@ -159,8 +140,6 @@ export const createHomePageData = ({
   return {
     featuredProjectsMode,
     featuredWebProjects,
-    homeContentOverride,
-    isAdminEditor,
     labels,
     locale,
     navSections,
@@ -172,28 +151,10 @@ export const createHomePageData = ({
 };
 
 export const getHomePageData = async ({
-  db,
   locale,
   tailoredView,
 }: GetHomePageDataInput): Promise<HomePageData> => {
-  const [homeContentOverrideByLocaleEntries, isAdminEditor] = await Promise.all([
-    Promise.all(
-      SUPPORTED_LANGUAGES.map(async (targetLocale) => [
-        targetLocale,
-        await getPublishedHomeOverride(db, targetLocale),
-      ] as const),
-    ),
-    canCurrentRequestWriteAdminContent(),
-  ]);
-  const homeContentOverrideByLocale = Object.fromEntries(
-    homeContentOverrideByLocaleEntries,
-  ) as Record<Language, HomeContentOverride | null>;
-  const homeContentOverride = homeContentOverrideByLocale[locale];
-
   return createHomePageData({
-    homeContentOverride,
-    homeContentOverrideByLocale,
-    isAdminEditor,
     locale,
     tailoredView,
   });

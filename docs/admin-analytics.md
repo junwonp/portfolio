@@ -9,7 +9,6 @@ application short links, and the metrics dashboard.
 - `/a/actions.ts`: Server Actions for local dev login, logout, short-link creation, and short-link deletion.
 - `/:slug`: public short URL route implemented by `src/app/(portfolio)/[slug]/page.tsx`. It loads active rows from `application_links`, applies tailored homepage presets, and returns 404 for expired or reserved slugs.
 - `/api/analytics/track`: public analytics Route Handler. It receives browser beacons from `AnalyticsTracker`, validates/clamps payloads, and writes to D1.
-- `/api/admin/content-overrides`: private admin write endpoint for browser-editable home/project content.
 
 ## Admin Access and Write Gates
 
@@ -37,7 +36,6 @@ Required Worker settings for production admin access:
 - `application_links`: active or expired short links. Stores slug, company/label, role preset, summary preset, ordered project ids, and expiry.
 - `application_link_visits`: maps one session to one application link. Current v1 attribution is session-scoped, not multi-touch.
 - `web_vitals`: Core Web Vitals samples reported by Next.js `useReportWebVitals`.
-- `content_overrides`: published browser edits for home/project content.
 - `tags` and `revalidations`: vinext cache support tables.
 
 ## Tracking Flow
@@ -84,8 +82,7 @@ The public short URL page:
 - rejects reserved slugs before D1 lookup,
 - fetches only active rows where `expires_at > datetime('now')`,
 - applies `project_ids` to the featured project order,
-- applies `summary_preset` to homepage introduction copy,
-- still respects published D1 content overrides.
+- applies `summary_preset` to homepage introduction copy.
 
 ## Dashboard Metrics
 
@@ -114,7 +111,7 @@ Admin sessions are excluded with `user_sessions.is_admin = 0`.
 The production Worker expects these bindings:
 
 - `VINEXT_KV_CACHE`: vinext data cache.
-- `portfolio_db`: D1 database for analytics, short links, content overrides, and vinext cache support tables.
+- `portfolio_db`: D1 database for analytics, short links, and vinext cache support tables.
 - `portfolio_assets`: R2 bucket for private asset responses.
 - `IMAGES`: Cloudflare Images binding used by `worker/index.ts` for Next image optimization.
 - `ASSETS`: static asset binding.

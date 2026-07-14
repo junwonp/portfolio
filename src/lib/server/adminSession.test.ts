@@ -92,7 +92,7 @@ describe('getSafeAdminSessionReturnTo', () => {
     expect(getSafeAdminSessionReturnTo(null)).toBe('/a');
     expect(getSafeAdminSessionReturnTo('https://example.com/a')).toBe('/a');
     expect(getSafeAdminSessionReturnTo('/projects/day-planner')).toBe('/a');
-    expect(getSafeAdminSessionReturnTo('/api/admin/content-overrides')).toBe('/a');
+    expect(getSafeAdminSessionReturnTo('/api/admin/unknown')).toBe('/a');
   });
 
   it('exports the cookie name used by route handlers', () => {

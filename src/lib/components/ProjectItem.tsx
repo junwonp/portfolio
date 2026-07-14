@@ -14,9 +14,6 @@ import { shouldForceProjectContentOpen, shouldRenderProjectDetails } from './pro
 interface Props {
   companyName: string;
   detailsMode?: ProjectDetailsMode;
-  editor?: React.ReactNode;
-  editTrigger?: React.ReactNode;
-  isEditing?: boolean;
   isFiltered: boolean;
   labels: Labels;
   project: ProjectItemType;
@@ -25,9 +22,6 @@ interface Props {
 export default function ProjectItem({
   companyName,
   detailsMode,
-  editor,
-  editTrigger,
-  isEditing = false,
   isFiltered,
   labels,
   project,
@@ -53,14 +47,6 @@ export default function ProjectItem({
     }
   };
 
-  if (isEditing) {
-    return (
-      <div className={`project-item ${ProjectItemStyles['project-item']} ${ProjectItemStyles['is-open']}`}>
-        <div className={ProjectItemStyles['project-editor-slot']}>{editor}</div>
-      </div>
-    );
-  }
-
   const containerClassName = `project-item ${ProjectItemStyles['project-item']} ${isOpen ? ProjectItemStyles['is-open'] : ''}`.trim();
 
   const headerProps = isCompact
@@ -85,7 +71,6 @@ export default function ProjectItem({
         shouldRenderProjectDetails(detailsMode, project.detail, Boolean(project.detailLink))
       }
       isLinkWrapped={false}
-      editTrigger={editTrigger}
       headerProps={headerProps}
       labels={labels}
     />

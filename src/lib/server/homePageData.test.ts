@@ -36,8 +36,6 @@ describe('resolveHomeTailoredViewFromSearchParams', () => {
 describe('createHomePageData', () => {
   it('uses selected projects by default when no tailored project ids are provided', () => {
     const data = createHomePageData({
-      homeContentOverride: null,
-      isAdminEditor: false,
       locale: 'ko',
       tailoredView: {
         summaryPreset: 'default',
@@ -60,8 +58,6 @@ describe('createHomePageData', () => {
 
   it('builds featured project data and navigation from the resolved tailored view', () => {
     const data = createHomePageData({
-      homeContentOverride: null,
-      isAdminEditor: false,
       locale: 'ko',
       tailoredView: {
         summaryPreset: 'web',
@@ -83,8 +79,6 @@ describe('createHomePageData', () => {
 
   it('resolves stored project slugs in tailored short-link data', () => {
     const data = createHomePageData({
-      homeContentOverride: null,
-      isAdminEditor: false,
       locale: 'ko',
       tailoredView: {
         summaryPreset: 'web',
@@ -97,57 +91,5 @@ describe('createHomePageData', () => {
       'today_weather',
     ]);
   });
-
-  it('applies published home overrides to the resume and summary introduction', () => {
-    const data = createHomePageData({
-      homeContentOverride: {
-        introduction: {
-          tagline: 'Override tagline',
-        },
-      },
-      isAdminEditor: true,
-      locale: 'en',
-      tailoredView: {
-        summaryPreset: 'default',
-        projectIds: [],
-      },
-    });
-
-    expect(data.isAdminEditor).toBe(true);
-    expect(data.resumeData.introduction.tagline).toBe('Override tagline');
-    expect(data.summaryIntroduction.tagline).toBe('Override tagline');
-  });
-
-  it('builds localized edit sources for Korean and English in one page payload', () => {
-    const data = createHomePageData({
-      homeContentOverride: {
-        introduction: {
-          tagline: '한국어 override',
-        },
-      },
-      homeContentOverrideByLocale: {
-        ko: {
-          introduction: {
-            tagline: '한국어 override',
-          },
-        },
-        en: {
-          introduction: {
-            tagline: 'English override',
-          },
-        },
-      },
-      isAdminEditor: true,
-      locale: 'ko',
-      tailoredView: {
-        summaryPreset: 'default',
-        projectIds: [],
-      },
-    });
-
-    expect(data.resumeDataByLocale.ko.introduction.tagline).toBe('한국어 override');
-    expect(data.resumeDataByLocale.en.introduction.tagline).toBe('English override');
-    expect(data.summaryIntroductionByLocale.ko.tagline).toBe('한국어 override');
-    expect(data.summaryIntroductionByLocale.en.tagline).toBe('English override');
-  });
 });
+
