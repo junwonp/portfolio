@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   getCacheControlForPath,
   getDefaultLocaleRedirectPathname,
+  getDefaultLocaleRewritePathname,
   getResumeRewritePathname,
 } from '@/proxy';
 
@@ -38,6 +39,58 @@ describe('getDefaultLocaleRedirectPathname', () => {
   it('does not redirect no-prefix or English-prefixed URLs', () => {
     expect(getDefaultLocaleRedirectPathname('/projects/aira')).toBeNull();
     expect(getDefaultLocaleRedirectPathname('/en/projects/aira')).toBeNull();
+  });
+});
+
+describe('getDefaultLocaleRewritePathname', () => {
+  it('maps public Korean portfolio paths to the internal locale segment', () => {
+    expect(getDefaultLocaleRewritePathname('/')).toBe('/ko');
+    expect(getDefaultLocaleRewritePathname('/projects/aira')).toBe('/ko/projects/aira');
+    expect(getDefaultLocaleRewritePathname('/privacy')).toBe('/ko/privacy');
+    expect(getDefaultLocaleRewritePathname('/application-slug')).toBe('/ko/application-slug');
+  });
+
+  it('leaves explicit locale paths unchanged', () => {
+    expect(getDefaultLocaleRewritePathname('/en')).toBeNull();
+    expect(getDefaultLocaleRewritePathname('/en/projects/aira')).toBeNull();
+    expect(getDefaultLocaleRewritePathname('/ko')).toBeNull();
+    expect(getDefaultLocaleRewritePathname('/ko/projects/aira')).toBeNull();
+  });
+
+  it.each([
+    '/_next',
+    '/_next/data/build-id/index.json',
+    '/favicon.ico',
+    '/api',
+    '/api/analytics',
+    '/a',
+    '/a/applications',
+    '/admin',
+    '/admin/settings',
+    '/print',
+    '/print/portfolio',
+    '/resume',
+    '/resume/download',
+    '/fonts/GeistMono[wght].woff2',
+    '/images/preview.webp',
+    '/certificates/example.pdf',
+  ])('does not rewrite reserved path %s', (pathname) => {
+    expect(getDefaultLocaleRewritePathname(pathname)).toBeNull();
+  });
+
+  it('does not rewrite static files while preserving route-like dotted segments', () => {
+    expect(getDefaultLocaleRewritePathname('/robots.txt')).toBeNull();
+    expect(getDefaultLocaleRewritePathname('/theme-initializer.js')).toBeNull();
+    expect(getDefaultLocaleRewritePathname('/.well-known/security.txt')).toBeNull();
+    expect(getDefaultLocaleRewritePathname('/.well-known')).toBe('/ko/.well-known');
+  });
+
+  it('does not rewrite unsupported route shapes or existing metadata routes', () => {
+    expect(getDefaultLocaleRewritePathname('/foo/bar')).toBeNull();
+    expect(getDefaultLocaleRewritePathname('/projects')).toBeNull();
+    expect(getDefaultLocaleRewritePathname('/projects/aira/extra')).toBeNull();
+    expect(getDefaultLocaleRewritePathname('/opengraph-image')).toBeNull();
+    expect(getDefaultLocaleRewritePathname('/twitter-image')).toBeNull();
   });
 });
 

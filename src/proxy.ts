@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+import { isReservedApplicationSlug } from '@/lib/utils/applicationSlug';
 import {
   resolveLocaleFromPathname,
   stripLocalePathPrefix,
@@ -16,6 +17,21 @@ const PRIVATE_ROBOTS_PATHS = [
   /^\/api(?:\/|$)/,
   /^\/print(?:\/|$)/,
 ];
+const DEFAULT_LOCALE_REWRITE_EXCLUSIONS = [
+  /^\/_next(?:\/|$)/,
+  /^\/api(?:\/|$)/,
+  /^\/a(?:\/|$)/,
+  /^\/admin(?:\/|$)/,
+  /^\/print(?:\/|$)/,
+  /^\/resume(?:\/|$)/,
+  /^\/fonts(?:\/|$)/,
+  /^\/images(?:\/|$)/,
+  /^\/certificates(?:\/|$)/,
+];
+const PUBLIC_FILE_PATH_PATTERN = /\/[^/.][^/]*\.[^/]+$/;
+const PUBLIC_METADATA_ROUTE_PATHS = new Set(['/opengraph-image', '/twitter-image']);
+const PROJECT_DETAIL_PATH_PATTERN = /^\/projects\/[^/]+\/?$/;
+const SINGLE_SEGMENT_PATH_PATTERN = /^\/([^/]+)\/?$/;
 const RESUME_HOST = 'resume.junwon.dev';
 
 const SECURITY_HEADERS = {
@@ -59,6 +75,35 @@ export const getCacheControlForPath = (pathname: string): string => {
 export const getDefaultLocaleRedirectPathname = (pathname: string): string | null => {
   if (pathname === '/ko' || pathname.startsWith('/ko/')) {
     return stripLocalePathPrefix(pathname);
+  }
+
+  return null;
+};
+
+export const getDefaultLocaleRewritePathname = (pathname: string): string | null => {
+  if (
+    pathname === '/favicon.ico' ||
+    pathname === '/en' ||
+    pathname.startsWith('/en/') ||
+    pathname === '/ko' ||
+    pathname.startsWith('/ko/') ||
+    DEFAULT_LOCALE_REWRITE_EXCLUSIONS.some((regex) => regex.test(pathname)) ||
+    PUBLIC_FILE_PATH_PATTERN.test(pathname)
+  ) {
+    return null;
+  }
+
+  if (pathname === '/' || pathname === '/privacy' || PROJECT_DETAIL_PATH_PATTERN.test(pathname)) {
+    return pathname === '/' ? '/ko' : `/ko${pathname}`;
+  }
+
+  const singleSegment = pathname.match(SINGLE_SEGMENT_PATH_PATTERN)?.[1];
+  if (
+    singleSegment &&
+    !isReservedApplicationSlug(singleSegment) &&
+    !PUBLIC_METADATA_ROUTE_PATHS.has(pathname)
+  ) {
+    return `/ko${pathname}`;
   }
 
   return null;
@@ -127,6 +172,26 @@ export function proxy(request: NextRequest) {
     applyResponseHeaders(redirectResponse, defaultLocaleRedirectPathname, nonce);
 
     return redirectResponse;
+  }
+
+  const defaultLocaleRewritePathname = getDefaultLocaleRewritePathname(pathname);
+
+  if (defaultLocaleRewritePathname) {
+    const rewriteUrl = request.nextUrl.clone();
+    rewriteUrl.pathname = defaultLocaleRewritePathname;
+
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set('x-locale', 'ko');
+    requestHeaders.set('x-nonce', nonce);
+
+    const rewriteResponse = NextResponse.rewrite(rewriteUrl, {
+      request: {
+        headers: requestHeaders,
+      },
+    });
+    applyResponseHeaders(rewriteResponse, pathname, nonce);
+
+    return rewriteResponse;
   }
 
   // Setup request headers for Server Components.
