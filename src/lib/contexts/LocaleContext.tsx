@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext } from "react";
+import { useRouter } from "next/navigation";
 
 import { getLabels } from "@/lib/portfolio/labels";
 import { getLocalizedPathname, type Language } from "@/lib/utils/language";
@@ -21,6 +22,13 @@ export function LocaleProvider({
   initialLocale: Language;
 }) {
   const [locale, setLocaleState] = React.useState<Language>(initialLocale);
+  const [prevInitialLocale, setPrevInitialLocale] = React.useState<Language>(initialLocale);
+  const router = useRouter();
+
+  if (initialLocale !== prevInitialLocale) {
+    setLocaleState(initialLocale);
+    setPrevInitialLocale(initialLocale);
+  }
 
   const setLocale = (newLocale: Language) => {
     setLocaleState(newLocale);
@@ -29,7 +37,7 @@ export function LocaleProvider({
 
     if (nextPathname === currentPathname) return;
 
-    window.location.assign(`${nextPathname}${window.location.search}${window.location.hash}`);
+    router.push(`${nextPathname}${window.location.search}${window.location.hash}`);
   };
 
   const labels = getLabels(locale);
