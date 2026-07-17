@@ -1,3 +1,0 @@
-export async function GET(request: Request) {
-  return Response.redirect(new URL('/en/twitter-image.png', request.url), 308);
-}
