@@ -28,7 +28,9 @@
     }
   ],
   "vars": {
-    "APP_ENV": "production"
+    "APP_ENV": "production",
+    "CF_ACCESS_AUD": "0008253a61605311c82bd5222a9822ae552fa6de48d15ec563a3531792c4bceb",
+    "CF_ACCESS_TEAM_DOMAIN": "https://junwonp.cloudflareaccess.com"
   },
   "kv_namespaces": [
     {
