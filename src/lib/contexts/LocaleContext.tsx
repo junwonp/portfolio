@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext } from "react";
 
-import { getLabels } from "@/lib/data/labels";
+import { getLabels } from "@/lib/portfolio/labels";
 import { getLocalizedPathname, type Language } from "@/lib/utils/language";
 
 interface LocaleContextType {

@@ -1,0 +1,102 @@
+---
+dateFrom: '2026-04'
+icon: null
+paradigm: agentic
+title: Next.js & Cloudflare Portfolio
+description: A high-performance portfolio website built with Next.js App Router on Cloudflare Workers.
+role: 'Solo developer'
+date: '2026-04 ~'
+image: '/images/nextjs-portfolio/1.webp'
+productLink: 'https://junwon.pages.dev'
+githubLink: 'portfolio'
+platforms: ['Web']
+metrics:
+  [
+    { value: '2026-04', label: 'Next.js Build' },
+    { value: 'D1/R2/KV', label: 'Edge bindings' },
+    { value: 'Short URL', label: 'Role-fit links' },
+    { value: 'MDX/TS', label: 'Repository content' },
+  ]
+techStack: ['Next.js', 'TypeScript', 'Cloudflare', 'Vitest']
+featuredSkills: ['TypeScript', 'Next.js', 'Cloudflare', 'Vitest']
+summaryDetails:
+  [
+    '**[Next.js Build]** Built the portfolio website with Next.js 16 App Router, vinext, and Cloudflare Workers starting from April 2026.',
+    '**[Cloudflare Full-Stack Bindings]** Uses D1 for analytics and role-fit application short URLs, R2 for media assets, and KV for caching in a Workers-oriented runtime.',
+    '**[Role-Fit Application Links]** Keeps the default homepage representative projects intact, while short URLs can change the first-exposure project set and summary positioning for a specific hiring context.',
+    '**[Verification-First Operation]** Describes the current site through `vinext check`, TypeScript, Vitest, and browser verification rather than relying on stale Lighthouse numbers.',
+  ]
+---
+
+import ProjectAchievements from '@/components/portfolio/project-detail/ProjectAchievements';
+import ProjectLightbox from '@/components/portfolio/project-detail/ProjectLightbox';
+import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechStack';
+
+## Project Introduction
+
+A personal portfolio website built by combining the **Next.js App Router** framework and the **Cloudflare Workers** edge environment. It uses the **Vinext** toolchain for edge runtime compatibility. Dynamic routing, multi-region database operations via **Cloudflare D1 (SQLite)**, **R2** media assets, and global caching via **KV** are natively bound to deliver server-side rendering (SSR) at Edge-native speeds.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## Key Work
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Architecture',
+      accent: true,
+      title: 'Hybrid UX: Combining Résumé and Portfolio',
+      detail: `Instead of a generic blog format or a heavy single-page app, the home screen is designed as a dense **résumé** for quick scanning, while deep-dive details are rendered from Markdown-like dynamically editable retrospectives. The Next.js edge engine delivers localized HTML instantly without hydration delay.`,
+    },
+    {
+      tag: 'i18n & Performance',
+      accent: true,
+      title: 'Edge-Based Zero-Delay i18n & Cache Optimization',
+      detail: `To eliminate layout shifts or wrong-language flashes, the edge middleware detects cookies and the <code>Accept-Language</code> header to serve localized Next.js HTML on the first response. Instead of relying on outdated baseline numbers, I established a continuous verification and measurement system to validate performance metrics on every new deployment.`,
+    },
+    {
+      tag: 'Cloudflare Integration',
+      title: 'Full-Stack Serverless Binding (D1, R2, KV)',
+      detail: `Bound Cloudflare D1 (SQLite) for admin data writes, R2 for project screenshots, and KV for fast static-asset routing to ensure a complex full-stack Next.js app runs seamlessly within a single Worker.`,
+    },
+    {
+      tag: 'RSC & Bundle Optimization',
+      accent: true,
+      title: 'Islands Architecture & JS Bundle Size Reduction',
+      detail: `Avoided rendering-blocking hydration on the client side by dynamic-importing heavy visualization dependencies such as Mermaid.js only when needed. This keeps non-critical visualization runtime out of the first-load path, while bundle changes are verified from current build output instead of reused as stale fixed numbers.`,
+    },
+    {
+      tag: 'Security & Admin CMS',
+      title: 'Cloudflare Access Integration & Real-time CMS',
+      detail: `Created an in-browser content editor integrated with Cloudflare Access. By connecting it with D1 and KV invalidation, content changes can be reflected at runtime without going through the traditional markdown-edit, build, and deploy loop.`,
+    },
+    {
+      tag: 'Workflow',
+      title: 'Verification-first development workflow',
+      detail: `Tied project rules, content SSOT, type checks, Vitest, and browser inspection into a repeatable workflow for catching regressions after content or infrastructure changes. The important claim is not automation by itself, but that each change leaves behind evidence through checks and rendered-page verification.`,
+    },
+  ]}
+/>
+
+## Screenshots
+
+<ProjectLightbox
+  images={[
+    {
+      src: '/images/nextjs-portfolio/1.webp',
+      alt: 'Main page',
+      caption: 'Homepage — résumé-style layout for quick information scanning',
+    },
+    {
+      src: '/images/nextjs-portfolio/2.webp',
+      alt: 'Responsive design demo',
+      caption: 'Pure CSS responsive design — optimized layouts for mobile and desktop',
+    },
+  ]}
+/>
+
+## Retrospective
+
+**Why Next.js on Cloudflare Workers?** The App Router provides a clean, folder-based layout system that scales well, but standard Next.js deployments can be heavy. By using Vinext, we recompile the React server component layer to run directly on V8 isolates. The result is a fast, global startup with dynamic routing and sub-second rendering times.
+
+**Full-Stack Edge Architecture:** By integrating D1, R2, and KV, we bypassed traditional DB network hops. Database writes are enabled for administration, while cache hits remain close to the edge, making full-stack Next.js development lightweight and cost-effective.

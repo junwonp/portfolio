@@ -1,52 +1,70 @@
 # Content Editing Guide
 
-This portfolio keeps each project in one folder so English and Korean content stay easy to compare.
-
-## Project Folder Shape
+The portfolio uses MDX for long-form project details and TypeScript for compact home content. Stable identifiers and relationships live in one catalog so a project cannot accidentally be shown under the wrong career.
 
 ```text
-src/lib/content/projects/{slug}/
-  index.ts
-  detail.en.mdx
-  detail.ko.mdx
+Repository MDX and TypeScript data
+  -> portfolio catalog validation
+  -> public pages
 ```
 
-Use `index.ts` for short resume/card content and shared project metadata:
+D1 only supports analytics and application short URLs; it is not used for portfolio copy.
 
-- Shared values: `id`, `slug`, `section`, `parentId`, dates, links, skills, `detailPath`
-- English/Korean values: `content.en` and `content.ko`
-- Detail page hero values: Imported directly from the MDX frontmatter (e.g., `import { frontmatter as enMetadata } from './detail.en.mdx'`) and bound to `content.{locale}.detailMetadata`.
+## Content Locations
 
-Use `detail.en.mdx` and `detail.ko.mdx` for the long project detail article, with YAML frontmatter serving as the Single Source of Truth (SSOT) for page metadata.
+```text
+src/content/
+  home/
+    index.ts
+    profile.ts
+    careers.ts
+    credentials.ts
+  projects/{project-slug}/
+    detail.en.mdx
+    detail.ko.mdx
+  privacy/
+    privacy.en.mdx
+    privacy.ko.mdx
 
-## Add A New Project
+src/lib/portfolio/
+  catalog.ts
+  homePage.ts
+  metadata.ts
+  skills.ts
+  types.ts
+```
 
-1. Create `src/lib/content/projects/{slug}/index.ts`.
-2. Add both `content.en` and `content.ko` in the same file.
-3. If the project has a detail page, add `detailPath: '/projects/{slug}'`.
-4. Create both `detail.en.mdx` and `detail.ko.mdx` in the same folder.
-5. Export the project from `src/lib/content/projects/index.ts`.
-6. Run `pnpm lint`, `pnpm exec vitest run`, and `pnpm exec tsc --noEmit --pretty false`.
+- Project metadata, homepage card copy, and detail-page prose belong in the corresponding `detail.en.mdx` and `detail.ko.mdx` files.
+- Default and tailored home profiles belong in `src/content/home/profile.ts`.
+- Career display copy belongs in `src/content/home/careers.ts`.
+- Education and certificates stay in `src/content/home/credentials.ts`, because they are compact structured records rather than articles.
+- `src/lib/portfolio/catalog.ts` owns stable project and career identifiers, project slugs, sections, detail paths, project-to-career relationships, and static MDX registration.
+- `src/lib/portfolio/skills.ts` is the only allowed source for registered skill-chip names, group order, localized group titles, and skill lookup helpers.
+
+## Add a Project
+
+1. Create `detail.en.mdx` and `detail.ko.mdx` under `src/content/projects/{project-slug}/`.
+2. Put all localized project metadata in the YAML frontmatter of both files, including card copy, dates, links, metrics, and `techStack`.
+3. Write the case study as normal MDX below the frontmatter. Import only the interactive components that the article uses. A project without a detail page does not need a body.
+4. Import both MDX modules in `src/lib/portfolio/catalog.ts` and add one structural entry with the canonical `id`, `slug`, `section`, optional `careerId`, and optional `detailPath`.
+5. For a work project, point `careerId` to an existing entry in `careerCatalog`. A project can have exactly one such parent.
+
+## Add a Career, Education, or Certificate
+
+- Add localized career display content and its stable ID to `src/content/home/careers.ts`.
+- Add education and certificates to the typed arrays in `src/content/home/credentials.ts`.
+- Never create a second project array inside a career file or the resume data layer. The home page obtains work projects through the catalog's `careerId` relationship.
 
 ## Editing Rules
 
-- Keep EN/KO summary content side by side in `index.ts`.
-- Keep shared dates, links, skills, and image paths outside `content.en` / `content.ko`.
-- **Detail Metadata SSOT**: All detail-view metadata (title, description, role, metrics, techStack, etc.) must be defined in the YAML frontmatter of `detail.ko.mdx` and `detail.en.mdx`.
-- **Tech Stack Synchronization**: The project's `skills` array in `index.ts` acts as the homepage baseline. The `techStack` in `detail.ko.mdx` and `detail.en.mdx` frontmatter must sync with it exactly, using registered string values from `src/lib/data/skills.ts`.
-- Detail pages keep the public URL shape `/projects/{slug}`.
-- Images live under `public/images/` and should be referenced as `/images/...`.
+- Keep English and Korean frontmatter structurally aligned.
+- `techStack` values must exactly match registered names in `src/lib/portfolio/skills.ts`.
+- Do not create project-specific `index.ts` data modules or hardcode project metadata in page components.
+- Images live under `public/images/` and are referenced as `/images/...`.
 
 ## Safety Checks
 
-Use the project and content tests to verify:
-
-- Every project has English and Korean content.
-- Project ids, slugs, and detail paths are unique.
-- Every detail project has both `detail.en.mdx` and `detail.ko.mdx`.
-- English and Korean `detailMetadata` fields stay structurally synced.
-
-Current verification commands:
+Run the content tests and static checks after a content or catalog change:
 
 ```bash
 pnpm lint

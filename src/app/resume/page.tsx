@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
-import PrintableResume from '@/lib/components/PrintableResume';
-import { printableResume } from '@/lib/data/printableResume';
+import PrintableResume from '@/components/resume/PrintableResume';
+import { printableResume } from '@/content/printableResume';
 
 const RESUME_URL = 'https://resume.junwon.dev';
 

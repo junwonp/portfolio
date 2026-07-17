@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { headers } from "next/headers";
 
-import { PORTFOLIO_URL } from "@/lib/data/constants";
+import { PORTFOLIO_URL } from "@/config/site";
 import { resolvePortfolioLocale } from "@/lib/server/portfolioLocale";
 
 export const metadata: Metadata = {

@@ -1,6 +1,6 @@
 import { env } from 'cloudflare:workers';
 
-import { getAssetObjectResponse } from '@/lib/server/assetResponse';
+import { getAssetObjectResponse } from '@/lib/server/assets/response';
 
 interface RouteParams {
   params: Promise<{ filename: string }>;

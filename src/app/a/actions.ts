@@ -8,12 +8,12 @@ import {
   ADMIN_COOKIE_MAX_AGE,
   OWNER_DEVICE_COOKIE,
   OWNER_DEVICE_COOKIE_MAX_AGE,
-} from '@/lib/server/adminAccess';
+} from '@/lib/server/admin/access';
 import {
   isAdminWriteEnabledForCurrentRuntime,
   isCurrentRequestAdmin,
-} from '@/lib/server/adminRequest';
-import { ADMIN_SESSION_COOKIE } from '@/lib/server/adminSession';
+} from '@/lib/server/admin/request';
+import { ADMIN_SESSION_COOKIE } from '@/lib/server/admin/session';
 
 export async function login() {
   const isDev = process.env.NODE_ENV !== 'production';
@@ -63,7 +63,7 @@ export async function deleteApplicationLink(formData: FormData) {
   const id = Number(linkIdStr);
   if (!Number.isInteger(id) || id < 1) return;
 
-  const { getDb } = await import('@/lib/server/db');
+  const { getDb } = await import('@/lib/server/infrastructure/database');
   const db = getDb();
   if (!db) return;
   await db.batch([
@@ -83,7 +83,7 @@ export async function createApplicationLink(formData: FormData): Promise<void> {
     throw new Error('Admin writes are disabled in this environment');
   }
 
-  const { getDb } = await import('@/lib/server/db');
+  const { getDb } = await import('@/lib/server/infrastructure/database');
   const db = getDb();
   if (!db) {
     console.error('Database missing');
@@ -96,7 +96,7 @@ export async function createApplicationLink(formData: FormData): Promise<void> {
     isReservedApplicationSlug,
     normalizeApplicationProjectIds,
     toSqlDateTime,
-  } = await import('@/lib/server/applicationLinks');
+  } = await import('@/lib/server/application-links/model');
 
   const getExpiresAt = (ttlDays: number): string => {
     const expiresAt = new Date();

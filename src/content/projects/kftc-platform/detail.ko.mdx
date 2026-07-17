@@ -1,0 +1,82 @@
+---
+dateFrom: '2026-04'
+dateTo: '2026-05'
+icon: null
+image: null
+paradigm: assisted
+title: 금융결제원 금융인증서 마케팅 플랫폼
+titleBadge: '프론트엔드 외주'
+description: 금융인증서 기반 프로모션 플랫폼의 회원가입, 동의, 이벤트, 챌린지, 리워드, 알림, 마이페이지 흐름을 구현한 프론트엔드 외주 프로젝트
+role: '프론트엔드 개발자 (외주)'
+date: '2026-04 ~ 2026-05'
+platforms: ['Web']
+metrics:
+  [
+    { value: '1개월', label: '개발 기간' },
+    { value: '141', label: '통과 테스트' },
+    { value: '59', label: '테스트 파일' },
+  ]
+techStack: ['TypeScript', 'React', 'Tailwind CSS', 'TanStack Query', 'Zod', 'Vitest']
+featuredSkills: ['TypeScript', 'React', 'TanStack Query', 'Zod', 'Vitest']
+summaryDetails:
+  [
+    '**[금융인증서 사용자 플로우]** FinCert 연동을 중심으로 회원가입, 동의 유지, 프로필 수정, 탈퇴, 사용자 오류 처리 흐름을 구현했습니다.',
+    '**[프로모션 도메인]** 이벤트, 챌린지, 출석, 행운권, 포인트, 쿠폰, FAQ, 공지, 알림 화면을 재사용 가능한 프로모션 상세 플로우로 구성했습니다.',
+    '**[데이터 신뢰성]** **TanStack Query** 기반 query key 계약, 선택적 무효화, 민감 데이터 제외 영속 캐시, 회귀 테스트로 변경이 잦은 캠페인 데이터를 안정적으로 다뤘습니다.',
+    '**[폼과 검증]** **React Hook Form**과 **Zod**를 적용해 프로필·참여 폼을 Type-Safe하고 사용자 친화적으로 구성했습니다.',
+    '**[검증 근거]** 로컬 프로젝트 기준 `yarn lint`, `yarn typecheck`, `yarn test`를 실행해 **59개 테스트 파일 / 141개 테스트 통과**를 확인했습니다.',
+  ]
+---
+
+import ProjectAchievements from '@/components/portfolio/project-detail/ProjectAchievements';
+import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechStack';
+
+## 프로젝트 소개
+
+**"금융결제원의 금융인증서 마케팅 프로모션 및 리워드 플랫폼"**
+
+금융결제원 금융인증서 기반 프로모션 플랫폼의 회원가입, 동의 유지, 이벤트, 챌린지, 리워드, 마이페이지 흐름 등을 담당한 프론트엔드 외주 개발 프로젝트입니다.
+
+금융 관련 서비스인 만큼 높은 신뢰도와 안정적인 데이터 일관성이 요구되었습니다. 촉박한 일정 속에서도 분석-설계-구현 단계를 나누고, 회원가입·약관 동의·프로모션 상세·마이페이지·알림 등 사용자 흐름을 독립적으로 구현했습니다. `react-hook-form`과 `zod`를 결합하여 폼 검증 기준을 공유했고, `@tanstack/react-query`의 영속 캐시와 `idb-keyval`을 사용하되 세션·포인트·알림처럼 민감하거나 자주 바뀌는 데이터는 persistence 대상에서 제외했습니다. 또한 Express Mock 서버와 Storybook을 도입해 백엔드 개발과 병렬로 화면 상태를 검증했습니다.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## 주요 작업
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Architecture',
+      accent: true,
+      title: 'React 19, Vite, TailwindCSS v4 기반 관심사 분리 및 폼 검증 설계',
+      detail: `React 19와 TypeScript, Vite를 활용해 높은 빌드 속도와 컴파일 검증을 구축했습니다. api, components, hooks 등으로 디렉토리를 명확히 나누어 비즈니스 로직을 구조화했습니다. 회원가입 및 마케팅 약관 동의 등 복잡한 사용자 폼을 react-hook-form과 zod 스키마 정의로 검증하여 선언적이고 안전하게 구성했습니다.`,
+    },
+    {
+      tag: 'Performance',
+      title: '민감 데이터 제외 IndexedDB 캐시 정책',
+      detail: `@tanstack/react-query-persist-client와 idb-keyval을 활용해 IndexedDB 기반의 클라이언트 캐싱 구조를 구축했습니다. 단, 모든 데이터를 무조건 저장하지 않고 세션, 포인트 잔액, 알림 카운트, 경품 수령 내역처럼 민감하거나 자주 바뀌는 query key는 persistence 대상에서 제외했습니다. 기본 staleTime은 1분, gcTime과 persist maxAge는 24시간으로 두고, 이벤트·챌린지·알림처럼 최신성이 중요한 도메인은 staleTime 0으로 별도 관리했습니다.`,
+    },
+    {
+      tag: 'DX',
+      title: 'Express Mock 서버로 백엔드 의존성 분리',
+      detail: `Express로 세션 쿠키 기반 인증, 상태 유지, 페이지네이션, 그리고 MOCK_DELAY 지연 시간을 포함하는 Mock API 서버를 구축했습니다. 백엔드 구현 속도에 종속되지 않고 프론트엔드 기능과 오류 상태를 먼저 검증할 수 있었고, API 스펙 변경 시 query key와 화면 상태 전이가 함께 깨지는지 확인했습니다.`,
+    },
+    {
+      tag: 'Quality',
+      accent: true,
+      title: '테스트·타입·린트 게이트 통과',
+      detail: `로컬 프로젝트 기준으로 <code>yarn test</code>는 <strong>59개 테스트 파일 / 141개 테스트</strong>를 모두 통과했고, <code>yarn typecheck</code>(tsc -b --noEmit)와 <code>yarn lint</code>(eslint .)도 통과했습니다. 테스트 범위에는 프로모션 상세 플로우, 알림, 폼 필드, 이미지 fallback, 접근성 속성, FinCert 사용자 취소 처리, queryClient 정책이 포함됩니다.`,
+    },
+    {
+      tag: 'UX',
+      title: '복합 프로모션 챌린지 로직의 커스텀 훅 추상화 및 Lottie 애니메이션 구현',
+      detail: `누적/연속 참여 챌린지, 행운권 추첨, 포인트 등 까다로운 조건 검증 로직을 커스텀 훅으로 추상화했습니다. 또한, Storybook을 사용해 컴포넌트 단위로 독립 테스트하고, @lottiefiles/dotlottie-react 기반의 티켓 룰렛, 출석 도장 애니메이션으로 반응형 인터랙션을 강화했습니다.`,
+    },
+  ]}
+/>
+
+## 회고
+
+**금융 도메인에 맞춘 프론트엔드 안정성:** 이 프로젝트에서 제가 공개적으로 말할 수 있는 범위는 프론트엔드 화면과 상태 관리입니다. 그래서 “금융 보안 전체를 구현했다”가 아니라, 타입 정의, Zod 기반 폼 검증, query key 정책, 민감 데이터 제외 캐싱, 오류 메시지 처리처럼 프론트엔드가 책임지는 안정성에 집중했습니다.
+
+**독립적 병렬 개발의 가치:** Express로 자체 Mock 서버를 구축하여 백엔드 지연과 관계없이 약속된 API 스펙에 맞춰 프론트엔드 비즈니스 로직을 완결성 있게 구현했습니다. 이는 협업 프로세스에서 속도와 유연성을 동시에 높이는 법을 배우는 계기가 되었습니다.

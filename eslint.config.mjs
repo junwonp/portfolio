@@ -9,7 +9,6 @@ const eslintConfig = [
       '**/node_modules/**',
       '**/.next/**',
       '**/.vercel/**',
-      '**/.open-next/**',
       '**/.vinext/**',
       '**/dist/**',
       '**/out/**',

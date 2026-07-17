@@ -1,0 +1,232 @@
+---
+dateFrom: '2024-07'
+dateTo: '2025-12'
+icon: /images/aira/icon.webp
+paradigm: assisted
+title: aira
+description: Global AI character chat platform. Led the entire journey from planning to 23k MAU as Co-Founder and Frontend Lead.
+role: 'Co-Founder · Frontend Lead'
+date: '2024-07 ~ 2025-12'
+image: '/images/aira/v2_main.webp'
+platforms: ['Android', 'iOS', 'Web']
+metrics:
+  [
+    { value: '23k', label: 'MAU (Peak)' },
+    { value: '$3,000', label: 'Monthly Revenue' },
+    { value: '46 min', label: 'Avg. Session' },
+  ]
+techStack:
+  [
+    'TypeScript',
+    'Expo',
+    'TanStack Query',
+    'FlashList',
+    'Reanimated',
+    'Zod',
+    'Firebase',
+    'Sentry',
+    'EAS',
+    'GitHub Actions',
+  ]
+featuredSkills: ['TypeScript', 'Expo', 'TanStack Query', 'FlashList', 'EAS']
+summaryDetails:
+  [
+    "**[Key Achievements]** Achieved 23k MAU and $3,000 monthly revenue with an average session time of 46 minutes — ranked 57th in Google Play Entertainment (as of Feb '25).",
+    '**[Ownership Scope]** Owned the frontend architecture from product planning to release operations, including chat UX, server-state design, EAS/TestFlight delivery, Sentry monitoring, and monetization UI.',
+    '**[Streaming Chat & Optimistic UI]** Validated stream chunks at runtime with **Zod** and patched TanStack Query **InfiniteQuery** cache in real-time per chunk to create typing animations. Applied optimistic update pattern via `onMutate` for instant message insertion with rollback on failure.',
+    '**[Type-Safe Server State Management]** Designed a **queryData facade** that structures `QueryClient` access by domain, providing hierarchical query key factories for bulk invalidation and type-safe cache get/update/delete operations.',
+    '**[Data Persistence & Cache Isolation]** Migrated on-device (Realm) → server (RDB) data without loss using retry logic and transaction flags. Separated **MMKV** into purpose-specific instances (document, cache, settings) and auto-isolated per-user caches via `PersistQueryClientProvider` `buster: uid`.',
+    '**[Rendering Performance Optimization]** Maintained stable 60 FPS with **FlashList** View Recycling and **React Compiler**. Handled keyboard-open scroll on the UI thread via **Reanimated** worklet-based `useAnimatedReaction`, eliminating JS thread bottlenecks.',
+    '**[Cross-Platform Architecture]** Supported Android, iOS, and Web simultaneously from a single codebase using **Expo Router**. Separated platform-specific Contexts via `.web.tsx` file extensions to prevent native-only packages from leaking into the web bundle. Auto-bound **Unistyles** tokens to React Navigation `ThemeProvider` for synchronized theme switching.',
+    '**[Design Token System]** Implemented numeric-scale color palettes and dark/light/auto themes with **Unistyles**. Eliminated theme flicker on app restart via MMKV synchronous reads. Applied fontScale clamping (1–1.2) for accessibility-safe layouts.',
+    '**[Type-Safe i18n]** Enforced compile-time translation key validation with **typesafe-i18n** and deferred rendering until Intl polyfills fully loaded to prevent locale glitches. Synchronized OS settings and dayjs on language switch.',
+    '**[UX-Centric Monetization]** Designed **Native Ads** UI to prevent CLS and monitored drop-off rates to achieve revenue growth without compromising the user experience.',
+    '**[Service Stability]** Built a precise error tracking environment by integrating Sentry and dSYM, and prevented user churn with a rapid rollback process when Android-specific issues arose.',
+    '**[Operational Efficiency]** Built CI/CD pipelines using **EAS** and **GitHub Actions** (automated Android closed-track deployment, iOS TestFlight) and established a device compatibility testing process via **Samsung Test Lab**.',
+  ]
+---
+
+import ProjectAchievements from '@/components/portfolio/project-detail/ProjectAchievements';
+import ProjectLightbox from '@/components/portfolio/project-detail/ProjectLightbox';
+import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechStack';
+import ImageDescription from '@/components/portfolio/project-detail/ImageDescription';
+import ImageGallery from '@/components/portfolio/project-detail/ImageGallery';
+
+## Project overview
+
+**"AI Character Chat Service used by 23k people"**
+
+aira is a chat application that allows users to converse freely with various AI characters.
+As a Co-Founder and Frontend Lead, I led the **entire process from planning to product launch and achieving 23k MAU (Monthly Active Users).**
+
+I focused on designing a **combined Local-Server architecture** to prevent data loss and **meticulously optimizing rendering performance** to provide a seamless chat experience even on low-end devices.
+
+My ownership covered product planning, frontend architecture, streaming chat UX, server-state/cache design, EAS/TestFlight release operations, Sentry monitoring, and monetization UI.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## Key work
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Streaming',
+      accent: true,
+      title: 'Real-time streaming UI with live InfiniteQuery cache patching',
+      detail: `As AI chunks stream in, patches the <strong>TanStack Query InfiniteQuery cache directly per chunk</strong> — same <code>message-{index}</code> replaces content (typing effect), new index inserts a record. Manages <code>InfiniteData</code> immutable updates without Immer. A Zod <code>z.union</code> schema distinguishes content / final event types; <code>safeParse</code> silently skips malformed chunks. Optimistic updates pre-insert user messages and update session previews simultaneously; rollback on error.`,
+    },
+    {
+      tag: 'Performance',
+      accent: true,
+      title: 'Smooth 60fps chat on low-end devices via FlashList + worklet keyboard',
+      detail: `Replaced <code>FlatList</code> with <strong>FlashList</strong> (view recycling) to eliminate frame drops and white-screen flickering in large chat logs. Keyboard scroll handler runs in a <strong>Reanimated worklet on the UI thread</strong> — never dropped even under heavy JS load. Delegated <code>scrollToEnd</code> to the RN thread via <code>scheduleOnRN</code> to respect thread boundaries. Cursor-based pagination via <code>useInfiniteQuery</code> keeps retrieval speed stable as history grows.`,
+    },
+    {
+      tag: 'Caching',
+      accent: true,
+      title: 'Instant app launch: MMKV-backed TanStack Query persistence',
+      detail: `Integrated <strong>TanStack Query</strong> persistence (<code>PersistQueryClientProvider</code>) with <strong>MMKV</strong> to display cached data immediately on launch — zero network wait. Separated MMKV into <code>document</code> / <code>cache</code> / <code>settings</code> instances for independent invalidation. Using <code>buster: uid</code> auto-isolates per-user caches on login, eliminating manual <code>queryClient.clear()</code> calls and timing-related bugs.`,
+    },
+    {
+      tag: 'Architecture',
+      title: 'Cross-platform: single codebase for Android, iOS, and Web',
+      detail: `Built on <strong>Expo Router</strong>, sharing all business logic while using <code>*.ios.ts</code> / <code>*.web.ts</code> extensions for platform-specific UI. Applied a <code>.web.tsx</code> Context separation pattern so native-only packages (<code>expo-iap</code>, <code>google-mobile-ads</code>) are excluded from the web bundle via Metro's file extension resolution — blocking both bundle bloat and runtime errors at the build level.`,
+    },
+    {
+      tag: 'Migration',
+      title: 'Zero-loss data migration: Realm → Firestore',
+      detail: `When a privacy policy change forced a shift from local-first to server storage, built a <strong>Retry Logic + Transaction Flag</strong> mechanism: even if the app is killed or loses network mid-migration, it resumes from the exact checkpoint on the next launch. Transferred tens of thousands of users' conversation records without data loss.`,
+    },
+    {
+      tag: 'Dx',
+      title: 'Type-safe query cache facade (queryData)',
+      detail: `All <code>QueryClient</code> access funneled through a domain-organized <code>queryData</code> facade. Hierarchical key factories (<code>keys.message.list(sessionId)</code>) enable safe bulk invalidation. <code>update.message.list(sessionId)(updater)</code> infers updater types via <code>Updater&lt;T, T&gt;</code> generics — cache type mismatches are caught at compile time.`,
+    },
+    {
+      tag: 'Dx',
+      title: 'Adopted React Compiler — removed all manual memoization',
+      detail: `Removed <code>useMemo</code> / <code>useCallback</code> scattered across the complex chat UI by introducing <strong>React Compiler</strong>. The compiler handles most optimizations automatically; manual overrides are applied only where fine-grained control is genuinely needed. Result: noticeably cleaner code with no performance regression.`,
+    },
+    {
+      tag: 'Form',
+      title: 'Declarative Form Validation with Zod Integration',
+      detail: `Implemented schema-based validation for complex input fields such as character creation and user profiles. Handled submission status and disabled states declaratively in the component tree to maintain consistent error handling and user feedback.`,
+    },
+    {
+      tag: 'Dx',
+      title: 'Design token system: Unistyles numeric-scale palette + zero theme flicker',
+      detail: `Numeric-scale color palette via <strong>Unistyles</strong>; light/dark themes select different steps from the same palette. MMKV's synchronous read applies the theme before the first render, <strong>eliminating the AsyncStorage flicker</strong>. Typography scales with device accessibility settings (<code>UnistylesRuntime.fontScale</code>), clamped to 1–1.2 to prevent layout breakage.`,
+    },
+    {
+      tag: 'Ux',
+      title: 'Non-intrusive monetization: custom Native Ads format',
+      detail: `Designed a <strong>Native Ads</strong> format showing only the 'AD' tag and title in a thin bar at the top of the chat screen — minimal footprint, zero disruption to conversation flow. Continuously monitored post-launch <strong>drop-off rate data</strong> to quantitatively track the revenue/UX trade-off.`,
+    },
+    {
+      tag: 'I18n',
+      title: 'Compile-time i18n safety with typesafe-i18n',
+      detail: `<code>typesafe-i18n</code> auto-generates TypeScript types from translation files — invalid keys and missing parameters caught at <strong>compile time</strong>. Children render only after locale files fully load, preventing garbled display names on first screen. Language switches sync OS locale, save to MMKV, async-load translation files, then update the i18n context in sequence.`,
+    },
+    {
+      tag: 'R&D',
+      accent: true,
+      title: 'Next-Gen Shorts UI & iOS 26 Liquid Glass Native Acceleration Experiment',
+      detail: `Designed and prototyped a <strong>full-screen Shorts-style swipe UI</strong> to maximize user immersion, allowing users to transition from browsing to chatting seamlessly. To optimize runtime graphic overhead, bypassed Javascript calculation bottlenecks by integrating native iOS rendering APIs via <strong>UIGlassView</strong>, implementing fluid Liquid Glass visual effect while maximizing battery efficiency.`,
+    },
+  ]}
+/>
+
+## Screenshots
+
+<ProjectLightbox
+  images={[
+    {
+      src: '/images/aira/desktop_main.webp',
+      mobileSrc: '/images/aira/desktop_main_mobile.jpg',
+      alt: 'aira Desktop Main Screen',
+      caption: 'Desktop/Web main interface (responsive)',
+    },
+    {
+      src: '/images/aira/desktop_chat.webp',
+      mobileSrc: '/images/aira/desktop_chat_mobile.jpg',
+      alt: 'aira Desktop Chat Screen',
+      caption: 'Chat experience optimized for desktop',
+    },
+    {
+      src: '/images/aira/home_ads.webp',
+      alt: 'aira Home Ads',
+      caption: 'Home feed ads designed to not disrupt flow',
+    },
+    {
+      src: '/images/aira/chat_ads.webp',
+      alt: 'aira Chat Ads',
+      caption: 'Slim-bar native ads at the top of chat',
+    },
+    {
+      src: '/images/aira/reward_ads.webp',
+      alt: 'aira Reward Ads',
+      caption: 'Reward ad screen for point recharge',
+    },
+  ]}
+/>
+
+### Real-Device Interactions & Performance Demos
+
+Recorded videos verifying runtime usability, performance improvements, and interface experiments.
+
+- **60fps Scroll Performance (FlashList):** Implemented view recycling mechanism to avoid memory bottlenecks and frame drops even under long scroll logs. Integrated Reanimated worklets running on the UI thread to dynamically adjust scrolling behavior according to the keyboard height, ensuring smooth 60fps scrolling experience even when JS thread is highly occupied.
+- **Shorts-style Character Swiping & iOS 26 Liquid Glass R&D:** Designed a unified layout mimicking mobile short-form video feeds where users can navigate character profiles by swiping up/down, instantly beginning conversation on the spot. Leveraged iOS native rendering APIs (`UIGlassView`) to bypass heavy Javascript CPU/GPU bottlenecks, achieving the fluid Liquid Glass effect with extreme battery efficiency.
+
+<ImageGallery>
+  <ImageDescription
+    src="/images/aira/chat_flashlist.mp4"
+    alt="aira Chat FlashList Demo"
+    width={1170}
+    height={2532}
+  />
+  <ImageDescription
+    src="/images/aira/home_flashlist.mp4"
+    alt="aira Home FlashList Demo"
+    width={1170}
+    height={2532}
+  />
+</ImageGallery>
+
+<ImageGallery>
+  <ImageDescription
+    src="/images/aira/v2_home.mp4"
+    alt="aira V2 Shorts UI and Liquid Glass demo"
+    width={1170}
+    height={2532}
+  />
+</ImageGallery>
+
+## Retrospective
+
+**"The essence of engineering learned in a startup"**
+
+### 1. Streaming and Cache Synchronization are More Complex Than Expected
+
+Initially, I tried accumulating stream chunks in local `useState` and refetching the Query upon completion. The problem was the screen briefly going blank during refetch. After switching to the current approach (directly patching InfiniteQuery cache per chunk), typing animations became smooth and flickering disappeared. The trade-off is that `InfiniteData` immutable update code is long and harder to read, but I chose to write it directly without Immer considering bundle size.
+
+### 2. Platform-Specific Bundle Separation Should Be Designed Early
+
+When adding web support later, native-only packages (`expo-in-app-purchases`, `react-native-google-mobile-ads`) leaked into the web bundle causing runtime errors. I resolved this with platform-specific Context separation using Metro's file extension resolution rules (`.web.tsx` priority), but knowing this pattern from the project's inception would have eliminated refactoring costs entirely.
+
+### 3. The MMKV + PersistQueryClientProvider `buster` Combination
+
+Initially, I manually called `queryClient.clear()` on logout. Then I discovered cases where the cache wasn't fully cleared due to component unmount timing issues. Using `buster: uid` means `PersistQueryClientProvider` automatically invalidates the cache when it mounts with a different buster, enabling safe per-user cache isolation without timing dependencies.
+
+### 4. Reanimated Worklet Boundaries Must Be Strictly Observed
+
+Directly calling `FlashList.scrollToEnd()` inside a `useAnimatedReaction` callback caused crashes. Worklets run on the UI thread, and `scrollToEnd` is a JS/RN thread API — crossing thread boundaries is not allowed. After delegating to the RN thread via `scheduleOnRN`, it worked stably. This was a firsthand lesson in React Native's multi-thread model.
+
+### 5. The Boundary of Over-Engineering
+
+Ideally, I thought writing perfect code was always best. However, running a startup taught me that **"excessive technical investment in unverified features can be a business risk."**
+I acquired a **flexible engineering mindset**, not giving up on code quality, but **strategically deciding the allowable range of technical debt according to the service's growth stage (MVP vs. Scale-up)** and focusing on verifying core values.
+
+### 6. Understanding Business Models and Cost Structures
+
+AI services have high cost structures (GPU/API costs). On the other hand, ad-based B2C models had limitations in increasing revenue per user (ARPU).
+I realized that even technically superior services are hard to sustain without a **solid Business Model** to cover high operating costs. Through this, I deeply understood that developers must **consider cost efficiency and revenue structure beyond just technical implementation.**

@@ -1,0 +1,271 @@
+import { describe, expect, it } from 'vitest';
+
+import { defaultProfile, profilePresets } from '@/content/home';
+import {
+  getFeaturedWebProjects,
+  getResumeData,
+  getSummaryIntroduction,
+  normalizeSummaryPresetMetadata,
+  resolveFeaturedProjectIds,
+  resolveRolePreset,
+  resolveSummaryPreset,
+  resolveTailoredView,
+  summaryPresetIds,
+  summaryPresetMetadata,
+} from '@/lib/portfolio/resume';
+
+describe('resume data for web frontend applications', () => {
+  it('keeps the previous product-growth summary as the default introduction', () => {
+    const resume = getResumeData('ko');
+    const metricLabels = resume.introduction.metrics?.map((metric) => metric.label) ?? [];
+
+    expect(resume.introduction.tagline).toContain('제품의 시작부터 성장까지');
+    expect(resume.introduction.focusKeywords).toEqual([
+      'React',
+      'TypeScript',
+      'Next.js',
+      'React Native',
+      'TanStack Query',
+      'Cloudflare',
+    ]);
+    expect(metricLabels).toContain('MAU (최대)');
+    expect(metricLabels).toContain('평균 체류시간');
+    expect(metricLabels).toContain('구글 플레이');
+  });
+
+  it('surfaces web frontend metrics in the ops-data summary preset', () => {
+    const summary = getSummaryIntroduction('ko', 'ops-data');
+    const metricLabels = summary.metrics?.map((metric) => metric.label) ?? [];
+
+    expect(summary.tagline).toContain('데이터 중심 웹 시스템');
+    expect(metricLabels).toContain('행/로그 처리');
+    expect(metricLabels).toContain('번들 절감');
+    expect(metricLabels).toContain('API 캐시');
+  });
+
+  it('maps every visible localized summary preset to its frontmatter', () => {
+    expect(summaryPresetMetadata).toEqual({
+      en: {
+        default: defaultProfile.en,
+        'ops-data': profilePresets.en['ops-data'],
+        web: profilePresets.en.web,
+        rn: profilePresets.en.rn,
+        'web-rn': profilePresets.en['web-rn'],
+        ai: profilePresets.en.ai,
+      },
+      ko: {
+        default: defaultProfile.ko,
+        'ops-data': profilePresets.ko['ops-data'],
+        web: profilePresets.ko.web,
+        rn: profilePresets.ko.rn,
+        'web-rn': profilePresets.ko['web-rn'],
+        ai: profilePresets.ko.ai,
+      },
+    });
+  });
+
+  it('returns a non-empty tagline and pillars for every localized summary preset', () => {
+    for (const locale of ['en', 'ko'] as const) {
+      for (const preset of summaryPresetIds) {
+        const summary = getSummaryIntroduction(locale, preset);
+
+        expect(summary.tagline.trim()).not.toBe('');
+        expect(summary.pillars?.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('rejects incomplete summary frontmatter with its locale and preset', () => {
+    const validPillar = {
+      index: '01',
+      title: 'Valid title',
+      description: 'Valid description',
+    };
+
+    for (const metadata of [
+      { pillars: [validPillar] },
+      { tagline: 'Valid tagline', pillars: [] },
+      {
+        tagline: 'Valid tagline',
+        pillars: [{ ...validPillar, index: '' }],
+      },
+      {
+        tagline: 'Valid tagline',
+        pillars: [{ ...validPillar, title: '' }],
+      },
+      {
+        tagline: 'Valid tagline',
+        pillars: [{ ...validPillar, description: '' }],
+      },
+    ] as unknown[]) {
+      expect(() =>
+        normalizeSummaryPresetMetadata(
+          metadata as Parameters<typeof normalizeSummaryPresetMetadata>[0],
+          'ko',
+          'ai',
+        ),
+      ).toThrow('ko/ai');
+    }
+  });
+
+  it('omits role-fit projects by default', () => {
+    expect(getFeaturedWebProjects('ko')).toEqual([]);
+  });
+
+  it('returns role-fit projects in the requested order', () => {
+    const featured = getFeaturedWebProjects('ko', [
+      'today_weather',
+      'web_viewer',
+      'admin_dashboard',
+    ]);
+
+    expect(featured.map((exp) => exp.project[0].id)).toEqual([
+      'today_weather',
+      'web_viewer',
+      'admin_dashboard',
+    ]);
+    expect(featured[2].project[0].detailLink).toBe('/projects/admin-dashboard');
+    expect(featured[2].project[0].featuredSkills).toEqual([
+      'TypeScript',
+      'React',
+      'TanStack Query',
+      'MUI',
+    ]);
+  });
+
+  it('localizes internal project detail links for English pages', () => {
+    const featured = getFeaturedWebProjects('en', ['today_weather', 'admin_dashboard']);
+
+    expect(featured[0].project[0].detailLink).toBe('/en/projects/today-weather');
+    expect(featured[1].project[0].detailLink).toBe('/en/projects/admin-dashboard');
+  });
+
+  it('keeps the defense resource dashboard as an inline-only career project', () => {
+    const featured = getResumeData('ko')
+      .workExperiences.flatMap((experience) => experience.project)
+      .find((project) => project.id === 'mnd_dashboard');
+
+    expect(featured?.detailLink).toBeUndefined();
+    expect(featured?.detail).toContain(
+      '**[React 전환 참여]** 제한망에서 동작하던 자원 현황·통계 시스템을 **React 기반 대시보드 구조로 전환하는 작업에 참여**했습니다.',
+    );
+  });
+
+  it('groups every work project by its stable career id', () => {
+    const resume = getResumeData('ko');
+    const orca = resume.workExperiences.find((experience) => experience.id === 'orca_ai');
+    const nonOrcaProjects = resume.workExperiences
+      .filter((experience) => experience.id !== 'orca_ai')
+      .flatMap((experience) => experience.project);
+
+    expect(orca?.project.map((project) => project.id)).toContain('aira');
+    expect(nonOrcaProjects).not.toContainEqual(expect.objectContaining({ id: 'aira' }));
+  });
+
+  it('maps project icons before falling back to screenshot thumbnails', () => {
+    const featured = getFeaturedWebProjects('ko', ['aira', 'today_weather', 'day_planner']);
+
+    expect(featured[0].project[0].thumbnail).toEqual({
+      src: '/images/aira/icon.webp',
+      alt: '아이라 (aira) 아이콘',
+      kind: 'icon',
+    });
+    expect(featured[1].project[0].thumbnail).toEqual({
+      src: '/images/today-weather/icon.webp',
+      alt: '오늘날씨 (Today’s Weather) — 맞춤형 날씨 및 생활 가이드 아이콘',
+      kind: 'icon',
+    });
+    expect(featured[2].project[0].thumbnail).toEqual({
+      src: '/images/day-planner/icon.webp',
+      alt: 'Day Planner — 시간 관리를 위한 크로스 플랫폼 스케줄러 아이콘',
+      kind: 'icon',
+    });
+  });
+
+  it('resolves role-fit project ids from query params', () => {
+    const params = new URLSearchParams(
+      'projects=today_weather,web_viewer&projectIds=admin_dashboard&projectId=aira&projectId=today_weather',
+    );
+
+    expect(resolveFeaturedProjectIds(params)).toEqual([
+      'today_weather',
+      'web_viewer',
+      'admin_dashboard',
+      'aira',
+    ]);
+  });
+
+  it('resolves summary presets for the opening intro', () => {
+    expect(resolveSummaryPreset(null)).toBe('default');
+    expect(resolveSummaryPreset('opsData')).toBe('ops-data');
+    expect(resolveSummaryPreset('webRn')).toBe('web-rn');
+    expect(resolveSummaryPreset('ai')).toBe('ai');
+    expect(resolveSummaryPreset('invalid')).toBe('default');
+    expect(resolveRolePreset('webFrontend')).toBe('web');
+    expect(resolveRolePreset('reactNative')).toBe('mobile');
+    expect(resolveRolePreset('aiFrontend')).toBe('ai');
+
+    const defaultSummary = getSummaryIntroduction('ko');
+    const defaultMetricLabels = defaultSummary.metrics?.map((metric) => metric.label) ?? [];
+
+    expect(defaultSummary.tagline).toContain('제품의 시작부터 성장까지');
+    expect(defaultSummary.focusKeywords).toContain('React');
+    expect(defaultSummary.focusKeywords).toContain('TypeScript');
+    expect(defaultSummary.pillars?.[0].title).toBe('프로덕션 프론트엔드 시스템');
+    expect(defaultMetricLabels).toContain('MAU (최대)');
+    expect(defaultMetricLabels).toContain('평균 체류시간');
+    expect(defaultMetricLabels).toContain('구글 플레이');
+    expect(getSummaryIntroduction('ko', 'ops-data').pillars?.[0].title).toBe('운영 웹 시스템');
+    expect(getSummaryIntroduction('ko', 'web').pillars?.[0].title).toBe('제품형 UI 시스템');
+    expect(getSummaryIntroduction('en', 'rn').pillars?.[0].title).toBe('Cross-Platform Mobile');
+    expect(getSummaryIntroduction('en', 'web-rn').pillars?.[0].title).toBe(
+      'Shared Code Architecture',
+    );
+    expect(getSummaryIntroduction('ko', 'ai').pillars?.[0].title).toBe('엔지니어가 통제하는 AI');
+  });
+
+  it('resolves role-specific tailored views while preserving explicit query overrides', () => {
+    expect(resolveTailoredView(new URLSearchParams('role=webFrontend'))).toEqual({
+      summaryPreset: 'web',
+      projectIds: ['camerafi_studio', 'today_weather', 'web_viewer', 'admin_dashboard'],
+    });
+    expect(resolveTailoredView(new URLSearchParams('role=reactNative'))).toEqual({
+      summaryPreset: 'rn',
+      projectIds: ['aira', 'onelinebank_rebuild', 'today_weather', 'day_planner'],
+    });
+    expect(resolveTailoredView(new URLSearchParams('role=aiFrontend'))).toEqual({
+      summaryPreset: 'ai',
+      projectIds: ['aira', 'nextjs_portfolio', 'agentic_workflow', 'today_weather'],
+    });
+    expect(
+      resolveTailoredView(new URLSearchParams('role=ai&summary=web&projects=web_viewer')),
+    ).toEqual({
+      summaryPreset: 'web',
+      projectIds: ['web_viewer'],
+    });
+  });
+
+  it('uses application link overrides when query params are absent', () => {
+    expect(
+      resolveTailoredView(new URLSearchParams(), {
+        projectIds: ['today_weather', 'camerafi_studio'],
+        role: 'web',
+        summaryPreset: 'ops-data',
+      }),
+    ).toEqual({
+      summaryPreset: 'ops-data',
+      projectIds: ['today_weather', 'camerafi_studio'],
+    });
+
+    expect(
+      resolveTailoredView(new URLSearchParams('summary=ai&projects=aira'), {
+        projectIds: ['today_weather'],
+        role: 'web',
+        summaryPreset: 'ops-data',
+      }),
+    ).toEqual({
+      summaryPreset: 'ai',
+      projectIds: ['aira'],
+    });
+  });
+});

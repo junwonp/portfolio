@@ -1,4 +1,4 @@
-import { skillsShared } from "@/lib/data/skills";
+import { skillsShared } from "@/lib/portfolio/skills";
 
 const orderMap = new Map<string, number>();
 let index = 0;

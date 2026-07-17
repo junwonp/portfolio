@@ -1,0 +1,123 @@
+---
+dateFrom: '2020-08'
+dateTo: '2020-10'
+icon: null
+image: null
+paradigm: assisted
+title: 웹 기반 문서 뷰어
+description: 인트라넷 대용량 문서를 위한 스프레드시트·텍스트 뷰어
+role: 'Frontend Engineer'
+date: '2020-08 ~ 2020-10'
+metrics:
+  [
+    { value: '2 Views', label: '그리드+텍스트' },
+    { value: '1K+ 행', label: '재구성 Fixture' },
+    { value: '2D', label: '영역 선택' },
+  ]
+techStack:
+  [
+    'TypeScript',
+    'React',
+    'styled-components',
+    'Redux',
+    'react-window',
+    'react-virtualized',
+    'Socket.IO',
+  ]
+featuredSkills:
+  [
+    'TypeScript',
+    'React',
+    'react-window',
+    'react-virtualized',
+    'Socket.IO',
+  ]
+summaryDetails:
+  [
+    '**[이중 뷰어 범위]** 엑셀형 그리드 뷰어와 줄 단위 텍스트 뷰어를 함께 구축하고, 컨테이너 상호작용 로직과 순수 렌더링 컴포넌트를 분리했습니다.',
+    '**[안전한 규모 근거]** ①공개 데이터를 노출하지 않기 위해 **1,000행 이상 재구성 Fixture**로 가상 스크롤, 선택 앵커, 대용량 렌더링을 검증했습니다.',
+    '**[고성능 가상화]** 대용량 그리드는 **react-window**, 가변 높이 텍스트 줄은 **react-virtualized**로 처리해 무거운 문서에서도 스크롤과 선택 응답성을 유지했습니다.',
+    '**[2D 영역 선택 UX]** 직사각형 셀 선택, 역방향 줄 범위 정규화, 다중 영역 드래그 업데이트와 실시간 시각 피드백을 구현했습니다.',
+    '**[실시간 협업 기능]** **Socket.IO**로 공유 하이라이트와 코멘트를 연동하고, 제한된 인트라넷 환경에서도 개발 가능한 Mock 소켓 레이어를 구축했습니다.',
+    '**[컴포넌트 시스템]** 재사용 가능한 컴포넌트 라이브러리를 바닥부터 설계하여, 인트라넷 플랫폼 전체의 UI 일관성을 확보했습니다.',
+  ]
+---
+
+import ProjectAchievements from '@/components/portfolio/project-detail/ProjectAchievements';
+import ProjectLightbox from '@/components/portfolio/project-detail/ProjectLightbox';
+import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechStack';
+import MermaidDiagram from '@/components/portfolio/project-detail/MermaidDiagram';
+
+export const viewerChart = `flowchart TD
+  1["1. 제한망 인트라넷<br/>로컬 개발에서 외부 서비스와 운영 데이터를 사용하지 않음"] --> 2["2. Mock 소켓 레이어<br/>Socket.IO와 동일한 이벤트 계약으로 오프라인 UI 검증"]
+  2 --> 3["3. 뷰어 컨테이너<br/>상태, 영역 선택, Popover, 협업 이벤트를 담당"]
+  3 --> 4["4. 가상화 렌더러<br/>그리드는 react-window, 가변 텍스트 줄은 react-virtualized"]`;
+
+## 프로젝트 소개
+
+**"수천 행도 끊기지 않게, 엑셀에 가까운 그리드와 텍스트를 브라우저에서"**
+
+`react-table` 기반의 **스프레드시트형 그리드**와 **줄 단위 텍스트 뷰어**를 한 패키지로 구성하고, 드래그로 **2D 영역 선택**·다중 영역·가상 스크롤까지 묶었습니다. 컨테이너와 렌더링 베이스를 나누어 테스트와 확장에 유리하게 두었습니다.
+
+> 보안 및 비공개 정책상 업무 맥락과 원본 저장소는 공개할 수 없으며, 이 글은 구현 기술만 정리합니다. 코드 스니펫은 재구성한 발췌입니다.
+
+**공개 가능한 규모 요약:** 뷰어는 엑셀형 그리드와 줄 단위 텍스트 리더라는 두 가지 문서 모드를 다뤘습니다. 원본 데이터는 공개하지 않고, **1,000행 이상 재구성 Fixture**로 가상 스크롤, 선택 앵커, 대용량 렌더링 흐름을 검증했습니다. 핵심 상호작용은 직사각형 셀 선택, 역방향 텍스트 범위 정규화, 다중 하이라이트 영역, Socket.IO 기반 공유 주석 흐름으로 구성했습니다.
+
+<MermaidDiagram
+  chart={viewerChart}
+  eyebrow="시스템 흐름"
+  title="제한망 문서 뷰어 흐름"
+/>
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## 주요 작업
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Architecture',
+      accent: true,
+      title: '프레젠테이션·컨테이너 분리',
+      detail: `<code>ExcelViewer</code>·<code>TextViewer</code>는 <strong>상태, 마우스 이벤트, Popover</strong>를 담당하고, <code>ExcelViewerBase</code>·<code>TextViewerBase</code>는 <strong>표·가상 스크롤 렌더링</strong>에 집중합니다. 베이스 컴포넌트는 props의 순수 함수이므로 스토리북·단위 테스트에서 별도의 모킹 없이 렌더링 레이어만 독립적으로 검증할 수 있습니다.`,
+    },
+    {
+      tag: 'Algorithm',
+      accent: true,
+      title: '엑셀식 열 라벨 (A → Z → AA) + 2D 드래그 선택',
+      detail: `단일 <code>String.fromCharCode</code>로는 26진법 엑셀 열 이름을 만들 수 없습니다. <code>columnGenerator</code>의 나머지·몫 루프가 열 수에 관계없이 <strong>A, B … Z, AA, AB …</strong>를 정확하게 생성합니다.<br/><br/>2D 선택의 경우 셀은 <code>column:row</code> 형태의 ID를 사용하며, 드래그 중 <strong><code>min</code> / <code>max</code>로 직사각형</strong>을 유지합니다. 선택 상태는 <strong>Immer <code>produce</code></strong>로 불변 갱신하여 참조 공유 실수를 방지합니다. <strong>Ctrl + 드래그</strong>로 슬롯 인덱스를 늘려 독립적인 다중 영역을 쌓을 수 있습니다.`,
+    },
+    {
+      tag: 'Feature',
+      title: '텍스트 뷰어 — 줄 범위와 역방향 드래그',
+      detail: `텍스트 뷰어는 셀 ID 대신 줄 번호 기준으로 동작합니다. 마우스 업 시 <strong>start/end가 뒤집힌 경우를 정규화</strong>하여, 드래그 방향에 상관없이 동일한 범위 모델을 유지합니다. 이를 통해 하이라이트 렌더링에서의 오프-바이-원 오류를 방지하고 복사·붙여넣기 선택을 예측 가능하게 만들었습니다.`,
+    },
+    {
+      tag: 'Performance',
+      title: '뷰별 가상화 전략',
+      detail: `뷰 유형에 따라 서로 다른 가상화 전략을 적용했습니다:<ul><li><strong>그리드:</strong> <code>react-window</code>의 <code>VariableSizeList</code> + <code>InfiniteLoader</code> + <code>AutoSizer</code>로 행 단위 가상 스크롤 및 스크롤 시 점진적 데이터 로딩.</li><li><strong>텍스트:</strong> <code>react-virtualized</code>의 <code>CellMeasurerCache</code>로 개별 줄 높이를 측정·캐시하여, 가변 높이 줄에서도 선택 앵커와 스크롤 위치가 어긋나지 않게 했습니다.</li></ul>핵심은 하나의 가상화 라이브러리가 두 가지 사용 사례 모두에 적합하지 않다는 점입니다. 뷰별로 적합한 도구를 선택하여 레이아웃 스래싱을 방지하고 스크롤 성능을 유지했습니다.`,
+    },
+    {
+      tag: 'Constraint',
+      accent: true,
+      title: '제한망 개발 제약과 검증 전략',
+      detail: `업무망 특성상 운영 데이터, 외부 API, 공개 SaaS 의존성을 로컬 개발 흐름에 둘 수 없었습니다. 그래서 <strong>재구성 Fixture</strong>와 <strong>Mock Socket 레이어</strong>를 분리해 UI 상태 전이와 협업 이벤트를 검증했습니다. 이 방식은 비공개 정보를 보호하면서도 대용량 문서, 하이라이트 동기화, 오류 격리 같은 핵심 동작을 반복 검증할 수 있게 했습니다.`,
+    },
+    {
+      tag: 'DX',
+      title: 'Socket.IO 와이어 계약 + createMockSocket',
+      detail: `<code>socket.emit('removeHighlight', &#123; fileId, highlightId &#125;)</code>와 같은 페이로드로 클라이언트·서버 간 <strong>와이어 형태를 고정</strong>했습니다. <code>createMockSocket</code>은 동일한 인터페이스를 구현하여 실서버 없이 UI·통합 검증이 가능합니다. 페이로드의 TypeScript 타입이 컴파일 타임에 계약을 강제합니다.`,
+    },
+    {
+      tag: 'UI',
+      title: '선택 오버레이, 고정 헤더, ErrorBoundary',
+      detail: `<strong>styled-components</strong>로 선택·오버레이 레이어를 구성하고, 커스텀 선택 하이라이트와 충돌하지 않도록 브라우저 기본 <code>::selection</code>을 명시적으로 무력화했습니다. 스티키 열 헤더와 스크롤바 스타일로 그리드 도구 느낌을 살렸습니다. <strong>ErrorBoundary</strong>로 뷰어 영역의 런타임 오류가 나머지 애플리케이션으로 전파되지 않게 격리했습니다.`,
+    },
+  ]}
+/>
+
+## 회고
+
+초기에 프레젠테이션과 컨테이너를 분리한 것이 가장 큰 설계 결정이었습니다. 테스트 용이성에서 즉각 효과가 나타났습니다 — 베이스 컴포넌트의 스토리북 스토리는 모킹이 전혀 필요 없었고, 시각적 회귀를 빠르게 포착할 수 있었습니다.
+
+뷰별 가상화 분리는 처음에는 명확하지 않았습니다. 하나의 라이브러리로 시작했다가 텍스트 뷰어에서 레이아웃 문제를 겪으면서 각 라이브러리가 실제로 어떤 부분을 최적화하는지 더 깊이 파악하게 되었고, 각 뷰의 실제 제약 조건에 맞는 더 명확한 해결책을 찾을 수 있었습니다.

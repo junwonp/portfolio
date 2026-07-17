@@ -5,17 +5,17 @@ application short links, and the metrics dashboard.
 
 ## Runtime Surfaces
 
-- `/a`: private admin dashboard. It renders analytics and link-management tabs through `src/app/a/AdminDashboard.tsx` and `src/app/a/DashboardClient.tsx`.
+- `/a`: private admin dashboard. It renders analytics and link-management tabs through `src/app/a/_components/AdminDashboard.tsx` and `src/app/a/_components/DashboardClient.tsx`.
 - `/a/actions.ts`: Server Actions for local dev login, logout, short-link creation, and short-link deletion.
-- `/:slug`: public short URL route implemented by `src/app/(portfolio)/[slug]/page.tsx`. It loads active rows from `application_links`, applies tailored homepage presets, and returns 404 for expired or reserved slugs.
+- `/:slug`: public short URL route rewritten internally to `src/app/(portfolio)/[locale]/[slug]/page.tsx`. It loads active rows from `application_links`, applies tailored homepage presets, and returns 404 for expired or reserved slugs.
 - `/api/analytics/track`: public analytics Route Handler. It receives browser beacons from `AnalyticsTracker`, validates/clamps payloads, and writes to D1.
 
 ## Admin Access and Write Gates
 
-Admin authorization is centralized in `src/lib/server/adminRequest.ts`.
+Admin authorization is centralized in `src/lib/server/admin/request.ts`.
 
-- Production requests must pass Cloudflare Access JWT verification from `src/lib/server/adminAccess.ts`.
-- After a valid Access request, the app can issue a signed `admin_session` cookie through `src/lib/server/adminSession.ts`.
+- Production requests must pass Cloudflare Access JWT verification from `src/lib/server/admin/access.ts`.
+- After a valid Access request, the app can issue a signed `admin_session` cookie through `src/lib/server/admin/session.ts`.
 - Local development can use the `/a` login action, which sets legacy `is_admin` and `owner_device` cookies only outside production.
 - `owner_device` also suppresses analytics collection so owner/admin browsing does not pollute public metrics.
 - Admin writes must pass both `isCurrentRequestAdmin()` and `isAdminWriteEnabledForCurrentRuntime()`.
@@ -40,13 +40,13 @@ Required Worker settings for production admin access:
 
 ## Tracking Flow
 
-1. `src/lib/components/AnalyticsTracker.tsx` creates a session id in `sessionStorage`.
+1. `src/components/analytics/AnalyticsTracker.tsx` creates a session id in `sessionStorage`.
 2. It sends an initial beacon with referrer/user agent and page flush beacons with path, dwell time, active time, document scroll depth, project-article progress, and farthest visible section.
 3. Single-segment public paths such as `/abcd` are interpreted as application-link slugs by `src/lib/utils/applicationSlug.ts`.
 4. `/api/analytics/track` bypasses local, owner-device, and `IGNORE_IPS` traffic.
-5. `src/lib/components/WebVitalsTracker.tsx` reports Next.js Web Vitals to the same endpoint.
-6. `src/lib/server/analyticsPayload.ts` validates payload shape, clamps dwell/active/scroll/article-progress values, and normalizes optional slugs.
-7. `src/lib/server/analyticsTracking.ts` writes `user_sessions`, `application_link_visits`, `page_views`, and `web_vitals`.
+5. `src/components/analytics/WebVitalsTracker.tsx` reports Next.js Web Vitals to the same endpoint.
+6. `src/lib/server/analytics/payload.ts` validates payload shape, clamps dwell/active/scroll/article-progress values, and normalizes optional slugs.
+7. `src/lib/server/analytics/tracking.ts` writes `user_sessions`, `application_link_visits`, `page_views`, and `web_vitals`.
 
 Payload rules:
 
@@ -86,7 +86,7 @@ The public short URL page:
 
 ## Dashboard Metrics
 
-`src/app/a/AdminDashboard.tsx` reads D1 directly and sends prepared values to the client dashboard.
+`src/app/a/_components/AdminDashboard.tsx` reads D1 directly and sends prepared values to the client dashboard.
 
 Global and link-filtered metrics include:
 

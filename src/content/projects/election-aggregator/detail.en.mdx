@@ -1,0 +1,110 @@
+---
+title: Election News Aggregator
+description: AWS Serverless-based election information aggregator — team project collecting and visualizing news, polls, and candidate pledges into a single dashboard.
+dateFrom: '2021-11'
+dateTo: '2021-11'
+date: '2021-11'
+image: '/images/election-aggregator/1.webp'
+githubLink: 'ITE3068_team8'
+role: 'Team Leader · Full Stack'
+techStack: ['React', 'JavaScript', 'AWS', 'GraphQL', 'styled-components']
+featuredSkills: ['JavaScript', 'React', 'GraphQL', 'AWS']
+summaryDetails:
+  [
+    '**[Serverless Architecture]** Architected a real-time news crawler and aggregator using **AWS Amplify** and **GraphQL**, handling high-concurrency during election periods.',
+    '**[Leadership]** Led a team of 4 as a project manager, coordinating between design, frontend, and backend tasks to ensure on-time delivery.',
+  ]
+---
+
+import ProjectAchievements from '@/components/portfolio/project-detail/ProjectAchievements';
+import ProjectLightbox from '@/components/portfolio/project-detail/ProjectLightbox';
+import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechStack';
+
+## Project overview
+
+**"What if scattered election information was gathered in one place?"**
+
+During the election period, news, polls, and candidate pledges were scattered across platforms — making it hard for voters to stay informed. I led the team as **Tech Lead and Full Stack developer**, establishing ESLint/Prettier conventions, introducing Git Flow strategy, and building the core AWS Amplify serverless infrastructure (Cognito auth, AppSync API). The result is an aggregator that collects and visualizes all election-related data in a single dashboard.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## Key work
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'UI',
+      accent: true,
+      title: 'Responsive dashboard with MUI Grid',
+      detail: `The main dashboard is the first thing users see. Used <strong>MUI's Grid System</strong> to lay out the D-Day counter, daily headlines, and election timeline in a responsive grid that adapts from mobile to desktop without custom media queries.`,
+    },
+    {
+      tag: 'Auth',
+      accent: true,
+      title: 'Serverless authentication with AWS Amplify',
+      detail: `Integrated <strong>AWS Amplify Auth (Cognito)</strong> to handle sign-up, login, and session management without a dedicated backend server. Built custom login and sign-up modals on top of the Amplify SDK to keep the UX seamless within the SPA.`,
+    },
+    {
+      tag: 'Feature',
+      title: 'Personalized reading list (bookmarks)',
+      detail: `Users can bookmark articles of interest. Saved articles are synced to each user's personal storage via <strong>Amplify API (AppSync/GraphQL)</strong> — persisting across sessions and devices without any custom backend code.`,
+    },
+    {
+      tag: 'Data',
+      title: 'News curation & metadata enrichment',
+      detail: `Collected election news via the <strong>Naver News API</strong> and displayed results as article cards. Used <strong>Microlink</strong> to enrich each card with OG metadata (thumbnail, summary), and resolved CORS issues through Axios + Proxy configuration.`,
+    },
+    {
+      tag: 'Visualization',
+      title: 'Poll approval-rating charts',
+      detail: `Visualized complex candidate approval-rating trends as interactive line and bar charts using the <strong>Recharts</strong> library. Designed the chart components to accept generic data shapes, keeping them reusable across different poll datasets.`,
+    },
+  ]}
+/>
+
+## Screenshots
+
+<ProjectLightbox
+  images={[
+    {
+      src: '/images/election-aggregator/1.webp',
+      mobileSrc: '/images/election-aggregator/1_mobile.jpg',
+      alt: 'Main dashboard',
+      caption: 'Main dashboard — D-Day counter, headlines, and election timeline',
+    },
+    {
+      src: '/images/election-aggregator/2.webp',
+      mobileSrc: '/images/election-aggregator/2_mobile.jpg',
+      alt: 'Login page',
+      caption: 'Custom login modal on top of AWS Amplify Auth',
+    },
+    {
+      src: '/images/election-aggregator/3.webp',
+      mobileSrc: '/images/election-aggregator/3_mobile.jpg',
+      alt: 'Sign-up page',
+      caption: 'Custom sign-up modal',
+    },
+    {
+      src: '/images/election-aggregator/5.webp',
+      mobileSrc: '/images/election-aggregator/5_mobile.jpg',
+      alt: 'Reading list',
+      caption: 'Personal reading list synced via AppSync/GraphQL',
+    },
+    {
+      src: '/images/election-aggregator/11.webp',
+      mobileSrc: '/images/election-aggregator/11_mobile.jpg',
+      alt: 'Election news',
+      caption: 'News cards enriched with Microlink metadata',
+    },
+    {
+      src: '/images/election-aggregator/13.webp',
+      mobileSrc: '/images/election-aggregator/13_mobile.jpg',
+      alt: 'Poll charts',
+      caption: 'Approval-rating trends visualized with Recharts',
+    },
+  ]}
+/>
+
+## Retrospective
+
+Adopting **AWS Amplify** instead of hand-rolling a backend let the team focus on business logic and data visualization. We shipped Auth, DB, and API within the project deadline — something that would have taken far longer with a custom server setup. The experience showed me how much leverage the right infrastructure choice can give a small team.

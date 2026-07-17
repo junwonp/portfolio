@@ -1,0 +1,75 @@
+---
+dateFrom: '2022-03'
+dateTo: '2023-06'
+icon: /images/admin-dashboard/icon.webp
+paradigm: assisted
+title: B2B 통합 관리자 대시보드
+description: 계정, 구독, 제품 사용량, 매출 모니터링을 위한 SaaS 통합 관리 시스템
+role: 'Frontend Developer'
+date: '2022.03 ~ 2023.06'
+status: 'Internal Operations'
+tagline: SaaS 백오피스 업무를 위한 CRUD, 테이블, 필터, 차트, 상세 화면 패턴을 재사용 가능한 형태로 구성했습니다.
+platforms: ['Web', 'Internal Admin', 'B2B SaaS']
+metrics:
+  [
+    { value: 'CRUD', label: '재사용 페이지 패턴' },
+    { value: 'Chart', label: '운영 지표 시각화' },
+    { value: 'TanStack Query', label: '서버 상태 관리' },
+  ]
+techStack: ['TypeScript', 'React', 'TanStack Query', 'MUI']
+featuredSkills: ['TypeScript', 'React', 'TanStack Query', 'MUI']
+summaryDetails:
+  [
+    '**[운영 범위]** 계정, 구독, 제품 사용량, 매출 모니터링을 다루는 SaaS 운영용 관리자 화면을 구축했습니다.',
+    '**[재사용 CRUD/Table 시스템]** **React Table**, **MUI**, **TanStack Query**를 조합해 목록, 필터, 상세, 생성, 수정 패턴을 관리 페이지에 재사용 가능한 형태로 정리했습니다.',
+    '**[데이터 시각화]** **Chart.js를 활용하여 이용량 및 매출 지표를 실시간으로 모니터링**할 수 있는 대시보드를 구현했습니다.',
+  ]
+---
+
+import ProjectAchievements from '@/components/portfolio/project-detail/ProjectAchievements';
+import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechStack';
+
+## 프로젝트 소개
+
+**"SaaS 운영을 위한 재사용 가능한 백오피스 패턴"**
+
+계정, 구독, 제품 사용량, 매출 모니터링을 다루는 내부 B2B SaaS 관리자 대시보드 프로젝트입니다. 사내 운영 시스템이기 때문에 실제 화면과 원본 비즈니스 데이터는 공개할 수 없어, 이 페이지에서는 프론트엔드 구조와 재사용 가능한 운영 화면 패턴을 중심으로 정리했습니다.
+
+핵심은 특정 화면 하나가 아니라 반복되는 운영 흐름이었습니다. 데이터를 목록으로 확인하고, 검색/필터링하고, 상세 레코드를 확인하고, 생성/수정한 뒤, 사용량과 매출 신호를 같은 맥락에서 모니터링하는 흐름입니다. 이 영역을 **TypeScript**, **React**, **React Table**, **MUI**, **TanStack Query**, **Chart.js** 기반으로 구축했습니다.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## 주요 작업
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'CRUD',
+      accent: true,
+      title: '목록, 필터, 상세, 생성, 수정으로 이어지는 재사용 페이지 패턴',
+      detail: `각 관리자 페이지를 일회성 화면으로 만들지 않고 반복되는 CRUD 흐름을 기준으로 구성했습니다. 목록 테이블, 필터 패널, 상세 영역, 생성/수정 플로우가 같은 상호작용 모델을 공유하도록 만들어 신규 운영 화면을 더 빠르게 추가하고, 내부 사용자가 화면을 더 쉽게 익힐 수 있게 했습니다.`,
+    },
+    {
+      tag: 'Table UX',
+      title: 'React Table과 MUI 기반의 데이터 밀도 높은 테이블 UX',
+      detail: `<strong>React Table</strong>과 <strong>MUI</strong>를 조합해 페이지네이션, 검색, 필터 상태, 행 단위 액션, 안정적인 컬럼 레이아웃 등 운영 테이블에 필요한 동작을 구성했습니다. 운영자가 별도 페이지를 계속 오가지 않아도 많은 데이터를 빠르게 훑고 확인할 수 있게 만드는 것이 목표였습니다.`,
+    },
+    {
+      tag: 'Server State',
+      accent: true,
+      title: 'TanStack Query 기반 서버 상태 관리',
+      detail: `계정, 구독, 사용량 관리 화면 전반에서 <strong>TanStack Query</strong>를 활용해 로딩, 재요청, mutation, 캐시 무효화 흐름을 정리했습니다. 생성/수정 이후에도 페이지 상태가 예측 가능하게 유지되도록 하고, UI 컴포넌트 내부에 요청 상태가 중복되는 문제를 줄였습니다.`,
+    },
+    {
+      tag: 'Visualization',
+      title: 'Chart.js 기반 사용량 및 매출 운영 지표 시각화',
+      detail: `<strong>Chart.js</strong>로 사용량과 매출 신호를 확인하는 대시보드 차트를 구현했습니다. 차트 데이터도 테이블 화면과 같은 query layer에 가깝게 유지하여, 장식적인 그래프가 아니라 운영자가 상태를 확인하는 도구로 동작하도록 구성했습니다.`,
+    },
+  ]}
+/>
+
+## 회고
+
+이 프로젝트는 공개 사용자용 제품 사례라기보다, 회사 내부에서 자주 필요한 운영 도구를 안정적으로 구축할 수 있음을 보여주는 사례입니다. 복잡한 테이블, 필터, 폼, 차트 등 내부 시스템은 화려함보다 상태 관리의 예측 가능성과 유지보수 가능한 컴포넌트 경계가 더 중요하기 때문입니다.
+
+특히 페이지가 늘어남에 따라 각 화면이 독자적인 테이블과 필터, Mutation 흐름을 갖게 되면 유지보수 비용이 급격히 증가합니다. 이를 겪으며 관리자 대시보드 역시 하나의 중요한 제품 표면으로 정의하고, 공통 패턴을 설계하여 확장성과 일관된 사용성을 동시에 확보하는 것이 핵심임을 배웠습니다.

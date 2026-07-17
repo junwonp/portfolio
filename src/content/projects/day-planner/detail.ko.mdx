@@ -1,0 +1,21 @@
+---
+title: Day Planner — 시간 관리를 위한 크로스 플랫폼 스케줄러
+description: 첫 Swift 프로젝트로 개발한 크로스 플랫폼(iOS/macOS) 앱. 타임테이블 관리, 자동 집중모드 전환, Mac 상태바 연동 및 CloudKit 동기화 구현.
+dateFrom: '2026-04'
+icon: /images/day-planner/icon.webp
+paradigm: agentic
+metrics:
+  [
+    { value: '79', label: 'macOS 테스트 통과' },
+    { value: '600ms', label: 'CloudKit 디바운스' },
+    { value: '5', label: '네이티브 화면' },
+  ]
+techStack: ['Swift', 'SwiftUI']
+featuredSkills: ['Swift', 'SwiftUI']
+summaryDetails:
+  [
+    '**[네이티브 경험]** iOS day view, macOS Menu Bar, Live Activity 상태, 공통 SwiftUI 일정 뷰를 하나의 일정 해석 모델 위에 구축했습니다.',
+    '**[시스템 자동화]** **Apple Shortcuts 딥링크**로 Focus Mode 워크플로우를 연동하고, 앱 실행 중 자동화와 OS/기기 검증이 필요한 동작의 경계를 문서화했습니다.',
+    '**[동기화와 검증]** 600ms push debounce를 적용한 **CloudKit private database 동기화**를 구현하고, Archive 병합, 알림 계획, 겹침 규칙, Live Activity 스냅샷, 메뉴바 라벨 로직을 **macOS 테스트 79개**로 검증했습니다.',
+  ]
+---

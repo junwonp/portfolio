@@ -12,7 +12,7 @@
     "start": "vinext start",
     "cf-typegen": "wrangler types --config wrangler.jsonc --env-interface CloudflareEnv cloudflare-env.d.ts",
     "lint": "eslint",
-    "doctor": "npx react-doctor@latest"
+    "doctor": "react-doctor"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",

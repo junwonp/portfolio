@@ -1,0 +1,131 @@
+---
+dateFrom: '2021-04'
+dateTo: '2021-04'
+icon: /images/oneline-bank/icon.webp
+paradigm: assisted
+title: 한줄은행
+description: 2021 우리은행 해커톤 본선에서 5일 만에 1인으로 구현한 대화형 뱅킹 MVP를, 2026년에 TypeScript·Expo Router·모바일 아키텍처 중심으로 다시 만든 전후 비교형 프로젝트.
+role: '1인 개발'
+date: '2021-04'
+image: '/images/oneline-bank/1.webp'
+githubLink: 'OnelineBank'
+platforms: ['Android', 'iOS']
+techStack:
+  [
+    'TypeScript',
+    'Expo',
+    'Tailwind CSS',
+    'TanStack Query',
+    'Zustand',
+    'Zod',
+    'Firebase',
+    'Reanimated',
+    'EAS',
+  ]
+featuredSkills:
+  [
+    'TypeScript',
+    'Expo',
+    'Zod',
+    'EAS',
+  ]
+summaryDetails:
+  [
+    '**[Before & After]** 해커톤 당시의 제품 아이디어는 유지하되, 레거시 JavaScript 코드베이스를 **TypeScript와 Expo Router 기반 모듈 구조**로 전면 교체했습니다.',
+    '**[아키텍처의 진화]** 뱅킹 플로우를 기능 단위 모듈, 라우터 가드, query boundary, 재사용 UI primitive로 재구성해 엔지니어링 성장 폭이 보이도록 정리했습니다.',
+    '**[견고한 폼 핸들링]** **TanStack Form과 Zod를 결합**하여 Type-Safe한 스키마 검증과 일관된 에러 피드백 시스템을 뱅킹 플로우에 적용했습니다.',
+    '**[개발자 경험 개선]** **EAS를 통한 빌드 파이프라인**을 정리해 로컬과 실기기 환경에서 리빌드 데모를 재현 가능하게 만들었습니다.',
+  ]
+---
+
+import ProjectAchievements from '@/components/portfolio/project-detail/ProjectAchievements';
+import ProjectLightbox from '@/components/portfolio/project-detail/ProjectLightbox';
+import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechStack';
+
+## 프로젝트 소개
+
+**"복잡한 송금을 한 줄의 채팅으로."**
+
+한줄은행은 **대화형 뱅킹 데모**입니다. 사용자가 자연어로 송금 의사를 말하면 앱이 파싱하고, 짧은 확인 대화를 거친 뒤 생체 인증으로 마무리합니다. **2021년 우리은행 해커톤 본선 출품작**으로 시작해 JavaScript로 빠르게 구현했고, 이후 React Native 경험을 쌓은 뒤 TypeScript와 현대적인 아키텍처로 전면 재작성했습니다.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## 주요 작업
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Core',
+      accent: true,
+      title: '대화형 이체: 자연어 → 인증 결제',
+      detail: `채팅 메시지에서 <strong>은행·계좌·금액·수취인</strong>을 정규식으로 추출하고, 확인 단계와 <strong>긍정/부정 응답 집합</strong>으로 대화를 이어 갑니다. <code>expo-local-authentication</code>으로 최종 단계를 막아 데모임에도 실제 뱅킹과 같은 보안 UX를 구현했습니다. 파싱·은행 코드 매핑은 <code>features/remittance/utils</code>에 두고, <code>app/api/transfer+api.ts</code>에서 오픈뱅킹 형태의 <strong>목 API</strong>를 구현해 클라이언트는 <code>fetch('/api/transfer')</code>만 호출하므로 <strong>번들에 비밀 키를 넣지 않습니다.</strong>`,
+    },
+    {
+      tag: 'Architecture',
+      accent: true,
+      title: '기능 모듈 구조와 TanStack Query 서버 상태',
+      detail: `<code>features/</code>에 <strong>auth, accounts, messages, profile, remittance</strong>를 두고 영역별 훅·헬퍼를 모았습니다. <code>app/</code> 화면은 라우팅·레이아웃에만 집중하고, 데이터는 <code>useQuery</code> / <code>useMutation</code>으로만 다룹니다.<ul><li><strong>쿼리 키 팩토리</strong>(<code>accountKeys</code>, <code>messagesKeys</code> 등)로 무효화·프리페치 대상을 명확히 함.</li><li><strong>프리페치 헬퍼</strong>(<code>prefetchAccounts</code>, <code>prefetchMessages</code>)로 첫 화면 체감 속도 개선.</li><li><strong>PersistQueryClientProvider</strong> + <strong>MMKV persister</strong>로 콜드 스타트 후 캐시 복원.</li><li><strong>NetInfo → <code>onlineManager</code></strong>, <strong>AppState → <code>focusManager</code></strong>로 네트워크·전경/백그라운드와 재요청 정책을 맞춤.</li></ul>`,
+    },
+    {
+      tag: 'Auth',
+      title: 'Expo Router + Zustand를 이용한 선언적 인증 라우팅',
+      detail: `Firebase <code>onAuthStateChanged</code>를 훅으로 감싸 <strong>Zustand</strong> 스토어와 동기화합니다. <strong>Expo Router <code>Stack.Protected</code></strong>로 <code>(tabs)</code> / <code>(auth)</code>를 세션 기준으로 분리해 가드를 트리에 선언적으로 두었습니다. <strong>TanStack Form + Zod</strong>로 로그인 등: 스키마 검증, <code>isSubmitting</code>, 버튼 비활성·스낵바를 일관되게 처리합니다.`,
+    },
+    {
+      tag: 'Ux',
+      title: 'NativeWind + CVA 타입 variant로 UI 일관성 유지',
+      detail: `<strong>NativeWind</strong>로 유틸리티 기반 레이아웃·간격을 맞추고, <strong>class-variance-authority(CVA)</strong>로 <code>Button</code> 등의 컴포넌트에 <strong>타입과 함께 variant를 정의</strong>해 스타일 확장을 단순하게 유지했습니다.`,
+    },
+    {
+      tag: 'Dx',
+      title: '완전한 배포 파이프라인: EAS, Crashlytics, 로케일별 표시명',
+      detail: `TypeScript, ESLint(Expo·TanStack Query 규칙), Prettier. <strong>EAS</strong>, <code>expo-dev-client</code>, <code>expo-build-properties</code>, <strong>Crashlytics</strong>, 로케일별 표시명(<strong>한줄은행</strong> 등)까지 일반적인 출시 준비에 맞춰 구성했습니다.`,
+    },
+    {
+      tag: 'History',
+      title: '해커톤(2021) vs 리빌드: 전과 후 비교',
+      detail: `두 저장소를 나란히 두고 <strong>같은 제품 아이디어, 다른 엔지니어링 결정</strong>을 구체적으로 비교할 수 있습니다.<table style="width:100%;border-collapse:collapse;font-size:0.875rem;margin-top:0.75rem"><thead><tr><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">영역</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">해커톤(Legacy)</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">리빌드</th></tr></thead><tbody><tr><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">언어</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">JavaScript</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">TypeScript</td></tr><tr><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">내비게이션</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Stack + Tab (React Navigation 5)</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Expo Router, 파일 기반 라우팅</td></tr><tr><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">전역 상태</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">Context (User, Progress)</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">인증은 Zustand + Firebase, 서버 상태는 Query</td></tr><tr><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">데이터/API</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">클라이언트에서 직접 HTTP 호출</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">TanStack Query, 캐시·영속화·온라인·포커스 연동</td></tr><tr><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">UI</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">styled-components, Gifted Chat</td><td style="padding:6px 8px;border-bottom:1px solid var(--color-bg-divider)">NativeWind, 자체 메시지 UI</td></tr><tr><td style="padding:6px 8px">Firebase</td><td style="padding:6px 8px">웹 compat 스타일 SDK</td><td style="padding:6px 8px">@react-native-firebase/* 모듈형</td></tr></tbody></table>`,
+    },
+  ]}
+/>
+
+## 스크린샷
+
+<ProjectLightbox
+  images={[
+    {
+      src: '/images/oneline-bank/1.webp',
+      alt: '스플래시 화면',
+      caption: '앱의 정체성을 보여주는 로고와 인트로 화면',
+    },
+    {
+      src: '/images/oneline-bank/2.webp',
+      alt: '로그인 화면',
+      caption: 'Firebase Auth 연동 로그인',
+    },
+    {
+      src: '/images/oneline-bank/3.webp',
+      alt: '채팅 송금 화면',
+      caption: '정규식 파싱 → 봇 확인 → 생체 인증 → 우리은행 오픈 API 송금',
+    },
+    {
+      src: '/images/oneline-bank/4.webp',
+      alt: '연락처·별칭 화면',
+      caption: '자주 쓰는 계좌를 별칭(엄마, 친구 등)으로 등록',
+    },
+    { src: '/images/oneline-bank/5.webp', alt: '계좌 추가 화면', caption: '계좌 등록 플로우' },
+    {
+      src: '/images/oneline-bank/6.webp',
+      alt: '계좌 목록 화면',
+      caption: 'Firestore로 계좌·송금 내역을 실시간 관리',
+    },
+  ]}
+/>
+
+## 회고
+
+**해커톤:** 웹 React 경험을 바탕으로 React Native와 네이티브 모듈을 빠르게 익히고 **동작하는 데모**를 만드는 데 집중했습니다.
+
+**핀테크:** 실제 은행 API를 붙이며 **트랜잭션 흐름·단계별 인증·데이터 정합성**을 몸으로 이해했고, 비정형 채팅을 결제 데이터로 바꿀 때의 예외 처리의 중요성을 배웠습니다.
+
+**리빌드:** 이후 돌아보니 타입 부재·파일 구조·옛 패턴의 한계가 분명했습니다. 리빌드는 라이브러리만 바꾼 수준이 아니라 **기능 단위 쪼개기, Query, 라우터 가드, 이체용 API 라우트**처럼 설계를 다시 잡은 작업입니다. 두 저장소를 나란히 두고 **전과 후**를 비교할 수 있는 상태로 정리했습니다.

@@ -2,10 +2,10 @@ import { cookies } from 'next/headers';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { OWNER_DEVICE_COOKIE } from '@/lib/server/adminAccess';
-import { parseAnalyticsPayloadBody } from '@/lib/server/analyticsPayload';
-import { recordAnalyticsPayload } from '@/lib/server/analyticsTracking';
-import { getDb } from '@/lib/server/db';
+import { OWNER_DEVICE_COOKIE } from '@/lib/server/admin/access';
+import { parseAnalyticsPayloadBody } from '@/lib/server/analytics/payload';
+import { recordAnalyticsPayload } from '@/lib/server/analytics/tracking';
+import { getDb } from '@/lib/server/infrastructure/database';
 
 export async function POST(request: NextRequest) {
   const db = getDb();

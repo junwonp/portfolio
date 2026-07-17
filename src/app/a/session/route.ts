@@ -6,15 +6,15 @@ import {
   OWNER_DEVICE_COOKIE,
   OWNER_DEVICE_COOKIE_MAX_AGE,
   verifyCloudflareAccessJwt,
-} from '@/lib/server/adminAccess';
+} from '@/lib/server/admin/access';
 import {
   ADMIN_SESSION_COOKIE,
   createAdminSessionCookie,
   getAdminSessionCookieOptions,
   getAdminSessionSecret,
   getSafeAdminSessionReturnTo,
-} from '@/lib/server/adminSession';
-import { getCloudflareEnv } from '@/lib/server/db';
+} from '@/lib/server/admin/session';
+import { getCloudflareEnv } from '@/lib/server/infrastructure/database';
 
 export async function GET(request: NextRequest) {
   const cloudflareEnv = getCloudflareEnv();

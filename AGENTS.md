@@ -11,8 +11,8 @@ This repo uses the Next.js App Router API through `vinext` on Cloudflare Workers
 
 Always follow these rules when editing or creating project content, metadata, or tech stack chips:
 
-1. **MDX Frontmatter as SSOT**: Never hardcode metadata (title, description, role, metrics, techStack) in `index.ts`. Define it in MDX YAML frontmatter and import it in `index.ts`.
-2. **Tech Stack Sync**: Keep the project `skills` array in `index.ts` synchronized with the `techStack` listed in both MDX files. The tech stack strings in MDX must exactly match the registered skill names in `src/lib/data/skills.ts`.
+1. **MDX Frontmatter as SSOT**: Never hardcode project display metadata (title, description, role, metrics, techStack) in route or catalog files. Define it in each locale's MDX YAML frontmatter; `src/lib/portfolio/catalog.ts` statically imports it.
+2. **Tech Stack Sync**: Keep `techStack` structurally aligned in both locale MDX files. Every value must exactly match a registered skill name in `src/lib/portfolio/skills.ts`; catalog validation derives project skills from frontmatter.
 3. **TypeScript & Test Gates**: Run `pnpm exec tsc --noEmit --pretty false` and `pnpm exec vitest run` after any changes. Ambient types for MDX are declared in `src/env.d.ts`, and Vitest runs with a mock loader plugin for `.mdx` imports.
 <!-- END:project-metadata-rules -->
 
