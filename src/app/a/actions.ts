@@ -44,13 +44,19 @@ export async function login() {
 }
 
 export async function logout() {
+  if (!(await isCurrentRequestAdmin())) {
+    redirect('/a');
+  }
+
   const cookieStore = await cookies();
   cookieStore.delete(ADMIN_SESSION_COOKIE);
   cookieStore.delete(ADMIN_COOKIE);
   cookieStore.delete(OWNER_DEVICE_COOKIE);
 
-  const { getCloudflareAccessConfig } = await import('@/lib/server/admin/access');
-  const { getCloudflareEnv } = await import('@/lib/server/infrastructure/database');
+  const [{ getCloudflareAccessConfig }, { getCloudflareEnv }] = await Promise.all([
+    import('@/lib/server/admin/access'),
+    import('@/lib/server/infrastructure/database'),
+  ]);
   const cloudflareEnv = getCloudflareEnv();
   const accessConfig = getCloudflareAccessConfig(cloudflareEnv);
 

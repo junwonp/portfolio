@@ -163,9 +163,10 @@ export const verifyCloudflareAccessJwt = async ({
   if (payload.iss !== config.teamDomain) return null;
 
   const audience = payload.aud;
+  const policySet = new Set(config.policyAudiences);
   const audienceMatches = Array.isArray(audience)
-    ? audience.some((value) => typeof value === 'string' && config.policyAudiences.includes(value))
-    : typeof audience === 'string' && config.policyAudiences.includes(audience);
+    ? audience.some((value) => typeof value === 'string' && policySet.has(value))
+    : typeof audience === 'string' && policySet.has(audience);
 
   if (!audienceMatches) return null;
 

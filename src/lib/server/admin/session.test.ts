@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   ADMIN_SESSION_COOKIE,
   createAdminSessionCookie,
-  getSafeAdminSessionReturnTo,
+  safeAdminSessionReturnTo,
   verifyAdminSessionCookie,
 } from '@/lib/server/admin/session';
 
@@ -81,18 +81,18 @@ describe('admin session cookies', () => {
   });
 });
 
-describe('getSafeAdminSessionReturnTo', () => {
+describe('safeAdminSessionReturnTo', () => {
   it('allows only admin and home return paths', () => {
-    expect(getSafeAdminSessionReturnTo('/')).toBe('/');
-    expect(getSafeAdminSessionReturnTo('/a')).toBe('/a');
-    expect(getSafeAdminSessionReturnTo('/a?tab=links')).toBe('/a?tab=links');
+    expect(safeAdminSessionReturnTo('/')).toBe('/');
+    expect(safeAdminSessionReturnTo('/a')).toBe('/a');
+    expect(safeAdminSessionReturnTo('/a?tab=links')).toBe('/a?tab=links');
   });
 
   it('falls back to the admin page for unsafe return targets', () => {
-    expect(getSafeAdminSessionReturnTo(null)).toBe('/a');
-    expect(getSafeAdminSessionReturnTo('https://example.com/a')).toBe('/a');
-    expect(getSafeAdminSessionReturnTo('/projects/day-planner')).toBe('/a');
-    expect(getSafeAdminSessionReturnTo('/api/admin/unknown')).toBe('/a');
+    expect(safeAdminSessionReturnTo(null)).toBe('/a');
+    expect(safeAdminSessionReturnTo('https://example.com/a')).toBe('/a');
+    expect(safeAdminSessionReturnTo('/projects/day-planner')).toBe('/a');
+    expect(safeAdminSessionReturnTo('/api/admin/unknown')).toBe('/a');
   });
 
   it('exports the cookie name used by route handlers', () => {

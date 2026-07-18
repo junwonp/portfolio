@@ -12,7 +12,7 @@ import {
   createAdminSessionCookie,
   getAdminSessionCookieOptions,
   getAdminSessionSecret,
-  getSafeAdminSessionReturnTo,
+  safeAdminSessionReturnTo,
 } from '@/lib/server/admin/session';
 import { getCloudflareEnv } from '@/lib/server/infrastructure/database';
 
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Admin access is required' }, { status: 401 });
   }
 
-  const returnTo = getSafeAdminSessionReturnTo(request.nextUrl.searchParams.get('returnTo'));
+  const returnTo = safeAdminSessionReturnTo(request.nextUrl.searchParams.get('returnTo'));
   const response = NextResponse.redirect(new URL(returnTo, request.url));
   const isSecure = request.nextUrl.protocol === 'https:';
 
