@@ -1,6 +1,6 @@
 'use server';
 
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import {
@@ -48,6 +48,23 @@ export async function logout() {
   cookieStore.delete(ADMIN_SESSION_COOKIE);
   cookieStore.delete(ADMIN_COOKIE);
   cookieStore.delete(OWNER_DEVICE_COOKIE);
+
+  const { getCloudflareAccessConfig } = await import('@/lib/server/admin/access');
+  const { getCloudflareEnv } = await import('@/lib/server/infrastructure/database');
+  const cloudflareEnv = getCloudflareEnv();
+  const accessConfig = getCloudflareAccessConfig(cloudflareEnv);
+
+  if (accessConfig) {
+    const headersList = await headers();
+    const host = headersList.get('host') || 'junwon.dev';
+    const protocol = host.includes('localhost') || host.includes('127.0.0.1') ? 'http' : 'https';
+    const origin = `${protocol}://${host}`;
+    const logoutUrl = `${accessConfig.teamDomain}/cdn-cgi/access/logout?returnTo=${encodeURIComponent(
+      origin + '/a',
+    )}`;
+    redirect(logoutUrl);
+  }
+
   redirect('/a');
 }
 
