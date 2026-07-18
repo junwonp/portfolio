@@ -374,9 +374,9 @@ export const getFeaturedWebProjects = (
     ...resumeData.workExperiences.flatMap((exp) => exp.project),
     ...resumeData.otherExperiences.flatMap((exp) => exp.project),
     ...resumeData.archives.flatMap((exp) => exp.project),
-    ...projectCatalog
-      .filter((project) => project.section === 'standalone')
-      .map((project) => toResumeProject(project, lang)),
+    ...projectCatalog.flatMap((project) =>
+      project.section === 'standalone' ? [toResumeProject(project, lang)] : []
+    ),
   ];
 
   return normalizeProjectIdentifiers(projectIds).flatMap((id) => {

@@ -16,6 +16,23 @@ import {
 } from '@/components/analytics/analyticsTransport';
 import { parseHeading } from '@/lib/utils/markdown';
 
+function readVisibleSections(article: Element, scrollTop: number): VisibleSection[] {
+  return Array.from(article.querySelectorAll<HTMLElement>('h2')).flatMap((heading) => {
+    if (!heading.id) {
+      return [];
+    }
+
+    const { main } = parseHeading(heading.textContent || '');
+    return [
+      {
+        id: heading.id,
+        label: main || heading.textContent || heading.id,
+        top: heading.getBoundingClientRect().top + scrollTop,
+      },
+    ];
+  });
+}
+
 export default function AnalyticsTracker() {
   const pathname = usePathname();
   const [sessionId, setSessionId] = useState('');
@@ -35,22 +52,6 @@ export default function AnalyticsTracker() {
     activeStartedAtRef.current = document.visibilityState === 'visible' ? now : null;
   }
 
-  function readVisibleSections(article: Element, scrollTop: number): VisibleSection[] {
-    return Array.from(article.querySelectorAll<HTMLElement>('h2')).flatMap((heading) => {
-      if (!heading.id) {
-        return [];
-      }
-
-      const { main } = parseHeading(heading.textContent || '');
-      return [
-        {
-          id: heading.id,
-          label: main || heading.textContent || heading.id,
-          top: heading.getBoundingClientRect().top + scrollTop,
-        },
-      ];
-    });
-  }
 
   function updateEngagementMetrics() {
     if (typeof window === 'undefined') return;

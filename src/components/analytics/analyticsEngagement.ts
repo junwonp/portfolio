@@ -58,9 +58,9 @@ export const selectFarthestVisibleSection = ({
   sections: readonly VisibleSection[];
   viewportBottom: number;
 }): ReachedSection | undefined => {
-  const visibleSections = sections
-    .map((section, index) => ({ ...section, index }))
-    .filter((section) => section.top <= viewportBottom);
+  const visibleSections = sections.flatMap((section, index) =>
+    section.top <= viewportBottom ? [{ ...section, index }] : []
+  );
   const farthestVisible = visibleSections.at(-1);
 
   if (!farthestVisible) {

@@ -11,15 +11,18 @@ export const getProjectTechStackGroups = (
   techStack: string[],
   locale: Language,
 ): ProjectTechStackGroup[] => {
-  return skillGroups
-    .map((category) => {
-      const skills = category.list.filter((skill) => techStack.includes(skill));
-
-      return {
-        id: category.id,
-        title: skillGroupTitles[locale][category.id],
-        skills,
-      } satisfies ProjectTechStackGroup;
-    })
-    .filter((group) => group.skills.length > 0);
+  const techStackSet = new Set(techStack);
+  return skillGroups.flatMap((category) => {
+    const skills = category.list.filter((skill) => techStackSet.has(skill));
+    if (skills.length > 0) {
+      return [
+        {
+          id: category.id,
+          title: skillGroupTitles[locale][category.id],
+          skills,
+        } satisfies ProjectTechStackGroup,
+      ];
+    }
+    return [];
+  });
 };
