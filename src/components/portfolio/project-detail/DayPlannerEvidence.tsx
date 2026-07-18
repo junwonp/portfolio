@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 
 import type { Language } from "@/lib/utils/language";
 
@@ -138,7 +138,7 @@ const copy = {
 >;
 
 export default function DayPlannerEvidence({ locale }: Props) {
-  const labels = useMemo(() => copy[locale] || copy.ko, [locale]);
+  const labels = copy[locale] || copy.ko;
 
   return (
     <section className={styles["day-planner-evidence"]} aria-label={labels.surfacesTitle}>

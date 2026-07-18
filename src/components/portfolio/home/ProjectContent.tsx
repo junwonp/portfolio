@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import ArrowLink from '@/components/ui/ArrowLink';
 import Period from '@/components/ui/Period';
@@ -27,6 +27,14 @@ interface ProjectContentProps {
   labels: Labels;
 }
 
+function parseDetailLine(line: string) {
+  const match = line.match(/^\*\*\[(.*?)\]\*\*(.*)$/);
+  if (match) {
+    return { label: match[1], content: match[2].trim() };
+  }
+  return { label: '', content: line };
+}
+
 export default function ProjectContent({
   project,
   titleBadge,
@@ -39,33 +47,25 @@ export default function ProjectContent({
   headerProps,
   labels,
 }: ProjectContentProps) {
-  const sortedSkills = useMemo(() => {
+  const sortedSkills = (() => {
     const projectSkills = sortSkills(project.skills ?? []);
     if (skillLimit === undefined) return projectSkills;
 
     const featuredSkills = project.featuredSkills ?? [];
+    const featuredSet = new Set(featuredSkills);
     const remainingSkills = projectSkills.filter(
-      (skill: string) => !featuredSkills.includes(skill),
+      (skill: string) => !featuredSet.has(skill),
     );
     return [...featuredSkills, ...remainingSkills];
-  }, [project.featuredSkills, project.skills, skillLimit]);
+  })();
 
   const visibleSkills = skillLimit === undefined ? sortedSkills : sortedSkills.slice(0, skillLimit);
   const hiddenSkillCount = sortedSkills.length - visibleSkills.length;
 
-  const mainSkillsLabel = useMemo(() => {
-    const language = sortedSkills.find((skill) => getSkillCategory(skill) === 'languages');
-    const framework = sortedSkills.find((skill) => getSkillCategory(skill) === 'frameworks');
-    return [language, framework].filter(Boolean).join(', ');
-  }, [sortedSkills]);
+  const language = sortedSkills.find((skill) => getSkillCategory(skill) === 'languages');
+  const framework = sortedSkills.find((skill) => getSkillCategory(skill) === 'frameworks');
+  const mainSkillsLabel = [language, framework].filter(Boolean).join(', ');
 
-  function parseDetailLine(line: string) {
-    const match = line.match(/^\*\*\[(.*?)\]\*\*(.*)$/);
-    if (match) {
-      return { label: match[1], content: match[2].trim() };
-    }
-    return { label: '', content: line };
-  }
 
   const isSpotlight = variant === 'spotlight';
 
