@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Plus, X } from 'lucide-react';
 
 import { skillsShared } from '@/lib/portfolio/skills';
@@ -30,27 +30,25 @@ export default function SkillSelectorDialog({
   const [customSkill, setCustomSkill] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
-  const selectedSkills = useMemo(() => uniqueStrings(selected), [selected]);
-  const candidateSkills = useMemo(
-    () => uniqueStrings([...candidates, ...selectedSkills]),
-    [candidates, selectedSkills],
-  );
+  const selectedSkills = uniqueStrings(selected);
+  const candidateSkills = uniqueStrings([...candidates, ...selectedSkills]);
 
-  const groupedCandidates = useMemo(() => {
+  const groupedCandidates = (() => {
     const candidateSet = new Set(candidateSkills);
     const knownSkills = new Set<string>();
-    const groups = skillsShared
-      .map((group) => {
-        const list = group.list.filter((skill) => candidateSet.has(skill));
+    const groups = skillsShared.flatMap((group) => {
+      const list = group.list.filter((skill) => candidateSet.has(skill));
+      if (list.length > 0) {
         list.forEach((skill) => knownSkills.add(skill));
-        return { id: group.id, list };
-      })
-      .filter((group) => group.list.length > 0);
+        return [{ id: group.id, list }];
+      }
+      return [];
+    });
 
     const custom = candidateSkills.filter((skill) => !knownSkills.has(skill));
 
     return custom.length > 0 ? [...groups, { id: 'custom', list: custom }] : groups;
-  }, [candidateSkills]);
+  })();
 
   const selectedSet = new Set(selectedSkills);
 

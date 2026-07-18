@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo,useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import styles from "./BaseSideNav.module.css";
 
@@ -43,7 +43,7 @@ export default function BaseSideNav({
     };
   }, []);
 
-  const activeIndex = useMemo(() => sections.findIndex((s) => s.id === activeId), [sections, activeId]);
+  const activeIndex = sections.findIndex((s) => s.id === activeId);
 
   useEffect(() => {
     if (windowWidth > 960 && activeIndex >= 0 && itemRefs.current[activeIndex]) {

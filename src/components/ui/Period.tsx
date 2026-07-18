@@ -5,21 +5,21 @@ interface Props {
   dateTo?: string;
 }
 
-export default function Period({ dateFrom, dateTo }: Props) {
-  const timeFormatter = (time?: string) => {
-    if (!time) return "";
-    const [year, month = ""] = time.split("-");
-    return `${year}. ${month}`;
-  };
+function formatTime(time?: string) {
+  if (!time) return "";
+  const [year, month = ""] = time.split("-");
+  return `${year}. ${month}`;
+}
 
+export default function Period({ dateFrom, dateTo }: Props) {
   const showTilde = dateFrom.includes("-") && (!dateTo || dateTo !== dateFrom);
   const showDateTo = dateTo && dateTo !== dateFrom;
 
   return (
     <span>
-      <time dateTime={dateFrom}>{timeFormatter(dateFrom)}</time>
+      <time dateTime={dateFrom}>{formatTime(dateFrom)}</time>
       {showTilde && " ~ "}
-      {showDateTo && <time dateTime={dateTo}>{timeFormatter(dateTo)}</time>}
+      {showDateTo && <time dateTime={dateTo}>{formatTime(dateTo)}</time>}
     </span>
   );
 }

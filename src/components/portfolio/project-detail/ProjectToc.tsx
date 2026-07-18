@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import BaseSideNav from "@/components/portfolio/navigation/BaseSideNav";
 import { getPageScrollY, scrollPageTo, useScrollSpy } from "@/lib/hooks/useScrollSpy";
@@ -25,13 +25,13 @@ function areNavSectionsEqual(
   });
 }
 
+function parseHeader(text: string) {
+  const { main } = parseHeading(text);
+  return { label: main };
+}
+
 export default function ProjectToc() {
   const [sections, setSections] = useState<NavSection[]>([]);
-
-  const parseHeader = useCallback((text: string) => {
-    const { main } = parseHeading(text);
-    return { label: main };
-  }, []);
 
   useEffect(() => {
     const article = document.querySelector(".project-article");
@@ -68,19 +68,19 @@ export default function ProjectToc() {
     return () => {
       observer.disconnect();
     };
-  }, [parseHeader]);
+  }, []);
 
-  const sectionIds = useMemo(() => sections.map((s) => s.id), [sections]);
+  const sectionIds = sections.map((s) => s.id);
 
-  const activeId = useScrollSpy(useCallback(() => sectionIds, [sectionIds]));
+  const activeId = useScrollSpy(() => sectionIds);
 
-  const scrollToSection = useCallback((id: string) => {
+  const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
 
     const top = el.getBoundingClientRect().top + getPageScrollY() - 80;
     scrollPageTo(top);
-  }, []);
+  };
 
   if (sections.length === 0) return null;
 

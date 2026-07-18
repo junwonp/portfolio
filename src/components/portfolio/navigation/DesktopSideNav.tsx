@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback,useMemo } from "react";
+import React from "react";
 
 import { getPageScrollY, scrollPageTo,useScrollSpy } from "@/lib/hooks/useScrollSpy";
 
@@ -16,18 +16,16 @@ interface Props {
 }
 
 export default function DesktopSideNav({ sections }: Props) {
-  const sectionIds = useMemo(() => sections.map((s) => s.id), [sections]);
+  const sectionIds = sections.map((s) => s.id);
 
-  const activeId = useScrollSpy(
-    useCallback(() => sectionIds, [sectionIds]),
-  );
+  const activeId = useScrollSpy(() => sectionIds);
 
-  const scrollTo = useCallback((id: string): void => {
+  const scrollTo = (id: string): void => {
     const el = document.getElementById(id);
     if (!el) return;
 
     scrollPageTo(el.getBoundingClientRect().top + getPageScrollY());
-  }, []);
+  };
 
   return (
     <BaseSideNav
