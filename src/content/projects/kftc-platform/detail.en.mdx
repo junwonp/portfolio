@@ -21,10 +21,11 @@ featuredSkills: ['TypeScript', 'React', 'TanStack Query', 'Zod', 'Vitest']
 summaryDetails:
   [
     '**[FinCert User Flow]** Implemented signup, consent maintenance, profile edit, withdrawal, and user-facing error handling around the FinCert integration.',
-    '**[Promotion Domain]** Built event, challenge, attendance, ticket, point, voucher, FAQ, notice, and notification screens with reusable promotion detail flows.',
-    '**[Data Reliability]** Used **TanStack Query** with query-key contracts, focused invalidation, persisted cache that excludes sensitive roots, and regression tests for high-change campaign data.',
-    '**[Form & Validation]** Applied **React Hook Form** and **Zod** to keep profile and campaign participation forms type-safe and user-friendly.',
-    '**[Verification Evidence]** Ran `yarn lint`, `yarn typecheck`, and `yarn test` locally, confirming **59 test files / 141 passing tests**.',
+    '**[Promotion Domain]** Built reusable promotion detail flows covering events, challenges, attendance, lucky draws, points, coupons, FAQs, announcements, and notification views.',
+    '**[Data Reliability]** Handled changing campaign data using **TanStack Query** query key contracts, selective invalidation, sensitive-data cache exclusions, and regression tests.',
+    '**[Forms & Validation]** Used **React Hook Form** and **Zod** to build type-safe, user-friendly forms for profiles and campaign entries.',
+    '**[Independent Development Environment]** Operated an **Express-based Mock API server** to complete frontend business logic and error states ahead of time based on agreed API specs without depending on backend progress.',
+    '**[Verification]** Confirmed **59 test files / 141 tests passing** via `yarn test`, with clean `yarn typecheck` and `yarn lint` runs.',
   ]
 ---
 
@@ -33,9 +34,9 @@ import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechS
 
 ## Project overview
 
-**"KFTC FinCert Promotion and Reward Platform"**
+**"Financial Certificate Marketing & Rewards Platform for KFTC"**
 
-This is a freelance frontend contract project that implemented the signup, consent maintenance, events, challenges, rewards, and account settings flows for a promotional platform integrated with the Korea Financial Telecommunications and Clearings Institute (KFTC) FinCert.
+This was a frontend contract project covering signup, agreement retention, events, challenges, rewards, and account management flows for a promotional platform integrated with the Korea Financial Telecommunications and Clearings Institute (KFTC) FinCert.
 
 Being a finance-related service, high reliability and robust data consistency were critical. Within a tight schedule, I separated analysis, design, and implementation work while covering signup, consent, promotion details, account settings, and notification flows. I combined `react-hook-form` and `zod` to share validation rules, and used `@tanstack/react-query` persisted cache with `idb-keyval` while excluding session, points, notifications, and redemption-related query roots from persistence. I also introduced an Express Mock server and Storybook so UI states could be validated in parallel with backend development.
 
@@ -49,8 +50,8 @@ Being a finance-related service, high reliability and robust data consistency we
       tag: 'Architecture',
       accent: true,
       title:
-        'Separation of concerns & type-safe form validation using React 19, Vite, and TailwindCSS v4',
-      detail: `Achieved fast builds and compiler safety using React 19, TypeScript, and Vite. Organized directories by api, components, and hooks to keep code modular. Handled complex signup and marketing consent forms using react-hook-form combined with zod schema definitions, ensuring declarative and robust validation.`,
+        'Separation of concerns & type-safe form validation using React 19, TypeScript, and TailwindCSS v4',
+      detail: `Achieved fast builds and compiler safety using React 19 and TypeScript. Organized directories by api, components, and hooks to keep code modular. Handled complex signup and marketing consent forms using react-hook-form combined with zod schema definitions, ensuring declarative and robust validation.`,
     },
     {
       tag: 'Performance',
@@ -79,6 +80,8 @@ Being a finance-related service, high reliability and robust data consistency we
 
 ## Retrospective
 
-**Frontend reliability for a finance-adjacent domain:** The public claim here is intentionally scoped to frontend responsibility. Rather than claiming to own full financial security, I focus on the parts I implemented directly: TypeScript contracts, Zod validation, query-key policy, sensitive-data cache exclusions, and user-facing error handling.
+**Frontend reliability for a finance-adjacent domain:** The public claim here is intentionally scoped to frontend responsibility. Rather than claiming to own full financial security, I focus on the parts I implemented directly: TypeScript contracts, Zod validation, query-key policy, sensitive-data cache exclusions, and user-facing error handling. Documenting the query key contract and cache policy ensured the codebase itself acted as clear documentation during handover.
 
-**Decoupled Development:** Constructing a local Express Mock server to match predefined API specs allowed the frontend to remain entirely decoupled from backend progress. This strategy proved to be effective for velocity and architectural cleaness in team collaborations.
+**Principles under outsourcing constraints:** Established clear principles to maintain technical consistency under tight timelines and limited permissions: (1) Establishing a fast feedback loop and DX-first environment, (2) Introducing a Mock server for API contract validation, (3) Documenting query key policies and preventing sensitive data persistence, and (4) Establishing test/type/lint gates. Leaving these principles as code and documentation enabled QA and handover teams to understand system behavior quickly without extra explanation.
+
+**Decoupled Development:** Constructing a local Express Mock server to match predefined API specs allowed the frontend to remain entirely decoupled from backend progress. This strategy proved to be effective for velocity and architectural cleanness in team collaborations.

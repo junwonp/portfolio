@@ -94,8 +94,63 @@ I built a **spreadsheet-style grid** on `react-table` plus a **line-based text v
     },
     {
       tag: 'Performance',
-      title: 'Per-view virtualization strategies',
-      detail: `Two different virtualization strategies are used — one per view type:<ul><li><strong>Grid:</strong> <code>react-window</code> (<code>VariableSizeList</code> + <code>InfiniteLoader</code> + <code>AutoSizer</code>) for row virtualization and incremental data loading as the user scrolls.</li><li><strong>Text:</strong> <code>react-virtualized</code> <code>CellMeasurerCache</code> to measure and cache individual line heights, so variable-height lines stay aligned with selection anchors and scroll position.</li></ul>The key insight: no single virtualization library fits both use cases well. Choosing the right tool per view prevents layout-thrashing and keeps scroll performance smooth.`,
+      accent: true,
+      title: 'Text Viewer — Dynamic line height measurement via CellMeasurerCache',
+      detail: `To prevent unnecessary recalculation when virtualizing dynamic text heights of varying line lengths, applied <code>react-virtualized</code>'s <code>CellMeasurerCache</code> (defaultHeight: 20px, fixedWidth: true) and <code>CellMeasurer</code>. Precisely caching line heights maintains stable performance without layout thrashing during scroll.<br/><br/><pre class="language-tsx"><code class="language-tsx">import { AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
+
+const cache = new CellMeasurerCache({
+  defaultHeight: 20,
+  minHeight: 20,
+  fixedWidth: true,
+});
+
+const rowRenderer = useCallback(
+  ({ index, key, parent, style }) => (
+    <CellMeasurer cache={cache} rowIndex={index} key={key} parent={parent}>
+      <div style={style} key={key}>
+        <span>{index + 1}</span>
+        <div>{textData[index]}</div>
+      </div>
+    </CellMeasurer>
+  ),
+  [cache, textData]
+);</code></pre>`,
+    },
+    {
+      tag: 'Performance',
+      accent: true,
+      title: 'Excel-style Grid — Infinite scroll virtualization via react-table + react-window',
+      detail: `Combined <code>react-table</code> plugins (<code>useFlexLayout</code>, <code>useResizeColumns</code>, <code>useSortBy</code>) with <code>react-window</code>'s <code>VariableSizeList</code>, <code>react-window-infinite-loader</code>, and <code>AutoSizer</code>. Enables dynamic manipulation of 1,000+ data rows with zero frame drops during cell rendering and column resizing events.<br/><br/><pre class="language-tsx"><code class="language-tsx">import { useFlexLayout, useResizeColumns, useSortBy, useTable } from 'react-table';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import InfiniteLoader from 'react-window-infinite-loader';
+
+const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
+    { columns, data, defaultColumn },
+    useFlexLayout,
+    useResizeColumns,
+    useSortBy
+);
+
+return (
+    <AutoSizer>
+        {({ height, width }) => (
+            <InfiniteLoader itemCount={data.length} isItemLoaded={isItemLoaded} loadMoreItems={loadMoreItems}>
+                {({ onItemsRendered, ref }) => (
+                    <VirtualizedList
+                        onItemsRendered={onItemsRendered}
+                        ref={ref}
+                        height={height}
+                        width={width}
+                        itemCount={data.length}
+                        itemSize={getItemSize}
+                    >
+                        {rowRenderer}
+                    </VirtualizedList>
+                )}
+            </InfiniteLoader>
+        )}
+    </AutoSizer>
+);</code></pre>`,
     },
     {
       tag: 'Constraint',
@@ -121,3 +176,5 @@ I built a **spreadsheet-style grid** on `react-table` plus a **line-based text v
 The biggest design decision was separating presentation from container early. It paid off immediately in testability — Storybook stories for the base components required zero mocking and caught visual regressions fast.
 
 The per-view virtualization split was less obvious upfront. Starting with one library and hitting layout issues in the text viewer forced a deeper look at what each library actually optimizes, and led to a cleaner solution that matched each view's actual constraints.
+
+This experience served as an opportunity to master refined frontend optimization skills — understanding that virtualization patterns and caching strategies must be tailored specifically to document domain characteristics (dynamic text vs. complex multi-column grid).

@@ -23,6 +23,7 @@ summaryDetails:
     '**[Operational Scope]** Built admin surfaces for SaaS operations across accounts, subscriptions, product usage, and revenue monitoring.',
     '**[Reusable CRUD/Table System]** Combined **React Table**, **MUI**, and **TanStack Query** into reusable list, filter, detail, create, and edit patterns for management pages.',
     '**[Data Visualization]** Implemented real-time usage and revenue monitoring dashboards using **Chart.js**.',
+    '**[Rationale & Trade-offs]** Selected **React Table** over large grid solutions (e.g., AG Grid) to prioritize bundle size (~23KB vs ~1.2MB for AG Grid in production builds) and design consistency with MUI. For high-performance virtualization needs, paired it with react-virtual or react-window as a supplementary strategy, lowering initial load costs while maintaining maintainability.',
   ]
 ---
 
@@ -72,4 +73,10 @@ The important part was not a single screen. It was the repeated operational work
 
 This project is less of a public-facing case study and more about demonstrating the ability to build reliable, high-density internal tools. While internal surfaces like tables, filters, forms, and charts may be less flashy than consumer UIs, they demand strict state management, predictable interactions, and clear component boundaries.
 
-I learned that admin dashboards can quickly become expensive to maintain if every new page invents its own table, filter, or mutation logic. Treating these internal tools as a unified product surface with shared patterns was essential for keeping the codebase scalable and the user experience consistent.
+As page count grew, having each screen invent its own table, filter, and mutation logic rapidly increased maintenance overhead. To counteract this, I consciously introduced the following design rules:
+
+- Clear State Boundaries: Adopted a unidirectional data flow of <strong>query state → table state</strong> so that TanStack Query's server state and React Table's UI state would not collide. Filters and sorting were bound to query keys for consistent server-side pagination, while selected rows and active edit form state were kept strictly inside the table component.
+- Documented Trade-offs: Documented pros and cons of alternatives (e.g., AG Grid) so the team could reproduce decisions quickly. While heavy grid solutions were considered initially, React Table was chosen for bundle size and UI consistency with MUI, supplementing with react-virtual only when virtualization was needed.
+- Standardized Common CRUD Patterns: Standardized the interaction model across list → detail → create/edit flows, accelerating new admin page development. Consequently, creating a new management page dropped from an average of 3 days to approximately half a day.
+
+This experience clearly demonstrated how 'design that simplifies complexity' directly impacts operational availability and team velocity.

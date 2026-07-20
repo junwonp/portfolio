@@ -224,6 +224,9 @@ Directly calling `FlashList.scrollToEnd()` inside a `useAnimatedReaction` callba
 ### 5. The Boundary of Over-Engineering
 
 Ideally, I thought writing perfect code was always best. However, running a startup taught me that **"excessive technical investment in unverified features can be a business risk."**
+
+For example, initially I attempted to validate every API response at runtime using Zod, but realized that TypeScript compile-time checking was sufficient for internal, well-controlled API boundaries. Thus, I restricted Zod validation exclusively to external boundaries (third-party APIs, public endpoints, and user inputs). This eliminated unnecessary runtime overhead while preserving security and correctness at system perimeters.
+
 I acquired a **flexible engineering mindset**, not giving up on code quality, but **strategically deciding the allowable range of technical debt according to the service's growth stage (MVP vs. Scale-up)** and focusing on verifying core values.
 
 ### 6. Understanding Business Models and Cost Structures

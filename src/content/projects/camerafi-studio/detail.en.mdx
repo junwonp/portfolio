@@ -68,12 +68,12 @@ The live link is provided for reference, and the current UI may differ from the 
       tag: 'Auth',
       accent: true,
       title: 'Secure integrated authentication system',
-      detail: `Rather than relying solely on libraries, designed a secure login process combining <strong>Firebase Custom Tokens</strong> and <strong>Cookies</strong>. Authentication state is synchronized between client and server via cookies. Built a separate <strong>Integrated Login Page</strong> as a foundation for Single Sign-On (SSO) across future services.`,
+      detail: `Rather than relying solely on libraries, designed a secure login process combining <strong>Firebase Custom Tokens</strong> and <strong>HTTP-only Cookies</strong>. This combination protected tokens from XSS attacks while making cross-browser session sync straightforward, and established an <strong>Integrated Login Page</strong> for rapid SSO integration across future services.`,
     },
     {
       tag: 'Architecture',
       title: 'Scalable global architecture',
-      detail: `Adopted an <strong>i18n</strong> system from the early stages to support global users. Combined <strong>MUI</strong> and <strong>Styled-components</strong> to build a <strong>Global Theme System</strong> — a flexible UI structure that adapts to design changes like brand color updates or Dark Mode without structural refactoring.`,
+      detail: `Adopted an <strong>i18n</strong> system from the early stages for global users. Furthermore, selected the production-proven <strong>Next.js 12 (Pages Router)</strong> to prioritize API Routes compatibility (webhook processing, server-side API endpoints) and stable server-side rendering. Combined <strong>MUI</strong> and <strong>Styled-components</strong> to build a <strong>Global Theme System</strong> — a flexible UI structure that adapts to design changes like brand color updates or Dark Mode without structural refactoring.`,
     },
     {
       tag: 'Compliance',
@@ -90,6 +90,6 @@ The live link is provided for reference, and the current UI may differ from the 
 
 ## Retrospective
 
-**Scalable initial design:** In a solo project, a poor initial structure compounds into unmanageable technical debt. I held firm on **Next.js** folder conventions and strong **TypeScript** typing — building a codebase that could scale to a team without rearchitecting.
+**Scalable initial design:** In a solo project, a poor initial structure compounds into unmanageable technical debt. I held firm on **Next.js** folder conventions and strict **TypeScript** typing to make design intent explicit. As a result, adding overlay layers or expanding language support produced significantly fewer runtime bugs, maintaining stability as the codebase grew to team scale.
 
-**Monetization:** Integrating **Paddle** gave me hands-on understanding of the full payment lifecycle: subscription state management, Webhook-based renewal, and the operational side of a revenue-generating service.
+**Monetization:** Integrating **Paddle** gave me hands-on understanding of the full payment lifecycle: subscription state management, Webhook-based renewal, and the operational side of a revenue-generating service. Having solid initial architecture (folder structure, global theme, auth boundaries) enabled rapid response and resolution when payment-related edge cases arose.
