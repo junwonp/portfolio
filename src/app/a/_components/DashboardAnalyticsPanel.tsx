@@ -4,10 +4,10 @@ import Select from '@/components/ui/Select';
 import type { RecentSession } from '@/lib/server/admin/dashboardData';
 
 import styles from './admin.module.css';
-import { StatsGrid } from './StatsGrid';
-import { TrendChart } from './TrendChart';
 import { DetailsGrid } from './DetailsGrid';
 import { RecentSessionsTable } from './RecentSessionsTable';
+import { StatsGrid } from './StatsGrid';
+import { TrendChart } from './TrendChart';
 
 interface DashboardAnalyticsPanelProps {
   stats: {

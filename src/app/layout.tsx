@@ -1,3 +1,4 @@
+import "@/lib/styles/theme.css";
 import "./globals.css";
 
 import type { ReactNode } from "react";
