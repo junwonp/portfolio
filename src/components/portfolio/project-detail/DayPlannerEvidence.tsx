@@ -4,7 +4,7 @@ import React from "react";
 
 import type { Language } from "@/lib/utils/language";
 
-import styles from "./DayPlannerEvidence.module.css";
+import * as styles from "./DayPlannerEvidence.css";
 
 interface Props {
   locale: Language;
@@ -141,14 +141,14 @@ export default function DayPlannerEvidence({ locale }: Props) {
   const labels = copy[locale] || copy.ko;
 
   return (
-    <section className={styles["day-planner-evidence"]} aria-label={labels.surfacesTitle}>
-      <div className={styles["section-heading"]}>
+    <section className={styles.dayPlannerEvidence} aria-label={labels.surfacesTitle}>
+      <div className={styles.sectionHeading}>
         <p>{labels.note}</p>
       </div>
 
-      <div className={styles["surface-map"]}>
+      <div className={styles.surfaceMap}>
         <h3>{labels.surfacesTitle}</h3>
-        <ol className={styles["surface-list"]}>
+        <ol className={styles.surfaceList}>
           {labels.surfaces.map((item, index) => (
             <li key={item.label}>
               <span>{String(index + 1).padStart(2, "0")}</span>
@@ -159,7 +159,7 @@ export default function DayPlannerEvidence({ locale }: Props) {
         </ol>
       </div>
 
-      <div className={styles["verification-card"]}>
+      <div className={styles.verificationCard}>
         <h3>{labels.evidenceTitle}</h3>
         <dl>
           {labels.evidence.map((item) => (

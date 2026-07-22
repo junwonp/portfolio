@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { getOptimizedImageUrl } from "@/lib/utils/image";
 
-import styles from "./ImageDescription.module.css";
+import * as styles from "./ImageDescription.css";
 
 interface Props {
   src: string;
@@ -110,9 +110,9 @@ export default function ImageDescription({
   }, [src, priority]);
 
   return (
-    <figure className={styles["image-description"]}>
+    <figure className={styles.imageDescription}>
       <div
-        className={`${styles["media-wrapper"]} ${loaded ? styles.loaded : ""}`}
+        className={`${styles.mediaWrapper} ${loaded ? styles.loaded : ""}`}
         style={
           width && height
             ? { aspectRatio: `${String(width)} / ${String(height)}` }

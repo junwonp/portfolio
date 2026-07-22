@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 import Badge from "@/components/ui/Badge";
 import { sanitizeProjectHtml } from "@/lib/utils/safeHtml";
 
-import styles from "./ProjectAchievements.module.css";
+import * as styles from "./ProjectAchievements.css";
 
 export interface Achievement {
   tag: string;
@@ -42,35 +42,35 @@ export default function ProjectAchievements({ achievements }: Props) {
         return (
           <div
             key={i}
-            className={`${styles["ach-card"]} ${isOpen ? styles.open : ""}`}
+            className={`${styles.achCard} ${isOpen ? styles.open : ""}`}
           >
             <button
-              className={styles["ach-header"]}
+              className={styles.achHeader}
               onClick={() => toggle(i)}
               aria-expanded={isOpen}
             >
-              <div className={styles["ach-title-row"]}>
+              <div className={styles.achTitleRow}>
                 <Badge
                   text={achievement.tag}
                   color={achievement.accent ? "green" : "primary"}
-                  className={styles["ach-tag"]}
+                  className={styles.achTag}
                 />
-                <span className={styles["ach-title"]}>{achievement.title}</span>
+                <span className={styles.achTitle}>{achievement.title}</span>
               </div>
-              <div className={styles["ach-header-right"]}>
+              <div className={styles.achHeaderRight}>
                 <div
-                  className={`${styles["ach-chevron"]} ${isOpen ? styles.open : ""}`}
+                  className={`${styles.achChevron} ${isOpen ? styles.open : ""}`}
                 >
                   <ChevronDown size={18} strokeWidth={2} />
                 </div>
               </div>
             </button>
             <div
-              className={`${styles["ach-body-wrapper"]} ${isOpen ? styles.open : ""}`}
+              className={`${styles.achBodyWrapper} ${isOpen ? styles.open : ""}`}
             >
-              <div className={styles["ach-body"]}>
+              <div className={styles.achBody}>
                 <div
-                  className={styles["ach-desc"]}
+                  className={styles.achDesc}
                   dangerouslySetInnerHTML={{ __html: achievement.detail }}
                 />
               </div>

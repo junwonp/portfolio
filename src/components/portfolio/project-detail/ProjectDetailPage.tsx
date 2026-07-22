@@ -11,7 +11,7 @@ import type { PostMetadata } from '@/lib/portfolio/projectTypes';
 import type { Language } from '@/lib/utils/language';
 
 import ProjectDetailClientEffects from './ProjectDetailClientEffects';
-import styles from './ProjectDetailPage.module.css';
+import * as styles from './ProjectDetailPage.css';
 
 interface Props {
   children: React.ReactNode;
@@ -31,23 +31,23 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
 
   const heroContent = (
     <>
-      <div className={styles['hero-meta']}>
+      <div className={styles.heroMeta}>
         {metadata.role && <Badge text={metadata.role} color="primary" />}
         {metadata.status && <Badge text={metadata.status} color="green" />}
         {metadata.date && <Badge text={metadata.date} color="sub" />}
       </div>
 
-      <h1 className={styles['hero-title']}>{metadata.title || slug}</h1>
+      <h1 className={styles.heroTitle}>{metadata.title || slug}</h1>
 
       {metadata.tagline ? (
-        <p className={styles['hero-tagline']}>{metadata.tagline}</p>
+        <p className={styles.heroTagline}>{metadata.tagline}</p>
       ) : (
-        metadata.description && <p className={styles['hero-tagline']}>{metadata.description}</p>
+        metadata.description && <p className={styles.heroTagline}>{metadata.description}</p>
       )}
 
       {metadata.metrics && metadata.metrics.length > 0 && (
         <dl
-          className={styles['metrics-row']}
+          className={styles.metricsRow}
           style={
             {
               '--metric-count': metricColumnCount,
@@ -63,10 +63,10 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
   );
 
   const desktopHeader = (
-    <div className={styles['topbar-links']}>
+    <div className={styles.topbarLinks}>
       {githubHref && (
         <a
-          className={`${styles['topbar-link']} ${styles.github}`}
+          className={`${styles.topbarLink} ${styles.github}`}
           href={githubHref}
           target="_blank"
           rel="noopener noreferrer"
@@ -78,7 +78,7 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
       )}
       {metadata.productLink && (
         <a
-          className={`${styles['topbar-link']} ${styles.primary}`}
+          className={`${styles.topbarLink} ${styles.primary}`}
           href={metadata.productLink}
           target="_blank"
           rel="noopener noreferrer"
@@ -106,7 +106,7 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
       >
         <div className={styles.hero}>{heroContent}</div>
 
-        <article className={`project-article ${styles['project-article']}`}>
+        <article className={`project-article ${styles.projectArticle}`}>
           {children}
         </article>
       </PortfolioContentLayout>

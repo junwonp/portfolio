@@ -2,7 +2,7 @@
 
 import { Printer } from 'lucide-react';
 
-import styles from './PrintablePortfolio.module.css';
+import * as styles from './PrintablePortfolio.css';
 
 interface PrintablePortfolioProps {
   slug?: string;

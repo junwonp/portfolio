@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import styles from "./ImageGallery.module.css";
+import * as styles from "./ImageGallery.css";
 
 interface Props {
   children?: React.ReactNode;
@@ -151,7 +151,7 @@ export default function ImageGallery({ children }: Props) {
   return (
     <div
       ref={galleryRef}
-      className={`${styles["image-gallery"]} ${isMobile ? styles.mobile : ""}`}
+      className={`${styles.imageGallery} ${isMobile ? styles.mobile : ""}`}
       role="group"
       onKeyDown={isMobile && itemCount > 1 ? handleKeyDown : undefined}
       tabIndex={isMobile && itemCount > 1 ? 0 : undefined}
@@ -162,7 +162,7 @@ export default function ImageGallery({ children }: Props) {
           <>
             <div
               ref={sliderRef}
-              className={`${styles["slider-container"]} ${
+              className={`${styles.sliderContainer} ${
                 isDragging ? styles.dragging : ""
               }`}
               style={{

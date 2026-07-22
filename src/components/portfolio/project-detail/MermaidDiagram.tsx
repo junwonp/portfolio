@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 
-import styles from './MermaidDiagram.module.css';
+import * as styles from './MermaidDiagram.css';
 
 interface Props {
   chart: string;
@@ -159,24 +159,24 @@ export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Pr
   }, [chart, renderId, shouldRender]);
 
   return (
-    <figure ref={frameRef} className={styles['mermaid-diagram']} aria-label={title}>
-      <figcaption className={styles['diagram-header']}>
+    <figure ref={frameRef} className={styles.mermaidDiagram} aria-label={title}>
+      <figcaption className={styles.diagramHeader}>
         <span>{eyebrow}</span>
         <strong>{title}</strong>
       </figcaption>
-      <div className={styles['diagram-frame']}>
+      <div className={styles.diagramFrame}>
         {shouldRender && svg && renderedChart === chart ? (
           <div
-            className={styles['diagram-surface']}
+            className={styles.diagramSurface}
             dangerouslySetInnerHTML={{ __html: svg }}
           />
         ) : shouldRender && errorMessage && renderedChart === chart ? (
           <>
-            <p className={styles['diagram-error']}>{errorMessage}</p>
-            <pre className={styles['diagram-fallback']}>{chart}</pre>
+            <p className={styles.diagramError}>{errorMessage}</p>
+            <pre className={styles.diagramFallback}>{chart}</pre>
           </>
         ) : (
-          <div className={styles['diagram-loading']}>
+          <div className={styles.diagramLoading}>
             {shouldRender ? 'Rendering diagram...' : 'Diagram will load when visible.'}
           </div>
         )}

@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import ProjectDetailPage from '@/components/portfolio/project-detail/ProjectDetailPage';
 
 const projectDetailStyles = readFileSync(
-  new URL('./ProjectDetailPage.module.css', import.meta.url),
+  new URL('./ProjectDetailPage.css.ts', import.meta.url),
   'utf8',
 );
 

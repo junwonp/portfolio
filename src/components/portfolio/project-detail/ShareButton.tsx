@@ -3,7 +3,7 @@
 import React, { useRef,useState } from "react";
 import { Check, Share2 } from "lucide-react";
 
-import styles from "./ShareButton.module.css";
+import * as styles from "./ShareButton.css";
 
 interface Props {
   copiedLabel: string;
@@ -60,7 +60,7 @@ export default function ShareButton({
   if (variant === "text") {
     return (
       <button
-        className={`${styles["share-btn-text"]} ${copied ? styles.copied : ""}`}
+        className={`${styles.shareBtnText} ${copied ? styles.copied : ""}`}
         onClick={share}
         title={shareLabel}
         aria-label={shareLabel}
@@ -82,9 +82,9 @@ export default function ShareButton({
   }
 
   return (
-    <div className={styles["share-wrapper"]}>
+    <div className={styles.shareWrapper}>
       <button
-        className={styles["share-btn"]}
+        className={styles.shareBtn}
         onClick={share}
         title={shareLabel}
         aria-label={shareLabel}

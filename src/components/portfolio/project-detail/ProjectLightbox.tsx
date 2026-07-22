@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight, Image as ImageIcon, X } from "lucide-react";
 
 import { getOptimizedImageUrl } from "@/lib/utils/image";
 
-import styles from "./ProjectLightbox.module.css";
+import * as styles from "./ProjectLightbox.css";
 import { useLightboxDrag } from "./useLightboxDrag";
 
 export interface LightboxImage {
@@ -116,19 +116,19 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
   return (
     <>
       <div
-        className={`${styles["lightbox-masonry"]} ${
-          isMobile ? styles.mobile : ""
-        } ${variant === "phone" ? styles["phone-preview"] : ""}`}
+        className={`${styles.lightboxMasonry} ${
+          variant === "phone" ? styles.phonePreview : ""
+        }`}
       >
         {isMobile && images.length > 1 ? (
           <button
-            className={`${styles["masonry-item"]} ${styles["first-only"]}`}
+            className={styles.masonryItem}
             onClick={() => open(0)}
             aria-label={`View all ${images.length} images`}
           >
             <img src={getSrc(images[0])} alt={images[0].alt} loading="lazy" />
-            <div className={styles["more-indicator"]}>
-              <div className={styles["indicator-content"]}>
+            <div className={styles.moreIndicator}>
+              <div className={styles.indicatorContent}>
                 <ImageIcon size={24} />
                 <span className={styles.label}>
                   전체 {images.length}장의 사진 보기
@@ -140,12 +140,12 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
           images.map((image, i) => (
             <button
               key={i}
-              className={styles["masonry-item"]}
+              className={styles.masonryItem}
               onClick={() => open(i)}
               aria-label={`View ${image.alt} fullscreen`}
             >
               <img src={getSrc(image)} alt={image.alt} loading="lazy" />
-              <span className={styles["zoom-hint"]} aria-hidden="true">
+              <span className={styles.zoomHint} aria-hidden="true">
                 <svg
                   width="18"
                   height="18"
@@ -168,7 +168,7 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
       {activeIndex !== null && activeImage !== null && (
         <div
           ref={overlayRef}
-          className={`${styles.overlay} ${!chromeVisible ? styles["chrome-hidden"] : ""}`}
+          className={`${styles.overlay} ${!chromeVisible ? styles.chromeHidden : ""}`}
           role="dialog"
           tabIndex={-1}
           aria-modal="true"
@@ -177,7 +177,7 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
         >
           {/* Close */}
           <button
-            className={styles["overlay-close"]}
+            className={styles.overlayClose}
             onClick={close}
             aria-label="Close"
           >
@@ -185,9 +185,9 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
           </button>
 
           {/* Carousel */}
-          <div className={styles["overlay-image-area"]}>
+          <div className={styles.overlayImageArea}>
             <div
-              className={`${styles["carousel-track"]} ${
+              className={`${styles.carouselTrack} ${
                 isSnapping ? styles.snapping : ""
               }`}
               style={
@@ -196,7 +196,7 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
                 } as React.CSSProperties
               }
             >
-              <div className={styles["carousel-slide"]}>
+              <div className={styles.carouselSlide}>
                 {prevImage !== null && (
                   <img
                     src={getSrc(prevImage)}
@@ -205,14 +205,14 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
                   />
                 )}
               </div>
-              <div className={styles["carousel-slide"]}>
+              <div className={styles.carouselSlide}>
                 <img
                   src={getSrc(activeImage)}
                   alt={activeImage.alt}
                   draggable="false"
                 />
               </div>
-              <div className={styles["carousel-slide"]}>
+              <div className={styles.carouselSlide}>
                 {nextImage !== null && (
                   <img
                     src={getSrc(nextImage)}
@@ -228,14 +228,14 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
           {images.length > 1 && (
             <>
               <button
-                className={`${styles["overlay-nav"]} ${styles.prev}`}
+                className={`${styles.overlayNav} ${styles.prev}`}
                 onClick={prev}
                 aria-label="Previous image"
               >
                 <ChevronLeft size={20} />
               </button>
               <button
-                className={`${styles["overlay-nav"]} ${styles.next}`}
+                className={`${styles.overlayNav} ${styles.next}`}
                 onClick={next}
                 aria-label="Next image"
               >
@@ -245,12 +245,12 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
           )}
 
           {/* Footer */}
-          <div className={styles["overlay-footer"]}>
+          <div className={styles.overlayFooter}>
             {activeImage.caption && (
-              <p className={styles["overlay-caption"]}>{activeImage.caption}</p>
+              <p className={styles.overlayCaption}>{activeImage.caption}</p>
             )}
             {images.length > 1 && (
-              <div className={styles["overlay-dots"]} aria-hidden="true">
+              <div className={styles.overlayDots} aria-hidden="true">
                 {dotIndices.map((i) => (
                   <button
                     key={i}
