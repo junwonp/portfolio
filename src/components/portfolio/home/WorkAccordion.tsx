@@ -7,7 +7,7 @@ import { getLabels } from '@/lib/portfolio/labels';
 import type { Language } from '@/lib/utils/language';
 
 import CompanyCard from './CompanyCard';
-import styles from './WorkAccordion.module.css';
+import * as styles from './WorkAccordion.css';
 
 interface Props {
   experiences: WorkExperienceProps[];

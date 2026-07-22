@@ -7,7 +7,7 @@ import type { ProjectItem as ProjectItemType } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
 import { useAccordionState } from '@/lib/states/accordion';
 
-import ProjectItemStyles from './ProjectItem.module.css';
+import * as ProjectItemStyles from './ProjectItem.css';
 import type { ProjectDetailsMode } from './projectItemDisplay';
 import { shouldForceProjectContentOpen, shouldRenderProjectDetails } from './projectItemDisplay';
 
@@ -48,7 +48,7 @@ export default function ProjectItem({
   };
 
   const containerClassName =
-    `project-item ${ProjectItemStyles['project-item']} ${isOpen ? ProjectItemStyles['is-open'] : ''}`.trim();
+    `project-item ${ProjectItemStyles.projectItem}`.trim();
 
   const headerProps = isCompact
     ? {

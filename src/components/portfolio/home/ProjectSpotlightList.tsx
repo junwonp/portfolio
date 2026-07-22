@@ -7,7 +7,7 @@ import ProjectContent from '@/components/portfolio/home/ProjectContent';
 import type { OtherExperienceProps } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
 
-import styles from './ProjectSpotlightList.module.css';
+import * as styles from './ProjectSpotlightList.css';
 
 interface ProjectSpotlightListProps {
   experiences: OtherExperienceProps[];
@@ -26,7 +26,7 @@ export default function ProjectSpotlightList({
   const effectiveSkillLimit = isSpotlight ? (skillLimit ?? 6) : skillLimit;
 
   return (
-    <div className={isSpotlight ? styles['spotlight-list'] : styles['resume-list']}>
+    <div className={isSpotlight ? styles.spotlightList : styles.resumeList}>
       {experiences.map((experience) => {
         const project = experience.project[0];
         if (!project) return null;
@@ -36,10 +36,10 @@ export default function ProjectSpotlightList({
             <>
               {project.thumbnail && (
                 <div
-                  className={`${styles['thumbnail-frame']} ${
+                  className={`${styles.thumbnailFrame} ${
                     project.thumbnail.kind === 'icon'
-                      ? styles['thumbnail-frame-icon']
-                      : styles['thumbnail-frame-screenshot']
+                      ? styles.thumbnailFrameIcon
+                      : styles.thumbnailFrameScreenshot
                   }`}
                 >
                   <Image
@@ -49,8 +49,8 @@ export default function ProjectSpotlightList({
                     sizes="(max-width: 768px) 88px, 144px"
                     className={`${styles.thumbnail} ${
                       project.thumbnail.kind === 'icon'
-                        ? styles['thumbnail-icon']
-                        : styles['thumbnail-screenshot']
+                        ? styles.thumbnailIcon
+                        : styles.thumbnailScreenshot
                     }`}
                   />
                 </div>
@@ -73,7 +73,7 @@ export default function ProjectSpotlightList({
               <a
                 key={project.id}
                 href={project.detailLink}
-                className={`${styles.card} ${styles['is-link']} ${project.thumbnail ? styles['has-thumbnail'] : ''}`}
+                className={`${styles.card} ${styles.isLink} ${project.thumbnail ? styles.hasThumbnail : ''}`}
                 data-project-link-card="true"
                 data-project-surface="spotlight"
               >
@@ -85,7 +85,7 @@ export default function ProjectSpotlightList({
           return (
             <div
               key={project.id}
-              className={`${styles.card} ${project.thumbnail ? styles['has-thumbnail'] : ''}`}
+              className={`${styles.card} ${project.thumbnail ? styles.hasThumbnail : ''}`}
               data-project-surface="spotlight"
             >
               {cardContent}
@@ -96,7 +96,7 @@ export default function ProjectSpotlightList({
         return (
           <div
             key={project.id}
-            className={styles['resume-row']}
+            className={styles.resumeRow}
             data-project-surface="resume"
           >
             <ProjectContent

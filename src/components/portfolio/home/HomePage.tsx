@@ -12,7 +12,7 @@ import type { Labels } from '@/lib/portfolio/labels';
 import type { ResumeData } from '@/lib/portfolio/resume';
 import type { Language } from '@/lib/utils/language';
 
-import styles from './HomePage.module.css';
+import * as styles from './HomePage.css';
 
 interface NavSection {
   id: string;
@@ -52,11 +52,11 @@ export default function HomePage({ data }: Props) {
 
   return (
     <PortfolioContentLayout
-      contentClassName={styles['main-content']}
+      contentClassName={styles.mainContent}
       mobileHeader={mobileHeader}
       sideNav={<DesktopSideNav sections={navSections} />}
     >
-      <section id="section-intro" className={styles['fade-slide-enter']}>
+      <section id="section-intro" className={styles.fadeSlideEnter}>
         <Title
           name={data.summaryIntroduction.name}
           pillars={data.summaryIntroduction.pillars}
@@ -65,12 +65,12 @@ export default function HomePage({ data }: Props) {
         />
       </section>
 
-      <div className={styles['content-wrapper']}>
+      <div className={styles.contentWrapper}>
         {workExperiences.length > 0 && (
           <>
             {featuredWebProjects.length > 0 && (
-              <section id="section-featured" className={styles['fade-slide-enter']}>
-                <div className={styles['section-heading-row']}>
+              <section id="section-featured" className={styles.fadeSlideEnter}>
+                <div className={styles.sectionHeadingRow}>
                   <SectionHeader title={featuredProjectsTitle} />
                 </div>
                 <ProjectSpotlightList
@@ -82,8 +82,8 @@ export default function HomePage({ data }: Props) {
               </section>
             )}
 
-            <section id="section-work" className={styles['fade-slide-enter']}>
-              <div className={styles['section-heading-row']}>
+            <section id="section-work" className={styles.fadeSlideEnter}>
+              <div className={styles.sectionHeadingRow}>
                 <SectionHeader title={labels.sectionWork} />
               </div>
               <WorkAccordion experiences={workExperiences} locale={locale} />
@@ -91,16 +91,16 @@ export default function HomePage({ data }: Props) {
           </>
         )}
 
-        <section id="section-skills" className={styles['fade-slide-enter']}>
-          <div className={styles['section-heading-row']}>
+        <section id="section-skills" className={styles.fadeSlideEnter}>
+          <div className={styles.sectionHeadingRow}>
             <SectionHeader title={labels.sectionSkills} />
           </div>
           {skills && <BentoSkills locale={locale} skills={skills} />}
         </section>
 
         {otherExperiences.length > 0 && (
-          <section id="section-projects" className={styles['fade-slide-enter']}>
-            <div className={styles['section-heading-row']}>
+          <section id="section-projects" className={styles.fadeSlideEnter}>
+            <div className={styles.sectionHeadingRow}>
               <SectionHeader title={labels.sectionAwards} />
             </div>
             <ProjectSpotlightList
@@ -112,16 +112,16 @@ export default function HomePage({ data }: Props) {
         )}
 
         {archives.length > 0 && (
-          <section id="section-archives" className={styles['fade-slide-enter']}>
-            <div className={styles['section-heading-row']}>
+          <section id="section-archives" className={styles.fadeSlideEnter}>
+            <div className={styles.sectionHeadingRow}>
               <SectionHeader title={labels.sectionArchives} />
             </div>
             <ProjectSpotlightList experiences={archives} labels={labels} variant="resume" />
           </section>
         )}
 
-        <section id="section-education" className={styles['fade-slide-enter']}>
-          <div className={styles['section-heading-row']}>
+        <section id="section-education" className={styles.fadeSlideEnter}>
+          <div className={styles.sectionHeadingRow}>
             <SectionHeader title={labels.sectionEducation} />
           </div>
           {resumeData.education && <EducationList education={resumeData.education} />}

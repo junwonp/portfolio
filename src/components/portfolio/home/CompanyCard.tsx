@@ -11,7 +11,7 @@ import type { Labels } from '@/lib/portfolio/labels';
 import { useAccordionState } from '@/lib/states/accordion';
 import { parseMarkdown } from '@/lib/utils/markdown';
 
-import styles from './CompanyCard.module.css';
+import * as styles from './CompanyCard.css';
 import ProjectItem from './ProjectItem';
 
 interface Props {
@@ -43,50 +43,50 @@ export default function CompanyCard({ exp, isFiltered, labels }: Props) {
         href={exp.additional.link}
         target="_blank"
         rel="noopener noreferrer"
-        className={styles['additional-link']}
+        className={styles.additionalLink}
       >
         {exp.additional.label} →
       </a>
     ) : null;
 
   return (
-    <div className={styles['company-wrapper']}>
-      <div className={`${styles['company-card']} ${isCompanyOpen ? styles.open : ''}`}>
+    <div className={styles.companyWrapper}>
+      <div className={`${styles.companyCard} ${isCompanyOpen ? styles.open : ''}`}>
         <div
-          className={styles['company-header']}
+          className={styles.companyHeader}
           role="button"
           tabIndex={0}
           onClick={handleToggle}
           onKeyDown={handleKeyDown}
           aria-expanded={isCompanyOpen}
         >
-          <div className={styles['company-top']}>
-            <div className={styles['company-left']}>
-              <span className={styles['company-name']}>{exp.companyName}</span>
+          <div className={styles.companyTop}>
+            <div className={styles.companyLeft}>
+              <span className={styles.companyName}>{exp.companyName}</span>
               <div className={styles.badges}>
                 {exp.titleBadge && <Badge text={exp.titleBadge} color="primary" />}
                 {!exp.dateTo && <Badge text={labels.present} color="green" />}
               </div>
             </div>
-            <div className={`${styles['company-right']} ${styles['pc-only']}`}>
+            <div className={`${styles.companyRight} ${styles.pcOnly}`}>
               <Period dateFrom={exp.dateFrom} dateTo={exp.dateTo} />
             </div>
           </div>
 
-          <div className={styles['company-info-row']}>
-            <div className={styles['role-line']}>
+          <div className={styles.companyInfoRow}>
+            <div className={styles.roleLine}>
               <span className={styles.role}>{exp.role}</span>
-              <span className={styles['role-separator']}>·</span>
-              <span className={styles['period-compact']}>
+              <span className={styles.roleSeparator}>·</span>
+              <span className={styles.periodCompact}>
                 <Period dateFrom={exp.dateFrom} dateTo={exp.dateTo} />
               </span>
             </div>
-            <div className={styles['expand-indicator']}>
+            <div className={styles.expandIndicator}>
               <span>{isCompanyOpen ? labels.hideDetails : labels.showDetails}</span>
               <ChevronDown
                 size={20}
                 strokeWidth={2}
-                className={`${styles['chevron-icon']} ${isCompanyOpen ? styles.open : ''}`}
+                className={`${styles.chevronIcon} ${isCompanyOpen ? styles.open : ''}`}
               />
             </div>
           </div>
@@ -96,7 +96,7 @@ export default function CompanyCard({ exp, isFiltered, labels }: Props) {
               {exp.highlights.map((item) => (
                 <li key={item}>
                   <span className={styles.bullet} />
-                  <span className={styles['highlight-text']}>
+                  <span className={styles.highlightText}>
                     <RichText parts={parseMarkdown(item)} />
                   </span>
                 </li>
@@ -108,7 +108,7 @@ export default function CompanyCard({ exp, isFiltered, labels }: Props) {
         {renderAdditionalLink()}
 
         {isCompanyOpen && (
-          <div className={styles['project-list']}>
+          <div className={styles.projectList}>
             {exp.project.map((project) => (
               <ProjectItem
                 key={`${project.id}:${project.title}`}

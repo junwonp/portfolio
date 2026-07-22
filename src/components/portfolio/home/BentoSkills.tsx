@@ -8,7 +8,7 @@ import type { SkillProps } from "@/lib/portfolio/homeTypes";
 import { getLabels } from "@/lib/portfolio/labels";
 import type { Language } from "@/lib/utils/language";
 
-import styles from "./BentoSkills.module.css";
+import * as styles from "./BentoSkills.css";
 
 export default function BentoSkills({
   locale,
@@ -20,32 +20,32 @@ export default function BentoSkills({
   const labels = getLabels(locale);
 
   return (
-    <div className={styles["bento-grid"]}>
+    <div className={styles.bentoGrid}>
       {skills.map((skill) => {
         const isSpan2 = skill.id === "ui";
 
         return (
           <div
             key={skill.title}
-            className={`${styles.card} ${isSpan2 ? styles["span-2"] : ""}`}
+            className={`${styles.card} ${isSpan2 ? styles.span2 : ""}`}
             style={
               {
                 "--cat-color": `var(--color-cat-${skill.id})`,
               } as React.CSSProperties
             }
           >
-            <div className={styles["card-header"]}>
-              <h3 className={styles["card-title"]}>{skill.title}</h3>
+            <div className={styles.cardHeader}>
+              <h3 className={styles.cardTitle}>{skill.title}</h3>
             </div>
-            <div className={styles["tag-list"]}>
+            <div className={styles.tagList}>
               {skill.list.map((item) => (
                 <SkillChip key={item} skill={item} />
               ))}
             </div>
             {skill.detailLink && (
-              <div className={styles["card-footer"]}>
+              <div className={styles.cardFooter}>
                 {skill.description && (
-                  <div className={styles["card-prose"]}>
+                  <div className={styles.cardProse}>
                     <p>{skill.description}</p>
                   </div>
                 )}

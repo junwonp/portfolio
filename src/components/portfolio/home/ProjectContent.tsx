@@ -12,7 +12,7 @@ import { getSkillCategory } from '@/lib/portfolio/skills';
 import { parseMarkdown } from '@/lib/utils/markdown';
 import { sortSkills } from '@/lib/utils/skills';
 
-import styles from './ProjectContent.module.css';
+import * as styles from './ProjectContent.css';
 
 interface ProjectContentProps {
   project: ProjectItemType;
@@ -71,22 +71,20 @@ export default function ProjectContent({
 
   if (isSpotlight) {
     return (
-      <div className={styles['spotlight-content']}>
+      <div className={styles.spotlightContent}>
         <div className={styles.header}>
-          <div className={styles['title-group']}>
+          <div className={styles.titleGroup}>
             <h3 className={styles.title}>{project.title}</h3>
             {titleBadge && <span className={styles.badge}>{titleBadge}</span>}
           </div>
           {project.detailLink && (
-            <span className={styles['link-mock']}>{labels.viewProjectDetails} →</span>
+            <span className={styles.linkMock}>{labels.viewProjectDetails} →</span>
           )}
         </div>
 
         <p className={styles.description}>
           <RichText parts={parseMarkdown(project.description)} />
         </p>
-
-
 
         {visibleSkills.length > 0 && (
           <div className={styles.skills}>
@@ -95,7 +93,7 @@ export default function ProjectContent({
             ))}
             {hiddenSkillCount > 0 && (
               <span
-                className={styles['more-chip']}
+                className={styles.moreChip}
                 title={sortedSkills.slice(skillLimit).join(', ')}
               >
                 +{hiddenSkillCount}
@@ -108,24 +106,24 @@ export default function ProjectContent({
   }
 
   return (
-    <div className={styles['resume-content']}>
-      <div className={styles['resume-header']} {...headerProps}>
-        <div className={styles['title-group-inline']}>
-          <div className={styles['title-row']}>
-            <h3 className={styles['resume-title']}>{project.title}</h3>
+    <div className={styles.resumeContent}>
+      <div className={styles.resumeHeader} {...headerProps}>
+        <div className={styles.titleGroupInline}>
+          <div className={styles.titleRow}>
+            <h3 className={styles.resumeTitle}>{project.title}</h3>
           </div>
-          <div className={styles['meta-row']}>
+          <div className={styles.metaRow}>
             {titleBadge && <span className={styles.badge}>{titleBadge}</span>}
-            <span className={styles['resume-period']}>
+            <span className={styles.resumePeriod}>
               <Period dateFrom={project.dateFrom} dateTo={project.dateTo} />
             </span>
           </div>
         </div>
 
         {project.detailLink && (
-          <div className={styles['resume-link-area']}>
+          <div className={styles.resumeLinkArea}>
             {isLinkWrapped ? (
-              <span className={styles['link-mock']}>{labels.viewProjectDetails} →</span>
+              <span className={styles.linkMock}>{labels.viewProjectDetails} →</span>
             ) : (
               <ArrowLink
                 href={project.detailLink}
@@ -138,31 +136,29 @@ export default function ProjectContent({
       </div>
 
       {showBody && (
-        <div className={styles['resume-body']}>
-          <p className={styles['resume-description']}>
-            <span className={styles['description-text']}>{project.description}</span>
+        <div className={styles.resumeBody}>
+          <p className={styles.resumeDescription}>
+            <span>{project.description}</span>
             {mainSkillsLabel && (
               <>
-                <span className={styles['desc-separator']}>·</span>
-                <span className={styles['main-skills']}>{mainSkillsLabel}</span>
+                <span className={styles.descSeparator}>·</span>
+                <span className={styles.mainSkills}>{mainSkillsLabel}</span>
               </>
             )}
           </p>
 
-
-
           {showDetails && project.detail && project.detail.length > 0 && (
-            <div className={styles['detail-grid']}>
+            <div className={styles.detailGrid}>
               {project.detail.map((line: string) => {
                 const parsed = parseDetailLine(line);
                 return (
-                  <div className={styles['detail-row']} key={line}>
+                  <div className={styles.detailRow} key={line}>
                     {parsed.label && (
-                      <div className={styles['detail-label']}>
-                        <span className={styles['label-pill']}>{parsed.label}</span>
+                      <div className={styles.detailLabel}>
+                        <span className={styles.labelPill}>{parsed.label}</span>
                       </div>
                     )}
-                    <div className={styles['detail-text']}>
+                    <div className={styles.detailText}>
                       <RichText parts={parseMarkdown(parsed.content)} />
                     </div>
                   </div>
@@ -178,7 +174,7 @@ export default function ProjectContent({
               ))}
               {hiddenSkillCount > 0 && (
                 <span
-                  className={styles['more-chip']}
+                  className={styles.moreChip}
                   title={sortedSkills.slice(skillLimit).join(', ')}
                 >
                   +{hiddenSkillCount}

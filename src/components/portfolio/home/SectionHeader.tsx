@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "./SectionHeader.module.css";
+import * as styles from "./SectionHeader.css";
 
 interface Props {
   title: string;
@@ -8,7 +8,7 @@ interface Props {
 
 export default function SectionHeader({ title }: Props) {
   return (
-    <div className={styles["section-header"]}>
+    <div className={`section-header ${styles.sectionHeader}`}>
       <h2>{title}</h2>
     </div>
   );
