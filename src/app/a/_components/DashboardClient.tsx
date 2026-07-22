@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import type { RecentSession } from '@/lib/server/admin/dashboardData';
 
-import styles from './admin.module.css';
+import * as styles from './admin.css';
 import { DashboardAnalyticsPanel } from './DashboardAnalyticsPanel';
 import { DashboardLinksPanel } from './DashboardLinksPanel';
 

@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import Select from '@/components/ui/Select';
 
-import styles from './admin.module.css';
+import * as styles from './admin.css';
 
 import { createApplicationLink } from '../actions';
 

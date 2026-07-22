@@ -3,7 +3,7 @@
 import Select from '@/components/ui/Select';
 import type { RecentSession } from '@/lib/server/admin/dashboardData';
 
-import styles from './admin.module.css';
+import * as styles from './admin.css';
 import { DetailsGrid } from './DetailsGrid';
 import { RecentSessionsTable } from './RecentSessionsTable';
 import { StatsGrid } from './StatsGrid';

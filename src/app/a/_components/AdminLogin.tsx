@@ -2,7 +2,7 @@
 
 import { useState,useTransition } from 'react';
 
-import styles from './login.module.css';
+import * as styles from './login.css';
 
 import { login } from '../actions';
 

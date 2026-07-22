@@ -5,7 +5,7 @@ import { Plus, X } from 'lucide-react';
 
 import { skillsShared } from '@/lib/portfolio/skills';
 
-import styles from './SkillSelectorDialog.module.css';
+import * as styles from './SkillSelectorDialog.css';
 
 interface SkillSelectorDialogProps {
   allowCustom?: boolean;
@@ -74,10 +74,10 @@ export default function SkillSelectorDialog({
   return (
     <div className={styles.field}>
       <div className={styles.summary}>
-        <div className={styles['selected-list']}>
+        <div className={styles.selectedList}>
           {selectedSkills.length > 0 ? (
             selectedSkills.map((skill) => (
-              <span key={skill} className={styles['selected-chip']}>
+              <span key={skill} className={styles.selectedChip}>
                 {skill}
               </span>
             ))
@@ -85,7 +85,7 @@ export default function SkillSelectorDialog({
             <span className={styles.placeholder}>선택된 스킬 없음</span>
           )}
         </div>
-        <button className={styles['open-button']} type="button" onClick={() => setIsOpen(true)}>
+        <button className={styles.openButton} type="button" onClick={() => setIsOpen(true)}>
           <Plus size={15} aria-hidden="true" />
           스킬 선택
         </button>
@@ -106,7 +106,7 @@ export default function SkillSelectorDialog({
                 <h3>{label}</h3>
               </div>
               <button
-                className={styles['icon-button']}
+                className={styles.iconButton}
                 type="button"
                 aria-label="스킬 선택 닫기"
                 onClick={() => setIsOpen(false)}
@@ -119,8 +119,8 @@ export default function SkillSelectorDialog({
               {groupedCandidates.length > 0 ? (
                 groupedCandidates.map((group) => (
                   <div key={group.id} className={styles.group}>
-                    <span className={styles['group-label']}>{group.id}</span>
-                    <div className={styles['chip-grid']}>
+                    <span className={styles.groupLabel}>{group.id}</span>
+                    <div className={styles.chipGrid}>
                       {group.list.map((skill) => {
                         const isSelected = selectedSet.has(skill);
                         return (
@@ -142,7 +142,7 @@ export default function SkillSelectorDialog({
               )}
 
               {allowCustom && (
-                <div className={styles['custom-row']}>
+                <div className={styles.customRow}>
                   <input
                     className={styles.input}
                     value={customSkill}
@@ -155,7 +155,7 @@ export default function SkillSelectorDialog({
                       }
                     }}
                   />
-                  <button className={styles['add-button']} type="button" onClick={addCustomSkill}>
+                  <button className={styles.addButton} type="button" onClick={addCustomSkill}>
                     추가
                   </button>
                 </div>
@@ -164,7 +164,7 @@ export default function SkillSelectorDialog({
 
             <footer className={styles.actions}>
               <button
-                className={styles['done-button']}
+                className={styles.doneButton}
                 type="button"
                 onClick={() => setIsOpen(false)}
               >

@@ -1,4 +1,4 @@
-import styles from './admin.module.css';
+import * as styles from './admin.css';
 
 interface DetailsGridProps {
   topPages: {

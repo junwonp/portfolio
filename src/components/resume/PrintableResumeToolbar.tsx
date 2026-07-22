@@ -2,7 +2,7 @@
 
 import { Printer } from 'lucide-react';
 
-import styles from './PrintableResume.module.css';
+import * as styles from './PrintableResume.css';
 
 export default function PrintableResumeToolbar() {
   return (

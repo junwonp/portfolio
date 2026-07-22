@@ -2,7 +2,7 @@
 
 import { formatDateTime } from '@/lib/utils/date';
 
-import styles from './admin.module.css';
+import * as styles from './admin.css';
 import { LinkForm } from './LinkForm';
 
 import { deleteApplicationLink } from '../actions';

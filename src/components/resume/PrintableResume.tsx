@@ -5,7 +5,7 @@ import type {
   ResumeWorkEntry,
 } from '@/content/printableResume';
 
-import styles from './PrintableResume.module.css';
+import * as styles from './PrintableResume.css';
 import PrintableResumeToolbar from './PrintableResumeToolbar';
 
 interface PrintableResumeProps {

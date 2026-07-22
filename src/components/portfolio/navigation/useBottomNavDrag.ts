@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import styles from "./BottomNav.module.css";
+import * as styles from "./BottomNav.css";
 
 interface NavTab {
   id: string;
@@ -40,24 +40,30 @@ export function useBottomNavDrag({
     const tid = requestAnimationFrame(() => {
       const tabEls = el.querySelectorAll<HTMLElement>("." + styles.tab);
       const activeEl = tabEls[activeIndex] as HTMLElement | undefined;
-      if (!activeEl) return;
-      setPillLeft(activeEl.offsetLeft);
-      setPillWidth(activeEl.offsetWidth);
+      if (activeEl) {
+        const left = activeEl.offsetLeft;
+        const width = activeEl.offsetWidth;
+        setPillLeft(left);
+        setPillWidth(width);
+      }
     });
 
-    return () => {
-      cancelAnimationFrame(tid);
-    };
-  }, [activeIndex, isDragging, windowWidth, tabs, tabBarRef]);
+    return () => cancelAnimationFrame(tid);
+  }, [activeIndex, windowWidth, isDragging, tabBarRef]);
+
+  const canDragFromTarget = (target: HTMLElement | null): boolean => {
+    if (!target) return false;
+    return Boolean(
+      target.classList.contains(styles.activeBg) ||
+      target.classList.contains(styles.active) ||
+      target.closest("." + styles.active)
+    );
+  };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
-    const isActiveArea =
-      target.classList.contains(styles["active-bg"]) ||
-      target.classList.contains(styles.active) ||
-      target.closest("." + styles.active);
 
-    if (isActiveArea && tabBarRef.current) {
+    if (canDragFromTarget(target) && tabBarRef.current) {
       e.preventDefault();
       setIsDragging(true);
       dragStartXRef.current = e.clientX;
