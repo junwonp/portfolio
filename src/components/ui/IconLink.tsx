@@ -1,6 +1,8 @@
+"use client";
+
 import React from "react";
 
-import styles from "./IconLink.module.css";
+import { iconLink, typeVariants } from "./IconLink.css";
 
 interface Props {
   href: string;
@@ -20,8 +22,8 @@ export default function IconLink({
   className = "",
 }: Props) {
   const rel = type === "github" ? "external noopener noreferrer" : "noopener noreferrer";
-  const typeClass = styles[type] || "";
-  const combinedClass = `${styles["icon-link"]} ${typeClass} ${className}`.trim();
+  const typeClass = typeVariants[type] || "";
+  const combinedClass = `${iconLink} ${typeClass} ${className}`.trim();
 
   return (
     <a

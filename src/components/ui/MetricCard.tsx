@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "./MetricCard.module.css";
+import { metricCard, metricLabel, metricValue } from "./MetricCard.css";
 
 interface MetricCardProps {
   value: string;
@@ -9,9 +9,9 @@ interface MetricCardProps {
 
 export default function MetricCard({ value, label }: MetricCardProps) {
   return (
-    <div className={styles["metric-card"]}>
-      <dd className={styles["metric-value"]}>{value}</dd>
-      <dt className={styles["metric-label"]}>{label}</dt>
+    <div className={metricCard}>
+      <dd className={metricValue}>{value}</dd>
+      <dt className={metricLabel}>{label}</dt>
     </div>
   );
 }

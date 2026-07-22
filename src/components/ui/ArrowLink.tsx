@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-import styles from "./ArrowLink.module.css";
+import { arrowLink, linkBgHoverVar, linkColorVar } from "./ArrowLink.css";
 
 interface Props {
   href: string;
@@ -11,6 +11,8 @@ interface Props {
   target?: "_blank" | "_self" | "_parent" | "_top";
   reload?: boolean;
 }
+
+const getVarName = (variable: string) => String(variable).replace(/^var\(|\)$/g, '');
 
 export default function ArrowLink({
   href,
@@ -25,12 +27,12 @@ export default function ArrowLink({
     : "var(--color-primary-transparent)";
 
   const inlineStyles = {
-    "--link-color": color,
-    "--link-bg-hover": linkBgHover,
+    [getVarName(linkColorVar)]: color,
+    [getVarName(linkBgHoverVar)]: linkBgHover,
   } as React.CSSProperties;
 
   const rel = target === "_blank" ? "noopener noreferrer" : undefined;
-  const combinedClass = `${styles["arrow-link"]} ${className}`.trim();
+  const combinedClass = `${arrowLink} ${className}`.trim();
 
   // Next.js Link handles internal routing, external or reload use direct standard anchor
   const isExternal = href.startsWith("http") || target === "_blank" || reload;

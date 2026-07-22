@@ -1,9 +1,20 @@
-'use client';
-
 import React, { useEffect, useRef, useState } from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 
-import styles from './Select.module.css';
+import {
+  checkIcon,
+  customSelectContainer,
+  disabled as disabledClass,
+  open,
+  optionItem,
+  optionLabel,
+  optionsList,
+  selectDropdown,
+  selected,
+  selectTrigger,
+  triggerIcon,
+  triggerLabel,
+} from './Select.css';
 
 export interface Option {
   value: string;
@@ -61,31 +72,31 @@ export default function Select({
   return (
     <div
       ref={selectRef}
-      className={`${styles.customSelectContainer} ${isOpen ? styles.open : ''}`}
+      className={`${customSelectContainer} ${isOpen ? open : ''}`}
     >
       <input type="hidden" name={name} value={value} />
 
       <button
         type="button"
-        className={`${styles.selectTrigger} ${disabled ? styles.disabled : ''}`}
+        className={`${selectTrigger} ${disabled ? disabledClass : ''}`}
         onClick={toggleDropdown}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         disabled={disabled}
       >
-        <span className={styles.triggerLabel}>{currentLabel}</span>
-        <span className={styles.triggerIcon}>
+        <span className={triggerLabel}>{currentLabel}</span>
+        <span className={triggerIcon}>
           <ChevronsUpDown size={16} />
         </span>
       </button>
 
       {isOpen && (
-        <div className={styles.selectDropdown} role="listbox">
-          <ul className={styles.optionsList}>
+        <div className={selectDropdown} role="listbox">
+          <ul className={optionsList}>
             {options.map((opt) => (
               <li
                 key={opt.value}
-                className={`${styles.optionItem} ${opt.value === value ? styles.selected : ''}`}
+                className={`${optionItem} ${opt.value === value ? selected : ''}`}
                 role="option"
                 aria-selected={opt.value === value}
                 onClick={() => handleSelect(opt.value)}
@@ -96,9 +107,9 @@ export default function Select({
                 }}
                 tabIndex={0}
               >
-                <span className={styles.optionLabel}>{opt.label}</span>
+                <span className={optionLabel}>{opt.label}</span>
                 {opt.value === value && (
-                  <span className={styles.checkIcon}>
+                  <span className={checkIcon}>
                     <Check size={14} />
                   </span>
                 )}
