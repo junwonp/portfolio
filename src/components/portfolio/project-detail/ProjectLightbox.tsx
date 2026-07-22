@@ -85,7 +85,6 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
   } = useLightboxDrag({
     overlayRef,
     activeIndex,
-    imagesLength: images.length,
     setActiveIndex,
     atStart,
     atEnd,

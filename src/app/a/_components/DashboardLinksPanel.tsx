@@ -1,6 +1,5 @@
 'use client';
 
-import type { RecentSession } from '@/lib/server/admin/dashboardData';
 import { formatDateTime } from '@/lib/utils/date';
 
 import styles from './admin.module.css';

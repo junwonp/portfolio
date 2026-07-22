@@ -6,7 +6,6 @@ const DRAG_THRESHOLD_RATIO = 0.25;
 interface UseLightboxDragProps {
   overlayRef: React.RefObject<HTMLDivElement | null>;
   activeIndex: number | null;
-  imagesLength: number;
   setActiveIndex: React.Dispatch<React.SetStateAction<number | null>>;
   atStart: boolean;
   atEnd: boolean;
@@ -15,7 +14,6 @@ interface UseLightboxDragProps {
 export function useLightboxDrag({
   overlayRef,
   activeIndex,
-  imagesLength,
   setActiveIndex,
   atStart,
   atEnd,
