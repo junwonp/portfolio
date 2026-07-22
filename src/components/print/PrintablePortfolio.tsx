@@ -44,7 +44,7 @@ export default function PrintablePortfolio({ slug }: PrintablePortfolioProps) {
 
           <footer className={styles.footer}>
             <p>본 문서는 채용 플랫폼 내 링크 접수를 대신하여 생성된 안내 문서입니다.</p>
-            <p>© {new Date().getFullYear()} Junwon Park. All rights reserved.</p>
+            <p>© 2025 - {new Date().getFullYear()} Junwon Park. All rights reserved.</p>
           </footer>
         </section>
       </article>
