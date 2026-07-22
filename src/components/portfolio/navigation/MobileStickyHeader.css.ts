@@ -11,6 +11,8 @@ const menuReveal = keyframes({
   },
 });
 
+export const active = style({});
+
 export const stickyHeader = style({
   alignItems: 'center',
   background: 'transparent',
@@ -198,11 +200,11 @@ export const moreButton = style({
   },
 
   selectors: {
-    '&.active': {
+    [`&.${active}`]: {
       color: 'var(--color-bold)',
       backgroundColor: 'rgba(0, 0, 0, 0.08) !important',
     },
-    'html.dark &.active': {
+    [`html.dark &.${active}`]: {
       backgroundColor: 'rgba(255, 255, 255, 0.12) !important',
     },
   },

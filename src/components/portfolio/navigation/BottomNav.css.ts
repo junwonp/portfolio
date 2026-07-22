@@ -1,5 +1,11 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
+export const dragging = style({});
+export const active = style({});
+export const left = style({});
+export const center = style({});
+export const right = style({});
+
 export const tabBar = style({
   borderRadius: '999px',
   bottom: 'calc(1rem + env(safe-area-inset-bottom))',
@@ -49,14 +55,12 @@ export const activeBg = style({
   willChange: 'transform, opacity',
 
   selectors: {
-    '&.dragging': {
+    [`&.${dragging}`]: {
       transition: 'none',
       cursor: 'grabbing',
     },
   },
 });
-
-export const dragging = style({});
 
 export const tab = style({
   alignItems: 'center',
@@ -85,14 +89,12 @@ export const tab = style({
   },
 
   selectors: {
-    '&.active': {
+    [`&.${active}`]: {
       color: 'var(--color-on-primary)',
       fontWeight: 700,
     },
   },
 });
-
-export const active = style({});
 
 export const projectNav = style({
   display: 'flex',
@@ -132,26 +134,22 @@ export const islandSlot = style({
   pointerEvents: 'none',
 
   selectors: {
-    '&.left': {
+    [`&.${left}`]: {
       flex: 1,
       justifyContent: 'flex-start',
     },
-    '&.center': {
+    [`&.${center}`]: {
       flex: '0 1 auto',
       minWidth: 0,
       justifyContent: 'center',
       margin: '0 8px',
     },
-    '&.right': {
+    [`&.${right}`]: {
       flex: 1,
       justifyContent: 'flex-end',
     },
   },
 });
-
-export const left = style({});
-export const center = style({});
-export const right = style({});
 
 export const island = style({
   borderRadius: '999px',

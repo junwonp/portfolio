@@ -1,5 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
+export const selected = style({});
+
 export const field = style({
   display: 'flex',
   flexDirection: 'column',
@@ -79,7 +81,7 @@ export const doneButton = style({
   background: 'var(--color-primary)',
   color: 'var(--color-basic-bg)',
   fontWeight: 700,
-  padding: '99px 14px',
+  padding: '9px 14px',
 });
 
 export const iconButton = style({
@@ -213,7 +215,7 @@ export const chip = style({
   padding: '7px 9px',
 
   selectors: {
-    '&.selected': {
+    [`&.${selected}`]: {
       background: 'var(--color-primary)',
       borderColor: 'var(--color-primary)',
       color: 'var(--color-basic-bg)',
@@ -221,8 +223,6 @@ export const chip = style({
     },
   },
 });
-
-export const selected = style({});
 
 export const empty = style({
   color: 'var(--color-sub)',

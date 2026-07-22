@@ -1,5 +1,8 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
+export const mobile = style({});
+export const dragging = style({});
+
 export const imageGallery = style({
   display: 'block',
   columns: 2,
@@ -7,7 +10,7 @@ export const imageGallery = style({
   margin: '2rem 0',
 
   selectors: {
-    '&.mobile': {
+    [`&.${mobile}`]: {
       display: 'flex',
       overflow: 'hidden',
       flexWrap: 'nowrap',
@@ -20,7 +23,7 @@ export const imageGallery = style({
       width: '100%',
       maxHeight: '60vh',
     },
-    '&.mobile:focus': {
+    [`&.${mobile}:focus`]: {
       outline: '2px solid var(--color-primary)',
       outlineOffset: '2px',
     },
@@ -29,7 +32,7 @@ export const imageGallery = style({
   '@media': {
     '(max-width: 576px)': {
       selectors: {
-        '&.mobile': {
+        [`&.${mobile}`]: {
           margin: '2rem 0',
         },
       },
@@ -37,11 +40,9 @@ export const imageGallery = style({
   },
 });
 
-export const mobile = style({});
-
 export const sliderContainer = style({
   selectors: {
-    [`${imageGallery}.mobile &`]: {
+    [`${imageGallery}.${mobile} &`]: {
       display: 'flex',
       flexDirection: 'row',
       gap: 0,
@@ -51,17 +52,15 @@ export const sliderContainer = style({
       touchAction: 'none',
       width: '100%',
     },
-    [`${imageGallery}.mobile &.dragging`]: {
+    [`${imageGallery}.${mobile} &.${dragging}`]: {
       transition: 'none',
     },
   },
 });
 
-export const dragging = style({});
-
 export const pager = style({
   selectors: {
-    [`${imageGallery}.mobile &`]: {
+    [`${imageGallery}.${mobile} &`]: {
       position: 'absolute',
       bottom: '0.5rem',
       right: '0.75rem',
@@ -75,7 +74,7 @@ export const pager = style({
   },
 });
 
-globalStyle(`${imageGallery}.mobile ${sliderContainer} figure`, {
+globalStyle(`${imageGallery}.${mobile} ${sliderContainer} figure`, {
   flex: '0 0 100%',
   maxWidth: '100%',
   margin: 0,
@@ -85,7 +84,7 @@ globalStyle(`${imageGallery}.mobile ${sliderContainer} figure`, {
   alignItems: 'center',
 });
 
-globalStyle(`${imageGallery}.mobile ${sliderContainer} img, ${imageGallery}.mobile ${sliderContainer} video`, {
+globalStyle(`${imageGallery}.${mobile} ${sliderContainer} img, ${imageGallery}.${mobile} ${sliderContainer} video`, {
   userSelect: 'none',
   pointerEvents: 'none',
 });
@@ -106,7 +105,7 @@ globalStyle(`${imageGallery} figure img, ${imageGallery} figure video`, {
   border: '1px solid var(--color-bg-divider)',
 });
 
-globalStyle(`${imageGallery}.mobile figure img, ${imageGallery}.mobile figure video`, {
+globalStyle(`${imageGallery}.${mobile} figure img, ${imageGallery}.${mobile} figure video`, {
   maxWidth: '100%',
   maxHeight: '60vh',
   objectFit: 'contain',

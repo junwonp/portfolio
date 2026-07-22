@@ -1,11 +1,13 @@
 import { style } from '@vanilla-extract/css';
 
+export const isLink = style({});
+
 export const projectItem = style({
   minWidth: 0,
   transition: 'background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
 
   selectors: {
-    '&.is-link': {
+    [`&.${isLink}`]: {
       textDecoration: 'none',
       color: 'inherit',
       display: 'block',
@@ -17,5 +19,3 @@ export const projectItem = style({
     outlineOffset: '-2px',
   },
 });
-
-export const isLink = style({});

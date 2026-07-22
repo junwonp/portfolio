@@ -1,12 +1,19 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
+export const phonePreview = style({});
+export const snapping = style({});
+export const prev = style({});
+export const next = style({});
+export const active = style({});
+export const chromeHidden = style({});
+
 export const lightboxMasonry = style({
   columns: 2,
   columnGap: '24px',
   marginBottom: '48px',
 
   selectors: {
-    '&.phone-preview': {
+    [`&.${phonePreview}`]: {
       display: 'flex',
       justifyContent: 'center',
     },
@@ -19,8 +26,6 @@ export const lightboxMasonry = style({
     },
   },
 });
-
-export const phonePreview = style({});
 
 export const masonryItem = style({
   display: 'block',
@@ -55,7 +60,7 @@ export const masonryItem = style({
   '@media': {
     '(max-width: 640px)': {
       selectors: {
-        [`.phone-preview &`]: {
+        [`.${phonePreview} &`]: {
           maxWidth: 'min(100%, 340px)',
         },
       },
@@ -72,13 +77,13 @@ globalStyle(`${masonryItem} img`, {
   transition: 'transform 0.3s ease',
 });
 
-globalStyle(`.phone-preview ${masonryItem} img`, {
+globalStyle(`.${phonePreview} ${masonryItem} img`, {
   maxHeight: '640px !important',
   objectPosition: 'top',
 });
 
 globalStyle(`@media (max-width: 640px)`, {
-  [`.phone-preview ${masonryItem} img`]: {
+  [`.${phonePreview} ${masonryItem} img`]: {
     maxHeight: '520px !important',
   },
 });
@@ -167,8 +172,6 @@ export const overlay = style({
   },
 });
 
-export const chromeHidden = style({});
-
 export const overlayClose = style({
   position: 'absolute',
   top: '16px',
@@ -194,7 +197,7 @@ export const overlayClose = style({
   },
 
   selectors: {
-    [`.chrome-hidden &`]: {
+    [`.${chromeHidden} &`]: {
       opacity: 0,
       pointerEvents: 'none',
     },
@@ -222,13 +225,11 @@ export const carouselTrack = style({
   willChange: 'transform',
 
   selectors: {
-    '&.snapping': {
+    [`&.${snapping}`]: {
       transition: 'transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
     },
   },
 });
-
-export const snapping = style({});
 
 export const carouselSlide = style({
   flex: '0 0 33.333%',
@@ -275,7 +276,7 @@ export const overlayFooter = style({
   transition: 'opacity 0.3s ease',
 
   selectors: {
-    [`.chrome-hidden &`]: {
+    [`.${chromeHidden} &`]: {
       opacity: 0,
       pointerEvents: 'none',
     },
@@ -322,13 +323,13 @@ export const overlayNav = style({
   },
 
   selectors: {
-    '&.prev': {
+    [`&.${prev}`]: {
       left: '12px',
     },
-    '&.next': {
+    [`&.${next}`]: {
       right: '12px',
     },
-    [`.chrome-hidden &`]: {
+    [`.${chromeHidden} &`]: {
       opacity: 0,
       pointerEvents: 'none',
     },
@@ -340,9 +341,6 @@ export const overlayNav = style({
     },
   },
 });
-
-export const prev = style({});
-export const next = style({});
 
 globalStyle(`${overlayNav} svg`, {
   filter: 'drop-shadow(0 0 2px rgba(0, 0, 0, 0.5))',
@@ -366,12 +364,10 @@ export const dot = style({
   transition: 'background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease',
 
   selectors: {
-    '&.active': {
+    [`&.${active}`]: {
       background: 'var(--color-primary)',
       transform: 'scale(1.4)',
       boxShadow: '0 0 10px var(--color-primary)',
     },
   },
 });
-
-export const active = style({});

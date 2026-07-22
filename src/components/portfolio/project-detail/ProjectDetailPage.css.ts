@@ -1,5 +1,8 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
+export const primary = style({});
+export const github = style({});
+
 export const topbarLinks = style({
   marginLeft: 'auto',
   display: 'flex',
@@ -37,42 +40,39 @@ export const topbarLink = style({
   },
 
   selectors: {
-    '&.primary': {
+    [`&.${primary}`]: {
       background: 'var(--color-primary)',
       color: '#fff !important',
       borderRadius: '9999px',
       padding: '6px 14px',
       opacity: 1,
     },
-    '&.primary:hover': {
+    [`&.${primary}:hover`]: {
       background: 'var(--color-primary-hover)',
       opacity: 0.95,
     },
-    '&.primary:active': {
+    [`&.${primary}:active`]: {
       transform: 'scale(0.96)',
       opacity: 0.8,
     },
-    '&.github': {
+    [`&.${github}`]: {
       color: '#1f2328',
       borderColor: 'rgba(31, 35, 40, 0.15)',
       backgroundColor: 'rgba(31, 35, 40, 0.04)',
     },
-    '&.github:hover': {
+    [`&.${github}:hover`]: {
       backgroundColor: 'rgba(31, 35, 40, 0.08)',
     },
-    'html.dark &.github': {
+    [`html.dark &.${github}`]: {
       color: '#f0f6fc',
       borderColor: 'rgba(240, 246, 252, 0.15)',
       backgroundColor: 'rgba(240, 246, 252, 0.08)',
     },
-    'html.dark &.github:hover': {
+    [`html.dark &.${github}:hover`]: {
       backgroundColor: 'rgba(240, 246, 252, 0.15)',
     },
   },
 });
-
-export const primary = style({});
-export const github = style({});
 
 export const content = style({
   minWidth: 0,
@@ -221,7 +221,7 @@ globalStyle(`${projectArticle} thead tr:first-child th:last-child, ${projectArti
   borderTopRightRadius: '11px',
 });
 
-globalStyle(`${projectArticle} tbody tr:last-child td:first-child, ${projectArticle} table > tr:last-child > td:first-child, ${projectArticle} table > tbody:last-child > tr:last-child > td:first-child`, {
+globalStyle(`${projectArticle} tbody tr:last-child td:first-child, ${projectArticle} table > tr:last-child > td:first-child, ${projectArticle} table > tbody:last-child > tr:first-child > td:first-child`, {
   borderBottomLeftRadius: '11px',
 });
 

@@ -13,6 +13,8 @@ export const sideNav = style({
   },
 });
 
+export const active = style({});
+
 export const navListWrapper = style({
   position: 'relative',
 });
@@ -68,7 +70,7 @@ export const navItem = style({
   },
 
   selectors: {
-    '&.active': {
+    [`&.${active}`]: {
       background: 'transparent !important',
       color: 'var(--color-primary)',
       fontWeight: 600,

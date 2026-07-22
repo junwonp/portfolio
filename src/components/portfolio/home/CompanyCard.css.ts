@@ -5,6 +5,8 @@ export const companyWrapper = style({
   flexDirection: 'column',
 });
 
+export const open = style({});
+
 export const companyCard = style({
   background: 'var(--color-basic-bg)',
   borderRadius: '16px',
@@ -17,14 +19,14 @@ export const companyCard = style({
   border: '0.5px solid color-mix(in srgb, var(--color-bg-divider) 40%, transparent)',
 
   selectors: {
-    '.dark &': {
+    'html.dark &': {
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
       border: '0.5px solid rgba(255, 255, 255, 0.05)',
     },
-    '&.open': {
+    [`&.${open}`]: {
       boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
     },
-    '.dark &.open': {
+    [`html.dark &.${open}`]: {
       boxShadow: '0 8px 30px rgba(0, 0, 0, 0.25)',
     },
   },
@@ -35,8 +37,6 @@ export const companyCard = style({
     },
   },
 });
-
-export const open = style({});
 
 export const companyHeader = style({
   background: 'transparent',
@@ -165,7 +165,7 @@ export const chevronIcon = style({
     [`${companyHeader}:hover &`]: {
       color: 'var(--color-primary)',
     },
-    '&.open': {
+    [`&.${open}`]: {
       transform: 'rotate(180deg)',
       color: 'var(--color-primary)',
     },

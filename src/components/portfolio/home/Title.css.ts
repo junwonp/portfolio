@@ -6,6 +6,8 @@ export const header = style({
   justifyContent: 'space-between',
 });
 
+export const withBack = style({});
+
 export const titleContainer = style({
   alignItems: 'center',
   display: 'flex',
@@ -17,7 +19,7 @@ export const titleContainer = style({
   minWidth: 0,
 
   selectors: {
-    '&.with-back': {
+    [`&.${withBack}`]: {
       justifyContent: 'space-between',
       gap: 0,
     },
@@ -32,8 +34,6 @@ export const titleContainer = style({
     },
   },
 });
-
-export const withBack = style({});
 
 export const backButton = style({
   display: 'none',

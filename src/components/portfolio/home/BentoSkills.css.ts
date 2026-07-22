@@ -13,6 +13,8 @@ export const bentoGrid = style({
   },
 });
 
+export const span2 = style({});
+
 export const card = style({
   background: 'var(--color-basic-bg)',
   borderRadius: '20px',
@@ -29,7 +31,7 @@ export const card = style({
       boxShadow: '0 4px 24px rgba(0, 0, 0, 0.2)',
       border: '0.5px solid rgba(255, 255, 255, 0.05)',
     },
-    '&.span-2': {
+    [`&.${span2}`]: {
       gridColumn: 'span 2',
     },
   },
@@ -37,15 +39,13 @@ export const card = style({
   '@media': {
     '(max-width: 768px)': {
       selectors: {
-        '&.span-2': {
+        [`&.${span2}`]: {
           gridColumn: 'auto',
         },
       },
     },
   },
 });
-
-export const span2 = style({});
 
 export const cardHeader = style({
   display: 'flex',

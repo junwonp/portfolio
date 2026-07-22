@@ -6,6 +6,9 @@ export const spotlightList = style({
   gap: 'var(--space-md)',
 });
 
+export const isLink = style({});
+export const hasThumbnail = style({});
+
 export const card = style({
   alignItems: 'start',
   background: 'var(--color-basic-bg)',
@@ -21,17 +24,17 @@ export const card = style({
   boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
 
   selectors: {
-    '&.is-link': {
+    [`&.${isLink}`]: {
       cursor: 'pointer',
     },
-    '&:not(.is-link)': {
+    [`&:not(.${isLink})`]: {
       cursor: 'default',
     },
-    '.dark &': {
+    'html.dark &': {
       borderColor: 'rgba(255, 255, 255, 0.04)',
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
     },
-    '&.has-thumbnail': {
+    [`&.${hasThumbnail}`]: {
       gridTemplateColumns: 'minmax(7rem, 9rem) minmax(0, 1fr)',
     },
   },
@@ -39,26 +42,23 @@ export const card = style({
   '@media': {
     '(max-width: 768px)': {
       selectors: {
-        '&:not(.has-thumbnail)': {
+        [`&:not(.${hasThumbnail})`]: {
           gridTemplateColumns: '1fr',
         },
-        '&.has-thumbnail': {
+        [`&.${hasThumbnail}`]: {
           gridTemplateColumns: '5.5rem minmax(0, 1fr)',
         },
       },
     },
     '(max-width: 560px)': {
       selectors: {
-        '&.has-thumbnail': {
+        [`&.${hasThumbnail}`]: {
           gridTemplateColumns: '1fr',
         },
       },
     },
   },
 });
-
-export const isLink = style({});
-export const hasThumbnail = style({});
 
 export const thumbnailFrame = style({
   alignSelf: 'start',

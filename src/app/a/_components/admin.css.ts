@@ -260,6 +260,9 @@ export const applicationForm = style({
   },
 });
 
+export const success = style({});
+export const error = style({});
+
 export const formResult = style({
   borderRadius: '8px',
   fontSize: '0.875rem',
@@ -268,21 +271,18 @@ export const formResult = style({
   padding: '0.75rem 0.9rem',
 
   selectors: {
-    '&.success': {
+    [`&.${success}`]: {
       background: 'color-mix(in srgb, var(--color-primary) 12%, transparent)',
       border: '0.5px solid color-mix(in srgb, var(--color-primary) 35%, transparent)',
       color: 'var(--color-primary)',
     },
-    '&.error': {
+    [`&.${error}`]: {
       background: 'color-mix(in srgb, var(--color-error) 12%, transparent)',
       border: '0.5px solid color-mix(in srgb, var(--color-error) 35%, transparent)',
       color: 'var(--color-error)',
     },
   },
 });
-
-export const success = style({});
-export const error = style({});
 
 export const projectOrderField = style({
   display: 'flex',
@@ -516,6 +516,9 @@ export const legendItem = style({
   gap: '0.35rem',
 });
 
+export const views = style({});
+export const sessions = style({});
+
 export const legendColor = style({
   borderRadius: '999px',
   display: 'inline-block',
@@ -523,17 +526,14 @@ export const legendColor = style({
   width: '14px',
 
   selectors: {
-    '&.views': {
+    [`&.${views}`]: {
       background: 'var(--color-primary)',
     },
-    '&.sessions': {
+    [`&.${sessions}`]: {
       background: 'var(--color-cat-frameworks)',
     },
   },
 });
-
-export const views = style({});
-export const sessions = style({});
 
 export const legendText = style({
   color: 'var(--color-sub)',
@@ -656,18 +656,18 @@ export const axisLabel = style({
 export const xAxis = style({});
 export const yAxis = style({});
 
+export const noData = style({});
+
 export const interactiveDot = style({
   cursor: 'pointer',
   transition: 'r 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
 
   selectors: {
-    '&.noData': {
+    [`&.${noData}`]: {
       opacity: 0.35,
     },
   },
 });
-
-export const noData = style({});
 
 export const chartTooltip = style({
   background: 'var(--color-basic-bg)',
@@ -696,6 +696,10 @@ export const tooltipDate = style({
   paddingBottom: '0.25rem',
 });
 
+export const muted = style({});
+export const blue = style({});
+export const green = style({});
+
 export const tooltipRow = style({
   alignItems: 'center',
   display: 'flex',
@@ -703,13 +707,11 @@ export const tooltipRow = style({
   marginTop: '0.15rem',
 
   selectors: {
-    '&.muted': {
+    [`&.${muted}`]: {
       color: 'var(--color-sub)',
     },
   },
 });
-
-export const muted = style({});
 
 export const dot = style({
   borderRadius: '50%',
@@ -718,17 +720,15 @@ export const dot = style({
   width: '6px',
 
   selectors: {
-    '&.blue': {
+    [`&.${blue}`]: {
       background: 'var(--color-primary)',
     },
-    '&.green': {
+    [`&.${green}`]: {
       background: 'var(--color-cat-frameworks)',
     },
   },
 });
 
-export const blue = style({});
-export const green = style({});
 
 export const detailsGrid = style({
   display: 'grid',
@@ -856,10 +856,10 @@ export const progressFill = style({
   transition: 'width 0.3s ease',
 
   selectors: {
-    '&.blue': {
+    [`&.${blue}`]: {
       background: 'var(--color-cat-frameworks)',
     },
-    '&.green': {
+    [`&.${green}`]: {
       background: 'var(--color-primary)',
     },
   },
@@ -875,7 +875,7 @@ export const emptyState = style({
 
 export const alertBox = style({
   selectors: {
-    '&.error': {
+    [`&.${error}`]: {
       background: 'color-mix(in srgb, var(--color-error) 12%, transparent)',
       border: '1px solid color-mix(in srgb, var(--color-error) 35%, transparent)',
       borderRadius: '8px',

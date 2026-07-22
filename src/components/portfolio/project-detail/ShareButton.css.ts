@@ -1,5 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
+export const copied = style({});
+
 export const shareWrapper = style({
   position: 'relative',
   display: 'flex',
@@ -89,14 +91,12 @@ export const shareBtnText = style({
   },
 
   selectors: {
-    '&.copied': {
+    [`&.${copied}`]: {
       borderColor: 'var(--color-primary)',
       color: 'var(--color-primary)',
     },
   },
 });
-
-export const copied = style({});
 
 globalStyle(`${shareBtnText} span`, {
   lineHeight: 1,
