@@ -158,12 +158,6 @@
     color: var(--color-basic-bg);
   }
 
-  .dashboardSwipeViewport {
-    overflow: visible;
-    touch-action: pan-y;
-    width: 100%;
-  }
-
   .dashboardPanel {
     animation: panel-enter 0.24s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;

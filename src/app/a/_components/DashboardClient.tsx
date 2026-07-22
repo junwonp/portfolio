@@ -1,13 +1,14 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import type { RecentSession } from '@/lib/server/admin/dashboardData';
 
 import styles from './admin.module.css';
-import { logout } from '../actions';
 import { DashboardAnalyticsPanel } from './DashboardAnalyticsPanel';
 import { DashboardLinksPanel } from './DashboardLinksPanel';
+
+import { logout } from '../actions';
 
 
 
@@ -105,32 +106,6 @@ export function DashboardClient({
 }: DashboardClientProps) {
   const [activeTab, setActiveTab] = useState<'analytics' | 'links'>(initialTab);
 
-  const swipeStartX = useRef<number | null>(null);
-  const swipeStartY = useRef<number | null>(null);
-  const swipeThreshold = 64;
-
-  function handleSwipeStart(e: React.PointerEvent) {
-    if (!e.isPrimary) return;
-    swipeStartX.current = e.clientX;
-    swipeStartY.current = e.clientY;
-  }
-
-  function handleSwipeEnd(e: React.PointerEvent) {
-    if (swipeStartX.current === null || swipeStartY.current === null) return;
-    const deltaX = e.clientX - swipeStartX.current;
-    const deltaY = e.clientY - swipeStartY.current;
-    swipeStartX.current = null;
-    swipeStartY.current = null;
-
-    if (Math.abs(deltaX) < swipeThreshold || Math.abs(deltaX) < Math.abs(deltaY)) return;
-
-    if (deltaX < 0) {
-      setActiveTab('links');
-    } else {
-      setActiveTab('analytics');
-    }
-  }
-
   return (
     <div className={styles.dashboardContainer}>
       <header className={styles.dashboardHeader}>
@@ -175,16 +150,7 @@ export function DashboardClient({
         </div>
       </section>
 
-      <div
-        className={styles.dashboardSwipeViewport}
-        role="region"
-        onPointerDown={handleSwipeStart}
-        onPointerUp={handleSwipeEnd}
-        onPointerCancel={() => {
-          swipeStartX.current = null;
-          swipeStartY.current = null;
-        }}
-      >
+      <div>
         {activeTab === 'analytics' ? (
           <DashboardAnalyticsPanel
             stats={stats}
