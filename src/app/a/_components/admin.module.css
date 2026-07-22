@@ -326,6 +326,31 @@
     border-color: var(--color-error);
   }
 
+  .printBtn {
+    background: transparent;
+    border: 0.5px solid color-mix(in srgb, var(--color-primary) 35%, var(--color-bg-divider));
+    border-radius: 8px;
+    color: var(--color-primary);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    min-height: 34px;
+    padding: 0.35rem 0.65rem;
+    text-decoration: none;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .printBtn:hover {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border-color: var(--color-primary);
+  }
+
   .linkConfigList {
     display: grid;
     gap: 0.45rem;

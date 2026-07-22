@@ -1,11 +1,12 @@
 'use client';
 
 import type { RecentSession } from '@/lib/server/admin/dashboardData';
+import { formatDateTime } from '@/lib/utils/date';
 
 import styles from './admin.module.css';
-import { deleteApplicationLink } from '../actions';
-import { formatDateTime } from '@/lib/utils/date';
 import { LinkForm } from './LinkForm';
+
+import { deleteApplicationLink } from '../actions';
 
 interface DashboardLinksPanelProps {
   applicationLinks: {
@@ -160,32 +161,42 @@ export function DashboardLinksPanel({
                       <td>{formatDateTime(link.lastSeenAt)}</td>
                       <td>{formatDateTime(link.expiresAt)}</td>
                       <td className={styles.actionCell}>
-                        <form
-                          action={deleteApplicationLink}
-                          onSubmit={(e) => {
-                            if (!writesEnabled) {
-                              e.preventDefault();
-                              return;
-                            }
-                            if (!confirm(`/${link.slug} 링크를 삭제할까요?`)) {
-                              e.preventDefault();
-                            }
-                          }}
-                        >
-                          <input type="hidden" name="linkId" value={link.id} />
-                          <button
-                            type="submit"
-                            className={styles.dangerBtn}
-                            disabled={!writesEnabled}
-                            title={
-                              writesEnabled
-                                ? undefined
-                                : 'develop 환경에서는 production 데이터 보호를 위해 삭제가 비활성화됩니다.'
-                            }
+                        <div style={{ display: 'inline-flex', gap: '0.35rem', alignItems: 'center' }}>
+                          <a
+                            href={`/print?slug=${link.slug}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.printBtn}
                           >
-                            삭제
-                          </button>
-                        </form>
+                            인쇄
+                          </a>
+                          <form
+                            action={deleteApplicationLink}
+                            onSubmit={(e) => {
+                              if (!writesEnabled) {
+                                e.preventDefault();
+                                return;
+                              }
+                              if (!confirm(`/${link.slug} 링크를 삭제할까요?`)) {
+                                e.preventDefault();
+                              }
+                            }}
+                          >
+                            <input type="hidden" name="linkId" value={link.id} />
+                            <button
+                              type="submit"
+                              className={styles.dangerBtn}
+                              disabled={!writesEnabled}
+                              title={
+                                writesEnabled
+                                  ? undefined
+                                  : 'develop 환경에서는 production 데이터 보호를 위해 삭제가 비활성화됩니다.'
+                              }
+                            >
+                              삭제
+                            </button>
+                          </form>
+                        </div>
                       </td>
                     </tr>
                   ))
