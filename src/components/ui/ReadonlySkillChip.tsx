@@ -1,8 +1,6 @@
-import type { CSSProperties } from 'react';
-
 import { getSkillCategory } from '@/lib/portfolio/skills';
 
-import styles from './SkillChip.module.css';
+import { catColorVar, skillChip } from './SkillChip.css';
 
 interface ReadonlySkillChipProps {
   skill: string;
@@ -10,13 +8,15 @@ interface ReadonlySkillChipProps {
 
 export default function ReadonlySkillChip({ skill }: ReadonlySkillChipProps) {
   const category = getSkillCategory(skill);
-
-  const inlineStyles = {
-    '--cat-color': `var(--color-cat-${category})`,
-  } as CSSProperties;
+  const variableName = String(catColorVar).replace(/^var\(|\)$/g, '');
 
   return (
-    <span className={styles['skill-chip']} style={inlineStyles}>
+    <span
+      className={skillChip}
+      style={{
+        [variableName]: `var(--color-cat-${category})`,
+      }}
+    >
       {skill}
     </span>
   );
