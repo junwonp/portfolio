@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 
-import styles from './PortfolioContentLayout.module.css';
+import * as styles from './PortfolioContentLayout.css';
 
 interface PortfolioContentLayoutProps {
   children: ReactNode;
@@ -32,29 +32,29 @@ export default function PortfolioContentLayout({
 
   return (
     <article
-      className={cx(styles.surface, hasDesktopHeader && styles['has-desktop-header'], className)}
+      className={cx(styles.surface, hasDesktopHeader && styles.hasDesktopHeader, className)}
       data-portfolio-layout="true"
     >
       {hasMobileHeader && (
-        <div className={styles['mobile-header-slot']} data-layout-slot="mobile-header">
+        <div className={styles.mobileHeaderSlot} data-layout-slot="mobile-header">
           {mobileHeader}
         </div>
       )}
 
       {hasDesktopHeader && (
-        <header className={styles['desktop-header']} data-layout-slot="desktop-header">
+        <header className={styles.desktopHeader} data-layout-slot="desktop-header">
           {desktopHeader}
         </header>
       )}
 
       <div className={styles.layout}>
         {hasSideNav && (
-          <aside className={styles['nav-wrapper']} data-layout-slot="side-nav">
+          <aside className={styles.navWrapper} data-layout-slot="side-nav">
             {sideNav}
           </aside>
         )}
 
-        <div className={styles['main-content']} data-layout-slot="main-content">
+        <div className={styles.mainContent} data-layout-slot="main-content">
           <div className={cx(styles.content, contentClassName)}>{children}</div>
         </div>
       </div>

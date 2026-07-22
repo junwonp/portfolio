@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import styles from "./BaseSideNav.module.css";
+import * as styles from "./BaseSideNav.css";
 
 interface NavSection {
   id: string;
@@ -56,17 +56,17 @@ export default function BaseSideNav({
   }, [windowWidth, activeIndex, sections]);
 
   return (
-    <nav className={styles["side-nav"]} aria-label={ariaLabel}>
-      <div className={styles["nav-list-wrapper"]}>
+    <nav className={styles.sideNav} aria-label={ariaLabel}>
+      <div className={styles.navListWrapper}>
         <div
-          className={styles["active-bg"]}
+          className={styles.activeBg}
           style={{
             transform: `translateY(${activeTop}px)`,
             height: `${activeHeight}px`,
             opacity: activeId ? 1 : 0,
           }}
         />
-        <ul className={styles["nav-list"]}>
+        <ul className={styles.navList}>
           {sections.map((section, i) => (
             <li
               key={section.id}
@@ -75,13 +75,13 @@ export default function BaseSideNav({
               }}
             >
               <button
-                className={`${styles["nav-item"]} ${activeId === section.id ? styles.active : ""}`}
+                className={`${styles.navItem} ${activeId === section.id ? "active" : ""}`}
                 onClick={() => {
                   onselect(section.id);
                 }}
                 aria-current={activeId === section.id ? "location" : undefined}
               >
-                <span className={styles["nav-label"]}>{section.label}</span>
+                <span className={styles.navLabel}>{section.label}</span>
               </button>
             </li>
           ))}

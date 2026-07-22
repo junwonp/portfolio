@@ -8,7 +8,7 @@ import Linkedin from "@/components/ui/Icon/Linkedin";
 import IconLink from "@/components/ui/IconLink";
 import { useLocale } from "@/lib/contexts/LocaleContext";
 
-import styles from "./MobileStickyHeader.module.css";
+import * as styles from "./MobileStickyHeader.css";
 
 interface Props {
   githubLink?: string;
@@ -34,7 +34,7 @@ export default function MobileStickyHeaderActions({
       if (
         isMenuOpen &&
         target &&
-        !target.closest(`.${styles["more-menu-container"]}`)
+        !target.closest(`.${styles.moreMenuContainer}`)
       ) {
         setIsMenuOpen(false);
       }
@@ -84,9 +84,9 @@ export default function MobileStickyHeaderActions({
 
   return (
     <div className={styles.actions}>
-      <div className={`${styles["lang-toggle-wrapper"]} ${styles["pc-only"]}`}>
+      <div className={`${styles.langToggleWrapper} ${styles.pcOnly}`}>
         <button
-          className={`${styles["lang-toggle"]} glass-effect`}
+          className={`${styles.langToggle} glass-effect`}
           onClick={toggleLanguage}
           title={labels.toggleLanguage}
         >
@@ -94,9 +94,9 @@ export default function MobileStickyHeaderActions({
         </button>
       </div>
 
-      <div className={`${styles["action-group"]} glass-effect`}>
+      <div className={`${styles.actionGroup} glass-effect`}>
         <button
-          className={`${styles["lang-toggle-btn"]} ${styles["mobile-only"]}`}
+          className={`${styles.langToggleBtn} ${styles.mobileOnly}`}
           onClick={toggleLanguage}
           aria-label={labels.toggleLanguage}
           title={labels.toggleLanguage}
@@ -110,9 +110,9 @@ export default function MobileStickyHeaderActions({
           </IconLink>
         )}
 
-        <div className={styles["more-menu-container"]}>
+        <div className={styles.moreMenuContainer}>
           <button
-            className={`${styles["more-button"]} ${isMenuOpen ? styles.active : ""}`}
+            className={`${styles.moreButton} ${isMenuOpen ? "active" : ""}`}
             onClick={(e) => {
               e.stopPropagation();
               setIsMenuOpen(!isMenuOpen);
@@ -124,8 +124,8 @@ export default function MobileStickyHeaderActions({
           </button>
 
           {isMenuOpen && (
-            <div className={styles["dropdown-menu"]}>
-              <button className={styles["dropdown-item"]} onClick={sharePage}>
+            <div className={styles.dropdownMenu}>
+              <button className={styles.dropdownItem} onClick={sharePage}>
                 {isCopied ? (
                   <>
                     <Check size={16} />
@@ -139,10 +139,10 @@ export default function MobileStickyHeaderActions({
                 )}
               </button>
 
-              <div className={styles["menu-divider"]} />
+              <div className={styles.menuDivider} />
 
               <button
-                className={styles["dropdown-item"]}
+                className={styles.dropdownItem}
                 onClick={() => {
                   if (typeof window !== "undefined") window.print();
                   setIsMenuOpen(false);
@@ -154,9 +154,9 @@ export default function MobileStickyHeaderActions({
 
               {linkedinLink && (
                 <>
-                  <div className={styles["menu-divider"]} />
+                  <div className={styles.menuDivider} />
                   <a
-                    className={styles["dropdown-item"]}
+                    className={styles.dropdownItem}
                     href={linkedinLink}
                     target="_blank"
                     rel="noopener noreferrer"

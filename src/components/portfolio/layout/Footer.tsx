@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { useLocale } from "@/lib/contexts/LocaleContext";
 
-import styles from "./Footer.module.css";
+import * as styles from "./Footer.css";
 
 export default function Footer() {
   const { locale, labels } = useLocale();

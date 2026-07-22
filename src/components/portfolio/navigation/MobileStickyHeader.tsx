@@ -1,4 +1,4 @@
-import styles from "./MobileStickyHeader.module.css";
+import * as styles from "./MobileStickyHeader.css";
 import MobileStickyHeaderActions from "./MobileStickyHeaderActions";
 
 interface Props {
@@ -13,7 +13,7 @@ export default function MobileStickyHeader({
   name,
 }: Props) {
   return (
-    <header className={styles["sticky-header"]} aria-label="Quick navigation header">
+    <header className={styles.stickyHeader} aria-label="Quick navigation header">
       <MobileStickyHeaderActions
         githubLink={githubLink}
         linkedinLink={linkedinLink}

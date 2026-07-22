@@ -10,7 +10,7 @@ import { getPageScrollY, scrollPageTo, useScrollSpy } from "@/lib/hooks/useScrol
 import { useProjectNavLinks } from "@/lib/stores/bottomNav";
 import { parseHeading, slugify } from "@/lib/utils/markdown";
 
-import styles from "./BottomNav.module.css";
+import * as styles from "./BottomNav.css";
 import { useBottomNavDrag } from "./useBottomNavDrag";
 
 interface NavTab {
@@ -182,7 +182,7 @@ export default function BottomNav({ isProject = false }: Props) {
     return (
       <nav
         ref={tabBarRef}
-        className={`${styles["tab-bar"]} glass-effect`}
+        className={`${styles.tabBar} glass-effect`}
         aria-label={labels.navAriaLabel}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
@@ -190,7 +190,7 @@ export default function BottomNav({ isProject = false }: Props) {
         onPointerCancel={handlePointerUp}
       >
         <div
-          className={`${styles["active-bg"]} ${isDragging ? styles.dragging : ""}`}
+          className={`${styles.activeBg} ${isDragging ? styles.dragging : ""}`}
           style={{
             transform: `translateX(${pillLeft + (isDragging ? dragOffset : 0)}px)`,
             width: `${pillWidth}px`,
@@ -216,10 +216,10 @@ export default function BottomNav({ isProject = false }: Props) {
   }
 
   return (
-    <div className={styles["project-nav"]}>
-      <div className={`${styles["island-slot"]} ${styles.left}`}>
+    <div className={styles.projectNav}>
+      <div className={`${styles.islandSlot} ${styles.left}`}>
         <button
-          className={`${styles.island} ${styles.circle} ${styles["back-btn"]} glass-effect`}
+          className={`${styles.island} ${styles.circle} ${styles.backBtn} glass-effect`}
           aria-label="Go back"
           onClick={() => {
             if (typeof window !== "undefined") history.back();
@@ -229,11 +229,11 @@ export default function BottomNav({ isProject = false }: Props) {
         </button>
       </div>
 
-      <div className={`${styles["island-slot"]} ${styles.center}`}>
+      <div className={`${styles.islandSlot} ${styles.center}`}>
         {tabs.length > 0 && (
           <nav
             ref={tabBarRef}
-            className={`${styles["tab-bar"]} ${styles.island} glass-effect`}
+            className={`${styles.tabBar} ${styles.island} glass-effect`}
             aria-label="Project navigation"
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
@@ -241,7 +241,7 @@ export default function BottomNav({ isProject = false }: Props) {
             onPointerCancel={handlePointerUp}
           >
             <div
-              className={`${styles["active-bg"]} ${isDragging ? styles.dragging : ""}`}
+              className={`${styles.activeBg} ${isDragging ? styles.dragging : ""}`}
               style={{
                 transform: `translateX(${pillLeft + (isDragging ? dragOffset : 0)}px)`,
                 width: `${pillWidth}px`,
@@ -268,16 +268,16 @@ export default function BottomNav({ isProject = false }: Props) {
         )}
       </div>
 
-      <div className={`${styles["island-slot"]} ${styles.right}`}>
+      <div className={`${styles.islandSlot} ${styles.right}`}>
         {(resolvedGithubHref || navLinks?.productLink) && (
-          <div className={`${styles.island} ${styles["links-pill"]} glass-effect`}>
+          <div className={`${styles.island} ${styles.linksPill} glass-effect`}>
             {resolvedGithubHref && (
               <a
                 href={resolvedGithubHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className={styles["link-item"]}
+                className={styles.linkItem}
               >
                 <Github width={20} height={20} />
               </a>
@@ -288,7 +288,7 @@ export default function BottomNav({ isProject = false }: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Visit site"
-                className={styles["link-item"]}
+                className={styles.linkItem}
               >
                 <Globe width={20} height={20} />
               </a>
