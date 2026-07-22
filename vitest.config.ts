@@ -1,4 +1,5 @@
 import mdx from '@mdx-js/rollup';
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import { fileURLToPath } from 'node:url';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
@@ -14,6 +15,7 @@ export default defineConfig({
       rehypePlugins: [rehypeHeadingIds],
       remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
     }),
+    vanillaExtractPlugin(),
   ],
   resolve: {
     alias: {

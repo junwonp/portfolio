@@ -1,5 +1,6 @@
 import { cloudflare } from '@cloudflare/vite-plugin';
 import babel from '@rolldown/plugin-babel';
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import { cdnAdapter } from '@vinext/cloudflare/cache/cdn-adapter';
 import { kvDataAdapter } from '@vinext/cloudflare/cache/kv-data-adapter';
 import { imagesOptimizer } from '@vinext/cloudflare/images/images-optimizer';
@@ -11,6 +12,7 @@ const cloudflareConfigPath = process.env.CLOUDFLARE_CONFIG_PATH ?? 'wrangler.jso
 
 export default defineConfig({
   plugins: [
+    vanillaExtractPlugin(),
     vinext({
       cache: {
         cdn: cdnAdapter(),
