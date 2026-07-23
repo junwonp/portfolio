@@ -85,7 +85,8 @@ export const viewerChart = `flowchart TD
       tag: 'Performance',
       accent: true,
       title: '텍스트 뷰어 — CellMeasurerCache 기반 동적 줄 높이 측정',
-      detail: `줄마다 길이가 다른 동적 텍스트 높이를 가상화할 때 불필요한 재측정 연산을 막기 위해 <code>react-virtualized</code>의 <code>CellMeasurerCache</code>(defaultHeight: 20px, fixedWidth: true)와 <code>CellMeasurer</code>를 적용했습니다. 줄별 높이를 정밀하게 캐싱하여 스크롤 중 레이아웃 재계산 없이 안정적인 성능을 유지합니다.<br/><br/><pre class="language-tsx"><code class="language-tsx">import { AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
+      detail: `줄마다 길이가 다른 동적 텍스트 높이를 가상화할 때 불필요한 재측정 연산을 막기 위해 <code>react-virtualized</code>의 <code>CellMeasurerCache</code>(defaultHeight: 20px, fixedWidth: true)와 <code>CellMeasurer</code>를 적용했습니다. 줄별 높이를 정밀하게 캐싱하여 스크롤 중 레이아웃 재계산 없이 안정적인 성능을 유지합니다.<br/><br/><pre class="language-tsx"><code class="language-tsx">
+import { AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
 
 const cache = new CellMeasurerCache({
   defaultHeight: 20,
@@ -103,43 +104,46 @@ const rowRenderer = useCallback(
     </CellMeasurer>
   ),
   [cache, textData]
-);</code></pre>`,
+);
+</code></pre>`,
     },
     {
       tag: 'Performance',
       accent: true,
       title: '엑셀형 그리드 — react-table + react-window 무한 스크롤 가상화',
-      detail: `<code>react-table</code>의 <code>useFlexLayout</code>, <code>useResizeColumns</code>, <code>useSortBy</code> 플러그인을 <code>react-window</code>의 <code>VariableSizeList</code>, <code>react-window-infinite-loader</code>, <code>AutoSizer</code>와 결합했습니다. 대용량 셀 렌더링 및 컬럼 리사이징 이벤트 속에서도 1,000행 이상의 데이터를 프레임 드랍 없이 동적으로 조작할 수 있습니다.<br/><br/><pre class="language-tsx"><code class="language-tsx">import { useFlexLayout, useResizeColumns, useSortBy, useTable } from 'react-table';
+      detail: `<code>react-table</code>의 <code>useFlexLayout</code>, <code>useResizeColumns</code>, <code>useSortBy</code> 플러그인을 <code>react-window</code>의 <code>VariableSizeList</code>, <code>react-window-infinite-loader</code>, <code>AutoSizer</code>와 결합했습니다. 대용량 셀 렌더링 및 컬럼 리사이징 이벤트 속에서도 1,000행 이상의 데이터를 프레임 드랍 없이 동적으로 조작할 수 있습니다.<br/><br/><pre class="language-tsx"><code class="language-tsx">
+import { useFlexLayout, useResizeColumns, useSortBy, useTable } from 'react-table';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import InfiniteLoader from 'react-window-infinite-loader';
 
 const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
-    { columns, data, defaultColumn },
-    useFlexLayout,
-    useResizeColumns,
-    useSortBy
+  { columns, data, defaultColumn },
+  useFlexLayout,
+  useResizeColumns,
+  useSortBy
 );
 
 return (
-    <AutoSizer>
-        {({ height, width }) => (
-            <InfiniteLoader itemCount={data.length} isItemLoaded={isItemLoaded} loadMoreItems={loadMoreItems}>
-                {({ onItemsRendered, ref }) => (
-                    <VirtualizedList
-                        onItemsRendered={onItemsRendered}
-                        ref={ref}
-                        height={height}
-                        width={width}
-                        itemCount={data.length}
-                        itemSize={getItemSize}
-                    >
-                        {rowRenderer}
-                    </VirtualizedList>
-                )}
-            </InfiniteLoader>
+  <AutoSizer>
+    {({ height, width }) => (
+      <InfiniteLoader itemCount={data.length} isItemLoaded={isItemLoaded} loadMoreItems={loadMoreItems}>
+        {({ onItemsRendered, ref }) => (
+          <VirtualizedList
+            onItemsRendered={onItemsRendered}
+            ref={ref}
+            height={height}
+            width={width}
+            itemCount={data.length}
+            itemSize={getItemSize}
+          >
+            {rowRenderer}
+          </VirtualizedList>
         )}
-    </AutoSizer>
-);</code></pre>`,
+      </InfiniteLoader>
+    )}
+  </AutoSizer>
+);
+</code></pre>`,
     },
     {
       tag: 'Constraint',

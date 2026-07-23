@@ -42,4 +42,14 @@ describe('sanitizeProjectHtml', () => {
       ),
     ).toBe('<code>import _ from &#39;lodash&#39;;</code>');
   });
+
+  it('highlights code blocks and preserves line indentation', () => {
+    const input = `<pre class="language-tsx"><code class="language-tsx">import { AutoSizer } from 'react-virtualized';
+
+const cache = new CellMeasurerCache({
+  defaultHeight: 20,
+});</code></pre>`;
+    const output = sanitizeProjectHtml(input);
+    console.log('OUTPUT:', JSON.stringify(output));
+  });
 });

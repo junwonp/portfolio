@@ -1,3 +1,16 @@
+import Prism from 'prismjs';
+
+if (typeof globalThis !== 'undefined') {
+  (globalThis as unknown as { Prism: typeof Prism }).Prism = Prism;
+}
+
+import 'prismjs/components/prism-typescript.js';
+import 'prismjs/components/prism-jsx.js';
+import 'prismjs/components/prism-tsx.js';
+import 'prismjs/components/prism-bash.js';
+import 'prismjs/components/prism-json.js';
+
+
 const ALLOWED_TAGS = new Set([
   'br',
   'code',
@@ -7,6 +20,8 @@ const ALLOWED_TAGS = new Set([
   'li',
   'ol',
   'p',
+  'pre',
+  'span',
   'strong',
   'table',
   'tbody',
@@ -28,6 +43,14 @@ const escapeHtml = (value: string) =>
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
+
+const decodeHtml = (value: string) =>
+  value
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&');
 
 const getAttribute = (attributes: string, name: string) => {
   const match = attributes.match(new RegExp(`\\s${name}=(["'])(.*?)\\1`, 'i'));
@@ -60,7 +83,27 @@ const serializeAllowedTag = (rawTag: string, tagName: string, attributes = '') =
     return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}">`;
   }
 
+  if (['code', 'pre', 'span'].includes(tag)) {
+    const className = getAttribute(attributes, 'class');
+    if (className) {
+      return `<${tag} class="${escapeHtml(className)}">`;
+    }
+  }
+
   return `<${tag}>`;
+};
+
+const highlightCodeBlocks = (html: string): string => {
+  return html.replace(
+    /<pre[^>]*class="([^"]*language-([a-z0-9-]+)[^"]*)"[^>]*>\s*<code[^>]*class="[^"]*"[^>]*>([\s\S]*?)<\/code>\s*<\/pre>/gi,
+    (match, preClass, lang, rawCode) => {
+      let cleanCode = decodeHtml(rawCode);
+      cleanCode = cleanCode.replace(/^\s*\n/, '').replace(/\n\s*$/, '');
+      const grammar = Prism.languages[lang] || Prism.languages.tsx || Prism.languages.javascript;
+      const highlighted = Prism.highlight(cleanCode, grammar, lang);
+      return `<pre class="${preClass}"><code class="language-${lang}">${highlighted}</code></pre>`;
+    }
+  );
 };
 
 export const sanitizeProjectHtml = (html: string) => {
@@ -80,5 +123,5 @@ export const sanitizeProjectHtml = (html: string) => {
 
   sanitized += escapeHtml(html.slice(lastIndex));
 
-  return sanitized;
+  return highlightCodeBlocks(sanitized);
 };

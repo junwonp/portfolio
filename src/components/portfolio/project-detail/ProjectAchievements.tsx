@@ -72,6 +72,7 @@ export default function ProjectAchievements({ achievements }: Props) {
                 <div
                   className={styles.achDesc}
                   dangerouslySetInnerHTML={{ __html: achievement.detail }}
+                  suppressHydrationWarning
                 />
               </div>
             </div>
