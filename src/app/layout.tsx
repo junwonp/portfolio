@@ -1,4 +1,6 @@
 import "@/lib/styles/theme.css";
+import "@/lib/styles/typography.css";
+import "@/lib/styles/prism.css";
 import "./globals.css";
 
 import type { ReactNode } from "react";

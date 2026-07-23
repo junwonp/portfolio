@@ -1,8 +1,0 @@
-/* Mobile Typography Scale and Basic Rescaling */
-@media (max-width: 576px) {
-  /* Set body base size to 16px for better legibility on touch screens */
-  html,
-  body {
-    font-size: 16px;
-  }
-}
