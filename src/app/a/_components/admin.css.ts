@@ -189,7 +189,7 @@ globalStyle(`${segmentedControl} button`, {
   transition: 'background 0.2s ease, color 0.2s ease, transform 0.1s ease',
 });
 
-globalStyle(`${segmentedControl} button:hover:not(.active)`, {
+globalStyle(`${segmentedControl} button:hover:not(.${active})`, {
   background: 'var(--color-surface-hover)',
   color: 'var(--color-bold)',
 });
@@ -203,7 +203,7 @@ globalStyle(`${segmentedControl} button:active`, {
   transform: 'scale(0.97)',
 });
 
-globalStyle(`${segmentedControl} button.active`, {
+globalStyle(`${segmentedControl} button.${active}`, {
   background: 'var(--color-primary)',
   color: 'var(--color-basic-bg)',
 });
@@ -585,12 +585,12 @@ globalStyle(`${rangeTabs} a`, {
   whiteSpace: 'nowrap',
 });
 
-globalStyle(`${rangeTabs} a.active`, {
+globalStyle(`${rangeTabs} a.${active}`, {
   background: 'var(--color-primary)',
   color: 'var(--color-basic-bg)',
 });
 
-globalStyle(`${rangeTabs} a:hover:not(.active)`, {
+globalStyle(`${rangeTabs} a:hover:not(.${active})`, {
   background: 'var(--color-surface-hover)',
   color: 'var(--color-bold)',
 });

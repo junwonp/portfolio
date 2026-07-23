@@ -1,5 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
+import { projectItem } from './ProjectItem.css';
+
 export const companyWrapper = style({
   display: 'flex',
   flexDirection: 'column',
@@ -223,7 +225,7 @@ export const projectList = style({
   },
 });
 
-globalStyle(`${projectList} .project-item`, {
+globalStyle(`${projectList} .${projectItem}`, {
   borderTop: '0.5px solid var(--color-bg-divider)',
 });
 

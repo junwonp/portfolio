@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { projectItem } from './ProjectItem.css';
+
 export const badge = style({
   alignSelf: 'center',
   background: 'color-mix(in srgb, var(--color-primary) 10%, transparent)',
@@ -137,7 +139,7 @@ export const resumeHeader = style({
   width: '100%',
 
   selectors: {
-    '.project-item &': {
+    [`${projectItem} &`]: {
       paddingLeft: '1.5rem',
       paddingRight: '1.5rem',
     },
@@ -163,7 +165,7 @@ export const resumeHeader = style({
       gap: '0.5rem',
 
       selectors: {
-        '.project-item &': {
+        [`${projectItem} &`]: {
           paddingLeft: '1.25rem',
           paddingRight: '1.25rem',
         },
@@ -268,7 +270,7 @@ export const resumeBody = style({
   minWidth: 0,
 
   selectors: {
-    '.project-item &': {
+    [`${projectItem} &`]: {
       paddingLeft: '1.5rem',
       paddingRight: '1.5rem',
     },
@@ -279,7 +281,7 @@ export const resumeBody = style({
       padding: '0 0 1.25rem 0',
 
       selectors: {
-        '.project-item &': {
+        [`${projectItem} &`]: {
           paddingLeft: '1.25rem',
           paddingRight: '1.25rem',
         },

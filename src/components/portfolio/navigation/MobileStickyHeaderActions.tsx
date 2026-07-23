@@ -112,7 +112,7 @@ export default function MobileStickyHeaderActions({
 
         <div className={styles.moreMenuContainer}>
           <button
-            className={`${styles.moreButton} ${isMenuOpen ? "active" : ""}`}
+            className={`${styles.moreButton} ${isMenuOpen ? styles.active : ""}`}
             onClick={(e) => {
               e.stopPropagation();
               setIsMenuOpen(!isMenuOpen);

@@ -75,7 +75,7 @@ export default function BaseSideNav({
               }}
             >
               <button
-                className={`${styles.navItem} ${activeId === section.id ? "active" : ""}`}
+                className={`${styles.navItem} ${activeId === section.id ? styles.active : ""}`}
                 onClick={() => {
                   onselect(section.id);
                 }}

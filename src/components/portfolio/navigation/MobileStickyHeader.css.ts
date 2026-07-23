@@ -95,11 +95,11 @@ export const langToggle = style({
 });
 
 export const mobileOnly = style({
-  display: 'none',
+  display: 'none !important',
 
   '@media': {
     '(max-width: 576px)': {
-      display: 'inline-flex',
+      display: 'inline-flex !important',
     },
   },
 });

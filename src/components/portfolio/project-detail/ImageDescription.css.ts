@@ -38,6 +38,8 @@ export const skeleton = style({
   animation: `${skeletonShimmer} 1.5s ease-in-out infinite`,
 });
 
+export const loaded = style({});
+
 globalStyle(`${imageDescription} img, ${imageDescription} video`, {
   maxWidth: '100%',
   maxHeight: '60vh',
@@ -47,11 +49,9 @@ globalStyle(`${imageDescription} img, ${imageDescription} video`, {
   transition: 'opacity 0.3s ease',
 });
 
-globalStyle(`${imageDescription} img.loaded, ${imageDescription} video.loaded`, {
+globalStyle(`${imageDescription} img.${loaded}, ${imageDescription} video.${loaded}`, {
   opacity: 1,
 });
-
-export const loaded = style({});
 
 export const figcaption = style({
   marginTop: '0.5rem',

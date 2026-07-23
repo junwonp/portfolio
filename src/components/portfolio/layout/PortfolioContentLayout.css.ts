@@ -5,6 +5,8 @@ export const surface = style({
   width: '100%',
 });
 
+export const hasDesktopHeader = style({});
+
 export const mobileHeaderSlot = style({
   display: 'contents',
 
@@ -63,7 +65,7 @@ export const layout = style({
   width: '100%',
 
   selectors: {
-    [`${surface}.has-desktop-header &`]: {
+    [`${surface}.${hasDesktopHeader} &`]: {
       marginTop: '80px',
     },
   },
@@ -77,7 +79,7 @@ export const layout = style({
       display: 'block',
       paddingBottom: '80px',
       selectors: {
-        [`${surface}.has-desktop-header &`]: {
+        [`${surface}.${hasDesktopHeader} &`]: {
           marginTop: 'var(--space-md)',
         },
       },
@@ -93,8 +95,6 @@ export const layout = style({
     },
   },
 });
-
-export const hasDesktopHeader = style({});
 
 export const navWrapper = style({
   bottom: 0,
