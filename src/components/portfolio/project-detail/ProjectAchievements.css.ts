@@ -121,7 +121,7 @@ export const achBodyWrapper = style({
 
   selectors: {
     [`&.${open}`]: {
-      maxHeight: '1000px',
+      maxHeight: '4000px',
     },
   },
 
@@ -161,13 +161,20 @@ globalStyle(`${achDesc} strong`, {
   fontWeight: 700,
 });
 
-globalStyle(`${achDesc} code`, {
+globalStyle(`${achDesc} code:not(pre code)`, {
   background: 'var(--color-code-bg)',
   color: 'var(--color-inline-code)',
   padding: '2px 5px',
   borderRadius: '4px',
   overflowWrap: 'anywhere',
   wordBreak: 'break-word',
+});
+
+globalStyle(`${achDesc} pre code`, {
+  background: 'transparent',
+  color: 'inherit',
+  padding: 0,
+  borderRadius: 0,
 });
 
 globalStyle(`${achDesc} img`, {
