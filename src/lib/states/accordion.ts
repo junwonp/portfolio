@@ -28,9 +28,9 @@ export const accordionState = {
   hasCompany: (name: string) => state.companies.includes(name),
   toggleCompany(name: string): void {
     if (state.companies.includes(name)) {
-      state.companies = state.companies.filter((c) => c !== name);
+      state.companies = [];
     } else {
-      state.companies = [...state.companies, name];
+      state.companies = [name];
     }
     notify();
   },
@@ -40,9 +40,9 @@ export const accordionState = {
   toggleProject(company: string, projectTitle: string): void {
     const key = `${company}::${projectTitle}`;
     if (state.projects.includes(key)) {
-      state.projects = state.projects.filter((p) => p !== key);
+      state.projects = [];
     } else {
-      state.projects = [...state.projects, key];
+      state.projects = [key];
     }
     notify();
   },

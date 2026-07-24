@@ -114,29 +114,6 @@ export const achChevron = style({
   },
 });
 
-export const achBodyWrapper = style({
-  maxHeight: 0,
-  overflow: 'hidden',
-  transition: 'max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-
-  selectors: {
-    [`&.${open}`]: {
-      maxHeight: '4000px',
-    },
-  },
-
-  '@media': {
-    print: {
-      selectors: {
-        '&&': {
-          maxHeight: 'none',
-          overflow: 'visible',
-        },
-      },
-    },
-  },
-});
-
 export const achBody = style({
   padding: '0 20px 20px',
 

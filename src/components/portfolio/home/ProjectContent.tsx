@@ -8,6 +8,7 @@ import RichText from '@/components/ui/RichText';
 import SkillChip from '@/components/ui/SkillChip';
 import type { ProjectItem as ProjectItemType } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
+import Collapse from '@/components/ui/Collapse';
 import { getSkillCategory } from '@/lib/portfolio/skills';
 import { parseMarkdown } from '@/lib/utils/markdown';
 import { sortSkills } from '@/lib/utils/skills';
@@ -135,55 +136,55 @@ export default function ProjectContent({
         )}
       </div>
 
-      {showBody && (
-        <div className={styles.resumeBody}>
-          <p className={styles.resumeDescription}>
-            <span>{project.description}</span>
-            {mainSkillsLabel && (
-              <>
-                <span className={styles.descSeparator}>·</span>
-                <span className={styles.mainSkills}>{mainSkillsLabel}</span>
-              </>
-            )}
-          </p>
-
-          {showDetails && project.detail && project.detail.length > 0 && (
-            <div className={styles.detailGrid}>
-              {project.detail.map((line: string) => {
-                const parsed = parseDetailLine(line);
-                return (
-                  <div className={styles.detailRow} key={line}>
-                    {parsed.label && (
-                      <div className={styles.detailLabel}>
-                        <span className={styles.labelPill}>{parsed.label}</span>
-                      </div>
-                    )}
-                    <div className={styles.detailText}>
-                      <RichText parts={parseMarkdown(parsed.content)} />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {visibleSkills.length > 0 && (
-            <div className={styles.skills}>
-              {visibleSkills.map((skill: string) => (
-                <SkillChip key={skill} skill={skill} />
-              ))}
-              {hiddenSkillCount > 0 && (
-                <span
-                  className={styles.moreChip}
-                  title={sortedSkills.slice(skillLimit).join(', ')}
-                >
-                  +{hiddenSkillCount}
-                </span>
+      <Collapse isOpen={showBody}>
+          <div className={styles.resumeBody}>
+            <p className={styles.resumeDescription}>
+              <span>{project.description}</span>
+              {mainSkillsLabel && (
+                <>
+                  <span className={styles.descSeparator}>·</span>
+                  <span className={styles.mainSkills}>{mainSkillsLabel}</span>
+                </>
               )}
-            </div>
-          )}
-        </div>
-      )}
+            </p>
+
+            {showDetails && project.detail && project.detail.length > 0 && (
+              <div className={styles.detailGrid}>
+                {project.detail.map((line: string) => {
+                  const parsed = parseDetailLine(line);
+                  return (
+                    <div className={styles.detailRow} key={line}>
+                      {parsed.label && (
+                        <div className={styles.detailLabel}>
+                          <span className={styles.labelPill}>{parsed.label}</span>
+                        </div>
+                      )}
+                      <div className={styles.detailText}>
+                        <RichText parts={parseMarkdown(parsed.content)} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {visibleSkills.length > 0 && (
+              <div className={styles.skills}>
+                {visibleSkills.map((skill: string) => (
+                  <SkillChip key={skill} skill={skill} />
+                ))}
+                {hiddenSkillCount > 0 && (
+                  <span
+                    className={styles.moreChip}
+                    title={sortedSkills.slice(skillLimit).join(', ')}
+                  >
+                    +{hiddenSkillCount}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+        </Collapse>
     </div>
   );
 }

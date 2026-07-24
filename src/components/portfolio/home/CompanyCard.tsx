@@ -8,6 +8,7 @@ import Period from '@/components/ui/Period';
 import RichText from '@/components/ui/RichText';
 import type { WorkExperienceProps } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
+import Collapse from '@/components/ui/Collapse';
 import { useAccordionState } from '@/lib/states/accordion';
 import { parseMarkdown } from '@/lib/utils/markdown';
 
@@ -107,7 +108,7 @@ export default function CompanyCard({ exp, isFiltered, labels }: Props) {
 
         {renderAdditionalLink()}
 
-        {isCompanyOpen && (
+        <Collapse isOpen={isCompanyOpen}>
           <div className={styles.projectList}>
             {exp.project.map((project) => (
               <ProjectItem
@@ -120,7 +121,7 @@ export default function CompanyCard({ exp, isFiltered, labels }: Props) {
               />
             ))}
           </div>
-        )}
+        </Collapse>
       </div>
     </div>
   );
