@@ -86,3 +86,17 @@ CREATE TABLE IF NOT EXISTS revalidations (
   revalidatedAt INTEGER NOT NULL,
   UNIQUE(tag) ON CONFLICT REPLACE
 );
+
+CREATE TABLE IF NOT EXISTS analytics_interactions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  session_id TEXT NOT NULL,
+  path TEXT NOT NULL,
+  interaction_type TEXT NOT NULL,
+  interaction_label TEXT NOT NULL,
+  action TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (session_id) REFERENCES user_sessions(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_analytics_interactions_session ON analytics_interactions(session_id);
+CREATE INDEX IF NOT EXISTS idx_analytics_interactions_created_at ON analytics_interactions(created_at);

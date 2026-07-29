@@ -64,5 +64,30 @@ export const ensureAnalyticsStorageSchema = async (db: D1Database): Promise<void
     .prepare('CREATE INDEX IF NOT EXISTS idx_web_vitals_metric ON web_vitals(metric_name)')
     .run();
 
+  await db
+    .prepare(
+      `CREATE TABLE IF NOT EXISTS analytics_interactions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        session_id TEXT NOT NULL,
+        path TEXT NOT NULL,
+        interaction_type TEXT NOT NULL,
+        interaction_label TEXT NOT NULL,
+        action TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (session_id) REFERENCES user_sessions(id) ON DELETE CASCADE
+      )`,
+    )
+    .run();
+  await db
+    .prepare(
+      'CREATE INDEX IF NOT EXISTS idx_analytics_interactions_session ON analytics_interactions(session_id)',
+    )
+    .run();
+  await db
+    .prepare(
+      'CREATE INDEX IF NOT EXISTS idx_analytics_interactions_created_at ON analytics_interactions(created_at)',
+    )
+    .run();
+
   analyticsStorageSchemaReady = true;
 };

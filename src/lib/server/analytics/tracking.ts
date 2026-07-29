@@ -49,6 +49,23 @@ export const recordAnalyticsPayload = async ({
     }
   }
 
+  if (payload.eventType === 'interaction') {
+    await db
+      .prepare(
+        `INSERT INTO analytics_interactions (session_id, path, interaction_type, interaction_label, action)
+         VALUES (?, ?, ?, ?, ?)`,
+      )
+      .bind(
+        payload.sessionId,
+        payload.path ?? '/',
+        payload.interactionType,
+        payload.interactionLabel,
+        payload.action,
+      )
+      .run();
+    return;
+  }
+
   if (payload.eventType === 'web-vital') {
     await db
       .prepare(

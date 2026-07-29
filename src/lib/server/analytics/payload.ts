@@ -35,7 +35,19 @@ export interface WebVitalAnalyticsPayload {
   userAgent: string;
 }
 
-export type AnalyticsPayloadBody = AnalyticsPayload | WebVitalAnalyticsPayload;
+export interface InteractionPayload {
+  applicationSlug?: string;
+  eventType: 'interaction';
+  interactionType: string;
+  interactionLabel: string;
+  action: 'open' | 'close';
+  path?: string;
+  referrer: string;
+  sessionId: string;
+  userAgent: string;
+}
+
+export type AnalyticsPayloadBody = AnalyticsPayload | WebVitalAnalyticsPayload | InteractionPayload;
 
 const MAX_DWELL_TIME_SECONDS = 60 * 60 * 24;
 const MAX_METRIC_ID_LENGTH = 128;
@@ -165,6 +177,28 @@ export const parseAnalyticsPayloadBody = (rawBody: unknown): AnalyticsPayloadBod
         'unknown',
         MAX_NAVIGATION_TYPE_LENGTH,
       ),
+      path,
+      referrer,
+      sessionId,
+      userAgent,
+    };
+  }
+
+  if (body.eventType === 'interaction') {
+    const interactionType = getOptionalString(body.interactionType, 100);
+    const interactionLabel = getOptionalString(body.interactionLabel, 500);
+    const action = body.action === 'open' || body.action === 'close' ? (body.action as 'open' | 'close') : null;
+
+    if (!interactionType || !interactionLabel || !action) {
+      return null;
+    }
+
+    return {
+      applicationSlug,
+      eventType: 'interaction',
+      interactionType,
+      interactionLabel,
+      action,
       path,
       referrer,
       sessionId,
