@@ -3,6 +3,7 @@
 import React, { useCallback, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
+import { reportInteraction } from '@/components/analytics/analyticsTransport';
 import Badge from "@/components/ui/Badge";
 import Collapse from "@/components/ui/Collapse";
 import { sanitizeProjectHtml } from "@/lib/utils/safeHtml";
@@ -79,8 +80,18 @@ export default function ProjectAchievements({ achievements }: Props) {
   }));
 
   const toggle = useCallback((index: number) => {
-    setOpenIndex((prev) => (prev === index ? -1 : index));
-  }, []);
+    setOpenIndex((prev) => {
+      const nextOpen = prev === index ? -1 : index;
+      if (nextOpen >= 0) {
+        reportInteraction({
+          interactionType: 'accordion_achievement',
+          interactionLabel: sanitizedAchievements[nextOpen]?.title ?? `achievement-${nextOpen}`,
+          action: 'open',
+        });
+      }
+      return nextOpen;
+    });
+  }, [sanitizedAchievements]);
 
   return (
     <div className={styles.achievements}>

@@ -5,6 +5,7 @@ import React from 'react';
 import ProjectContent from '@/components/portfolio/home/ProjectContent';
 import type { ProjectItem as ProjectItemType } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
+import { reportInteraction } from '@/components/analytics/analyticsTransport';
 import { useAccordionState } from '@/lib/states/accordion';
 
 import * as ProjectItemStyles from './ProjectItem.css';
@@ -36,13 +37,25 @@ export default function ProjectItem({
 
   const handleToggle = () => {
     if (isCompact) return;
-    if (!isFiltered) toggleProject(companyName, project.title);
+    if (!isFiltered) {
+      reportInteraction({
+        interactionType: 'accordion_project',
+        interactionLabel: `${companyName}::${project.title}`,
+        action: isOpen ? 'close' : 'open',
+      });
+      toggleProject(companyName, project.title);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (isCompact) return;
     if (!isFiltered && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
+      reportInteraction({
+        interactionType: 'accordion_project',
+        interactionLabel: `${companyName}::${project.title}`,
+        action: isOpen ? 'close' : 'open',
+      });
       toggleProject(companyName, project.title);
     }
   };

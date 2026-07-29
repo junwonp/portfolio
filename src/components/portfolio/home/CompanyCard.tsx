@@ -9,6 +9,7 @@ import RichText from '@/components/ui/RichText';
 import type { WorkExperienceProps } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
 import Collapse from '@/components/ui/Collapse';
+import { reportInteraction } from '@/components/analytics/analyticsTransport';
 import { useAccordionState } from '@/lib/states/accordion';
 import { parseMarkdown } from '@/lib/utils/markdown';
 
@@ -27,6 +28,11 @@ export default function CompanyCard({ exp, isFiltered, labels }: Props) {
 
   const handleToggle = () => {
     if (!isFiltered) {
+      reportInteraction({
+        interactionType: 'accordion_company',
+        interactionLabel: exp.companyName,
+        action: isCompanyOpen ? 'close' : 'open',
+      });
       toggleCompany(exp.companyName);
     }
   };
@@ -34,6 +40,11 @@ export default function CompanyCard({ exp, isFiltered, labels }: Props) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isFiltered && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
+      reportInteraction({
+        interactionType: 'accordion_company',
+        interactionLabel: exp.companyName,
+        action: isCompanyOpen ? 'close' : 'open',
+      });
       toggleCompany(exp.companyName);
     }
   };
