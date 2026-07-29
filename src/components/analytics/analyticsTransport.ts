@@ -22,6 +22,23 @@ export function getOrInitializeAnalyticsSession(): AnalyticsSessionInfo {
   return { id, isNew };
 }
 
+export interface InteractionEvent {
+  interactionType: string;
+  interactionLabel: string;
+  action: 'open' | 'close';
+}
+
+export function reportInteraction(data: InteractionEvent): void {
+  const session = getOrInitializeAnalyticsSession();
+  sendAnalyticsPayload(
+    {
+      eventType: 'interaction',
+      ...data,
+    },
+    session.id,
+  );
+}
+
 export function sendAnalyticsPayload(
   data: Record<string, unknown>,
   currentSessionId: string,

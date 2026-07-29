@@ -53,12 +53,27 @@ export default function AnalyticsTracker() {
   }
 
 
+  function getScrollMetrics() {
+    // When html has height:100%, body becomes the actual scroll container
+    // even though document.scrollingElement still points to html
+    const bodyScrolls = document.body.scrollHeight > document.body.clientHeight;
+    const se = document.scrollingElement;
+    const seScrolls = se != null && se.scrollHeight > se.clientHeight;
+
+    const scrollContainer = seScrolls ? se : bodyScrolls ? document.body : null;
+    const scrollTop = scrollContainer?.scrollTop ?? window.scrollY ?? 0;
+    const scrollHeight =
+      scrollContainer?.scrollHeight ??
+      se?.scrollHeight ??
+      document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+    return { scrollTop, scrollHeight, clientHeight };
+  }
+
   function updateEngagementMetrics() {
     if (typeof window === 'undefined') return;
 
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
+    const { scrollTop, scrollHeight, clientHeight } = getScrollMetrics();
     const viewportBottom = scrollTop + clientHeight;
     const scrollDepth = calculateScrollDepth({ clientHeight, scrollHeight, scrollTop });
 
