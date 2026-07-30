@@ -39,6 +39,8 @@ export interface ApplicationLinkStatsRow extends ApplicationLinkRow {
   avg_article_progress: number | null;
   avg_dwell_time: number | null;
   avg_scroll_depth: number | null;
+  interaction_count: number;
+  interaction_labels: string | null;
   last_seen_at: string | null;
   sessions: number;
   views: number;
@@ -49,6 +51,8 @@ export interface ApplicationLinkStats extends ApplicationLink {
   avgArticleProgress: number;
   avgDwellTime: number;
   avgScrollDepth: number;
+  interactionCount: number;
+  interactionLabels: string[];
   lastSeenAt: string | null;
   sessions: number;
   views: number;
@@ -119,6 +123,10 @@ export const toApplicationLinkStats = (row: ApplicationLinkStatsRow): Applicatio
   avgArticleProgress: row.avg_article_progress ?? 0,
   avgDwellTime: row.avg_dwell_time ?? 0,
   avgScrollDepth: row.avg_scroll_depth ?? 0,
+  interactionCount: row.interaction_count ?? 0,
+  interactionLabels: row.interaction_labels
+    ? row.interaction_labels.split(',').filter(Boolean)
+    : [],
   lastSeenAt: row.last_seen_at,
   sessions: row.sessions,
   views: row.views,

@@ -41,6 +41,29 @@ export interface RecentSession {
   classification: 'bot' | 'suspected' | 'human';
 }
 
+export interface RecentInteraction {
+  id: number;
+  sessionId: string;
+  path: string;
+  interactionType: string;
+  interactionLabel: string;
+  action: 'open' | 'close';
+  createdAt: string;
+}
+
+export interface SessionDetail {
+  interactions: RecentInteraction[];
+  pageViews: {
+    activeTime: number;
+    articleProgress: number;
+    createdAt: string;
+    dwellTime: number;
+    path: string;
+    scrollDepth: number;
+    sectionLabel: string | null;
+  }[];
+}
+
 export interface AdminDashboardData {
   applicationFilterOptions: ApplicationFilterOption[];
   applicationLinks: ApplicationLinkStats[];
@@ -77,6 +100,8 @@ export interface AdminDashboardData {
     samples: number;
   }[];
   recentSessions: RecentSession[];
+  recentInteractions: RecentInteraction[];
+  sessionDetails: Record<string, SessionDetail>;
   writesDisabledReason: string | null;
   writesEnabled: boolean;
 }
@@ -171,6 +196,8 @@ const createEmptyAdminDashboardData = ({
     trafficSummary: summarizeDailyChart(dailyChart),
     webVitals: [],
     recentSessions: [],
+    recentInteractions: [],
+    sessionDetails: {},
     writesDisabledReason,
     writesEnabled,
   };
@@ -514,10 +541,21 @@ const getApplicationLinks = async (db: D1Database): Promise<ApplicationLinkStats
         ROUND(AVG(page_views.scroll_depth), 1) as avg_scroll_depth,
         ROUND(AVG(COALESCE(page_views.active_time, page_views.dwell_time, 0)), 1) as avg_active_time,
         ROUND(AVG(COALESCE(page_views.article_progress, 0)), 1) as avg_article_progress,
-        MAX(page_views.created_at) as last_seen_at
+        MAX(page_views.created_at) as last_seen_at,
+        COALESCE(interactions.interaction_count, 0) as interaction_count,
+        interactions.interaction_labels
        FROM application_links links
        LEFT JOIN application_link_visits visits ON visits.application_link_id = links.id
        LEFT JOIN page_views ON page_views.session_id = visits.session_id
+       LEFT JOIN (
+         SELECT
+           alv.application_link_id,
+           COUNT(ai.id) as interaction_count,
+           GROUP_CONCAT(DISTINCT ai.interaction_label) as interaction_labels
+         FROM application_link_visits alv
+         JOIN analytics_interactions ai ON ai.session_id = alv.session_id
+         GROUP BY alv.application_link_id
+       ) interactions ON interactions.application_link_id = links.id
        WHERE links.expires_at > datetime('now')
        GROUP BY links.id
        ORDER BY links.created_at DESC
@@ -622,6 +660,91 @@ const getRecentSessions = async (db: D1Database): Promise<RecentSession[]> => {
   }));
 };
 
+const getRecentInteractions = async (db: D1Database): Promise<RecentInteraction[]> => {
+  const result = await db
+    .prepare(
+      `SELECT
+        ai.id,
+        ai.session_id as sessionId,
+        ai.path,
+        ai.interaction_type as interactionType,
+        ai.interaction_label as interactionLabel,
+        ai.action,
+        ai.created_at as createdAt
+       FROM analytics_interactions ai
+       JOIN user_sessions us ON us.id = ai.session_id
+       WHERE us.is_admin = 0
+       ORDER BY ai.created_at DESC
+       LIMIT 50`,
+    )
+    .all<{
+      id: number;
+      sessionId: string;
+      path: string;
+      interactionType: string;
+      interactionLabel: string;
+      action: 'open' | 'close';
+      createdAt: string;
+    }>();
+
+  return result.results;
+};
+
+const getSessionDetails = async (
+  db: D1Database,
+  recentSessions: RecentSession[],
+  recentInteractions: RecentInteraction[],
+): Promise<Record<string, SessionDetail>> => {
+  if (recentSessions.length === 0) return {};
+
+  const sessionIds = recentSessions.map((s) => s.id);
+  const placeholders = sessionIds.map(() => '?').join(',');
+  const detailMap: Record<string, SessionDetail> = {};
+
+  for (const id of sessionIds) {
+    detailMap[id] = { pageViews: [], interactions: [] };
+  }
+
+  // Fetch page views for recent sessions
+  const pageViewResult = await db
+    .prepare(
+      `SELECT
+        session_id as sessionId,
+        path,
+        dwell_time as dwellTime,
+        scroll_depth as scrollDepth,
+        article_progress as articleProgress,
+        COALESCE(active_time, dwell_time, 0) as activeTime,
+        max_visible_section_label as sectionLabel,
+        created_at as createdAt
+       FROM page_views
+       WHERE session_id IN (${placeholders})
+       ORDER BY created_at ASC`,
+    )
+    .bind(...sessionIds)
+    .all<{
+      sessionId: string;
+      path: string;
+      dwellTime: number;
+      scrollDepth: number;
+      articleProgress: number;
+      activeTime: number;
+      sectionLabel: string | null;
+      createdAt: string;
+    }>();
+
+  for (const row of pageViewResult.results) {
+    detailMap[row.sessionId]?.pageViews.push(row);
+  }
+
+  // Assign interactions to session details
+  for (const interaction of recentInteractions) {
+    detailMap[interaction.sessionId]?.interactions.push(interaction);
+  }
+
+  return detailMap;
+};
+
 export const getAdminDashboardData = async ({
   applicationProjectOptions,
   db,
@@ -661,7 +784,7 @@ export const getAdminDashboardData = async ({
       today,
       trafficRange,
     };
-    const [stats, dailyChart, topPages, topReferrers, topCountries, applicationLinks, webVitals, recentSessions] =
+    const [stats, dailyChart, topPages, topReferrers, topCountries, applicationLinks, webVitals, recentSessions, recentInteractions] =
       await Promise.all([
         getStats(context),
         getDailyChart(context),
@@ -671,7 +794,10 @@ export const getAdminDashboardData = async ({
         getApplicationLinks(db),
         getWebVitals(context),
         getRecentSessions(db),
+        getRecentInteractions(db),
       ]);
+
+    const sessionDetails = await getSessionDetails(db, recentSessions, recentInteractions);
 
     return {
       applicationFilterOptions,
@@ -688,6 +814,8 @@ export const getAdminDashboardData = async ({
       trafficSummary: summarizeDailyChart(dailyChart),
       webVitals,
       recentSessions,
+      recentInteractions,
+      sessionDetails,
       writesDisabledReason: writesEnabled ? null : RUNTIME_WRITES_DISABLED_REASON,
       writesEnabled,
     };
