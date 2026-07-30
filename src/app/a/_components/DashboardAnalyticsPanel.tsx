@@ -1,10 +1,11 @@
 'use client';
 
 import Select from '@/components/ui/Select';
-import type { RecentSession } from '@/lib/server/admin/dashboardData';
+import type { RecentInteraction, RecentSession, SessionDetail } from '@/lib/server/admin/dashboardData';
 
 import * as styles from './admin.css';
 import { DetailsGrid } from './DetailsGrid';
+import { InteractionEventsPanel } from './InteractionEventsPanel';
 import { RecentSessionsTable } from './RecentSessionsTable';
 import { StatsGrid } from './StatsGrid';
 import { TrendChart } from './TrendChart';
@@ -59,6 +60,8 @@ interface DashboardAnalyticsPanelProps {
     samples: number;
   }[];
   recentSessions: RecentSession[];
+  recentInteractions: RecentInteraction[];
+  sessionDetails: Record<string, SessionDetail>;
 }
 
 export function DashboardAnalyticsPanel({
@@ -73,6 +76,8 @@ export function DashboardAnalyticsPanel({
   topCountries,
   webVitals,
   recentSessions,
+  recentInteractions,
+  sessionDetails,
 }: DashboardAnalyticsPanelProps) {
   const filterOptions = [
     { value: '', label: '전체 방문' },
@@ -136,7 +141,9 @@ export function DashboardAnalyticsPanel({
         webVitals={webVitals}
       />
 
-      <RecentSessionsTable recentSessions={recentSessions} />
+      <RecentSessionsTable recentSessions={recentSessions} sessionDetails={sessionDetails} />
+
+      <InteractionEventsPanel recentInteractions={recentInteractions} />
     </div>
   );
 }

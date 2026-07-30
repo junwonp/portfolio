@@ -42,8 +42,8 @@ export function DetailsGrid({
                   <th className={styles.num}>조회 수</th>
                   <th className={styles.num}>평균 체류</th>
                   <th className={styles.num}>활성 시간</th>
-                  <th className={styles.num}>평균 스크롤</th>
-                  <th className={styles.num}>본문 진행</th>
+                  <th className={styles.num} style={{ minWidth: '100px' }}>평균 스크롤</th>
+                  <th className={styles.num} style={{ minWidth: '100px' }}>본문 진행</th>
                 </tr>
               </thead>
               <tbody>
@@ -55,8 +55,28 @@ export function DetailsGrid({
                     <td className={styles.num}>{page.views}</td>
                     <td className={styles.num}>{page.avgDwell}초</td>
                     <td className={styles.num}>{page.avgActive}초</td>
-                    <td className={styles.num}>{page.avgScroll}%</td>
-                    <td className={styles.num}>{page.avgArticleProgress}%</td>
+                    <td className={styles.num}>
+                      <span className={styles.miniProgressCell}>
+                        <span className={styles.miniProgressBar}>
+                          <span
+                            className={`${styles.miniProgressFill} ${styles.scrollBar}`}
+                            style={{ width: `${page.avgScroll}%` }}
+                          />
+                        </span>
+                        <span className={styles.miniProgressVal}>{page.avgScroll}%</span>
+                      </span>
+                    </td>
+                    <td className={styles.num}>
+                      <span className={styles.miniProgressCell}>
+                        <span className={styles.miniProgressBar}>
+                          <span
+                            className={`${styles.miniProgressFill} ${styles.readBar}`}
+                            style={{ width: `${page.avgArticleProgress}%` }}
+                          />
+                        </span>
+                        <span className={styles.miniProgressVal}>{page.avgArticleProgress}%</span>
+                      </span>
+                    </td>
                   </tr>
                 ))}
               </tbody>

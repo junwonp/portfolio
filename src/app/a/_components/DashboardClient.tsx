@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import type { RecentSession } from '@/lib/server/admin/dashboardData';
+import type { RecentInteraction, RecentSession, SessionDetail } from '@/lib/server/admin/dashboardData';
 
 import * as styles from './admin.css';
 import { DashboardAnalyticsPanel } from './DashboardAnalyticsPanel';
@@ -36,6 +36,8 @@ interface DashboardClientProps {
     createdAt: string;
     expiresAt: string;
     id: number;
+    interactionCount: number;
+    interactionLabels: string[];
     label: string;
     lastSeenAt: string | null;
     projectIds: string[];
@@ -82,6 +84,8 @@ interface DashboardClientProps {
   }[];
   initialTab: 'analytics' | 'links';
   recentSessions: RecentSession[];
+  recentInteractions: RecentInteraction[];
+  sessionDetails: Record<string, SessionDetail>;
   writesDisabledReason: string | null;
   writesEnabled: boolean;
 }
@@ -101,6 +105,8 @@ export function DashboardClient({
   webVitals,
   initialTab,
   recentSessions,
+  recentInteractions,
+  sessionDetails,
   writesDisabledReason,
   writesEnabled,
 }: DashboardClientProps) {
@@ -164,6 +170,8 @@ export function DashboardClient({
             topCountries={topCountries}
             webVitals={webVitals}
             recentSessions={recentSessions}
+            recentInteractions={recentInteractions}
+            sessionDetails={sessionDetails}
           />
         ) : (
           <DashboardLinksPanel

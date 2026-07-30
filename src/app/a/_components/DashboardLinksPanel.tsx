@@ -17,6 +17,8 @@ interface DashboardLinksPanelProps {
     createdAt: string;
     expiresAt: string;
     id: number;
+    interactionCount: number;
+    interactionLabels: string[];
     label: string;
     lastSeenAt: string | null;
     projectIds: string[];
@@ -31,7 +33,6 @@ interface DashboardLinksPanelProps {
   writesEnabled: boolean;
 }
 
-// Pure helper function at module scope to avoid reallocation on render
 function formatPositioning(role: 'web' | 'mobile' | 'ai' | null, summaryPreset: string) {
   if (role === 'web' && summaryPreset === 'ops-data') return '운영/데이터 웹';
   if (role === 'web' && summaryPreset === 'web-rn') return '웹/모바일 공유 구조';
@@ -45,14 +46,161 @@ function formatProjectTitle(projectId: string, projectOptions: { id: string; tit
   return projectOptions.find((p) => p.id === projectId)?.title ?? projectId;
 }
 
+function LinkCard({
+  link,
+  projectOptions,
+  writesEnabled,
+}: {
+  link: DashboardLinksPanelProps['applicationLinks'][number];
+  projectOptions: { id: string; title: string }[];
+  writesEnabled: boolean;
+}) {
+  return (
+    <div className={styles.linkCard}>
+      <div className={styles.linkCardHeader}>
+        <div className={styles.linkCardSlugRow}>
+          <a
+            href={`/${link.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.linkCardSlug}
+          >
+            /{link.slug}
+          </a>
+          <span className={styles.linkCardBadge}>{formatPositioning(link.role, link.summaryPreset)}</span>
+        </div>
+        <strong className={styles.linkCardCompany}>{link.companyName}</strong>
+        <span className={styles.linkCardLabel}>{link.label}</span>
+      </div>
+
+      {link.projectIds.length > 0 && (
+        <div className={styles.linkCardProjects}>
+          <span className={styles.linkCardSectionLabel}>노출 프로젝트</span>
+          <ul className={styles.linkCardProjectList}>
+            {link.projectIds.map((pid, i) => (
+              <li key={pid}>
+                {i + 1}. {formatProjectTitle(pid, projectOptions)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className={styles.linkCardMetrics}>
+        <div className={styles.linkMetric}>
+          <span className={styles.linkMetricValue}>{link.sessions}</span>
+          <span className={styles.linkMetricLabel}>세션</span>
+        </div>
+        <div className={styles.linkMetric}>
+          <span className={styles.linkMetricValue}>{link.views}</span>
+          <span className={styles.linkMetricLabel}>조회</span>
+        </div>
+        <div className={styles.linkMetric}>
+          <span className={styles.linkMetricValue}>{link.avgDwellTime}초</span>
+          <span className={styles.linkMetricLabel}>평균 체류</span>
+        </div>
+        <div className={styles.linkMetric}>
+          <span className={styles.linkMetricValue}>{link.avgActiveTime}초</span>
+          <span className={styles.linkMetricLabel}>활성 시간</span>
+        </div>
+        <div className={styles.linkMetric}>
+          <div className={styles.linkMetricProgress}>
+            <div className={styles.progressBar}>
+              <div
+                className={`${styles.progressFill} ${styles.blue}`}
+                style={{ width: `${link.avgScrollDepth}%` }}
+              />
+            </div>
+            <span className={styles.linkMetricValue}>{link.avgScrollDepth}%</span>
+          </div>
+          <span className={styles.linkMetricLabel}>스크롤 깊이</span>
+        </div>
+        <div className={styles.linkMetric}>
+          <div className={styles.linkMetricProgress}>
+            <div className={styles.progressBar}>
+              <div
+                className={`${styles.progressFill} ${styles.green}`}
+                style={{ width: `${link.avgArticleProgress}%` }}
+              />
+            </div>
+            <span className={styles.linkMetricValue}>{link.avgArticleProgress}%</span>
+          </div>
+          <span className={styles.linkMetricLabel}>본문 진행</span>
+        </div>
+      </div>
+
+      {link.interactionLabels.length > 0 && (
+        <div className={styles.linkCardInteractions}>
+          <div className={styles.linkCardInteractionsHeader}>
+            <span className={styles.linkCardSectionLabel}>펼쳐본 아코디언</span>
+            <span className={styles.linkCardInteractionCount}>{link.interactionCount}회</span>
+          </div>
+          <ul className={styles.linkCardInteractionList}>
+            {link.interactionLabels.map((label) => (
+              <li key={label} className={styles.linkCardInteractionTag}>{label}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className={styles.linkCardFooter}>
+        <div className={styles.linkCardDates}>
+          {link.lastSeenAt && (
+            <span className={styles.linkCardDate}>
+              최근 방문: {formatDateTime(link.lastSeenAt)}
+            </span>
+          )}
+          <span className={styles.linkCardDate}>
+            만료: {formatDateTime(link.expiresAt)}
+          </span>
+        </div>
+        <div className={styles.linkCardActions}>
+          <a
+            href={`/print?slug=${link.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.printBtn}
+          >
+            인쇄
+          </a>
+          <form
+            action={deleteApplicationLink}
+            onSubmit={(e) => {
+              if (!writesEnabled) {
+                e.preventDefault();
+                return;
+              }
+              if (!confirm(`/${link.slug} 링크를 삭제할까요?`)) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <input type="hidden" name="linkId" value={link.id} />
+            <button
+              type="submit"
+              className={styles.dangerBtn}
+              disabled={!writesEnabled}
+              title={
+                writesEnabled
+                  ? undefined
+                  : 'develop 환경에서는 production 데이터 보호를 위해 삭제가 비활성화됩니다.'
+              }
+            >
+              삭제
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function DashboardLinksPanel({
   applicationLinks,
   applicationProjectOptions,
   writesDisabledReason,
   writesEnabled,
 }: DashboardLinksPanelProps) {
-
-
   return (
     <div className={styles.dashboardPanel} role="tabpanel">
       <section
@@ -92,117 +240,21 @@ export function DashboardLinksPanel({
             </div>
             <div className={styles.rangeBadge}>{applicationLinks.length}개 활성 링크</div>
           </div>
-          <div className={`${styles.tableScroll} ${styles.applicationTable}`}>
-            <table>
-              <thead>
-                <tr>
-                  <th>링크</th>
-                  <th>회사</th>
-                  <th>설정</th>
-                  <th className={styles.num}>세션</th>
-                  <th className={styles.num}>조회</th>
-                  <th className={styles.num}>평균 체류</th>
-                  <th className={styles.num}>활성</th>
-                  <th className={styles.num}>본문</th>
-                  <th>최근 방문</th>
-                  <th>만료</th>
-                  <th className={styles.actionCell}>관리</th>
-                </tr>
-              </thead>
-              <tbody>
-                {applicationLinks.length === 0 ? (
-                  <tr>
-                    <td colSpan={11} className={styles.emptyTableCell}>
-                      아직 생성된 지원 링크가 없습니다.
-                    </td>
-                  </tr>
-                ) : (
-                  applicationLinks.map((link) => (
-                    <tr key={link.id}>
-                      <td className={styles.pathCell}>
-                        <a href={`/${link.slug}`} target="_blank" rel="noopener noreferrer">
-                          /{link.slug}
-                        </a>
-                      </td>
-                      <td>
-                        <strong>{link.companyName}</strong>
-                        <div className={styles.mutedText}>{link.label}</div>
-                      </td>
-                      <td>
-                        <dl className={styles.linkConfigList}>
-                          <div>
-                            <dt>포지셔닝</dt>
-                            <dd>{formatPositioning(link.role, link.summaryPreset)}</dd>
-                          </div>
-                          <div>
-                            <dt>프로젝트</dt>
-                            <dd>
-                              {link.projectIds.length > 0 ? (
-                                <ol className={styles.projectOrderList}>
-                                  {link.projectIds.map((projectId, index) => (
-                                    <li key={projectId}>
-                                      {index + 1}. {formatProjectTitle(projectId, applicationProjectOptions)}
-                                    </li>
-                                  ))}
-                                </ol>
-                              ) : (
-                                '지정 없음'
-                              )}
-                            </dd>
-                          </div>
-                        </dl>
-                      </td>
-                      <td className={styles.num}>{link.sessions}</td>
-                      <td className={styles.num}>{link.views}</td>
-                      <td className={styles.num}>{link.avgDwellTime}초</td>
-                      <td className={styles.num}>{link.avgActiveTime}초</td>
-                      <td className={styles.num}>{link.avgArticleProgress}%</td>
-                      <td>{formatDateTime(link.lastSeenAt)}</td>
-                      <td>{formatDateTime(link.expiresAt)}</td>
-                      <td className={styles.actionCell}>
-                        <div style={{ display: 'inline-flex', gap: '0.35rem', alignItems: 'center' }}>
-                          <a
-                            href={`/print?slug=${link.slug}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={styles.printBtn}
-                          >
-                            인쇄
-                          </a>
-                          <form
-                            action={deleteApplicationLink}
-                            onSubmit={(e) => {
-                              if (!writesEnabled) {
-                                e.preventDefault();
-                                return;
-                              }
-                              if (!confirm(`/${link.slug} 링크를 삭제할까요?`)) {
-                                e.preventDefault();
-                              }
-                            }}
-                          >
-                            <input type="hidden" name="linkId" value={link.id} />
-                            <button
-                              type="submit"
-                              className={styles.dangerBtn}
-                              disabled={!writesEnabled}
-                              title={
-                                writesEnabled
-                                  ? undefined
-                                  : 'develop 환경에서는 production 데이터 보호를 위해 삭제가 비활성화됩니다.'
-                              }
-                            >
-                              삭제
-                            </button>
-                          </form>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+
+          {applicationLinks.length === 0 ? (
+            <div className={styles.emptyState}>아직 생성된 지원 링크가 없습니다.</div>
+          ) : (
+            <div className={styles.linkCardGrid}>
+              {applicationLinks.map((link) => (
+                <LinkCard
+                  key={link.id}
+                  link={link}
+                  projectOptions={applicationProjectOptions}
+                  writesEnabled={writesEnabled}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>
