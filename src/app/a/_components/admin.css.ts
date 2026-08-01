@@ -573,7 +573,7 @@ export const rangeTabs = style({
   padding: '0.25rem',
 });
 
-globalStyle(`${rangeTabs} a`, {
+globalStyle(`${rangeTabs} a, ${rangeTabs} button`, {
   borderRadius: '999px',
   color: 'var(--color-sub)',
   fontSize: '0.8rem',
@@ -583,14 +583,18 @@ globalStyle(`${rangeTabs} a`, {
   textDecoration: 'none',
   transition: 'background 0.2s ease, color 0.2s ease',
   whiteSpace: 'nowrap',
+  background: 'transparent',
+  border: 0,
+  cursor: 'pointer',
+  font: 'inherit',
 });
 
-globalStyle(`${rangeTabs} a.${active}`, {
+globalStyle(`${rangeTabs} a.${active}, ${rangeTabs} button.${active}`, {
   background: 'var(--color-primary)',
   color: 'var(--color-basic-bg)',
 });
 
-globalStyle(`${rangeTabs} a:hover:not(.${active})`, {
+globalStyle(`${rangeTabs} a:hover:not(.${active}), ${rangeTabs} button:hover:not(.${active})`, {
   background: 'var(--color-surface-hover)',
   color: 'var(--color-bold)',
 });
@@ -1443,4 +1447,163 @@ export const timelineInteractionLabel = style({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
+});
+
+export const timelineNavArrow = style({
+  alignItems: 'center',
+  display: 'flex',
+  gap: '0.3rem',
+  marginBottom: '0.1rem',
+});
+
+export const timelineNavFrom = style({
+  color: 'var(--color-sub)',
+  fontSize: '0.7rem',
+  fontWeight: 500,
+  maxWidth: '180px',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
+export const timelineNavSymbol = style({
+  color: 'var(--color-primary)',
+  fontSize: '0.75rem',
+  fontWeight: 700,
+});
+
+/* Session filters */
+
+export const sessionFilters = style({
+  alignItems: 'center',
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '1rem',
+  marginBottom: '1rem',
+});
+
+export const filterGroup = style({
+  alignItems: 'center',
+  display: 'flex',
+  gap: '0.5rem',
+});
+
+export const filterLabel = style({
+  color: 'var(--color-sub)',
+  fontSize: '0.78rem',
+  fontWeight: 700,
+  whiteSpace: 'nowrap',
+});
+
+export const filterTabs = style({
+  background: 'var(--color-code-bg)',
+  border: '0.5px solid var(--color-bg-divider)',
+  borderRadius: '999px',
+  display: 'inline-flex',
+  gap: '0.15rem',
+  padding: '0.2rem',
+});
+
+globalStyle(`${filterTabs} button`, {
+  background: 'transparent',
+  border: 0,
+  borderRadius: '999px',
+  color: 'var(--color-sub)',
+  cursor: 'pointer',
+  font: 'inherit',
+  fontSize: '0.76rem',
+  fontWeight: 600,
+  lineHeight: 1,
+  padding: '0.35rem 0.65rem',
+  transition: 'background 0.2s ease, color 0.2s ease',
+  whiteSpace: 'nowrap',
+});
+
+globalStyle(`${filterTabs} button:hover:not(.${active})`, {
+  background: 'var(--color-surface-hover)',
+  color: 'var(--color-bold)',
+});
+
+globalStyle(`${filterTabs} button.${active}`, {
+  background: 'var(--color-primary)',
+  color: 'var(--color-basic-bg)',
+});
+
+/* Link cell in sessions table */
+
+export const linkCell = style({
+  color: 'var(--color-primary)',
+  fontSize: '0.82rem',
+  fontWeight: 600,
+  textDecoration: 'none',
+
+  ':hover': {
+    textDecoration: 'underline',
+  },
+});
+
+export const mutedCell = style({
+  color: 'var(--color-sub)',
+  opacity: 0.5,
+});
+
+/* Compact link list */
+
+export const linkTable = style({
+  width: '100%',
+});
+
+globalStyle(`${linkTable} th`, {
+  borderBottom: '1.5px solid var(--color-bg-divider)',
+  color: 'var(--color-sub)',
+  fontWeight: 600,
+  fontSize: '0.82rem',
+  padding: '0.6rem 0.75rem',
+  textAlign: 'left',
+  whiteSpace: 'nowrap',
+});
+
+globalStyle(`${linkTable} td`, {
+  borderBottom: '0.5px solid var(--color-bg-subdivider)',
+  fontSize: '0.85rem',
+  padding: '0.6rem 0.75rem',
+});
+
+globalStyle(`${linkTable} tbody tr:hover`, {
+  background: 'var(--color-surface-hover)',
+});
+
+export const linkSlugCell = style({
+  fontWeight: 600,
+  color: 'var(--color-primary)',
+});
+
+export const linkCompanyCell = style({
+  fontWeight: 600,
+  color: 'var(--color-bold)',
+});
+
+export const linkProjectCell = style({
+  fontSize: '0.78rem',
+  color: 'var(--color-sub)',
+  maxWidth: '280px',
+  lineHeight: 1.45,
+  wordBreak: 'keep-all',
+
+  '@media': {
+    '(max-width: 768px)': {
+      maxWidth: '180px',
+      fontSize: '0.73rem',
+    },
+  },
+});
+
+export const timelineTotal = style({
+  borderTop: '0.5px solid var(--color-bg-divider)',
+  color: 'var(--color-sub)',
+  fontSize: '0.78rem',
+  fontWeight: 600,
+  marginTop: '0.6rem',
+  paddingTop: '0.6rem',
+  paddingLeft: '1.3rem',
 });

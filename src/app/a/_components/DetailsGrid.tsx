@@ -143,7 +143,7 @@ export function DetailsGrid({
         </div>
 
         <div className={`${styles.subSection} ${styles.spacerTop}`}>
-          <h3>Core Web Vitals</h3>
+          <h3>코어 웹 바이탈</h3>
           {webVitals.length === 0 ? (
             <div className={styles.emptyState}>기록된 Web Vitals 샘플이 없습니다.</div>
           ) : (
@@ -157,7 +157,7 @@ export function DetailsGrid({
                     </span>
                   </div>
                   <div className={styles.mutedText}>
-                    good {metric.good} · needs {metric.needsImprovement} · poor{' '}
+                    좋음 {metric.good} · 개선 필요 {metric.needsImprovement} · 나쁨{' '}
                     {metric.poor}
                   </div>
                 </li>

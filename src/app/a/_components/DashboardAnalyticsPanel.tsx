@@ -1,12 +1,11 @@
 'use client';
 
 import Select from '@/components/ui/Select';
-import type { RecentInteraction, RecentSession, SessionDetail } from '@/lib/server/admin/dashboardData';
+import type { SessionRow, SessionDetail } from '@/lib/server/admin/dashboardData';
 
 import * as styles from './admin.css';
 import { DetailsGrid } from './DetailsGrid';
-import { InteractionEventsPanel } from './InteractionEventsPanel';
-import { RecentSessionsTable } from './RecentSessionsTable';
+import { SessionsTable } from './SessionsTable';
 import { StatsGrid } from './StatsGrid';
 import { TrendChart } from './TrendChart';
 
@@ -59,9 +58,11 @@ interface DashboardAnalyticsPanelProps {
     poor: number;
     samples: number;
   }[];
-  recentSessions: RecentSession[];
-  recentInteractions: RecentInteraction[];
+  sessions: SessionRow[];
+  totalSessionCount: number;
   sessionDetails: Record<string, SessionDetail>;
+  classification?: 'bot' | 'suspected' | 'human';
+  timeRange?: '7d' | '30d' | 'all';
 }
 
 export function DashboardAnalyticsPanel({
@@ -75,9 +76,11 @@ export function DashboardAnalyticsPanel({
   topReferrers,
   topCountries,
   webVitals,
-  recentSessions,
-  recentInteractions,
+  sessions,
+  totalSessionCount,
   sessionDetails,
+  classification,
+  timeRange,
 }: DashboardAnalyticsPanelProps) {
   const filterOptions = [
     { value: '', label: '전체 방문' },
@@ -141,9 +144,13 @@ export function DashboardAnalyticsPanel({
         webVitals={webVitals}
       />
 
-      <RecentSessionsTable recentSessions={recentSessions} sessionDetails={sessionDetails} />
-
-      <InteractionEventsPanel recentInteractions={recentInteractions} />
+      <SessionsTable
+        sessions={sessions}
+        totalCount={totalSessionCount}
+        sessionDetails={sessionDetails}
+        classification={classification}
+        timeRange={timeRange}
+      />
     </div>
   );
 }

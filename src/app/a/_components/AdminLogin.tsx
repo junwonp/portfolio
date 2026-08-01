@@ -28,7 +28,7 @@ export function AdminLogin({ isLocal, error }: AdminLoginProps) {
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginCard}>
-        <h2>Admin Area</h2>
+        <h2>관리자 로그인</h2>
 
         {isLocal ? (
           <>

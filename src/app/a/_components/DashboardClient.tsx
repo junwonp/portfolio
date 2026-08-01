@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import type { RecentInteraction, RecentSession, SessionDetail } from '@/lib/server/admin/dashboardData';
+import type { SessionRow, SessionDetail } from '@/lib/server/admin/dashboardData';
 
 import * as styles from './admin.css';
 import { DashboardAnalyticsPanel } from './DashboardAnalyticsPanel';
@@ -83,9 +83,11 @@ interface DashboardClientProps {
     samples: number;
   }[];
   initialTab: 'analytics' | 'links';
-  recentSessions: RecentSession[];
-  recentInteractions: RecentInteraction[];
+  sessions: SessionRow[];
+  totalSessionCount: number;
   sessionDetails: Record<string, SessionDetail>;
+  classification?: 'bot' | 'suspected' | 'human';
+  timeRange?: '7d' | '30d' | 'all';
   writesDisabledReason: string | null;
   writesEnabled: boolean;
 }
@@ -104,9 +106,11 @@ export function DashboardClient({
   trafficSummary,
   webVitals,
   initialTab,
-  recentSessions,
-  recentInteractions,
+  sessions,
+  totalSessionCount,
   sessionDetails,
+  classification,
+  timeRange,
   writesDisabledReason,
   writesEnabled,
 }: DashboardClientProps) {
@@ -169,9 +173,11 @@ export function DashboardClient({
             topReferrers={topReferrers}
             topCountries={topCountries}
             webVitals={webVitals}
-            recentSessions={recentSessions}
-            recentInteractions={recentInteractions}
+            sessions={sessions}
+            totalSessionCount={totalSessionCount}
             sessionDetails={sessionDetails}
+            classification={classification}
+            timeRange={timeRange}
           />
         ) : (
           <DashboardLinksPanel

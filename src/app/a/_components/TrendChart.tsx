@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import * as styles from './admin.css';
+import { FilterTabs } from './FilterTabs';
 
 interface TrendChartProps {
   trafficRange: {
@@ -27,6 +29,7 @@ export function TrendChart({
   dailyChart,
   selectedApplicationLinkId,
 }: TrendChartProps) {
+  const router = useRouter();
   const [activeDot, setActiveDot] = useState<{
     x: number;
     ySessions: number;
@@ -88,11 +91,14 @@ export function TrendChart({
     return date.slice(5);
   }
 
-  function getRangeHref(value: string) {
+  function navigateRange(value: string) {
+    const params = new URLSearchParams();
+    params.set('range', value);
+    params.set('tab', 'analytics');
     if (selectedApplicationLinkId) {
-      return `/a?range=${value}&linkId=${encodeURIComponent(selectedApplicationLinkId)}&tab=analytics`;
+      params.set('linkId', selectedApplicationLinkId);
     }
-    return `/a?range=${value}&tab=analytics`;
+    router.push(`/a?${params.toString()}`, { scroll: false });
   }
 
   return (
@@ -117,21 +123,15 @@ export function TrendChart({
           </div>
         </div>
         <div className={styles.chartActions}>
-          <div className={styles.rangeTabs} aria-label="트래픽 기간 선택">
-            {[
+          <FilterTabs
+            options={[
               { label: '7일', value: '7d' },
               { label: '30일', value: '30d' },
               { label: '1년', value: '1y' },
-            ].map((opt) => (
-              <a
-                key={opt.value}
-                className={trafficRange.value === opt.value ? styles.active : ''}
-                href={getRangeHref(opt.value)}
-              >
-                {opt.label}
-              </a>
-            ))}
-          </div>
+            ]}
+            selected={trafficRange.value}
+            onChange={navigateRange}
+          />
           <div className={styles.rangeBadge}>
             {trafficSummary.activeDays}
             {trafficRange.bucket === 'month' ? '개월' : '일'} 활성

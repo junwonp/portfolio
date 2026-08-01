@@ -65,7 +65,9 @@ describe('getAdminDashboardData', () => {
         rangeViews: 0,
       },
       webVitals: [],
-      recentSessions: [],
+      sessions: [],
+      totalSessionCount: 0,
+      sessionFilters: { limit: 50, offset: 0 },
       writesDisabledReason:
         'D1 analytics schema가 아직 준비되지 않아 링크 생성과 삭제가 비활성화됩니다.',
       writesEnabled: false,

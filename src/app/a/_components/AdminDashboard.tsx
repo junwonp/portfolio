@@ -3,6 +3,7 @@ import type { AdminDashboardSearchParams } from '@/lib/server/admin/dashboardDat
 import { getAdminDashboardData } from '@/lib/server/admin/dashboardData';
 import { isAdminWriteEnabledForCurrentRuntime } from '@/lib/server/admin/request';
 import { getDb } from '@/lib/server/infrastructure/database';
+import { seedDummySessions } from '@/lib/server/admin/seedDummyData';
 
 import { DashboardClient } from './DashboardClient';
 
@@ -33,5 +34,19 @@ export async function AdminDashboard({
     writesEnabled,
   });
 
-  return <DashboardClient {...dashboardData} />;
+  // Seed dummy data when ?seed=1 is present (after schema is ensured)
+  const shouldSeed = searchParams.seed === '1';
+  if (shouldSeed && db && writesEnabled) {
+    await seedDummySessions(db).catch(() => {
+      // Silently ignore seed errors
+    });
+  }
+
+  return (
+    <DashboardClient
+      {...dashboardData}
+      classification={dashboardData.sessionFilters.classification}
+      timeRange={dashboardData.sessionFilters.timeRange}
+    />
+  );
 }

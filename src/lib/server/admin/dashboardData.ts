@@ -30,7 +30,7 @@ export interface ApplicationFilterOption {
   slug: string;
 }
 
-export interface RecentSession {
+export interface SessionRow {
   createdAt: string;
   id: string;
   ipAddress: string;
@@ -39,6 +39,8 @@ export interface RecentSession {
   referrer: string;
   userAgent: string;
   classification: 'bot' | 'suspected' | 'human';
+  applicationLinkSlug: string | null;
+  applicationLinkLabel: string | null;
 }
 
 export interface RecentInteraction {
@@ -59,9 +61,18 @@ export interface SessionDetail {
     createdAt: string;
     dwellTime: number;
     path: string;
+    previousPath: string | null;
     scrollDepth: number;
     sectionLabel: string | null;
   }[];
+}
+
+export interface GetSessionsParams {
+  classification?: 'bot' | 'suspected' | 'human';
+  timeRange?: '7d' | '30d' | 'all';
+  linkId?: number;
+  limit: number;
+  offset: number;
 }
 
 export interface AdminDashboardData {
@@ -99,9 +110,10 @@ export interface AdminDashboardData {
     poor: number;
     samples: number;
   }[];
-  recentSessions: RecentSession[];
-  recentInteractions: RecentInteraction[];
+  sessions: SessionRow[];
+  totalSessionCount: number;
   sessionDetails: Record<string, SessionDetail>;
+  sessionFilters: GetSessionsParams;
   writesDisabledReason: string | null;
   writesEnabled: boolean;
 }
@@ -195,9 +207,10 @@ const createEmptyAdminDashboardData = ({
     trafficRange,
     trafficSummary: summarizeDailyChart(dailyChart),
     webVitals: [],
-    recentSessions: [],
-    recentInteractions: [],
+    sessions: [],
+    totalSessionCount: 0,
     sessionDetails: {},
+    sessionFilters: { limit: 50, offset: 0 },
     writesDisabledReason,
     writesEnabled,
   };
@@ -208,7 +221,7 @@ const getApplicationFilterOptions = async (db: D1Database): Promise<ApplicationF
     .prepare(
       `SELECT id, slug, label, company_name
        FROM application_links
-       WHERE expires_at > datetime('now')
+       WHERE expires_at > datetime('now') AND deleted_at IS NULL
        ORDER BY created_at DESC
        LIMIT ?`,
     )
@@ -556,7 +569,7 @@ const getApplicationLinks = async (db: D1Database): Promise<ApplicationLinkStats
          JOIN analytics_interactions ai ON ai.session_id = alv.session_id
          GROUP BY alv.application_link_id
        ) interactions ON interactions.application_link_id = links.id
-       WHERE links.expires_at > datetime('now')
+       WHERE links.expires_at > datetime('now') AND links.deleted_at IS NULL
        GROUP BY links.id
        ORDER BY links.created_at DESC
        LIMIT ?`,
@@ -611,7 +624,30 @@ const classifySession = (
   return 'human';
 };
 
-const getRecentSessions = async (db: D1Database): Promise<RecentSession[]> => {
+const getSessions = async (
+  db: D1Database,
+  params: GetSessionsParams,
+): Promise<{ sessions: SessionRow[]; total: number }> => {
+  const conditions: string[] = ['s.is_admin = 0'];
+  const binds: unknown[] = [];
+
+  // Time range filter
+  if (params.timeRange && params.timeRange !== 'all') {
+    const days = params.timeRange === '7d' ? 7 : 30;
+    conditions.push(`s.created_at >= datetime('now', '-${days} days')`);
+  }
+
+  // Application link filter
+  let linkJoin = '';
+  if (params.linkId) {
+    linkJoin = 'JOIN application_link_visits alv ON alv.session_id = s.id';
+    conditions.push('alv.application_link_id = ?');
+    binds.push(params.linkId);
+  }
+
+  const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
+  // Fetch sessions with aggregates and link info
   const result = await db
     .prepare(
       `SELECT
@@ -623,14 +659,20 @@ const getRecentSessions = async (db: D1Database): Promise<RecentSession[]> => {
         s.created_at as createdAt,
         COUNT(p.id) as pageViewsCount,
         SUM(COALESCE(p.dwell_time, 0)) as totalDwellTime,
-        SUM(COALESCE(p.scroll_depth, 0)) as totalScrollDepth
+        SUM(COALESCE(p.scroll_depth, 0)) as totalScrollDepth,
+        al.slug as applicationLinkSlug,
+        al.label as applicationLinkLabel
        FROM user_sessions s
        LEFT JOIN page_views p ON p.session_id = s.id
-       WHERE s.is_admin = 0
+       LEFT JOIN application_link_visits alv_link ON alv_link.session_id = s.id
+       LEFT JOIN application_links al ON al.id = alv_link.application_link_id AND al.deleted_at IS NULL
+       ${linkJoin}
+       ${whereClause}
        GROUP BY s.id, s.ip_address, s.ip_country, s.user_agent, s.referrer, s.created_at
        ORDER BY s.created_at DESC
-       LIMIT 30`,
+       LIMIT ? OFFSET ?`,
     )
+    .bind(...binds, params.limit, params.offset)
     .all<{
       createdAt: string;
       id: string;
@@ -641,63 +683,91 @@ const getRecentSessions = async (db: D1Database): Promise<RecentSession[]> => {
       userAgent: string;
       totalDwellTime: number;
       totalScrollDepth: number;
+      applicationLinkSlug: string | null;
+      applicationLinkLabel: string | null;
     }>();
 
-  return result.results.map((row) => ({
-    id: row.id,
-    ipAddress: row.ipAddress,
-    ipCountry: row.ipCountry,
-    userAgent: row.userAgent,
-    referrer: row.referrer,
-    createdAt: row.createdAt,
-    pageViewsCount: row.pageViewsCount,
-    classification: classifySession(
+  // Count total (without LIMIT/OFFSET) for pagination
+  const countResult = await db
+    .prepare(
+      `SELECT COUNT(*) as total
+       FROM user_sessions s
+       ${linkJoin}
+       ${whereClause}`,
+    )
+    .bind(...binds)
+    .first<{ total: number }>();
+
+  const sessions = result.results.map((row) => {
+    const classification = classifySession(
       row.userAgent,
       row.totalDwellTime,
       row.totalScrollDepth,
       row.pageViewsCount,
-    ),
-  }));
-};
+    );
 
-const getRecentInteractions = async (db: D1Database): Promise<RecentInteraction[]> => {
-  const result = await db
-    .prepare(
-      `SELECT
-        ai.id,
-        ai.session_id as sessionId,
-        ai.path,
-        ai.interaction_type as interactionType,
-        ai.interaction_label as interactionLabel,
-        ai.action,
-        ai.created_at as createdAt
-       FROM analytics_interactions ai
-       JOIN user_sessions us ON us.id = ai.session_id
-       WHERE us.is_admin = 0
-       ORDER BY ai.created_at DESC
-       LIMIT 50`,
-    )
-    .all<{
-      id: number;
-      sessionId: string;
-      path: string;
-      interactionType: string;
-      interactionLabel: string;
-      action: 'open' | 'close';
-      createdAt: string;
-    }>();
+    // Filter by classification in JS
+    return {
+      id: row.id,
+      ipAddress: row.ipAddress,
+      ipCountry: row.ipCountry,
+      userAgent: row.userAgent,
+      referrer: row.referrer,
+      createdAt: row.createdAt,
+      pageViewsCount: row.pageViewsCount,
+      applicationLinkSlug: row.applicationLinkSlug,
+      applicationLinkLabel: row.applicationLinkLabel,
+      classification,
+    };
+  });
 
-  return result.results;
+  // Apply classification filter in JS (since classification is computed, not stored)
+  const filtered = params.classification
+    ? sessions.filter((s) => s.classification === params.classification)
+    : sessions;
+
+  // Recompute total after classification filter
+  let total = countResult?.total ?? filtered.length;
+  if (params.classification) {
+    // Fetch all without limit to count by classification
+    const allResult = await db
+      .prepare(
+        `SELECT
+          s.user_agent as userAgent,
+          COUNT(p.id) as pageViewsCount,
+          SUM(COALESCE(p.dwell_time, 0)) as totalDwellTime,
+          SUM(COALESCE(p.scroll_depth, 0)) as totalScrollDepth
+         FROM user_sessions s
+         LEFT JOIN page_views p ON p.session_id = s.id
+         ${linkJoin}
+         ${whereClause}
+         GROUP BY s.id`,
+      )
+      .bind(...binds)
+      .all<{
+        userAgent: string;
+        pageViewsCount: number;
+        totalDwellTime: number;
+        totalScrollDepth: number;
+      }>();
+
+    total = allResult.results.filter(
+      (row) =>
+        classifySession(row.userAgent, row.totalDwellTime, row.totalScrollDepth, row.pageViewsCount) ===
+        params.classification,
+    ).length;
+  }
+
+  return { sessions: filtered, total };
 };
 
 const getSessionDetails = async (
   db: D1Database,
-  recentSessions: RecentSession[],
-  recentInteractions: RecentInteraction[],
+  sessions: SessionRow[],
 ): Promise<Record<string, SessionDetail>> => {
-  if (recentSessions.length === 0) return {};
+  if (sessions.length === 0) return {};
 
-  const sessionIds = recentSessions.map((s) => s.id);
+  const sessionIds = sessions.map((s) => s.id);
   const placeholders = sessionIds.map(() => '?').join(',');
   const detailMap: Record<string, SessionDetail> = {};
 
@@ -705,7 +775,7 @@ const getSessionDetails = async (
     detailMap[id] = { pageViews: [], interactions: [] };
   }
 
-  // Fetch page views for recent sessions
+  // Fetch page views for sessions
   const pageViewResult = await db
     .prepare(
       `SELECT
@@ -716,6 +786,7 @@ const getSessionDetails = async (
         article_progress as articleProgress,
         COALESCE(active_time, dwell_time, 0) as activeTime,
         max_visible_section_label as sectionLabel,
+        previous_path as previousPath,
         created_at as createdAt
        FROM page_views
        WHERE session_id IN (${placeholders})
@@ -730,6 +801,7 @@ const getSessionDetails = async (
       articleProgress: number;
       activeTime: number;
       sectionLabel: string | null;
+      previousPath: string | null;
       createdAt: string;
     }>();
 
@@ -737,9 +809,34 @@ const getSessionDetails = async (
     detailMap[row.sessionId]?.pageViews.push(row);
   }
 
-  // Assign interactions to session details
-  for (const interaction of recentInteractions) {
-    detailMap[interaction.sessionId]?.interactions.push(interaction);
+  // Fetch interactions for sessions directly
+  const interactionResult = await db
+    .prepare(
+      `SELECT
+        id,
+        session_id as sessionId,
+        path,
+        interaction_type as interactionType,
+        interaction_label as interactionLabel,
+        action,
+        created_at as createdAt
+       FROM analytics_interactions
+       WHERE session_id IN (${placeholders})
+       ORDER BY created_at ASC`,
+    )
+    .bind(...sessionIds)
+    .all<{
+      id: number;
+      sessionId: string;
+      path: string;
+      interactionType: string;
+      interactionLabel: string;
+      action: 'open' | 'close';
+      createdAt: string;
+    }>();
+
+  for (const row of interactionResult.results) {
+    detailMap[row.sessionId]?.interactions.push(row);
   }
 
   return detailMap;
@@ -784,7 +881,15 @@ export const getAdminDashboardData = async ({
       today,
       trafficRange,
     };
-    const [stats, dailyChart, topPages, topReferrers, topCountries, applicationLinks, webVitals, recentSessions, recentInteractions] =
+    // Parse session filter params from URL
+    const sessionFilters: GetSessionsParams = {
+      classification: (getFirstSearchParam(searchParams, 'classification') as GetSessionsParams['classification']) ?? undefined,
+      timeRange: (getFirstSearchParam(searchParams, 'timeRange') as GetSessionsParams['timeRange']) ?? undefined,
+      limit: 50,
+      offset: 0,
+    };
+
+    const [stats, dailyChart, topPages, topReferrers, topCountries, applicationLinks, webVitals, sessionsResult] =
       await Promise.all([
         getStats(context),
         getDailyChart(context),
@@ -793,11 +898,10 @@ export const getAdminDashboardData = async ({
         getTopCountries(context),
         getApplicationLinks(db),
         getWebVitals(context),
-        getRecentSessions(db),
-        getRecentInteractions(db),
+        getSessions(db, sessionFilters),
       ]);
 
-    const sessionDetails = await getSessionDetails(db, recentSessions, recentInteractions);
+    const sessionDetails = await getSessionDetails(db, sessionsResult.sessions);
 
     return {
       applicationFilterOptions,
@@ -813,9 +917,10 @@ export const getAdminDashboardData = async ({
       trafficRange,
       trafficSummary: summarizeDailyChart(dailyChart),
       webVitals,
-      recentSessions,
-      recentInteractions,
+      sessions: sessionsResult.sessions,
+      totalSessionCount: sessionsResult.total,
       sessionDetails,
+      sessionFilters,
       writesDisabledReason: writesEnabled ? null : RUNTIME_WRITES_DISABLED_REASON,
       writesEnabled,
     };

@@ -89,10 +89,10 @@ export async function deleteApplicationLink(formData: FormData) {
   const { getDb } = await import('@/lib/server/infrastructure/database');
   const db = getDb();
   if (!db) return;
-  await db.batch([
-    db.prepare('DELETE FROM application_link_visits WHERE application_link_id = ?').bind(id),
-    db.prepare('DELETE FROM application_links WHERE id = ?').bind(id),
-  ]);
+  await db
+    .prepare('UPDATE application_links SET deleted_at = datetime(\'now\') WHERE id = ? AND deleted_at IS NULL')
+    .bind(id)
+    .run();
 
   const { revalidatePath } = await import('next/cache');
   revalidatePath('/a');
@@ -203,5 +203,5 @@ export async function createApplicationLink(formData: FormData): Promise<void> {
     return;
   }
 
-  redirect('/a');
+  redirect('/a?tab=links');
 }
