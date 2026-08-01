@@ -14,6 +14,7 @@ export interface AnalyticsPayload {
   maxVisibleSectionLabel?: string;
   pageViewId?: string;
   path?: string;
+  previousPath?: string;
   referrer: string;
   scrollDepth: number;
   sessionId: string;
@@ -220,6 +221,7 @@ export const parseAnalyticsPayloadBody = (rawBody: unknown): AnalyticsPayloadBod
     ),
     pageViewId: getOptionalString(body.pageViewId, MAX_PAGE_VIEW_ID_LENGTH),
     path,
+    previousPath: getOptionalPath(body.previousPath),
     referrer,
     scrollDepth: getClampedInteger(body.scrollDepth, 0, 100),
     sessionId,

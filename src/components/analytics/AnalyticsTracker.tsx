@@ -135,6 +135,7 @@ export default function AnalyticsTracker() {
         maxVisibleSectionLabel: reachedSection?.label,
         pageViewId: pageViewIdRef.current,
         path,
+        previousPath: prevPathnameRef.current || undefined,
         scrollDepth: maxScrollDepthRef.current,
       },
       currentSessionId,

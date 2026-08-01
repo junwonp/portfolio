@@ -25,6 +25,7 @@ export interface ApplicationLink {
 export interface ApplicationLinkRow {
   company_name: string;
   created_at: string;
+  deleted_at: string | null;
   expires_at: string;
   id: number;
   label: string;

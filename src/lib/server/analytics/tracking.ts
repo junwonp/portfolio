@@ -32,7 +32,7 @@ export const recordAnalyticsPayload = async ({
       .prepare(
         `SELECT id
          FROM application_links
-         WHERE slug = ? AND expires_at > datetime('now')
+         WHERE slug = ? AND expires_at > datetime('now') AND deleted_at IS NULL
          LIMIT 1`,
       )
       .bind(payload.applicationSlug)
@@ -108,9 +108,10 @@ export const recordAnalyticsPayload = async ({
           article_progress,
           max_visible_section_id,
           max_visible_section_label,
-          last_seen_at
+          last_seen_at,
+          previous_path
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)
         ON CONFLICT(client_page_view_id) DO UPDATE SET
           dwell_time = MAX(COALESCE(page_views.dwell_time, 0), excluded.dwell_time),
           scroll_depth = MAX(COALESCE(page_views.scroll_depth, 0), excluded.scroll_depth),
@@ -126,6 +127,7 @@ export const recordAnalyticsPayload = async ({
             THEN COALESCE(excluded.max_visible_section_label, page_views.max_visible_section_label)
             ELSE page_views.max_visible_section_label
           END,
+          previous_path = COALESCE(excluded.previous_path, page_views.previous_path),
           last_seen_at = CURRENT_TIMESTAMP`,
       )
       .bind(
@@ -138,6 +140,7 @@ export const recordAnalyticsPayload = async ({
         payload.articleProgress,
         bindNullableText(payload.maxVisibleSectionId),
         bindNullableText(payload.maxVisibleSectionLabel),
+        bindNullableText(payload.previousPath),
       )
       .run();
   }

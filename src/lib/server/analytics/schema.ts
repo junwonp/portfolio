@@ -29,6 +29,11 @@ export const ensureAnalyticsStorageSchema = async (db: D1Database): Promise<void
   await addColumnIfMissing(db, 'ALTER TABLE page_views ADD COLUMN max_visible_section_id TEXT');
   await addColumnIfMissing(db, 'ALTER TABLE page_views ADD COLUMN max_visible_section_label TEXT');
   await addColumnIfMissing(db, 'ALTER TABLE page_views ADD COLUMN last_seen_at TIMESTAMP');
+  await addColumnIfMissing(db, 'ALTER TABLE page_views ADD COLUMN previous_path TEXT');
+  await addColumnIfMissing(
+    db,
+    'ALTER TABLE application_links ADD COLUMN deleted_at TIMESTAMP',
+  );
 
   await db
     .prepare(

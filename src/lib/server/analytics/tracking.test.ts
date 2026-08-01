@@ -14,6 +14,7 @@ class D1Mock {
     max_visible_section_id: string | null;
     max_visible_section_label: string | null;
     path: string;
+    previous_path: string | null;
     scroll_depth: number;
     session_id: string;
   }> = [];
@@ -79,6 +80,7 @@ class D1Mock {
               article_progress: Number(values[6]),
               max_visible_section_id: values[7] === null ? null : String(values[7]),
               max_visible_section_label: values[8] === null ? null : String(values[8]),
+              previous_path: values[9] === null ? null : String(values[9]),
             };
             const existingIndex = this.pageViews.findIndex(
               (pageView) =>
@@ -97,6 +99,7 @@ class D1Mock {
                 dwell_time: Math.max(current.dwell_time, nextPageView.dwell_time),
                 max_visible_section_id: nextPageView.max_visible_section_id,
                 max_visible_section_label: nextPageView.max_visible_section_label,
+                previous_path: nextPageView.previous_path ?? current.previous_path,
                 scroll_depth: Math.max(current.scroll_depth, nextPageView.scroll_depth),
               };
             }
@@ -171,6 +174,7 @@ describe('recordAnalyticsPayload', () => {
         max_visible_section_id: 'overview',
         max_visible_section_label: 'Overview',
         path: '/abcd',
+        previous_path: null,
         scroll_depth: 86,
         session_id: 'session-1',
       },
@@ -225,6 +229,46 @@ describe('recordAnalyticsPayload', () => {
       max_visible_section_label: 'Retrospective',
       scroll_depth: 92,
     });
+  });
+
+  it('records previous_path for page-to-page navigation', async () => {
+    const db = new D1Mock();
+    const payload: AnalyticsPayloadBody = {
+      activeTime: 20,
+      articleProgress: 50,
+      dwellTime: 25,
+      eventType: 'page',
+      isInitial: false,
+      pageViewId: 'page-view-nav',
+      path: '/projects/aira',
+      previousPath: '/',
+      referrer: 'direct',
+      scrollDepth: 60,
+      sessionId: 'session-nav',
+      userAgent: 'Vitest',
+    };
+
+    await recordAnalyticsPayload({
+      country: 'KR',
+      ipAddress: '1.2.3.4',
+      db: db as unknown as D1Database,
+      payload,
+    });
+
+    expect(db.pageViews).toEqual([
+      {
+        active_time: 20,
+        article_progress: 50,
+        client_page_view_id: 'page-view-nav',
+        dwell_time: 25,
+        max_visible_section_id: null,
+        max_visible_section_label: null,
+        path: '/projects/aira',
+        previous_path: '/',
+        scroll_depth: 60,
+        session_id: 'session-nav',
+      },
+    ]);
   });
 
   it('records web vital metrics using the same visitor session', async () => {
@@ -301,6 +345,7 @@ describe('recordAnalyticsPayload', () => {
         max_visible_section_id: null,
         max_visible_section_label: null,
         path: '/expired',
+        previous_path: null,
         scroll_depth: 10,
         session_id: 'session-2',
       },
