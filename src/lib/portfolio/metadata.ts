@@ -27,7 +27,7 @@ export const getHomeMetadata = (locale: Language): Metadata => {
   return {
     title: content.title,
     description: content.description,
-    authors: [{ name: 'Junwon Park' }],
+    authors: [{ name: content.authorName }],
     alternates: {
       canonical,
       languages: getLanguageAlternates('/'),
@@ -70,7 +70,8 @@ export const getProjectPageMetadata = ({
 
   const pathname = `/projects/${slug}`;
   const canonical = getAbsoluteUrl(pathname, locale);
-  const title = `${rawMetadata.title || slug} | Project`;
+  const content = metadataMap[locale];
+  const title = `${rawMetadata.title || slug} | ${content.projectTitleSuffix}`;
   const description = rawMetadata.description || '';
 
   return {

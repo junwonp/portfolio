@@ -7,13 +7,13 @@ const RESUME_URL = 'https://resume.junwon.dev';
 
 export const metadata: Metadata = {
   title: '박준원 이력서',
-  description: 'Frontend Engineer Junwon Park printable resume.',
+  description: '프론트엔드 개발자 박준원의 인쇄용 이력서입니다.',
   alternates: {
     canonical: RESUME_URL,
   },
   openGraph: {
     title: '박준원 이력서',
-    description: 'Frontend Engineer Junwon Park printable resume.',
+    description: '프론트엔드 개발자 박준원의 인쇄용 이력서입니다.',
     type: 'profile',
     url: RESUME_URL,
   },

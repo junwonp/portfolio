@@ -35,3 +35,11 @@ export const metricLabel = style({
   lineHeight: 1.3,
   margin: 0,
 });
+
+export const metricDesc = style({
+  color: 'var(--color-sub)',
+  opacity: 0.7,
+  fontSize: '0.7rem',
+  lineHeight: 1.3,
+  margin: 0,
+});

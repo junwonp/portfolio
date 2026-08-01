@@ -5,11 +5,25 @@ import { notFound } from 'next/navigation';
 import { PortfolioClientShell } from '@/app/(portfolio)/_components/PortfolioClientShell';
 import { PORTFOLIO_URL } from '@/config/site';
 import { isValidLanguage } from '@/lib/utils/language';
+import { metadataMap } from '@/lib/utils/metadata';
 
-export const metadata: Metadata = {
-  metadataBase: new URL(PORTFOLIO_URL),
-  authors: [{ name: 'Junwon Park' }],
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  if (!isValidLanguage(locale)) {
+    return {};
+  }
+
+  const content = metadataMap[locale];
+  return {
+    metadataBase: new URL(PORTFOLIO_URL),
+    authors: [{ name: content.authorName }],
+  };
+}
 
 interface PortfolioLayoutProps {
   children: ReactNode;
