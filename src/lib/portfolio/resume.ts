@@ -56,7 +56,7 @@ const rolePresetAliases: Partial<Record<string, RolePresetId>> = {
   webFrontend: 'web',
 };
 
-const rolePresets: Record<
+export const rolePresets: Record<
   RolePresetId,
   { projectIds: readonly ProjectId[]; summary: SummaryPresetId }
 > = {

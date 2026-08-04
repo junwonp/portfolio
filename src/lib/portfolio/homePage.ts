@@ -23,7 +23,7 @@ interface CreateHomePageDataInput {
   tailoredView: ResolvedHomeTailoredView;
 }
 
-const defaultSelectedProjectIds: readonly ProjectId[] = [
+export const defaultSelectedProjectIds: readonly ProjectId[] = [
   PROJECT_ID.aira,
   PROJECT_ID.todayWeather,
   PROJECT_ID.nextjsPortfolio,
