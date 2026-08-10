@@ -13,6 +13,9 @@ import { resolvePortfolioLocale } from "@/lib/server/portfolioLocale";
 
 export const metadata: Metadata = {
   metadataBase: new URL(PORTFOLIO_URL),
+  icons: {
+    icon: { url: "/icon.svg", type: "image/svg+xml" },
+  },
 };
 
 const themeInitializerScript = `
