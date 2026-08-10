@@ -13,12 +13,6 @@ import { resolvePortfolioLocale } from "@/lib/server/portfolioLocale";
 
 export const metadata: Metadata = {
   metadataBase: new URL(PORTFOLIO_URL),
-  icons: {
-    icon: [
-      { url: "/icon-dark.svg", type: "image/svg+xml", media: "(prefers-color-scheme: dark)" },
-      { url: "/icon-light.svg", type: "image/svg+xml", media: "(prefers-color-scheme: light)" },
-    ],
-  },
 };
 
 const themeInitializerScript = `
