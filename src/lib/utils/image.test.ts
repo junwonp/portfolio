@@ -17,13 +17,13 @@ describe("getOptimizedImageUrl", () => {
     vi.stubEnv("NODE_ENV", "production");
 
     expect(getOptimizedImageUrl("/images/project1.png", { width: 500 })).toBe(
-      "/cdn-cgi/image/format=auto,width=500,quality=85/images/project1.png"
+      "/_next/image?url=%2Fimages%2Fproject1.png&w=500&q=85"
     );
 
     expect(
       getOptimizedImageUrl("/images/project1.png", { width: 800, quality: 90 })
     ).toBe(
-      "/cdn-cgi/image/format=auto,width=800,quality=90/images/project1.png"
+      "/_next/image?url=%2Fimages%2Fproject1.png&w=800&q=90"
     );
 
     vi.unstubAllEnvs();

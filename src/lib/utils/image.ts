@@ -1,5 +1,10 @@
 /**
- * Generates an optimized image URL using Cloudflare Image Resizing.
+ * Generates an optimized image URL using vinext's image optimization endpoint.
+ *
+ * In production on Cloudflare Workers, the `/_next/image` endpoint is handled
+ * by vinext's built-in image optimizer backed by the `IMAGES` Worker binding.
+ * Format negotiation (AVIF / WebP) is handled automatically via the `Accept`
+ * header — no extra parameter needed.
  *
  * @param src The original image path (e.g., "/images/project1.png")
  * @param options Optimization options (width, quality)
@@ -22,20 +27,16 @@ export function getOptimizedImageUrl(
     return src;
   }
 
-  // Use Cloudflare Image Resizing in production
+  // Use vinext's image optimizer (backs the /_next/image endpoint) in production
   if (process.env.NODE_ENV === "production") {
-    const params = ["format=auto"]; // Auto-detect and serve WebP/AVIF
+    const params = new URLSearchParams();
+    params.set("url", src);
     if (options?.width) {
-      params.push(`width=${options.width}`);
+      params.set("w", String(options.width));
     }
-    if (options?.quality) {
-      params.push(`quality=${options.quality}`);
-    } else {
-      params.push("quality=85"); // Default high-quality compression
-    }
+    params.set("q", String(options?.quality ?? 85));
 
-    const normalizedSrc = src.startsWith("/") ? src.slice(1) : src;
-    return `/cdn-cgi/image/${params.join(",")}/${normalizedSrc}`;
+    return `/_next/image?${params.toString()}`;
   }
 
   return src;
