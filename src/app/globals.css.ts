@@ -25,17 +25,12 @@ globalStyle('html, body', {
   color: 'var(--color-main)',
   fontFamily: `var(--font-family-text), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`,
   fontSize: '16px',
-  height: '100%',
   lineHeight: 'var(--line-height-default)',
   margin: 0,
   overflowX: 'hidden',
   padding: 0,
   scrollbarWidth: 'none',
   wordBreak: 'keep-all',
-});
-
-globalStyle('#root', {
-  height: '100%',
 });
 
 globalStyle('h1, h2, h3, h4, h5, h6', {
