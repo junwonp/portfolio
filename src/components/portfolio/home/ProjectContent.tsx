@@ -3,12 +3,12 @@
 import React from 'react';
 
 import ArrowLink from '@/components/ui/ArrowLink';
+import Collapse from '@/components/ui/Collapse';
 import Period from '@/components/ui/Period';
 import RichText from '@/components/ui/RichText';
 import SkillChip from '@/components/ui/SkillChip';
 import type { ProjectItem as ProjectItemType } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
-import Collapse from '@/components/ui/Collapse';
 import { getSkillCategory } from '@/lib/portfolio/skills';
 import { parseMarkdown } from '@/lib/utils/markdown';
 import { sortSkills } from '@/lib/utils/skills';

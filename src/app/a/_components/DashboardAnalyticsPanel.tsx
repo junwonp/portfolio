@@ -1,7 +1,7 @@
 'use client';
 
 import Select from '@/components/ui/Select';
-import type { SessionRow, SessionDetail } from '@/lib/server/admin/dashboardData';
+import type { SessionDetail,SessionRow } from '@/lib/server/admin/dashboardData';
 
 import * as styles from './admin.css';
 import { DetailsGrid } from './DetailsGrid';

@@ -34,12 +34,6 @@ function formatPositioning(role: 'web' | 'mobile' | 'ai' | null, summaryPreset: 
   return '기본 포트폴리오';
 }
 
-function formatProjectTitles(projectIds: string[], projectOptions: { id: string; title: string }[]) {
-  return projectIds
-    .map((pid, i) => `${i + 1}. ${projectOptions.find((p) => p.id === pid)?.title ?? pid}`)
-    .join('\n');
-}
-
 export function LinkCard({ link, projectOptions, writesEnabled }: LinkCardProps) {
   const projectLines = link.projectIds.map(
     (pid, i) => `${i + 1}. ${projectOptions.find((p) => p.id === pid)?.title ?? pid}`,

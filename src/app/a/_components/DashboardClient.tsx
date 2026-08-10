@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import type { SessionRow, SessionDetail } from '@/lib/server/admin/dashboardData';
+import type { SessionDetail,SessionRow } from '@/lib/server/admin/dashboardData';
 
 import * as styles from './admin.css';
 import { DashboardAnalyticsPanel } from './DashboardAnalyticsPanel';

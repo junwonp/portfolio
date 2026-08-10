@@ -3,13 +3,13 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 
+import { reportInteraction } from '@/components/analytics/analyticsTransport';
 import Badge from '@/components/ui/Badge';
+import Collapse from '@/components/ui/Collapse';
 import Period from '@/components/ui/Period';
 import RichText from '@/components/ui/RichText';
 import type { WorkExperienceProps } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
-import Collapse from '@/components/ui/Collapse';
-import { reportInteraction } from '@/components/analytics/analyticsTransport';
 import { useAccordionState } from '@/lib/states/accordion';
 import { parseMarkdown } from '@/lib/utils/markdown';
 

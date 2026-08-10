@@ -2,9 +2,9 @@
 
 import { Fragment, useState } from 'react';
 
-import type { SessionRow, SessionDetail } from '@/lib/server/admin/dashboardData';
-import { formatDateTime } from '@/lib/utils/date';
 import Badge from '@/components/ui/Badge';
+import type { SessionDetail,SessionRow } from '@/lib/server/admin/dashboardData';
+import { formatDateTime } from '@/lib/utils/date';
 
 import * as styles from './admin.css';
 import { SessionFilters } from './SessionFilters';

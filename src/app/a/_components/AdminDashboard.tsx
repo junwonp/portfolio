@@ -2,8 +2,8 @@ import { applicationProjectCatalog } from '@/lib/portfolio/catalog';
 import type { AdminDashboardSearchParams } from '@/lib/server/admin/dashboardData';
 import { getAdminDashboardData } from '@/lib/server/admin/dashboardData';
 import { isAdminWriteEnabledForCurrentRuntime } from '@/lib/server/admin/request';
-import { getDb } from '@/lib/server/infrastructure/database';
 import { seedDummySessions } from '@/lib/server/admin/seedDummyData';
+import { getDb } from '@/lib/server/infrastructure/database';
 
 import { DashboardClient } from './DashboardClient';
 
