@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react';
+
 import BentoSkills from '@/components/portfolio/home/BentoSkills';
 import EducationList from '@/components/portfolio/home/EducationList';
 import ProjectSpotlightList from '@/components/portfolio/home/ProjectSpotlightList';
@@ -56,7 +58,11 @@ export default function HomePage({ data }: Props) {
       mobileHeader={mobileHeader}
       sideNav={<DesktopSideNav sections={navSections} />}
     >
-      <section id="section-intro" className={styles.fadeSlideEnter}>
+      <section
+        id="section-intro"
+        className={styles.fadeSlideEnter}
+        style={{ '--enter-delay': '0ms' } as CSSProperties}
+      >
         <Title
           name={data.summaryIntroduction.name}
           pillars={data.summaryIntroduction.pillars}
@@ -69,7 +75,11 @@ export default function HomePage({ data }: Props) {
         {workExperiences.length > 0 && (
           <>
             {featuredWebProjects.length > 0 && (
-              <section id="section-featured" className={styles.fadeSlideEnter}>
+              <section
+                id="section-featured"
+                className={styles.fadeSlideEnter}
+                style={{ '--enter-delay': '90ms' } as CSSProperties}
+              >
                 <div className={styles.sectionHeadingRow}>
                   <SectionHeader title={featuredProjectsTitle} />
                 </div>
@@ -82,7 +92,11 @@ export default function HomePage({ data }: Props) {
               </section>
             )}
 
-            <section id="section-work" className={styles.fadeSlideEnter}>
+            <section
+              id="section-work"
+              className={styles.fadeSlideEnter}
+              style={{ '--enter-delay': '180ms' } as CSSProperties}
+            >
               <div className={styles.sectionHeadingRow}>
                 <SectionHeader title={labels.sectionWork} />
               </div>
@@ -91,7 +105,11 @@ export default function HomePage({ data }: Props) {
           </>
         )}
 
-        <section id="section-skills" className={styles.fadeSlideEnter}>
+        <section
+          id="section-skills"
+          className={styles.fadeSlideEnter}
+          style={{ '--enter-delay': '270ms' } as CSSProperties}
+        >
           <div className={styles.sectionHeadingRow}>
             <SectionHeader title={labels.sectionSkills} />
           </div>
@@ -99,7 +117,11 @@ export default function HomePage({ data }: Props) {
         </section>
 
         {otherExperiences.length > 0 && (
-          <section id="section-projects" className={styles.fadeSlideEnter}>
+          <section
+            id="section-projects"
+            className={styles.fadeSlideEnter}
+            style={{ '--enter-delay': '360ms' } as CSSProperties}
+          >
             <div className={styles.sectionHeadingRow}>
               <SectionHeader title={labels.sectionAwards} />
             </div>
@@ -112,7 +134,11 @@ export default function HomePage({ data }: Props) {
         )}
 
         {archives.length > 0 && (
-          <section id="section-archives" className={styles.fadeSlideEnter}>
+          <section
+            id="section-archives"
+            className={styles.fadeSlideEnter}
+            style={{ '--enter-delay': '450ms' } as CSSProperties}
+          >
             <div className={styles.sectionHeadingRow}>
               <SectionHeader title={labels.sectionArchives} />
             </div>
@@ -120,7 +146,11 @@ export default function HomePage({ data }: Props) {
           </section>
         )}
 
-        <section id="section-education" className={styles.fadeSlideEnter}>
+        <section
+          id="section-education"
+          className={styles.fadeSlideEnter}
+          style={{ '--enter-delay': '540ms' } as CSSProperties}
+        >
           <div className={styles.sectionHeadingRow}>
             <SectionHeader title={labels.sectionEducation} />
           </div>

@@ -12,7 +12,9 @@ const fadeSlideIn = keyframes({
 });
 
 export const fadeSlideEnter = style({
-  animation: `${fadeSlideIn} 0.45s var(--ease-emphasized) forwards`,
+  animation: `${fadeSlideIn} 0.45s var(--ease-emphasized) both`,
+  // Sections enter in sequence — each section passes its own --enter-delay
+  animationDelay: 'var(--enter-delay, 0ms)',
 });
 
 export const mainContent = style({

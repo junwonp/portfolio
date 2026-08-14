@@ -154,6 +154,7 @@ globalStyle('*, *::before, *::after', {
   '@media': {
     '(prefers-reduced-motion: reduce)': {
       animationDuration: '0.01ms !important',
+      animationDelay: '0.01ms !important',
       animationIterationCount: '1 !important',
       scrollBehavior: 'auto',
       transitionDuration: '0.01ms !important',
