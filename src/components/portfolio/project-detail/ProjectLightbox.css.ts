@@ -38,7 +38,7 @@ export const masonryItem = style({
   background: 'var(--color-disabled-bg)',
   cursor: 'zoom-in',
   padding: 0,
-  transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease',
+  transition: 'transform 0.2s var(--ease-emphasized), box-shadow 0.2s ease',
   boxShadow: '0 4px 16px rgba(0, 0, 0, 0.02)',
   border: 'none',
 
@@ -226,7 +226,7 @@ export const carouselTrack = style({
 
   selectors: {
     [`&.${snapping}`]: {
-      transition: 'transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      transition: 'transform 0.32s var(--ease-snap)',
     },
   },
 });

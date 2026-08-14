@@ -209,7 +209,7 @@ globalStyle(`${segmentedControl} button.${active}`, {
 });
 
 export const dashboardPanel = style({
-  animation: `${panelEnter} 0.24s cubic-bezier(0.16, 1, 0.3, 1)`,
+  animation: `${panelEnter} 0.3s var(--ease-emphasized)`,
   display: 'flex',
   flexDirection: 'column',
   gap: 'var(--space-md)',
@@ -664,7 +664,7 @@ export const noData = style({});
 
 export const interactiveDot = style({
   cursor: 'pointer',
-  transition: 'r 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+  transition: 'r 0.2s var(--ease-emphasized)',
 
   selectors: {
     [`&.${noData}`]: {

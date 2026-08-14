@@ -37,6 +37,12 @@ export const vars = createGlobalThemeContract({
   },
   radius: {
     full: null,
+    squircle: null,
+  },
+  ease: {
+    standard: null,
+    emphasized: null,
+    snap: null,
   },
   color: {
     bold: null,
@@ -127,6 +133,15 @@ createGlobalTheme(':root', vars, {
   radius: {
     // Pill shape — used for nav bars, tabs, badges, chips, and buttons
     full: '9999px',
+    // iOS-style app icon silhouette
+    squircle: '22.5%',
+  },
+  ease: {
+    // M3 spec curves — standard for everyday motion, emphasized for entrances
+    standard: 'cubic-bezier(0.2, 0, 0, 1)',
+    emphasized: 'cubic-bezier(0.05, 0.7, 0.1, 1)',
+    // Carousel snap — kept as its own token so drag-and-settle stays distinct
+    snap: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
   },
   color: {
     bold: 'oklch(0% 0 0)',

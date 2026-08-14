@@ -14,7 +14,7 @@ export const achCard = style({
   background: 'var(--color-basic-bg)',
   overflow: 'hidden',
   minWidth: 0,
-  transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease',
+  transition: 'transform 0.2s var(--ease-emphasized), box-shadow 0.2s ease',
   boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
 
   ':hover': {

@@ -23,7 +23,7 @@ export const card = style({
   color: 'inherit',
   boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
   transition:
-    'box-shadow 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease',
+    'box-shadow 0.2s ease, transform 0.2s var(--ease-emphasized), border-color 0.2s ease',
 
   selectors: {
     [`&.${isLink}`]: {
@@ -88,7 +88,7 @@ export const thumbnailFrame = style({
 });
 
 export const thumbnailFrameIcon = style({
-  borderRadius: '22.5%',
+  borderRadius: 'var(--radius-squircle)',
   boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 24px rgba(0, 0, 0, 0.12)',
 });
 

@@ -12,7 +12,7 @@ const fadeSlideIn = keyframes({
 });
 
 export const fadeSlideEnter = style({
-  animation: `${fadeSlideIn} 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+  animation: `${fadeSlideIn} 0.45s var(--ease-emphasized) forwards`,
 });
 
 export const mainContent = style({

@@ -7,7 +7,7 @@ export { open };
 export const collapse = style({
   height: '0',
   overflow: 'hidden',
-  transition: 'height 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+  transition: 'height 0.35s var(--ease-standard)',
 
   selectors: {
     [`&.${open}`]: {

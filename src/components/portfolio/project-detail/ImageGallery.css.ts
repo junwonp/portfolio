@@ -46,7 +46,7 @@ export const sliderContainer = style({
       display: 'flex',
       flexDirection: 'row',
       gap: 0,
-      transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      transition: 'transform 0.3s var(--ease-standard)',
       willChange: 'transform',
       padding: 0,
       touchAction: 'none',

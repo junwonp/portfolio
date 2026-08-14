@@ -227,7 +227,7 @@ export const dropdownMenu = style({
   flexDirection: 'column',
   gap: '2px',
   transformOrigin: 'top right',
-  animation: `${menuReveal} 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+  animation: `${menuReveal} 0.25s var(--ease-emphasized) forwards`,
 
   selectors: {
     'html.dark &': {
