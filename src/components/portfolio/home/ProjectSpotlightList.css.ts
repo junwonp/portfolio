@@ -22,10 +22,17 @@ export const card = style({
   textDecoration: 'none',
   color: 'inherit',
   boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+  transition:
+    'box-shadow 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease',
 
   selectors: {
     [`&.${isLink}`]: {
       cursor: 'pointer',
+    },
+    [`&.${isLink}:hover`]: {
+      borderColor: 'color-mix(in srgb, var(--color-primary) 18%, transparent)',
+      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+      transform: 'translateY(-2px)',
     },
     [`&:not(.${isLink})`]: {
       cursor: 'default',
@@ -33,6 +40,10 @@ export const card = style({
     'html.dark &': {
       borderColor: 'rgba(255, 255, 255, 0.04)',
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+    },
+    [`html.dark &.${isLink}:hover`]: {
+      borderColor: 'color-mix(in srgb, var(--color-primary) 30%, transparent)',
+      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35)',
     },
     [`&.${hasThumbnail}`]: {
       gridTemplateColumns: 'minmax(7rem, 9rem) minmax(0, 1fr)',
