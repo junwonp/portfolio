@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { reportInteraction } from '@/components/analytics/analyticsTransport';
 import Badge from "@/components/ui/Badge";
 import Collapse from "@/components/ui/Collapse";
+import { cardSurface } from "@/components/ui/surface.css";
 import { sanitizeProjectHtml } from "@/lib/utils/safeHtml";
 
 import * as styles from "./ProjectAchievements.css";
@@ -32,7 +33,7 @@ function AchievementItem({
 }) {
   return (
     <div
-      className={`${styles.achCard} ${isOpen ? styles.open : ""}`}
+      className={`${styles.achCard} ${cardSurface} ${isOpen ? styles.open : ""}`}
     >
       <button
         className={styles.achHeader}

@@ -17,12 +17,10 @@ export const span2 = style({});
 
 export const card = style({
   background: 'var(--color-basic-bg)',
-  borderRadius: 'var(--radius-lg)',
   padding: '1.5rem',
   display: 'flex',
   flexDirection: 'column',
   minWidth: 0,
-  boxShadow: 'var(--shadow-card)',
   border: '0.5px solid rgba(0, 0, 0, 0.06)',
 
   selectors: {

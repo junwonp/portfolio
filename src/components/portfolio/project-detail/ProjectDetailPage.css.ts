@@ -21,12 +21,9 @@ export const topbarRight = style({
 
 export const topbarLink = style({
   display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   gap: '4px',
   fontSize: '0.875rem',
   fontWeight: 500,
-  fontFamily: 'inherit',
   color: 'var(--color-primary)',
   textDecoration: 'none',
   height: '32px',
@@ -35,7 +32,6 @@ export const topbarLink = style({
   backgroundColor: 'color-mix(in srgb, var(--color-surface-hover) 80%, transparent)',
   backdropFilter: 'saturate(140%) blur(12px)',
   WebkitBackdropFilter: 'saturate(140%) blur(12px)',
-  borderRadius: 'var(--radius-full)',
   whiteSpace: 'nowrap',
   transition: 'background-color 0.15s, color 0.15s, transform 0.1s',
 

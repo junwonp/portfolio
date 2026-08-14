@@ -4,6 +4,7 @@ import React from "react";
 
 import ArrowLink from "@/components/ui/ArrowLink";
 import SkillChip from "@/components/ui/SkillChip";
+import { cardSurface } from "@/components/ui/surface.css";
 import type { SkillProps } from "@/lib/portfolio/homeTypes";
 import { getLabels } from "@/lib/portfolio/labels";
 import type { Language } from "@/lib/utils/language";
@@ -27,7 +28,7 @@ export default function BentoSkills({
         return (
           <div
             key={skill.title}
-            className={`${styles.card} ${isSpan2 ? styles.span2 : ""}`}
+            className={`${styles.card} ${cardSurface} ${isSpan2 ? styles.span2 : ""}`}
             style={
               {
                 "--cat-color": `var(--color-cat-${skill.id})`,

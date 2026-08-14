@@ -10,12 +10,10 @@ export const achievements = style({
 export const open = style({});
 
 export const achCard = style({
-  borderRadius: 'var(--radius-lg)',
   background: 'var(--color-basic-bg)',
   overflow: 'hidden',
   minWidth: 0,
   transition: 'transform 0.2s var(--ease-emphasized), box-shadow 0.2s ease',
-  boxShadow: 'var(--shadow-card)',
 
   ':hover': {
     transform: 'translateY(-1px)',

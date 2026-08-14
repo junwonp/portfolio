@@ -34,12 +34,10 @@ export const masonryItem = style({
   marginBottom: '24px',
   position: 'relative',
   overflow: 'hidden',
-  borderRadius: 'var(--radius-lg)',
   background: 'var(--color-disabled-bg)',
   cursor: 'zoom-in',
   padding: 0,
   transition: 'transform 0.2s var(--ease-emphasized), box-shadow 0.2s ease',
-  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.02)',
   border: 'none',
 
   ':hover': {

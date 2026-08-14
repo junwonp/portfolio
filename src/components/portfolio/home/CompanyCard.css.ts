@@ -11,13 +11,11 @@ export const open = style({});
 
 export const companyCard = style({
   background: 'var(--color-basic-bg)',
-  borderRadius: 'var(--radius-lg)',
   display: 'flex',
   flexDirection: 'column',
   minWidth: 0,
   overflow: 'hidden',
   padding: '1.5rem',
-  boxShadow: 'var(--shadow-card)',
   border: '0.5px solid color-mix(in srgb, var(--color-bg-divider) 40%, transparent)',
 
   selectors: {

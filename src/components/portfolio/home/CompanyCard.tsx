@@ -8,6 +8,7 @@ import Badge from '@/components/ui/Badge';
 import Collapse from '@/components/ui/Collapse';
 import Period from '@/components/ui/Period';
 import RichText from '@/components/ui/RichText';
+import { cardSurface } from "@/components/ui/surface.css";
 import type { WorkExperienceProps } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
 import { useAccordionState } from '@/lib/states/accordion';
@@ -63,7 +64,7 @@ export default function CompanyCard({ exp, isFiltered, labels }: Props) {
 
   return (
     <div className={styles.companyWrapper}>
-      <div className={`${styles.companyCard} ${isCompanyOpen ? styles.open : ''}`}>
+      <div className={`${styles.companyCard} ${cardSurface} ${isCompanyOpen ? styles.open : ''}`}>
         <div
           className={styles.companyHeader}
           role="button"

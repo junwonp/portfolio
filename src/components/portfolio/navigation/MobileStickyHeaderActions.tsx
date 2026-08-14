@@ -7,6 +7,7 @@ import { Check, Ellipsis, Printer, Share2 } from "lucide-react";
 import Github from "@/components/ui/Icon/Github";
 import Linkedin from "@/components/ui/Icon/Linkedin";
 import IconLink from "@/components/ui/IconLink";
+import { circleButton,pillButton } from "@/components/ui/surface.css";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { useLocale } from "@/lib/contexts/LocaleContext";
 
@@ -91,7 +92,7 @@ export default function MobileStickyHeaderActions({
     <div className={styles.actions}>
       <div className={`${styles.langToggleWrapper} ${styles.pcOnly}`}>
         <button
-          className={`${styles.langToggle} glass-effect`}
+          className={`${styles.langToggle} ${pillButton} glass-effect`}
           onClick={toggleLanguage}
           title={labels.toggleLanguage}
         >
@@ -101,7 +102,7 @@ export default function MobileStickyHeaderActions({
 
       <div className={`${styles.actionGroup} glass-effect`}>
         <button
-          className={`${styles.langToggleBtn} ${styles.mobileOnly}`}
+          className={`${styles.langToggleBtn} ${circleButton} ${styles.mobileOnly}`}
           onClick={toggleLanguage}
           aria-label={labels.toggleLanguage}
           title={labels.toggleLanguage}
@@ -117,7 +118,7 @@ export default function MobileStickyHeaderActions({
 
         <div className={styles.moreMenuContainer}>
           <button
-            className={`${styles.moreButton} ${isMenuOpen ? styles.active : ""}`}
+            className={`${styles.moreButton} ${circleButton} ${isMenuOpen ? styles.active : ""}`}
             onClick={(e) => {
               e.stopPropagation();
               setIsMenuOpen(!isMenuOpen);

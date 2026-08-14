@@ -64,10 +64,7 @@ export const langToggleWrapper = style({
 });
 
 export const langToggle = style({
-  alignItems: 'center',
-  borderRadius: 'var(--radius-full)',
   color: 'var(--color-sub)',
-  cursor: 'pointer',
   display: 'flex',
   fontSize: '0.8125rem',
   fontWeight: 500,
@@ -126,13 +123,9 @@ export const langToggleBtn = style({
   background: 'transparent',
   border: 'none',
   color: 'var(--color-sub)',
-  cursor: 'pointer',
   display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   width: '30px',
   height: '30px',
-  borderRadius: 'var(--radius-circle)',
   fontSize: '0.75rem',
   fontWeight: 600,
   transition: 'background-color 0.15s, color 0.15s, transform 0.1s',
@@ -180,13 +173,9 @@ export const moreButton = style({
   background: 'transparent',
   border: 'none',
   color: 'var(--color-sub)',
-  cursor: 'pointer',
   display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   width: '30px',
   height: '30px',
-  borderRadius: 'var(--radius-circle)',
   transition: 'background-color 0.15s, color 0.15s, transform 0.1s',
 
   ':hover': {

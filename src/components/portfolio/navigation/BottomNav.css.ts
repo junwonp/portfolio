@@ -63,18 +63,13 @@ export const activeBg = style({
 });
 
 export const tab = style({
-  alignItems: 'center',
   background: 'transparent',
   border: 'none',
-  borderRadius: 'var(--radius-full)',
   color: 'var(--color-sub)',
-  cursor: 'pointer',
   display: 'flex',
   flex: 1,
-  fontFamily: 'inherit',
   fontSize: '0.75rem',
   fontWeight: 500,
-  justifyContent: 'center',
   minHeight: '44px',
   padding: '0.5rem 0.25rem',
   transition: 'transform 0.1s',
@@ -185,13 +180,10 @@ export const circle = style({
   height: '48px',
   width: '48px',
   display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   flexShrink: 0,
   color: 'var(--color-main)',
   textDecoration: 'none',
   transition: 'background 0.15s, color 0.15s',
-  borderRadius: 'var(--radius-circle)',
 });
 
 export const backBtn = style({

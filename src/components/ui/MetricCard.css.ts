@@ -2,14 +2,12 @@ import { style } from '@vanilla-extract/css';
 
 export const metricCard = style({
   background: 'color-mix(in srgb, var(--color-surface-hover) 35%, var(--color-basic-bg))',
-  borderRadius: 'var(--radius-lg)',
   display: 'flex',
   flexDirection: 'column',
   gap: '0.375rem',
   padding: '12px 16px',
   alignItems: 'flex-start',
   textAlign: 'left',
-  boxShadow: 'var(--shadow-card)',
   width: '100%',
 
   selectors: {

@@ -3,6 +3,8 @@
 import React, { useRef,useState } from "react";
 import { Check, Share2 } from "lucide-react";
 
+import { pillButton } from "@/components/ui/surface.css";
+
 import * as styles from "./ShareButton.css";
 
 interface Props {
@@ -84,7 +86,7 @@ export default function ShareButton({
   return (
     <div className={styles.shareWrapper}>
       <button
-        className={styles.shareBtn}
+        className={`${styles.shareBtn} ${pillButton}`}
         onClick={share}
         title={shareLabel}
         aria-label={shareLabel}

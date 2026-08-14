@@ -4,6 +4,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Image as ImageIcon, X } from "lucide-react";
 
+import { cardSurface } from "@/components/ui/surface.css";
 import { getOptimizedImageUrl } from "@/lib/utils/image";
 
 import * as styles from "./ProjectLightbox.css";
@@ -122,7 +123,7 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
       >
         {isMobile && images.length > 1 ? (
           <button
-            className={styles.masonryItem}
+            className={`${styles.masonryItem} ${cardSurface}`}
             onClick={() => open(0)}
             aria-label={`View all ${images.length} images`}
           >
@@ -140,7 +141,7 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
           images.map((image, i) => (
             <button
               key={i}
-              className={styles.masonryItem}
+              className={`${styles.masonryItem} ${cardSurface}`}
               onClick={() => open(i)}
               aria-label={`View ${image.alt} fullscreen`}
             >

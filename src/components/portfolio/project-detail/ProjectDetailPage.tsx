@@ -6,6 +6,7 @@ import Badge from '@/components/ui/Badge';
 import Github from '@/components/ui/Icon/Github';
 import Globe from '@/components/ui/Icon/Globe';
 import MetricCard from '@/components/ui/MetricCard';
+import { pillButton } from "@/components/ui/surface.css";
 import { getLabels } from '@/lib/portfolio/labels';
 import type { PostMetadata } from '@/lib/portfolio/projectTypes';
 import type { Language } from '@/lib/utils/language';
@@ -67,12 +68,12 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
     <div className={styles.topbarLinks}>
       <ProjectBackButton
         label={labels.goBack}
-        className={`${styles.topbarLink} ${styles.backLink}`}
+        className={`${styles.topbarLink} ${pillButton} ${styles.backLink}`}
       />
       <div className={styles.topbarRight}>
         {githubHref && (
           <a
-            className={`${styles.topbarLink} ${styles.github}`}
+            className={`${styles.topbarLink} ${pillButton} ${styles.github}`}
             href={githubHref}
             target="_blank"
             rel="noopener noreferrer"
@@ -84,7 +85,7 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
         )}
         {metadata.productLink && (
           <a
-            className={`${styles.topbarLink} ${styles.primary}`}
+            className={`${styles.topbarLink} ${pillButton} ${styles.primary}`}
             href={metadata.productLink}
             target="_blank"
             rel="noopener noreferrer"

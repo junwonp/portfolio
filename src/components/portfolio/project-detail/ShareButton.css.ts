@@ -9,14 +9,11 @@ export const shareWrapper = style({
 });
 
 export const shareBtn = style({
-  alignItems: 'center',
   background: 'transparent',
   borderRadius: 'var(--radius-circle)',
   border: 'none',
   color: 'var(--color-main)',
-  cursor: 'pointer',
   display: 'flex',
-  justifyContent: 'center',
   padding: 'var(--space-xs)',
   transition: 'background 0.2s, color 0.2s, transform 0.1s',
 

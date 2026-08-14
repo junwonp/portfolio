@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 
 import ProjectContent from '@/components/portfolio/home/ProjectContent';
+import { cardSurface } from "@/components/ui/surface.css";
 import type { OtherExperienceProps } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
 
@@ -73,7 +74,7 @@ export default function ProjectSpotlightList({
               <a
                 key={project.id}
                 href={project.detailLink}
-                className={`${styles.card} ${styles.isLink} ${project.thumbnail ? styles.hasThumbnail : ''}`}
+                className={`${styles.card} ${cardSurface} ${styles.isLink} ${project.thumbnail ? styles.hasThumbnail : ''}`}
                 data-project-link-card="true"
                 data-project-surface="spotlight"
               >
@@ -85,7 +86,7 @@ export default function ProjectSpotlightList({
           return (
             <div
               key={project.id}
-              className={`${styles.card} ${project.thumbnail ? styles.hasThumbnail : ''}`}
+              className={`${styles.card} ${cardSurface} ${project.thumbnail ? styles.hasThumbnail : ''}`}
               data-project-surface="spotlight"
             >
               {cardContent}

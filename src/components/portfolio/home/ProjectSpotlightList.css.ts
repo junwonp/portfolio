@@ -13,7 +13,6 @@ export const card = style({
   alignItems: 'start',
   background: 'var(--color-basic-bg)',
   border: '0.5px solid color-mix(in srgb, var(--color-bg-divider) 40%, transparent)',
-  borderRadius: 'var(--radius-lg)',
   display: 'grid',
   gap: '1.25rem',
   minWidth: 0,
@@ -21,7 +20,6 @@ export const card = style({
   padding: '1rem',
   textDecoration: 'none',
   color: 'inherit',
-  boxShadow: 'var(--shadow-card)',
   transition:
     'box-shadow 0.2s ease, transform 0.2s var(--ease-emphasized), border-color 0.2s ease',
 

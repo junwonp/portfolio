@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 
 import Github from "@/components/ui/Icon/Github";
 import Globe from "@/components/ui/Icon/Globe";
+import { circleButton, pillButton } from "@/components/ui/surface.css";
 import { useLocale } from "@/lib/contexts/LocaleContext";
 import { getPageScrollY, scrollPageTo, useScrollSpy } from "@/lib/hooks/useScrollSpy";
 import { useProjectNavLinks } from "@/lib/stores/bottomNav";
@@ -200,7 +201,7 @@ export default function BottomNav({ isProject = false }: Props) {
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            className={`${styles.tab} ${
+            className={`${styles.tab} ${pillButton} ${
               (isDragging ? dragHoveredId === tab.id : activeId === tab.id) ? styles.active : ""
             }`}
             onClick={() => {
@@ -219,7 +220,7 @@ export default function BottomNav({ isProject = false }: Props) {
     <div className={styles.projectNav}>
       <div className={`${styles.islandSlot} ${styles.left}`}>
         <button
-          className={`${styles.island} ${styles.circle} ${styles.backBtn} glass-effect`}
+          className={`${styles.island} ${styles.circle} ${circleButton} ${styles.backBtn} glass-effect`}
           aria-label="Go back"
           onClick={() => {
             if (typeof window !== "undefined") history.back();
@@ -251,7 +252,7 @@ export default function BottomNav({ isProject = false }: Props) {
             {tabs.map((section) => (
               <button
                 key={section.id}
-                className={`${styles.tab} ${
+                className={`${styles.tab} ${pillButton} ${
                   (isDragging ? dragHoveredId === section.id : activeId === section.id)
                     ? styles.active
                     : ""
