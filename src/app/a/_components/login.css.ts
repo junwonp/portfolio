@@ -32,7 +32,7 @@ globalStyle(`${loginCard} h2`, {
 });
 
 export const subtitle = style({
-  color: 'var(--color-text-muted, #666)',
+  color: 'var(--color-sub)',
   fontSize: '0.9rem',
   lineHeight: 1.5,
   margin: '0 0 2rem 0',
@@ -61,14 +61,14 @@ export const errorContainer = style({
 });
 
 export const errorDescription = style({
-  color: 'var(--color-text)',
+  color: 'var(--color-main)',
   fontSize: '0.95rem',
   fontWeight: 600,
   margin: '0 0 0.5rem 0',
 });
 
 export const errorActionHint = style({
-  color: 'var(--color-text-muted, #666)',
+  color: 'var(--color-sub)',
   fontSize: '0.825rem',
   lineHeight: 1.4,
   margin: 0,

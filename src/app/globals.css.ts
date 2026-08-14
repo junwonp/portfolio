@@ -35,6 +35,15 @@ globalStyle('html, body', {
   wordBreak: 'keep-all',
 });
 
+// Match native controls (scrollbars, form fields) to the active theme
+globalStyle('html', {
+  colorScheme: 'light',
+});
+
+globalStyle('html.dark', {
+  colorScheme: 'dark',
+});
+
 globalStyle('h1, h2, h3, h4, h5, h6', {
   fontFamily: 'var(--font-family-text), sans-serif',
 });
@@ -176,7 +185,7 @@ globalStyle('.badge', {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: '9999px',
+  borderRadius: 'var(--radius-full)',
   fontSize: '0.8125rem',
   fontWeight: 500,
   padding: '0.3rem 0.7rem',
