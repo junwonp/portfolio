@@ -15,26 +15,26 @@ export const achCard = style({
   overflow: 'hidden',
   minWidth: 0,
   transition: 'transform 0.2s var(--ease-emphasized), box-shadow 0.2s ease',
-  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+  boxShadow: 'var(--shadow-card)',
 
   ':hover': {
     transform: 'translateY(-1px)',
-    boxShadow: '0 6px 24px rgba(0, 0, 0, 0.04)',
+    boxShadow: 'var(--shadow-card-lifted)',
   },
 
   selectors: {
     'html.dark &': {
-      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+      boxShadow: 'var(--shadow-card)',
       border: '0.5px solid rgba(255, 255, 255, 0.05)',
     },
     'html.dark &:hover': {
-      boxShadow: '0 6px 24px rgba(0, 0, 0, 0.22)',
+      boxShadow: 'var(--shadow-card-lifted)',
     },
     [`&.${open}`]: {
-      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+      boxShadow: 'var(--shadow-card-lifted)',
     },
     [`html.dark &.${open}`]: {
-      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.25)',
+      boxShadow: 'var(--shadow-card-lifted)',
     },
   },
 });

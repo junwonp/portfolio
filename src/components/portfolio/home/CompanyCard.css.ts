@@ -17,19 +17,19 @@ export const companyCard = style({
   minWidth: 0,
   overflow: 'hidden',
   padding: '1.5rem',
-  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+  boxShadow: 'var(--shadow-card)',
   border: '0.5px solid color-mix(in srgb, var(--color-bg-divider) 40%, transparent)',
 
   selectors: {
     'html.dark &': {
-      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+      boxShadow: 'var(--shadow-card)',
       border: '0.5px solid rgba(255, 255, 255, 0.05)',
     },
     [`&.${open}`]: {
-      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+      boxShadow: 'var(--shadow-card-lifted)',
     },
     [`html.dark &.${open}`]: {
-      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.25)',
+      boxShadow: 'var(--shadow-card-lifted)',
     },
   },
 

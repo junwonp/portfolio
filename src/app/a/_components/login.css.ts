@@ -11,7 +11,7 @@ export const loginContainer = style({
 export const loginCard = style({
   background: 'var(--color-basic-bg)',
   borderRadius: '20px',
-  boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)',
+  boxShadow: 'var(--shadow-card-lifted)',
   maxWidth: '400px',
   padding: '2.5rem',
   width: '100%',
@@ -19,7 +19,7 @@ export const loginCard = style({
 
   selectors: {
     'html.dark &': {
-      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
+      boxShadow: 'var(--shadow-card-lifted)',
       border: '0.5px solid rgba(255, 255, 255, 0.05)',
     },
   },

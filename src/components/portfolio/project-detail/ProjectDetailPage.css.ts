@@ -9,7 +9,7 @@ export const topbarLinks = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
-  zIndex: 1,
+  zIndex: 'var(--z-base)',
 });
 
 export const topbarRight = style({

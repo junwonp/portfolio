@@ -21,7 +21,7 @@ export const card = style({
   padding: '1rem',
   textDecoration: 'none',
   color: 'inherit',
-  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+  boxShadow: 'var(--shadow-card)',
   transition:
     'box-shadow 0.2s ease, transform 0.2s var(--ease-emphasized), border-color 0.2s ease',
 
@@ -31,7 +31,7 @@ export const card = style({
     },
     [`&.${isLink}:hover`]: {
       borderColor: 'color-mix(in srgb, var(--color-primary) 18%, transparent)',
-      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+      boxShadow: 'var(--shadow-card-lifted)',
       transform: 'translateY(-2px)',
     },
     [`&:not(.${isLink})`]: {
@@ -39,11 +39,11 @@ export const card = style({
     },
     'html.dark &': {
       borderColor: 'rgba(255, 255, 255, 0.04)',
-      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
+      boxShadow: 'var(--shadow-card)',
     },
     [`html.dark &.${isLink}:hover`]: {
       borderColor: 'color-mix(in srgb, var(--color-primary) 30%, transparent)',
-      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35)',
+      boxShadow: 'var(--shadow-card-lifted)',
     },
     [`&.${hasThumbnail}`]: {
       gridTemplateColumns: 'minmax(7rem, 9rem) minmax(0, 1fr)',

@@ -4,11 +4,11 @@ export const customSelectContainer = style({
   position: 'relative',
   width: '100%',
   display: 'inline-block',
-  zIndex: 1,
+  zIndex: 'var(--z-base)',
 });
 
 export const open = style({
-  zIndex: 50,
+  zIndex: 'var(--z-sticky)',
 });
 
 export const selectTrigger = style({
@@ -67,7 +67,7 @@ export const selectDropdown = style({
   border: '1px solid rgba(0, 0, 0, 0.08)',
   borderRadius: '8px',
   boxShadow: '0 4px 20px var(--color-shadow)',
-  zIndex: 50,
+  zIndex: 'var(--z-sticky)',
   maxHeight: '220px',
   overflowY: 'auto',
   padding: '0.25rem',

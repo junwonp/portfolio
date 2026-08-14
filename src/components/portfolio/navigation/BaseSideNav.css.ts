@@ -39,7 +39,7 @@ export const navList = style({
   margin: 0,
   padding: 0,
   position: 'relative',
-  zIndex: 1,
+  zIndex: 'var(--z-base)',
 });
 
 globalStyle(`${navList} li`, {

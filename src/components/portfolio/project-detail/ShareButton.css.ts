@@ -47,7 +47,7 @@ export const toast = style({
   position: 'absolute',
   transform: 'translateX(-50%)',
   whiteSpace: 'nowrap',
-  zIndex: 10,
+  zIndex: 'var(--z-raised)',
 
   '::after': {
     borderColor: 'var(--color-main) transparent transparent transparent',

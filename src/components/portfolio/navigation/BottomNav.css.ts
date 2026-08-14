@@ -16,7 +16,7 @@ export const tabBar = style({
   position: 'fixed',
   width: 'calc(100% - 1.5rem)',
   maxWidth: '500px',
-  zIndex: 50,
+  zIndex: 'var(--z-sticky)',
   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
   touchAction: 'none',
 
@@ -79,7 +79,7 @@ export const tab = style({
   padding: '0.5rem 0.25rem',
   transition: 'transform 0.1s',
   wordBreak: 'keep-all',
-  zIndex: 1,
+  zIndex: 'var(--z-base)',
   position: 'relative',
   userSelect: 'none',
   WebkitUserSelect: 'none',
@@ -105,7 +105,7 @@ export const projectNav = style({
   width: 'calc(100% - 1.5rem)',
   maxWidth: '500px',
   padding: 0,
-  zIndex: 50,
+  zIndex: 'var(--z-sticky)',
   alignItems: 'center',
   pointerEvents: 'none',
 

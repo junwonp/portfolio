@@ -106,7 +106,7 @@ export const backdrop = style({
   justifyContent: 'center',
   padding: '16px',
   position: 'fixed',
-  zIndex: 1100,
+  zIndex: 'var(--z-modal)',
 
   '@media': {
     '(max-width: 640px)': {

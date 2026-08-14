@@ -22,13 +22,13 @@ export const card = style({
   display: 'flex',
   flexDirection: 'column',
   minWidth: 0,
-  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.03)',
+  boxShadow: 'var(--shadow-card)',
   border: '0.5px solid rgba(0, 0, 0, 0.06)',
 
   selectors: {
     'html.dark &': {
       background: 'var(--color-code-bg)',
-      boxShadow: '0 4px 24px rgba(0, 0, 0, 0.2)',
+      boxShadow: 'var(--shadow-card)',
       border: '0.5px solid rgba(255, 255, 255, 0.05)',
     },
     [`&.${span2}`]: {

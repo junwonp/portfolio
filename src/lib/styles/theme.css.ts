@@ -44,6 +44,22 @@ export const vars = createGlobalThemeContract({
     emphasized: null,
     snap: null,
   },
+  z: {
+    base: null,
+    raised: null,
+    elevated: null,
+    docked: null,
+    sticky: null,
+    dropdown: null,
+    overlay: null,
+    modal: null,
+  },
+  shadow: {
+    card: null,
+    cardLifted: null,
+    floating: null,
+    menu: null,
+  },
   color: {
     bold: null,
     inlineCode: null,
@@ -143,6 +159,24 @@ createGlobalTheme(':root', vars, {
     // Carousel snap — kept as its own token so drag-and-settle stays distinct
     snap: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
   },
+  // Values preserved from the previous scattered literals so stacking
+  // relationships do not change — the tokens only name the intent
+  z: {
+    base: '1',
+    raised: '10',
+    elevated: '20',
+    docked: '30',
+    sticky: '50',
+    dropdown: '100',
+    overlay: '1000',
+    modal: '1100',
+  },
+  shadow: {
+    card: '0 4px 20px rgba(0, 0, 0, 0.03)',
+    cardLifted: '0 8px 30px rgba(0, 0, 0, 0.05)',
+    floating: '0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
+    menu: '0 16px 40px rgba(0, 0, 0, 0.06)',
+  },
   color: {
     bold: 'oklch(0% 0 0)',
     inlineCode: 'oklch(22.84% 0.01 250)',
@@ -216,6 +250,11 @@ globalStyle('html.dark', {
     [vars.color.onPrimary]: 'oklch(14.07% 0.02 250)',
     [vars.color.surfaceHover]: 'oklch(21.68% 0.02 250)',
     [vars.color.error]: 'oklch(67.75% 0.22 17.5)',
+    [vars.shadow.card]: '0 4px 20px rgba(0, 0, 0, 0.2)',
+    [vars.shadow.cardLifted]: '0 8px 30px rgba(0, 0, 0, 0.28)',
+    [vars.shadow.floating]:
+      '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+    [vars.shadow.menu]: '0 16px 40px rgba(0, 0, 0, 0.45)',
     [vars.glass.bg]: 'oklch(100% 0 0 / 0.06)',
     [vars.glass.border]: '1px solid oklch(100% 0 0 / 0.12)',
   },

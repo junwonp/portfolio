@@ -23,7 +23,7 @@ export const stickyHeader = style({
   justifyContent: 'flex-end',
   position: 'fixed',
   top: 0,
-  zIndex: 50,
+  zIndex: 'var(--z-sticky)',
   height: 'auto',
 
   '@media': {
@@ -75,7 +75,7 @@ export const langToggle = style({
   padding: '0 0.875rem',
   transition: 'background-color 0.15s, color 0.15s, transform 0.1s',
   boxSizing: 'border-box',
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
+  boxShadow: 'var(--shadow-floating)',
 
   ':hover': {
     color: 'var(--color-bold)',
@@ -89,7 +89,7 @@ export const langToggle = style({
 
   selectors: {
     'html.dark &': {
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+      boxShadow: 'var(--shadow-floating)',
     },
   },
 });
@@ -157,11 +157,11 @@ export const actionGroup = style({
   gap: '1px',
   height: '36px',
   boxSizing: 'border-box',
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
+  boxShadow: 'var(--shadow-floating)',
 
   selectors: {
     'html.dark &': {
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+      boxShadow: 'var(--shadow-floating)',
     },
   },
 });
@@ -214,14 +214,14 @@ export const dropdownMenu = style({
   position: 'absolute',
   top: 'calc(100% + 8px)',
   right: 0,
-  zIndex: 100,
+  zIndex: 'var(--z-dropdown)',
   minWidth: '200px',
   background: 'rgba(255, 255, 255, 0.94)',
   backdropFilter: 'saturate(140%) blur(20px)',
   WebkitBackdropFilter: 'saturate(140%) blur(20px)',
   border: '0.5px solid rgba(0, 0, 0, 0.08)',
   borderRadius: '16px',
-  boxShadow: '0 16px 40px rgba(0, 0, 0, 0.06)',
+  boxShadow: 'var(--shadow-menu)',
   padding: '6px',
   display: 'flex',
   flexDirection: 'column',
@@ -233,7 +233,7 @@ export const dropdownMenu = style({
     'html.dark &': {
       background: 'rgba(28, 28, 30, 0.95)',
       border: '0.5px solid rgba(255, 255, 255, 0.08)',
-      boxShadow: '0 16px 40px rgba(0, 0, 0, 0.45)',
+      boxShadow: 'var(--shadow-menu)',
     },
   },
 });

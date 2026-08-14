@@ -9,7 +9,7 @@ export const metricCard = style({
   padding: '12px 16px',
   alignItems: 'flex-start',
   textAlign: 'left',
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.02)',
+  boxShadow: 'var(--shadow-card)',
   width: '100%',
 
   selectors: {

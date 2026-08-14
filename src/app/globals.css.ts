@@ -431,7 +431,7 @@ globalStyle('.skip-link', {
   color: 'white',
   padding: '8px 16px',
   textDecoration: 'none',
-  zIndex: 100,
+  zIndex: 'var(--z-dropdown)',
   borderRadius: '0 0 4px 0',
 });
 

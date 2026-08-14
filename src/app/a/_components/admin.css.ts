@@ -120,7 +120,7 @@ export const dashboardViewSwitcher = style({
   padding: '0.45rem',
   position: 'sticky',
   top: 'var(--space-xs)',
-  zIndex: 30,
+  zIndex: 'var(--z-docked)',
 
   '@media': {
     '(max-width: 768px)': {
@@ -233,7 +233,7 @@ globalStyle(`${metricFilterForm} span`, {
 export const applicationLinkCard = style({
   display: 'block',
   position: 'relative',
-  zIndex: 1,
+  zIndex: 'var(--z-base)',
 
   selectors: {
     '&:first-of-type': {
@@ -684,7 +684,7 @@ export const chartTooltip = style({
   position: 'absolute',
   transform: 'translate(-50%, -100%)',
   transition: 'all 0.1s ease',
-  zIndex: 10,
+  zIndex: 'var(--z-raised)',
 
   selectors: {
     'html.dark &': {
@@ -1330,7 +1330,7 @@ export const timelineDot = style({
   marginTop: '0.35rem',
   position: 'relative',
   width: '8px',
-  zIndex: 1,
+  zIndex: 'var(--z-base)',
 });
 
 export const timelineDotSmall = style({

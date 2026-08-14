@@ -37,7 +37,7 @@ export const desktopHeader = style({
   top: 0,
   transform: 'translateX(-50%)',
   width: '100%',
-  zIndex: 50,
+  zIndex: 'var(--z-sticky)',
 
   '@media': {
     '(max-width: 960px)': {

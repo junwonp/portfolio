@@ -37,7 +37,7 @@ export const toolbar = style({
   left: '50%',
   position: 'fixed',
   transform: 'translateX(-50%)',
-  zIndex: 50,
+  zIndex: 'var(--z-sticky)',
 
   '@media': {
     print: {
