@@ -32,16 +32,23 @@ export function getPageScrollY(): number {
   return scrollElement === document.body ? document.body.scrollTop : window.scrollY;
 }
 
+export function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+}
+
 export function scrollPageTo(top: number, behavior: ScrollBehavior = "smooth"): void {
   if (typeof window === "undefined") return;
+  // The global CSS kill-switch cannot stop JS-driven scrolling, so gate it here
+  const effectiveBehavior = prefersReducedMotion() ? "auto" : behavior;
   const scrollElement = getPageScrollElement();
 
   if (scrollElement === document.body) {
-    scrollElement.scrollTo({ top, behavior });
+    scrollElement.scrollTo({ top, behavior: effectiveBehavior });
     return;
   }
 
-  window.scrollTo({ top, behavior });
+  window.scrollTo({ top, behavior: effectiveBehavior });
 }
 
 interface ScrollSpyOptions {
