@@ -101,7 +101,7 @@ globalStyle(`${imageGallery} figure img, ${imageGallery} figure video`, {
   display: 'block',
   width: '100%',
   height: 'auto',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   border: '1px solid var(--color-bg-divider)',
 });
 

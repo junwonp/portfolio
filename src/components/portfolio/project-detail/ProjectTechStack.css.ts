@@ -19,7 +19,7 @@ export const techCategoryGrid = style({
 export const techCategory = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '10px',
+  gap: '0.625rem',
 });
 
 export const categoryTitle = style({
@@ -34,5 +34,5 @@ export const categoryTitle = style({
 export const techGrid = style({
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '6px',
+  gap: '0.375rem',
 });

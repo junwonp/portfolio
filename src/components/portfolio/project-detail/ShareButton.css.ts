@@ -11,7 +11,7 @@ export const shareWrapper = style({
 export const shareBtn = style({
   alignItems: 'center',
   background: 'transparent',
-  borderRadius: '50%',
+  borderRadius: 'var(--radius-circle)',
   border: 'none',
   color: 'var(--color-main)',
   cursor: 'pointer',
@@ -37,7 +37,7 @@ export const shareBtn = style({
 
 export const toast = style({
   background: 'var(--color-main)',
-  borderRadius: '6px',
+  borderRadius: '0.375rem',
   bottom: 'calc(100% + 8px)',
   color: 'var(--color-basic-bg)',
   fontSize: '0.75rem',
@@ -64,7 +64,7 @@ export const toast = style({
 export const shareBtnText = style({
   alignItems: 'center',
   background: 'transparent',
-  borderRadius: '20px',
+  borderRadius: 'var(--radius-xl)',
   border: '1px solid var(--color-bg-divider)',
   color: 'var(--color-sub)',
   cursor: 'pointer',

@@ -3,14 +3,14 @@ import { globalStyle, style } from '@vanilla-extract/css';
 export const achievements = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '12px',
+  gap: '0.75rem',
   marginBottom: '56px',
 });
 
 export const open = style({});
 
 export const achCard = style({
-  borderRadius: '16px',
+  borderRadius: 'var(--radius-lg)',
   background: 'var(--color-basic-bg)',
   overflow: 'hidden',
   minWidth: 0,
@@ -55,7 +55,7 @@ export const achHeader = style({
   '@media': {
     '(max-width: 640px)': {
       padding: '14px 16px',
-      gap: '12px',
+      gap: '0.75rem',
     },
   },
 });
@@ -63,7 +63,7 @@ export const achHeader = style({
 export const achTitleRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '12px',
+  gap: '0.75rem',
   flex: 1,
   minWidth: 0,
 
@@ -71,7 +71,7 @@ export const achTitleRow = style({
     '(max-width: 640px)': {
       flexDirection: 'column',
       alignItems: 'flex-start',
-      gap: '8px',
+      gap: 'var(--space-xs)',
     },
   },
 });
@@ -142,7 +142,7 @@ globalStyle(`${achDesc} code:not(pre code)`, {
   background: 'var(--color-code-bg)',
   color: 'var(--color-inline-code)',
   padding: '2px 5px',
-  borderRadius: '4px',
+  borderRadius: 'var(--radius-xs)',
   overflowWrap: 'anywhere',
   wordBreak: 'break-word',
 });
@@ -157,7 +157,7 @@ globalStyle(`${achDesc} pre code`, {
 globalStyle(`${achDesc} img`, {
   width: '100%',
   marginTop: '12px',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
 });
 
 globalStyle(`${achDesc} table`, {

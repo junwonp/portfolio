@@ -45,7 +45,7 @@ export const subtitle = style({
 export const logoutBtn = style({
   background: 'transparent',
   border: '1px solid var(--color-bg-divider)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   color: 'var(--color-sub)',
   cursor: 'pointer',
   fontSize: '0.875rem',
@@ -65,7 +65,7 @@ export const glass = style({
   background: 'var(--glass-bg)',
   backdropFilter: 'var(--glass-blur)',
   border: 'var(--glass-border)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   padding: 'var(--space-sm)',
   boxShadow: '0 4px 12px var(--color-shadow)',
   transition: 'box-shadow 0.2s ease',
@@ -125,7 +125,7 @@ export const dashboardViewSwitcher = style({
   '@media': {
     '(max-width: 768px)': {
       alignItems: 'stretch',
-      borderRadius: '8px',
+      borderRadius: 'var(--radius-sm)',
       flexDirection: 'column',
     },
   },
@@ -162,7 +162,7 @@ export const segmentedControl = style({
   borderRadius: 'var(--radius-full)',
   display: 'grid',
   flex: '0 0 auto',
-  gap: '0.25rem',
+  gap: 'var(--space-2xs)',
   gridTemplateColumns: 'repeat(2, minmax(92px, 1fr))',
   padding: '0.25rem',
 
@@ -250,7 +250,7 @@ export const applicationLinkPanel = style({
 
 export const applicationForm = style({
   display: 'grid',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
 
   '@media': {
@@ -264,7 +264,7 @@ export const success = style({});
 export const error = style({});
 
 export const formResult = style({
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   fontSize: '0.875rem',
   fontWeight: 600,
   gridColumn: '1 / -1',
@@ -313,7 +313,7 @@ export const fieldHelp = style({
 globalStyle(`${applicationForm} input`, {
   background: 'var(--color-code-bg)',
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   color: 'var(--color-main)',
   font: 'inherit',
   minWidth: 0,
@@ -341,7 +341,7 @@ export const primaryBtn = style({
   alignSelf: 'end',
   background: 'var(--color-primary)',
   border: 'none',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   color: 'var(--color-basic-bg)',
   cursor: 'pointer',
   font: 'inherit',
@@ -361,7 +361,7 @@ export const applicationTable = style({
 export const dangerBtn = style({
   background: 'transparent',
   border: '0.5px solid color-mix(in srgb, var(--color-error) 35%, var(--color-bg-divider))',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   color: 'var(--color-error)',
   cursor: 'pointer',
   font: 'inherit',
@@ -380,7 +380,7 @@ export const dangerBtn = style({
 export const printBtn = style({
   background: 'transparent',
   border: '0.5px solid color-mix(in srgb, var(--color-primary) 35%, var(--color-bg-divider))',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   color: 'var(--color-primary)',
   cursor: 'pointer',
   display: 'inline-flex',
@@ -479,7 +479,7 @@ export const cardDesc = style({
 export const sectionHeadingRow = style({
   alignItems: 'flex-start',
   display: 'flex',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
   justifyContent: 'space-between',
 
   '@media': {
@@ -506,7 +506,7 @@ globalStyle(`${chartSection} .${sectionSubtitle}`, {
 export const chartLegend = style({
   alignItems: 'center',
   display: 'flex',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
   marginTop: 0,
 });
 
@@ -555,7 +555,7 @@ export const chartActions = style({
   alignItems: 'flex-end',
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
 
   '@media': {
     '(max-width: 768px)': {
@@ -569,7 +569,7 @@ export const rangeTabs = style({
   border: '0.5px solid var(--color-bg-divider)',
   borderRadius: 'var(--radius-full)',
   display: 'inline-flex',
-  gap: '0.25rem',
+  gap: 'var(--space-2xs)',
   padding: '0.25rem',
 });
 
@@ -615,10 +615,10 @@ export const trafficSummaryGrid = style({
 export const summaryItem = style({
   background: 'var(--color-code-bg)',
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.25rem',
+  gap: 'var(--space-2xs)',
   minWidth: 0,
   padding: '0.8rem',
 });
@@ -676,7 +676,7 @@ export const interactiveDot = style({
 export const chartTooltip = style({
   background: 'var(--color-basic-bg)',
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   boxShadow: '0 4px 15px var(--color-shadow)',
   fontSize: '0.8rem',
   padding: '0.5rem 0.75rem',
@@ -718,7 +718,7 @@ export const tooltipRow = style({
 });
 
 export const dot = style({
-  borderRadius: '50%',
+  borderRadius: 'var(--radius-circle)',
   display: 'inline-block',
   height: '6px',
   width: '6px',
@@ -809,7 +809,7 @@ export const flexCard = style({
 export const subSection = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
 });
 
 export const spacerTop = style({
@@ -848,14 +848,14 @@ export const labelVal = style({
 
 export const progressBar = style({
   background: 'var(--color-bg-subdivider)',
-  borderRadius: '4px',
+  borderRadius: 'var(--radius-xs)',
   height: '6px',
   overflow: 'hidden',
   width: '100%',
 });
 
 export const progressFill = style({
-  borderRadius: '4px',
+  borderRadius: 'var(--radius-xs)',
   height: '100%',
   transition: 'width 0.3s ease',
 
@@ -882,7 +882,7 @@ export const alertBox = style({
     [`&.${error}`]: {
       background: 'color-mix(in srgb, var(--color-error) 12%, transparent)',
       border: '1px solid color-mix(in srgb, var(--color-error) 35%, transparent)',
-      borderRadius: '8px',
+      borderRadius: 'var(--radius-sm)',
       color: 'var(--color-error)',
       fontSize: '0.9rem',
       padding: '1rem',
@@ -894,7 +894,7 @@ export const alertBox = style({
 export const ipBadge = style({
   background: 'var(--color-code-bg)',
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '4px',
+  borderRadius: 'var(--radius-xs)',
   color: 'var(--color-primary)',
   fontFamily: 'var(--font-family-code), monospace',
   fontSize: '0.8rem',
@@ -953,7 +953,7 @@ export const interactionList = style({
 export const interactionGroup = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
 });
 
 export const interactionTypeLabel = style({
@@ -977,10 +977,10 @@ export const interactionItem = style({
   alignItems: 'center',
   background: 'var(--color-code-bg)',
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '6px',
+  borderRadius: '0.375rem',
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   padding: '0.5rem 0.75rem',
 });
 
@@ -1033,14 +1033,14 @@ export const interactionTime = style({
 
 export const linkCardGrid = style({
   display: 'grid',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
   gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 420px), 1fr))',
 });
 
 export const linkCard = style({
   background: 'var(--color-code-bg)',
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '10px',
+  borderRadius: '0.625rem',
   display: 'flex',
   flexDirection: 'column',
   gap: '0.85rem',
@@ -1057,13 +1057,13 @@ export const linkCard = style({
 export const linkCardHeader = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.25rem',
+  gap: 'var(--space-2xs)',
 });
 
 export const linkCardSlugRow = style({
   alignItems: 'center',
   display: 'flex',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   flexWrap: 'wrap',
 });
 
@@ -1132,7 +1132,7 @@ export const linkCardProjectList = style({
 export const linkCardMetrics = style({
   borderTop: '0.5px solid var(--color-bg-subdivider)',
   display: 'grid',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   gridTemplateColumns: 'repeat(3, 1fr)',
   paddingTop: '0.7rem',
 
@@ -1176,7 +1176,7 @@ export const linkCardFooter = style({
   borderTop: '0.5px solid var(--color-bg-subdivider)',
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   justifyContent: 'space-between',
   paddingTop: '0.7rem',
 });
@@ -1214,7 +1214,7 @@ export const linkCardInteractions = style({
 export const linkCardInteractionsHeader = style({
   alignItems: 'center',
   display: 'flex',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   justifyContent: 'space-between',
 });
 
@@ -1323,7 +1323,7 @@ export const timelineItem = style({
 export const timelineDot = style({
   background: 'var(--color-primary)',
   border: '2px solid var(--color-basic-bg)',
-  borderRadius: '50%',
+  borderRadius: 'var(--radius-circle)',
   flexShrink: 0,
   height: '8px',
   left: '-1.3rem',
@@ -1335,7 +1335,7 @@ export const timelineDot = style({
 
 export const timelineDotSmall = style({
   background: 'var(--color-sub)',
-  borderRadius: '50%',
+  borderRadius: 'var(--radius-circle)',
   flexShrink: 0,
   height: '5px',
   marginTop: '0.35rem',
@@ -1353,7 +1353,7 @@ export const timelineRow = style({
   alignItems: 'baseline',
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
 });
 
 export const timelinePath = style({
@@ -1478,14 +1478,14 @@ export const sessionFilters = style({
   alignItems: 'center',
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
   marginBottom: '1rem',
 });
 
 export const filterGroup = style({
   alignItems: 'center',
   display: 'flex',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
 });
 
 export const filterLabel = style({

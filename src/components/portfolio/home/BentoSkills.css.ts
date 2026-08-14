@@ -17,7 +17,7 @@ export const span2 = style({});
 
 export const card = style({
   background: 'var(--color-basic-bg)',
-  borderRadius: '20px',
+  borderRadius: 'var(--radius-lg)',
   padding: '1.5rem',
   display: 'flex',
   flexDirection: 'column',
@@ -70,7 +70,7 @@ export const cardTitle = style({
 export const tagList = style({
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   minWidth: 0,
 });
 

@@ -191,7 +191,7 @@ export const circle = style({
   color: 'var(--color-main)',
   textDecoration: 'none',
   transition: 'background 0.15s, color 0.15s',
-  borderRadius: '50%',
+  borderRadius: 'var(--radius-circle)',
 });
 
 export const backBtn = style({

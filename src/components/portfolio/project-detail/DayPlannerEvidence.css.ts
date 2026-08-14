@@ -17,7 +17,7 @@ globalStyle(`${sectionHeading} p`, {
 
 export const surfaceMap = style({
   border: '1px solid var(--color-bg-divider)',
-  borderRadius: '18px',
+  borderRadius: '1.125rem',
   boxShadow: '0 12px 30px color-mix(in srgb, var(--color-shadow) 70%, transparent)',
   padding: 'var(--space-sm)',
   background:
@@ -25,7 +25,7 @@ export const surfaceMap = style({
 
   '@media': {
     '(max-width: 440px)': {
-      borderRadius: '14px',
+      borderRadius: '0.875rem',
     },
   },
 });
@@ -39,7 +39,7 @@ globalStyle(`${surfaceMap} h3`, {
 export const surfaceList = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
-  gap: '10px',
+  gap: '0.625rem',
   margin: 0,
   padding: 0,
   listStyle: 'none',
@@ -57,11 +57,11 @@ export const surfaceList = style({
 globalStyle(`${surfaceList} li`, {
   display: 'grid',
   alignContent: 'start',
-  gap: '8px',
+  gap: 'var(--space-xs)',
   minHeight: '170px',
   padding: '14px',
   border: '1px solid var(--color-bg-subdivider)',
-  borderRadius: '14px',
+  borderRadius: '0.875rem',
   background: 'color-mix(in srgb, var(--color-basic-bg) 88%, var(--color-primary) 12%)',
 });
 
@@ -87,14 +87,14 @@ globalStyle(`${surfaceList} p`, {
 
 export const verificationCard = style({
   border: '1px solid var(--color-bg-divider)',
-  borderRadius: '18px',
+  borderRadius: '1.125rem',
   background: 'var(--color-basic-bg)',
   boxShadow: '0 12px 30px color-mix(in srgb, var(--color-shadow) 70%, transparent)',
   padding: 'var(--space-sm)',
 
   '@media': {
     '(max-width: 440px)': {
-      borderRadius: '14px',
+      borderRadius: '0.875rem',
     },
   },
 });
@@ -108,15 +108,15 @@ globalStyle(`${verificationCard} h3`, {
 globalStyle(`${verificationCard} dl`, {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-  gap: '10px',
+  gap: '0.625rem',
   margin: 0,
 });
 
 globalStyle(`${verificationCard} div`, {
   display: 'grid',
-  gap: '6px',
+  gap: '0.375rem',
   padding: '14px',
-  borderRadius: '14px',
+  borderRadius: '0.875rem',
   background: 'color-mix(in srgb, var(--color-code-bg) 74%, transparent)',
 });
 
@@ -128,7 +128,7 @@ globalStyle(`${verificationCard} dt`, {
 
 globalStyle(`${verificationCard} dd`, {
   display: 'grid',
-  gap: '6px',
+  gap: '0.375rem',
   margin: 0,
 });
 

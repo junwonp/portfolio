@@ -54,7 +54,7 @@ export const printButton = style({
   cursor: 'pointer',
   display: 'inline-flex',
   font: '700 0.875rem/1 var(--font-family-text), sans-serif',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   height: '48px',
   padding: '0 1.25rem',
   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.8)',

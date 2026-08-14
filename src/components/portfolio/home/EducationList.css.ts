@@ -15,7 +15,7 @@ export const item = style({
   '@media': {
     '(max-width: 768px)': {
       flexDirection: 'column',
-      gap: '0.5rem',
+      gap: 'var(--space-xs)',
     },
   },
 });
@@ -23,7 +23,7 @@ export const item = style({
 export const info = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.25rem',
+  gap: 'var(--space-2xs)',
 });
 
 export const school = style({

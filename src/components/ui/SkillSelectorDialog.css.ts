@@ -5,13 +5,13 @@ export const selected = style({});
 export const field = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '8px',
+  gap: 'var(--space-xs)',
 });
 
 export const summary = style({
   alignItems: 'flex-start',
   display: 'flex',
-  gap: '8px',
+  gap: 'var(--space-xs)',
   justifyContent: 'space-between',
 
   '@media': {
@@ -26,7 +26,7 @@ export const selectedList = style({
   display: 'flex',
   flex: 1,
   flexWrap: 'wrap',
-  gap: '6px',
+  gap: '0.375rem',
   minWidth: 0,
 });
 
@@ -49,7 +49,7 @@ export const placeholder = style({
 
 export const openButton = style({
   border: '1px solid color-mix(in srgb, var(--color-primary) 14%, transparent)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   cursor: 'pointer',
   font: 'inherit',
   alignItems: 'center',
@@ -58,13 +58,13 @@ export const openButton = style({
   display: 'inline-flex',
   flex: '0 0 auto',
   fontSize: '0.8125rem',
-  gap: '6px',
+  gap: '0.375rem',
   padding: '8px 10px',
 });
 
 export const addButton = style({
   border: '1px solid color-mix(in srgb, var(--color-primary) 14%, transparent)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   cursor: 'pointer',
   font: 'inherit',
   background: 'color-mix(in srgb, var(--color-primary) 8%, transparent)',
@@ -75,7 +75,7 @@ export const addButton = style({
 
 export const doneButton = style({
   border: '1px solid color-mix(in srgb, var(--color-primary) 14%, transparent)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   cursor: 'pointer',
   font: 'inherit',
   background: 'var(--color-primary)',
@@ -86,7 +86,7 @@ export const doneButton = style({
 
 export const iconButton = style({
   border: '1px solid color-mix(in srgb, var(--color-primary) 14%, transparent)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   cursor: 'pointer',
   font: 'inherit',
   alignItems: 'center',
@@ -119,7 +119,7 @@ export const backdrop = style({
 export const panel = style({
   background: 'var(--color-basic-bg)',
   border: '1px solid color-mix(in srgb, var(--color-primary) 12%, transparent)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   boxShadow: '0 20px 70px rgba(0, 0, 0, 0.22)',
   display: 'flex',
   flexDirection: 'column',
@@ -141,7 +141,7 @@ export const panel = style({
 export const header = style({
   alignItems: 'center',
   display: 'flex',
-  gap: '8px',
+  gap: 'var(--space-xs)',
   justifyContent: 'space-between',
 });
 
@@ -153,14 +153,14 @@ globalStyle(`${header} h3`, {
 export const actions = style({
   alignItems: 'center',
   display: 'flex',
-  gap: '8px',
+  gap: 'var(--space-xs)',
   justifyContent: 'flex-end',
 });
 
 export const customRow = style({
   alignItems: 'center',
   display: 'flex',
-  gap: '8px',
+  gap: 'var(--space-xs)',
 
   '@media': {
     '(max-width: 640px)': {
@@ -195,13 +195,13 @@ export const content = style({
 export const group = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '8px',
+  gap: 'var(--space-xs)',
 });
 
 export const chipGrid = style({
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '6px',
+  gap: '0.375rem',
 });
 
 export const chip = style({
@@ -233,7 +233,7 @@ export const empty = style({
 export const input = style({
   background: 'var(--color-code-bg)',
   border: '1px solid color-mix(in srgb, var(--color-primary) 14%, transparent)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   color: 'var(--color-main)',
   flex: 1,
   font: 'inherit',

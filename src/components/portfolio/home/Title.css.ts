@@ -14,7 +14,7 @@ export const titleContainer = style({
   flexDirection: 'row',
   justifyContent: 'flex-start',
   margin: '0 0 0.67em 0',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
   maxWidth: '100%',
   minWidth: 0,
 
@@ -30,7 +30,7 @@ export const titleContainer = style({
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      gap: '0.5rem',
+      gap: 'var(--space-xs)',
     },
   },
 });
@@ -53,7 +53,7 @@ export const backButton = style({
 
 globalStyle(`${backButton} a`, {
   alignItems: 'center',
-  borderRadius: '50%',
+  borderRadius: 'var(--radius-circle)',
   color: 'var(--color-main)',
   display: 'flex',
   justifyContent: 'center',
@@ -122,7 +122,7 @@ export const tagline = style({
 
 export const metricsGrid = style({
   display: 'grid',
-  gap: '12px',
+  gap: '0.75rem',
   gridTemplateColumns: 'repeat(var(--metric-count), minmax(0, 1fr))',
   margin: 'var(--space-md) 0 var(--space-sm)',
   width: '100%',
@@ -155,7 +155,7 @@ export const pillars = style({
 export const pillar = style({
   alignItems: 'flex-start',
   backgroundColor: 'var(--color-code-bg)',
-  borderRadius: '12px',
+  borderRadius: 'var(--radius-md)',
   display: 'flex',
   gap: '0.75rem',
   padding: '0.75rem var(--space-sm)',

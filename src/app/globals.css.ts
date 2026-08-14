@@ -169,7 +169,7 @@ globalStyle('.icon a, a svg:only-child', {
 globalStyle('a:focus-visible, button:focus-visible', {
   outline: '2px solid var(--color-primary)',
   outlineOffset: '2px',
-  borderRadius: '4px',
+  borderRadius: 'var(--radius-xs)',
 });
 
 globalStyle('code:not(pre code)', {
@@ -177,7 +177,7 @@ globalStyle('code:not(pre code)', {
   fontFeatureSettings: '"liga" 1, "calt" 1',
   backgroundColor: 'var(--color-inline-bg)',
   padding: '0.12em 0.35em',
-  borderRadius: '4px',
+  borderRadius: 'var(--radius-xs)',
   fontSize: '0.875em',
   color: 'var(--color-inline-code)',
 });
@@ -270,7 +270,7 @@ globalStyle('pre', {
   fontFeatureSettings: '"liga" 1, "calt" 1',
   backgroundColor: 'var(--color-code-bg)',
   border: '1px solid var(--color-bg-divider)',
-  borderRadius: '6px',
+  borderRadius: '0.375rem',
   padding: 'var(--space-sm)',
   margin: 'var(--space-md) 0',
   overflowX: 'auto',
@@ -316,7 +316,7 @@ globalStyle('::-webkit-scrollbar-track', {
 });
 
 globalStyle('::-webkit-scrollbar-thumb', {
-  borderRadius: '10px',
+  borderRadius: '0.625rem',
   border: 'solid 3px transparent',
   boxShadow: 'inset 0 0 10px 10px var(--color-scroll-thumb)',
 });

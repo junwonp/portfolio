@@ -11,7 +11,7 @@ export const open = style({});
 
 export const companyCard = style({
   background: 'var(--color-basic-bg)',
-  borderRadius: '16px',
+  borderRadius: 'var(--radius-lg)',
   display: 'flex',
   flexDirection: 'column',
   minWidth: 0,
@@ -46,7 +46,7 @@ export const companyHeader = style({
   cursor: 'pointer',
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   marginBottom: 0,
   padding: 0,
   textAlign: 'left',
@@ -58,7 +58,7 @@ export const companyTop = style({
   alignItems: 'center',
   display: 'flex',
   justifyContent: 'space-between',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
   width: '100%',
 });
 
@@ -73,7 +73,7 @@ export const companyLeft = style({
 export const companyAdminActions = style({
   alignItems: 'center',
   display: 'inline-flex',
-  gap: '6px',
+  gap: '0.375rem',
 });
 
 export const companyName = style({
@@ -86,7 +86,7 @@ export const companyName = style({
 
 export const badges = style({
   display: 'flex',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
 });
 
 export const companyRight = style({
@@ -99,7 +99,7 @@ export const companyInfoRow = style({
   display: 'flex',
   justifyContent: 'space-between',
   width: '100%',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
 
   '@media': {
     '(max-width: 576px)': {
@@ -113,7 +113,7 @@ export const roleLine = style({
   color: 'var(--color-sub)',
   display: 'flex',
   fontSize: '1rem',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   minWidth: 0,
   overflowWrap: 'anywhere',
 
@@ -140,7 +140,7 @@ export const expandIndicator = style({
   alignItems: 'center',
   color: 'var(--color-sub)',
   display: 'flex',
-  gap: '0.25rem',
+  gap: 'var(--space-2xs)',
   fontSize: '0.875rem',
   fontWeight: 500,
   transition: 'color 0.15s',
@@ -197,7 +197,7 @@ globalStyle(`${highlights} li:before`, {
 export const bullet = style({
   width: '5px',
   height: '5px',
-  borderRadius: '50%',
+  borderRadius: 'var(--radius-circle)',
   backgroundColor: 'var(--color-primary)',
   marginTop: '0.65rem',
   flexShrink: 0,

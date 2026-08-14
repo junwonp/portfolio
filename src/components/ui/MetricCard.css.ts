@@ -2,10 +2,10 @@ import { style } from '@vanilla-extract/css';
 
 export const metricCard = style({
   background: 'color-mix(in srgb, var(--color-surface-hover) 35%, var(--color-basic-bg))',
-  borderRadius: '12px',
+  borderRadius: 'var(--radius-lg)',
   display: 'flex',
   flexDirection: 'column',
-  gap: '6px',
+  gap: '0.375rem',
   padding: '12px 16px',
   alignItems: 'flex-start',
   textAlign: 'left',

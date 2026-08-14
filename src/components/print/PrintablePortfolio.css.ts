@@ -55,7 +55,7 @@ export const printButton = style({
   cursor: 'pointer',
   display: 'inline-flex',
   font: '700 0.875rem/1 sans-serif',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   height: '48px',
   padding: '0 1.25rem',
   boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
@@ -112,7 +112,7 @@ export const headerTop = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'flex-start',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
   marginBottom: '0.7rem',
 });
 
@@ -218,7 +218,7 @@ export const projectList = style({
 export const projectCard = style({
   padding: '0.7rem 0.85rem',
   border: '1px solid #ddd',
-  borderRadius: '6px',
+  borderRadius: '0.375rem',
   pageBreakInside: 'avoid',
 });
 
@@ -264,7 +264,7 @@ export const skillTag = style({
   color: '#222',
   background: '#f5f5f5',
   border: '1px solid #ddd',
-  borderRadius: '4px',
+  borderRadius: 'var(--radius-xs)',
   padding: '0.12rem 0.5rem',
   lineHeight: 1.5,
   printColorAdjust: 'exact',
@@ -306,7 +306,7 @@ export const ctaButton = style({
   fontSize: '0.9375rem',
   fontWeight: 700,
   padding: '0.65rem 2.2rem',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   printColorAdjust: 'exact',
   WebkitPrintColorAdjust: 'exact',
 

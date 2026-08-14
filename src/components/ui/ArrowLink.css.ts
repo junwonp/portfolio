@@ -12,7 +12,7 @@ export const arrowLink = style({
   alignItems: 'center',
   padding: '0.25rem 0.5rem',
   marginLeft: '-0.5rem',
-  borderRadius: '4px',
+  borderRadius: 'var(--radius-xs)',
   width: 'fit-content',
   transition: 'background-color 0.2s, transform 0.2s',
 

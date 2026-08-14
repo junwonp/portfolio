@@ -10,7 +10,7 @@ export const loginContainer = style({
 
 export const loginCard = style({
   background: 'var(--color-basic-bg)',
-  borderRadius: '20px',
+  borderRadius: 'var(--radius-lg)',
   boxShadow: 'var(--shadow-card-lifted)',
   maxWidth: '400px',
   padding: '2.5rem',
@@ -48,7 +48,7 @@ export const subtitle = style({
 export const errorContainer = style({
   background: 'rgba(238, 0, 0, 0.05)',
   border: '1px solid rgba(238, 0, 0, 0.15)',
-  borderRadius: '12px',
+  borderRadius: 'var(--radius-md)',
   padding: '1.25rem',
   textAlign: 'left',
 
@@ -90,7 +90,7 @@ export const errorMessage = style({
 export const loginButton = style({
   background: 'var(--color-primary, #000)',
   border: 'none',
-  borderRadius: '10px',
+  borderRadius: '0.625rem',
   color: 'white',
   cursor: 'pointer',
   fontSize: '1rem',

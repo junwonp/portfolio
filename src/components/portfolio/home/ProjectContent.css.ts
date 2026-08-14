@@ -5,7 +5,7 @@ import { projectItem } from './ProjectItem.css';
 export const badge = style({
   alignSelf: 'center',
   background: 'color-mix(in srgb, var(--color-primary) 10%, transparent)',
-  borderRadius: '6px',
+  borderRadius: '0.375rem',
   color: 'var(--color-primary)',
   fontSize: '0.72rem',
   fontWeight: 700,
@@ -74,14 +74,14 @@ export const spotlightContent = style({
 export const header = style({
   alignItems: 'flex-start',
   display: 'flex',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
   justifyContent: 'space-between',
   minWidth: 0,
 
   '@media': {
     '(max-width: 768px)': {
       flexDirection: 'column',
-      gap: '0.5rem',
+      gap: 'var(--space-xs)',
     },
   },
 });
@@ -113,7 +113,7 @@ export const description = style({
 
 export const metrics = style({
   display: 'grid',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   gridTemplateColumns: 'repeat(var(--metric-count), minmax(0, 1fr))',
   margin: 0,
 
@@ -134,7 +134,7 @@ export const resumeHeader = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
   padding: '1rem 0',
   width: '100%',
 
@@ -162,7 +162,7 @@ export const resumeHeader = style({
       padding: '0.875rem 0',
       flexDirection: 'column',
       alignItems: 'flex-start',
-      gap: '0.5rem',
+      gap: 'var(--space-xs)',
 
       selectors: {
         [`${projectItem} &`]: {
@@ -195,7 +195,7 @@ export const titleGroupInline = style({
 export const titleRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   minWidth: 0,
 
   '@media': {
@@ -209,14 +209,14 @@ export const titleRow = style({
 export const metaRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '0.5rem',
+  gap: 'var(--space-xs)',
   minWidth: 0,
 
   '@media': {
     '(max-width: 576px)': {
       width: '100%',
       flexWrap: 'wrap',
-      gap: '0.5rem',
+      gap: 'var(--space-xs)',
     },
   },
 });
@@ -265,7 +265,7 @@ export const resumeLinkArea = style({
 export const resumeBody = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
   padding: '0 0 1.25rem 0',
   minWidth: 0,
 
@@ -311,7 +311,7 @@ export const mainSkills = style({
 export const resumeMetrics = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(var(--metric-count), minmax(0, 1fr))',
-  gap: '10px',
+  gap: '0.625rem',
   marginTop: '0.5rem',
   width: '100%',
 
@@ -325,7 +325,7 @@ export const resumeMetrics = style({
 export const detailGrid = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '1rem',
+  gap: 'var(--space-sm)',
 });
 
 export const detailRow = style({
@@ -340,7 +340,7 @@ export const detailLabel = style({
 
 export const labelPill = style({
   background: 'var(--color-bg-subdivider)',
-  borderRadius: '6px',
+  borderRadius: '0.375rem',
   color: 'var(--color-sub)',
   fontSize: '0.8125rem',
   fontWeight: 600,

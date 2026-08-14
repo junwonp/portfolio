@@ -24,7 +24,7 @@ export const activeBg = style({
   left: 0,
   right: 0,
   background: 'color-mix(in srgb, var(--color-primary) 8%, transparent)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   zIndex: 0,
   transition: 'transform 0.25s var(--ease-standard), opacity 0.2s',
   pointerEvents: 'none',
@@ -34,7 +34,7 @@ export const activeBg = style({
 export const navList = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.25rem',
+  gap: 'var(--space-2xs)',
   listStyle: 'none',
   margin: 0,
   padding: 0,
@@ -62,7 +62,7 @@ export const navItem = style({
   textAlign: 'left',
   transition: 'background-color 0.15s ease',
   width: '100%',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
 
   ':hover': {
     color: 'var(--color-bold)',

@@ -101,7 +101,7 @@ export const hero = style({
 export const heroMeta = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '8px',
+  gap: 'var(--space-xs)',
   marginBottom: '16px',
   flexWrap: 'wrap',
 });
@@ -143,7 +143,7 @@ export const heroTagline = style({
 
 export const metricsRow = style({
   display: 'grid',
-  gap: '12px',
+  gap: '0.75rem',
   gridTemplateColumns: 'repeat(var(--metric-count), minmax(0, 1fr))',
   margin: 0,
   maxWidth: '680px',
@@ -212,7 +212,7 @@ globalStyle(`${projectArticle} table`, {
   maxWidth: '100%',
   margin: '18px 0 24px',
   border: '1px solid var(--color-table-border)',
-  borderRadius: '12px',
+  borderRadius: 'var(--radius-md)',
   borderCollapse: 'separate',
   borderSpacing: 0,
   background: 'var(--color-basic-bg)',
@@ -280,19 +280,19 @@ globalStyle(`@media (max-width: 576px)`, {
   },
   [`${projectArticle} tbody`]: {
     display: 'grid',
-    gap: '10px',
+    gap: '0.625rem',
   },
   [`${projectArticle} tr`]: {
     background: 'var(--color-basic-bg)',
     border: '1px solid var(--color-table-border)',
-    borderRadius: '12px',
+    borderRadius: 'var(--radius-md)',
     display: 'block',
     overflow: 'hidden',
   },
   [`${projectArticle} td`]: {
     borderRight: 0,
     display: 'grid',
-    gap: '10px',
+    gap: '0.625rem',
     gridTemplateColumns: 'minmax(92px, 35%) minmax(0, 1fr)',
     minWidth: 0,
     overflowWrap: 'anywhere',

@@ -28,7 +28,7 @@ export const skillChip = style({
     display: 'inline-block',
     width: '5px',
     height: '5px',
-    borderRadius: '50%',
+    borderRadius: 'var(--radius-circle)',
     backgroundColor: catColorVar,
     opacity: 0.8,
     flexShrink: 0,

@@ -3,7 +3,7 @@ import { globalStyle, style, styleVariants } from '@vanilla-extract/css';
 export const iconLink = style({
   alignItems: 'center',
   alignSelf: 'center',
-  borderRadius: '50%',
+  borderRadius: 'var(--radius-circle)',
   color: 'var(--color-main)',
   display: 'flex',
   justifyContent: 'center',

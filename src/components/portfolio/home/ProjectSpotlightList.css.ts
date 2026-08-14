@@ -13,7 +13,7 @@ export const card = style({
   alignItems: 'start',
   background: 'var(--color-basic-bg)',
   border: '0.5px solid color-mix(in srgb, var(--color-bg-divider) 40%, transparent)',
-  borderRadius: '12px',
+  borderRadius: 'var(--radius-lg)',
   display: 'grid',
   gap: '1.25rem',
   minWidth: 0,
@@ -75,7 +75,7 @@ export const thumbnailFrame = style({
   alignSelf: 'start',
   aspectRatio: '1',
   background: 'var(--color-surface-hover)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   overflow: 'hidden',
   position: 'relative',
   width: '100%',
@@ -93,7 +93,7 @@ export const thumbnailFrameIcon = style({
 });
 
 export const thumbnailFrameScreenshot = style({
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
 });
 
 export const thumbnail = style({

@@ -13,13 +13,13 @@ const skeletonShimmer = keyframes({
 // while loading and settles once the image/video arrives
 const loadingMorph = keyframes({
   '0%': {
-    borderRadius: '8px',
+    borderRadius: 'var(--radius-sm)',
   },
   '50%': {
-    borderRadius: '20px',
+    borderRadius: 'var(--radius-xl)',
   },
   '100%': {
-    borderRadius: '8px',
+    borderRadius: 'var(--radius-sm)',
   },
 });
 
@@ -37,7 +37,7 @@ export const mediaWrapper = style({
   display: 'inline-flex',
   justifyContent: 'center',
   alignItems: 'center',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   overflow: 'hidden',
   maxWidth: '100%',
   maxHeight: '60vh',

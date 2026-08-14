@@ -2,17 +2,17 @@ import { globalStyle, style } from '@vanilla-extract/css';
 
 export const mermaidDiagram = style({
   display: 'grid',
-  gap: '12px',
+  gap: '0.75rem',
   margin: '24px 0 32px',
   padding: 'var(--space-sm)',
   border: '1px solid var(--color-bg-divider)',
-  borderRadius: '14px',
+  borderRadius: '0.875rem',
   background: 'var(--color-basic-bg)',
   overflow: 'hidden',
 
   '@media': {
     '(max-width: 720px)': {
-      borderRadius: '12px',
+      borderRadius: 'var(--radius-md)',
       padding: 'var(--space-sm)',
     },
   },
@@ -60,7 +60,7 @@ globalStyle(`@media (max-width: 720px)`, {
 
 export const diagramFrame = style({
   border: '1px solid var(--color-bg-subdivider)',
-  borderRadius: '10px',
+  borderRadius: '0.625rem',
   background: 'var(--color-table-bg)',
   overflowX: 'auto',
 });

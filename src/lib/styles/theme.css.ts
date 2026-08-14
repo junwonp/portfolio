@@ -5,6 +5,7 @@ const kebabCase = (str: string) => str.replace(/([A-Z])/g, '-$1').toLowerCase();
 // 1. Create a global theme contract with custom names to match existing CSS custom properties
 export const vars = createGlobalThemeContract({
   space: {
+    '2xs': null,
     xs: null,
     sm: null,
     md: null,
@@ -36,8 +37,14 @@ export const vars = createGlobalThemeContract({
     default: null,
   },
   radius: {
+    xs: null,
+    sm: null,
+    md: null,
+    lg: null,
+    xl: null,
     full: null,
     squircle: null,
+    circle: null,
   },
   ease: {
     standard: null,
@@ -116,6 +123,7 @@ export const vars = createGlobalThemeContract({
 // 2. Define the global theme values (Light/Default theme) on :root
 createGlobalTheme(':root', vars, {
   space: {
+    '2xs': '0.25rem',
     xs: '0.5rem',
     sm: '1rem',
     md: '2rem',
@@ -147,10 +155,16 @@ createGlobalTheme(':root', vars, {
     default: '1.15',
   },
   radius: {
+    xs: '4px',
+    sm: '8px',
+    md: '12px',
+    lg: '16px',
+    xl: '20px',
     // Pill shape — used for nav bars, tabs, badges, chips, and buttons
     full: '9999px',
     // iOS-style app icon silhouette
     squircle: '22.5%',
+    circle: '50%',
   },
   ease: {
     // M3 spec curves — standard for everyday motion, emphasized for entrances

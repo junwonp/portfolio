@@ -15,7 +15,7 @@ export const selectTrigger = style({
   alignItems: 'center',
   background: 'var(--color-code-bg)',
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   color: 'var(--color-main)',
   cursor: 'pointer',
   display: 'flex',
@@ -65,7 +65,7 @@ export const selectDropdown = style({
   marginTop: '0.25rem',
   background: 'rgba(255, 255, 255, 0.95)',
   border: '1px solid rgba(0, 0, 0, 0.08)',
-  borderRadius: '8px',
+  borderRadius: 'var(--radius-sm)',
   boxShadow: '0 4px 20px var(--color-shadow)',
   zIndex: 'var(--z-sticky)',
   maxHeight: '220px',
@@ -93,7 +93,7 @@ export const optionsList = style({
 
 export const optionItem = style({
   alignItems: 'center',
-  borderRadius: '6px',
+  borderRadius: '0.375rem',
   color: 'var(--color-main)',
   cursor: 'pointer',
   display: 'flex',
