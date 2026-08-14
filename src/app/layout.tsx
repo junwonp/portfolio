@@ -17,7 +17,15 @@ export const metadata: Metadata = {
 
 const themeInitializerScript = `
 (function () {
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  // A stored manual choice wins over the OS setting; otherwise follow the system
+  var theme = null;
+  try {
+    theme = localStorage.getItem('theme');
+  } catch (e) {}
+  if (
+    theme === 'dark' ||
+    (theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ) {
     document.documentElement.classList.add('dark');
   }
 })();

@@ -42,6 +42,9 @@ export interface Labels {
   techStack: string;
   tocProjectDetails: string;
   tocTitle: string;
+  themeAuto: string;
+  themeLight: string;
+  themeDark: string;
   toggleLanguage: string;
   viewProjectDetails: string;
   visitSite: string;
@@ -91,7 +94,10 @@ export const labelsMap: Record<Language, Labels> = {
     techStack: '기술 스택',
     tocProjectDetails: '프로젝트 상세',
     tocTitle: '목차',
-    toggleLanguage: 'Switch to English',
+    themeAuto: '테마: 자동',
+    themeLight: '테마: 라이트 모드',
+    themeDark: '테마: 다크 모드',
+    toggleLanguage: '영어로 전환하기',
     viewProjectDetails: '프로젝트 자세히 보기',
     visitSite: '서비스 바로가기',
     whatDidIDo: '주요 작업',
@@ -138,7 +144,10 @@ export const labelsMap: Record<Language, Labels> = {
     techStack: 'Tech Stack',
     tocProjectDetails: 'Project Details',
     tocTitle: 'Table of Contents',
-    toggleLanguage: '한국어로 전환하기',
+    themeAuto: 'Theme: auto',
+    themeLight: 'Theme: light mode',
+    themeDark: 'Theme: dark mode',
+    toggleLanguage: 'Switch to Korean',
     viewProjectDetails: 'View project details',
     visitSite: 'Visit Site',
     whatDidIDo: 'What did I Do',

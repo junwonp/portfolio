@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Check, Ellipsis, Printer, Share2 } from "lucide-react";
 
 import Github from "@/components/ui/Icon/Github";
 import Linkedin from "@/components/ui/Icon/Linkedin";
 import IconLink from "@/components/ui/IconLink";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 import { useLocale } from "@/lib/contexts/LocaleContext";
 
 import * as styles from "./MobileStickyHeader.css";
@@ -22,6 +24,9 @@ export default function MobileStickyHeaderActions({
   name,
 }: Props) {
   const { locale, labels, setLocale } = useLocale();
+  // The theme toggle is a home-page-only control (`/`, `/en`, `/ko`)
+  const pathname = usePathname();
+  const isHome = pathname === "/" || /^\/[a-z]{2}$/.test(pathname);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [isCopied, setIsCopied] = useState(false);
@@ -125,6 +130,20 @@ export default function MobileStickyHeaderActions({
 
           {isMenuOpen && (
             <div className={styles.dropdownMenu}>
+              {isHome && (
+                <>
+                  <ThemeToggle
+                    autoLabel={labels.themeAuto}
+                    lightLabel={labels.themeLight}
+                    darkLabel={labels.themeDark}
+                    className={styles.dropdownItem}
+                    iconSize={16}
+                    onToggle={() => setIsMenuOpen(false)}
+                  />
+                  <div className={styles.menuDivider} />
+                </>
+              )}
+
               <button className={styles.dropdownItem} onClick={sharePage}>
                 {isCopied ? (
                   <>
