@@ -49,6 +49,7 @@ export const vars = createGlobalThemeContract({
   ease: {
     standard: null,
     emphasized: null,
+    spring: null,
     snap: null,
   },
   z: {
@@ -170,6 +171,9 @@ createGlobalTheme(':root', vars, {
     // M3 spec curves — standard for everyday motion, emphasized for entrances
     standard: 'cubic-bezier(0.2, 0, 0, 1)',
     emphasized: 'cubic-bezier(0.05, 0.7, 0.1, 1)',
+    // Back-out overshoot — CSS approximation of a spatial spring for
+    // elements that snap into place (nav highlight pill)
+    spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
     // Carousel snap — kept as its own token so drag-and-settle stays distinct
     snap: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
   },

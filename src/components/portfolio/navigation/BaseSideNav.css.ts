@@ -26,7 +26,7 @@ export const activeBg = style({
   background: 'color-mix(in srgb, var(--color-primary) 8%, transparent)',
   borderRadius: 'var(--radius-sm)',
   zIndex: 0,
-  transition: 'transform 0.25s var(--ease-standard), opacity 0.2s',
+  transition: 'transform 0.25s var(--ease-spring), opacity 0.2s',
   pointerEvents: 'none',
   willChange: 'transform, opacity',
 });

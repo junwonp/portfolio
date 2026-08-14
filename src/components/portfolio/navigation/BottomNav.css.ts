@@ -49,7 +49,7 @@ export const activeBg = style({
   borderRadius: 'var(--radius-full)',
   boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)',
   zIndex: 0,
-  transition: 'transform 0.3s var(--ease-standard), opacity 0.2s',
+  transition: 'transform 0.3s var(--ease-spring), opacity 0.2s',
   pointerEvents: 'auto',
   cursor: 'grab',
   willChange: 'transform, opacity',
