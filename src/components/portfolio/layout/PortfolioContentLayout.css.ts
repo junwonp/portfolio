@@ -125,7 +125,6 @@ export const navWrapper = style({
 export const mainContent = style({
   maxWidth: '800px',
   minWidth: 0,
-  transition: 'opacity 0.3s ease, transform 0.3s ease',
   width: '100%',
 
   '@media': {

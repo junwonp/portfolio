@@ -126,7 +126,7 @@ export default function BottomNav({ isProject = false }: Props) {
     if (!isProject) {
       const header = document.querySelector(".sticky-header");
       const headerHeight =
-        header instanceof HTMLElement && header.classList.contains("visible")
+        header instanceof HTMLElement && getComputedStyle(header).display !== "none"
           ? header.offsetHeight
           : 0;
       offset = headerHeight;

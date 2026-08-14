@@ -18,7 +18,6 @@ export const fadeSlideEnter = style({
 export const mainContent = style({
   minWidth: 0,
   width: '100%',
-  transition: 'opacity 0.3s ease, transform 0.3s ease',
 });
 
 globalStyle(`${mainContent} > section`, {
