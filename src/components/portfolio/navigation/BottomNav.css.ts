@@ -7,7 +7,7 @@ export const center = style({});
 export const right = style({});
 
 export const tabBar = style({
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   bottom: 'calc(1rem + env(safe-area-inset-bottom))',
   display: 'flex',
   left: '50%',
@@ -46,7 +46,7 @@ export const activeBg = style({
   top: '0.25rem',
   bottom: '0.25rem',
   background: 'var(--color-primary)',
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   boxShadow: '0 2px 8px color-mix(in srgb, var(--color-primary) 30%, transparent)',
   zIndex: 0,
   transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s',
@@ -66,7 +66,7 @@ export const tab = style({
   alignItems: 'center',
   background: 'transparent',
   border: 'none',
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   color: 'var(--color-sub)',
   cursor: 'pointer',
   display: 'flex',
@@ -152,7 +152,7 @@ export const islandSlot = style({
 });
 
 export const island = style({
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
   pointerEvents: 'auto',
 

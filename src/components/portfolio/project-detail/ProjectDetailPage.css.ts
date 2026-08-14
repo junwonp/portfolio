@@ -35,7 +35,7 @@ export const topbarLink = style({
   backgroundColor: 'color-mix(in srgb, var(--color-surface-hover) 80%, transparent)',
   backdropFilter: 'saturate(140%) blur(12px)',
   WebkitBackdropFilter: 'saturate(140%) blur(12px)',
-  borderRadius: '9999px',
+  borderRadius: 'var(--radius-full)',
   whiteSpace: 'nowrap',
   transition: 'background-color 0.15s, color 0.15s, transform 0.1s',
 
@@ -51,7 +51,7 @@ export const topbarLink = style({
     [`&.${primary}`]: {
       background: 'var(--color-primary)',
       color: '#fff !important',
-      borderRadius: '9999px',
+      borderRadius: 'var(--radius-full)',
       padding: '6px 14px',
       opacity: 1,
     },

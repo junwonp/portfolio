@@ -35,6 +35,9 @@ export const vars = createGlobalThemeContract({
     body: null,
     default: null,
   },
+  radius: {
+    full: null,
+  },
   color: {
     bold: null,
     inlineCode: null,
@@ -120,6 +123,10 @@ createGlobalTheme(':root', vars, {
     heading: '1.3',
     body: '1.55',
     default: '1.15',
+  },
+  radius: {
+    // Pill shape — used for nav bars, tabs, badges, chips, and buttons
+    full: '9999px',
   },
   color: {
     bold: 'oklch(0% 0 0)',

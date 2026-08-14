@@ -49,7 +49,7 @@ export const printButton = style({
   backdropFilter: 'blur(12px)',
   WebkitBackdropFilter: 'blur(12px)',
   border: '1px solid rgba(255, 255, 255, 0.5)',
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   color: '#111111',
   cursor: 'pointer',
   display: 'inline-flex',

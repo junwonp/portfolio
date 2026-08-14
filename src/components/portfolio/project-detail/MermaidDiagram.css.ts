@@ -36,7 +36,7 @@ export const diagramHeader = style({
 globalStyle(`${diagramHeader} span`, {
   flexShrink: 0,
   border: '1px solid var(--color-bg-divider)',
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   padding: '5px 10px',
   background: 'var(--color-code-bg)',
   color: 'var(--color-primary)',

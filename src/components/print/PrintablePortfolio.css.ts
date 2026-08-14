@@ -50,7 +50,7 @@ export const printButton = style({
   alignItems: 'center',
   background: 'rgba(255, 255, 255, 0.8)',
   border: '1px solid rgba(0, 0, 0, 0.1)',
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   color: '#111',
   cursor: 'pointer',
   display: 'inline-flex',

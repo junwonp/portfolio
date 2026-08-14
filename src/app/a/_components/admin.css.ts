@@ -113,7 +113,7 @@ globalStyle(`${metricFilterCard} .${sectionSubtitle}`, {
 
 export const dashboardViewSwitcher = style({
   alignItems: 'center',
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   display: 'flex',
   gap: 'var(--space-sm)',
   justifyContent: 'space-between',
@@ -159,7 +159,7 @@ globalStyle(`${switcherCopy} strong`, {
 export const segmentedControl = style({
   background: 'var(--color-code-bg)',
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   display: 'grid',
   flex: '0 0 auto',
   gap: '0.25rem',
@@ -178,7 +178,7 @@ export const active = style({});
 globalStyle(`${segmentedControl} button`, {
   background: 'transparent',
   border: 0,
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   color: 'var(--color-sub)',
   cursor: 'pointer',
   font: 'inherit',
@@ -520,7 +520,7 @@ export const views = style({});
 export const sessions = style({});
 
 export const legendColor = style({
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   display: 'inline-block',
   height: '4px',
   width: '14px',
@@ -543,7 +543,7 @@ export const legendText = style({
 
 export const rangeBadge = style({
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   color: 'var(--color-sub)',
   flex: '0 0 auto',
   fontSize: '0.8rem',
@@ -567,14 +567,14 @@ export const chartActions = style({
 export const rangeTabs = style({
   background: 'var(--color-code-bg)',
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   display: 'inline-flex',
   gap: '0.25rem',
   padding: '0.25rem',
 });
 
 globalStyle(`${rangeTabs} a, ${rangeTabs} button`, {
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   color: 'var(--color-sub)',
   fontSize: '0.8rem',
   fontWeight: 600,
@@ -996,7 +996,7 @@ export const interactionLabel = style({
 });
 
 export const interactionAction = style({
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   fontSize: '0.72rem',
   fontWeight: 700,
   padding: '0.15rem 0.55rem',
@@ -1081,7 +1081,7 @@ export const linkCardSlug = style({
 export const linkCardBadge = style({
   background: 'color-mix(in srgb, var(--color-sub) 10%, transparent)',
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   color: 'var(--color-sub)',
   fontSize: '0.7rem',
   fontWeight: 600,
@@ -1498,7 +1498,7 @@ export const filterLabel = style({
 export const filterTabs = style({
   background: 'var(--color-code-bg)',
   border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   display: 'inline-flex',
   gap: '0.15rem',
   padding: '0.2rem',
@@ -1507,7 +1507,7 @@ export const filterTabs = style({
 globalStyle(`${filterTabs} button`, {
   background: 'transparent',
   border: 0,
-  borderRadius: '999px',
+  borderRadius: 'var(--radius-full)',
   color: 'var(--color-sub)',
   cursor: 'pointer',
   font: 'inherit',

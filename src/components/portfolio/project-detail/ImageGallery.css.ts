@@ -65,7 +65,7 @@ export const pager = style({
       bottom: '0.5rem',
       right: '0.75rem',
       padding: '0.25rem 0.5rem',
-      borderRadius: '999px',
+      borderRadius: 'var(--radius-full)',
       background: 'rgba(0, 0, 0, 0.55)',
       color: '#fff',
       fontSize: '0.75rem',

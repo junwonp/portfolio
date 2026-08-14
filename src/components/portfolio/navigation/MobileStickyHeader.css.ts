@@ -65,7 +65,7 @@ export const langToggleWrapper = style({
 
 export const langToggle = style({
   alignItems: 'center',
-  borderRadius: '9999px',
+  borderRadius: 'var(--radius-full)',
   color: 'var(--color-sub)',
   cursor: 'pointer',
   display: 'flex',
@@ -150,7 +150,7 @@ export const langToggleBtn = style({
 });
 
 export const actionGroup = style({
-  borderRadius: '9999px',
+  borderRadius: 'var(--radius-full)',
   display: 'flex',
   alignItems: 'center',
   padding: '3px',
