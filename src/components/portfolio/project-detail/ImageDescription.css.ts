@@ -9,6 +9,20 @@ const skeletonShimmer = keyframes({
   },
 });
 
+// M3E-style "processing" treatment: the media frame morphs between two radii
+// while loading and settles once the image/video arrives
+const loadingMorph = keyframes({
+  '0%': {
+    borderRadius: '8px',
+  },
+  '50%': {
+    borderRadius: '20px',
+  },
+  '100%': {
+    borderRadius: '8px',
+  },
+});
+
 export const imageDescription = style({
   margin: '2rem 0',
   textAlign: 'center',
@@ -27,6 +41,7 @@ export const mediaWrapper = style({
   overflow: 'hidden',
   maxWidth: '100%',
   maxHeight: '60vh',
+  animation: `${loadingMorph} 1.5s ease-in-out infinite`,
 });
 
 export const skeleton = style({
@@ -38,7 +53,10 @@ export const skeleton = style({
   animation: `${skeletonShimmer} 1.5s ease-in-out infinite`,
 });
 
-export const loaded = style({});
+export const loaded = style({
+  // Ends the shape morph once the media is visible
+  animation: 'none',
+});
 
 globalStyle(`${imageDescription} img, ${imageDescription} video`, {
   maxWidth: '100%',
