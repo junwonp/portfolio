@@ -103,7 +103,7 @@ export const printableResume: PrintableResumeData = {
             {
               companyName: '오르카에이아이 (Orca AI Inc.)',
               role: 'Co-Founder & Frontend Lead',
-              period: '2024.01 - 2026.05',
+              period: '2024.01 - 2026.07',
               location: 'Seoul, Korea',
               projects: [
                 {

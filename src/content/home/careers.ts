@@ -26,6 +26,7 @@ export const careerCatalog: readonly CareerCatalogEntry[] = [
         titleBadge: 'Co-Founder',
         role: 'Co-Founder & Frontend Lead',
         dateFrom: '2024-01',
+        dateTo: '2026-07',
         highlights: [
           'Designed data-heavy real-time chat UI, optimistic workflows, and type-safe TanStack Query cache architecture',
           'Led full product lifecycle from 0 → 23k MAU, $3k/mo revenue, Google Play #57',
@@ -37,6 +38,7 @@ export const careerCatalog: readonly CareerCatalogEntry[] = [
         titleBadge: 'Co-Founder',
         role: '공동창업자 · 프론트엔드 리드',
         dateFrom: '2024-01',
+        dateTo: '2026-07',
         highlights: [
           '**실시간 채팅 UI, Optimistic Workflow, TanStack Query 기반 Type-Safe 캐시 아키텍처** 설계',
           '**0 → 2.3만 MAU, 월 매출 $3k, 구글 플레이 엔터테인먼트 57위**까지 제품 생애주기 주도',
