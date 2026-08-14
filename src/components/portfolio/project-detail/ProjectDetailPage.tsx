@@ -10,6 +10,7 @@ import { getLabels } from '@/lib/portfolio/labels';
 import type { PostMetadata } from '@/lib/portfolio/projectTypes';
 import type { Language } from '@/lib/utils/language';
 
+import ProjectBackButton from './ProjectBackButton';
 import ProjectDetailClientEffects from './ProjectDetailClientEffects';
 import * as styles from './ProjectDetailPage.css';
 
@@ -64,29 +65,35 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
 
   const desktopHeader = (
     <div className={styles.topbarLinks}>
-      {githubHref && (
-        <a
-          className={`${styles.topbarLink} ${styles.github}`}
-          href={githubHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-        >
-          <Github width={15} height={15} />
-          GitHub
-        </a>
-      )}
-      {metadata.productLink && (
-        <a
-          className={`${styles.topbarLink} ${styles.primary}`}
-          href={metadata.productLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Globe width={15} height={15} />
-          {labels.visitSite}
-        </a>
-      )}
+      <ProjectBackButton
+        label={labels.goBack}
+        className={`${styles.topbarLink} ${styles.backLink}`}
+      />
+      <div className={styles.topbarRight}>
+        {githubHref && (
+          <a
+            className={`${styles.topbarLink} ${styles.github}`}
+            href={githubHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+          >
+            <Github width={15} height={15} />
+            GitHub
+          </a>
+        )}
+        {metadata.productLink && (
+          <a
+            className={`${styles.topbarLink} ${styles.primary}`}
+            href={metadata.productLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Globe width={15} height={15} />
+            {labels.visitSite}
+          </a>
+        )}
+      </div>
     </div>
   );
 

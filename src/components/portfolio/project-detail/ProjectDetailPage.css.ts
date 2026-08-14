@@ -4,12 +4,20 @@ export const primary = style({});
 export const github = style({});
 
 export const topbarLinks = style({
-  marginLeft: 'auto',
   display: 'flex',
   gap: '4px',
   alignItems: 'center',
+  justifyContent: 'space-between',
+  width: '100%',
   zIndex: 1,
 });
+
+export const topbarRight = style({
+  display: 'flex',
+  gap: '4px',
+  alignItems: 'center',
+});
+
 
 export const topbarLink = style({
   display: 'inline-flex',
@@ -300,4 +308,13 @@ globalStyle(`@media (max-width: 576px)`, {
   [`${projectArticle} td:last-child`]: {
     minWidth: 0,
   },
+});
+
+// Icon-only square pill for the back button — defined after topbarLink so its
+// padding/width win the cascade (topbarLink's text padding would squash the icon)
+export const backLink = style({
+  cursor: 'pointer',
+  flexShrink: 0,
+  padding: 0,
+  width: '32px',
 });
