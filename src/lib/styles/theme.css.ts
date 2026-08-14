@@ -91,6 +91,8 @@ export const vars = createGlobalThemeContract({
     tableBorder: null,
     primary: null,
     primaryHover: null,
+    success: null,
+    warning: null,
     primaryTransparent: null,
     primaryBg: null,
     onPrimary: null,
@@ -218,6 +220,10 @@ createGlobalTheme(':root', vars, {
     tableBorder: 'oklch(87.7% 0.01 230)',
     primary: 'oklch(45.54% 0.16 260)',
     primaryHover: 'oklch(38.08% 0.15 260)',
+    // HIG meaning-based colors — success green, caution orange. Per HIG these
+    // carry meaning only; they are never used for decoration or action roles
+    success: 'oklch(49.5% 0.131 147.7)',
+    warning: 'oklch(57.06% 0.129 63.9)',
     primaryTransparent: 'oklch(45.54% 0.16 260 / 0.1)',
     primaryBg: 'oklch(45.54% 0.16 260)',
     onPrimary: 'oklch(100% 0 0)',
@@ -263,6 +269,8 @@ globalStyle('html.dark', {
     [vars.color.tableBorder]: 'oklch(21.46% 0.02 250)',
     [vars.color.primary]: 'oklch(72.76% 0.15 250)',
     [vars.color.primaryHover]: 'oklch(79.35% 0.13 250)',
+    [vars.color.success]: 'oklch(75.56% 0.208 147)',
+    [vars.color.warning]: 'oklch(78.24% 0.171 67.2)',
     [vars.color.primaryTransparent]: 'oklch(72.76% 0.15 250 / 0.15)',
     [vars.color.primaryBg]: 'oklch(72.76% 0.15 250)',
     [vars.color.onPrimary]: 'oklch(14.07% 0.02 250)',

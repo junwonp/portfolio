@@ -201,23 +201,23 @@ globalStyle('.badge.primary', {
 });
 
 globalStyle('.badge.green', {
-  backgroundColor: 'rgba(52, 199, 89, 0.1)',
-  color: '#1a7532',
+  backgroundColor: 'color-mix(in srgb, var(--color-success) 10%, transparent)',
+  color: 'var(--color-success)',
 });
 
 globalStyle('html.dark .badge.green', {
-  backgroundColor: 'rgba(48, 209, 88, 0.15)',
-  color: '#30d158',
+  backgroundColor: 'color-mix(in srgb, var(--color-success) 15%, transparent)',
+  color: 'var(--color-success)',
 });
 
 globalStyle('.badge.orange', {
-  backgroundColor: 'rgba(255, 149, 0, 0.1)',
-  color: '#ab6400',
+  backgroundColor: 'color-mix(in srgb, var(--color-warning) 10%, transparent)',
+  color: 'var(--color-warning)',
 });
 
 globalStyle('html.dark .badge.orange', {
-  backgroundColor: 'rgba(255, 159, 10, 0.15)',
-  color: '#ff9f0a',
+  backgroundColor: 'color-mix(in srgb, var(--color-warning) 15%, transparent)',
+  color: 'var(--color-warning)',
 });
 
 globalStyle('.badge.sub', {
@@ -226,13 +226,13 @@ globalStyle('.badge.sub', {
 });
 
 globalStyle('.badge.android', {
-  backgroundColor: 'rgba(61, 220, 132, 0.1)',
-  color: '#1e8048',
+  backgroundColor: 'color-mix(in srgb, var(--color-success) 10%, transparent)',
+  color: 'var(--color-success)',
 });
 
 globalStyle('html.dark .badge.android', {
-  backgroundColor: 'rgba(61, 220, 132, 0.15)',
-  color: '#3ddc84',
+  backgroundColor: 'color-mix(in srgb, var(--color-success) 15%, transparent)',
+  color: 'var(--color-success)',
 });
 
 globalStyle('.badge.ios', {
@@ -246,13 +246,13 @@ globalStyle('html.dark .badge.ios', {
 });
 
 globalStyle('.badge.macos', {
-  backgroundColor: 'rgba(255, 149, 0, 0.1)',
-  color: '#ab6400',
+  backgroundColor: 'color-mix(in srgb, var(--color-warning) 10%, transparent)',
+  color: 'var(--color-warning)',
 });
 
 globalStyle('html.dark .badge.macos', {
-  backgroundColor: 'rgba(255, 159, 10, 0.15)',
-  color: '#ff9f0a',
+  backgroundColor: 'color-mix(in srgb, var(--color-warning) 15%, transparent)',
+  color: 'var(--color-warning)',
 });
 
 globalStyle('.badge.web', {
