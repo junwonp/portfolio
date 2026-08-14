@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { getOptimizedImageUrl } from "@/lib/utils/image";
 
@@ -35,6 +35,14 @@ export default function ImageDescription({
 
   const [loaded, setLoaded] = useState(priority);
   const [prevPriority, setPrevPriority] = useState(priority);
+  // Scroll reveal state — hidden styling is only applied after hydration so
+  // the media stays visible without JavaScript
+  const isHydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+  const [isRevealed, setIsRevealed] = useState(priority);
 
   if (priority !== prevPriority) {
     setPrevPriority(priority);
@@ -45,6 +53,7 @@ export default function ImageDescription({
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const onLoad = () => {
     setLoaded(true);
@@ -64,6 +73,50 @@ export default function ImageDescription({
     el.addEventListener("load", onLoad);
     return () => {
       el.removeEventListener("load", onLoad);
+    };
+  }, [priority]);
+
+  // Reveal the media with a gentle rise when it first enters the viewport
+  useEffect(() => {
+    if (priority) return;
+
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    let revealed = false;
+    const reveal = (cleanupScroll: () => void) => {
+      if (revealed) return;
+      revealed = true;
+      setIsRevealed(true);
+      observer.disconnect();
+      cleanupScroll();
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) reveal(cleanupScroll);
+        }
+      },
+      { rootMargin: "120px", threshold: 0.01 }
+    );
+
+    // IntersectionObserver never fires for elements that jump over the
+    // viewport instantly (TOC links), so back it up with a scroll check
+    // while the media is still hidden
+    const onScroll = () => {
+      if (wrapper.getBoundingClientRect().top <= window.innerHeight) {
+        reveal(cleanupScroll);
+      }
+    };
+    const cleanupScroll = () =>
+      window.removeEventListener("scroll", onScroll);
+
+    observer.observe(wrapper);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      observer.disconnect();
+      cleanupScroll();
     };
   }, [priority]);
 
@@ -112,7 +165,13 @@ export default function ImageDescription({
   return (
     <figure className={styles.imageDescription}>
       <div
-        className={`${styles.mediaWrapper} ${loaded ? styles.loaded : ""}`}
+        ref={wrapperRef}
+        className={[
+          styles.mediaWrapper,
+          loaded ? styles.loaded : "",
+          isHydrated && !isRevealed ? styles.preReveal : "",
+          isRevealed ? styles.revealed : "",
+        ].join(" ")}
         style={
           width && height
             ? { aspectRatio: `${String(width)} / ${String(height)}` }

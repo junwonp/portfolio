@@ -44,6 +44,20 @@ export const mediaWrapper = style({
   animation: `${loadingMorph} 1.5s ease-in-out infinite`,
 });
 
+// Hidden state is applied only after hydration (no-JS stays visible) and
+// resolves with a gentle rise once the media enters the viewport
+export const preReveal = style({
+  opacity: 0,
+  transform: 'translateY(14px)',
+});
+
+export const revealed = style({
+  opacity: 1,
+  transform: 'translateY(0)',
+  transition:
+    'opacity 0.5s var(--ease-emphasized), transform 0.5s var(--ease-emphasized)',
+});
+
 export const skeleton = style({
   position: 'absolute',
   inset: 0,
