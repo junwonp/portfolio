@@ -27,7 +27,9 @@ globalStyle('html, body', {
   fontSize: '16px',
   lineHeight: 'var(--line-height-default)',
   margin: 0,
-  overflowX: 'hidden',
+  // 'hidden' makes body a scroll container, which breaks position:sticky
+  // descendants (side nav). 'clip' clips the same way without creating one.
+  overflowX: 'clip',
   padding: 0,
   scrollbarWidth: 'none',
   wordBreak: 'keep-all',
