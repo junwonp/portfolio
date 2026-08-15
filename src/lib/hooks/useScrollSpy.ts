@@ -89,15 +89,22 @@ export function useScrollSpy(getIds: () => string[], options: ScrollSpyOptions =
         return;
       }
 
-      let current = ids[0];
       const threshold =
         typeof currentOptions.threshold === "function"
           ? currentOptions.threshold()
           : (currentOptions.threshold ?? 120);
 
+      // Pick the section nearest the threshold line instead of the last one
+      // above it — programmatic scrolling can settle slightly off (notably
+      // iOS Safari), which made the highlight pill jump back a section
+      let current = ids[0];
+      let bestDistance = Infinity;
       for (const id of ids) {
         const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top <= threshold) {
+        if (!el) continue;
+        const distance = Math.abs(el.getBoundingClientRect().top - threshold);
+        if (distance < bestDistance) {
+          bestDistance = distance;
           current = id;
         }
       }
