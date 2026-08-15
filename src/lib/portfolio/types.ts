@@ -55,4 +55,3 @@ export interface ProjectContentEntry {
   slug: string;
 }
 
-export const defineProject = <Entry extends ProjectContentEntry>(entry: Entry): Entry => entry;

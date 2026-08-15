@@ -201,14 +201,6 @@ export const pillarDesc = style({
   },
 });
 
-export const metricCell = style({
-  '@media': {
-    '(max-width: 960px)': {
-      padding: '0.65rem',
-    },
-  },
-});
-
 export const metricValue = style({
   '@media': {
     '(max-width: 960px)': {

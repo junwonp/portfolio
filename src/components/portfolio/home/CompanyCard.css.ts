@@ -68,11 +68,6 @@ export const companyLeft = style({
   minWidth: 0,
 });
 
-export const companyAdminActions = style({
-  alignItems: 'center',
-  display: 'inline-flex',
-  gap: '0.375rem',
-});
 
 export const companyName = style({
   color: 'var(--color-bold)',
@@ -150,9 +145,11 @@ export const expandIndicator = style({
   },
 });
 
-globalStyle(`@media (max-width: 576px)`, {
-  [`${expandIndicator} span`]: {
-    display: 'none',
+globalStyle(`${expandIndicator} span`, {
+  '@media': {
+    '(max-width: 576px)': {
+      display: 'none',
+    },
   },
 });
 

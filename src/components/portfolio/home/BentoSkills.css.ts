@@ -53,9 +53,6 @@ export const cardHeader = style({
   color: 'var(--cat-color)',
 });
 
-export const categoryIcon = style({
-  flexShrink: 0,
-});
 
 export const cardTitle = style({
   color: 'var(--color-bold)',

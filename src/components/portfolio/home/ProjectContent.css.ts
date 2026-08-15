@@ -308,19 +308,6 @@ export const mainSkills = style({
   color: 'var(--color-sub)',
 });
 
-export const resumeMetrics = style({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(var(--metric-count), minmax(0, 1fr))',
-  gap: '0.625rem',
-  marginTop: '0.5rem',
-  width: '100%',
-
-  '@media': {
-    '(max-width: 480px)': {
-      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-    },
-  },
-});
 
 export const detailGrid = style({
   display: 'flex',

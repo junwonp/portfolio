@@ -314,9 +314,6 @@ export const resolveProjectIdentifier = (identifier: string): ProjectId | null =
 export const normalizeProjectIdentifiers = (identifiers: readonly string[]): ProjectId[] =>
   normalizeProjectIdentifiersWithMap(identifiers, projectIdentifierToId);
 
-export const resolveApplicationProjectIdentifier = (identifier: string): ProjectId | null =>
-  applicationProjectIdentifierToId.get(identifier) ?? null;
-
 export const normalizeApplicationProjectIdentifiers = (
   identifiers: readonly string[],
 ): ProjectId[] => normalizeProjectIdentifiersWithMap(identifiers, applicationProjectIdentifierToId);

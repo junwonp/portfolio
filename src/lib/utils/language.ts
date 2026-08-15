@@ -2,7 +2,6 @@ export type Language = 'ko' | 'en';
 
 export const DEFAULT_LANGUAGE: Language = 'ko';
 
-export const SUPPORTED_LANGUAGES: Language[] = ['ko', 'en'];
 
 export const isValidLanguage = (value: unknown): value is Language => {
   return value === 'ko' || value === 'en';
