@@ -75,15 +75,17 @@ globalStyle(`${masonryItem} img`, {
   transition: 'transform 0.3s ease',
 });
 
+// Portrait screenshots render at their natural ratio — cropping them into a
+// capped landscape frame hid most of the image
 globalStyle(`.${phonePreview} ${masonryItem} img`, {
-  maxHeight: '640px !important',
-  objectPosition: 'top',
+  maxHeight: 'none !important',
+  objectFit: 'contain',
 });
 
 globalStyle(`.${phonePreview} ${masonryItem} img`, {
   '@media': {
     '(max-width: 640px)': {
-      maxHeight: '520px !important',
+      maxHeight: 'none !important',
     },
   },
 });
