@@ -133,6 +133,9 @@ globalStyle('ul li:before', {
   content: '"•"',
   display: 'inline-block',
   left: '0.2rem',
+  // Pin the bullet to the li's top padding so it always aligns with the
+  // first text line regardless of font metrics
+  top: '0.2rem',
   position: 'absolute',
   fontWeight: 'bold',
 });
