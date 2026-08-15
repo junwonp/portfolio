@@ -12,7 +12,7 @@
  */
 export function getOptimizedImageUrl(
   src: string,
-  options?: { width?: number; quality?: number }
+  _options?: { width?: number; quality?: number }
 ): string {
   // Return early if not a local relative path, is an external URL, or is a video
   if (!src.startsWith("/") || src.startsWith("//")) {
@@ -27,17 +27,9 @@ export function getOptimizedImageUrl(
     return src;
   }
 
-  // Use vinext's image optimizer (backs the /_next/image endpoint) in production
-  if (process.env.NODE_ENV === "production") {
-    const params = new URLSearchParams();
-    params.set("url", src);
-    if (options?.width) {
-      params.set("w", String(options.width));
-    }
-    params.set("q", String(options?.quality ?? 85));
-
-    return `/_next/image?${params.toString()}`;
-  }
-
+  // Local images are served as-is from public/ via Cloudflare static assets.
+  // Routing them through vinext's /_next/image optimizer broke production
+  // rendering (the endpoint is not wired in this deployment), while videos —
+  // which take this same path — render fine.
   return src;
 }
