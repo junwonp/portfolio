@@ -647,10 +647,9 @@ const getSessions = async (
 
   const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
-  // Fetch sessions with aggregates and link info
-  const result = await db
-    .prepare(
-      `SELECT
+  // Run the listing and the total count together — the two queries are
+  // independent, so awaiting them in parallel avoids a second round trip
+  const listStmt = db.prepare(`SELECT
         s.id,
         COALESCE(s.ip_address, 'unknown') as ipAddress,
         s.ip_country as ipCountry,
@@ -670,10 +669,14 @@ const getSessions = async (
        ${whereClause}
        GROUP BY s.id, s.ip_address, s.ip_country, s.user_agent, s.referrer, s.created_at
        ORDER BY s.created_at DESC
-       LIMIT ? OFFSET ?`,
-    )
-    .bind(...binds, params.limit, params.offset)
-    .all<{
+       LIMIT ? OFFSET ?`).bind(...binds, params.limit, params.offset);
+  const countStmt = db.prepare(`SELECT COUNT(*) as total
+       FROM user_sessions s
+       ${linkJoin}
+       ${whereClause}`).bind(...binds);
+
+  const [result, countResult] = await Promise.all([
+    listStmt.all<{
       createdAt: string;
       id: string;
       ipAddress: string;
@@ -685,18 +688,9 @@ const getSessions = async (
       totalScrollDepth: number;
       applicationLinkSlug: string | null;
       applicationLinkLabel: string | null;
-    }>();
-
-  // Count total (without LIMIT/OFFSET) for pagination
-  const countResult = await db
-    .prepare(
-      `SELECT COUNT(*) as total
-       FROM user_sessions s
-       ${linkJoin}
-       ${whereClause}`,
-    )
-    .bind(...binds)
-    .first<{ total: number }>();
+    }>(),
+    countStmt.first<{ total: number }>(),
+  ]);
 
   const sessions = result.results.map((row) => {
     const classification = classifySession(

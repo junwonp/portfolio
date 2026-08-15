@@ -58,6 +58,7 @@ function AchievementItem({
       </button>
       <Collapse isOpen={isOpen}>
         <div className={styles.achBody}>
+          {/* detail is sanitized via sanitizeProjectHtml before it reaches here */}
           <div
             className={styles.achDesc}
             dangerouslySetInnerHTML={{ __html: achievement.detail }}
@@ -80,25 +81,23 @@ export default function ProjectAchievements({ achievements }: Props) {
     detail: sanitizeProjectHtml(achievement.detail),
   }));
 
-  const toggle = useCallback((index: number) => {
-    setOpenIndex((prev) => {
-      const nextOpen = prev === index ? -1 : index;
-      if (nextOpen >= 0) {
-        reportInteraction({
-          interactionType: 'accordion_achievement',
-          interactionLabel: sanitizedAchievements[nextOpen]?.title ?? `achievement-${nextOpen}`,
-          action: 'open',
-        });
-      }
-      return nextOpen;
-    });
-  }, [sanitizedAchievements]);
+  const toggle = (index: number) => {
+    const nextOpen = openIndex === index ? -1 : index;
+    setOpenIndex(nextOpen);
+    if (nextOpen >= 0) {
+      reportInteraction({
+        interactionType: 'accordion_achievement',
+        interactionLabel: sanitizedAchievements[nextOpen]?.title ?? `achievement-${nextOpen}`,
+        action: 'open',
+      });
+    }
+  };
 
   return (
     <div className={styles.achievements}>
       {sanitizedAchievements.map((achievement, i) => (
         <AchievementItem
-          key={i}
+          key={achievement.title}
           achievement={achievement}
           isOpen={openIndex === i}
           onToggle={() => toggle(i)}

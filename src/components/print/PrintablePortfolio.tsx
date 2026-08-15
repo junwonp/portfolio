@@ -80,7 +80,7 @@ export default function PrintablePortfolio({
               <h2 className={styles.projectsHeading}>대표 프로젝트</h2>
               <div className={styles.projectList}>
                 {projects.slice(0, 4).map((project, index) => (
-                  <div key={index} className={styles.projectCard}>
+                  <div key={project.title} className={styles.projectCard}>
                     <h3 className={styles.projectTitle}>{project.title}</h3>
                     <p className={styles.projectDescription}>{project.description}</p>
                     {project.skills.length > 0 && (

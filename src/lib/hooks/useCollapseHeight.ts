@@ -14,15 +14,16 @@ export function useCollapseHeight(isOpen: boolean) {
   const innerRef = useRef<HTMLDivElement | null>(null);
   const [height, setHeight] = useState(0);
 
-  // Callback ref: measure as soon as the DOM node is attached
-  const ref = useCallback((node: HTMLDivElement | null) => {
+  // Callback ref: measure as soon as the DOM node is attached.
+  // React Compiler memoizes the callback; no manual useCallback needed.
+  const ref = (node: HTMLDivElement | null) => {
     innerRef.current = node;
     if (node) {
       // scrollHeight reports the natural content height even when the
       // element is inside a 0fr grid track (overflow: hidden).
       setHeight(node.scrollHeight);
     }
-  }, []);
+  };
 
   // Re-measure on content changes (e.g. project details toggled)
   useEffect(() => {

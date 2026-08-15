@@ -140,7 +140,7 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
         ) : (
           images.map((image, i) => (
             <button
-              key={i}
+              key={getSrc(image)}
               className={`${styles.masonryItem} ${cardSurface}`}
               onClick={() => open(i)}
               aria-label={`View ${image.alt} fullscreen`}
@@ -251,7 +251,7 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
               <p className={styles.overlayCaption}>{activeImage.caption}</p>
             )}
             {images.length > 1 && (
-              <div className={styles.overlayDots} aria-hidden="true">
+              <div className={styles.overlayDots}>
                 {dotIndices.map((i) => (
                   <button
                     key={i}

@@ -27,14 +27,14 @@ const renderBulletList = (bullets: ResumeTextPart[][]) => {
   return (
     <ul className={styles.bullets}>
       {bullets.map((bullet, index) => (
-        <li key={index}>{renderParts(bullet)}</li>
+        <li key={String(bullet).slice(0, 60)}>{renderParts(bullet)}</li>
       ))}
     </ul>
   );
 };
 
 const renderWorkEntry = (entry: ResumeWorkEntry, index: number) => (
-  <article className={styles.workEntry} key={`${entry.companyName ?? 'continued'}-${index}`}>
+  <article className={styles.workEntry} key={`${entry.companyName ?? 'continued'}-${entry.role ?? ''}`}>
     {entry.companyName && (
       <header className={styles.workHeader}>
         <div>

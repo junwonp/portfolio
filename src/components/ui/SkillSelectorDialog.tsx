@@ -17,7 +17,14 @@ interface SkillSelectorDialogProps {
 }
 
 const uniqueStrings = (values: string[]): string[] =>
-  Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)));
+  Array.from(
+    new Set(
+      values.flatMap((value) => {
+        const trimmed = value.trim();
+        return trimmed ? [trimmed] : [];
+      })
+    )
+  );
 
 export default function SkillSelectorDialog({
   allowCustom = false,
@@ -147,6 +154,7 @@ export default function SkillSelectorDialog({
                     className={styles.input}
                     value={customSkill}
                     placeholder="직접 입력"
+                    aria-label="직접 입력"
                     onChange={(event) => setCustomSkill(event.target.value)}
                     onKeyDown={(event) => {
                       if (event.key === 'Enter') {

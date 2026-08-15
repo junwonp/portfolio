@@ -40,7 +40,7 @@ export function SessionTimeline({ detail }: SessionTimelineProps) {
           const showNavArrow = pv.previousPath && pv.previousPath !== pv.path;
 
           return (
-            <div key={`pv-${pv.createdAt}-${i}`} className={styles.timelineItem}>
+            <div key={`${pv.createdAt}-${pv.path}`} className={styles.timelineItem}>
               <div className={styles.timelineDot} />
               <div className={styles.timelineContent}>
                 {showNavArrow && (
