@@ -52,9 +52,11 @@ globalStyle(`${diagramHeader} strong`, {
   textAlign: 'right',
 });
 
-globalStyle(`@media (max-width: 720px)`, {
-  [`${diagramHeader} strong`]: {
-    textAlign: 'left',
+globalStyle(`${diagramHeader} strong`, {
+  '@media': {
+    '(max-width: 720px)': {
+      textAlign: 'left',
+    },
   },
 });
 

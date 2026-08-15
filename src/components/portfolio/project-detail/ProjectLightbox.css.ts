@@ -80,9 +80,11 @@ globalStyle(`.${phonePreview} ${masonryItem} img`, {
   objectPosition: 'top',
 });
 
-globalStyle(`@media (max-width: 640px)`, {
-  [`.${phonePreview} ${masonryItem} img`]: {
-    maxHeight: '520px !important',
+globalStyle(`.${phonePreview} ${masonryItem} img`, {
+  '@media': {
+    '(max-width: 640px)': {
+      maxHeight: '520px !important',
+    },
   },
 });
 

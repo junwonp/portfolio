@@ -181,12 +181,7 @@ globalStyle(`${projectArticle} pre, ${projectArticle} pre code`, {
   whiteSpace: 'pre-wrap',
 });
 
-globalStyle(`@media (max-width: 640px)`, {
-  [`${projectArticle} p, ${projectArticle} li`]: {
-    overflowWrap: 'anywhere',
-    wordBreak: 'break-word',
-  },
-});
+
 
 export const h2Subtitle = style({
   display: 'block',
@@ -263,46 +258,78 @@ globalStyle(`${projectArticle} tr:last-child td`, {
   borderBottom: 0,
 });
 
-globalStyle(`@media (max-width: 576px)`, {
-  [`${projectArticle} table`]: {
-    background: 'transparent',
-    border: 0,
-    borderRadius: 0,
-    display: 'block',
-    overflow: 'visible',
+globalStyle(`${projectArticle} table`, {
+  '@media': {
+    '(max-width: 576px)': {
+      background: 'transparent',
+      border: 0,
+      borderRadius: 0,
+      display: 'block',
+      overflow: 'visible',
+    },
   },
-  [`${projectArticle} thead`]: {
-    display: 'none',
+});
+
+globalStyle(`${projectArticle} thead`, {
+  '@media': {
+    '(max-width: 576px)': {
+      display: 'none',
+    },
   },
-  [`${projectArticle} tbody`]: {
-    display: 'grid',
-    gap: '0.625rem',
+});
+
+globalStyle(`${projectArticle} tbody`, {
+  '@media': {
+    '(max-width: 576px)': {
+      display: 'grid',
+      gap: '0.625rem',
+    },
   },
-  [`${projectArticle} tr`]: {
-    background: 'var(--color-basic-bg)',
-    border: '1px solid var(--color-table-border)',
-    borderRadius: 'var(--radius-md)',
-    display: 'block',
-    overflow: 'hidden',
+});
+
+globalStyle(`${projectArticle} tr`, {
+  '@media': {
+    '(max-width: 576px)': {
+      background: 'var(--color-basic-bg)',
+      border: '1px solid var(--color-table-border)',
+      borderRadius: 'var(--radius-md)',
+      display: 'block',
+      overflow: 'hidden',
+    },
   },
-  [`${projectArticle} td`]: {
-    borderRight: 0,
-    display: 'grid',
-    gap: '0.625rem',
-    gridTemplateColumns: 'minmax(92px, 35%) minmax(0, 1fr)',
-    minWidth: 0,
-    overflowWrap: 'anywhere',
-    whiteSpace: 'normal',
+});
+
+globalStyle(`${projectArticle} td`, {
+  '@media': {
+    '(max-width: 576px)': {
+      borderRight: 0,
+      display: 'grid',
+      gap: '0.625rem',
+      gridTemplateColumns: 'minmax(92px, 35%) minmax(0, 1fr)',
+      minWidth: 0,
+      overflowWrap: 'anywhere',
+      whiteSpace: 'normal',
+    },
   },
-  [`${projectArticle} td::before`]: {
-    color: 'var(--color-sub)',
-    content: 'attr(data-label)',
-    fontSize: '0.78rem',
-    fontWeight: 700,
-    lineHeight: 1.4,
+});
+
+globalStyle(`${projectArticle} td::before`, {
+  '@media': {
+    '(max-width: 576px)': {
+      color: 'var(--color-sub)',
+      content: 'attr(data-label)',
+      fontSize: '0.78rem',
+      fontWeight: 700,
+      lineHeight: 1.4,
+    },
   },
-  [`${projectArticle} td:last-child`]: {
-    minWidth: 0,
+});
+
+globalStyle(`${projectArticle} td:last-child`, {
+  '@media': {
+    '(max-width: 576px)': {
+      minWidth: 0,
+    },
   },
 });
 

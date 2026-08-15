@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 
 import rehypeHeadingIds from './src/lib/mdx/rehypeHeadingIds';
+import rehypeTableLabels from './src/lib/mdx/rehypeTableLabels';
 
 const nextConfig: NextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
@@ -28,7 +29,7 @@ const nextConfig: NextConfig = {
 
 const withMDX = createMDX({
   options: {
-    rehypePlugins: [rehypeHeadingIds],
+    rehypePlugins: [rehypeHeadingIds, rehypeTableLabels],
     remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
   },
 });
