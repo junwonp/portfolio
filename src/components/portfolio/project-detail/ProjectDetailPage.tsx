@@ -6,10 +6,12 @@ import Badge from '@/components/ui/Badge';
 import Github from '@/components/ui/Icon/Github';
 import Globe from '@/components/ui/Icon/Globe';
 import MetricCard from '@/components/ui/MetricCard';
+import RichText from '@/components/ui/RichText';
 import { pillButton } from "@/components/ui/surface.css";
 import { getLabels } from '@/lib/portfolio/labels';
 import type { PostMetadata } from '@/lib/portfolio/projectTypes';
 import type { Language } from '@/lib/utils/language';
+import { parseMarkdown } from '@/lib/utils/markdown';
 
 import ProjectBackButton from './ProjectBackButton';
 import ProjectDetailClientEffects from './ProjectDetailClientEffects';
@@ -41,10 +43,12 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
 
       <h1 className={styles.heroTitle}>{metadata.title || slug}</h1>
 
-      {metadata.tagline ? (
-        <p className={styles.heroTagline}>{metadata.tagline}</p>
-      ) : (
-        metadata.description && <p className={styles.heroTagline}>{metadata.description}</p>
+      {(metadata.tagline || metadata.description) && (
+        <p className={styles.heroTagline}>
+          <RichText
+            parts={parseMarkdown(metadata.tagline || metadata.description || '')}
+          />
+        </p>
       )}
 
       {metadata.metrics && metadata.metrics.length > 0 && (

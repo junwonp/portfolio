@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 import { reportInteraction } from '@/components/analytics/analyticsTransport';
 import Badge from "@/components/ui/Badge";
 import Collapse from "@/components/ui/Collapse";
 import { cardSurface } from "@/components/ui/surface.css";
+import { markdownInlineToHtml } from "@/lib/utils/markdown";
 import { sanitizeProjectHtml } from "@/lib/utils/safeHtml";
 
 import * as styles from "./ProjectAchievements.css";
@@ -78,7 +79,7 @@ export default function ProjectAchievements({ achievements }: Props) {
 
   const sanitizedAchievements = achievements.map((achievement) => ({
     ...achievement,
-    detail: sanitizeProjectHtml(achievement.detail),
+    detail: sanitizeProjectHtml(markdownInlineToHtml(achievement.detail)),
   }));
 
   const toggle = (index: number) => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseMarkdown } from '@/lib/utils/markdown';
+import { markdownInlineToHtml, parseMarkdown } from '@/lib/utils/markdown';
 
 describe('parseMarkdown', () => {
   describe('plain text', () => {
@@ -97,5 +97,29 @@ describe('parseMarkdown', () => {
         { text: 'end', type: 'bold' },
       ]);
     });
+  });
+});
+
+describe('markdownInlineToHtml', () => {
+  it('converts bold and code to tags with escaped content', () => {
+    expect(markdownInlineToHtml('a **bold** and `code`')).toBe(
+      'a <strong>bold</strong> and <code>code</code>'
+    );
+  });
+
+  it('escapes HTML inside markdown spans', () => {
+    expect(markdownInlineToHtml('**<script>**')).toBe(
+      '<strong>&lt;script&gt;</strong>'
+    );
+  });
+
+  it('passes existing HTML through untouched', () => {
+    expect(markdownInlineToHtml('text <ul><li>item</li></ul> **bold**')).toBe(
+      'text <ul><li>item</li></ul> <strong>bold</strong>'
+    );
+  });
+
+  it('returns plain text unchanged', () => {
+    expect(markdownInlineToHtml('just text')).toBe('just text');
   });
 });

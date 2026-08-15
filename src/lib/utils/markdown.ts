@@ -53,6 +53,32 @@ export function parseMarkdown(text: string): TextPart[] {
   return parts;
 }
 
+/**
+ * Converts inline markdown (**bold**, __bold__, `code`) to HTML while
+ * escaping the inner text. Existing HTML in the source is passed through
+ * untouched so it can be validated by a sanitizer afterwards.
+ */
+export function markdownInlineToHtml(text: string): string {
+  return parseMarkdown(text)
+    .map((part) => {
+      if (part.type === 'bold') {
+        return `<strong>${escapeHtml(part.text)}</strong>`;
+      }
+      if (part.type === 'code') {
+        return `<code>${escapeHtml(part.text)}</code>`;
+      }
+      return part.text;
+    })
+    .join('');
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 export function parseHeading(text: string) {
   const emojiMatch = text.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F|\p{Emoji})/u);
   const emoji = emojiMatch ? emojiMatch[0] : '';
