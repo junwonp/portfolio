@@ -11,7 +11,9 @@
     "deploy:development": "node scripts/guard-worker-branch.mjs development && CLOUDFLARE_CONFIG_PATH=wrangler.preview.jsonc vinext build && wrangler versions upload --config dist/server/wrangler.json --preview-alias develop",
     "start": "vinext start",
     "cf-typegen": "wrangler types --config wrangler.jsonc --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "lint": "eslint",
+    "lint": "biome lint",
+    "format": "biome format --write",
+    "check": "biome check",
     "doctor": "react-doctor"
   },
   "dependencies": {
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@babel/core": "^8.0.1",
+    "@biomejs/biome": "2.5.11",
     "@cloudflare/vite-plugin": "^1.51.1",
     "@cloudflare/workers-types": "^5.20260809.1",
     "@mdx-js/rollup": "^3.1.1",
@@ -44,11 +47,6 @@
     "@vitejs/plugin-react": "^6.0.5",
     "@vitejs/plugin-rsc": "^0.5.34",
     "babel-plugin-react-compiler": "^1.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "16.3.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-simple-import-sort": "^14.0.0",
-    "prettier": "^3.9.6",
     "react-doctor": "^0.9.10",
     "react-server-dom-webpack": "^19.2.8",
     "remark-frontmatter": "^5.0.0",
