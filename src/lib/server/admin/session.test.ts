@@ -48,6 +48,25 @@ describe('admin session cookies', () => {
     ).resolves.toBeNull();
   });
 
+  it('keeps the admin session valid across browser restarts', async () => {
+    const cookie = await createAdminSessionCookie({
+      email: 'owner@example.com',
+      now: issuedAt,
+      secret,
+    });
+
+    // Re-opening the browser a day later should not log the owner out
+    await expect(
+      verifyAdminSessionCookie({
+        cookie,
+        now: new Date('2026-06-29T01:00:00.000Z'),
+        secret,
+      }),
+    ).resolves.toEqual({
+      email: 'owner@example.com',
+    });
+  });
+
   it('rejects expired admin session cookies', async () => {
     const cookie = await createAdminSessionCookie({
       email: 'owner@example.com',
@@ -58,7 +77,7 @@ describe('admin session cookies', () => {
     await expect(
       verifyAdminSessionCookie({
         cookie,
-        now: new Date('2026-06-28T10:00:01.000Z'),
+        now: new Date('2026-07-28T01:00:01.000Z'),
         secret,
       }),
     ).resolves.toBeNull();

@@ -23,7 +23,9 @@ interface RuntimeEnv {
 
 export const ADMIN_SESSION_COOKIE = 'admin_session';
 export const ADMIN_SESSION_COOKIE_VERSION = 'v1';
-export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 8;
+// Matches ADMIN_COOKIE_MAX_AGE so the app session survives browser restarts;
+// Cloudflare Access still gates /a at the edge regardless of this window
+export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 24 * 30;
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
