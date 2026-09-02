@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
 import {
   calculateArticleProgress,
@@ -52,7 +52,6 @@ export default function AnalyticsTracker() {
     activeStartedAtRef.current = document.visibilityState === 'visible' ? now : null;
   }
 
-
   function getScrollMetrics() {
     // When html has height:100%, body becomes the actual scroll container
     // even though document.scrollingElement still points to html
@@ -63,9 +62,7 @@ export default function AnalyticsTracker() {
     const scrollContainer = seScrolls ? se : bodyScrolls ? document.body : null;
     const scrollTop = scrollContainer?.scrollTop ?? window.scrollY ?? 0;
     const scrollHeight =
-      scrollContainer?.scrollHeight ??
-      se?.scrollHeight ??
-      document.documentElement.scrollHeight;
+      scrollContainer?.scrollHeight ?? se?.scrollHeight ?? document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
     return { scrollTop, scrollHeight, clientHeight };
   }
@@ -152,6 +149,7 @@ export default function AnalyticsTracker() {
     }
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: mount-only effect; inner functions reference stable refs
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -165,7 +163,6 @@ export default function AnalyticsTracker() {
       sendAnalyticsPayload(
         {
           isInitial: true,
-          referrer: document.referrer || 'direct',
         },
         session.id,
       );
@@ -201,9 +198,9 @@ export default function AnalyticsTracker() {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('pagehide', handlePageHide);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only: inner functions reference stable refs
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: flushPageData uses stable refs only
   useEffect(() => {
     if (!sessionId) return;
 
@@ -211,7 +208,6 @@ export default function AnalyticsTracker() {
       flushPageData(prevPathnameRef.current);
       initializePage(pathname);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- flushPageData uses stable refs only
   }, [pathname, sessionId]);
 
   return null;

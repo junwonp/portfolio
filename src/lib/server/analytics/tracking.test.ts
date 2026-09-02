@@ -309,6 +309,64 @@ describe('recordAnalyticsPayload', () => {
     ]);
   });
 
+  it('attributes a new-tab session via its own-domain referrer when the path has no slug', async () => {
+    const db = new D1Mock();
+    db.applicationLinks.set('p48r', { id: 7 });
+
+    // New tab opened from junwon.dev/p48r: initial beacon carries the referrer
+    // but no slug-bearing path
+    const payload: AnalyticsPayloadBody = {
+      eventType: 'page',
+      activeTime: 0,
+      articleProgress: 0,
+      dwellTime: 0,
+      isInitial: true,
+      path: undefined,
+      referrer: 'https://junwon.dev/p48r',
+      scrollDepth: 0,
+      sessionId: 'session-new-tab',
+      userAgent: 'Vitest',
+    };
+
+    await recordAnalyticsPayload({
+      country: 'KR',
+      ipAddress: '1.2.3.4',
+      db: db as unknown as D1Database,
+      payload,
+    });
+
+    expect(db.applicationLinkVisits).toEqual([
+      { application_link_id: 7, session_id: 'session-new-tab' },
+    ]);
+  });
+
+  it('does not attribute sessions from external referrers', async () => {
+    const db = new D1Mock();
+    db.applicationLinks.set('p48r', { id: 7 });
+
+    const payload: AnalyticsPayloadBody = {
+      eventType: 'page',
+      activeTime: 0,
+      articleProgress: 0,
+      dwellTime: 0,
+      isInitial: true,
+      path: '/projects/aira',
+      referrer: 'https://github.com/user/repo',
+      scrollDepth: 0,
+      sessionId: 'session-github',
+      userAgent: 'Vitest',
+    };
+
+    await recordAnalyticsPayload({
+      country: 'KR',
+      ipAddress: '1.2.3.4',
+      db: db as unknown as D1Database,
+      payload,
+    });
+
+    expect(db.applicationLinkVisits).toEqual([]);
+  });
+
   it('does not attribute a session when the application slug is missing or expired', async () => {
     const db = new D1Mock();
     const payload: AnalyticsPayloadBody = {

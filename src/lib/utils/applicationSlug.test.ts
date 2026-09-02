@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { extractApplicationSlugFromPath, normalizeApplicationSlug } from '@/lib/utils/applicationSlug';
+import {
+  extractApplicationSlugFromPath,
+  extractApplicationSlugFromReferrer,
+  normalizeApplicationSlug,
+} from '@/lib/utils/applicationSlug';
 
 describe('application slug utilities', () => {
   it('normalizes application slugs for stored links', () => {
@@ -22,5 +26,20 @@ describe('application slug utilities', () => {
     expect(extractApplicationSlugFromPath('/projects/foo')).toBeUndefined();
     expect(extractApplicationSlugFromPath('')).toBeUndefined();
     expect(extractApplicationSlugFromPath('/ab_cd')).toBeUndefined();
+  });
+
+  it('extracts application slugs from own-domain referrers', () => {
+    expect(extractApplicationSlugFromReferrer('https://junwon.dev/p48r')).toBe('p48r');
+    expect(extractApplicationSlugFromReferrer('https://www.junwon.dev/en/abcd')).toBe('abcd');
+    expect(extractApplicationSlugFromReferrer('https://junwon.dev/p48r/')).toBe('p48r');
+  });
+
+  it('ignores external, root, and non-slug referrers', () => {
+    expect(extractApplicationSlugFromReferrer('https://github.com/user/repo')).toBeUndefined();
+    expect(extractApplicationSlugFromReferrer('https://junwon.dev/')).toBeUndefined();
+    expect(extractApplicationSlugFromReferrer('https://junwon.dev/projects/aira')).toBeUndefined();
+    expect(extractApplicationSlugFromReferrer('direct')).toBeUndefined();
+    expect(extractApplicationSlugFromReferrer('')).toBeUndefined();
+    expect(extractApplicationSlugFromReferrer('not a url')).toBeUndefined();
   });
 });

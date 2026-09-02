@@ -44,3 +44,27 @@ export const extractApplicationSlugFromPath = (path: string | undefined): string
 
   return slug;
 };
+
+const OWN_REFERRER_DOMAINS = new Set(['junwon.dev', 'www.junwon.dev', 'localhost', '127.0.0.1']);
+
+// Recovers attribution for visitors who open a project link in a new tab:
+// sessionStorage is per-tab, so the new tab's path has no slug and only the
+// referrer still points at the application link
+export const extractApplicationSlugFromReferrer = (referrer: string): string | undefined => {
+  if (!referrer || referrer === 'direct') {
+    return undefined;
+  }
+
+  let url: URL;
+  try {
+    url = new URL(referrer);
+  } catch {
+    return undefined;
+  }
+
+  if (!OWN_REFERRER_DOMAINS.has(url.hostname)) {
+    return undefined;
+  }
+
+  return extractApplicationSlugFromPath(url.pathname);
+};

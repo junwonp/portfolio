@@ -1,6 +1,7 @@
 import type { AnalyticsPayloadBody } from '@/lib/server/analytics/payload';
 import { ensureAnalyticsStorageSchema } from '@/lib/server/analytics/schema';
 import type { ApplicationLinkRow } from '@/lib/server/application-links/model';
+import { extractApplicationSlugFromReferrer } from '@/lib/utils/applicationSlug';
 
 interface RecordAnalyticsPayloadInput {
   country: string;
@@ -27,15 +28,22 @@ export const recordAnalyticsPayload = async ({
     .bind(payload.sessionId, ipAddress, country, payload.userAgent, payload.referrer, 0)
     .run();
 
-  if (payload.applicationSlug) {
+  // Recover attribution for new-tab navigation: the path has no slug, but the
+  // initial beacon's referrer still points at the application link page
+  const applicationSlug =
+    payload.applicationSlug ?? extractApplicationSlugFromReferrer(payload.referrer);
+
+  if (applicationSlug) {
+    // Attribute even after expiry: revisits through the resume link are still
+    // that company's traffic, and the landing page falls back to the default view
     const applicationLink = await db
       .prepare(
         `SELECT id
          FROM application_links
-         WHERE slug = ? AND expires_at > datetime('now') AND deleted_at IS NULL
+         WHERE slug = ? AND deleted_at IS NULL
          LIMIT 1`,
       )
-      .bind(payload.applicationSlug)
+      .bind(applicationSlug)
       .first<Pick<ApplicationLinkRow, 'id'>>();
 
     if (applicationLink) {

@@ -53,6 +53,9 @@ export function sendAnalyticsPayload(
   const applicationSlug = extractApplicationSlugFromPath(currentPath);
   const payload = JSON.stringify({
     ...(applicationSlug ? { applicationSlug } : {}),
+    // Every beacon carries the referrer so the server can recover attribution
+    // even when the session-creating initial beacon is lost
+    referrer: document.referrer || 'direct',
     sessionId: currentSessionId,
     userAgent: navigator.userAgent,
     ...data,
