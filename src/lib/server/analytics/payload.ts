@@ -188,7 +188,8 @@ export const parseAnalyticsPayloadBody = (rawBody: unknown): AnalyticsPayloadBod
   if (body.eventType === 'interaction') {
     const interactionType = getOptionalString(body.interactionType, 100);
     const interactionLabel = getOptionalString(body.interactionLabel, 500);
-    const action = body.action === 'open' || body.action === 'close' ? (body.action as 'open' | 'close') : null;
+    const action =
+      body.action === 'open' || body.action === 'close' ? (body.action as 'open' | 'close') : null;
 
     if (!interactionType || !interactionLabel || !action) {
       return null;
