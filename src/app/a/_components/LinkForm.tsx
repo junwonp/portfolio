@@ -3,10 +3,8 @@
 import { useState } from 'react';
 
 import Select from '@/components/ui/Select';
-
-import * as styles from './admin.css';
-
 import { createApplicationLink } from '../actions';
+import * as styles from './admin.css';
 
 interface LinkFormProps {
   applicationProjectOptions: { id: string; title: string }[];
@@ -29,7 +27,7 @@ export function LinkForm({ applicationProjectOptions, writesEnabled }: LinkFormP
 
   function getSelectableProjectOptions(index: number) {
     const selectedByOtherControls = new Set(
-      selectedProjectIds.filter((projectId, selectedIndex) => projectId && selectedIndex !== index)
+      selectedProjectIds.filter((projectId, selectedIndex) => projectId && selectedIndex !== index),
     );
     return applicationProjectOptions.filter((project) => !selectedByOtherControls.has(project.id));
   }
@@ -82,7 +80,14 @@ export function LinkForm({ applicationProjectOptions, writesEnabled }: LinkFormP
 
       <label>
         <span>유효 기간 (일)</span>
-        <input name="ttlDays" type="number" min="1" max="90" defaultValue="60" disabled={!writesEnabled} />
+        <input
+          name="ttlDays"
+          type="number"
+          min="1"
+          max="90"
+          defaultValue="90"
+          disabled={!writesEnabled}
+        />
       </label>
 
       <div className={styles.projectOrderField}>
