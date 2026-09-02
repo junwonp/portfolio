@@ -212,6 +212,7 @@ export default function ImageDescription({
               height={height}
               loading={priority ? "eager" : "lazy"}
               fetchPriority={priority ? "high" : "auto"}
+              onLoad={onLoad}
               className={loaded || !hasDimensions ? styles.loaded : ""}
             />
           </picture>

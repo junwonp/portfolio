@@ -47,6 +47,7 @@ export default function ProjectSpotlightList({
                     src={project.thumbnail.src}
                     alt={project.thumbnail.alt}
                     fill
+                    unoptimized
                     sizes="(max-width: 768px) 88px, 144px"
                     className={`${styles.thumbnail} ${
                       project.thumbnail.kind === 'icon'
