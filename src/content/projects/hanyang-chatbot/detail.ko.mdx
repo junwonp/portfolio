@@ -1,0 +1,108 @@
+---
+dateFrom: '2024-01'
+dateTo: '2024-03'
+icon: null
+image: '/images/hanyang-chatbot/fullscreen.webp'
+paradigm: assisted
+title: 한양대학교 창업지원단 AI 챗봇 위젯
+titleBadge: 'B2B 웹 챗봇'
+description: 스크립트 한 줄로 임베드되는 화이트라벨 AI 챗봇 위젯 — Shadow DOM 스타일 격리, 서버 주도 멀티테넌트 UI, 토큰 단위 스트리밍 채팅 구현
+role: '프론트엔드 엔지니어'
+date: '2024-01 ~ 2024-03'
+platforms: ['Web']
+metrics:
+  [
+    { value: '1줄', label: '<script> 임베드' },
+    { value: '서버 주도', label: '멀티테넌트 UI' },
+    { value: '실시간', label: '토큰 스트리밍' },
+  ]
+techStack: ['TypeScript', 'React', 'styled-components', 'Webpack', 'GitHub Actions']
+featuredSkills: ['TypeScript', 'React', 'styled-components', 'Webpack', 'GitHub Actions']
+summaryDetails:
+  [
+    '**[임베더블 위젯 아키텍처]** Shadow DOM(closed mode)으로 호스트 페이지와 스타일·DOM을 완전히 격리하고, `orca.setup(websiteId)` 한 번의 호출로 자가 구성되는 멀티테넌트 임베드 위젯을 구축했습니다.',
+    '**[서버 주도 UI]** 이름·로고·브랜드 테마·FAB 위치·디바이스 브레이크포인트까지 서버 설정만으로 결정되는 렌더링 구조와 반응형 레이아웃 엔진을 구현했습니다.',
+    '**[실시간 LLM 스트리밍 UX]** 토큰 단위로 도착하는 답변을 마지막 메시지만 증분 렌더링하는 병합 로직과 한글 IME 안전 입력을 구현했습니다.',
+  ]
+---
+
+import ProjectAchievements from '@/components/portfolio/project-detail/ProjectAchievements';
+import ProjectLightbox from '@/components/portfolio/project-detail/ProjectLightbox';
+import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechStack';
+
+## 프로젝트 소개
+
+**"스크립트 한 줄로 임베드되는 화이트라벨 AI 챗봇 위젯"**
+
+Orca AI의 SaaS형 AI 챗봇 플랫폼에서 한양대학교 창업지원단을 비롯한 여러 고객사 웹사이트에 임베드되는 챗봇 위젯의 프론트엔드를 전담 개발했습니다. 고객사는 `<script>` 태그 한 줄과 `orca.setup(websiteId)` 호출만으로 위젯을 설치할 수 있고, 서버 설정만으로 브랜딩·레이아웃·언어가 자동 적용되는 멀티테넌트 구조입니다.
+
+임베드 위젯의 최대 난제인 "어떤 사이트에 붙여도 깨지지 않는 UI"를 Shadow DOM 기반 스타일 격리로 해결했고, LLM 답변의 토큰 단위 스트리밍 렌더링과 한글 IME 안전 입력까지 구현했습니다.
+
+> 이 서비스는 현재 운영이 종료된 상태입니다.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## 주요 작업
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Architecture',
+      accent: true,
+      title: 'Shadow DOM 기반 임베드 위젯 — 호스트 페이지와 완전한 스타일 격리',
+      detail: `위젯 전체를 <code>attachShadow({ mode: 'closed' })</code> Shadow Root 안에 렌더링하고, styled-components의 <code>StyleSheetManager</code>로 스타일 태그를 Shadow Root 내부에 주입했습니다. 폰트·UI 라이브러리까지 Shadow Root 안에서 로드해 호스트 사이트 CSS와 <strong>양방향으로 격리</strong> — 어떤 사이트에 붙여도 위젯 UI가 깨지지 않습니다. <code>window.orca.setup(websiteId)</code> 글로벌 SDK 인터페이스를 설계해 웹사이트 ID만으로 위젯이 자가 구성되도록 했습니다.`,
+    },
+    {
+      tag: 'Server-Driven',
+      title: '서버 주도 UI — 코드 수정 없는 고객사별 렌더링과 브랜딩',
+      detail: `이름·로고·고지문·placeholder·FAB 위치·디바이스 브레이크포인트까지 위젯의 거의 모든 외형이 서버 설정으로 결정됩니다. 고객사 대표 색상이나 로고 이미지에서 계산한 라이트·다크 테마가 CSS Custom Properties로 자동 적용되어 <strong>설정 하나로 전 UI가 리브랜딩</strong>됩니다. 서버가 보낸 <code>minWidthOfDeviceInPixels</code>로 <code>useMediaQuery</code> 쿼리를 동적으로 재구성하고, FAB의 크기·오프셋·정렬을 서버 값으로 계산해 배치하는 <strong>반응형 레이아웃 엔진</strong>을 구현했습니다. 모바일에서는 400px 패널이 <code>100dvh</code> 풀스크린으로 전환되며, body 스크롤 잠금으로 호스트 페이지 스크롤 간섭을 차단합니다.`,
+    },
+    {
+      tag: 'Streaming',
+      accent: true,
+      title: '토큰 단위 스트리밍 채팅 UI — 증분 렌더링과 멀티턴 문맥 유지',
+      detail: `<code>onStreamStart</code>/<code>onStreamChunk</code> 콜백으로 도착하는 토큰을 버블에 증분 렌더링했습니다. 청크마다 전체 리스트를 다시 그리지 않고 <strong>마지막 날짜 그룹의 마지막 메시지만 교체</strong>하는 <code>groupMessages</code> 병합 로직으로 리렌더 범위를 최소화했고, 날짜 구분선(오늘/어제)은 스트리밍 중에도 유지됩니다. 매 턴 <code>scenarioClient.run()</code> 반환값으로 RuntimeContext를 갱신해 멀티턴 문맥을 서버-클라이언트 간 스레딩했습니다. 한글 IME 조합 중 Enter로 메시지가 잘리는 문제를 <code>isComposing</code> 검사로 해결했습니다.`,
+    },
+    {
+      tag: 'DevOps',
+      title: '임베드용 단일 번들 빌드 파이프라인',
+      detail: `CRA 빌드 산출물(JS/CSS)을 커스텀 webpack 설정으로 재번들해 단일 <code>bundle.min.js</code>를 자동 생성하는 <strong>2단계 빌드 파이프라인</strong>을 구축했습니다. 512KB 번들 상한으로 임베드 스크립트 크기를 관리하고, GitHub Actions 3환경(dev/staging/prod) 배포와 <code>REACT_APP_ENV</code> 기반 엔드포인트 분리로 운영했습니다.`,
+    },
+  ]}
+/>
+
+## 스크린샷
+
+<ProjectLightbox
+  images={[
+    {
+      src: '/images/hanyang-chatbot/chat-closeup.webp',
+      alt: '한양대학교 창업지원단 AI 챗봇 대화 화면',
+      caption: '답변이 토큰 단위로 스트리밍되는 채팅 패널',
+    },
+    {
+      src: '/images/hanyang-chatbot/fullscreen.webp',
+      alt: '한양대학교 창업지원단 웹사이트에 임베드된 챗봇 위젯',
+      caption: '호스트 웹사이트에서 플로팅 버튼으로 열리는 임베드 위젯 전체 화면',
+    },
+  ]}
+/>
+
+## 회고
+
+**"임베드 위젯을 처음부터 끝까지 설계한 경험"**
+
+### 1. 처음으로 만든 임베드 위젯 — Shadow DOM과 단일 스크립트 배포
+
+Shadow DOM도, 스크립트 한 줄로 동작하는 위젯도 이 프로젝트에서 처음 만들어봤습니다. 호스트 사이트의 CSS는 통제할 수 없다는 전제에서 출발해, "어디에 붙어도 안 깨지는" 보장은 코드 수정이 아니라 구조(Shadow DOM 격리, 스타일 주입 위치 제어, 단일 번들 산출)에서 나온다는 것을 배웠습니다. 번들 크기, 스타일 격리, 설치 간결성 같은 임베드형 제품의 핵심 제약을 제품 관점에서 이해하게 된 프로젝트였습니다.
+
+### 2. 코드에서 확인되는 아쉬운 점과 개선 방향
+
+- **캐러셀·칩 리스트의 중복 `key`**: `message.children.map`의 `key`가 고정 문자열이라 React 조정 관점에서 잘못된 키였습니다. 지금이라면 `child.id ?? index` 기반 키로 고치겠습니다.
+- **`<link>`를 `<style>` 안에 append**: 폰트 `<link>`를 `<style>` 엘리먼트 자식으로 넣은 것은 HTML 스펙상 불안정합니다. Shadow Root에 직접 append하거나 Constructable Stylesheets를 쓰는 것이 정석이었습니다.
+- **다크모드 초기값이 항상 light**: OS 다크모드 사용자가 첫 진입 시 라이트로 플래시되는 문제가 있었습니다. `matchMedia('(prefers-color-scheme: dark)')`로 초기값을 잡았어야 했습니다.
+- **`useMediaQuery`의 의존성 배열**: `matches`가 바뀔 때마다 리스너를 떼었다 붙이는 구조였습니다. `[query]`만으로 충분하고, 함수형 업데이트가 안전합니다.
+
+### 3. 계약 기반 협업과 프론트엔드 오너십
+
+플랫폼 SDK(`@orca.ai/pulse`) 소비자로서 백엔드 팀과 API 계약 문서를 저장소에 함께 관리하며 병렬 개발했습니다. 이슈 번호 기반 브랜치, PR 리뷰, conventional commit으로 270개 커밋을 관리했고, 프론트엔드 영역은 전담(백엔드 커밋 0건)으로 운영했습니다. RAG 백엔드 구조를 이해한 위에서 SDK를 소비한 경험은 풀스택 문맥을 가진 프론트엔드로 성장하는 밑거름이 되었습니다.

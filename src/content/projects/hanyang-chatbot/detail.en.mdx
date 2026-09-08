@@ -1,0 +1,108 @@
+---
+dateFrom: '2024-01'
+dateTo: '2024-03'
+icon: null
+image: '/images/hanyang-chatbot/fullscreen.webp'
+paradigm: assisted
+title: Hanyang University Startup Foundation AI Chatbot Widget
+titleBadge: 'B2B Web Chatbot'
+description: A white-label AI chatbot widget embedded with a single script tag — Shadow DOM style isolation, server-driven multi-tenant UI, and token-streaming chat
+role: 'Frontend Engineer'
+date: '2024-01 ~ 2024-03'
+platforms: ['Web']
+metrics:
+  [
+    { value: '1 line', label: '<script> Embed' },
+    { value: 'Server-driven', label: 'Multi-tenant UI' },
+    { value: 'Realtime', label: 'Token Streaming' },
+  ]
+techStack: ['TypeScript', 'React', 'styled-components', 'Webpack', 'GitHub Actions']
+featuredSkills: ['TypeScript', 'React', 'styled-components', 'Webpack', 'GitHub Actions']
+summaryDetails:
+  [
+    '**[Embeddable Widget Architecture]** Built a multi-tenant embed widget fully isolated from host pages via closed-mode Shadow DOM, self-configured by a single `orca.setup(websiteId)` call.',
+    '**[Server-Driven UI]** Implemented a rendering structure where name, logo, brand theme, FAB position, and device breakpoints are all driven by server settings, plus a responsive layout engine.',
+    '**[Real-Time LLM Streaming UX]** Rendered token-streamed answers with an incremental last-message merge and Korean IME-safe input.',
+  ]
+---
+
+import ProjectAchievements from '@/components/portfolio/project-detail/ProjectAchievements';
+import ProjectLightbox from '@/components/portfolio/project-detail/ProjectLightbox';
+import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechStack';
+
+## Project Overview
+
+**"A white-label AI chatbot widget embedded with a single script tag"**
+
+As the dedicated frontend engineer at Orca AI's SaaS chatbot platform, I built the embeddable chatbot widget for client websites, including the Hanyang University Startup Support Foundation. Clients install the widget with one `<script>` tag and a single `orca.setup(websiteId)` call, and branding, layout, and language apply automatically from server settings — a fully multi-tenant architecture.
+
+The hardest problem in third-party widgets — "never break, no matter which site it's embedded in" — was solved structurally with Shadow DOM style isolation, along with token-level LLM streaming and Korean IME-safe input.
+
+> This service has since been discontinued.
+
+<ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
+
+## Key Work
+
+<ProjectAchievements
+  achievements={[
+    {
+      tag: 'Architecture',
+      accent: true,
+      title: 'Shadow DOM Embed Widget — Complete Style Isolation from the Host Page',
+      detail: `Rendered the entire widget inside an <code>attachShadow({ mode: 'closed' })</code> Shadow Root and injected styled-components style tags into the Shadow Root via <code>StyleSheetManager</code>. Fonts and UI libraries also load inside the Shadow Root, giving <strong>bidirectional isolation</strong> from host page CSS — the widget UI never breaks regardless of the embedding site. Designed a global <code>window.orca.setup(websiteId)</code> SDK so the widget self-configures from a website ID alone.`,
+    },
+    {
+      tag: 'Server-Driven',
+      title: 'Server-Driven UI — Per-Client Rendering and Branding Without Code Changes',
+      detail: `Almost every visual aspect — name, logo, disclaimer, placeholder, FAB position, and device breakpoints — is driven by server settings. Light/dark themes computed from a client brand color or logo image are applied as CSS Custom Properties, so <strong>a single setting rebrands the entire UI</strong>. Rebuilt <code>useMediaQuery</code> queries dynamically from the server-provided <code>minWidthOfDeviceInPixels</code>, and implemented a <strong>responsive layout engine</strong> that computes FAB size, offsets, and alignment from server values. On mobile, the 400px panel transitions to <code>100dvh</code> fullscreen with body scroll locking to prevent host page scroll interference.`,
+    },
+    {
+      tag: 'Streaming',
+      accent: true,
+      title: 'Token-Level Streaming Chat UI — Incremental Rendering and Multi-Turn Context',
+      detail: `Rendered arriving tokens incrementally into the bubble via <code>onStreamStart</code>/<code>onStreamChunk</code> callbacks. Instead of redrawing the whole list per chunk, a <code>groupMessages</code> merge replaces <strong>only the last message of the last date group</strong>, minimizing re-renders while keeping date separators (today/yesterday) stable during streaming. Updated RuntimeContext each turn from the <code>scenarioClient.run()</code> return value to thread multi-turn context between server and client. Prevented Korean IME composition from triggering sends with an <code>isComposing</code> guard.`,
+    },
+    {
+      tag: 'DevOps',
+      title: 'Single-Bundle Build Pipeline for Embedding',
+      detail: `Rebundled CRA build output (JS/CSS) with a custom webpack config into a single <code>bundle.min.js</code> via a <strong>two-stage build pipeline</strong>. Managed embed script size with a 512KB bundle cap, and operated GitHub Actions deployments across 3 environments (dev/staging/prod) with <code>REACT_APP_ENV</code>-based endpoint separation.`,
+    },
+  ]}
+/>
+
+## Screenshots
+
+<ProjectLightbox
+  images={[
+    {
+      src: '/images/hanyang-chatbot/chat-closeup.webp',
+      alt: 'Hanyang University Startup Foundation AI chatbot conversation',
+      caption: 'Chat panel streaming answers token by token',
+    },
+    {
+      src: '/images/hanyang-chatbot/fullscreen.webp',
+      alt: 'AI chatbot widget embedded in the Hanyang University Startup Foundation website',
+      caption: 'The embedded widget opened from the floating button on the host website',
+    },
+  ]}
+/>
+
+## Retrospective
+
+**"Designing an embed widget end to end for the first time"**
+
+### 1. My first embed widget — first time with Shadow DOM and single-script delivery
+
+Both Shadow DOM and a widget that runs from a single script tag were firsts in this project. Starting from the premise that host page CSS is uncontrollable, I learned that the "never breaks, wherever it's embedded" guarantee comes from structure — Shadow DOM isolation, style-injection placement, a single-bundle artifact — not from patches. This project shaped how I now think about the core constraints of embedded products: bundle size, style isolation, and installation simplicity.
+
+### 2. Flaws confirmed in the code, and how I would fix them
+
+- **Duplicate `key` in carousel/chip lists**: The `message.children.map` keys were fixed strings — incorrect from React's reconciliation standpoint. I would now use `child.id ?? index` based keys.
+- **`<link>` appended inside `<style>`**: Placing font `<link>` tags as children of a `<style>` element is unstable per the HTML spec. Appending directly to the Shadow Root or using Constructable Stylesheets was the right approach.
+- **Dark-mode initial value always `light`**: OS dark-mode users saw a light flash on first entry. The initial value should have come from `matchMedia('(prefers-color-scheme: dark)')`.
+- **`useMediaQuery` dependency array**: Listeners were re-attached whenever `matches` changed. Depending on `[query]` alone, with a functional state update, is sufficient and safer.
+
+### 3. Contract-driven collaboration and frontend ownership
+
+As the consumer of the platform SDK (`@orca.ai/pulse`), I co-maintained API contract documents in the repository with the backend team and developed in parallel. All 270 commits followed issue-based branches, PR reviews, and conventional commits, and the frontend area was fully owned (zero backend commits). Consuming the SDK on top of an understanding of the RAG backend laid the foundation for growing into a full-stack-context frontend engineer.

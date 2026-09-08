@@ -23,6 +23,7 @@ describe('portfolio catalog', () => {
       campusTown: 'campus_town',
       dayPlanner: 'day_planner',
       electionAggregator: 'election_aggregator',
+      hanyangChatbot: 'hanyang_chatbot',
       kftcPlatform: 'kftc_platform',
       mndDashboard: 'mnd_dashboard',
       nextjsPortfolio: 'nextjs_portfolio',
@@ -43,6 +44,7 @@ describe('portfolio catalog', () => {
     expect(careerIds).toEqual([CAREER_ID.orcaAi, CAREER_ID.vaultMicro, CAREER_ID.mnd]);
     expect(projectIds).toEqual([
       PROJECT_ID.aira,
+      PROJECT_ID.hanyangChatbot,
       PROJECT_ID.camerafiStudio,
       PROJECT_ID.adminDashboard,
       PROJECT_ID.webViewer,
@@ -93,6 +95,13 @@ describe('portfolio catalog', () => {
         id: PROJECT_ID.aira,
         section: 'work',
         slug: 'aira',
+      },
+      {
+        careerId: CAREER_ID.orcaAi,
+        detailPath: '/projects/hanyang-chatbot',
+        id: PROJECT_ID.hanyangChatbot,
+        section: 'work',
+        slug: 'hanyang-chatbot',
       },
       {
         careerId: CAREER_ID.vaultMicro,

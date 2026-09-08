@@ -19,6 +19,7 @@ export const PROJECT_ID = {
   campusTown: 'campus_town',
   dayPlanner: 'day_planner',
   electionAggregator: 'election_aggregator',
+  hanyangChatbot: 'hanyang_chatbot',
   kftcPlatform: 'kftc_platform',
   mndDashboard: 'mnd_dashboard',
   nextjsPortfolio: 'nextjs_portfolio',
@@ -54,4 +55,3 @@ export interface ProjectContentEntry {
   skills?: SkillName[];
   slug: string;
 }
-

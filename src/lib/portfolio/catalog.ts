@@ -38,6 +38,12 @@ import ElectionAggregatorEn, {
 import ElectionAggregatorKo, {
   frontmatter as electionAggregatorKoMetadata,
 } from '@/content/projects/election-aggregator/detail.ko.mdx';
+import HanyangChatbotEn, {
+  frontmatter as hanyangChatbotEnMetadata,
+} from '@/content/projects/hanyang-chatbot/detail.en.mdx';
+import HanyangChatbotKo, {
+  frontmatter as hanyangChatbotKoMetadata,
+} from '@/content/projects/hanyang-chatbot/detail.ko.mdx';
 import KftcPlatformEn, {
   frontmatter as kftcPlatformEnMetadata,
 } from '@/content/projects/kftc-platform/detail.en.mdx';
@@ -92,8 +98,8 @@ interface ProjectMdxModule {
   frontmatter: PostMetadata;
 }
 
-export { CAREER_ID, careerCatalog, PROJECT_ID };
 export type { CareerCatalogEntry, CareerId, CareerLocaleContent, ProjectId };
+export { CAREER_ID, careerCatalog, PROJECT_ID };
 
 interface ProjectDefinition {
   careerId?: CareerId;
@@ -124,6 +130,17 @@ const projectDefinitions = [
     id: PROJECT_ID.aira,
     section: 'work',
     slug: 'aira',
+  },
+  {
+    careerId: CAREER_ID.orcaAi,
+    content: {
+      en: { Component: HanyangChatbotEn, frontmatter: hanyangChatbotEnMetadata },
+      ko: { Component: HanyangChatbotKo, frontmatter: hanyangChatbotKoMetadata },
+    },
+    detailPath: '/projects/hanyang-chatbot',
+    id: PROJECT_ID.hanyangChatbot,
+    section: 'work',
+    slug: 'hanyang-chatbot',
   },
   {
     careerId: CAREER_ID.vaultMicro,
