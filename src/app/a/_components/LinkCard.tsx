@@ -1,10 +1,8 @@
 'use client';
 
 import { formatDateTime } from '@/lib/utils/date';
-
-import * as styles from './admin.css';
-
 import { deleteApplicationLink } from '../actions';
+import * as styles from './admin.css';
 
 interface LinkCardProps {
   link: {
@@ -70,6 +68,17 @@ export function LinkCard({ link, projectOptions, writesEnabled }: LinkCardProps)
       </td>
       <td style={{ whiteSpace: 'nowrap', fontSize: '0.8rem', color: 'var(--color-sub)' }}>
         {formatDateTime(link.expiresAt)}
+      </td>
+      <td className={styles.actionCell}>
+        <a
+          href={`/resume?slug=${link.slug}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.printBtn}
+          title="이 단축 링크가 포함된 이력서 버전을 열어 PDF로 저장할 수 있습니다."
+        >
+          이력서
+        </a>
       </td>
       <td className={styles.actionCell}>
         <a
