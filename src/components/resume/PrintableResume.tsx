@@ -18,6 +18,14 @@ const renderParts = (parts: ResumeTextPart[]) =>
       return <span key={`${part}-${index}`}>{part}</span>;
     }
 
+    if ('code' in part) {
+      return (
+        <code className={styles.inlineCode} key={`${part.text}-${index}`}>
+          {part.text}
+        </code>
+      );
+    }
+
     return <strong key={`${part.text}-${index}`}>{part.text}</strong>;
   });
 
@@ -26,15 +34,18 @@ const renderBulletList = (bullets: ResumeTextPart[][]) => {
 
   return (
     <ul className={styles.bullets}>
-      {bullets.map((bullet, index) => (
+      {bullets.map((bullet) => (
         <li key={String(bullet).slice(0, 60)}>{renderParts(bullet)}</li>
       ))}
     </ul>
   );
 };
 
-const renderWorkEntry = (entry: ResumeWorkEntry, index: number) => (
-  <article className={styles.workEntry} key={`${entry.companyName ?? 'continued'}-${entry.role ?? ''}`}>
+const renderWorkEntry = (entry: ResumeWorkEntry) => (
+  <article
+    className={styles.workEntry}
+    key={`${entry.companyName ?? 'continued'}-${entry.role ?? ''}`}
+  >
     {entry.companyName && (
       <header className={styles.workHeader}>
         <div>
@@ -50,7 +61,10 @@ const renderWorkEntry = (entry: ResumeWorkEntry, index: number) => (
 
     {entry.projects.map((project) => (
       <section className={styles.projectBlock} key={project.title}>
-        <h4>{project.title}</h4>
+        <div className={styles.projectHeader}>
+          <h4>{project.title}</h4>
+          {project.period && <p className={styles.projectPeriod}>{project.period}</p>}
+        </div>
         {project.summary && <p className={styles.projectSummary}>{renderParts(project.summary)}</p>}
         {renderBulletList(project.bullets)}
       </section>
@@ -105,55 +119,85 @@ const renderSection = (section: ResumePageSection) => {
 export default function PrintableResume({ resume }: PrintableResumeProps) {
   return (
     <div className={styles.resumeShell}>
+      {/*
+        Scoped to this document so the resume prints at true A4 size with no
+        browser scaling; the page element below carries its own padding
+      */}
+      <style>{'@page { size: A4; margin: 0 }'}</style>
       <PrintableResumeToolbar />
       <article className={styles.resumeDocument} aria-label="Junwon Park printable resume">
         {resume.pages.map((page, pageIndex) => (
-          <section className={styles.resumePage} key={pageIndex} aria-label={`Resume page ${pageIndex + 1}`}>
+          <section
+            className={styles.resumePage}
+            key={pageIndex}
+            aria-label={`Resume page ${pageIndex + 1}`}
+          >
             {pageIndex === 0 && (
               <header className={styles.hero}>
-                <h1>{resume.name}</h1>
-                <p className={styles.headline}>{resume.role}</p>
-                <address className={styles.contactList}>
-                  {(() => {
-                    const loc = resume.contactItems.find((item) => item.label === 'Location');
-                    const email = resume.contactItems.find((item) => item.label === 'Email');
-                    const github = resume.contactItems.find((item) => item.label === 'GitHub');
-                    const portfolio = resume.contactItems.find((item) => item.label === 'Portfolio');
+                <div className={styles.heroTopRow}>
+                  <div className={styles.identityBlock}>
+                    <h1>{resume.name}</h1>
+                    <p className={styles.headline}>{resume.role}</p>
+                  </div>
+                  <address className={styles.contactList}>
+                    {(() => {
+                      const loc = resume.contactItems.find((item) => item.label === 'Location');
+                      const email = resume.contactItems.find((item) => item.label === 'Email');
+                      const github = resume.contactItems.find((item) => item.label === 'GitHub');
+                      const portfolio = resume.contactItems.find(
+                        (item) => item.label === 'Portfolio',
+                      );
 
-                    return (
-                      <>
-                        <div className={styles.contactRow}>
-                          {loc && <span>{loc.value}</span>}
-                          {loc && email && <span className={styles.divider}>|</span>}
-                          {email && (
-                            <span className={styles.secureEmail}>
-                              <span>me</span>
-                              <span className={styles.atSign} />
-                              <span>junwon.dev</span>
-                            </span>
-                          )}
-                        </div>
-                        <div className={styles.contactRow}>
+                      return (
+                        <>
+                          <div className={styles.contactRow}>
+                            {loc && <span>{loc.value}</span>}
+                            {loc && email && <span className={styles.divider}>|</span>}
+                            {email && (
+                              <span className={styles.secureEmail}>
+                                <span>me</span>
+                                <span className={styles.atSign} />
+                                <span>junwon.dev</span>
+                              </span>
+                            )}
+                          </div>
                           {github && (
-                            <span>
-                              <strong>GitHub:</strong> <a href={github.href}>{github.value}</a>
-                            </span>
+                            <div className={styles.contactRow}>
+                              <span>
+                                <strong>GitHub:</strong> <a href={github.href}>{github.value}</a>
+                              </span>
+                            </div>
                           )}
-                          {github && portfolio && <span className={styles.divider}>|</span>}
                           {portfolio && (
-                            <span>
-                              <strong>Portfolio:</strong> <a href={portfolio.href}>{portfolio.value.replace('https://', '')}</a>
-                            </span>
+                            <div className={styles.contactRow}>
+                              <span>
+                                <strong>Portfolio:</strong>{' '}
+                                <a href={portfolio.href}>
+                                  {portfolio.value.replace('https://', '')}
+                                </a>
+                              </span>
+                            </div>
                           )}
-                        </div>
-                      </>
-                    );
-                  })()}
-                </address>
+                        </>
+                      );
+                    })()}
+                  </address>
+                </div>
+                <ul className={styles.metricStrip} aria-label="핵심 성과 지표">
+                  {resume.heroMetrics.map((metric) => (
+                    <li key={`${metric.value}-${metric.label}`}>
+                      <span className={styles.metricValue}>{metric.value}</span>
+                      <span className={styles.metricLabel}>{metric.label}</span>
+                    </li>
+                  ))}
+                </ul>
                 <section className={styles.summary} aria-labelledby="resume-summary-title">
                   <h2 id="resume-summary-title">{resume.summaryTitle}</h2>
                   {renderBulletList(resume.summaryBullets)}
                 </section>
+                <p className={styles.techLine}>
+                  <strong>Tech</strong> {resume.techKeywords.join(' · ')}
+                </p>
               </header>
             )}
 
