@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { projectCatalog } from '@/lib/portfolio/catalog';
 import { registeredSkillNames } from '@/lib/portfolio/skills';
-import { getProjectTechStackGroups } from '@/lib/portfolio/techStack';
+import { getProjectTechStackGroups, segmentSkillsByCategory } from '@/lib/portfolio/techStack';
 
 const registeredSkillNameSet: ReadonlySet<string> = new Set(registeredSkillNames);
 
@@ -30,5 +30,36 @@ describe('getProjectTechStackGroups', () => {
 
   it('keeps project detail tech stacks aligned with the registered skill chips', () => {
     expect(getUnregisteredProjectTechStackItems()).toEqual([]);
+  });
+});
+
+describe('segmentSkillsByCategory', () => {
+  it('groups consecutive skills of the same category into one segment', () => {
+    expect(segmentSkillsByCategory(['React', 'Expo', 'TypeScript'])).toEqual([
+      { category: 'frameworks', skills: ['React', 'Expo'] },
+      { category: 'languages', skills: ['TypeScript'] },
+    ]);
+  });
+
+  it('keeps a single-skill category as its own segment', () => {
+    expect(segmentSkillsByCategory(['TypeScript'])).toEqual([
+      { category: 'languages', skills: ['TypeScript'] },
+    ]);
+  });
+
+  it('never merges unregistered skills, even when consecutive', () => {
+    expect(segmentSkillsByCategory(['React', 'Unknown A', 'Unknown B'])).toEqual([
+      { category: 'frameworks', skills: ['React'] },
+      { category: 'default', skills: ['Unknown A'] },
+      { category: 'default', skills: ['Unknown B'] },
+    ]);
+  });
+
+  it('preserves input order across segments', () => {
+    expect(segmentSkillsByCategory(['Expo', 'TypeScript', 'React'])).toEqual([
+      { category: 'frameworks', skills: ['Expo'] },
+      { category: 'languages', skills: ['TypeScript'] },
+      { category: 'frameworks', skills: ['React'] },
+    ]);
   });
 });

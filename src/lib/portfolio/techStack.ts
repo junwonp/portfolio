@@ -1,10 +1,20 @@
-import { type SkillId, skillGroups, skillGroupTitles } from '@/lib/portfolio/skills';
+import {
+  getSkillCategory,
+  type SkillId,
+  skillGroups,
+  skillGroupTitles,
+} from '@/lib/portfolio/skills';
 import type { Language } from '@/lib/utils/language';
 
 export interface ProjectTechStackGroup {
   id: SkillId;
   skills: string[];
   title: string;
+}
+
+export interface SkillCategorySegment {
+  category: SkillId | 'default';
+  skills: string[];
 }
 
 export const getProjectTechStackGroups = (
@@ -26,3 +36,17 @@ export const getProjectTechStackGroups = (
     return [];
   });
 };
+
+export const segmentSkillsByCategory = (skills: readonly string[]): SkillCategorySegment[] =>
+  skills.reduce<SkillCategorySegment[]>((segments, skill) => {
+    const category = getSkillCategory(skill);
+    const previous = segments[segments.length - 1];
+    const shouldExtend = previous && previous.category === category && category !== 'default';
+
+    if (shouldExtend) {
+      return [...segments.slice(0, -1), { category, skills: [...previous.skills, skill] }];
+    }
+
+    // biome-ignore lint/performance/noAccumulatingSpread: project rules forbid push/splice mutation; lists are small
+    return [...segments, { category, skills: [skill] }];
+  }, []);
