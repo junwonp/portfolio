@@ -1,6 +1,6 @@
+import { fileURLToPath } from 'node:url';
 import mdx from '@mdx-js/rollup';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
-import { fileURLToPath } from 'node:url';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';

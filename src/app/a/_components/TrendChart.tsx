@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import * as styles from './admin.css';
 import { FilterTabs } from './FilterTabs';
@@ -107,8 +107,7 @@ export function TrendChart({
         <div>
           <h3>{trafficRange.label} 트래픽</h3>
           <p className={styles.sectionSubtitle}>
-            {formatChartDate(trafficSummary.rangeStart)}–
-            {formatChartDate(trafficSummary.rangeEnd)}
+            {formatChartDate(trafficSummary.rangeStart)}–{formatChartDate(trafficSummary.rangeEnd)}
             기준, 기록이 없는 {trafficRange.bucket === 'month' ? '월' : '날짜'}은 0으로 표시
           </p>
           <div className={styles.chartLegend}>

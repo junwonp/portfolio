@@ -99,16 +99,12 @@ export function SessionTimeline({ detail }: SessionTimelineProps) {
                       </div>
                     )}
                     {pv.sectionLabel && (
-                      <span className={styles.timelineSection}>
-                        마지막 섹션: {pv.sectionLabel}
-                      </span>
+                      <span className={styles.timelineSection}>마지막 섹션: {pv.sectionLabel}</span>
                     )}
                   </div>
                 )}
                 {pv.activeTime > 0 && pv.activeTime !== pv.dwellTime && (
-                  <span className={styles.timelineActive}>
-                    활성 {pv.activeTime}초
-                  </span>
+                  <span className={styles.timelineActive}>활성 {pv.activeTime}초</span>
                 )}
               </div>
             </div>

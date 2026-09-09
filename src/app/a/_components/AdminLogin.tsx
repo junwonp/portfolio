@@ -1,10 +1,8 @@
 'use client';
 
-import { useState,useTransition } from 'react';
-
-import * as styles from './login.css';
-
+import { useState, useTransition } from 'react';
 import { login } from '../actions';
+import * as styles from './login.css';
 
 interface AdminLoginProps {
   isLocal: boolean;
@@ -33,19 +31,14 @@ export function AdminLogin({ isLocal, error }: AdminLoginProps) {
         {isLocal ? (
           <>
             <p className={styles.subtitle}>
-              로컬 개발 환경입니다. 아래 버튼을 클릭하면 비밀번호 없이 즉시 관리자 대시보드로 진입합니다.
+              로컬 개발 환경입니다. 아래 버튼을 클릭하면 비밀번호 없이 즉시 관리자 대시보드로
+              진입합니다.
             </p>
 
             <form onSubmit={handleLogin}>
-              {unauthorized && (
-                <p className={styles.errorMessage}>인가 요청이 거부되었습니다.</p>
-              )}
+              {unauthorized && <p className={styles.errorMessage}>인가 요청이 거부되었습니다.</p>}
 
-              <button
-                type="submit"
-                disabled={isPending}
-                className={styles.loginButton}
-              >
+              <button type="submit" disabled={isPending} className={styles.loginButton}>
                 {isPending ? '진입 중...' : '로컬 개발자 우회 로그인'}
               </button>
             </form>
@@ -61,7 +54,8 @@ export function AdminLogin({ isLocal, error }: AdminLoginProps) {
                 {error || '이메일 인증 정보가 유효하지 않습니다.'}
               </p>
               <p className={styles.errorActionHint}>
-                Cloudflare Zero Trust Access 정책(Include)에 등록된 올바른 관리자 이메일 계정으로 로그인해 주세요.
+                Cloudflare Zero Trust Access 정책(Include)에 등록된 올바른 관리자 이메일 계정으로
+                로그인해 주세요.
               </p>
             </div>
           </>

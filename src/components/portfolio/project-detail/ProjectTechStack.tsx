@@ -1,8 +1,8 @@
-import ReadonlySkillChip from "@/components/ui/ReadonlySkillChip";
-import { getProjectTechStackGroups } from "@/lib/portfolio/techStack";
-import type { Language } from "@/lib/utils/language";
+import ReadonlySkillChip from '@/components/ui/ReadonlySkillChip';
+import { getProjectTechStackGroups } from '@/lib/portfolio/techStack';
+import type { Language } from '@/lib/utils/language';
 
-import * as styles from "./ProjectTechStack.css";
+import * as styles from './ProjectTechStack.css';
 
 interface Props {
   techStack: string[];

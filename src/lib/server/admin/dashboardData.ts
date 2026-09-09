@@ -649,7 +649,8 @@ const getSessions = async (
 
   // Run the listing and the total count together — the two queries are
   // independent, so awaiting them in parallel avoids a second round trip
-  const listStmt = db.prepare(`SELECT
+  const listStmt = db
+    .prepare(`SELECT
         s.id,
         COALESCE(s.ip_address, 'unknown') as ipAddress,
         s.ip_country as ipCountry,
@@ -669,11 +670,14 @@ const getSessions = async (
        ${whereClause}
        GROUP BY s.id, s.ip_address, s.ip_country, s.user_agent, s.referrer, s.created_at
        ORDER BY s.created_at DESC
-       LIMIT ? OFFSET ?`).bind(...binds, params.limit, params.offset);
-  const countStmt = db.prepare(`SELECT COUNT(*) as total
+       LIMIT ? OFFSET ?`)
+    .bind(...binds, params.limit, params.offset);
+  const countStmt = db
+    .prepare(`SELECT COUNT(*) as total
        FROM user_sessions s
        ${linkJoin}
-       ${whereClause}`).bind(...binds);
+       ${whereClause}`)
+    .bind(...binds);
 
   const [result, countResult] = await Promise.all([
     listStmt.all<{
@@ -747,8 +751,12 @@ const getSessions = async (
 
     total = allResult.results.filter(
       (row) =>
-        classifySession(row.userAgent, row.totalDwellTime, row.totalScrollDepth, row.pageViewsCount) ===
-        params.classification,
+        classifySession(
+          row.userAgent,
+          row.totalDwellTime,
+          row.totalScrollDepth,
+          row.pageViewsCount,
+        ) === params.classification,
     ).length;
   }
 
@@ -877,23 +885,37 @@ export const getAdminDashboardData = async ({
     };
     // Parse session filter params from URL
     const sessionFilters: GetSessionsParams = {
-      classification: (getFirstSearchParam(searchParams, 'classification') as GetSessionsParams['classification']) ?? undefined,
-      timeRange: (getFirstSearchParam(searchParams, 'timeRange') as GetSessionsParams['timeRange']) ?? undefined,
+      classification:
+        (getFirstSearchParam(
+          searchParams,
+          'classification',
+        ) as GetSessionsParams['classification']) ?? undefined,
+      timeRange:
+        (getFirstSearchParam(searchParams, 'timeRange') as GetSessionsParams['timeRange']) ??
+        undefined,
       limit: 50,
       offset: 0,
     };
 
-    const [stats, dailyChart, topPages, topReferrers, topCountries, applicationLinks, webVitals, sessionsResult] =
-      await Promise.all([
-        getStats(context),
-        getDailyChart(context),
-        getTopPages(context),
-        getTopReferrers(context),
-        getTopCountries(context),
-        getApplicationLinks(db),
-        getWebVitals(context),
-        getSessions(db, sessionFilters),
-      ]);
+    const [
+      stats,
+      dailyChart,
+      topPages,
+      topReferrers,
+      topCountries,
+      applicationLinks,
+      webVitals,
+      sessionsResult,
+    ] = await Promise.all([
+      getStats(context),
+      getDailyChart(context),
+      getTopPages(context),
+      getTopReferrers(context),
+      getTopCountries(context),
+      getApplicationLinks(db),
+      getWebVitals(context),
+      getSessions(db, sessionFilters),
+    ]);
 
     const sessionDetails = await getSessionDetails(db, sessionsResult.sessions);
 

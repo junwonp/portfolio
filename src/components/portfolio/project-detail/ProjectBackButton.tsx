@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft } from 'lucide-react';
 
 interface Props {
   label: string;
@@ -13,7 +13,7 @@ export default function ProjectBackButton({ label, className }: Props) {
       type="button"
       className={className}
       onClick={() => {
-        if (typeof window !== "undefined") history.back();
+        if (typeof window !== 'undefined') history.back();
       }}
       aria-label={label}
       title={label}

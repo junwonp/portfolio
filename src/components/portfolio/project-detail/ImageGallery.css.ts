@@ -84,10 +84,13 @@ globalStyle(`${imageGallery}.${mobile} ${sliderContainer} figure`, {
   alignItems: 'center',
 });
 
-globalStyle(`${imageGallery}.${mobile} ${sliderContainer} img, ${imageGallery}.${mobile} ${sliderContainer} video`, {
-  userSelect: 'none',
-  pointerEvents: 'none',
-});
+globalStyle(
+  `${imageGallery}.${mobile} ${sliderContainer} img, ${imageGallery}.${mobile} ${sliderContainer} video`,
+  {
+    userSelect: 'none',
+    pointerEvents: 'none',
+  },
+);
 
 globalStyle(`${imageGallery} figure`, {
   margin: '0 0 1rem 0',

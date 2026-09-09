@@ -54,8 +54,7 @@ export const preReveal = style({
 export const revealed = style({
   opacity: 1,
   transform: 'translateY(0)',
-  transition:
-    'opacity 0.5s var(--ease-emphasized), transform 0.5s var(--ease-emphasized)',
+  transition: 'opacity 0.5s var(--ease-emphasized), transform 0.5s var(--ease-emphasized)',
 });
 
 export const skeleton = style({

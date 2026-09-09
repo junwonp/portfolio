@@ -7,8 +7,8 @@ import {
   getProjectMetadata,
   normalizeApplicationProjectIdentifiers,
   normalizeProjectIdentifiers,
-  projectCatalog,
   type ProjectId,
+  projectCatalog,
   resolveProjectIdentifier,
 } from '@/lib/portfolio/catalog';
 import { isRegisteredSkillName } from '@/lib/portfolio/skills';

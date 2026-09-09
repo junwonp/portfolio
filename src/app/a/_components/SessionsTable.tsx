@@ -3,7 +3,7 @@
 import { Fragment, useState } from 'react';
 
 import Badge from '@/components/ui/Badge';
-import type { SessionDetail,SessionRow } from '@/lib/server/admin/dashboardData';
+import type { SessionDetail, SessionRow } from '@/lib/server/admin/dashboardData';
 import { formatDateTime } from '@/lib/utils/date';
 
 import * as styles from './admin.css';
@@ -69,9 +69,7 @@ export function SessionsTable({
                         <button
                           type="button"
                           className={styles.expandToggle}
-                          onClick={() =>
-                            setExpandedSession(isExpanded ? null : session.id)
-                          }
+                          onClick={() => setExpandedSession(isExpanded ? null : session.id)}
                           aria-expanded={isExpanded}
                         >
                           <span
@@ -83,15 +81,11 @@ export function SessionsTable({
                         </button>
                       </td>
                       <td style={{ whiteSpace: 'nowrap' }}>
-                        {session.classification === 'bot' && (
-                          <Badge text="봇" color="web" />
-                        )}
+                        {session.classification === 'bot' && <Badge text="봇" color="web" />}
                         {session.classification === 'suspected' && (
                           <Badge text="봇 의심" color="orange" />
                         )}
-                        {session.classification === 'human' && (
-                          <Badge text="사람" color="green" />
-                        )}
+                        {session.classification === 'human' && <Badge text="사람" color="green" />}
                       </td>
                       <td>
                         {session.applicationLinkSlug ? (
@@ -107,9 +101,7 @@ export function SessionsTable({
                           <span className={styles.mutedCell}>-</span>
                         )}
                       </td>
-                      <td>
-                        {session.ipCountry === 'unknown' ? '직접/VPN' : session.ipCountry}
-                      </td>
+                      <td>{session.ipCountry === 'unknown' ? '직접/VPN' : session.ipCountry}</td>
                       <td
                         className={styles.pathCell}
                         title={session.referrer}
@@ -119,11 +111,10 @@ export function SessionsTable({
                       </td>
                       <td className={styles.num}>{session.pageViewsCount}</td>
                       <td className={styles.pathCell} style={{ maxWidth: '280px' }}>
-                        <span
-                          className={styles.uaPreview}
-                          title={session.userAgent}
-                        >
-                          {session.userAgent.replace(/Mozilla\/5\.0\s*\(/.exec(session.userAgent)?.[0] ?? '', '').slice(0, 60)}
+                        <span className={styles.uaPreview} title={session.userAgent}>
+                          {session.userAgent
+                            .replace(/Mozilla\/5\.0\s*\(/.exec(session.userAgent)?.[0] ?? '', '')
+                            .slice(0, 60)}
                         </span>
                       </td>
                     </tr>

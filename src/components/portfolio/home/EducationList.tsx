@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import Period from "@/components/ui/Period";
-import type { EducationProps } from "@/lib/portfolio/homeTypes";
+import Period from '@/components/ui/Period';
+import type { EducationProps } from '@/lib/portfolio/homeTypes';
 
-import * as styles from "./EducationList.css";
+import * as styles from './EducationList.css';
 
 interface Props {
   education: EducationProps[];

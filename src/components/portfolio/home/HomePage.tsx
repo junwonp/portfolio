@@ -1,11 +1,14 @@
+import dynamic from 'next/dynamic';
 import type { CSSProperties } from 'react';
 
-import BentoSkills from '@/components/portfolio/home/BentoSkills';
 import EducationList from '@/components/portfolio/home/EducationList';
 import ProjectSpotlightList from '@/components/portfolio/home/ProjectSpotlightList';
 import SectionHeader from '@/components/portfolio/home/SectionHeader';
 import Title from '@/components/portfolio/home/Title';
-import WorkAccordion from '@/components/portfolio/home/WorkAccordion';
+
+const BentoSkills = dynamic(() => import('@/components/portfolio/home/BentoSkills'));
+const WorkAccordion = dynamic(() => import('@/components/portfolio/home/WorkAccordion'));
+
 import PortfolioContentLayout from '@/components/portfolio/layout/PortfolioContentLayout';
 import DeferredMobileStickyHeader from '@/components/portfolio/navigation/DeferredMobileStickyHeader';
 import DesktopSideNav from '@/components/portfolio/navigation/DesktopSideNav';
@@ -125,11 +128,7 @@ export default function HomePage({ data }: Props) {
             <div className={styles.sectionHeadingRow}>
               <SectionHeader title={labels.sectionAwards} />
             </div>
-            <ProjectSpotlightList
-              experiences={otherExperiences}
-              labels={labels}
-              variant="resume"
-            />
+            <ProjectSpotlightList experiences={otherExperiences} labels={labels} variant="resume" />
           </section>
         )}
 

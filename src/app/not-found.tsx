@@ -1,5 +1,5 @@
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
 
 const containerStyle: React.CSSProperties = {
   display: 'flex',
@@ -11,19 +11,19 @@ const containerStyle: React.CSSProperties = {
   fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   color: '#333',
   backgroundColor: '#fff',
-  padding: '20px'
+  padding: '20px',
 };
 
 const titleStyle: React.CSSProperties = {
   fontSize: '3rem',
   margin: '0 0 10px',
-  fontWeight: 800
+  fontWeight: 800,
 };
 
 const descStyle: React.CSSProperties = {
   fontSize: '1.25rem',
   margin: '0 0 20px',
-  color: '#666'
+  color: '#666',
 };
 
 const linkStyle: React.CSSProperties = {
@@ -32,7 +32,7 @@ const linkStyle: React.CSSProperties = {
   fontWeight: 600,
   border: '1px solid #1a5cc5',
   padding: '8px 16px',
-  borderRadius: '6px'
+  borderRadius: '6px',
 };
 
 export default function NotFound() {

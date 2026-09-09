@@ -1,14 +1,14 @@
 /* eslint-disable @next/next/no-img-element -- native img needed for drag/carousel lightbox */
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Image as ImageIcon, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Image as ImageIcon, X } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { cardSurface } from "@/components/ui/surface.css";
-import { getOptimizedImageUrl } from "@/lib/utils/image";
+import { cardSurface } from '@/components/ui/surface.css';
+import { getOptimizedImageUrl } from '@/lib/utils/image';
 
-import * as styles from "./ProjectLightbox.css";
-import { useLightboxDrag } from "./useLightboxDrag";
+import * as styles from './ProjectLightbox.css';
+import { useLightboxDrag } from './useLightboxDrag';
 
 export interface LightboxImage {
   src: string;
@@ -19,10 +19,10 @@ export interface LightboxImage {
 
 interface Props {
   images: LightboxImage[];
-  variant?: "default" | "phone";
+  variant?: 'default' | 'phone';
 }
 
-export default function ProjectLightbox({ images, variant = "default" }: Props) {
+export default function ProjectLightbox({ images, variant = 'default' }: Props) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [chromeVisible, setChromeVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -34,20 +34,17 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
   const atStart = activeIndex === 0;
   const dotIndices = images.map((_, i) => i);
   const nextImage =
-    activeIndex !== null && activeIndex < images.length - 1
-      ? images[activeIndex + 1]
-      : null;
-  const prevImage =
-    activeIndex !== null && activeIndex > 0 ? images[activeIndex - 1] : null;
+    activeIndex !== null && activeIndex < images.length - 1 ? images[activeIndex + 1] : null;
+  const prevImage = activeIndex !== null && activeIndex > 0 ? images[activeIndex - 1] : null;
 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 640);
     };
     checkMobile();
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
     return () => {
-      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener('resize', checkMobile);
     };
   }, []);
 
@@ -79,11 +76,7 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
     setChromeVisible(true);
   };
 
-  const {
-    dragX,
-    isSnapping,
-    hasDraggedRef,
-  } = useLightboxDrag({
+  const { dragX, isSnapping, hasDraggedRef } = useLightboxDrag({
     overlayRef,
     activeIndex,
     setActiveIndex,
@@ -95,12 +88,12 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
   useEffect(() => {
     if (activeIndex === null) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- close/prev/next are stable
   }, [activeIndex]);
 
@@ -110,16 +103,14 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
       return;
     }
     const target = e.target as HTMLElement;
-    if (target.closest("button")) return;
+    if (target.closest('button')) return;
     toggleChrome();
   };
 
   return (
     <>
       <div
-        className={`${styles.lightboxMasonry} ${
-          variant === "phone" ? styles.phonePreview : ""
-        }`}
+        className={`${styles.lightboxMasonry} ${variant === 'phone' ? styles.phonePreview : ''}`}
       >
         {isMobile && images.length > 1 ? (
           <button
@@ -131,9 +122,7 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
             <div className={styles.moreIndicator}>
               <div className={styles.indicatorContent}>
                 <ImageIcon size={24} />
-                <span className={styles.label}>
-                  전체 {images.length}장의 사진 보기
-                </span>
+                <span className={styles.label}>전체 {images.length}장의 사진 보기</span>
               </div>
             </div>
           </button>
@@ -169,7 +158,7 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
       {activeIndex !== null && activeImage !== null && (
         <div
           ref={overlayRef}
-          className={`${styles.overlay} ${!chromeVisible ? styles.chromeHidden : ""}`}
+          className={`${styles.overlay} ${!chromeVisible ? styles.chromeHidden : ''}`}
           role="dialog"
           tabIndex={-1}
           aria-modal="true"
@@ -177,49 +166,31 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
           onClick={onOverlayClick}
         >
           {/* Close */}
-          <button
-            className={styles.overlayClose}
-            onClick={close}
-            aria-label="Close"
-          >
+          <button className={styles.overlayClose} onClick={close} aria-label="Close">
             <X size={20} />
           </button>
 
           {/* Carousel */}
           <div className={styles.overlayImageArea}>
             <div
-              className={`${styles.carouselTrack} ${
-                isSnapping ? styles.snapping : ""
-              }`}
+              className={`${styles.carouselTrack} ${isSnapping ? styles.snapping : ''}`}
               style={
                 {
-                  "--drag-x": `${dragX}px`,
+                  '--drag-x': `${dragX}px`,
                 } as React.CSSProperties
               }
             >
               <div className={styles.carouselSlide}>
                 {prevImage !== null && (
-                  <img
-                    src={getSrc(prevImage)}
-                    alt={prevImage.alt}
-                    draggable="false"
-                  />
+                  <img src={getSrc(prevImage)} alt={prevImage.alt} draggable="false" />
                 )}
               </div>
               <div className={styles.carouselSlide}>
-                <img
-                  src={getSrc(activeImage)}
-                  alt={activeImage.alt}
-                  draggable="false"
-                />
+                <img src={getSrc(activeImage)} alt={activeImage.alt} draggable="false" />
               </div>
               <div className={styles.carouselSlide}>
                 {nextImage !== null && (
-                  <img
-                    src={getSrc(nextImage)}
-                    alt={nextImage.alt}
-                    draggable="false"
-                  />
+                  <img src={getSrc(nextImage)} alt={nextImage.alt} draggable="false" />
                 )}
               </div>
             </div>
@@ -247,15 +218,13 @@ export default function ProjectLightbox({ images, variant = "default" }: Props) 
 
           {/* Footer */}
           <div className={styles.overlayFooter}>
-            {activeImage.caption && (
-              <p className={styles.overlayCaption}>{activeImage.caption}</p>
-            )}
+            {activeImage.caption && <p className={styles.overlayCaption}>{activeImage.caption}</p>}
             {images.length > 1 && (
               <div className={styles.overlayDots}>
                 {dotIndices.map((i) => (
                   <button
                     key={i}
-                    className={`${styles.dot} ${i === activeIndex ? styles.active : ""}`}
+                    className={`${styles.dot} ${i === activeIndex ? styles.active : ''}`}
                     onClick={() => open(i)}
                     aria-label={`Go to image ${i + 1}`}
                   ></button>

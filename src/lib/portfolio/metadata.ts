@@ -61,10 +61,7 @@ export const getHomeMetadata = (locale: Language): Metadata => {
   };
 };
 
-export const getProjectPageMetadata = ({
-  locale,
-  slug,
-}: ProjectMetadataInput): Metadata => {
+export const getProjectPageMetadata = ({ locale, slug }: ProjectMetadataInput): Metadata => {
   const rawMetadata = getProjectMetadata(slug, locale);
   if (!rawMetadata) return {};
 

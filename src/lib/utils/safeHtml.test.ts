@@ -36,11 +36,9 @@ describe('sanitizeProjectHtml', () => {
   });
 
   it('does not double-escape existing HTML entities', () => {
-    expect(
-      sanitizeProjectHtml(
-        '<code>import _ from &#39;lodash&#39;;</code>',
-      ),
-    ).toBe('<code>import _ from &#39;lodash&#39;;</code>');
+    expect(sanitizeProjectHtml('<code>import _ from &#39;lodash&#39;;</code>')).toBe(
+      '<code>import _ from &#39;lodash&#39;;</code>',
+    );
   });
 
   it('highlights code blocks and preserves line indentation', () => {

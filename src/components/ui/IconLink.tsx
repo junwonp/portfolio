@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
-import { iconLink, typeVariants } from "./IconLink.css";
+import { iconLink, typeVariants } from './IconLink.css';
 
 interface Props {
   href: string;
   title: string;
   ariaLabel?: string;
   children: React.ReactNode;
-  type?: "github" | "linkedin" | "normal";
+  type?: 'github' | 'linkedin' | 'normal';
   className?: string;
 }
 
@@ -18,11 +18,11 @@ export default function IconLink({
   title,
   ariaLabel,
   children,
-  type = "normal",
-  className = "",
+  type = 'normal',
+  className = '',
 }: Props) {
-  const rel = type === "github" ? "external noopener noreferrer" : "noopener noreferrer";
-  const typeClass = typeVariants[type] || "";
+  const rel = type === 'github' ? 'external noopener noreferrer' : 'noopener noreferrer';
+  const typeClass = typeVariants[type] || '';
   const combinedClass = `${iconLink} ${typeClass} ${className}`.trim();
 
   return (

@@ -1,6 +1,6 @@
+import { readFileSync } from 'node:fs';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 import ProjectDetailPage from '@/components/portfolio/project-detail/ProjectDetailPage';
@@ -20,11 +20,7 @@ describe('ProjectDetailPage legacy editor cleanup', () => {
 
   it('renders server-provided MDX content inside the project article', () => {
     const html = renderToStaticMarkup(
-      <ProjectDetailPage
-        slug="aira"
-        locale="ko"
-        metadata={{ title: '아이라' }}
-      >
+      <ProjectDetailPage slug="aira" locale="ko" metadata={{ title: '아이라' }}>
         <h2 id="mdx-prose">MDX prose marker</h2>
       </ProjectDetailPage>,
     );

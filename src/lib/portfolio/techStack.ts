@@ -1,4 +1,4 @@
-import { skillGroups, skillGroupTitles, type SkillId } from '@/lib/portfolio/skills';
+import { type SkillId, skillGroups, skillGroupTitles } from '@/lib/portfolio/skills';
 import type { Language } from '@/lib/utils/language';
 
 export interface ProjectTechStackGroup {

@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 
-import { getOptimizedImageUrl } from "@/lib/utils/image";
+import { getOptimizedImageUrl } from '@/lib/utils/image';
 
-import * as styles from "./ImageDescription.css";
+import * as styles from './ImageDescription.css';
 
 interface Props {
   src: string;
@@ -17,7 +17,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const videoExtensions = [".mp4", ".webm", ".mov", ".avi", ".m4v"];
+const videoExtensions = ['.mp4', '.webm', '.mov', '.avi', '.m4v'];
 
 export default function ImageDescription({
   src,
@@ -28,9 +28,7 @@ export default function ImageDescription({
   height,
   children,
 }: Props) {
-  const isVideo = videoExtensions.some((ext) =>
-    src.toLowerCase().endsWith(ext.toLowerCase())
-  );
+  const isVideo = videoExtensions.some((ext) => src.toLowerCase().endsWith(ext.toLowerCase()));
   const hasDimensions = !!(width && height);
 
   const [loaded, setLoaded] = useState(priority);
@@ -40,7 +38,7 @@ export default function ImageDescription({
   const isHydrated = useSyncExternalStore(
     () => () => {},
     () => true,
-    () => false
+    () => false,
   );
   const [isRevealed, setIsRevealed] = useState(priority);
 
@@ -70,9 +68,9 @@ export default function ImageDescription({
       setLoaded(true);
       return;
     }
-    el.addEventListener("load", onLoad);
+    el.addEventListener('load', onLoad);
     return () => {
-      el.removeEventListener("load", onLoad);
+      el.removeEventListener('load', onLoad);
     };
   }, [priority]);
 
@@ -98,7 +96,7 @@ export default function ImageDescription({
           if (entry.isIntersecting) reveal(cleanupScroll);
         }
       },
-      { rootMargin: "120px", threshold: 0.01 }
+      { rootMargin: '120px', threshold: 0.01 },
     );
 
     // IntersectionObserver never fires for elements that jump over the
@@ -109,11 +107,10 @@ export default function ImageDescription({
         reveal(cleanupScroll);
       }
     };
-    const cleanupScroll = () =>
-      window.removeEventListener("scroll", onScroll);
+    const cleanupScroll = () => window.removeEventListener('scroll', onScroll);
 
     observer.observe(wrapper);
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       observer.disconnect();
       cleanupScroll();
@@ -125,7 +122,7 @@ export default function ImageDescription({
     if (!videoRef.current) return;
     const el = videoRef.current;
 
-    el.addEventListener("canplay", onLoad);
+    el.addEventListener('canplay', onLoad);
 
     if (priority) {
       if (!el.src) {
@@ -149,15 +146,15 @@ export default function ImageDescription({
         }
       },
       {
-        rootMargin: "200px",
+        rootMargin: '200px',
         threshold: 0.01,
-      }
+      },
     );
 
     observer.observe(el);
 
     return () => {
-      el.removeEventListener("canplay", onLoad);
+      el.removeEventListener('canplay', onLoad);
       observer.disconnect();
     };
   }, [src, priority]);
@@ -168,19 +165,15 @@ export default function ImageDescription({
         ref={wrapperRef}
         className={[
           styles.mediaWrapper,
-          loaded ? styles.loaded : "",
-          isHydrated && !isRevealed ? styles.preReveal : "",
-          isRevealed ? styles.revealed : "",
-        ].join(" ")}
+          loaded ? styles.loaded : '',
+          isHydrated && !isRevealed ? styles.preReveal : '',
+          isRevealed ? styles.revealed : '',
+        ].join(' ')}
         style={
-          width && height
-            ? { aspectRatio: `${String(width)} / ${String(height)}` }
-            : undefined
+          width && height ? { aspectRatio: `${String(width)} / ${String(height)}` } : undefined
         }
       >
-        {!loaded && hasDimensions && (
-          <div className={styles.skeleton} aria-hidden="true"></div>
-        )}
+        {!loaded && hasDimensions && <div className={styles.skeleton} aria-hidden="true"></div>}
         {isVideo ? (
           <video
             ref={videoRef}
@@ -188,15 +181,10 @@ export default function ImageDescription({
             loop
             muted
             playsInline
-            preload={priority ? "auto" : "none"}
-            className={loaded || !hasDimensions ? styles.loaded : ""}
+            preload={priority ? 'auto' : 'none'}
+            className={loaded || !hasDimensions ? styles.loaded : ''}
           >
-            <track
-              kind="captions"
-              src="/captions/empty.vtt"
-              label="No dialogue"
-              default
-            />
+            <track kind="captions" src="/captions/empty.vtt" label="No dialogue" default />
           </video>
         ) : mobileSrc ? (
           <picture>
@@ -210,10 +198,10 @@ export default function ImageDescription({
               alt={alt}
               width={width}
               height={height}
-              loading={priority ? "eager" : "lazy"}
-              fetchPriority={priority ? "high" : "auto"}
+              loading={priority ? 'eager' : 'lazy'}
+              fetchPriority={priority ? 'high' : 'auto'}
               onLoad={onLoad}
-              className={loaded || !hasDimensions ? styles.loaded : ""}
+              className={loaded || !hasDimensions ? styles.loaded : ''}
             />
           </picture>
         ) : (
@@ -223,10 +211,10 @@ export default function ImageDescription({
             alt={alt}
             width={width}
             height={height}
-            loading={priority ? "eager" : "lazy"}
-            fetchPriority={priority ? "high" : "auto"}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
             onLoad={onLoad}
-            className={loaded || !hasDimensions ? styles.loaded : ""}
+            className={loaded || !hasDimensions ? styles.loaded : ''}
           />
         )}
       </div>

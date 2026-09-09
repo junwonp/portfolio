@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
+import React, { createContext, useContext } from 'react';
 
-import { getLabels } from "@/lib/portfolio/labels";
-import { getLocalizedPathname, type Language } from "@/lib/utils/language";
+import { getLabels } from '@/lib/portfolio/labels';
+import { getLocalizedPathname, type Language } from '@/lib/utils/language';
 
 interface LocaleContextType {
   locale: Language;
@@ -52,7 +52,7 @@ export function LocaleProvider({
 export function useLocale() {
   const context = useContext(LocaleContext);
   if (!context) {
-    throw new Error("useLocale must be used within a LocaleProvider");
+    throw new Error('useLocale must be used within a LocaleProvider');
   }
   return context;
 }

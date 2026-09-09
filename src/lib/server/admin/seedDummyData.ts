@@ -23,16 +23,59 @@ export async function seedDummySessions(db: D1Database): Promise<void> {
       `INSERT OR IGNORE INTO user_sessions (id, ip_address, ip_country, user_agent, referrer, is_admin, created_at)
        VALUES (?, ?, ?, ?, ?, 0, ?)`,
     )
-    .bind(s1Id, '211.123.45.67', 'KR', 'DummySeed/1.0 Chrome/126 (Macintosh)', 'https://www.google.com/', toSqlDateTime(s1Created))
+    .bind(
+      s1Id,
+      '211.123.45.67',
+      'KR',
+      'DummySeed/1.0 Chrome/126 (Macintosh)',
+      'https://www.google.com/',
+      toSqlDateTime(s1Created),
+    )
     .run();
 
   // Page views for session 1
   const s1Pv1Time = new Date(s1Created.getTime() + 1 * 1000);
-  await insertPageView(db, 'dummy-pv-001', s1Id, '/', null, 45, 80, 42, 'hero', '히어로 섹션', s1Pv1Time);
+  await insertPageView(
+    db,
+    'dummy-pv-001',
+    s1Id,
+    '/',
+    null,
+    45,
+    80,
+    42,
+    'hero',
+    '히어로 섹션',
+    s1Pv1Time,
+  );
   const s1Pv2Time = new Date(s1Created.getTime() + 50 * 1000);
-  await insertPageView(db, 'dummy-pv-002', s1Id, '/projects/admin-dashboard', '/', 120, 95, 110, 'tech-stack', '기술 스택', s1Pv2Time);
+  await insertPageView(
+    db,
+    'dummy-pv-002',
+    s1Id,
+    '/projects/admin-dashboard',
+    '/',
+    120,
+    95,
+    110,
+    'tech-stack',
+    '기술 스택',
+    s1Pv2Time,
+  );
   const s1Pv3Time = new Date(s1Created.getTime() + 175 * 1000);
-  await insertPageView(db, 'dummy-pv-003', s1Id, '/projects/aira', '/projects/admin-dashboard', 90, 60, 55, 'architecture', '아키텍처', s1Pv3Time);
+  await insertPageView(
+    db,
+    'dummy-pv-003',
+    s1Id,
+    '/projects/aira',
+    '/projects/admin-dashboard',
+    90,
+    60,
+    55,
+    'architecture',
+    '아키텍처',
+    s1Pv3Time,
+  );
 
   // Interactions for session 1
   await db
@@ -40,7 +83,14 @@ export async function seedDummySessions(db: D1Database): Promise<void> {
       `INSERT INTO analytics_interactions (session_id, path, interaction_type, interaction_label, action, created_at)
        VALUES (?, ?, ?, ?, ?, ?)`,
     )
-    .bind(s1Id, '/projects/admin-dashboard', 'accordion_project', '실시간 대시보드', 'open', toSqlDateTime(new Date(s1Created.getTime() + 65 * 1000)))
+    .bind(
+      s1Id,
+      '/projects/admin-dashboard',
+      'accordion_project',
+      '실시간 대시보드',
+      'open',
+      toSqlDateTime(new Date(s1Created.getTime() + 65 * 1000)),
+    )
     .run();
 
   // Session 2: Human, Safari, direct -> home -> project (with 2 interactions)
@@ -51,27 +101,60 @@ export async function seedDummySessions(db: D1Database): Promise<void> {
       `INSERT OR IGNORE INTO user_sessions (id, ip_address, ip_country, user_agent, referrer, is_admin, created_at)
        VALUES (?, ?, ?, ?, ?, 0, ?)`,
     )
-    .bind(s2Id, '98.76.54.32', 'US', 'DummySeed/2.0 Safari/17.5 (iPhone)', 'direct', toSqlDateTime(s2Created))
+    .bind(
+      s2Id,
+      '98.76.54.32',
+      'US',
+      'DummySeed/2.0 Safari/17.5 (iPhone)',
+      'direct',
+      toSqlDateTime(s2Created),
+    )
     .run();
 
   const s2Pv1Time = new Date(s2Created.getTime() + 1 * 1000);
   await insertPageView(db, 'dummy-pv-004', s2Id, '/', null, 30, 45, 28, null, null, s2Pv1Time);
   const s2Pv2Time = new Date(s2Created.getTime() + 35 * 1000);
-  await insertPageView(db, 'dummy-pv-005', s2Id, '/projects/aira', '/', 200, 100, 185, 'retrospective', '회고', s2Pv2Time);
+  await insertPageView(
+    db,
+    'dummy-pv-005',
+    s2Id,
+    '/projects/aira',
+    '/',
+    200,
+    100,
+    185,
+    'retrospective',
+    '회고',
+    s2Pv2Time,
+  );
 
   await db
     .prepare(
       `INSERT INTO analytics_interactions (session_id, path, interaction_type, interaction_label, action, created_at)
        VALUES (?, ?, ?, ?, ?, ?)`,
     )
-    .bind(s2Id, '/projects/aira', 'accordion_company', 'AI 스타트업', 'open', toSqlDateTime(new Date(s2Created.getTime() + 50 * 1000)))
+    .bind(
+      s2Id,
+      '/projects/aira',
+      'accordion_company',
+      'AI 스타트업',
+      'open',
+      toSqlDateTime(new Date(s2Created.getTime() + 50 * 1000)),
+    )
     .run();
   await db
     .prepare(
       `INSERT INTO analytics_interactions (session_id, path, interaction_type, interaction_label, action, created_at)
        VALUES (?, ?, ?, ?, ?, ?)`,
     )
-    .bind(s2Id, '/projects/aira', 'accordion_achievement', '푸시 알림 시스템', 'close', toSqlDateTime(new Date(s2Created.getTime() + 120 * 1000)))
+    .bind(
+      s2Id,
+      '/projects/aira',
+      'accordion_achievement',
+      '푸시 알림 시스템',
+      'close',
+      toSqlDateTime(new Date(s2Created.getTime() + 120 * 1000)),
+    )
     .run();
 
   // Session 3: Bot, empty UA, no referrer -> home (zero engagement)
@@ -112,14 +195,25 @@ async function insertPageView(
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
     .bind(
-      clientPageViewId, sessionId, path, previousPath,
-      dwellTime, scrollDepth, activeTime, scrollDepth > 0 ? Math.min(scrollDepth, 100) : 0,
-      maxVisibleSectionId, maxVisibleSectionLabel,
-      toSqlDateTime(createdAt), toSqlDateTime(new Date(createdAt.getTime() + dwellTime * 1000)),
+      clientPageViewId,
+      sessionId,
+      path,
+      previousPath,
+      dwellTime,
+      scrollDepth,
+      activeTime,
+      scrollDepth > 0 ? Math.min(scrollDepth, 100) : 0,
+      maxVisibleSectionId,
+      maxVisibleSectionLabel,
+      toSqlDateTime(createdAt),
+      toSqlDateTime(new Date(createdAt.getTime() + dwellTime * 1000)),
     )
     .run();
 }
 
 function toSqlDateTime(date: Date): string {
-  return date.toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, '');
+  return date
+    .toISOString()
+    .replace('T', ' ')
+    .replace(/\.\d{3}Z$/, '');
 }

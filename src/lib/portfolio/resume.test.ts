@@ -29,8 +29,8 @@ describe('resume data for web frontend applications', () => {
       'Cloudflare',
     ]);
     expect(metricLabels).toContain('MAU (최대)');
-    expect(metricLabels).toContain('평균 체류시간');
-    expect(metricLabels).toContain('구글 플레이');
+    expect(metricLabels).toContain('평균 세션 길이');
+    expect(metricLabels).toContain('구글 플레이 엔터테인먼트');
   });
 
   it('surfaces web frontend metrics in the ops-data summary preset', () => {
@@ -38,7 +38,7 @@ describe('resume data for web frontend applications', () => {
     const metricLabels = summary.metrics?.map((metric) => metric.label) ?? [];
 
     expect(summary.tagline).toContain('데이터 중심 웹 시스템');
-    expect(metricLabels).toContain('행/로그 처리');
+    expect(metricLabels).toContain('가상화 처리');
     expect(metricLabels).toContain('번들 절감');
     expect(metricLabels).toContain('API 캐시');
   });
@@ -213,8 +213,8 @@ describe('resume data for web frontend applications', () => {
     expect(defaultSummary.focusKeywords).toContain('TypeScript');
     expect(defaultSummary.pillars?.[0].title).toBe('프로덕션 프론트엔드 시스템');
     expect(defaultMetricLabels).toContain('MAU (최대)');
-    expect(defaultMetricLabels).toContain('평균 체류시간');
-    expect(defaultMetricLabels).toContain('구글 플레이');
+    expect(defaultMetricLabels).toContain('평균 세션 길이');
+    expect(defaultMetricLabels).toContain('구글 플레이 엔터테인먼트');
     expect(getSummaryIntroduction('ko', 'ops-data').pillars?.[0].title).toBe('운영 웹 시스템');
     expect(getSummaryIntroduction('ko', 'web').pillars?.[0].title).toBe('제품형 UI 시스템');
     expect(getSummaryIntroduction('en', 'rn').pillars?.[0].title).toBe('Cross-Platform Mobile');

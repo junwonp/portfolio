@@ -54,9 +54,7 @@ export default function ProjectContent({
 
     const featuredSkills = project.featuredSkills ?? [];
     const featuredSet = new Set(featuredSkills);
-    const remainingSkills = projectSkills.filter(
-      (skill: string) => !featuredSet.has(skill),
-    );
+    const remainingSkills = projectSkills.filter((skill: string) => !featuredSet.has(skill));
     return [...featuredSkills, ...remainingSkills];
   })();
 
@@ -66,7 +64,6 @@ export default function ProjectContent({
   const language = sortedSkills.find((skill) => getSkillCategory(skill) === 'languages');
   const framework = sortedSkills.find((skill) => getSkillCategory(skill) === 'frameworks');
   const mainSkillsLabel = [language, framework].filter(Boolean).join(', ');
-
 
   const isSpotlight = variant === 'spotlight';
 
@@ -93,10 +90,7 @@ export default function ProjectContent({
               <SkillChip key={skill} skill={skill} />
             ))}
             {hiddenSkillCount > 0 && (
-              <span
-                className={styles.moreChip}
-                title={sortedSkills.slice(skillLimit).join(', ')}
-              >
+              <span className={styles.moreChip} title={sortedSkills.slice(skillLimit).join(', ')}>
                 +{hiddenSkillCount}
               </span>
             )}
@@ -137,54 +131,51 @@ export default function ProjectContent({
       </div>
 
       <Collapse isOpen={showBody}>
-          <div className={styles.resumeBody}>
-            <p className={styles.resumeDescription}>
-              <span>{project.description}</span>
-              {mainSkillsLabel && (
-                <>
-                  <span className={styles.descSeparator}>·</span>
-                  <span className={styles.mainSkills}>{mainSkillsLabel}</span>
-                </>
-              )}
-            </p>
+        <div className={styles.resumeBody}>
+          <p className={styles.resumeDescription}>
+            <span>{project.description}</span>
+            {mainSkillsLabel && (
+              <>
+                <span className={styles.descSeparator}>·</span>
+                <span className={styles.mainSkills}>{mainSkillsLabel}</span>
+              </>
+            )}
+          </p>
 
-            {showDetails && project.detail && project.detail.length > 0 && (
-              <div className={styles.detailGrid}>
-                {project.detail.map((line: string) => {
-                  const parsed = parseDetailLine(line);
-                  return (
-                    <div className={styles.detailRow} key={line}>
-                      {parsed.label && (
-                        <div className={styles.detailLabel}>
-                          <span className={styles.labelPill}>{parsed.label}</span>
-                        </div>
-                      )}
-                      <div className={styles.detailText}>
-                        <RichText parts={parseMarkdown(parsed.content)} />
+          {showDetails && project.detail && project.detail.length > 0 && (
+            <div className={styles.detailGrid}>
+              {project.detail.map((line: string) => {
+                const parsed = parseDetailLine(line);
+                return (
+                  <div className={styles.detailRow} key={line}>
+                    {parsed.label && (
+                      <div className={styles.detailLabel}>
+                        <span className={styles.labelPill}>{parsed.label}</span>
                       </div>
+                    )}
+                    <div className={styles.detailText}>
+                      <RichText parts={parseMarkdown(parsed.content)} />
                     </div>
-                  );
-                })}
-              </div>
-            )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
-            {visibleSkills.length > 0 && (
-              <div className={styles.skills}>
-                {visibleSkills.map((skill: string) => (
-                  <SkillChip key={skill} skill={skill} />
-                ))}
-                {hiddenSkillCount > 0 && (
-                  <span
-                    className={styles.moreChip}
-                    title={sortedSkills.slice(skillLimit).join(', ')}
-                  >
-                    +{hiddenSkillCount}
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
-        </Collapse>
+          {visibleSkills.length > 0 && (
+            <div className={styles.skills}>
+              {visibleSkills.map((skill: string) => (
+                <SkillChip key={skill} skill={skill} />
+              ))}
+              {hiddenSkillCount > 0 && (
+                <span className={styles.moreChip} title={sortedSkills.slice(skillLimit).join(', ')}>
+                  +{hiddenSkillCount}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      </Collapse>
     </div>
   );
 }

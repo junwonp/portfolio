@@ -3,125 +3,128 @@ import { createGlobalTheme, createGlobalThemeContract, globalStyle } from '@vani
 const kebabCase = (str: string) => str.replace(/([A-Z])/g, '-$1').toLowerCase();
 
 // 1. Create a global theme contract with custom names to match existing CSS custom properties
-export const vars = createGlobalThemeContract({
-  space: {
-    '2xs': null,
-    xs: null,
-    sm: null,
-    md: null,
-    lg: null,
-    xl: null,
-    projectGap: null,
-    rowPadding: null,
-    rowGap: null,
+export const vars = createGlobalThemeContract(
+  {
+    space: {
+      '2xs': null,
+      xs: null,
+      sm: null,
+      md: null,
+      lg: null,
+      xl: null,
+      projectGap: null,
+      rowPadding: null,
+      rowGap: null,
+    },
+    fontFamily: {
+      code: null,
+      text: null,
+    },
+    fontSize: {
+      h1: null,
+      h2: null,
+      h3: null,
+      h4: null,
+      h5: null,
+      h6: null,
+      body: null,
+      role: null,
+      tagline: null,
+    },
+    lineHeight: {
+      tight: null,
+      heading: null,
+      body: null,
+      default: null,
+    },
+    radius: {
+      xs: null,
+      sm: null,
+      md: null,
+      lg: null,
+      xl: null,
+      full: null,
+      squircle: null,
+      circle: null,
+    },
+    ease: {
+      standard: null,
+      emphasized: null,
+      spring: null,
+      snap: null,
+    },
+    z: {
+      base: null,
+      raised: null,
+      elevated: null,
+      docked: null,
+      sticky: null,
+      dropdown: null,
+      overlay: null,
+      modal: null,
+    },
+    shadow: {
+      card: null,
+      cardLifted: null,
+      floating: null,
+      menu: null,
+    },
+    color: {
+      bold: null,
+      inlineCode: null,
+      main: null,
+      placeholder: null,
+      quoted: null,
+      sub: null,
+      basicBg: null,
+      codeBg: null,
+      disabledBg: null,
+      inlineBg: null,
+      scrollThumb: null,
+      scrollTrack: null,
+      shadow: null,
+      tableBg: null,
+      bgDivider: null,
+      bgSubdivider: null,
+      quotedBorder: null,
+      scrollBorder: null,
+      selection: null,
+      tableBorder: null,
+      primary: null,
+      primaryHover: null,
+      success: null,
+      warning: null,
+      primaryTransparent: null,
+      primaryBg: null,
+      onPrimary: null,
+      surfaceHover: null,
+      error: null,
+      catLanguages: null,
+      catFrameworks: null,
+      catUi: null,
+      catState: null,
+      catPerformance: null,
+      catBackend: null,
+      catDevops: null,
+    },
+    glass: {
+      bg: null,
+      blur: null,
+      border: null,
+    },
   },
-  fontFamily: {
-    code: null,
-    text: null,
+  (value, path) => {
+    const section = path[0];
+    const key = kebabCase(path[1]);
+    if (section === 'fontSize') {
+      return `font-${key}`;
+    }
+    if (section === 'fontFamily') {
+      return `font-family-${key}`;
+    }
+    return `${kebabCase(section)}-${key}`;
   },
-  fontSize: {
-    h1: null,
-    h2: null,
-    h3: null,
-    h4: null,
-    h5: null,
-    h6: null,
-    body: null,
-    role: null,
-    tagline: null,
-  },
-  lineHeight: {
-    tight: null,
-    heading: null,
-    body: null,
-    default: null,
-  },
-  radius: {
-    xs: null,
-    sm: null,
-    md: null,
-    lg: null,
-    xl: null,
-    full: null,
-    squircle: null,
-    circle: null,
-  },
-  ease: {
-    standard: null,
-    emphasized: null,
-    spring: null,
-    snap: null,
-  },
-  z: {
-    base: null,
-    raised: null,
-    elevated: null,
-    docked: null,
-    sticky: null,
-    dropdown: null,
-    overlay: null,
-    modal: null,
-  },
-  shadow: {
-    card: null,
-    cardLifted: null,
-    floating: null,
-    menu: null,
-  },
-  color: {
-    bold: null,
-    inlineCode: null,
-    main: null,
-    placeholder: null,
-    quoted: null,
-    sub: null,
-    basicBg: null,
-    codeBg: null,
-    disabledBg: null,
-    inlineBg: null,
-    scrollThumb: null,
-    scrollTrack: null,
-    shadow: null,
-    tableBg: null,
-    bgDivider: null,
-    bgSubdivider: null,
-    quotedBorder: null,
-    scrollBorder: null,
-    selection: null,
-    tableBorder: null,
-    primary: null,
-    primaryHover: null,
-    success: null,
-    warning: null,
-    primaryTransparent: null,
-    primaryBg: null,
-    onPrimary: null,
-    surfaceHover: null,
-    error: null,
-    catLanguages: null,
-    catFrameworks: null,
-    catUi: null,
-    catState: null,
-    catPerformance: null,
-    catBackend: null,
-    catDevops: null,
-  },
-  glass: {
-    bg: null,
-    blur: null,
-    border: null,
-  },
-}, (value, path) => {
-  const section = path[0];
-  const key = kebabCase(path[1]);
-  if (section === 'fontSize') {
-    return `font-${key}`;
-  }
-  if (section === 'fontFamily') {
-    return `font-family-${key}`;
-  }
-  return `${kebabCase(section)}-${key}`;
-});
+);
 
 // 2. Define the global theme values (Light/Default theme) on :root
 createGlobalTheme(':root', vars, {

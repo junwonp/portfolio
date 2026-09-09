@@ -1,16 +1,11 @@
-"use client";
+'use client';
 
-import { useSyncExternalStore } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun } from 'lucide-react';
+import { useSyncExternalStore } from 'react';
 
-import {
-  getThemeSnapshot,
-  readThemePreference,
-  subscribeTheme,
-  toggleTheme,
-} from "@/lib/theme";
+import { getThemeSnapshot, readThemePreference, subscribeTheme, toggleTheme } from '@/lib/theme';
 
-import * as styles from "./ThemeToggle.css";
+import * as styles from './ThemeToggle.css';
 
 interface Props {
   autoLabel: string;
@@ -35,8 +30,7 @@ export default function ThemeToggle({
   const isDark = useSyncExternalStore(subscribeTheme, getThemeSnapshot, () => false);
 
   const Icon = isDark ? Moon : Sun;
-  const label =
-    preference === "dark" ? darkLabel : preference === "light" ? lightLabel : autoLabel;
+  const label = preference === 'dark' ? darkLabel : preference === 'light' ? lightLabel : autoLabel;
 
   const handleClick = () => {
     toggleTheme();

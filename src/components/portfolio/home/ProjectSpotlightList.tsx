@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
 import Image from 'next/image';
+import React from 'react';
 
 import ProjectContent from '@/components/portfolio/home/ProjectContent';
-import { cardSurface } from "@/components/ui/surface.css";
+import { cardSurface } from '@/components/ui/surface.css';
 import type { OtherExperienceProps } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
 
@@ -28,7 +28,7 @@ export default function ProjectSpotlightList({
 
   return (
     <div className={isSpotlight ? styles.spotlightList : styles.resumeList}>
-      {experiences.map((experience) => {
+      {experiences.map((experience, index) => {
         const project = experience.project[0];
         if (!project) return null;
 
@@ -48,6 +48,7 @@ export default function ProjectSpotlightList({
                     alt={project.thumbnail.alt}
                     fill
                     unoptimized
+                    priority={index === 0}
                     sizes="(max-width: 768px) 88px, 144px"
                     className={`${styles.thumbnail} ${
                       project.thumbnail.kind === 'icon'
@@ -96,11 +97,7 @@ export default function ProjectSpotlightList({
         }
 
         return (
-          <div
-            key={project.id}
-            className={styles.resumeRow}
-            data-project-surface="resume"
-          >
+          <div key={project.id} className={styles.resumeRow} data-project-surface="resume">
             <ProjectContent
               project={project}
               titleBadge={experience.titleBadge}

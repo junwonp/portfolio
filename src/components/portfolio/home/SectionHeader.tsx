@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import * as styles from "./SectionHeader.css";
+import * as styles from './SectionHeader.css';
 
 interface Props {
   title: string;

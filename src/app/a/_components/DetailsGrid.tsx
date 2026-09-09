@@ -21,12 +21,7 @@ interface DetailsGridProps {
   }[];
 }
 
-export function DetailsGrid({
-  topPages,
-  topReferrers,
-  topCountries,
-  webVitals,
-}: DetailsGridProps) {
+export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }: DetailsGridProps) {
   return (
     <div className={styles.detailsGrid}>
       <div className={`${styles.detailsCard} ${styles.glass} ${styles.tableCard}`}>
@@ -42,8 +37,12 @@ export function DetailsGrid({
                   <th className={styles.num}>조회 수</th>
                   <th className={styles.num}>평균 체류</th>
                   <th className={styles.num}>활성 시간</th>
-                  <th className={styles.num} style={{ minWidth: '100px' }}>평균 스크롤</th>
-                  <th className={styles.num} style={{ minWidth: '100px' }}>본문 진행</th>
+                  <th className={styles.num} style={{ minWidth: '100px' }}>
+                    평균 스크롤
+                  </th>
+                  <th className={styles.num} style={{ minWidth: '100px' }}>
+                    본문 진행
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -157,8 +156,7 @@ export function DetailsGrid({
                     </span>
                   </div>
                   <div className={styles.mutedText}>
-                    좋음 {metric.good} · 개선 필요 {metric.needsImprovement} · 나쁨{' '}
-                    {metric.poor}
+                    좋음 {metric.good} · 개선 필요 {metric.needsImprovement} · 나쁨 {metric.poor}
                   </div>
                 </li>
               ))}

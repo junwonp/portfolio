@@ -46,7 +46,7 @@ import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechS
 
 **"복잡한 송금을 한 줄의 채팅으로."**
 
-한줄은행은 **대화형 뱅킹 데모**입니다. 사용자가 자연어로 송금 의사를 말하면 앱이 파싱하고, 짧은 확인 대화를 거친 뒤 생체 인증으로 마무리합니다. **2021년 우리은행 해커톤 본선 출품작**으로 시작해 JavaScript로 빠르게 구현했고, 이후 React Native 경험을 쌓은 뒤 TypeScript와 현대적인 아키텍처로 전면 재작성했습니다.
+한줄은행은 **대화형 뱅킹 데모**입니다. 사용자가 자연어로 송금 의사를 말하면 앱이 파싱하고, 짧은 확인 대화를 거친 뒤 생체 인증으로 마무리합니다. **2021년 우리은행 해커톤 본선 출품작**으로, 당시 React Native 경험이 전혀 없어 관련 서적 한 권으로 독학하며 짧은 기간 안에 JavaScript로 제출했습니다. 이후 TypeScript와 현대적인 아키텍처로 전면 재작성했습니다.
 
 <ProjectTechStack techStack={props.metadata.techStack} locale={props.locale} />
 
@@ -58,7 +58,7 @@ import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechS
       tag: 'Core',
       accent: true,
       title: '대화형 이체: 자연어 → 인증 결제',
-      detail: `채팅 메시지에서 <strong>은행·계좌·금액·수취인</strong>을 정규식으로 추출하고, 확인 단계와 <strong>긍정/부정 응답 집합</strong>으로 대화를 이어 갑니다. <code>expo-local-authentication</code>으로 최종 단계를 막아 데모임에도 실제 뱅킹과 같은 보안 UX를 구현했습니다. 파싱·은행 코드 매핑은 <code>features/remittance/utils</code>에 두고, <code>app/api/transfer+api.ts</code>에서 오픈뱅킹 형태의 <strong>목 API</strong>를 구현해 클라이언트는 <code>fetch('/api/transfer')</code>만 호출하므로 <strong>번들에 비밀 키를 넣지 않습니다.</strong>`,
+      detail: `채팅 메시지에서 <strong>은행·계좌·금액·수취인</strong>을 정규식으로 추출하고, 확인 단계와 <strong>긍정/부정 응답 집합</strong>으로 대화를 이어 갑니다. <code>expo-local-authentication</code>으로 최종 단계를 막아 데모 플로우에 생체 인증 단계를 넣어 실제 송금 절차의 흐름을 재현했습니다. 파싱·은행 코드 매핑은 <code>features/remittance/utils</code>에 두고, <code>app/api/transfer+api.ts</code>에서 오픈뱅킹 형태의 <strong>목 API</strong>를 구현해 클라이언트는 <code>fetch('/api/transfer')</code>만 호출하므로 <strong>번들에 비밀 키를 넣지 않습니다.</strong>`,
     },
     {
       tag: 'Architecture',
@@ -106,7 +106,7 @@ import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechS
     {
       src: '/images/oneline-bank/3.webp',
       alt: '채팅 송금 화면',
-      caption: '정규식 파싱 → 봇 확인 → 생체 인증 → 우리은행 오픈 API 송금',
+      caption: '정규식 파싱 → 봇 확인 → 생체 인증 → 목 API 송금 (2021 구버전 캡처)',
     },
     {
       src: '/images/oneline-bank/4.webp',
@@ -124,8 +124,8 @@ import ProjectTechStack from '@/components/portfolio/project-detail/ProjectTechS
 
 ## 회고
 
-**해커톤:** 웹 React 경험을 바탕으로 React Native와 네이티브 모듈을 빠르게 익히고 **동작하는 데모**를 만드는 데 집중했습니다.
+**해커톤:** 웹 React 경험만 가진 상태에서 책으로 독학해 React Native와 네이티브 모듈을 빠르게 익히고 **동작하는 데모**를 만드는 데 집중했습니다.
 
-**핀테크:** 실제 은행 API를 붙이며 **트랜잭션 흐름·단계별 인증·데이터 정합성**을 몸으로 이해했고, 비정형 채팅을 결제 데이터로 바꿀 때의 예외 처리의 중요성을 배웠습니다.
+**핀테크:** 우리은행 오픈 API(테스트 환경)를 연동하며 **트랜잭션 흐름·단계별 인증·데이터 정합성**을 몸으로 이해했고, 비정형 채팅을 결제 데이터로 바꿀 때의 예외 처리의 중요성을 배웠습니다.
 
 **리빌드:** 이후 돌아보니 타입 부재·파일 구조·옛 패턴의 한계가 분명했습니다. 리빌드는 라이브러리만 바꾼 수준이 아니라 **기능 단위 쪼개기, Query, 라우터 가드, 이체용 API 라우트**처럼 설계를 다시 잡은 작업입니다. 두 저장소를 나란히 두고 **전과 후**를 비교할 수 있는 상태로 정리했습니다.

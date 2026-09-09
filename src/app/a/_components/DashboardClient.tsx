@@ -2,15 +2,11 @@
 
 import { useState } from 'react';
 
-import type { SessionDetail,SessionRow } from '@/lib/server/admin/dashboardData';
-
+import type { SessionDetail, SessionRow } from '@/lib/server/admin/dashboardData';
+import { logout } from '../actions';
 import * as styles from './admin.css';
 import { DashboardAnalyticsPanel } from './DashboardAnalyticsPanel';
 import { DashboardLinksPanel } from './DashboardLinksPanel';
-
-import { logout } from '../actions';
-
-
 
 interface DashboardClientProps {
   stats: {

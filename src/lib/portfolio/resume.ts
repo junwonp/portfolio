@@ -1,6 +1,5 @@
 import type { ProfileData } from '@/content/home';
-import { credentials } from '@/content/home';
-import { defaultProfile, profilePresets } from '@/content/home';
+import { credentials, defaultProfile, profilePresets } from '@/content/home';
 import {
   careerCatalog,
   getProjectsByCareerId,
@@ -19,8 +18,7 @@ import type {
   SkillProps,
   WorkExperienceProps,
 } from '@/lib/portfolio/homeTypes';
-import { skillGroupTitles } from '@/lib/portfolio/skills';
-import { skillsShared } from '@/lib/portfolio/skills';
+import { skillGroupTitles, skillsShared } from '@/lib/portfolio/skills';
 import type { ProjectContentEntry, ProjectId } from '@/lib/portfolio/types';
 import { getLocalizedPathname, type Language } from '@/lib/utils/language';
 
@@ -375,7 +373,7 @@ export const getFeaturedWebProjects = (
     ...resumeData.otherExperiences.flatMap((exp) => exp.project),
     ...resumeData.archives.flatMap((exp) => exp.project),
     ...projectCatalog.flatMap((project) =>
-      project.section === 'standalone' ? [toResumeProject(project, lang)] : []
+      project.section === 'standalone' ? [toResumeProject(project, lang)] : [],
     ),
   ];
 

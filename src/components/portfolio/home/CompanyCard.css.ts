@@ -68,7 +68,6 @@ export const companyLeft = style({
   minWidth: 0,
 });
 
-
 export const companyName = style({
   color: 'var(--color-bold)',
   fontSize: 'var(--font-h3)',

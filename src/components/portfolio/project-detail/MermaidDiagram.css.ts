@@ -117,17 +117,23 @@ globalStyle(`${mermaidDiagram} svg`, {
   fontFamily: 'var(--font-family-text), sans-serif !important',
 });
 
-globalStyle(`${mermaidDiagram} svg .node rect, ${mermaidDiagram} svg .node circle, ${mermaidDiagram} svg .node polygon, ${mermaidDiagram} svg .node path`, {
-  fill: 'var(--color-basic-bg) !important',
-  stroke: 'var(--color-bg-divider) !important',
-  strokeWidth: '1.4px !important',
-  transition: 'fill 0.2s ease, stroke 0.2s ease, filter 0.2s ease',
-});
+globalStyle(
+  `${mermaidDiagram} svg .node rect, ${mermaidDiagram} svg .node circle, ${mermaidDiagram} svg .node polygon, ${mermaidDiagram} svg .node path`,
+  {
+    fill: 'var(--color-basic-bg) !important',
+    stroke: 'var(--color-bg-divider) !important',
+    strokeWidth: '1.4px !important',
+    transition: 'fill 0.2s ease, stroke 0.2s ease, filter 0.2s ease',
+  },
+);
 
-globalStyle(`${mermaidDiagram} svg .node:hover rect, ${mermaidDiagram} svg .node:hover circle, ${mermaidDiagram} svg .node:hover polygon, ${mermaidDiagram} svg .node:hover path`, {
-  fill: 'var(--color-code-bg) !important',
-  stroke: 'var(--color-primary) !important',
-});
+globalStyle(
+  `${mermaidDiagram} svg .node:hover rect, ${mermaidDiagram} svg .node:hover circle, ${mermaidDiagram} svg .node:hover polygon, ${mermaidDiagram} svg .node:hover path`,
+  {
+    fill: 'var(--color-code-bg) !important',
+    stroke: 'var(--color-primary) !important',
+  },
+);
 
 globalStyle(`${mermaidDiagram} svg .node .label`, {
   fontWeight: '700 !important',
@@ -138,10 +144,13 @@ globalStyle(`${mermaidDiagram} svg .node .label`, {
   transition: 'fill 0.2s ease',
 });
 
-globalStyle(`${mermaidDiagram} svg foreignObject, ${mermaidDiagram} svg .label div, ${mermaidDiagram} svg .label span, ${mermaidDiagram} svg .nodeLabel`, {
-  lineHeight: '1.35 !important',
-  overflow: 'visible !important',
-});
+globalStyle(
+  `${mermaidDiagram} svg foreignObject, ${mermaidDiagram} svg .label div, ${mermaidDiagram} svg .label span, ${mermaidDiagram} svg .nodeLabel`,
+  {
+    lineHeight: '1.35 !important',
+    overflow: 'visible !important',
+  },
+);
 
 globalStyle(`${mermaidDiagram} svg .node:hover .label`, {
   fill: 'var(--color-primary) !important',

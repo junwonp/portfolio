@@ -36,7 +36,7 @@ summaryDetails:
     '**[Streaming Chat & Optimistic UI]** Validated stream chunks at runtime with **Zod** and patched TanStack Query **InfiniteQuery** cache in real-time per chunk to create typing animations. Applied optimistic update pattern via `onMutate` for instant message insertion with rollback on failure.',
     '**[Type-Safe Server State Management]** Designed a **queryData facade** that structures `QueryClient` access by domain, providing hierarchical query key factories for bulk invalidation and type-safe cache get/update/delete operations.',
     '**[Data Persistence & Cache Isolation]** Migrated on-device (Realm) → server (RDB) data without loss using retry logic and transaction flags. Separated **MMKV** into purpose-specific instances (document, cache, settings) and auto-isolated per-user caches via `PersistQueryClientProvider` `buster: uid`.',
-    '**[Rendering Performance Optimization]** Maintained stable 60 FPS with **FlashList** View Recycling and **React Compiler**. Handled keyboard-open scroll on the UI thread via **Reanimated** worklet-based `useAnimatedReaction`, eliminating JS thread bottlenecks.',
+    '**[Rendering Performance Optimization]** Optimized toward a stable 60 FPS with **FlashList** View Recycling and **React Compiler**. Handled keyboard-open scroll on the UI thread via **Reanimated** worklet-based `useAnimatedReaction`, eliminating JS thread bottlenecks.',
     '**[Cross-Platform Architecture]** Supported Android, iOS, and Web simultaneously from a single codebase using **Expo Router**. Separated platform-specific Contexts via `.web.tsx` file extensions to prevent native-only packages from leaking into the web bundle. Auto-bound **Unistyles** tokens to React Navigation `ThemeProvider` for synchronized theme switching.',
     '**[Design Token System]** Implemented numeric-scale color palettes and dark/light/auto themes with **Unistyles**. Eliminated theme flicker on app restart via MMKV synchronous reads. Applied fontScale clamping (1–1.2) for accessibility-safe layouts.',
     '**[Type-Safe i18n]** Enforced compile-time translation key validation with **typesafe-i18n** and deferred rendering until Intl polyfills fully loaded to prevent locale glitches. Synchronized OS settings and dayjs on language switch.',
@@ -78,7 +78,7 @@ My ownership covered product planning, frontend architecture, streaming chat UX,
     {
       tag: 'Performance',
       accent: true,
-      title: 'Smooth 60fps chat on low-end devices via FlashList + worklet keyboard',
+      title: 'Smooth chat on low-end devices via FlashList + worklet keyboard',
       detail: `Replaced <code>FlatList</code> with <strong>FlashList</strong> (view recycling) to eliminate frame drops and white-screen flickering in large chat logs. Keyboard scroll handler runs in a <strong>Reanimated worklet on the UI thread</strong> — never dropped even under heavy JS load. Delegated <code>scrollToEnd</code> to the RN thread via <code>scheduleOnRN</code> to respect thread boundaries. Cursor-based pagination via <code>useInfiniteQuery</code> keeps retrieval speed stable as history grows.`,
     },
     {
@@ -131,7 +131,7 @@ My ownership covered product planning, frontend architecture, streaming chat UX,
       tag: 'R&D',
       accent: true,
       title: 'Next-Gen Shorts UI & iOS 26 Liquid Glass Native Acceleration Experiment',
-      detail: `Designed and prototyped a <strong>full-screen Shorts-style swipe UI</strong> to maximize user immersion, allowing users to transition from browsing to chatting seamlessly. To optimize runtime graphic overhead, bypassed Javascript calculation bottlenecks by integrating native iOS rendering APIs via <strong>UIGlassView</strong>, implementing fluid Liquid Glass visual effect while maximizing battery efficiency.`,
+      detail: `Designed and prototyped a <strong>full-screen Shorts-style swipe UI</strong> to deepen user immersion, allowing users to transition from browsing to chatting seamlessly. Applied the iOS 26 Liquid Glass visual with <strong>expo-glass-effect</strong>, experimentally confirming smooth rendering and battery efficiency.`,
     },
   ]}
 />
@@ -174,8 +174,8 @@ My ownership covered product planning, frontend architecture, streaming chat UX,
 
 Recorded videos verifying runtime usability, performance improvements, and interface experiments.
 
-- **60fps Scroll Performance (FlashList):** Implemented view recycling mechanism to avoid memory bottlenecks and frame drops even under long scroll logs. Integrated Reanimated worklets running on the UI thread to dynamically adjust scrolling behavior according to the keyboard height, ensuring smooth 60fps scrolling experience even when JS thread is highly occupied.
-- **Shorts-style Character Swiping & iOS 26 Liquid Glass R&D:** Designed a unified layout mimicking mobile short-form video feeds where users can navigate character profiles by swiping up/down, instantly beginning conversation on the spot. Leveraged iOS native rendering APIs (`UIGlassView`) to bypass heavy Javascript CPU/GPU bottlenecks, achieving the fluid Liquid Glass effect with extreme battery efficiency.
+- **Scroll Performance Optimization (FlashList):** Implemented view recycling mechanism to avoid memory bottlenecks and frame drops even under long scroll logs. Integrated Reanimated worklets running on the UI thread to dynamically adjust scrolling behavior according to the keyboard height, ensuring a smooth scrolling experience even when JS thread is highly occupied.
+- **Shorts-style Character Swiping & iOS 26 Liquid Glass R&D:** Designed a unified layout mimicking mobile short-form video feeds where users can navigate character profiles by swiping up/down, instantly beginning conversation on the spot. Experimentally applied the Liquid Glass visual via `expo-glass-effect`.
 
 <ImageGallery>
   <ImageDescription

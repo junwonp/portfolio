@@ -1,8 +1,7 @@
 import type { HomePageData } from '@/components/portfolio/home/HomePage';
 import { PROJECT_ID, type ProjectId } from '@/lib/portfolio/catalog';
 import { getLabels } from '@/lib/portfolio/labels';
-import type { TailoredViewOverride } from '@/lib/portfolio/resume';
-import type { SummaryPresetId } from '@/lib/portfolio/resume';
+import type { SummaryPresetId, TailoredViewOverride } from '@/lib/portfolio/resume';
 import {
   getFeaturedWebProjects,
   getResumeData,

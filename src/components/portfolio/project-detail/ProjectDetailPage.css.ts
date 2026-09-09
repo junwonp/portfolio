@@ -18,7 +18,6 @@ export const topbarRight = style({
   alignItems: 'center',
 });
 
-
 export const topbarLink = style({
   display: 'inline-flex',
   gap: '4px',
@@ -171,17 +170,18 @@ export const projectArticle = style({
   wordBreak: 'break-word',
 });
 
-globalStyle(`${projectArticle} h2, ${projectArticle} h3, ${projectArticle} p, ${projectArticle} li, ${projectArticle} blockquote, ${projectArticle} strong, ${projectArticle} code`, {
-  maxWidth: '100%',
-  overflowWrap: 'anywhere',
-  wordBreak: 'break-word',
-});
+globalStyle(
+  `${projectArticle} h2, ${projectArticle} h3, ${projectArticle} p, ${projectArticle} li, ${projectArticle} blockquote, ${projectArticle} strong, ${projectArticle} code`,
+  {
+    maxWidth: '100%',
+    overflowWrap: 'anywhere',
+    wordBreak: 'break-word',
+  },
+);
 
 globalStyle(`${projectArticle} pre, ${projectArticle} pre code`, {
   whiteSpace: 'pre-wrap',
 });
-
-
 
 export const h2Subtitle = style({
   display: 'block',
@@ -212,21 +212,33 @@ globalStyle(`${projectArticle} table`, {
   overflow: 'hidden',
 });
 
-globalStyle(`${projectArticle} thead tr:first-child th:first-child, ${projectArticle} table > tr:first-child > td:first-child, ${projectArticle} table > tbody:first-child > tr:first-child > td:first-child`, {
-  borderTopLeftRadius: '11px',
-});
+globalStyle(
+  `${projectArticle} thead tr:first-child th:first-child, ${projectArticle} table > tr:first-child > td:first-child, ${projectArticle} table > tbody:first-child > tr:first-child > td:first-child`,
+  {
+    borderTopLeftRadius: '11px',
+  },
+);
 
-globalStyle(`${projectArticle} thead tr:first-child th:last-child, ${projectArticle} table > tr:first-child > td:last-child, ${projectArticle} table > tbody:first-child > tr:first-child > td:last-child`, {
-  borderTopRightRadius: '11px',
-});
+globalStyle(
+  `${projectArticle} thead tr:first-child th:last-child, ${projectArticle} table > tr:first-child > td:last-child, ${projectArticle} table > tbody:first-child > tr:first-child > td:last-child`,
+  {
+    borderTopRightRadius: '11px',
+  },
+);
 
-globalStyle(`${projectArticle} tbody tr:last-child td:first-child, ${projectArticle} table > tr:last-child > td:first-child, ${projectArticle} table > tbody:last-child > tr:first-child > td:first-child`, {
-  borderBottomLeftRadius: '11px',
-});
+globalStyle(
+  `${projectArticle} tbody tr:last-child td:first-child, ${projectArticle} table > tr:last-child > td:first-child, ${projectArticle} table > tbody:last-child > tr:first-child > td:first-child`,
+  {
+    borderBottomLeftRadius: '11px',
+  },
+);
 
-globalStyle(`${projectArticle} tbody tr:last-child td:last-child, ${projectArticle} table > tr:last-child > td:last-child, ${projectArticle} table > tbody:last-child > tr:last-child > td:last-child`, {
-  borderBottomRightRadius: '11px',
-});
+globalStyle(
+  `${projectArticle} tbody tr:last-child td:last-child, ${projectArticle} table > tr:last-child > td:last-child, ${projectArticle} table > tbody:last-child > tr:last-child > td:last-child`,
+  {
+    borderBottomRightRadius: '11px',
+  },
+);
 
 globalStyle(`${projectArticle} thead`, {
   background: 'var(--color-table-bg)',

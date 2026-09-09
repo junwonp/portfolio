@@ -19,7 +19,7 @@ globalStyle(
   {
     color: '#282828',
     background: '#a89984',
-  }
+  },
 );
 
 globalStyle(
@@ -27,7 +27,7 @@ globalStyle(
   {
     color: '#282828',
     background: '#a89984',
-  }
+  },
 );
 
 globalStyle('pre[class*="language-"]', {
@@ -57,7 +57,7 @@ globalStyle(
   '.token.delimiter, .token.boolean, .token.keyword, .token.selector, .token.important, .token.atrule',
   {
     color: '#9d0006',
-  }
+  },
 );
 
 globalStyle('.token.operator, .token.punctuation, .token.attr-name', {
@@ -123,7 +123,7 @@ globalStyle(
   {
     color: '#fbf1c7',
     background: '#7c6f64',
-  }
+  },
 );
 
 globalStyle(
@@ -131,25 +131,22 @@ globalStyle(
   {
     color: '#fbf1c7',
     background: '#7c6f64',
-  }
+  },
 );
 
 globalStyle('html.dark :not(pre) > code[class*="language-"], html.dark pre[class*="language-"]', {
   background: '#1d2021',
 });
 
-globalStyle(
-  'html.dark .token.comment, html.dark .token.prolog, html.dark .token.cdata',
-  {
-    color: '#a89984',
-  }
-);
+globalStyle('html.dark .token.comment, html.dark .token.prolog, html.dark .token.cdata', {
+  color: '#a89984',
+});
 
 globalStyle(
   'html.dark .token.delimiter, html.dark .token.boolean, html.dark .token.keyword, html.dark .token.selector, html.dark .token.important, html.dark .token.atrule',
   {
     color: '#fb4934',
-  }
+  },
 );
 
 globalStyle('html.dark .token.operator, html.dark .token.punctuation', {
@@ -164,19 +161,16 @@ globalStyle(
   'html.dark .token.tag, html.dark .token.tag .punctuation, html.dark .token.doctype, html.dark .token.builtin',
   {
     color: '#fabd2f',
-  }
+  },
 );
 
 globalStyle('html.dark .token.entity, html.dark .token.number, html.dark .token.symbol', {
   color: '#d3869b',
 });
 
-globalStyle(
-  'html.dark .token.property, html.dark .token.constant',
-  {
-    color: '#fb4934',
-  }
-);
+globalStyle('html.dark .token.property, html.dark .token.constant', {
+  color: '#fb4934',
+});
 
 globalStyle('html.dark .token.variable', {
   color: '#ebdbb2',
@@ -186,12 +180,9 @@ globalStyle('html.dark .token.string, html.dark .token.char', {
   color: '#b8bb26',
 });
 
-globalStyle(
-  'html.dark .token.attr-value, html.dark .token.attr-value .punctuation',
-  {
-    color: '#b8bb26',
-  }
-);
+globalStyle('html.dark .token.attr-value, html.dark .token.attr-value .punctuation', {
+  color: '#b8bb26',
+});
 
 globalStyle('html.dark .token.url', {
   color: '#b8bb26',

@@ -12,16 +12,16 @@
  */
 export function getOptimizedImageUrl(
   src: string,
-  _options?: { width?: number; quality?: number }
+  _options?: { width?: number; quality?: number },
 ): string {
   // Return early if not a local relative path, is an external URL, or is a video
-  if (!src.startsWith("/") || src.startsWith("//")) {
+  if (!src.startsWith('/') || src.startsWith('//')) {
     return src;
   }
 
   // Unsupported formats check (e.g. videos)
-  const isVideo = [".mp4", ".webm", ".mov", ".avi", ".m4v"].some((ext) =>
-    src.toLowerCase().endsWith(ext)
+  const isVideo = ['.mp4', '.webm', '.mov', '.avi', '.m4v'].some((ext) =>
+    src.toLowerCase().endsWith(ext),
   );
   if (isVideo) {
     return src;

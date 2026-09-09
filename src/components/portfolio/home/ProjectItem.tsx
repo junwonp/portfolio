@@ -60,8 +60,7 @@ export default function ProjectItem({
     }
   };
 
-  const containerClassName =
-    `project-item ${ProjectItemStyles.projectItem}`.trim();
+  const containerClassName = `project-item ${ProjectItemStyles.projectItem}`.trim();
 
   const headerProps = isCompact
     ? {

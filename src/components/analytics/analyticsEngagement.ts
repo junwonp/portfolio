@@ -59,7 +59,7 @@ export const selectFarthestVisibleSection = ({
   viewportBottom: number;
 }): ReachedSection | undefined => {
   const visibleSections = sections.flatMap((section, index) =>
-    section.top <= viewportBottom ? [{ ...section, index }] : []
+    section.top <= viewportBottom ? [{ ...section, index }] : [],
   );
   const farthestVisible = visibleSections.at(-1);
 

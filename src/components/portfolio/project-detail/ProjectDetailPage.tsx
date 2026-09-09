@@ -7,7 +7,7 @@ import Github from '@/components/ui/Icon/Github';
 import Globe from '@/components/ui/Icon/Globe';
 import MetricCard from '@/components/ui/MetricCard';
 import RichText from '@/components/ui/RichText';
-import { pillButton } from "@/components/ui/surface.css";
+import { pillButton } from '@/components/ui/surface.css';
 import { getLabels } from '@/lib/portfolio/labels';
 import type { PostMetadata } from '@/lib/portfolio/projectTypes';
 import type { Language } from '@/lib/utils/language';
@@ -45,9 +45,7 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
 
       {(metadata.tagline || metadata.description) && (
         <p className={styles.heroTagline}>
-          <RichText
-            parts={parseMarkdown(metadata.tagline || metadata.description || '')}
-          />
+          <RichText parts={parseMarkdown(metadata.tagline || metadata.description || '')} />
         </p>
       )}
 
@@ -118,9 +116,7 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
       >
         <div className={styles.hero}>{heroContent}</div>
 
-        <article className={`project-article ${styles.projectArticle}`}>
-          {children}
-        </article>
+        <article className={`project-article ${styles.projectArticle}`}>{children}</article>
       </PortfolioContentLayout>
     </>
   );

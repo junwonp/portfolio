@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
-import * as styles from "./ImageGallery.css";
+import * as styles from './ImageGallery.css';
 
 interface Props {
   children?: React.ReactNode;
@@ -30,9 +30,9 @@ export default function ImageGallery({ children }: Props) {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
     };
     checkMobile();
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
     return () => {
-      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener('resize', checkMobile);
     };
   }, []);
 
@@ -46,10 +46,10 @@ export default function ImageGallery({ children }: Props) {
 
   // Keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowLeft") {
+    if (e.key === 'ArrowLeft') {
       e.preventDefault();
       prev();
-    } else if (e.key === "ArrowRight") {
+    } else if (e.key === 'ArrowRight') {
       e.preventDefault();
       next();
     }
@@ -125,25 +125,25 @@ export default function ImageGallery({ children }: Props) {
     const el = sliderRef.current;
     const opts: AddEventListenerOptions = { passive: false };
 
-    el.addEventListener("touchstart", handleTouchStart, opts);
-    el.addEventListener("touchmove", handleTouchMove, opts);
-    el.addEventListener("touchend", handleTouchEnd, opts);
-    el.addEventListener("touchcancel", handleTouchEnd, opts);
-    el.addEventListener("mousedown", handleMouseStart);
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseEnd);
+    el.addEventListener('touchstart', handleTouchStart, opts);
+    el.addEventListener('touchmove', handleTouchMove, opts);
+    el.addEventListener('touchend', handleTouchEnd, opts);
+    el.addEventListener('touchcancel', handleTouchEnd, opts);
+    el.addEventListener('mousedown', handleMouseStart);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseEnd);
 
     // Dynamic item count check
     setItemCount(el.children.length);
 
     return () => {
-      el.removeEventListener("touchstart", handleTouchStart);
-      el.removeEventListener("touchmove", handleTouchMove);
-      el.removeEventListener("touchend", handleTouchEnd);
-      el.removeEventListener("touchcancel", handleTouchEnd);
-      el.removeEventListener("mousedown", handleMouseStart);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseEnd);
+      el.removeEventListener('touchstart', handleTouchStart);
+      el.removeEventListener('touchmove', handleTouchMove);
+      el.removeEventListener('touchend', handleTouchEnd);
+      el.removeEventListener('touchcancel', handleTouchEnd);
+      el.removeEventListener('mousedown', handleMouseStart);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseEnd);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- handlers reference stable refs
   }, [isMobile, itemCount]);
@@ -151,20 +151,18 @@ export default function ImageGallery({ children }: Props) {
   return (
     <div
       ref={galleryRef}
-      className={`${styles.imageGallery} ${isMobile ? styles.mobile : ""}`}
+      className={`${styles.imageGallery} ${isMobile ? styles.mobile : ''}`}
       role="group"
       onKeyDown={isMobile && itemCount > 1 ? handleKeyDown : undefined}
       tabIndex={isMobile && itemCount > 1 ? 0 : undefined}
-      aria-label={isMobile && itemCount > 1 ? "Image gallery" : undefined}
+      aria-label={isMobile && itemCount > 1 ? 'Image gallery' : undefined}
     >
       {children &&
         (isMobile ? (
           <>
             <div
               ref={sliderRef}
-              className={`${styles.sliderContainer} ${
-                isDragging ? styles.dragging : ""
-              }`}
+              className={`${styles.sliderContainer} ${isDragging ? styles.dragging : ''}`}
               style={{
                 transform: `translateX(calc(-${currentIndex} * 100% + ${dragOffset}px))`,
               }}

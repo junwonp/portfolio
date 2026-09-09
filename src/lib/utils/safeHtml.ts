@@ -10,7 +10,6 @@ import 'prismjs/components/prism-tsx.js';
 import 'prismjs/components/prism-bash.js';
 import 'prismjs/components/prism-json.js';
 
-
 const ALLOWED_TAGS = new Set([
   'br',
   'code',
@@ -102,7 +101,7 @@ const highlightCodeBlocks = (html: string): string => {
       const grammar = Prism.languages[lang] || Prism.languages.tsx || Prism.languages.javascript;
       const highlighted = Prism.highlight(cleanCode, grammar, lang);
       return `<pre class="${preClass}"><code class="language-${lang}">${highlighted}</code></pre>`;
-    }
+    },
   );
 };
 

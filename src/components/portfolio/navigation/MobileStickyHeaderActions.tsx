@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
-import { Check, Ellipsis, Printer, Share2 } from "lucide-react";
+import { Check, Ellipsis, Printer, Share2 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
-import Github from "@/components/ui/Icon/Github";
-import Linkedin from "@/components/ui/Icon/Linkedin";
-import IconLink from "@/components/ui/IconLink";
-import { circleButton,pillButton } from "@/components/ui/surface.css";
-import ThemeToggle from "@/components/ui/ThemeToggle";
-import { useLocale } from "@/lib/contexts/LocaleContext";
+import Github from '@/components/ui/Icon/Github';
+import Linkedin from '@/components/ui/Icon/Linkedin';
+import IconLink from '@/components/ui/IconLink';
+import { circleButton, pillButton } from '@/components/ui/surface.css';
+import ThemeToggle from '@/components/ui/ThemeToggle';
+import { useLocale } from '@/lib/contexts/LocaleContext';
 
-import * as styles from "./MobileStickyHeader.css";
+import * as styles from './MobileStickyHeader.css';
 
 interface Props {
   githubLink?: string;
@@ -19,17 +19,13 @@ interface Props {
   name: string;
 }
 
-export default function MobileStickyHeaderActions({
-  githubLink,
-  linkedinLink,
-  name,
-}: Props) {
+export default function MobileStickyHeaderActions({ githubLink, linkedinLink, name }: Props) {
   const { locale, labels, setLocale } = useLocale();
   // The theme toggle is a home-page-only control (`/`, `/en`, `/ko`)
   const pathname = usePathname();
-  const isHome = pathname === "/" || /^\/[a-z]{2}$/.test(pathname);
+  const isHome = pathname === '/' || /^\/[a-z]{2}$/.test(pathname);
 
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   const [isCopied, setIsCopied] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -37,25 +33,21 @@ export default function MobileStickyHeaderActions({
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
-      if (
-        isMenuOpen &&
-        target &&
-        !target.closest(`.${styles.moreMenuContainer}`)
-      ) {
+      if (isMenuOpen && target && !target.closest(`.${styles.moreMenuContainer}`)) {
         setIsMenuOpen(false);
       }
     };
 
-    window.addEventListener("click", handleOutsideClick);
+    window.addEventListener('click', handleOutsideClick);
     return () => {
-      window.removeEventListener("click", handleOutsideClick);
+      window.removeEventListener('click', handleOutsideClick);
     };
   }, [isMenuOpen]);
 
   const toggleLanguage = () => {
-    setErrorMessage("");
+    setErrorMessage('');
     try {
-      const newLang = locale === "ko" ? "en" : "ko";
+      const newLang = locale === 'ko' ? 'en' : 'ko';
       setLocale(newLang);
     } catch {
       setErrorMessage(labels.languageToggleError);
@@ -63,16 +55,16 @@ export default function MobileStickyHeaderActions({
   };
 
   async function sharePage(): Promise<void> {
-    const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+    const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
     const title = `${name} | ${labels.resumeTitle}`;
 
-    if (typeof navigator !== "undefined" && "share" in navigator) {
+    if (typeof navigator !== 'undefined' && 'share' in navigator) {
       try {
-        await navigator.share({ text: "", title, url: shareUrl });
+        await navigator.share({ text: '', title, url: shareUrl });
         setIsMenuOpen(false);
         return;
       } catch (err) {
-        if (err instanceof Error && err.name === "AbortError") return;
+        if (err instanceof Error && err.name === 'AbortError') return;
       }
     }
 
@@ -84,7 +76,7 @@ export default function MobileStickyHeaderActions({
         setIsCopied(false);
       }, 2000);
     } catch (error) {
-      console.error("Failed to copy link:", error);
+      console.error('Failed to copy link:', error);
     }
   }
 
@@ -96,7 +88,7 @@ export default function MobileStickyHeaderActions({
           onClick={toggleLanguage}
           title={labels.toggleLanguage}
         >
-          {locale === "ko" ? "English" : "한국어"}
+          {locale === 'ko' ? 'English' : '한국어'}
         </button>
       </div>
 
@@ -107,7 +99,7 @@ export default function MobileStickyHeaderActions({
           aria-label={labels.toggleLanguage}
           title={labels.toggleLanguage}
         >
-          {locale === "ko" ? "EN" : "KO"}
+          {locale === 'ko' ? 'EN' : 'KO'}
         </button>
 
         {githubLink && (
@@ -118,7 +110,7 @@ export default function MobileStickyHeaderActions({
 
         <div className={styles.moreMenuContainer}>
           <button
-            className={`${styles.moreButton} ${circleButton} ${isMenuOpen ? styles.active : ""}`}
+            className={`${styles.moreButton} ${circleButton} ${isMenuOpen ? styles.active : ''}`}
             onClick={(e) => {
               e.stopPropagation();
               setIsMenuOpen(!isMenuOpen);
@@ -164,7 +156,7 @@ export default function MobileStickyHeaderActions({
               <button
                 className={styles.dropdownItem}
                 onClick={() => {
-                  if (typeof window !== "undefined") window.print();
+                  if (typeof window !== 'undefined') window.print();
                   setIsMenuOpen(false);
                 }}
               >

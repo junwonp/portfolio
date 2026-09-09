@@ -22,12 +22,7 @@ export default function WorkAccordion({ experiences, locale }: Props) {
     <div className={styles.accordion}>
       {experiences.map((exp) => {
         return (
-          <CompanyCard
-            key={exp.companyName}
-            exp={exp}
-            isFiltered={isFiltered}
-            labels={labels}
-          />
+          <CompanyCard key={exp.companyName} exp={exp} isFiltered={isFiltered} labels={labels} />
         );
       })}
     </div>

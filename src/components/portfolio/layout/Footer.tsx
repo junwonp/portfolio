@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
+import Link from 'next/link';
+import React from 'react';
 
-import { useLocale } from "@/lib/contexts/LocaleContext";
+import { useLocale } from '@/lib/contexts/LocaleContext';
 
-import * as styles from "./Footer.css";
+import * as styles from './Footer.css';
 
 export default function Footer() {
   const { locale, labels } = useLocale();

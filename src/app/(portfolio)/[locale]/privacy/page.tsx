@@ -1,6 +1,6 @@
-import type { ComponentType } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import type { ComponentType } from 'react';
 
 import PrivacyEn from '@/content/privacy/privacy.en.mdx';
 import PrivacyKo from '@/content/privacy/privacy.ko.mdx';

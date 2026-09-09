@@ -1,10 +1,12 @@
-"use client";
+'use client';
 
-import { lazy, Suspense } from "react";
+import { lazy, Suspense } from 'react';
 
-import { useDeferredClientRender } from "@/lib/hooks/useDeferredClientRender";
+import { useDeferredClientRender } from '@/lib/hooks/useDeferredClientRender';
 
-const MobileStickyHeader = lazy(() => import("@/components/portfolio/navigation/MobileStickyHeader"));
+const MobileStickyHeader = lazy(
+  () => import('@/components/portfolio/navigation/MobileStickyHeader'),
+);
 
 interface DeferredMobileStickyHeaderProps {
   githubLink?: string;
@@ -25,11 +27,7 @@ export default function DeferredMobileStickyHeader({
 
   return (
     <Suspense fallback={null}>
-      <MobileStickyHeader
-        githubLink={githubLink}
-        linkedinLink={linkedinLink}
-        name={name}
-      />
+      <MobileStickyHeader githubLink={githubLink} linkedinLink={linkedinLink} name={name} />
     </Suspense>
   );
 }

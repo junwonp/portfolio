@@ -48,7 +48,7 @@ export const viewerChart = `flowchart TD
 
 ## 프로젝트 소개
 
-**"수천 행도 끊기지 않게, 엑셀에 가까운 그리드와 텍스트를 브라우저에서"**
+**"대용량 문서도 끊기지 않게, 엑셀에 가까운 그리드와 텍스트를 브라우저에서"**
 
 `react-table` 기반의 **스프레드시트형 그리드**와 **줄 단위 텍스트 뷰어**를 한 패키지로 구성하고, 드래그로 **2D 영역 선택**·다중 영역·가상 스크롤까지 묶었습니다. 컨테이너와 렌더링 베이스를 나누어 테스트와 확장에 유리하게 두었습니다.
 
@@ -110,7 +110,7 @@ const rowRenderer = useCallback(
       tag: 'Performance',
       accent: true,
       title: '엑셀형 그리드 — react-table + react-window 무한 스크롤 가상화',
-      detail: `<code>react-table</code>의 <code>useFlexLayout</code>, <code>useResizeColumns</code>, <code>useSortBy</code> 플러그인을 <code>react-window</code>의 <code>VariableSizeList</code>, <code>react-window-infinite-loader</code>, <code>AutoSizer</code>와 결합했습니다. 대용량 셀 렌더링 및 컬럼 리사이징 이벤트 속에서도 1,000행 이상의 데이터를 프레임 드랍 없이 동적으로 조작할 수 있습니다.<br/><br/><pre class="language-tsx"><code class="language-tsx">import {
+      detail: `<code>react-table</code>의 <code>useFlexLayout</code>, <code>useResizeColumns</code>, <code>useSortBy</code> 플러그인을 <code>react-window</code>의 <code>VariableSizeList</code>, <code>react-window-infinite-loader</code>, <code>AutoSizer</code>와 결합했습니다. 가상화 적용 전에는 대용량 파일을 열면 웹이 멈추던 문제를, 적용 후에는 1,000행 이상의 데이터도 끊김 없이 동적으로 조작할 수 있게 해결했습니다.<br/><br/><pre class="language-tsx"><code class="language-tsx">import {
     useFlexLayout,
     useResizeColumns,
     useSortBy,
@@ -178,4 +178,4 @@ return (
 
 뷰별 가상화 분리는 처음에는 명확하지 않았습니다. 하나의 라이브러리로 시작했다가 텍스트 뷰어에서 레이아웃 문제를 겪으면서 각 라이브러리가 실제로 어떤 부분을 최적화하는지 더 깊이 파악하게 되었고, 각 뷰의 실제 제약 조건에 맞는 더 명확한 해결책을 찾을 수 있었습니다.
 
-이 경험은 '문서 뷰어의 도메인 특성(동적 텍스트 vs 복합 그리드)에 따라 알맞은 가상화 패턴과 캐싱 전략을 다르게 설계해야 한다'는 정교한 프론트엔드 최적화 감각을 익히는 계기가 되었습니다.
+이 경험을 통해 '문서 뷰어의 도메인 특성(동적 텍스트 vs 복합 그리드)에 따라 알맞은 가상화 패턴과 캐싱 전략을 다르게 설계해야 한다'는 판단 기준을 얻게 되었습니다.

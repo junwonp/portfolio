@@ -53,7 +53,6 @@ export const cardHeader = style({
   color: 'var(--cat-color)',
 });
 
-
 export const cardTitle = style({
   color: 'var(--color-bold)',
   fontSize: '0.9375rem',

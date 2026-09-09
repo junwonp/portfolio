@@ -78,7 +78,7 @@ export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Pr
       },
       {
         rootMargin: '200px',
-      }
+      },
     );
 
     observer.observe(frame);
@@ -101,7 +101,8 @@ export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Pr
         const mermaidModule = await import('mermaid');
         const mermaid = mermaidModule.default;
 
-        const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
+        const isDark =
+          typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
         const colors = isDark ? DARK_COLORS : LIGHT_COLORS;
 
         mermaid.initialize({
@@ -166,10 +167,7 @@ export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Pr
       </figcaption>
       <div className={styles.diagramFrame}>
         {shouldRender && svg && renderedChart === chart ? (
-          <div
-            className={styles.diagramSurface}
-            dangerouslySetInnerHTML={{ __html: svg }}
-          />
+          <div className={styles.diagramSurface} dangerouslySetInnerHTML={{ __html: svg }} />
         ) : shouldRender && errorMessage && renderedChart === chart ? (
           <>
             <p className={styles.diagramError}>{errorMessage}</p>

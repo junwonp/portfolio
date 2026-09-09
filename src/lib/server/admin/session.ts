@@ -60,7 +60,9 @@ const encodeJson = (value: AdminSessionPayload): string =>
 
 const decodeJson = (value: string): AdminSessionPayload | null => {
   try {
-    const parsed = JSON.parse(textDecoder.decode(base64UrlToBytes(value))) as Partial<AdminSessionPayload>;
+    const parsed = JSON.parse(
+      textDecoder.decode(base64UrlToBytes(value)),
+    ) as Partial<AdminSessionPayload>;
 
     if (
       typeof parsed.email !== 'string' ||

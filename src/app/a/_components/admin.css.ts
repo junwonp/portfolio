@@ -262,7 +262,6 @@ export const applicationForm = style({
 
 export const error = style({});
 
-
 export const projectOrderField = style({
   display: 'flex',
   flexDirection: 'column',
@@ -332,7 +331,6 @@ export const primaryBtn = style({
     filter: 'brightness(0.96)',
   },
 });
-
 
 export const dangerBtn = style({
   background: 'transparent',
@@ -405,17 +403,11 @@ globalStyle(`${linkConfigList} dd`, {
   minWidth: 0,
 });
 
-
 export const mutedText = style({
   color: 'var(--color-sub)',
   fontSize: '0.78rem',
   marginTop: '0.2rem',
 });
-
-
-
-
-
 
 export const sectionHeadingRow = style({
   alignItems: 'flex-start',
@@ -817,8 +809,6 @@ export const emptyState = style({
   textAlign: 'center',
 });
 
-
-
 /* Mini progress bars for table cells */
 
 export const miniProgressCell = style({
@@ -862,13 +852,11 @@ export const miniProgressVal = style({
 
 /* Interaction events panel */
 
-
 export const interactionGroup = style({
   display: 'flex',
   flexDirection: 'column',
   gap: 'var(--space-xs)',
 });
-
 
 globalStyle(`${interactionGroup} ul`, {
   display: 'flex',
@@ -878,7 +866,6 @@ globalStyle(`${interactionGroup} ul`, {
   margin: 0,
   padding: 0,
 });
-
 
 export const interactionLabel = style({
   color: 'var(--color-bold)',
@@ -909,10 +896,7 @@ export const actionClose = style({
   color: 'var(--color-sub)',
 });
 
-
-
 /* Link card grid */
-
 
 export const linkCard = style({
   background: 'var(--color-code-bg)',
@@ -931,9 +915,6 @@ export const linkCard = style({
 
 /* Link card header */
 
-
-
-
 export const linkCardBadge = style({
   background: 'color-mix(in srgb, var(--color-sub) 10%, transparent)',
   border: '0.5px solid var(--color-bg-divider)',
@@ -945,32 +926,13 @@ export const linkCardBadge = style({
   whiteSpace: 'nowrap',
 });
 
-
-
 /* Link card projects */
-
-
-
 
 /* Link card metrics */
 
-
-
-
-
-
 /* Link card footer */
 
-
-
-
-
 /* Link card interactions */
-
-
-
-
-
 
 /* Expandable session rows */
 
@@ -1139,9 +1101,6 @@ export const timelineActive = style({
   fontSize: '0.7rem',
   marginTop: '0.1rem',
 });
-
-
-
 
 export const timelineInteractionLabel = style({
   color: 'var(--color-main)',

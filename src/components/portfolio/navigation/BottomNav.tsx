@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import Github from "@/components/ui/Icon/Github";
-import Globe from "@/components/ui/Icon/Globe";
-import { circleButton, pillButton } from "@/components/ui/surface.css";
-import { useLocale } from "@/lib/contexts/LocaleContext";
-import { getPageScrollY, scrollPageTo, useScrollSpy } from "@/lib/hooks/useScrollSpy";
-import { useProjectNavLinks } from "@/lib/stores/bottomNav";
-import { parseHeading, slugify } from "@/lib/utils/markdown";
+import Github from '@/components/ui/Icon/Github';
+import Globe from '@/components/ui/Icon/Globe';
+import { circleButton, pillButton } from '@/components/ui/surface.css';
+import { useLocale } from '@/lib/contexts/LocaleContext';
+import { getPageScrollY, scrollPageTo, useScrollSpy } from '@/lib/hooks/useScrollSpy';
+import { useProjectNavLinks } from '@/lib/stores/bottomNav';
+import { parseHeading, slugify } from '@/lib/utils/markdown';
 
-import * as styles from "./BottomNav.css";
-import { useBottomNavDrag } from "./useBottomNavDrag";
+import * as styles from './BottomNav.css';
+import { useBottomNavDrag } from './useBottomNavDrag';
 
 interface NavTab {
   id: string;
@@ -25,10 +25,8 @@ interface Props {
 
 // Pure helper function at module scope to avoid reallocation on render
 function getGithubHref(githubLink: string | null | undefined): string {
-  if (!githubLink) return "";
-  return githubLink.startsWith("http")
-    ? githubLink
-    : `https://github.com/${githubLink}`;
+  if (!githubLink) return '';
+  return githubLink.startsWith('http') ? githubLink : `https://github.com/${githubLink}`;
 }
 
 export default function BottomNav({ isProject = false }: Props) {
@@ -36,50 +34,50 @@ export default function BottomNav({ isProject = false }: Props) {
   const navLinks = useProjectNavLinks();
 
   const [windowWidth, setWindowWidth] = useState(() =>
-    typeof window === "undefined" ? 1024 : window.innerWidth
+    typeof window === 'undefined' ? 1024 : window.innerWidth,
   );
-  
+
   const [tabs, setTabs] = useState<NavTab[]>(() => {
     if (!isProject) {
       return [
-        { id: "section-intro", label: labels.tabIntro },
-        { id: "section-work", label: labels.tabWork },
-        { id: "section-skills", label: labels.tabSkills },
-        { id: "section-projects", label: labels.tabProjects },
-        { id: "section-education", label: labels.tabEducation },
+        { id: 'section-intro', label: labels.tabIntro },
+        { id: 'section-work', label: labels.tabWork },
+        { id: 'section-skills', label: labels.tabSkills },
+        { id: 'section-projects', label: labels.tabProjects },
+        { id: 'section-education', label: labels.tabEducation },
       ];
     }
     return [];
   });
-  
+
   const tabBarRef = useRef<HTMLElement | null>(null);
 
   const tabIds = tabs.map((t) => t.id);
-  
+
   // Sync tabs when labels changes (e.g. language switch)
   const [prevLabels, setPrevLabels] = useState(labels);
   if (labels !== prevLabels) {
     setPrevLabels(labels);
     if (!isProject) {
       setTabs([
-        { id: "section-intro", label: labels.tabIntro },
-        { id: "section-work", label: labels.tabWork },
-        { id: "section-skills", label: labels.tabSkills },
-        { id: "section-projects", label: labels.tabProjects },
-        { id: "section-education", label: labels.tabEducation },
+        { id: 'section-intro', label: labels.tabIntro },
+        { id: 'section-work', label: labels.tabWork },
+        { id: 'section-skills', label: labels.tabSkills },
+        { id: 'section-projects', label: labels.tabProjects },
+        { id: 'section-education', label: labels.tabEducation },
       ]);
     }
   }
 
   useEffect(() => {
-    if (typeof window === "undefined" || !isProject) return;
+    if (typeof window === 'undefined' || !isProject) return;
 
     const setupProjectTabs = () => {
-      const headings = Array.from(document.querySelectorAll<HTMLElement>(".project-article h2"));
+      const headings = Array.from(document.querySelectorAll<HTMLElement>('.project-article h2'));
       if (headings.length > 0) {
         const parsedTabs = headings.map((el, i) => {
-          if (!el.id) el.id = slugify(el.textContent || "", i);
-          const { main } = parseHeading(el.textContent || "");
+          if (!el.id) el.id = slugify(el.textContent || '', i);
+          const { main } = parseHeading(el.textContent || '');
           return { id: el.id, label: main };
         });
         setTabs(parsedTabs);
@@ -89,7 +87,7 @@ export default function BottomNav({ isProject = false }: Props) {
     };
 
     if (!setupProjectTabs()) {
-      const article = document.querySelector(".project-article");
+      const article = document.querySelector('.project-article');
       if (article) {
         const mutObs = new MutationObserver(() => {
           if (setupProjectTabs()) mutObs.disconnect();
@@ -103,15 +101,15 @@ export default function BottomNav({ isProject = false }: Props) {
   }, [isProject]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
 
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -125,9 +123,9 @@ export default function BottomNav({ isProject = false }: Props) {
 
     let offset = 80;
     if (!isProject) {
-      const header = document.querySelector(".sticky-header");
+      const header = document.querySelector('.sticky-header');
       const headerHeight =
-        header instanceof HTMLElement && getComputedStyle(header).display !== "none"
+        header instanceof HTMLElement && getComputedStyle(header).display !== 'none'
           ? header.offsetHeight
           : 0;
       offset = headerHeight;
@@ -147,14 +145,11 @@ export default function BottomNav({ isProject = false }: Props) {
   };
 
   const tabIdsGetter = () => tabIds;
-  
-  const activeIdFromSpy = useScrollSpy(
-    tabIdsGetter,
-    {
-      threshold: () => (isProject ? 120 : 100),
-      isDisabled: () => isDragging || isScrolling,
-    },
-  );
+
+  const activeIdFromSpy = useScrollSpy(tabIdsGetter, {
+    threshold: () => (isProject ? 120 : 100),
+    isDisabled: () => isDragging || isScrolling,
+  });
 
   const activeId = activeIdManual !== null ? activeIdManual : activeIdFromSpy;
   const activeIndex = tabs.findIndex((t) => t.id === activeId);
@@ -191,7 +186,7 @@ export default function BottomNav({ isProject = false }: Props) {
         onPointerCancel={handlePointerUp}
       >
         <div
-          className={`${styles.activeBg} ${isDragging ? styles.dragging : ""}`}
+          className={`${styles.activeBg} ${isDragging ? styles.dragging : ''}`}
           style={{
             transform: `translateX(${pillLeft + (isDragging ? dragOffset : 0)}px)`,
             width: `${pillWidth}px`,
@@ -202,12 +197,12 @@ export default function BottomNav({ isProject = false }: Props) {
           <button
             key={tab.id}
             className={`${styles.tab} ${pillButton} ${
-              (isDragging ? dragHoveredId === tab.id : activeId === tab.id) ? styles.active : ""
+              (isDragging ? dragHoveredId === tab.id : activeId === tab.id) ? styles.active : ''
             }`}
             onClick={() => {
               if (!isDragging) scrollToTarget(tab.id);
             }}
-            aria-current={activeId === tab.id ? "location" : undefined}
+            aria-current={activeId === tab.id ? 'location' : undefined}
           >
             {tab.label}
           </button>
@@ -223,7 +218,7 @@ export default function BottomNav({ isProject = false }: Props) {
           className={`${styles.island} ${styles.circle} ${circleButton} ${styles.backBtn} glass-effect`}
           aria-label="Go back"
           onClick={() => {
-            if (typeof window !== "undefined") history.back();
+            if (typeof window !== 'undefined') history.back();
           }}
         >
           <ArrowLeft size={20} strokeWidth={2.5} />
@@ -242,7 +237,7 @@ export default function BottomNav({ isProject = false }: Props) {
             onPointerCancel={handlePointerUp}
           >
             <div
-              className={`${styles.activeBg} ${isDragging ? styles.dragging : ""}`}
+              className={`${styles.activeBg} ${isDragging ? styles.dragging : ''}`}
               style={{
                 transform: `translateX(${pillLeft + (isDragging ? dragOffset : 0)}px)`,
                 width: `${pillWidth}px`,
@@ -255,12 +250,12 @@ export default function BottomNav({ isProject = false }: Props) {
                 className={`${styles.tab} ${pillButton} ${
                   (isDragging ? dragHoveredId === section.id : activeId === section.id)
                     ? styles.active
-                    : ""
+                    : ''
                 }`}
                 onClick={() => {
                   if (!isDragging) scrollToTarget(section.id);
                 }}
-                aria-current={activeId === section.id ? "location" : undefined}
+                aria-current={activeId === section.id ? 'location' : undefined}
               >
                 {section.label}
               </button>

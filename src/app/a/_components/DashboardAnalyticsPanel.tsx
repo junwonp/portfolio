@@ -1,7 +1,7 @@
 'use client';
 
 import Select from '@/components/ui/Select';
-import type { SessionDetail,SessionRow } from '@/lib/server/admin/dashboardData';
+import type { SessionDetail, SessionRow } from '@/lib/server/admin/dashboardData';
 
 import * as styles from './admin.css';
 import { DetailsGrid } from './DetailsGrid';
@@ -112,9 +112,7 @@ export function DashboardAnalyticsPanel({
               value={selectedApplicationLinkId}
               options={filterOptions}
               onChange={(val) => {
-                const form = document.querySelector<HTMLFormElement>(
-                  `.${styles.metricFilterForm}`,
-                );
+                const form = document.querySelector<HTMLFormElement>(`.${styles.metricFilterForm}`);
                 if (form) {
                   const input = form.querySelector<HTMLInputElement>('input[name="linkId"]');
                   if (input) {

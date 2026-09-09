@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   checkIcon,
@@ -70,10 +70,7 @@ export default function Select({
   }, [isOpen]);
 
   return (
-    <div
-      ref={selectRef}
-      className={`${customSelectContainer} ${isOpen ? open : ''}`}
-    >
+    <div ref={selectRef} className={`${customSelectContainer} ${isOpen ? open : ''}`}>
       <input type="hidden" name={name} value={value} />
 
       <button

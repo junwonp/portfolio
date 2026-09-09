@@ -48,9 +48,7 @@ describe('addTableLabels', () => {
     const tree = element('root', [
       element('table', [
         element('thead', [element('tr', [element('th', [text('Only')])])]),
-        element('tbody', [
-          element('tr', [element('td', [text('a')]), element('td', [text('b')])]),
-        ]),
+        element('tbody', [element('tr', [element('td', [text('a')]), element('td', [text('b')])])]),
       ]),
     ]);
 
@@ -63,9 +61,7 @@ describe('addTableLabels', () => {
 
   it('leaves tables without thead untouched', () => {
     const tree = element('root', [
-      element('table', [
-        element('tbody', [element('tr', [element('td', [text('x')])])]),
-      ]),
+      element('table', [element('tbody', [element('tr', [element('td', [text('x')])])])]),
     ]);
 
     addTableLabels(tree);

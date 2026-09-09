@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
-import * as styles from "./BaseSideNav.css";
+import * as styles from './BaseSideNav.css';
 
 interface NavSection {
   id: string;
@@ -20,10 +20,10 @@ export default function BaseSideNav({
   sections,
   activeId,
   onselect,
-  ariaLabel = "Page sections",
+  ariaLabel = 'Page sections',
 }: Props) {
   const [windowWidth, setWindowWidth] = useState(() =>
-    typeof window === "undefined" ? 0 : window.innerWidth
+    typeof window === 'undefined' ? 0 : window.innerWidth,
   );
   const [activeTop, setActiveTop] = useState(0);
   const [activeHeight, setActiveHeight] = useState(0);
@@ -31,15 +31,15 @@ export default function BaseSideNav({
   const itemRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
 
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -75,11 +75,11 @@ export default function BaseSideNav({
               }}
             >
               <button
-                className={`${styles.navItem} ${activeId === section.id ? styles.active : ""}`}
+                className={`${styles.navItem} ${activeId === section.id ? styles.active : ''}`}
                 onClick={() => {
                   onselect(section.id);
                 }}
-                aria-current={activeId === section.id ? "location" : undefined}
+                aria-current={activeId === section.id ? 'location' : undefined}
               >
                 <span className={styles.navLabel}>{section.label}</span>
               </button>

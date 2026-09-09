@@ -1,13 +1,20 @@
-import { createElement } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { createElement } from 'react';
 
 import ProjectDetailPage from '@/components/portfolio/project-detail/ProjectDetailPage';
 import { GITHUB_PROFILE } from '@/config/site';
-import { getProjectDetailComponent } from '@/lib/portfolio/catalog';
-import { getProjectMetadata } from '@/lib/portfolio/catalog';
+import {
+  detailProjectSlugs,
+  getProjectDetailComponent,
+  getProjectMetadata,
+} from '@/lib/portfolio/catalog';
 import { getProjectPageMetadata } from '@/lib/portfolio/metadata';
 import { isValidLanguage } from '@/lib/utils/language';
+
+export function generateStaticParams() {
+  return detailProjectSlugs.map((slug) => ({ slug }));
+}
 
 interface ProjectDetailPageProps {
   params: Promise<{ locale: string; slug: string }>;

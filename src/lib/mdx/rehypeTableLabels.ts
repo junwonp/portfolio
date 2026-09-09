@@ -27,9 +27,7 @@ export function addTableLabels(tree: HastNode): void {
     const thead = tree.children?.find((child) => child.tagName === 'thead');
     const headerRow = thead?.children?.find((child) => child.tagName === 'tr');
     const headers =
-      headerRow?.children
-        ?.filter((child) => child.tagName === 'th')
-        .map(collectText) ?? [];
+      headerRow?.children?.filter((child) => child.tagName === 'th').map(collectText) ?? [];
 
     if (headers.length > 0) {
       for (const tbody of tree.children?.filter((child) => child.tagName === 'tbody') ?? []) {

@@ -1,20 +1,18 @@
-"use client";
+'use client';
 
-import { lazy, Suspense } from "react";
+import { lazy, Suspense } from 'react';
 
-import { useDeferredClientRender } from "@/lib/hooks/useDeferredClientRender";
-import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
+import { useDeferredClientRender } from '@/lib/hooks/useDeferredClientRender';
+import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
 
-const BottomNav = lazy(() => import("@/components/portfolio/navigation/BottomNav"));
+const BottomNav = lazy(() => import('@/components/portfolio/navigation/BottomNav'));
 
 interface DeferredBottomNavProps {
   isProject?: boolean;
 }
 
-export default function DeferredBottomNav({
-  isProject = false,
-}: DeferredBottomNavProps) {
-  const isMobileNavViewport = useMediaQuery("(max-width: 960px)");
+export default function DeferredBottomNav({ isProject = false }: DeferredBottomNavProps) {
+  const isMobileNavViewport = useMediaQuery('(max-width: 960px)');
   const shouldRender = useDeferredClientRender();
 
   if (!isMobileNavViewport || !shouldRender) {

@@ -308,7 +308,6 @@ export const mainSkills = style({
   color: 'var(--color-sub)',
 });
 
-
 export const detailGrid = style({
   display: 'flex',
   flexDirection: 'column',

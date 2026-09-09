@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown } from 'lucide-react';
+import React, { useState } from 'react';
 
 import { reportInteraction } from '@/components/analytics/analyticsTransport';
-import Badge from "@/components/ui/Badge";
-import Collapse from "@/components/ui/Collapse";
-import { cardSurface } from "@/components/ui/surface.css";
-import { markdownInlineToHtml } from "@/lib/utils/markdown";
-import { sanitizeProjectHtml } from "@/lib/utils/safeHtml";
+import Badge from '@/components/ui/Badge';
+import Collapse from '@/components/ui/Collapse';
+import { cardSurface } from '@/components/ui/surface.css';
+import { markdownInlineToHtml } from '@/lib/utils/markdown';
+import { sanitizeProjectHtml } from '@/lib/utils/safeHtml';
 
-import * as styles from "./ProjectAchievements.css";
+import * as styles from './ProjectAchievements.css';
 
 export interface Achievement {
   tag: string;
@@ -33,26 +33,18 @@ function AchievementItem({
   onToggle: () => void;
 }) {
   return (
-    <div
-      className={`${styles.achCard} ${cardSurface} ${isOpen ? styles.open : ""}`}
-    >
-      <button
-        className={styles.achHeader}
-        onClick={onToggle}
-        aria-expanded={isOpen}
-      >
+    <div className={`${styles.achCard} ${cardSurface} ${isOpen ? styles.open : ''}`}>
+      <button className={styles.achHeader} onClick={onToggle} aria-expanded={isOpen}>
         <div className={styles.achTitleRow}>
           <Badge
             text={achievement.tag}
-            color={achievement.accent ? "green" : "primary"}
+            color={achievement.accent ? 'green' : 'primary'}
             className={styles.achTag}
           />
           <span className={styles.achTitle}>{achievement.title}</span>
         </div>
         <div className={styles.achHeaderRight}>
-          <div
-            className={`${styles.achChevron} ${isOpen ? styles.open : ""}`}
-          >
+          <div className={`${styles.achChevron} ${isOpen ? styles.open : ''}`}>
             <ChevronDown size={18} strokeWidth={2} />
           </div>
         </div>
@@ -73,9 +65,7 @@ function AchievementItem({
 
 export default function ProjectAchievements({ achievements }: Props) {
   const firstAccentIndex = achievements.findIndex((a) => a.accent);
-  const [openIndex, setOpenIndex] = useState<number>(
-    firstAccentIndex >= 0 ? firstAccentIndex : 0
-  );
+  const [openIndex, setOpenIndex] = useState<number>(firstAccentIndex >= 0 ? firstAccentIndex : 0);
 
   const sanitizedAchievements = achievements.map((achievement) => ({
     ...achievement,

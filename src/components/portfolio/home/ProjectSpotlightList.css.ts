@@ -20,8 +20,7 @@ export const card = style({
   padding: '1rem',
   textDecoration: 'none',
   color: 'inherit',
-  transition:
-    'box-shadow 0.2s ease, transform 0.2s var(--ease-emphasized), border-color 0.2s ease',
+  transition: 'box-shadow 0.2s ease, transform 0.2s var(--ease-emphasized), border-color 0.2s ease',
 
   selectors: {
     [`&.${isLink}`]: {

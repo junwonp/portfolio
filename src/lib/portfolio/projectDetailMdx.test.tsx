@@ -1,6 +1,6 @@
+import { readFileSync } from 'node:fs';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 import ProjectDetail from '@/app/(portfolio)/[locale]/projects/[slug]/page';

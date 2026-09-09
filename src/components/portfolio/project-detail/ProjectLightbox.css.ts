@@ -272,7 +272,8 @@ export const overlayFooter = style({
   justifyContent: 'center',
   gap: 'var(--space-xs)',
   padding: '8px 24px',
-  background: 'linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%)',
+  background:
+    'linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%)',
   backdropFilter: 'blur(4px)',
   WebkitBackdropFilter: 'blur(4px)',
   transition: 'opacity 0.3s ease',

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export function useDeferredClientRender(timeoutMs = 1200): boolean {
   const [shouldRender, setShouldRender] = useState(false);
@@ -12,7 +12,7 @@ export function useDeferredClientRender(timeoutMs = 1200): boolean {
       setShouldRender(true);
     };
 
-    if ("requestIdleCallback" in window) {
+    if ('requestIdleCallback' in window) {
       const idleId = window.requestIdleCallback(render, { timeout: timeoutMs });
 
       return () => {

@@ -236,7 +236,8 @@ export const getAdminAccessDecision = ({
       shouldClearAdminCookie: false,
       shouldSetAdminCookie: !isAdminCookieSet && (!!userEmail || hasValidAccessJwt),
       shouldSetAdminSessionCookie: hasValidAccessJwt && !hasValidAdminSession,
-      shouldSetOwnerDeviceCookie: isAdminCookieSet || !!userEmail || hasValidAdminSession || hasValidAccessJwt,
+      shouldSetOwnerDeviceCookie:
+        isAdminCookieSet || !!userEmail || hasValidAdminSession || hasValidAccessJwt,
     };
   }
 

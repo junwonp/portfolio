@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
-import * as styles from "./BottomNav.css";
+import * as styles from './BottomNav.css';
 
 interface NavTab {
   id: string;
@@ -38,7 +38,7 @@ export function useBottomNavDrag({
 
     const el = tabBarRef.current;
     const tid = requestAnimationFrame(() => {
-      const tabEls = el.querySelectorAll<HTMLElement>("." + styles.tab);
+      const tabEls = el.querySelectorAll<HTMLElement>('.' + styles.tab);
       const activeEl = tabEls[activeIndex] as HTMLElement | undefined;
       if (activeEl) {
         const left = activeEl.offsetLeft;
@@ -55,8 +55,8 @@ export function useBottomNavDrag({
     if (!target) return false;
     return Boolean(
       target.classList.contains(styles.activeBg) ||
-      target.classList.contains(styles.active) ||
-      target.closest("." + styles.active)
+        target.classList.contains(styles.active) ||
+        target.closest('.' + styles.active),
     );
   };
 
@@ -91,7 +91,7 @@ export function useBottomNavDrag({
     const currentPillCenter = pillLeftBeforeDragRef.current + finalOffset + pillWidth / 2;
     let closestId = activeId;
     let minDistance = Infinity;
-    const tabEls = Array.from(tabBarRef.current.querySelectorAll<HTMLElement>("." + styles.tab));
+    const tabEls = Array.from(tabBarRef.current.querySelectorAll<HTMLElement>('.' + styles.tab));
 
     tabEls.forEach((el, i) => {
       const center = el.offsetLeft + el.offsetWidth / 2;
@@ -124,12 +124,12 @@ export function useBottomNavDrag({
       const captureClick = (evt: MouseEvent) => {
         evt.stopPropagation();
       };
-      tabBarRef.current.addEventListener("click", captureClick, { capture: true, once: true });
+      tabBarRef.current.addEventListener('click', captureClick, { capture: true, once: true });
     }
 
     const currentLeft = pillLeftBeforeDragRef.current + dragOffset;
     const pillCenter = currentLeft + pillWidth / 2;
-    const tabEls = Array.from(tabBarRef.current.querySelectorAll<HTMLElement>("." + styles.tab));
+    const tabEls = Array.from(tabBarRef.current.querySelectorAll<HTMLElement>('.' + styles.tab));
     let targetId = activeId;
     let targetIdx = activeIndex;
     let minDist = Infinity;

@@ -1,11 +1,15 @@
-import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import type { ReactNode } from 'react';
 
 import { PortfolioClientShell } from '@/app/(portfolio)/_components/PortfolioClientShell';
 import { PORTFOLIO_URL } from '@/config/site';
 import { isValidLanguage } from '@/lib/utils/language';
 import { metadataMap } from '@/lib/utils/metadata';
+
+export function generateStaticParams() {
+  return [{ locale: 'ko' }, { locale: 'en' }];
+}
 
 export async function generateMetadata({
   params,

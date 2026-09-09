@@ -138,7 +138,8 @@ export const langToggleBtn = style({
 
   ':active': {
     transform: 'scale(0.85) !important',
-    backgroundColor: 'color-mix(in srgb, var(--color-main) 12%, var(--color-disabled-bg)) !important',
+    backgroundColor:
+      'color-mix(in srgb, var(--color-main) 12%, var(--color-disabled-bg)) !important',
   },
 });
 
@@ -185,7 +186,8 @@ export const moreButton = style({
 
   ':active': {
     transform: 'scale(0.85) !important',
-    backgroundColor: 'color-mix(in srgb, var(--color-main) 12%, var(--color-disabled-bg)) !important',
+    backgroundColor:
+      'color-mix(in srgb, var(--color-main) 12%, var(--color-disabled-bg)) !important',
   },
 
   selectors: {
