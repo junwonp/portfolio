@@ -1,11 +1,6 @@
-import { createVar, style } from '@vanilla-extract/css';
-
-export const catColorVar = createVar();
+import { style } from '@vanilla-extract/css';
 
 export const skillChip = style({
-  vars: {
-    [catColorVar]: 'var(--color-primary)',
-  },
   display: 'inline-flex',
   alignItems: 'center',
   gap: '0.375rem',
@@ -21,16 +16,5 @@ export const skillChip = style({
     'html.dark &': {
       color: 'var(--color-bold)',
     },
-  },
-
-  '::before': {
-    content: '""',
-    display: 'inline-block',
-    width: '5px',
-    height: '5px',
-    borderRadius: 'var(--radius-circle)',
-    backgroundColor: catColorVar,
-    opacity: 0.8,
-    flexShrink: 0,
   },
 });
