@@ -1,6 +1,6 @@
 ---
-dateFrom: '2026-04'
-dateTo: '2026-05'
+dateFrom: '2026-03'
+dateTo: '2026-06'
 icon: null
 image: null
 paradigm: assisted
@@ -8,7 +8,7 @@ title: KFTC FinCert Marketing Platform
 titleBadge: 'Freelance Frontend'
 description: Frontend contract project for a FinCert-based promotion platform covering signup, consent, events, challenges, rewards, notifications, and account flows.
 role: 'Frontend Engineer (Freelance)'
-date: '2026-04 ~ 2026-05'
+date: '2026-03 ~ 2026-06'
 platforms: ['Web']
 metrics:
   [
@@ -83,5 +83,7 @@ Being a finance-related service, high reliability and robust data consistency we
 **Frontend reliability for a finance-adjacent domain:** The public claim here is intentionally scoped to frontend responsibility. Rather than claiming to own full financial security, I focus on the parts I implemented directly: TypeScript contracts, Zod validation, query-key policy, sensitive-data cache exclusions, and user-facing error handling. Documenting the query key contract and cache policy ensured the codebase itself acted as clear documentation during handover.
 
 **Principles under outsourcing constraints:** Established clear principles to maintain technical consistency under tight timelines and limited permissions: (1) Establishing a fast feedback loop and DX-first environment, (2) Introducing a Mock server for API contract validation, (3) Documenting query key policies and preventing sensitive data persistence, and (4) Establishing test/type/lint gates. Leaving these principles as code and documentation enabled QA and handover teams to understand system behavior quickly without extra explanation.
+
+**AI-assisted development with direct verification:** This project was built with heavy use of Claude Code. While most code generation was delegated to the AI assistant, I personally reviewed its output, checked test results, and decided on changes to critical logic. I also handled QA, spotting gaps the AI missed and directing the fixes.
 
 **Decoupled Development:** Constructing a local Express Mock server to match predefined API specs allowed the frontend to remain entirely decoupled from backend progress. This strategy proved to be effective for velocity and architectural cleanness in team collaborations.

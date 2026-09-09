@@ -187,22 +187,13 @@ const projectDefinitions = [
   },
   {
     content: {
-      en: { Component: DayPlannerEn, frontmatter: dayPlannerEnMetadata },
-      ko: { Component: DayPlannerKo, frontmatter: dayPlannerKoMetadata },
+      en: { Component: NextjsPortfolioEn, frontmatter: nextjsPortfolioEnMetadata },
+      ko: { Component: NextjsPortfolioKo, frontmatter: nextjsPortfolioKoMetadata },
     },
-    id: PROJECT_ID.dayPlanner,
+    detailPath: '/projects/nextjs-portfolio',
+    id: PROJECT_ID.nextjsPortfolio,
     section: 'other',
-    slug: 'day-planner',
-  },
-  {
-    content: {
-      en: { Component: TodayWeatherEn, frontmatter: todayWeatherEnMetadata },
-      ko: { Component: TodayWeatherKo, frontmatter: todayWeatherKoMetadata },
-    },
-    detailPath: '/projects/today-weather',
-    id: PROJECT_ID.todayWeather,
-    section: 'other',
-    slug: 'today-weather',
+    slug: 'nextjs-portfolio',
   },
   {
     content: {
@@ -216,13 +207,22 @@ const projectDefinitions = [
   },
   {
     content: {
-      en: { Component: NextjsPortfolioEn, frontmatter: nextjsPortfolioEnMetadata },
-      ko: { Component: NextjsPortfolioKo, frontmatter: nextjsPortfolioKoMetadata },
+      en: { Component: TodayWeatherEn, frontmatter: todayWeatherEnMetadata },
+      ko: { Component: TodayWeatherKo, frontmatter: todayWeatherKoMetadata },
     },
-    detailPath: '/projects/nextjs-portfolio',
-    id: PROJECT_ID.nextjsPortfolio,
+    detailPath: '/projects/today-weather',
+    id: PROJECT_ID.todayWeather,
     section: 'other',
-    slug: 'nextjs-portfolio',
+    slug: 'today-weather',
+  },
+  {
+    content: {
+      en: { Component: DayPlannerEn, frontmatter: dayPlannerEnMetadata },
+      ko: { Component: DayPlannerKo, frontmatter: dayPlannerKoMetadata },
+    },
+    id: PROJECT_ID.dayPlanner,
+    section: 'other',
+    slug: 'day-planner',
   },
   {
     content: {

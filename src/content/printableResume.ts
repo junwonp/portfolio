@@ -120,7 +120,7 @@ const mndEntry = (projects: ResumeProjectBlock[]): ResumeWorkEntry => ({
 
 const airaSummary: ResumeTextPart[] = [
   '제품 기획부터 프론트엔드 아키텍처, 배포, 운영, 수익화까지 전 과정을 주도하여 ',
-  strong('최고 MAU 2.3만 명, 월 매출 $3,000, 평균 체류 시간 46분'),
+  strong('최고 MAU 2.3만 명, 월 매출 $3,000, 평균 세션 길이 46분'),
   '을 달성했습니다. (Google Play 엔터테인먼트 최고 ',
   strong('57위'),
   ')',
@@ -171,9 +171,9 @@ const airaBlocks: Record<ResumeVariantId, ResumeProjectBlock> = {
         '했습니다.',
       ],
       [
-        'FlashList, React Compiler, Reanimated worklet을 적용해 저사양 기기에서도 안정적인 ',
-        strong('60 FPS 채팅 경험'),
-        '을 유지했습니다.',
+        'FlashList, React Compiler, Reanimated worklet을 적용해 저사양 기기에서도 ',
+        strong('끊김 없는 채팅'),
+        '을 목표로 최적화했습니다.',
       ],
       [
         strong('즉시 실행 경험: '),
@@ -218,7 +218,7 @@ const hanyangChatbotBlock: ResumeProjectBlock = {
   title: '한양대학교 창업지원단 AI 챗봇 위젯',
   period: '2024.01 – 2024.03',
   summary: [
-    '스크립트 한 줄로 고객사 웹사이트에 임베드되는 화이트라벨 AI 챗봇 위젯의 프론트엔드를 전담 개발했습니다.',
+    '스크립트 한 줄로 고객사 웹사이트에 임베드되는 AI 챗봇 위젯의 프론트엔드를 전담 개발했습니다.',
   ],
   bullets: [
     [
@@ -300,9 +300,7 @@ const adminDashboardBlockOpsData: ResumeProjectBlock = {
     ],
     [
       strong('운영 화면 확장성: '),
-      '공통 상호작용 모델로 신규 관리 화면 개발을 ',
-      strong('3일 → 반나절'),
-      '로 단축했습니다.',
+      '공통 상호작용 모델로 신규 관리 화면 추가 시간을 크게 줄였습니다.',
     ],
     [strong('query → table 단방향 흐름'), '으로 서버 상태와 UI 상태의 충돌을 원천 차단했습니다.'],
   ],
@@ -420,7 +418,7 @@ const heroMetricsByVariant: Record<ResumeVariantId, ResumeHeroMetric[]> = {
   'web-rn': [
     { value: '2.3만', label: '최고 MAU' },
     { value: '$3,000', label: '월 매출' },
-    { value: '46분', label: '평균 체류' },
+    { value: '46분', label: '평균 세션' },
     { value: '57위', label: 'Google Play' },
   ],
   'ops-data': [
