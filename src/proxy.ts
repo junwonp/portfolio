@@ -1,15 +1,13 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-
 import { isReservedApplicationSlug } from '@/lib/utils/applicationSlug';
-import {
-  resolveLocaleFromPathname,
-  stripLocalePathPrefix,
-} from '@/lib/utils/language';
+import { resolveLocaleFromPathname, stripLocalePathPrefix } from '@/lib/utils/language';
 
 const ASSET_CACHE_PATHS = [/^\/fonts\//, /^\/images\//, /^\/certificates\//];
 const ASSET_CACHE_HEADER = 'public, max-age=31536000, immutable';
-const PAGE_CACHE_HEADER = 'private, max-age=0, must-revalidate';
+// Public pages are KV-prerendered at deploy; a short CDN window keeps stale
+// HTML bounded after a deploy while serving repeat visits from the edge.
+const PUBLIC_PAGE_CACHE_HEADER = 'public, max-age=0, s-maxage=60, stale-while-revalidate=3600';
 const PRIVATE_PAGE_CACHE_HEADER = 'private, no-cache, no-store, must-revalidate';
 const PRIVATE_ROBOTS_PATHS = [
   /^\/admin(?:\/|$)/,
@@ -45,10 +43,10 @@ const SECURITY_HEADERS = {
 
 const createNonce = () => Buffer.from(crypto.randomUUID()).toString('base64');
 
-const buildContentSecurityPolicy = (nonce: string) =>
+const buildContentSecurityPolicy = (scriptSrc: string) =>
   [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''}`,
+    `script-src 'self' ${scriptSrc}${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
@@ -60,6 +58,16 @@ const buildContentSecurityPolicy = (nonce: string) =>
     "frame-ancestors 'none'",
   ].join('; ');
 
+export const getContentSecurityPolicyForPath = (pathname: string, nonce: string): string => {
+  // Public pages are KV-prerendered at deploy time, so their streamed inline
+  // scripts cannot carry a per-request nonce; those pages are generated from
+  // trusted MDX with no user input, so inline scripts are acceptable there.
+  // Authenticated/user-data surfaces keep the strict per-request nonce policy
+  // (vinext applies the nonce from this header to all streamed scripts).
+  const isPrivatePath = PRIVATE_ROBOTS_PATHS.some((regex) => regex.test(pathname));
+  return buildContentSecurityPolicy(isPrivatePath ? `'nonce-${nonce}'` : "'unsafe-inline'");
+};
+
 export const getCacheControlForPath = (pathname: string): string => {
   if (ASSET_CACHE_PATHS.some((regex) => regex.test(pathname))) {
     return ASSET_CACHE_HEADER;
@@ -69,7 +77,7 @@ export const getCacheControlForPath = (pathname: string): string => {
     return PRIVATE_PAGE_CACHE_HEADER;
   }
 
-  return PAGE_CACHE_HEADER;
+  return PUBLIC_PAGE_CACHE_HEADER;
 };
 
 export const getDefaultLocaleRedirectPathname = (pathname: string): string | null => {
@@ -125,7 +133,7 @@ const applyResponseHeaders = (response: NextResponse, pathname: string, nonce: s
   for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
     response.headers.set(name, value);
   }
-  response.headers.set('Content-Security-Policy', buildContentSecurityPolicy(nonce));
+  response.headers.set('Content-Security-Policy', getContentSecurityPolicyForPath(pathname, nonce));
   response.headers.set('Cache-Control', getCacheControlForPath(pathname));
 
   if (!ASSET_CACHE_PATHS.some((regex) => regex.test(pathname))) {
@@ -151,7 +159,6 @@ export function proxy(request: NextRequest) {
     const requestHeaders = new Headers(request.headers);
     const locale = resolveLocaleFromPathname(resumeRewritePathname);
     requestHeaders.set('x-locale', locale);
-    requestHeaders.set('x-nonce', nonce);
 
     const rewriteResponse = NextResponse.rewrite(rewriteUrl, {
       request: {
@@ -163,7 +170,14 @@ export function proxy(request: NextRequest) {
     return rewriteResponse;
   }
 
-  const defaultLocaleRedirectPathname = getDefaultLocaleRedirectPathname(pathname);
+  // The deploy-time prerender phase renders the /ko/* concrete paths directly;
+  // the canonical 307 would otherwise make every Korean page unprerenderable.
+  // VINEXT_PRERENDER is only set in the local prerender server process.
+  const isPrerenderRequest = process.env.VINEXT_PRERENDER === '1';
+
+  const defaultLocaleRedirectPathname = isPrerenderRequest
+    ? null
+    : getDefaultLocaleRedirectPathname(pathname);
 
   if (defaultLocaleRedirectPathname) {
     const redirectUrl = request.nextUrl.clone();
@@ -182,7 +196,6 @@ export function proxy(request: NextRequest) {
 
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('x-locale', 'ko');
-    requestHeaders.set('x-nonce', nonce);
 
     const rewriteResponse = NextResponse.rewrite(rewriteUrl, {
       request: {
@@ -198,7 +211,6 @@ export function proxy(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   const locale = resolveLocaleFromPathname(pathname);
   requestHeaders.set('x-locale', locale);
-  requestHeaders.set('x-nonce', nonce);
 
   const response = NextResponse.next({
     request: {

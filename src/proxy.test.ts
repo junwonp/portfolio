@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   getCacheControlForPath,
+  getContentSecurityPolicyForPath,
   getDefaultLocaleRedirectPathname,
   getDefaultLocaleRewritePathname,
   getResumeRewritePathname,
@@ -14,19 +15,34 @@ describe('getCacheControlForPath', () => {
     );
   });
 
-  it('keeps public pages revalidatable without no-store', () => {
+  it('serves public pages through a short CDN cache window', () => {
     expect(getCacheControlForPath('/projects/agentic-workflow')).toBe(
-      'private, max-age=0, must-revalidate',
+      'public, max-age=0, s-maxage=60, stale-while-revalidate=3600',
+    );
+    expect(getCacheControlForPath('/ko')).toBe(
+      'public, max-age=0, s-maxage=60, stale-while-revalidate=3600',
     );
   });
 
   it('keeps private routes no-store', () => {
-    expect(getCacheControlForPath('/admin')).toBe(
-      'private, no-cache, no-store, must-revalidate',
-    );
-    expect(getCacheControlForPath('/a')).toBe(
-      'private, no-cache, no-store, must-revalidate',
-    );
+    expect(getCacheControlForPath('/admin')).toBe('private, no-cache, no-store, must-revalidate');
+    expect(getCacheControlForPath('/a')).toBe('private, no-cache, no-store, must-revalidate');
+  });
+});
+
+describe('getContentSecurityPolicyForPath', () => {
+  it('uses a per-request nonce on private routes', () => {
+    const policy = getContentSecurityPolicyForPath('/a', 'some-nonce');
+
+    expect(policy).toContain("script-src 'self' 'nonce-some-nonce'");
+    expect(policy).not.toContain("script-src 'self' 'unsafe-inline'");
+  });
+
+  it('allows inline scripts on prerendered public pages', () => {
+    const policy = getContentSecurityPolicyForPath('/ko/projects/aira', 'some-nonce');
+
+    expect(policy).toContain("script-src 'self' 'unsafe-inline'");
+    expect(policy).not.toContain('nonce');
   });
 });
 
