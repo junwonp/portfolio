@@ -9,7 +9,6 @@ import RichText from '@/components/ui/RichText';
 import SkillChip from '@/components/ui/SkillChip';
 import type { ProjectItem as ProjectItemType } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
-import { getSkillCategory } from '@/lib/portfolio/skills';
 import { parseMarkdown } from '@/lib/utils/markdown';
 import { sortSkills } from '@/lib/utils/skills';
 
@@ -60,10 +59,6 @@ export default function ProjectContent({
 
   const visibleSkills = skillLimit === undefined ? sortedSkills : sortedSkills.slice(0, skillLimit);
   const hiddenSkillCount = sortedSkills.length - visibleSkills.length;
-
-  const language = sortedSkills.find((skill) => getSkillCategory(skill) === 'languages');
-  const framework = sortedSkills.find((skill) => getSkillCategory(skill) === 'frameworks');
-  const mainSkillsLabel = [language, framework].filter(Boolean).join(', ');
 
   const isSpotlight = variant === 'spotlight';
 
@@ -134,12 +129,6 @@ export default function ProjectContent({
         <div className={styles.resumeBody}>
           <p className={styles.resumeDescription}>
             <span>{project.description}</span>
-            {mainSkillsLabel && (
-              <>
-                <span className={styles.descSeparator}>·</span>
-                <span className={styles.mainSkills}>{mainSkillsLabel}</span>
-              </>
-            )}
           </p>
 
           {showDetails && project.detail && project.detail.length > 0 && (

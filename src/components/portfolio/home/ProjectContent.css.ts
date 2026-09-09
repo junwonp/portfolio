@@ -299,15 +299,6 @@ export const resumeDescription = style({
   overflowWrap: 'anywhere',
 });
 
-export const descSeparator = style({
-  opacity: 0.5,
-  margin: '0 0.4rem',
-});
-
-export const mainSkills = style({
-  color: 'var(--color-sub)',
-});
-
 export const detailGrid = style({
   display: 'flex',
   flexDirection: 'column',
