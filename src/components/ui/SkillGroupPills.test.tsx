@@ -40,4 +40,8 @@ describe('SkillGroupPills', () => {
 
     expect(countOccurrences(html, styles.skillGroupPill)).toBe(1);
   });
+
+  it('renders nothing for an empty skill list', () => {
+    expect(renderToStaticMarkup(<SkillGroupPills skills={[]} />)).toBe('');
+  });
 });
