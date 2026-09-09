@@ -7,7 +7,7 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "preview": "vinext start",
-    "deploy": "node scripts/guard-worker-branch.mjs production && CLOUDFLARE_CONFIG_PATH=wrangler.jsonc vinext-cloudflare deploy --config dist/server/wrangler.json --name portfolio",
+    "deploy": "node scripts/guard-worker-branch.mjs production && CLOUDFLARE_CONFIG_PATH=wrangler.jsonc vinext-cloudflare deploy --prerender-all --config dist/server/wrangler.json --name portfolio",
     "deploy:development": "node scripts/guard-worker-branch.mjs development && CLOUDFLARE_CONFIG_PATH=wrangler.preview.jsonc vinext build && wrangler versions upload --config dist/server/wrangler.json --preview-alias develop",
     "start": "vinext start",
     "cf-typegen": "wrangler types --config wrangler.jsonc --env-interface CloudflareEnv cloudflare-env.d.ts",
