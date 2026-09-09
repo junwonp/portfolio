@@ -17,7 +17,7 @@ import {
 import { getCloudflareEnv } from '@/lib/server/infrastructure/database';
 
 export async function GET(request: NextRequest) {
-  const cloudflareEnv = getCloudflareEnv();
+  const cloudflareEnv = await getCloudflareEnv();
   const accessConfig = getCloudflareAccessConfig(cloudflareEnv);
   const adminSessionSecret = getAdminSessionSecret(cloudflareEnv);
 

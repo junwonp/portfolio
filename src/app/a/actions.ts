@@ -57,7 +57,7 @@ export async function logout() {
     import('@/lib/server/admin/access'),
     import('@/lib/server/infrastructure/database'),
   ]);
-  const cloudflareEnv = getCloudflareEnv();
+  const cloudflareEnv = await getCloudflareEnv();
   const accessConfig = getCloudflareAccessConfig(cloudflareEnv);
 
   if (accessConfig) {
@@ -87,10 +87,12 @@ export async function deleteApplicationLink(formData: FormData) {
   if (!Number.isInteger(id) || id < 1) return;
 
   const { getDb } = await import('@/lib/server/infrastructure/database');
-  const db = getDb();
+  const db = await getDb();
   if (!db) return;
   await db
-    .prepare('UPDATE application_links SET deleted_at = datetime(\'now\') WHERE id = ? AND deleted_at IS NULL')
+    .prepare(
+      "UPDATE application_links SET deleted_at = datetime('now') WHERE id = ? AND deleted_at IS NULL",
+    )
     .bind(id)
     .run();
 
@@ -107,7 +109,7 @@ export async function createApplicationLink(formData: FormData): Promise<void> {
   }
 
   const { getDb } = await import('@/lib/server/infrastructure/database');
-  const db = getDb();
+  const db = await getDb();
   if (!db) {
     console.error('Database missing');
     return;

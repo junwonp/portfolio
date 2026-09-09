@@ -1,10 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import HomePage from '@/components/portfolio/home/HomePage';
-import {
-  createHomePageData,
-  resolveHomeTailoredViewFromOverride,
-} from '@/lib/portfolio/homePage';
+import { createHomePageData, resolveHomeTailoredViewFromOverride } from '@/lib/portfolio/homePage';
 import { RESERVED_APPLICATION_SLUGS } from '@/lib/server/application-links/model';
 import { getActiveApplicationLinkBySlug } from '@/lib/server/application-links/store';
 import { getDb } from '@/lib/server/infrastructure/database';
@@ -14,6 +11,9 @@ interface ShortUrlPageProps {
   params: Promise<{ locale: string; slug: string }>;
 }
 
+// Short links resolve against the live D1 table on every request; never prerender.
+export const dynamic = 'force-dynamic';
+
 export default async function ShortUrlPage({ params }: ShortUrlPageProps) {
   const { locale, slug } = await params;
 
@@ -21,7 +21,7 @@ export default async function ShortUrlPage({ params }: ShortUrlPageProps) {
     notFound();
   }
 
-  const db = getDb();
+  const db = await getDb();
   if (!db) {
     notFound();
   }

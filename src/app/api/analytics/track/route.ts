@@ -8,7 +8,7 @@ import { recordAnalyticsPayload } from '@/lib/server/analytics/tracking';
 import { getDb } from '@/lib/server/infrastructure/database';
 
 export async function POST(request: NextRequest) {
-  const db = getDb();
+  const db = await getDb();
   if (!db) {
     return NextResponse.json(
       { success: false, error: 'Database binding is missing' },

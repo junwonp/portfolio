@@ -48,7 +48,7 @@ export default async function ResumePage({ searchParams }: ResumePageProps) {
   let resume = printableResume;
 
   if (slug) {
-    const db = getDb();
+    const db = await getDb();
     if (db) {
       const link = await getActiveApplicationLinkBySlug(db, slug);
       if (link) {

@@ -26,7 +26,7 @@ export async function getCurrentAdminAccessDecision() {
   const isAdminCookieSet = cookieStore.get(ADMIN_COOKIE)?.value === 'true';
   const userEmail = headersList.get('Cf-Access-Authenticated-User-Email');
   const isDev = process.env.NODE_ENV !== 'production';
-  const cloudflareEnv = getCloudflareEnv();
+  const cloudflareEnv = await getCloudflareEnv();
   const accessConfig = getCloudflareAccessConfig(cloudflareEnv);
   const accessJwt = headersList.get('Cf-Access-Jwt-Assertion');
   const adminSessionSecret = getAdminSessionSecret(cloudflareEnv);

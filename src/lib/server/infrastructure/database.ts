@@ -1,11 +1,22 @@
-import { env } from 'cloudflare:workers';
+// `cloudflare:workers` only resolves on the Workers runtime. The vinext
+// prerender phase runs the production server under Node, where an eager
+// import of this specifier crashes module loading — resolve it lazily so Node
+// falls back to no bindings (callers already handle a missing DB) while
+// Workers get the real module-level env.
+let lazyEnvPromise: Promise<CloudflareEnv | undefined> | undefined;
 
 interface RuntimeEnv {
   portfolio_db?: unknown;
 }
 
-export function getCloudflareEnv(): CloudflareEnv | undefined {
-  return env as CloudflareEnv;
+export function getCloudflareEnv(): Promise<CloudflareEnv | undefined> {
+  if (!lazyEnvPromise) {
+    lazyEnvPromise = import('cloudflare:workers')
+      .then((mod) => mod.env as CloudflareEnv)
+      .catch(() => undefined);
+  }
+
+  return lazyEnvPromise;
 }
 
 export function resolveDbFromEnv(env: RuntimeEnv | undefined): D1Database | undefined {
@@ -18,6 +29,6 @@ export function resolveDbFromEnv(env: RuntimeEnv | undefined): D1Database | unde
   return undefined;
 }
 
-export function getDb(): D1Database | undefined {
-  return resolveDbFromEnv(getCloudflareEnv());
+export async function getDb(): Promise<D1Database | undefined> {
+  return resolveDbFromEnv(await getCloudflareEnv());
 }

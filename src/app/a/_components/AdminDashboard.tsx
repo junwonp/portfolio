@@ -13,7 +13,7 @@ export async function AdminDashboard({
   searchParams: AdminDashboardSearchParams;
 }) {
   const writesEnabled = isAdminWriteEnabledForCurrentRuntime();
-  const db = getDb();
+  const db = await getDb();
 
   if (!db && process.env.NODE_ENV !== 'development') {
     return (

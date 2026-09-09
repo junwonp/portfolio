@@ -1,6 +1,5 @@
-import { env } from 'cloudflare:workers';
-
 import { getAssetObjectResponse } from '@/lib/server/assets/response';
+import { getCloudflareEnv } from '@/lib/server/infrastructure/database';
 
 interface RouteParams {
   params: Promise<{ filename: string }>;
@@ -8,5 +7,6 @@ interface RouteParams {
 
 export async function GET(_request: Request, { params }: RouteParams) {
   const { filename } = await params;
-  return getAssetObjectResponse(env.portfolio_assets, filename);
+  const cloudflareEnv = await getCloudflareEnv();
+  return getAssetObjectResponse(cloudflareEnv?.portfolio_assets, filename);
 }

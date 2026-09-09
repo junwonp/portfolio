@@ -26,14 +26,15 @@ interface PrintPageProps {
 
 export default async function PrintPage({ searchParams }: PrintPageProps) {
   const resolvedSearchParams = await searchParams;
-  const slug = typeof resolvedSearchParams.slug === 'string' ? resolvedSearchParams.slug : undefined;
+  const slug =
+    typeof resolvedSearchParams.slug === 'string' ? resolvedSearchParams.slug : undefined;
 
   let projectIds: readonly string[] = defaultSelectedProjectIds;
   let companyName: string | undefined;
   let role: string | undefined;
 
   if (slug) {
-    const db = getDb();
+    const db = await getDb();
     if (db) {
       const link = await getActiveApplicationLinkBySlug(db, slug);
       if (link) {
