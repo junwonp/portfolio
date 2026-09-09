@@ -53,6 +53,7 @@ export const SKILL = {
 type ValueOf<T> = T extends Record<PropertyKey, infer Value> ? Value : never;
 
 export type SkillId = keyof typeof SKILL;
+export type SkillCategory = SkillId | 'default';
 export type SkillName = ValueOf<ValueOf<typeof SKILL>>;
 
 export interface SkillGroup {
@@ -157,7 +158,7 @@ const skillCategoryMap = new Map<string, SkillId>(
   skillGroups.flatMap((group) => group.list.map((skill) => [skill, group.id])),
 );
 
-export function getSkillCategory(skill: string): SkillId | 'default' {
+export function getSkillCategory(skill: string): SkillCategory {
   return skillCategoryMap.get(skill) ?? 'default';
 }
 

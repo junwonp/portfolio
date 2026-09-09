@@ -34,6 +34,10 @@ describe('getProjectTechStackGroups', () => {
 });
 
 describe('segmentSkillsByCategory', () => {
+  it('returns no segments for an empty input', () => {
+    expect(segmentSkillsByCategory([])).toEqual([]);
+  });
+
   it('groups consecutive skills of the same category into one segment', () => {
     expect(segmentSkillsByCategory(['React', 'Expo', 'TypeScript'])).toEqual([
       { category: 'frameworks', skills: ['React', 'Expo'] },

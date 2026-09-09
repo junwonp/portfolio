@@ -1,5 +1,6 @@
 import {
   getSkillCategory,
+  type SkillCategory,
   type SkillId,
   skillGroups,
   skillGroupTitles,
@@ -13,7 +14,7 @@ export interface ProjectTechStackGroup {
 }
 
 export interface SkillCategorySegment {
-  category: SkillId | 'default';
+  category: SkillCategory;
   skills: string[];
 }
 
