@@ -2,7 +2,6 @@
 
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { useSyncExternalStore } from 'react';
 
 import AnalyticsTracker from '@/components/analytics/AnalyticsTracker';
 import WebVitalsTracker from '@/components/analytics/WebVitalsTracker';
@@ -18,17 +17,10 @@ interface PortfolioClientShellProps {
   locale: Language;
 }
 
-const subscribeToHydration = () => () => {};
-
 export function PortfolioClientShell({ children, locale }: PortfolioClientShellProps) {
+  // usePathname() is SSR-safe in App Router — no hydration gate needed
   const pathname = usePathname();
-  const isHydrated = useSyncExternalStore(
-    subscribeToHydration,
-    () => true,
-    () => false,
-  );
-  const clientPathname = isHydrated ? pathname : '';
-  const canonicalPathname = stripLocalePathPrefix(clientPathname);
+  const canonicalPathname = stripLocalePathPrefix(pathname);
   const isProjectPage = canonicalPathname.startsWith('/projects/');
   const metadata = getMetadata(locale);
 
