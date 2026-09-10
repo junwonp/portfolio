@@ -1,8 +1,6 @@
 'use client';
 
-import React from 'react';
-
-import { useCollapseHeight } from '@/lib/hooks/useCollapseHeight';
+import type React from 'react';
 
 import * as styles from './Collapse.css';
 
@@ -13,14 +11,12 @@ interface CollapseProps {
 }
 
 export default function Collapse({ isOpen, className, children }: CollapseProps) {
-  const { ref, style } = useCollapseHeight(isOpen);
-
   return (
     <div
       className={`${styles.collapse} ${isOpen ? styles.open : ''} ${className ?? ''}`}
-      style={style}
+      inert={!isOpen}
     >
-      <div ref={ref}>{children}</div>
+      <div className={styles.collapseInner}>{children}</div>
     </div>
   );
 }

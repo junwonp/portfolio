@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import BaseSideNav from '@/components/portfolio/navigation/BaseSideNav';
 import { getPageScrollY, scrollPageTo, useScrollSpy } from '@/lib/hooks/useScrollSpy';

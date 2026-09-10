@@ -165,6 +165,18 @@ globalStyle('*, *::before, *::after', {
   },
 });
 
+globalStyle('::view-transition-old(root), ::view-transition-new(root)', {
+  animationDuration: '0.25s',
+});
+
+globalStyle('::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*)', {
+  '@media': {
+    '(prefers-reduced-motion: reduce)': {
+      animation: 'none !important',
+    },
+  },
+});
+
 globalStyle('.icon a, a svg:only-child', {
   textDecoration: 'none',
 });

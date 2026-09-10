@@ -25,8 +25,18 @@ export function readThemePreference(): ThemePreference {
   }
 }
 
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+}
+
 export function applyTheme(isDark: boolean): void {
-  document.documentElement.classList.toggle('dark', isDark);
+  const commit = () => document.documentElement.classList.toggle('dark', isDark);
+  if ('startViewTransition' in document && !prefersReducedMotion()) {
+    document.startViewTransition(commit);
+  } else {
+    commit();
+  }
   notifyThemeChange();
 }
 

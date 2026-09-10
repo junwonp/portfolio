@@ -1,7 +1,7 @@
 'use client';
 
 import { ArrowLeft } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Github from '@/components/ui/Icon/Github';
 import Globe from '@/components/ui/Icon/Globe';

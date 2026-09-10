@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Period from '@/components/ui/Period';
 import type { EducationProps } from '@/lib/portfolio/homeTypes';
 

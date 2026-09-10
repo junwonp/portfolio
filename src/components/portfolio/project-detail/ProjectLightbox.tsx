@@ -1,14 +1,13 @@
-/* eslint-disable @next/next/no-img-element -- native img needed for drag/carousel lightbox */
+/* eslint-disable @next/next/no-img-element -- static responsive assets are served without an image optimizer */
 'use client';
 
-import { ChevronLeft, ChevronRight, Image as ImageIcon, X } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, Image as ImageIcon, X, ZoomIn } from 'lucide-react';
+import { type KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 import { cardSurface } from '@/components/ui/surface.css';
-import { getOptimizedImageUrl } from '@/lib/utils/image';
-
+import { getResponsiveImageProps } from '@/lib/utils/image';
+import { getVisibleImageIndex, scrollToImage } from './nativeGallery';
 import * as styles from './ProjectLightbox.css';
-import { useLightboxDrag } from './useLightboxDrag';
 
 export interface LightboxImage {
   src: string;
@@ -22,217 +21,204 @@ interface Props {
   variant?: 'default' | 'phone';
 }
 
-export default function ProjectLightbox({ images, variant = 'default' }: Props) {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [chromeVisible, setChromeVisible] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
+function ResponsiveImage({
+  image,
+  fullscreen = false,
+}: {
+  image: LightboxImage;
+  fullscreen?: boolean;
+}) {
+  const sizes = fullscreen ? '100vw' : '(max-width: 640px) 100vw, 50vw';
+  const mobile = image.mobileSrc ? getResponsiveImageProps(image.mobileSrc, sizes) : null;
+  return (
+    <picture>
+      {mobile && (
+        <source
+          media="(max-width: 640px)"
+          srcSet={mobile.srcSet ?? mobile.src}
+          sizes={sizes}
+          width={mobile.width}
+          height={mobile.height}
+        />
+      )}
+      <img
+        {...getResponsiveImageProps(image.src, sizes)}
+        alt={image.alt}
+        loading={fullscreen ? 'eager' : 'lazy'}
+        decoding="async"
+        draggable={false}
+      />
+    </picture>
+  );
+}
 
-  const overlayRef = useRef<HTMLDivElement>(null);
+interface ViewerProps {
+  images: LightboxImage[];
+  initialIndex: number;
+  onClose: () => void;
+}
 
-  const activeImage = activeIndex !== null ? images[activeIndex] : null;
-  const atEnd = activeIndex === images.length - 1;
-  const atStart = activeIndex === 0;
-  const dotIndices = images.map((_, i) => i);
-  const nextImage =
-    activeIndex !== null && activeIndex < images.length - 1 ? images[activeIndex + 1] : null;
-  const prevImage = activeIndex !== null && activeIndex > 0 ? images[activeIndex - 1] : null;
+function LightboxViewer({ images, initialIndex, onClose }: ViewerProps) {
+  const [activeIndex, setActiveIndex] = useState(initialIndex);
+  const activeIndexRef = useRef(initialIndex);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const activeImage = images[activeIndex];
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 640);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
+    const dialog = dialogRef.current;
+    const track = trackRef.current;
+    if (!dialog || !track) return;
+    dialog.showModal();
+    scrollToImage(track, initialIndex, images.length, 'instant');
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousRootOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    const observer = new ResizeObserver(() => {
+      scrollToImage(track, activeIndexRef.current, images.length, 'instant');
+    });
+    observer.observe(track);
     return () => {
-      window.removeEventListener('resize', checkMobile);
+      observer.disconnect();
+      dialog.close();
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousRootOverflow;
     };
-  }, []);
+  }, [initialIndex, images.length]);
 
-  const getSrc = (image: LightboxImage) => {
-    const rawSrc = isMobile && image.mobileSrc ? image.mobileSrc : image.src;
-    return getOptimizedImageUrl(rawSrc, { width: isMobile ? 768 : 1200 });
+  const navigate = (index: number) => {
+    if (!trackRef.current) return;
+    // Intermediate smooth-scroll events can overwrite the next keyboard target.
+    const nextIndex = scrollToImage(trackRef.current, index, images.length, 'instant');
+    activeIndexRef.current = nextIndex;
+    setActiveIndex(nextIndex);
   };
 
-  const close = () => {
-    setActiveIndex(null);
+  const handleKeyDown = (event: KeyboardEvent<HTMLDialogElement>) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    navigate(activeIndexRef.current + (event.key === 'ArrowRight' ? 1 : -1));
   };
 
-  const toggleChrome = () => {
-    setChromeVisible((prev) => !prev);
-  };
+  return (
+    <dialog
+      ref={dialogRef}
+      className={styles.overlay}
+      aria-label="Image viewer"
+      onClose={(event) => {
+        // Ignore a queued cleanup event if Strict Mode has reopened the dialog.
+        if (!event.currentTarget.open) onClose();
+      }}
+      onKeyDown={handleKeyDown}
+    >
+      <button
+        type="button"
+        className={styles.overlayClose}
+        onClick={() => dialogRef.current?.close()}
+        aria-label="Close"
+      >
+        <X size={20} />
+      </button>
+      <div
+        ref={trackRef}
+        className={styles.carouselTrack}
+        onScroll={(event) => {
+          const index = getVisibleImageIndex(event.currentTarget, images.length);
+          activeIndexRef.current = index;
+          setActiveIndex(index);
+        }}
+      >
+        {images.map((image, index) => (
+          <div
+            key={image.src}
+            className={styles.carouselSlide}
+            role="group"
+            aria-label={`Image ${index + 1} of ${images.length}`}
+          >
+            <ResponsiveImage image={image} fullscreen />
+          </div>
+        ))}
+      </div>
+      {images.length > 1 && (
+        <>
+          <button
+            type="button"
+            className={`${styles.overlayNav} ${styles.prev}`}
+            onClick={() => navigate(activeIndexRef.current - 1)}
+            aria-label="Previous image"
+            disabled={activeIndex === 0}
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button
+            type="button"
+            className={`${styles.overlayNav} ${styles.next}`}
+            onClick={() => navigate(activeIndexRef.current + 1)}
+            aria-label="Next image"
+            disabled={activeIndex === images.length - 1}
+          >
+            <ChevronRight size={20} />
+          </button>
+        </>
+      )}
+      <div className={styles.overlayFooter}>
+        {activeImage?.caption && <p className={styles.overlayCaption}>{activeImage.caption}</p>}
+        {images.length > 1 && (
+          <div className={styles.overlayDots}>
+            {images.map((image, index) => (
+              <button
+                type="button"
+                key={image.src}
+                className={`${styles.dot} ${index === activeIndex ? styles.active : ''}`}
+                onClick={() => navigate(index)}
+                aria-label={`Go to image ${index + 1}`}
+                aria-current={index === activeIndex ? 'true' : undefined}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </dialog>
+  );
+}
 
-  const next = () => {
-    if (activeIndex === null || activeIndex === images.length - 1) return;
-    setActiveIndex((prev) => (prev !== null ? prev + 1 : 0));
-  };
-
-  const prev = () => {
-    if (activeIndex === null || activeIndex === 0) return;
-    setActiveIndex((prev) => (prev !== null ? prev - 1 : 0));
-  };
-
-  const open = (index: number) => {
-    setActiveIndex(index);
-    setChromeVisible(true);
-  };
-
-  const { dragX, isSnapping, hasDraggedRef } = useLightboxDrag({
-    overlayRef,
-    activeIndex,
-    setActiveIndex,
-    atStart,
-    atEnd,
-  });
-
-  // Keyboard accessibility
-  useEffect(() => {
-    if (activeIndex === null) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
-      if (e.key === 'ArrowLeft') prev();
-      if (e.key === 'ArrowRight') next();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- close/prev/next are stable
-  }, [activeIndex]);
-
-  const onOverlayClick = (e: React.MouseEvent) => {
-    if (hasDraggedRef.current) {
-      hasDraggedRef.current = false;
-      return;
-    }
-    const target = e.target as HTMLElement;
-    if (target.closest('button')) return;
-    toggleChrome();
-  };
-
+export default function ProjectLightbox({ images, variant = 'default' }: Props) {
+  const [openedIndex, setOpenedIndex] = useState<number | null>(null);
   return (
     <>
       <div
         className={`${styles.lightboxMasonry} ${variant === 'phone' ? styles.phonePreview : ''}`}
       >
-        {isMobile && images.length > 1 ? (
+        {images.map((image, index) => (
           <button
+            type="button"
+            key={image.src}
             className={`${styles.masonryItem} ${cardSurface}`}
-            onClick={() => open(0)}
-            aria-label={`View all ${images.length} images`}
+            onClick={() => setOpenedIndex(index)}
+            aria-label={`View ${image.alt} fullscreen`}
           >
-            <img src={getSrc(images[0])} alt={images[0].alt} loading="lazy" />
-            <div className={styles.moreIndicator}>
-              <div className={styles.indicatorContent}>
-                <ImageIcon size={24} />
-                <span className={styles.label}>전체 {images.length}장의 사진 보기</span>
-              </div>
-            </div>
-          </button>
-        ) : (
-          images.map((image, i) => (
-            <button
-              key={getSrc(image)}
-              className={`${styles.masonryItem} ${cardSurface}`}
-              onClick={() => open(i)}
-              aria-label={`View ${image.alt} fullscreen`}
-            >
-              <img src={getSrc(image)} alt={image.alt} loading="lazy" />
-              <span className={styles.zoomHint} aria-hidden="true">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                  <line x1="11" y1="8" x2="11" y2="14" />
-                  <line x1="8" y1="11" x2="14" y2="11" />
-                </svg>
+            <ResponsiveImage image={image} />
+            <span className={styles.zoomHint} aria-hidden="true">
+              <ZoomIn size={18} />
+            </span>
+            {index === 0 && images.length > 1 && (
+              <span className={styles.moreIndicator} aria-hidden="true">
+                <span className={styles.indicatorContent}>
+                  <ImageIcon size={24} />
+                  <span className={styles.label}>{images.length} photos</span>
+                </span>
               </span>
-            </button>
-          ))
-        )}
-      </div>
-
-      {activeIndex !== null && activeImage !== null && (
-        <div
-          ref={overlayRef}
-          className={`${styles.overlay} ${!chromeVisible ? styles.chromeHidden : ''}`}
-          role="dialog"
-          tabIndex={-1}
-          aria-modal="true"
-          aria-label="Image viewer"
-          onClick={onOverlayClick}
-        >
-          {/* Close */}
-          <button className={styles.overlayClose} onClick={close} aria-label="Close">
-            <X size={20} />
-          </button>
-
-          {/* Carousel */}
-          <div className={styles.overlayImageArea}>
-            <div
-              className={`${styles.carouselTrack} ${isSnapping ? styles.snapping : ''}`}
-              style={
-                {
-                  '--drag-x': `${dragX}px`,
-                } as React.CSSProperties
-              }
-            >
-              <div className={styles.carouselSlide}>
-                {prevImage !== null && (
-                  <img src={getSrc(prevImage)} alt={prevImage.alt} draggable="false" />
-                )}
-              </div>
-              <div className={styles.carouselSlide}>
-                <img src={getSrc(activeImage)} alt={activeImage.alt} draggable="false" />
-              </div>
-              <div className={styles.carouselSlide}>
-                {nextImage !== null && (
-                  <img src={getSrc(nextImage)} alt={nextImage.alt} draggable="false" />
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Nav buttons */}
-          {images.length > 1 && (
-            <>
-              <button
-                className={`${styles.overlayNav} ${styles.prev}`}
-                onClick={prev}
-                aria-label="Previous image"
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                className={`${styles.overlayNav} ${styles.next}`}
-                onClick={next}
-                aria-label="Next image"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </>
-          )}
-
-          {/* Footer */}
-          <div className={styles.overlayFooter}>
-            {activeImage.caption && <p className={styles.overlayCaption}>{activeImage.caption}</p>}
-            {images.length > 1 && (
-              <div className={styles.overlayDots}>
-                {dotIndices.map((i) => (
-                  <button
-                    key={i}
-                    className={`${styles.dot} ${i === activeIndex ? styles.active : ''}`}
-                    onClick={() => open(i)}
-                    aria-label={`Go to image ${i + 1}`}
-                  ></button>
-                ))}
-              </div>
             )}
-          </div>
-        </div>
+          </button>
+        ))}
+      </div>
+      {openedIndex !== null && images[openedIndex] && (
+        <LightboxViewer
+          images={images}
+          initialIndex={openedIndex}
+          onClose={() => setOpenedIndex(null)}
+        />
       )}
     </>
   );

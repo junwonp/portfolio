@@ -1,20 +1,6 @@
-import { Check, ChevronsUpDown } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import { ChevronsUpDown } from 'lucide-react';
 
-import {
-  checkIcon,
-  customSelectContainer,
-  disabled as disabledClass,
-  open,
-  optionItem,
-  optionLabel,
-  optionsList,
-  selectDropdown,
-  selected,
-  selectTrigger,
-  triggerIcon,
-  triggerLabel,
-} from './Select.css';
+import { customSelectContainer, selectControl, triggerIcon } from './Select.css';
 
 export interface Option {
   value: string;
@@ -38,83 +24,27 @@ export default function Select({
   placeholder = '선택해주세요',
   value = '',
 }: SelectProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const selectRef = useRef<HTMLDivElement>(null);
-
-  const currentLabel = options.find((opt) => opt.value === value)?.label ?? placeholder;
-
-  const handleSelect = (optValue: string) => {
-    if (disabled) return;
-    onChange?.(optValue);
-    setIsOpen(false);
-  };
-
-  const toggleDropdown = () => {
-    if (disabled) return;
-    setIsOpen(!isOpen);
-  };
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    function handleClickOutside(event: MouseEvent) {
-      if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [isOpen]);
+  const showPlaceholder = !options.some((option) => option.value === value);
 
   return (
-    <div ref={selectRef} className={`${customSelectContainer} ${isOpen ? open : ''}`}>
-      <input type="hidden" name={name} value={value} />
-
-      <button
-        type="button"
-        className={`${selectTrigger} ${disabled ? disabledClass : ''}`}
-        onClick={toggleDropdown}
-        aria-haspopup="listbox"
-        aria-expanded={isOpen}
+    <span className={customSelectContainer}>
+      <select
+        className={selectControl}
+        name={name}
+        value={value}
         disabled={disabled}
+        onChange={(event) => onChange?.(event.target.value)}
       >
-        <span className={triggerLabel}>{currentLabel}</span>
-        <span className={triggerIcon}>
-          <ChevronsUpDown size={16} />
-        </span>
-      </button>
-
-      {isOpen && (
-        <div className={selectDropdown} role="listbox">
-          <ul className={optionsList}>
-            {options.map((opt) => (
-              <li
-                key={opt.value}
-                className={`${optionItem} ${opt.value === value ? selected : ''}`}
-                role="option"
-                aria-selected={opt.value === value}
-                onClick={() => handleSelect(opt.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    handleSelect(opt.value);
-                  }
-                }}
-                tabIndex={0}
-              >
-                <span className={optionLabel}>{opt.label}</span>
-                {opt.value === value && (
-                  <span className={checkIcon}>
-                    <Check size={14} />
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+        {showPlaceholder && <option value="">{placeholder}</option>}
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <span className={triggerIcon} aria-hidden="true">
+        <ChevronsUpDown size={16} />
+      </span>
+    </span>
   );
 }

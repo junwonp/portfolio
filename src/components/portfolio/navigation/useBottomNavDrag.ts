@@ -38,7 +38,7 @@ export function useBottomNavDrag({
 
     const el = tabBarRef.current;
     const tid = requestAnimationFrame(() => {
-      const tabEls = el.querySelectorAll<HTMLElement>('.' + styles.tab);
+      const tabEls = el.querySelectorAll<HTMLElement>(`.${styles.tab}`);
       const activeEl = tabEls[activeIndex] as HTMLElement | undefined;
       if (activeEl) {
         const left = activeEl.offsetLeft;
@@ -56,7 +56,7 @@ export function useBottomNavDrag({
     return Boolean(
       target.classList.contains(styles.activeBg) ||
         target.classList.contains(styles.active) ||
-        target.closest('.' + styles.active),
+        target.closest(`.${styles.active}`),
     );
   };
 
@@ -91,7 +91,7 @@ export function useBottomNavDrag({
     const currentPillCenter = pillLeftBeforeDragRef.current + finalOffset + pillWidth / 2;
     let closestId = activeId;
     let minDistance = Infinity;
-    const tabEls = Array.from(tabBarRef.current.querySelectorAll<HTMLElement>('.' + styles.tab));
+    const tabEls = Array.from(tabBarRef.current.querySelectorAll<HTMLElement>(`.${styles.tab}`));
 
     tabEls.forEach((el, i) => {
       const center = el.offsetLeft + el.offsetWidth / 2;
@@ -108,7 +108,7 @@ export function useBottomNavDrag({
     if (!isDragging) return;
     setIsDragging(false);
 
-    if (tabBarRef.current && tabBarRef.current.hasPointerCapture(e.pointerId)) {
+    if (tabBarRef.current?.hasPointerCapture(e.pointerId)) {
       tabBarRef.current.releasePointerCapture(e.pointerId);
     }
 
@@ -129,7 +129,7 @@ export function useBottomNavDrag({
 
     const currentLeft = pillLeftBeforeDragRef.current + dragOffset;
     const pillCenter = currentLeft + pillWidth / 2;
-    const tabEls = Array.from(tabBarRef.current.querySelectorAll<HTMLElement>('.' + styles.tab));
+    const tabEls = Array.from(tabBarRef.current.querySelectorAll<HTMLElement>(`.${styles.tab}`));
     let targetId = activeId;
     let targetIdx = activeIndex;
     let minDist = Infinity;

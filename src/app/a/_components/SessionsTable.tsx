@@ -119,7 +119,7 @@ export function SessionsTable({
                       </td>
                     </tr>
                     {isExpanded && (
-                      <tr className={styles.expandedRow}>
+                      <tr className={`${styles.expandedRow} ${styles.detailRow}`}>
                         <td className={styles.detailCell} colSpan={7}>
                           {detail && detail.pageViews.length > 0 ? (
                             <SessionTimeline detail={detail} />

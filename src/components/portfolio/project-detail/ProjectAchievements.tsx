@@ -1,7 +1,7 @@
 'use client';
 
 import { ChevronDown } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { reportInteraction } from '@/components/analytics/analyticsTransport';
 import Badge from '@/components/ui/Badge';

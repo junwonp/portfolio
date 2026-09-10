@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { cardSurface } from '@/components/ui/surface.css';
 
 import { metricCard, metricDesc, metricLabel, metricValue } from './MetricCard.css';

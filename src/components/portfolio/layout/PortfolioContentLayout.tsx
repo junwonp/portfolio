@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import React from 'react';
 
 import * as styles from './PortfolioContentLayout.css';
 

@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import { getPageScrollY, scrollPageTo, useScrollSpy } from '@/lib/hooks/useScrollSpy';
 
 import BaseSideNav from './BaseSideNav';

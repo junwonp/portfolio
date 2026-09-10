@@ -111,15 +111,8 @@ export function DashboardAnalyticsPanel({
               name="linkId"
               value={selectedApplicationLinkId}
               options={filterOptions}
-              onChange={(val) => {
-                const form = document.querySelector<HTMLFormElement>(`.${styles.metricFilterForm}`);
-                if (form) {
-                  const input = form.querySelector<HTMLInputElement>('input[name="linkId"]');
-                  if (input) {
-                    input.value = val;
-                  }
-                  form.submit();
-                }
+              onChange={() => {
+                document.querySelector<HTMLFormElement>(`.${styles.metricFilterForm}`)?.submit();
               }}
             />
           </label>

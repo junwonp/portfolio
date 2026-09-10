@@ -1,28 +1,24 @@
 import { style } from '@vanilla-extract/css';
 
-const open = style({});
-
-export { open };
-
 export const collapse = style({
-  height: '0',
-  overflow: 'hidden',
-  transition: 'height 0.35s var(--ease-standard)',
-
-  selectors: {
-    [`&.${open}`]: {
-      height: 'var(--collapse-height)',
-    },
-  },
-
+  display: 'grid',
+  gridTemplateRows: '0fr',
+  transition: 'grid-template-rows 0.35s var(--ease-standard)',
   '@media': {
     print: {
+      // Printed resumes include details even when their on-screen sections are closed.
       selectors: {
-        '&&': {
-          height: 'auto',
-          overflow: 'visible',
-        },
+        '&&': { gridTemplateRows: 'auto' },
       },
     },
   },
+});
+
+export const open = style({
+  gridTemplateRows: '1fr',
+});
+
+export const collapseInner = style({
+  overflow: 'hidden',
+  minHeight: 0,
 });

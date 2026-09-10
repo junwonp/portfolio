@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import * as styles from './BaseSideNav.css';
 
@@ -43,9 +43,8 @@ export default function BaseSideNav({
     };
   }, []);
 
-  const activeIndex = sections.findIndex((s) => s.id === activeId);
-
   useEffect(() => {
+    const activeIndex = sections.findIndex((section) => section.id === activeId);
     if (windowWidth > 960 && activeIndex >= 0 && itemRefs.current[activeIndex]) {
       setActiveTop(itemRefs.current[activeIndex]!.offsetTop);
       setActiveHeight(itemRefs.current[activeIndex]!.offsetHeight);
@@ -53,7 +52,7 @@ export default function BaseSideNav({
       setActiveTop(0);
       setActiveHeight(0);
     }
-  }, [windowWidth, activeIndex, sections]);
+  }, [windowWidth, activeId, sections]);
 
   return (
     <nav className={styles.sideNav} aria-label={ariaLabel}>

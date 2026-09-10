@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import React from 'react';
 
 import ProjectContent from '@/components/portfolio/home/ProjectContent';
 import { cardSurface } from '@/components/ui/surface.css';

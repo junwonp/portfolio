@@ -79,7 +79,7 @@ export default function PrintablePortfolio({
             <section className={styles.projectsSection} aria-label="Featured projects">
               <h2 className={styles.projectsHeading}>대표 프로젝트</h2>
               <div className={styles.projectList}>
-                {projects.slice(0, 4).map((project, index) => (
+                {projects.slice(0, 4).map((project) => (
                   <div key={project.title} className={styles.projectCard}>
                     <h3 className={styles.projectTitle}>{project.title}</h3>
                     <p className={styles.projectDescription}>{project.description}</p>

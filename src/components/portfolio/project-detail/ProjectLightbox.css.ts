@@ -1,11 +1,9 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
 export const phonePreview = style({});
-export const snapping = style({});
 export const prev = style({});
 export const next = style({});
 export const active = style({});
-export const chromeHidden = style({});
 
 export const lightboxMasonry = style({
   columns: 2,
@@ -58,6 +56,7 @@ export const masonryItem = style({
   '@media': {
     '(max-width: 640px)': {
       selectors: {
+        '&:not(:first-child)': { display: 'none' },
         [`.${phonePreview} &`]: {
           maxWidth: 'min(100%, 340px)',
         },
@@ -118,6 +117,7 @@ export const zoomHint = style({
 });
 
 export const moreIndicator = style({
+  '@media': { '(min-width: 641px)': { display: 'none' } },
   position: 'absolute',
   inset: 0,
   background: 'rgba(0, 0, 0, 0.45)',
@@ -167,11 +167,14 @@ export const overlay = style({
   background: 'rgba(0, 0, 0, 0.92)',
   backdropFilter: 'blur(8px)',
   overflow: 'hidden',
-  cursor: 'grab',
-
-  ':active': {
-    cursor: 'grabbing',
-  },
+  margin: 0,
+  padding: 0,
+  border: 0,
+  width: '100vw',
+  height: '100dvh',
+  maxWidth: 'none',
+  maxHeight: 'none',
+  color: '#fff',
 });
 
 export const overlayClose = style({
@@ -197,55 +200,32 @@ export const overlayClose = style({
     background: 'rgba(0, 0, 0, 0.5)',
     transform: 'scale(1.1)',
   },
-
-  selectors: {
-    [`.${chromeHidden} &`]: {
-      opacity: 0,
-      pointerEvents: 'none',
-    },
-  },
 });
 
 globalStyle(`${overlayClose} svg`, {
   filter: 'drop-shadow(0 0 2px rgba(0, 0, 0, 0.5))',
 });
 
-export const overlayImageArea = style({
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  overflow: 'hidden',
-});
-
 export const carouselTrack = style({
   display: 'flex',
-  width: '300%',
+  width: '100%',
   height: '100%',
-  transform: 'translateX(calc(-33.333% + var(--drag-x, 0px)))',
-  willChange: 'transform',
-
-  selectors: {
-    [`&.${snapping}`]: {
-      transition: 'transform 0.32s var(--ease-snap)',
-    },
-  },
+  overflowX: 'auto',
+  scrollSnapType: 'x mandatory',
+  overscrollBehaviorX: 'contain',
+  scrollbarWidth: 'none',
 });
 
 export const carouselSlide = style({
-  flex: '0 0 33.333%',
+  flex: '0 0 100%',
+  minWidth: 0,
+  scrollSnapAlign: 'start',
   height: '100%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: 0,
-
-  '@media': {
-    '(max-width: 640px)': {
-      paddingTop: 0,
-    },
-  },
+  boxSizing: 'border-box',
+  padding: '60px 0 80px',
 });
 
 globalStyle(`${carouselSlide} img`, {
@@ -277,13 +257,6 @@ export const overlayFooter = style({
   backdropFilter: 'blur(4px)',
   WebkitBackdropFilter: 'blur(4px)',
   transition: 'opacity 0.3s ease',
-
-  selectors: {
-    [`.${chromeHidden} &`]: {
-      opacity: 0,
-      pointerEvents: 'none',
-    },
-  },
 });
 
 export const overlayCaption = style({
@@ -332,10 +305,6 @@ export const overlayNav = style({
     [`&.${next}`]: {
       right: '12px',
     },
-    [`.${chromeHidden} &`]: {
-      opacity: 0,
-      pointerEvents: 'none',
-    },
   },
 
   '@media': {
@@ -357,20 +326,52 @@ export const overlayDots = style({
 });
 
 export const dot = style({
-  width: '8px',
-  height: '8px',
+  width: '24px',
+  height: '24px',
   borderRadius: 'var(--radius-circle)',
-  background: 'rgba(255, 255, 255, 0.2)',
+  background: 'transparent',
   border: 'none',
   padding: 0,
   cursor: 'pointer',
+  display: 'grid',
+  placeItems: 'center',
   transition: 'background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease',
-
+  '::after': {
+    content: '""',
+    width: '8px',
+    height: '8px',
+    borderRadius: 'var(--radius-circle)',
+    background: 'rgba(255, 255, 255, 0.2)',
+  },
   selectors: {
-    [`&.${active}`]: {
+    [`&.${active}::after`]: {
       background: 'var(--color-primary)',
       transform: 'scale(1.4)',
       boxShadow: '0 0 10px var(--color-primary)',
     },
+  },
+});
+
+globalStyle(`${carouselSlide} picture`, {
+  display: 'flex',
+  width: '100%',
+  height: '100%',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+globalStyle(`${overlay} button:focus-visible, ${masonryItem}:focus-visible`, {
+  outline: '2px solid var(--color-primary)',
+  outlineOffset: '4px',
+});
+
+globalStyle(`${overlayNav}:disabled`, {
+  opacity: 0.3,
+  cursor: 'default',
+});
+
+globalStyle(`${overlay} button, ${masonryItem}, ${masonryItem} img`, {
+  '@media': {
+    '(prefers-reduced-motion: reduce)': { transition: 'none' },
   },
 });

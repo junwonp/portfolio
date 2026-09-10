@@ -11,8 +11,6 @@ const menuReveal = keyframes({
   },
 });
 
-export const active = style({});
-
 export const stickyHeader = style({
   alignItems: 'center',
   background: 'transparent',
@@ -170,6 +168,43 @@ export const moreMenuContainer = style({
   display: 'inline-flex',
 });
 
+export const dropdownMenu = style({
+  position: 'fixed',
+  inset: 'auto',
+  top: 'var(--menu-top, 1rem)',
+  right: 'var(--menu-right, 1rem)',
+  marginTop: '0',
+  marginRight: '0',
+  marginBottom: '0',
+  marginLeft: '0',
+  width: 'auto',
+  minWidth: '200px',
+  maxWidth: 'calc(100vw - 2rem)',
+  overflow: 'visible',
+  background: 'rgba(255, 255, 255, 0.94)',
+  backdropFilter: 'saturate(140%) blur(20px)',
+  WebkitBackdropFilter: 'saturate(140%) blur(20px)',
+  border: '0.5px solid rgba(0, 0, 0, 0.08)',
+  borderRadius: 'var(--radius-lg)',
+  boxShadow: 'var(--shadow-menu)',
+  padding: '6px',
+  flexDirection: 'column',
+  gap: '2px',
+  transformOrigin: 'top right',
+
+  selectors: {
+    '&:popover-open': {
+      display: 'flex',
+      animation: `${menuReveal} 0.25s var(--ease-emphasized) forwards`,
+    },
+    'html.dark &': {
+      background: 'rgba(28, 28, 30, 0.95)',
+      border: '0.5px solid rgba(255, 255, 255, 0.08)',
+      boxShadow: 'var(--shadow-menu)',
+    },
+  },
+});
+
 export const moreButton = style({
   background: 'transparent',
   border: 'none',
@@ -191,40 +226,12 @@ export const moreButton = style({
   },
 
   selectors: {
-    [`&.${active}`]: {
+    [`.${moreMenuContainer}:has(.${dropdownMenu}:popover-open) &`]: {
       color: 'var(--color-bold)',
       backgroundColor: 'rgba(0, 0, 0, 0.08) !important',
     },
-    [`html.dark &.${active}`]: {
+    [`html.dark .${moreMenuContainer}:has(.${dropdownMenu}:popover-open) &`]: {
       backgroundColor: 'rgba(255, 255, 255, 0.12) !important',
-    },
-  },
-});
-
-export const dropdownMenu = style({
-  position: 'absolute',
-  top: 'calc(100% + 8px)',
-  right: 0,
-  zIndex: 'var(--z-dropdown)',
-  minWidth: '200px',
-  background: 'rgba(255, 255, 255, 0.94)',
-  backdropFilter: 'saturate(140%) blur(20px)',
-  WebkitBackdropFilter: 'saturate(140%) blur(20px)',
-  border: '0.5px solid rgba(0, 0, 0, 0.08)',
-  borderRadius: 'var(--radius-lg)',
-  boxShadow: 'var(--shadow-menu)',
-  padding: '6px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2px',
-  transformOrigin: 'top right',
-  animation: `${menuReveal} 0.25s var(--ease-emphasized) forwards`,
-
-  selectors: {
-    'html.dark &': {
-      background: 'rgba(28, 28, 30, 0.95)',
-      border: '0.5px solid rgba(255, 255, 255, 0.08)',
-      boxShadow: 'var(--shadow-menu)',
     },
   },
 });

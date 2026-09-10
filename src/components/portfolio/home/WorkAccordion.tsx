@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import type { WorkExperienceProps } from '@/lib/portfolio/homeTypes';
 import { getLabels } from '@/lib/portfolio/labels';
 import type { Language } from '@/lib/utils/language';

@@ -970,6 +970,15 @@ export const expandedRow = style({
   background: 'var(--color-code-bg)',
 });
 
+const detailReveal = keyframes({
+  from: { opacity: 0, transform: 'translateY(-6px)' },
+  to: { opacity: 1, transform: 'none' },
+});
+
+export const detailRow = style({
+  animation: `${detailReveal} 0.22s var(--ease-standard)`,
+});
+
 export const detailCell = style({
   padding: '0 !important',
 });

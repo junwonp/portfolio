@@ -2,7 +2,7 @@
 
 import { Check, Ellipsis, Printer, Share2 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import Github from '@/components/ui/Icon/Github';
 import Linkedin from '@/components/ui/Icon/Linkedin';
@@ -12,6 +12,8 @@ import ThemeToggle from '@/components/ui/ThemeToggle';
 import { useLocale } from '@/lib/contexts/LocaleContext';
 
 import * as styles from './MobileStickyHeader.css';
+
+const MORE_MENU_ID = 'more-actions-menu';
 
 interface Props {
   githubLink?: string;
@@ -27,22 +29,21 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
 
   const [errorMessage, setErrorMessage] = useState('');
   const [isCopied, setIsCopied] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (isMenuOpen && target && !target.closest(`.${styles.moreMenuContainer}`)) {
-        setIsMenuOpen(false);
-      }
-    };
+  const closeMenu = () => menuRef.current?.hidePopover();
 
-    window.addEventListener('click', handleOutsideClick);
-    return () => {
-      window.removeEventListener('click', handleOutsideClick);
-    };
-  }, [isMenuOpen]);
+  // Positioned from the button rect because Firefox mis-resolves anchor positioning.
+  const positionMenu = () => {
+    const menu = menuRef.current;
+    const anchor = menuButtonRef.current;
+    if (!menu || !anchor) return;
+    const rect = anchor.getBoundingClientRect();
+    menu.style.setProperty('--menu-top', `${rect.bottom + 8}px`);
+    menu.style.setProperty('--menu-right', `${window.innerWidth - rect.right}px`);
+  };
 
   const toggleLanguage = () => {
     setErrorMessage('');
@@ -61,7 +62,7 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
     if (typeof navigator !== 'undefined' && 'share' in navigator) {
       try {
         await navigator.share({ text: '', title, url: shareUrl });
-        setIsMenuOpen(false);
+        closeMenu();
         return;
       } catch (err) {
         if (err instanceof Error && err.name === 'AbortError') return;
@@ -110,77 +111,73 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
 
         <div className={styles.moreMenuContainer}>
           <button
-            className={`${styles.moreButton} ${circleButton} ${isMenuOpen ? styles.active : ''}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsMenuOpen(!isMenuOpen);
-            }}
+            ref={menuButtonRef}
+            className={`${styles.moreButton} ${circleButton}`}
+            onClick={positionMenu}
+            popoverTarget={MORE_MENU_ID}
             aria-label="More actions"
-            aria-expanded={isMenuOpen}
           >
             <Ellipsis size={20} />
           </button>
 
-          {isMenuOpen && (
-            <div className={styles.dropdownMenu}>
-              {isHome && (
+          <div id={MORE_MENU_ID} ref={menuRef} popover="auto" className={styles.dropdownMenu}>
+            {isHome && (
+              <>
+                <ThemeToggle
+                  autoLabel={labels.themeAuto}
+                  lightLabel={labels.themeLight}
+                  darkLabel={labels.themeDark}
+                  className={styles.dropdownItem}
+                  iconSize={16}
+                  onToggle={closeMenu}
+                />
+                <div className={styles.menuDivider} />
+              </>
+            )}
+
+            <button className={styles.dropdownItem} onClick={sharePage}>
+              {isCopied ? (
                 <>
-                  <ThemeToggle
-                    autoLabel={labels.themeAuto}
-                    lightLabel={labels.themeLight}
-                    darkLabel={labels.themeDark}
-                    className={styles.dropdownItem}
-                    iconSize={16}
-                    onToggle={() => setIsMenuOpen(false)}
-                  />
-                  <div className={styles.menuDivider} />
+                  <Check size={16} />
+                  <span>{labels.linkCopied}</span>
+                </>
+              ) : (
+                <>
+                  <Share2 size={16} />
+                  <span>{labels.sharePage}</span>
                 </>
               )}
+            </button>
 
-              <button className={styles.dropdownItem} onClick={sharePage}>
-                {isCopied ? (
-                  <>
-                    <Check size={16} />
-                    <span>{labels.linkCopied}</span>
-                  </>
-                ) : (
-                  <>
-                    <Share2 size={16} />
-                    <span>{labels.sharePage}</span>
-                  </>
-                )}
-              </button>
+            <div className={styles.menuDivider} />
 
-              <div className={styles.menuDivider} />
+            <button
+              className={styles.dropdownItem}
+              onClick={() => {
+                if (typeof window !== 'undefined') window.print();
+                closeMenu();
+              }}
+            >
+              <Printer size={16} />
+              <span>{labels.printPage}</span>
+            </button>
 
-              <button
-                className={styles.dropdownItem}
-                onClick={() => {
-                  if (typeof window !== 'undefined') window.print();
-                  setIsMenuOpen(false);
-                }}
-              >
-                <Printer size={16} />
-                <span>{labels.printPage}</span>
-              </button>
-
-              {linkedinLink && (
-                <>
-                  <div className={styles.menuDivider} />
-                  <a
-                    className={styles.dropdownItem}
-                    href={linkedinLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <Linkedin width={16} height={16} />
-                    <span>{labels.goToLinkedinPage}</span>
-                  </a>
-                </>
-              )}
-            </div>
-          )}
+            {linkedinLink && (
+              <>
+                <div className={styles.menuDivider} />
+                <a
+                  className={styles.dropdownItem}
+                  href={linkedinLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={closeMenu}
+                >
+                  <Linkedin width={16} height={16} />
+                  <span>{labels.goToLinkedinPage}</span>
+                </a>
+              </>
+            )}
+          </div>
         </div>
       </div>
       {errorMessage && (
