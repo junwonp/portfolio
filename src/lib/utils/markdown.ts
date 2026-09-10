@@ -10,7 +10,7 @@ export function parseMarkdown(text: string): TextPart[] {
   const parts: TextPart[] = [];
   const regex = /(\*\*|__)(.+?)\1|`(.+?)`/g;
   let lastIndex = 0;
-  let match;
+  let match: RegExpExecArray | null;
 
   while ((match = regex.exec(text)) !== null) {
     // Add preceding text

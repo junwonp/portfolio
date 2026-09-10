@@ -1,5 +1,6 @@
 allowBuilds:
   esbuild: true
+  puppeteer: false
   sharp: true
   unrs-resolver: true
   workerd: true
@@ -13,4 +14,8 @@ trustPolicyExclude:
   - "eslint-import-resolver-typescript@3.10.1"
   - "semver@6.3.1"
 blockExoticSubdeps: true
-
+# Security: keep transitive tooling deps past published advisories.
+overrides:
+  browserslist: ^4.28.7
+  toml: ^4.2.0
+  sharp: ^0.35.4

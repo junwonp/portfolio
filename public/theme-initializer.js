@@ -6,7 +6,9 @@
   var theme = null;
   try {
     theme = localStorage.getItem('theme');
-  } catch (e) {}
+  } catch {
+    // Storage can be unavailable; the system preference remains the fallback.
+  }
 
   if (
     theme === 'dark' ||

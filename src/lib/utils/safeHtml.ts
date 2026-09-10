@@ -95,7 +95,7 @@ const serializeAllowedTag = (rawTag: string, tagName: string, attributes = '') =
 const highlightCodeBlocks = (html: string): string => {
   return html.replace(
     /<pre[^>]*class="([^"]*language-([a-z0-9-]+)[^"]*)"[^>]*>\s*<code[^>]*class="[^"]*"[^>]*>([\s\S]*?)<\/code>\s*<\/pre>/gi,
-    (match, preClass, lang, rawCode) => {
+    (_match, preClass, lang, rawCode) => {
       let cleanCode = decodeHtml(rawCode);
       cleanCode = cleanCode.replace(/^\s*\n/, '').replace(/\n\s*$/, '');
       const grammar = Prism.languages[lang] || Prism.languages.tsx || Prism.languages.javascript;

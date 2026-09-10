@@ -113,7 +113,7 @@ export const vars = createGlobalThemeContract(
       border: null,
     },
   },
-  (value, path) => {
+  (_value, path) => {
     const section = path[0];
     const key = kebabCase(path[1]);
     if (section === 'fontSize') {
