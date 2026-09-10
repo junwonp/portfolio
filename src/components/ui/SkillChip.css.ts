@@ -3,7 +3,6 @@ import { style } from '@vanilla-extract/css';
 export const skillChip = style({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '0.375rem',
   color: 'var(--color-sub)',
   fontSize: '0.8125rem',
   fontWeight: 550,

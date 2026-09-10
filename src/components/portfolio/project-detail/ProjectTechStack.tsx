@@ -1,4 +1,4 @@
-import ReadonlySkillChip from '@/components/ui/ReadonlySkillChip';
+import SkillChip from '@/components/ui/SkillChip';
 import { getProjectTechStackGroups } from '@/lib/portfolio/techStack';
 import type { Language } from '@/lib/utils/language';
 
@@ -20,7 +20,7 @@ export default function ProjectTechStack({ techStack, locale }: Props) {
             <span className={styles.categoryTitle}>{group.title}</span>
             <div className={styles.techGrid}>
               {group.skills.map((tech) => (
-                <ReadonlySkillChip key={tech} skill={tech} />
+                <SkillChip key={tech} skill={tech} />
               ))}
             </div>
           </div>
