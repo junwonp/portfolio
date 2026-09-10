@@ -7,7 +7,7 @@ import Github from '@/components/ui/Icon/Github';
 import Globe from '@/components/ui/Icon/Globe';
 import MetricCard from '@/components/ui/MetricCard';
 import RichText from '@/components/ui/RichText';
-import { pillButton } from '@/components/ui/surface.css';
+import { circleButton, pillButton } from '@/components/ui/surface.css';
 import { getLabels } from '@/lib/portfolio/labels';
 import type { PostMetadata } from '@/lib/portfolio/projectTypes';
 import type { Language } from '@/lib/utils/language';
@@ -70,7 +70,7 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
     <div className={styles.topbarLinks}>
       <ProjectBackButton
         label={labels.goBack}
-        className={`${styles.topbarLink} ${pillButton} ${styles.backLink}`}
+        className={`${circleButton} glass-effect ${styles.backCircle}`}
       />
       <div className={styles.topbarRight}>
         {githubHref && (

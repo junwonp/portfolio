@@ -345,11 +345,26 @@ globalStyle(`${projectArticle} td:last-child`, {
   },
 });
 
-// Icon-only square pill for the back button — defined after topbarLink so its
-// padding/width win the cascade (topbarLink's text padding would squash the icon)
-export const backLink = style({
-  cursor: 'pointer',
+// Icon-only glass circle for the back button — same design language as the
+// mobile bottom-nav back button (BottomNav.css.ts island/circle/backBtn), sized
+// down to the desktop top bar's 32px-scale controls. Pair with glass-effect +
+// circleButton; the icon inherits --color-main via currentColor.
+export const backCircle = style({
+  color: 'var(--color-main)',
+  display: 'flex',
   flexShrink: 0,
-  padding: 0,
-  width: '32px',
+  height: '36px',
+  width: '36px',
+  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
+  transition: 'background 0.15s, color 0.15s',
+
+  selectors: {
+    'html.dark &': {
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+    },
+  },
+
+  ':hover': {
+    background: 'var(--color-disabled-bg)',
+  },
 });

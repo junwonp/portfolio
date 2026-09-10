@@ -18,7 +18,7 @@ export default function ProjectBackButton({ label, className }: Props) {
       aria-label={label}
       title={label}
     >
-      <ArrowLeft width={20} height={20} strokeWidth={2.5} />
+      <ArrowLeft width={18} height={18} strokeWidth={2.5} />
     </button>
   );
 }
