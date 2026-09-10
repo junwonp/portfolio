@@ -48,6 +48,17 @@
       }
     }
   },
+  "overrides": [
+    {
+      "includes": ["public/diagrams/*.svg"],
+      "linter": {
+        "rules": {
+          "complexity": { "noImportantStyles": "off" },
+          "style": { "noDescendingSpecificity": "off" }
+        }
+      }
+    }
+  ],
   "linter": {
     "enabled": true,
     "rules": {

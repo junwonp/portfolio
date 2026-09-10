@@ -1,0 +1,26 @@
+{
+  "flowchart TD\n  A[\"1. Gather context<br/>Files · docs · browser\"] --> B[\"2. Constrain scope<br/>Keep related diffs only\"]\n  B --> C[\"3. Verify<br/>check · lint · test · browser\"]\n  C --> D[\"4. Review & commit<br/>Diff review · split commits\"]": {
+    "light": "/diagrams/704a6950ff1615b2-default.svg",
+    "dark": "/diagrams/704a6950ff1615b2-dark.svg",
+    "width": 261,
+    "height": 429
+  },
+  "flowchart TD\n  A[\"1. 컨텍스트 수집<br/>파일 · 문서 · 브라우저\"] --> B[\"2. 변경 범위 제한<br/>관련 diff만 유지\"]\n  B --> C[\"3. 검증<br/>check · lint · test · browser\"]\n  C --> D[\"4. 리뷰와 커밋<br/>diff 검토 · 단위 분리\"]": {
+    "light": "/diagrams/be56d3cd9b3e6a2f-default.svg",
+    "dark": "/diagrams/be56d3cd9b3e6a2f-dark.svg",
+    "width": 261,
+    "height": 429
+  },
+  "flowchart TD\n  1[\"1. Restricted intranet<br/>No public services or production data in local development\"] --> 2[\"2. Mock socket layer<br/>Same event contract as Socket.IO for offline UI validation\"]\n  2 --> 3[\"3. Viewer containers<br/>Own state, range selection, popovers, and collaboration events\"]\n  3 --> 4[\"4. Virtualized renderers<br/>Grid rows via react-window; variable text lines via react-virtualized\"]": {
+    "light": "/diagrams/a740731523ea0d61-default.svg",
+    "dark": "/diagrams/a740731523ea0d61-dark.svg",
+    "width": 273,
+    "height": 570
+  },
+  "flowchart TD\n  1[\"1. 제한망 인트라넷<br/>로컬 개발에서 외부 서비스와 운영 데이터를 사용하지 않음\"] --> 2[\"2. Mock 소켓 레이어<br/>Socket.IO와 동일한 이벤트 계약으로 오프라인 UI 검증\"]\n  2 --> 3[\"3. 뷰어 컨테이너<br/>상태, 영역 선택, Popover, 협업 이벤트를 담당\"]\n  3 --> 4[\"4. 가상화 렌더러<br/>그리드는 react-window, 가변 텍스트 줄은 react-virtualized\"]": {
+    "light": "/diagrams/a657b03aa64d8c35-default.svg",
+    "dark": "/diagrams/a657b03aa64d8c35-dark.svg",
+    "width": 268,
+    "height": 499
+  }
+}

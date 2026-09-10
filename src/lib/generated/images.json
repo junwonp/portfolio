@@ -1,0 +1,1074 @@
+{
+  "/images/admin-dashboard/icon.webp": {
+    "width": 234,
+    "height": 234,
+    "variants": [
+      {
+        "src": "/images/generated/e5672de009dec6d2-234.webp",
+        "width": 234
+      }
+    ]
+  },
+  "/images/aira/chat_ads.webp": {
+    "width": 1170,
+    "height": 2532,
+    "variants": [
+      {
+        "src": "/images/generated/0ea7e007f78a449e-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/0ea7e007f78a449e-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/0ea7e007f78a449e-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/0ea7e007f78a449e-1170.webp",
+        "width": 1170
+      }
+    ]
+  },
+  "/images/aira/desktop_chat.webp": {
+    "width": 3338,
+    "height": 1924,
+    "variants": [
+      {
+        "src": "/images/generated/353204a0d75ea88b-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/353204a0d75ea88b-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/353204a0d75ea88b-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/353204a0d75ea88b-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/353204a0d75ea88b-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/aira/desktop_chat_mobile.jpg": {
+    "width": 800,
+    "height": 461,
+    "variants": [
+      {
+        "src": "/images/generated/094a70c72657545f-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/094a70c72657545f-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/094a70c72657545f-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/aira/desktop_main.webp": {
+    "width": 3338,
+    "height": 1924,
+    "variants": [
+      {
+        "src": "/images/generated/0a2d9495c392af6d-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/0a2d9495c392af6d-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/0a2d9495c392af6d-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/0a2d9495c392af6d-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/0a2d9495c392af6d-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/aira/desktop_main_mobile.jpg": {
+    "width": 800,
+    "height": 461,
+    "variants": [
+      {
+        "src": "/images/generated/c0e90e878a3d004d-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/c0e90e878a3d004d-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/c0e90e878a3d004d-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/aira/home_ads.webp": {
+    "width": 1170,
+    "height": 2532,
+    "variants": [
+      {
+        "src": "/images/generated/d5333c94e4d2aff8-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/d5333c94e4d2aff8-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/d5333c94e4d2aff8-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/d5333c94e4d2aff8-1170.webp",
+        "width": 1170
+      }
+    ]
+  },
+  "/images/aira/icon.webp": {
+    "width": 1024,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/images/generated/7246dd9e3ddb1021-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/7246dd9e3ddb1021-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/7246dd9e3ddb1021-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/7246dd9e3ddb1021-1024.webp",
+        "width": 1024
+      }
+    ]
+  },
+  "/images/aira/reward_ads.webp": {
+    "width": 1170,
+    "height": 2532,
+    "variants": [
+      {
+        "src": "/images/generated/ea85f15b817a9ff8-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/ea85f15b817a9ff8-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/ea85f15b817a9ff8-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/ea85f15b817a9ff8-1170.webp",
+        "width": 1170
+      }
+    ]
+  },
+  "/images/aira/v2_main.webp": {
+    "width": 1206,
+    "height": 2622,
+    "variants": [
+      {
+        "src": "/images/generated/acdb22e50925a2f1-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/acdb22e50925a2f1-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/acdb22e50925a2f1-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/acdb22e50925a2f1-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/acdb22e50925a2f1-1206.webp",
+        "width": 1206
+      }
+    ]
+  },
+  "/images/camerafi-studio/icon.webp": {
+    "width": 1146,
+    "height": 1146,
+    "variants": [
+      {
+        "src": "/images/generated/8b4bcbb6db4f7c6e-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/8b4bcbb6db4f7c6e-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/8b4bcbb6db4f7c6e-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/8b4bcbb6db4f7c6e-1146.webp",
+        "width": 1146
+      }
+    ]
+  },
+  "/images/camerafi-studio/optimization_chart.webp": {
+    "width": 907,
+    "height": 548,
+    "variants": [
+      {
+        "src": "/images/generated/390b8ccddd5213f7-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/390b8ccddd5213f7-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/390b8ccddd5213f7-907.webp",
+        "width": 907
+      }
+    ]
+  },
+  "/images/day-planner/icon.webp": {
+    "width": 1024,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/images/generated/17ffd6979e8f8c98-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/17ffd6979e8f8c98-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/17ffd6979e8f8c98-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/17ffd6979e8f8c98-1024.webp",
+        "width": 1024
+      }
+    ]
+  },
+  "/images/election-aggregator/1.webp": {
+    "width": 2560,
+    "height": 1309,
+    "variants": [
+      {
+        "src": "/images/generated/ba3c17ae9f85d83c-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/ba3c17ae9f85d83c-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/ba3c17ae9f85d83c-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/ba3c17ae9f85d83c-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/ba3c17ae9f85d83c-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/10.webp": {
+    "width": 2560,
+    "height": 1308,
+    "variants": [
+      {
+        "src": "/images/generated/8e82bd267e0341f2-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/8e82bd267e0341f2-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/8e82bd267e0341f2-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/8e82bd267e0341f2-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/8e82bd267e0341f2-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/10_mobile.jpg": {
+    "width": 800,
+    "height": 409,
+    "variants": [
+      {
+        "src": "/images/generated/de3f00fd68fa36d1-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/de3f00fd68fa36d1-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/de3f00fd68fa36d1-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/11.webp": {
+    "width": 2560,
+    "height": 1308,
+    "variants": [
+      {
+        "src": "/images/generated/670cb95d68357862-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/670cb95d68357862-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/670cb95d68357862-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/670cb95d68357862-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/670cb95d68357862-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/11_mobile.jpg": {
+    "width": 800,
+    "height": 409,
+    "variants": [
+      {
+        "src": "/images/generated/3a2ca4df48a9597d-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/3a2ca4df48a9597d-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/3a2ca4df48a9597d-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/12.webp": {
+    "width": 2560,
+    "height": 1307,
+    "variants": [
+      {
+        "src": "/images/generated/d7bb0f17235de4ad-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/d7bb0f17235de4ad-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/d7bb0f17235de4ad-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/d7bb0f17235de4ad-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/d7bb0f17235de4ad-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/12_mobile.jpg": {
+    "width": 800,
+    "height": 408,
+    "variants": [
+      {
+        "src": "/images/generated/77952406868b2524-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/77952406868b2524-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/77952406868b2524-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/13.webp": {
+    "width": 2560,
+    "height": 1308,
+    "variants": [
+      {
+        "src": "/images/generated/419f610243bfbed0-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/419f610243bfbed0-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/419f610243bfbed0-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/419f610243bfbed0-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/419f610243bfbed0-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/13_mobile.jpg": {
+    "width": 800,
+    "height": 409,
+    "variants": [
+      {
+        "src": "/images/generated/074d57a74918290a-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/074d57a74918290a-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/074d57a74918290a-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/1_mobile.jpg": {
+    "width": 800,
+    "height": 409,
+    "variants": [
+      {
+        "src": "/images/generated/755bc3f19629c949-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/755bc3f19629c949-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/755bc3f19629c949-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/2.webp": {
+    "width": 2560,
+    "height": 1310,
+    "variants": [
+      {
+        "src": "/images/generated/4e2a071a154c7f5d-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/4e2a071a154c7f5d-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/4e2a071a154c7f5d-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/4e2a071a154c7f5d-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/4e2a071a154c7f5d-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/2_mobile.jpg": {
+    "width": 800,
+    "height": 409,
+    "variants": [
+      {
+        "src": "/images/generated/b00cbe694781aaa4-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/b00cbe694781aaa4-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/b00cbe694781aaa4-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/3.webp": {
+    "width": 2560,
+    "height": 1310,
+    "variants": [
+      {
+        "src": "/images/generated/21fa833ee6869481-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/21fa833ee6869481-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/21fa833ee6869481-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/21fa833ee6869481-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/21fa833ee6869481-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/3_mobile.jpg": {
+    "width": 800,
+    "height": 409,
+    "variants": [
+      {
+        "src": "/images/generated/7c90d818574bdf43-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/7c90d818574bdf43-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/7c90d818574bdf43-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/4.webp": {
+    "width": 2560,
+    "height": 1306,
+    "variants": [
+      {
+        "src": "/images/generated/6e1f96794ef9e7e2-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/6e1f96794ef9e7e2-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/6e1f96794ef9e7e2-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/6e1f96794ef9e7e2-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/6e1f96794ef9e7e2-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/4_mobile.jpg": {
+    "width": 800,
+    "height": 408,
+    "variants": [
+      {
+        "src": "/images/generated/8cdbd6a75ec102d3-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/8cdbd6a75ec102d3-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/8cdbd6a75ec102d3-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/5.webp": {
+    "width": 2583,
+    "height": 1334,
+    "variants": [
+      {
+        "src": "/images/generated/23f39e710b7f23ed-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/23f39e710b7f23ed-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/23f39e710b7f23ed-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/23f39e710b7f23ed-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/23f39e710b7f23ed-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/5_mobile.jpg": {
+    "width": 800,
+    "height": 413,
+    "variants": [
+      {
+        "src": "/images/generated/e02ba7ddb9a7b6df-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/e02ba7ddb9a7b6df-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/e02ba7ddb9a7b6df-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/6.webp": {
+    "width": 2560,
+    "height": 1309,
+    "variants": [
+      {
+        "src": "/images/generated/b4fe53d45eed9acf-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/b4fe53d45eed9acf-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/b4fe53d45eed9acf-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/b4fe53d45eed9acf-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/b4fe53d45eed9acf-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/6_mobile.jpg": {
+    "width": 800,
+    "height": 409,
+    "variants": [
+      {
+        "src": "/images/generated/a83dad3e0f569984-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/a83dad3e0f569984-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/a83dad3e0f569984-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/7.webp": {
+    "width": 2560,
+    "height": 1309,
+    "variants": [
+      {
+        "src": "/images/generated/953dab4e7e0101a6-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/953dab4e7e0101a6-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/953dab4e7e0101a6-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/953dab4e7e0101a6-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/953dab4e7e0101a6-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/7_mobile.jpg": {
+    "width": 800,
+    "height": 409,
+    "variants": [
+      {
+        "src": "/images/generated/5b9323e0204733e8-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/5b9323e0204733e8-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/5b9323e0204733e8-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/8.webp": {
+    "width": 2583,
+    "height": 1337,
+    "variants": [
+      {
+        "src": "/images/generated/07d0b7b59e0dc2b9-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/07d0b7b59e0dc2b9-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/07d0b7b59e0dc2b9-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/07d0b7b59e0dc2b9-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/07d0b7b59e0dc2b9-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/8_mobile.jpg": {
+    "width": 800,
+    "height": 414,
+    "variants": [
+      {
+        "src": "/images/generated/15af445b71f13c74-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/15af445b71f13c74-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/15af445b71f13c74-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/election-aggregator/9.webp": {
+    "width": 2560,
+    "height": 1309,
+    "variants": [
+      {
+        "src": "/images/generated/e5ba160420127f32-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/e5ba160420127f32-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/e5ba160420127f32-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/e5ba160420127f32-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/e5ba160420127f32-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/election-aggregator/9_mobile.jpg": {
+    "width": 800,
+    "height": 409,
+    "variants": [
+      {
+        "src": "/images/generated/58fc29a2c8f2dda9-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/58fc29a2c8f2dda9-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/58fc29a2c8f2dda9-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/hanyang-chatbot/chat-closeup.webp": {
+    "width": 800,
+    "height": 1400,
+    "variants": [
+      {
+        "src": "/images/generated/d6e884989491fd11-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/d6e884989491fd11-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/d6e884989491fd11-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  "/images/hanyang-chatbot/fullscreen.webp": {
+    "width": 1600,
+    "height": 1126,
+    "variants": [
+      {
+        "src": "/images/generated/97d613b3fb2b3a12-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/97d613b3fb2b3a12-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/97d613b3fb2b3a12-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/97d613b3fb2b3a12-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/97d613b3fb2b3a12-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/nextjs-portfolio/1.webp": {
+    "width": 2228,
+    "height": 1222,
+    "variants": [
+      {
+        "src": "/images/generated/2845e517da8ccd4e-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/2845e517da8ccd4e-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/2845e517da8ccd4e-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/2845e517da8ccd4e-1200.webp",
+        "width": 1200
+      },
+      {
+        "src": "/images/generated/2845e517da8ccd4e-1600.webp",
+        "width": 1600
+      }
+    ]
+  },
+  "/images/nextjs-portfolio/2.webp": {
+    "width": 860,
+    "height": 1862,
+    "variants": [
+      {
+        "src": "/images/generated/f8216a9b5b7db42d-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/f8216a9b5b7db42d-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/f8216a9b5b7db42d-860.webp",
+        "width": 860
+      }
+    ]
+  },
+  "/images/oneline-bank/1.webp": {
+    "width": 564,
+    "height": 901,
+    "variants": [
+      {
+        "src": "/images/generated/e0566687d354182a-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/e0566687d354182a-564.webp",
+        "width": 564
+      }
+    ]
+  },
+  "/images/oneline-bank/2.webp": {
+    "width": 520,
+    "height": 894,
+    "variants": [
+      {
+        "src": "/images/generated/d5bc1bcd7ec59618-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/d5bc1bcd7ec59618-520.webp",
+        "width": 520
+      }
+    ]
+  },
+  "/images/oneline-bank/3.webp": {
+    "width": 564,
+    "height": 897,
+    "variants": [
+      {
+        "src": "/images/generated/e6c1eb2f30351a56-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/e6c1eb2f30351a56-564.webp",
+        "width": 564
+      }
+    ]
+  },
+  "/images/oneline-bank/4.webp": {
+    "width": 564,
+    "height": 896,
+    "variants": [
+      {
+        "src": "/images/generated/2d37bedb5576a852-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/2d37bedb5576a852-564.webp",
+        "width": 564
+      }
+    ]
+  },
+  "/images/oneline-bank/5.webp": {
+    "width": 564,
+    "height": 900,
+    "variants": [
+      {
+        "src": "/images/generated/4e2a3d43a0b662c4-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/4e2a3d43a0b662c4-564.webp",
+        "width": 564
+      }
+    ]
+  },
+  "/images/oneline-bank/6.webp": {
+    "width": 564,
+    "height": 904,
+    "variants": [
+      {
+        "src": "/images/generated/afad082b4224a59d-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/afad082b4224a59d-564.webp",
+        "width": 564
+      }
+    ]
+  },
+  "/images/oneline-bank/icon.webp": {
+    "width": 1024,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/images/generated/52ea6b9459b68a77-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/52ea6b9459b68a77-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/52ea6b9459b68a77-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/52ea6b9459b68a77-1024.webp",
+        "width": 1024
+      }
+    ]
+  },
+  "/images/today-weather/icon.webp": {
+    "width": 1024,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/images/generated/2d08dd6b70110a9c-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/2d08dd6b70110a9c-768.webp",
+        "width": 768
+      },
+      {
+        "src": "/images/generated/2d08dd6b70110a9c-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/images/generated/2d08dd6b70110a9c-1024.webp",
+        "width": 1024
+      }
+    ]
+  },
+  "/images/today-weather/web-home.png": {
+    "width": 430,
+    "height": 1070,
+    "variants": [
+      {
+        "src": "/images/generated/99f29427e4ce8873-430.webp",
+        "width": 430
+      }
+    ]
+  }
+}

@@ -67,117 +67,18 @@ export const diagramFrame = style({
   overflowX: 'auto',
 });
 
-export const diagramSurface = style({
-  display: 'grid',
-  minWidth: 0,
-  padding: '4px var(--space-sm) var(--space-sm)',
-  placeItems: 'center',
-
-  '@media': {
-    '(max-width: 720px)': {
-      padding: '4px 10px 10px',
-    },
-  },
-});
-
-export const diagramLoading = style({
-  margin: 0,
-  color: 'var(--color-main)',
-  fontFamily: 'var(--font-family-code)',
-  fontSize: '0.875rem',
-  lineHeight: 1.6,
-  padding: 'var(--space-md)',
-  textAlign: 'center',
-});
-
-export const diagramError = style({
-  margin: 0,
-  fontFamily: 'var(--font-family-code)',
-  fontSize: '0.875rem',
-  lineHeight: 1.6,
-  padding: 'var(--space-sm) var(--space-sm) 0',
-  color: 'var(--color-error)',
-  fontWeight: 700,
-});
-
-export const diagramFallback = style({
-  margin: 0,
-  color: 'var(--color-main)',
-  fontFamily: 'var(--font-family-code)',
-  fontSize: '0.875rem',
-  lineHeight: 1.6,
-  padding: 'var(--space-sm)',
-  whiteSpace: 'pre-wrap',
-});
-
-globalStyle(`${mermaidDiagram} svg`, {
+export const lightDiagram = style({
   display: 'block',
   maxWidth: '100%',
+  margin: '0 auto',
   height: 'auto',
-  fontFamily: 'var(--font-family-text), sans-serif !important',
+  selectors: { 'html.dark &': { display: 'none' } },
 });
 
-globalStyle(
-  `${mermaidDiagram} svg .node rect, ${mermaidDiagram} svg .node circle, ${mermaidDiagram} svg .node polygon, ${mermaidDiagram} svg .node path`,
-  {
-    fill: 'var(--color-basic-bg) !important',
-    stroke: 'var(--color-bg-divider) !important',
-    strokeWidth: '1.4px !important',
-    transition: 'fill 0.2s ease, stroke 0.2s ease, filter 0.2s ease',
-  },
-);
-
-globalStyle(
-  `${mermaidDiagram} svg .node:hover rect, ${mermaidDiagram} svg .node:hover circle, ${mermaidDiagram} svg .node:hover polygon, ${mermaidDiagram} svg .node:hover path`,
-  {
-    fill: 'var(--color-code-bg) !important',
-    stroke: 'var(--color-primary) !important',
-  },
-);
-
-globalStyle(`${mermaidDiagram} svg .node .label`, {
-  fontWeight: '700 !important',
-  lineHeight: '1.35 !important',
-  color: 'var(--color-bold) !important',
-  fill: 'var(--color-bold) !important',
-  overflow: 'visible !important',
-  transition: 'fill 0.2s ease',
-});
-
-globalStyle(
-  `${mermaidDiagram} svg foreignObject, ${mermaidDiagram} svg .label div, ${mermaidDiagram} svg .label span, ${mermaidDiagram} svg .nodeLabel`,
-  {
-    lineHeight: '1.35 !important',
-    overflow: 'visible !important',
-  },
-);
-
-globalStyle(`${mermaidDiagram} svg .node:hover .label`, {
-  fill: 'var(--color-primary) !important',
-});
-
-globalStyle(`${mermaidDiagram} svg .edgePath .path`, {
-  stroke: 'var(--color-primary) !important',
-  strokeWidth: '1.6px !important',
-  transition: 'stroke 0.2s ease, stroke-width 0.2s ease',
-});
-
-globalStyle(`${mermaidDiagram} svg .edgePath:hover .path`, {
-  stroke: 'var(--color-primary) !important',
-  strokeWidth: '2px !important',
-});
-
-globalStyle(`${mermaidDiagram} svg .marker`, {
-  fill: 'var(--color-primary) !important',
-  stroke: 'none !important',
-  transition: 'fill 0.2s ease',
-});
-
-globalStyle(`${mermaidDiagram} svg .cluster rect`, {
-  fill: 'color-mix(in srgb, var(--color-basic-bg) 60%, transparent) !important',
-  stroke: 'var(--color-bg-divider) !important',
-  strokeWidth: '1px !important',
-  strokeDasharray: '4 4 !important',
-  rx: '12px !important',
-  ry: '12px !important',
+export const darkDiagram = style({
+  display: 'none',
+  maxWidth: '100%',
+  margin: '0 auto',
+  height: 'auto',
+  selectors: { 'html.dark &': { display: 'block' } },
 });

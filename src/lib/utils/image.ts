@@ -1,35 +1,46 @@
-/**
- * Generates an optimized image URL using vinext's image optimization endpoint.
- *
- * In production on Cloudflare Workers, the `/_next/image` endpoint is handled
- * by vinext's built-in image optimizer backed by the `IMAGES` Worker binding.
- * Format negotiation (AVIF / WebP) is handled automatically via the `Accept`
- * header — no extra parameter needed.
- *
- * @param src The original image path (e.g., "/images/project1.png")
- * @param options Optimization options (width, quality)
- * @returns Optimized image URL or the original src in development/non-supported environments
- */
-export function getOptimizedImageUrl(
-  src: string,
-  _options?: { width?: number; quality?: number },
-): string {
-  // Return early if not a local relative path, is an external URL, or is a video
-  if (!src.startsWith('/') || src.startsWith('//')) {
-    return src;
-  }
+import generatedImages from '@/lib/generated/images.json';
 
-  // Unsupported formats check (e.g. videos)
-  const isVideo = ['.mp4', '.webm', '.mov', '.avi', '.m4v'].some((ext) =>
-    src.toLowerCase().endsWith(ext),
+interface ImageAsset {
+  width: number;
+  height: number;
+  variants: { src: string; width: number }[];
+}
+
+interface ResponsiveImageProps {
+  src: string;
+  srcSet?: string;
+  sizes?: string;
+  width?: number;
+  height?: number;
+}
+
+const images: Readonly<Record<string, ImageAsset>> = generatedImages;
+const DEFAULT_IMAGE_WIDTH = 960;
+
+export function getOptimizedImageUrl(src: string, options?: { width?: number }): string {
+  const asset = images[src];
+  if (!asset) return src;
+
+  const width = options?.width ?? DEFAULT_IMAGE_WIDTH;
+  return (
+    asset.variants.find((variant) => variant.width >= width)?.src ??
+    asset.variants.at(-1)?.src ??
+    src
   );
-  if (isVideo) {
-    return src;
-  }
+}
 
-  // Local images are served as-is from public/ via Cloudflare static assets.
-  // Routing them through vinext's /_next/image optimizer broke production
-  // rendering (the endpoint is not wired in this deployment), while videos —
-  // which take this same path — render fine.
-  return src;
+export function getResponsiveImageProps(
+  src: string,
+  sizes = '(max-width: 768px) 100vw, 960px',
+): ResponsiveImageProps {
+  const asset = images[src];
+  if (!asset) return { src };
+
+  return {
+    src: getOptimizedImageUrl(src),
+    srcSet: asset.variants.map((variant) => `${variant.src} ${variant.width}w`).join(', '),
+    sizes,
+    width: asset.width,
+    height: asset.height,
+  };
 }
