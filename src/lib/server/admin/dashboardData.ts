@@ -865,7 +865,9 @@ export const getAdminDashboardData = async ({
   }
 
   try {
-    await ensureAnalyticsStorageSchema(db);
+    if (writesEnabled) {
+      await ensureAnalyticsStorageSchema(db);
+    }
     const applicationFilterOptions = await getApplicationFilterOptions(db);
     const selectedApplicationLinkId = getSelectedApplicationLinkId(
       applicationFilterOptions,

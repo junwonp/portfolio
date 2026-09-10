@@ -21,7 +21,8 @@ class ApplicationLinkDbMock {
     },
   ) {}
 
-  prepare() {
+  prepare(sql: string) {
+    if (!sql.includes('deleted_at IS NULL')) throw new Error('Deleted links must be excluded');
     return {
       bind: () => ({
         first: async () => {

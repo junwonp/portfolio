@@ -26,8 +26,23 @@ describe('getCacheControlForPath', () => {
 
   it('keeps private routes no-store', () => {
     expect(getCacheControlForPath('/admin')).toBe('private, no-cache, no-store, must-revalidate');
+    expect(getCacheControlForPath('/resume')).toBe('private, no-cache, no-store, must-revalidate');
     expect(getCacheControlForPath('/a')).toBe('private, no-cache, no-store, must-revalidate');
   });
+
+  it.each(['/application-slug', '/ko/application-slug', '/en/application-slug/'])(
+    'never caches revocable application link %s',
+    (pathname) => {
+      expect(getCacheControlForPath(pathname)).toBe('private, no-cache, no-store, must-revalidate');
+    },
+  );
+
+  it.each(['/privacy', '/en/privacy', '/opengraph-image', '/en'])(
+    'preserves caching for fixed public route %s',
+    (pathname) => {
+      expect(getCacheControlForPath(pathname)).toContain('s-maxage=60');
+    },
+  );
 });
 
 describe('getContentSecurityPolicyForPath', () => {

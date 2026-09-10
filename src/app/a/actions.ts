@@ -66,7 +66,7 @@ export async function logout() {
     const protocol = host.includes('localhost') || host.includes('127.0.0.1') ? 'http' : 'https';
     const origin = `${protocol}://${host}`;
     const logoutUrl = `${accessConfig.teamDomain}/cdn-cgi/access/logout?returnTo=${encodeURIComponent(
-      origin + '/a',
+      `${origin}/a`,
     )}`;
     redirect(logoutUrl);
   }
@@ -78,7 +78,7 @@ export async function deleteApplicationLink(formData: FormData) {
   if (!(await isCurrentRequestAdmin())) {
     throw new Error('Admin access is required');
   }
-  if (!isAdminWriteEnabledForCurrentRuntime()) {
+  if (!(await isAdminWriteEnabledForCurrentRuntime())) {
     throw new Error('Admin writes are disabled in this environment');
   }
 
@@ -104,7 +104,7 @@ export async function createApplicationLink(formData: FormData): Promise<void> {
   if (!(await isCurrentRequestAdmin())) {
     throw new Error('Admin access is required');
   }
-  if (!isAdminWriteEnabledForCurrentRuntime()) {
+  if (!(await isAdminWriteEnabledForCurrentRuntime())) {
     throw new Error('Admin writes are disabled in this environment');
   }
 
@@ -164,7 +164,6 @@ export async function createApplicationLink(formData: FormData): Promise<void> {
       role = null;
       summaryPreset = 'default';
       break;
-    case 'web':
     default:
       role = 'web';
       summaryPreset = 'web';

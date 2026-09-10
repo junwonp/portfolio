@@ -193,7 +193,7 @@ export const getAdminSessionCookieOptions = (isSecure: boolean) => ({
 });
 
 export const safeAdminSessionReturnTo = (value: string | null): string => {
-  if (!value || !value.startsWith('/') || value.startsWith('//')) {
+  if (!value?.startsWith('/') || value.startsWith('//')) {
     return '/a';
   }
 

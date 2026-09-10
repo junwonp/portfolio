@@ -64,6 +64,6 @@ export async function isCurrentRequestAdmin() {
   return decision.isAuthorized;
 }
 
-export function isAdminWriteEnabledForCurrentRuntime() {
-  return isAdminWriteEnabled(getCloudflareEnv());
+export async function isAdminWriteEnabledForCurrentRuntime(): Promise<boolean> {
+  return isAdminWriteEnabled(await getCloudflareEnv());
 }

@@ -13,7 +13,7 @@ export const getActiveApplicationLinkBySlug = async (
       .prepare(
         `SELECT id, slug, label, company_name as company_name, role, summary_preset as summary_preset, project_ids as project_ids, expires_at, created_at
          FROM application_links
-         WHERE slug = ? AND expires_at > datetime('now')
+         WHERE slug = ? AND deleted_at IS NULL AND expires_at > datetime('now')
          LIMIT 1`,
       )
       .bind(slug)

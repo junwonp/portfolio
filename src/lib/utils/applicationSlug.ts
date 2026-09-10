@@ -12,6 +12,11 @@ export const RESERVED_APPLICATION_SLUGS = new Set([
   'ko',
   'linkedin',
   'print',
+  'privacy',
+  'resume',
+  'opengraph-image',
+  'twitter-image',
+  'sitemap.xml',
   'projects',
   'robots.txt',
 ]);

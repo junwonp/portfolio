@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { getAdminDashboardData } from '@/lib/server/admin/dashboardData';
 
@@ -24,6 +24,22 @@ const projectOptions = [{ id: 'today-weather', title: 'Today Weather' }];
 const today = new Date('2026-06-29T00:00:00.000Z');
 
 describe('getAdminDashboardData', () => {
+  it('does not run schema mutations when preview writes are disabled', async () => {
+    const missingSchemaDb = new MissingSchemaDbMock();
+    const prepare = vi.fn((_sql: string) => missingSchemaDb.prepare());
+    const data = await getAdminDashboardData({
+      applicationProjectOptions: projectOptions,
+      db: { prepare } as unknown as D1Database,
+      searchParams: {},
+      today,
+      writesEnabled: false,
+    });
+
+    expect(prepare).toHaveBeenCalled();
+    expect(prepare.mock.calls.every(([sql]) => /^\s*SELECT\b/i.test(sql))).toBe(true);
+    expect(data.writesEnabled).toBe(false);
+  });
+
   it('returns an empty dashboard when the analytics schema is not provisioned locally', async () => {
     const data = await getAdminDashboardData({
       applicationProjectOptions: projectOptions,

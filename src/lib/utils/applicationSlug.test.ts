@@ -21,6 +21,8 @@ describe('application slug utilities', () => {
 
   it('excludes reserved routes, nested paths, and invalid slug paths', () => {
     expect(extractApplicationSlugFromPath('/a')).toBeUndefined();
+    expect(extractApplicationSlugFromPath('/privacy')).toBeUndefined();
+    expect(extractApplicationSlugFromPath('/resume')).toBeUndefined();
     expect(extractApplicationSlugFromPath('/api')).toBeUndefined();
     expect(extractApplicationSlugFromPath('/en')).toBeUndefined();
     expect(extractApplicationSlugFromPath('/projects/foo')).toBeUndefined();

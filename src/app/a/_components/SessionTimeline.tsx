@@ -29,7 +29,7 @@ export function SessionTimeline({ detail }: SessionTimelineProps) {
 
   return (
     <div className={styles.timeline}>
-      {timelineItems.map((item, i) => {
+      {timelineItems.map((item) => {
         if (item.kind === 'pageView') {
           const pv = item.data;
           const label = pv.path === '/' ? '홈' : pv.path.replace(/^\/+/, '');

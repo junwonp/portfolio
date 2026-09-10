@@ -73,7 +73,14 @@ export const getCacheControlForPath = (pathname: string): string => {
     return ASSET_CACHE_HEADER;
   }
 
-  if (PRIVATE_ROBOTS_PATHS.some((regex) => regex.test(pathname))) {
+  if (PRIVATE_ROBOTS_PATHS.some((regex) => regex.test(pathname)) || pathname === '/resume') {
+    return PRIVATE_PAGE_CACHE_HEADER;
+  }
+
+  const canonicalPath = stripLocalePathPrefix(pathname);
+  const slug = canonicalPath.match(SINGLE_SEGMENT_PATH_PATTERN)?.[1];
+  // Revocation and expiry must take effect on the next request, not after a CDN TTL.
+  if (slug && !isReservedApplicationSlug(slug) && !PUBLIC_FILE_PATH_PATTERN.test(canonicalPath)) {
     return PRIVATE_PAGE_CACHE_HEADER;
   }
 

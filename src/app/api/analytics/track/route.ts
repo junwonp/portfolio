@@ -4,10 +4,19 @@ import { NextResponse } from 'next/server';
 
 import { OWNER_DEVICE_COOKIE } from '@/lib/server/admin/access';
 import { parseAnalyticsPayloadBody } from '@/lib/server/analytics/payload';
+import {
+  AnalyticsBodyTooLargeError,
+  readAnalyticsBody,
+  shouldCollectAnalytics,
+} from '@/lib/server/analytics/request';
 import { recordAnalyticsPayload } from '@/lib/server/analytics/tracking';
-import { getDb } from '@/lib/server/infrastructure/database';
+import { getCloudflareEnv, getDb } from '@/lib/server/infrastructure/database';
 
 export async function POST(request: NextRequest) {
+  const env = await getCloudflareEnv();
+  if (!shouldCollectAnalytics(env?.APP_ENV, request.url)) {
+    return NextResponse.json({ success: true, bypassed: true });
+  }
   const db = await getDb();
   if (!db) {
     return NextResponse.json(
@@ -36,10 +45,25 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    if (!env?.ANALYTICS_RATE_LIMITER || !clientIp) {
+      return NextResponse.json({ success: false, error: 'Analytics unavailable' }, { status: 503 });
+    }
+    const { success } = await env.ANALYTICS_RATE_LIMITER.limit({
+      key: `portfolio:analytics:${clientIp}`,
+    });
+    if (!success) {
+      return NextResponse.json(
+        { success: false, error: 'Too many requests' },
+        { status: 429, headers: { 'Retry-After': '60' } },
+      );
+    }
     let rawBody: unknown;
     try {
-      rawBody = await request.json();
-    } catch {
+      rawBody = await readAnalyticsBody(request);
+    } catch (error) {
+      if (error instanceof AnalyticsBodyTooLargeError) {
+        return NextResponse.json({ success: false, error: error.message }, { status: 413 });
+      }
       rawBody = null;
     }
 

@@ -51,6 +51,13 @@
       "database_id": "3c7cc643-2ad9-4c9a-97c3-2e2105b3e8ef"
     }
   ],
+  "ratelimits": [
+    {
+      "name": "ANALYTICS_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": { "limit": 120, "period": 60 }
+    }
+  ],
   "observability": {
     "enabled": false
   }
