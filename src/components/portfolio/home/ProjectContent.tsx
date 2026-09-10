@@ -6,7 +6,7 @@ import ArrowLink from '@/components/ui/ArrowLink';
 import Collapse from '@/components/ui/Collapse';
 import Period from '@/components/ui/Period';
 import RichText from '@/components/ui/RichText';
-import SkillChip from '@/components/ui/SkillChip';
+import SkillGroups from '@/components/ui/SkillGroups';
 import type { ProjectItem as ProjectItemType } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
 import { parseMarkdown } from '@/lib/utils/markdown';
@@ -47,18 +47,30 @@ export default function ProjectContent({
   headerProps,
   labels,
 }: ProjectContentProps) {
-  const sortedSkills = (() => {
+  const { visibleSkills, hiddenSkillCount, hiddenSkillsSummary } = (() => {
     const projectSkills = sortSkills(project.skills ?? []);
-    if (skillLimit === undefined) return projectSkills;
+    if (skillLimit === undefined) {
+      return {
+        visibleSkills: projectSkills,
+        hiddenSkillCount: 0,
+        hiddenSkillsSummary: '',
+      };
+    }
 
     const featuredSkills = project.featuredSkills ?? [];
     const featuredSet = new Set(featuredSkills);
     const remainingSkills = projectSkills.filter((skill: string) => !featuredSet.has(skill));
-    return [...featuredSkills, ...remainingSkills];
-  })();
+    const prioritized = [...featuredSkills, ...remainingSkills];
 
-  const visibleSkills = skillLimit === undefined ? sortedSkills : sortedSkills.slice(0, skillLimit);
-  const hiddenSkillCount = sortedSkills.length - visibleSkills.length;
+    const selected = prioritized.slice(0, skillLimit);
+    const hidden = prioritized.slice(skillLimit);
+
+    return {
+      visibleSkills: sortSkills(selected),
+      hiddenSkillCount: hidden.length,
+      hiddenSkillsSummary: sortSkills(hidden).join(', '),
+    };
+  })();
 
   const isSpotlight = variant === 'spotlight';
 
@@ -81,11 +93,9 @@ export default function ProjectContent({
 
         {visibleSkills.length > 0 && (
           <div className={styles.skills}>
-            {visibleSkills.map((skill) => (
-              <SkillChip key={skill} skill={skill} />
-            ))}
+            <SkillGroups skills={visibleSkills} />
             {hiddenSkillCount > 0 && (
-              <span className={styles.moreChip} title={sortedSkills.slice(skillLimit).join(', ')}>
+              <span className={styles.moreChip} title={hiddenSkillsSummary}>
                 +{hiddenSkillCount}
               </span>
             )}
@@ -153,11 +163,9 @@ export default function ProjectContent({
 
           {visibleSkills.length > 0 && (
             <div className={styles.skills}>
-              {visibleSkills.map((skill: string) => (
-                <SkillChip key={skill} skill={skill} />
-              ))}
+              <SkillGroups skills={visibleSkills} />
               {hiddenSkillCount > 0 && (
-                <span className={styles.moreChip} title={sortedSkills.slice(skillLimit).join(', ')}>
+                <span className={styles.moreChip} title={hiddenSkillsSummary}>
                   +{hiddenSkillCount}
                 </span>
               )}

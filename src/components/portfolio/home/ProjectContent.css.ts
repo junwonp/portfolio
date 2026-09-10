@@ -40,7 +40,8 @@ export const linkMock = style({
 export const skills = style({
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '0.4rem',
+  alignItems: 'center',
+  gap: '0.4rem 0.65rem',
   minWidth: 0,
   marginTop: '0.25rem',
 });

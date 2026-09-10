@@ -46,4 +46,12 @@ describe('ProjectContent resume variant', () => {
     expect(html).toContain('TypeScript');
     expect(html).toContain('Expo');
   });
+
+  it('renders tech stack grouped by category with a divider between different categories', () => {
+    const html = renderResume();
+
+    expect(html).toContain('TypeScript');
+    expect(html).toContain('Expo');
+    expect(html).toContain('/');
+  });
 });
