@@ -139,9 +139,11 @@ const airaBlocks: Record<ResumeVariantId, ResumeProjectBlock> = {
         '로 Android, iOS, Web을 지원하되, 웹 빌드에 모바일 전용 라이브러리가 섞이지 않도록 플랫폼별 번들을 격리해 빌드 안정성을 확보했습니다.',
       ],
       [
-        'Type-Safe한 ',
+        '실시간 스트리밍 시 화면 깜빡임을 방지하고 타이핑 효과를 구현하기 위해 ',
+        strong('InfiniteQuery 캐시 직접 패치'),
+        '를 적용하고, ',
         strong('쿼리 캐시 파사드(queryData)'),
-        '로 API 계층을 정리하고, InfiniteQuery 기반 실시간 패치로 스트리밍 UI를 구현했습니다.',
+        '로 API 계층의 Type Safety를 확보했습니다.',
       ],
       [
         strong('React Compiler'),
@@ -186,7 +188,11 @@ const airaBlocks: Record<ResumeVariantId, ResumeProjectBlock> = {
         strong('디자인 토큰 시스템'),
         '으로 라이트·다크 테마 전환 시 깜빡임 없이 지원했습니다.',
       ],
-      [strong('typesafe-i18n'), '으로 컴파일 타임 i18n Type Safety를 확보했습니다.'],
+      [
+        '글로벌 출시 환경에서 번역 키 누락과 파라미터 불일치로 인한 화면 오류를 방지하기 위해 ',
+        strong('typesafe-i18n'),
+        '을 도입해 컴파일 타임 검증 환경을 구축했습니다.',
+      ],
     ],
   },
   // 운영/데이터 포지션: 데이터 무결성과 캐시 계층 관점으로 서술
@@ -205,10 +211,15 @@ const airaBlocks: Record<ResumeVariantId, ResumeProjectBlock> = {
         strong('쿼리 캐시 파사드(queryData)'),
         '로 서버 데이터 접근을 단일 계층으로 정리했습니다.',
       ],
-      [strong('Zod 스키마 연동'), '으로 선언적 입력 폼을 제어해 검증 로직 중복을 제거했습니다.'],
       [
+        '캐릭터 생성 등 복잡한 다중 필드 입력에서 클라이언트-서버 간 유효성 불일치를 방지하기 위해 ',
+        strong('Zod 스키마 기반 선언적 폼'),
+        '을 구축하고 검증 로직 중복을 제거했습니다.',
+      ],
+      [
+        '비즈니스 로직 변경 시 UI 사이드 이펙트를 최소화하고 테스트 용이성을 확보하기 위해 ',
         strong('프레젠테이션·컨테이너 분리'),
-        '로 화면 로직과 데이터 흐름을 분리해 유지보수성을 높였습니다.',
+        '로 화면 로직과 데이터 흐름을 엄격히 격리했습니다.',
       ],
     ],
   },
@@ -239,13 +250,17 @@ const kftcProjectItem: ResumeSimpleItem = {
   period: '2026.04 – 2026.05',
   bullets: [
     [
-      '오르카에이아이 소속으로 금융결제원 금융인증서 프로모션 웹 페이지 개발과 클라이언트 QA 대응을 담당했습니다.',
+      '단기간 대규모 트래픽이 유입되는 프로모션 환경에서 무결성을 보장하기 위해 금융결제원의 엄격한 클라이언트 QA 기준을 통과하는 이벤트 웹 페이지를 전담 개발했습니다.',
     ],
     [
       strong('민감 데이터 캐시 설계: '),
       '세션·포인트·알림은 persistence에서 제외하고 안전한 데이터만 영속화하도록 TanStack Query 캐시를 설계했습니다.',
     ],
-    [strong('Express Mock 서버·Storybook'), ' 으로 백엔드 개발과 병렬로 화면 상태를 검증했습니다.'],
+    [
+      '백엔드 API 미완성으로 인한 개발 병목을 해소하기 위해 ',
+      strong('Express Mock 서버·Storybook'),
+      ' 환경을 구축하여 화면 상태 검증과 QA를 병렬로 완수했습니다.',
+    ],
   ],
 };
 
@@ -283,7 +298,11 @@ const camerafiStudioBlockOpsData: ResumeProjectBlock = {
     '로 성장시킨 스포츠 중계 오버레이 웹 SaaS입니다.',
   ],
   bullets: [
-    [strong('Paddle 구독 결제·웹훅 갱신'), ' 처리를 연동해 결제 라이프사이클 전반을 운영했습니다.'],
+    [
+      '글로벌 구독 사용자의 결제 누락 및 상태 불일치를 방지하기 위해 ',
+      strong('Paddle 모듈과 웹훅 기반 갱신 파이프라인'),
+      '을 구축하고 결제 라이프사이클 전반을 운영했습니다.',
+    ],
   ],
 };
 
@@ -294,15 +313,19 @@ const adminDashboardBlockOpsData: ResumeProjectBlock = {
   summary: ['계정, 구독, 제품 사용량, 매출 지표를 관리하는 내부 운영 도구를 구축했습니다.'],
   bullets: [
     [
-      'React Table, MUI, TanStack Query를 조합해 목록, 필터, 상세, 생성, 수정 흐름을 재사용 가능한 ',
+      '신규 관리 화면 추가 시 반복되는 개발 비용을 절감하기 위해 React Table과 MUI 기반의 재사용 가능한 ',
       strong('CRUD/Table 패턴'),
-      '으로 정리했습니다.',
+      '을 구축했습니다.',
     ],
     [
       strong('운영 화면 확장성: '),
       '공통 상호작용 모델로 신규 관리 화면 추가 시간을 크게 줄였습니다.',
     ],
-    [strong('query → table 단방향 흐름'), '으로 서버 상태와 UI 상태의 충돌을 원천 차단했습니다.'],
+    [
+      '서버 사이드 페이징/필터링과 클라이언트 테이블 상태 간 충돌을 방지하기 위해 ',
+      strong('query → table 단방향 흐름'),
+      '으로 데이터 상태를 일원화했습니다.',
+    ],
   ],
 };
 
@@ -329,9 +352,9 @@ const adminDashboardBlock: ResumeProjectBlock = {
   summary: ['계정, 구독, 제품 사용량, 매출 지표를 관리하는 내부 운영 도구를 구축했습니다.'],
   bullets: [
     [
-      'React Table, MUI, TanStack Query를 조합해 목록, 필터, 상세, 생성, 수정 흐름을 재사용 가능한 ',
+      '신규 관리 화면 추가 시 반복되는 개발 비용을 절감하기 위해 React Table과 MUI 기반의 재사용 가능한 ',
       strong('CRUD/Table 패턴'),
-      '으로 정리했습니다.',
+      '을 구축했습니다.',
     ],
     [
       strong('운영 화면 확장성: '),
@@ -348,9 +371,9 @@ const mndViewerBlock: ResumeProjectBlock = {
   ],
   bullets: [
     [
-      '수천 행의 엑셀 데이터를 안정적으로 탐색할 수 있도록 React Table과 ',
-      strong('Virtualization'),
-      '을 적용해 스크롤 지연을 줄였습니다.',
+      '대용량 엑셀 및 문서 파일 로드 시 브라우저가 멈추거나 렌더링이 중단되는 문제를 해결하기 위해 React Table과 ',
+      strong('Virtualization(가상화)'),
+      '을 적용하여 수천 행의 데이터도 지연 없이 탐색하도록 최적화했습니다.',
     ],
     [
       '외부 통신이 차단된 폐쇄망 환경의 한계를 극복하기 위해 ',
@@ -358,10 +381,11 @@ const mndViewerBlock: ResumeProjectBlock = {
       '를 설계하여 실시간 UI 동작 및 협업 기능을 성공적으로 테스트했습니다.',
     ],
     [
-      strong('react-window·react-virtualized'),
-      ' 이중 렌더러로 그리드와 가변 줄 텍스트를 가상화하고, ',
-      strong('역방향 텍스트 범위 정규화'),
-      '까지 구현했습니다.',
+      '엑셀 표와 줄글 문서의 서로 다른 화면 특성에 맞춰 ',
+      strong('react-window와 react-virtualized'),
+      ' 가상화를 각각 나누어 적용하고, 마우스 역방향 드래그 시 선택 영역이 깨지지 않도록 ',
+      strong('텍스트 범위 정규화'),
+      '를 구현했습니다.',
     ],
   ],
 };
@@ -503,7 +527,7 @@ const awardsSection: ResumePageSection = {
       period: '2026',
       bullets: [
         [
-          'Next.js 16 App Router와 vinext를 Cloudflare Workers에 배포하고, D1/R2/KV 기반 관리자 편집 및 분석 흐름을 운영 가능한 구조로 정리했습니다.',
+          '글로벌 엣지 환경에서 빠른 응답 속도와 서버 비용 0원을 달성하기 위해 Next.js 16과 vinext를 Cloudflare Workers에 배포하고, D1/R2/KV 기반 경량 관리자 인프라를 구축했습니다.',
         ],
       ],
     },
