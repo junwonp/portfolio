@@ -42,39 +42,10 @@ export const subtitle = style({
   margin: '0.25rem 0 0 0',
 });
 
-export const logoutBtn = style({
-  background: 'transparent',
-  border: '1px solid var(--color-bg-divider)',
-  borderRadius: 'var(--radius-sm)',
-  color: 'var(--color-sub)',
-  cursor: 'pointer',
-  fontSize: '0.875rem',
-  fontWeight: 500,
-  padding: '0.5rem 1rem',
-  textDecoration: 'none',
-  transition: 'all 0.2s ease',
-
-  ':hover': {
-    background: 'var(--color-surface-hover)',
-    color: 'var(--color-bold)',
-    borderColor: 'var(--color-bold)',
-  },
-});
-
-export const glass = style({
-  background: 'var(--glass-bg)',
-  backdropFilter: 'var(--glass-blur)',
-  border: 'var(--glass-border)',
-  borderRadius: 'var(--radius-sm)',
-  padding: 'var(--space-sm)',
-  boxShadow: '0 4px 12px var(--color-shadow)',
-  transition: 'box-shadow 0.2s ease',
-
-  selectors: {
-    'html.dark &': {
-      boxShadow: '0 4px 12px var(--color-shadow)',
-    },
-  },
+export const databaseError = style({
+  color: 'var(--color-error)',
+  padding: '2rem',
+  textAlign: 'center',
 });
 
 export const metricsGrid = style({
@@ -85,17 +56,11 @@ export const metricsGrid = style({
   zIndex: 4,
 });
 
-export const sectionSubtitle = style({
-  color: 'var(--color-sub)',
-  opacity: 0.8,
-  fontSize: '0.85rem',
-  margin: '0.25rem 0 1.5rem 0',
-});
-
 export const metricFilterCard = style({
   alignItems: 'end',
   display: 'grid',
   gap: 'var(--space-sm)',
+  padding: 'var(--space-sm)',
   gridTemplateColumns: 'minmax(0, 1fr) minmax(260px, 420px)',
   position: 'relative',
   zIndex: 5,
@@ -107,13 +72,13 @@ export const metricFilterCard = style({
   },
 });
 
-globalStyle(`${metricFilterCard} .${sectionSubtitle}`, {
-  marginBottom: 0,
-});
-
 export const dashboardViewSwitcher = style({
   alignItems: 'center',
+  background: 'var(--glass-bg)',
+  backdropFilter: 'var(--glass-blur)',
+  border: 'var(--glass-border)',
   borderRadius: 'var(--radius-full)',
+  boxShadow: 'var(--shadow-glass)',
   display: 'flex',
   gap: 'var(--space-sm)',
   justifyContent: 'space-between',
@@ -173,41 +138,6 @@ export const segmentedControl = style({
   },
 });
 
-export const active = style({});
-
-globalStyle(`${segmentedControl} button`, {
-  background: 'transparent',
-  border: 0,
-  borderRadius: 'var(--radius-full)',
-  color: 'var(--color-sub)',
-  cursor: 'pointer',
-  font: 'inherit',
-  fontSize: '0.82rem',
-  fontWeight: 700,
-  minHeight: '38px',
-  padding: '0 0.85rem',
-  transition: 'background 0.2s ease, color 0.2s ease, transform 0.1s ease',
-});
-
-globalStyle(`${segmentedControl} button:hover:not(.${active})`, {
-  background: 'var(--color-surface-hover)',
-  color: 'var(--color-bold)',
-});
-
-globalStyle(`${segmentedControl} button:focus-visible`, {
-  outline: '2px solid color-mix(in srgb, var(--color-primary) 22%, transparent)',
-  outlineOffset: '2px',
-});
-
-globalStyle(`${segmentedControl} button:active`, {
-  transform: 'scale(0.97)',
-});
-
-globalStyle(`${segmentedControl} button.${active}`, {
-  background: 'var(--color-primary)',
-  color: 'var(--color-basic-bg)',
-});
-
 export const dashboardPanel = style({
   animation: `${panelEnter} 0.3s var(--ease-emphasized)`,
   display: 'flex',
@@ -232,6 +162,7 @@ globalStyle(`${metricFilterForm} span`, {
 
 export const applicationLinkCard = style({
   display: 'block',
+  padding: 'var(--space-sm)',
   position: 'relative',
   zIndex: 'var(--z-base)',
 
@@ -303,6 +234,10 @@ globalStyle(`${applicationForm} input:focus`, {
   outline: '2px solid color-mix(in srgb, var(--color-primary) 18%, transparent)',
 });
 
+globalStyle(`${applicationForm} button`, {
+  alignSelf: 'end',
+});
+
 export const projectOrderGrid = style({
   display: 'grid',
   gap: '0.75rem',
@@ -312,65 +247,6 @@ export const projectOrderGrid = style({
     '(max-width: 768px)': {
       gridTemplateColumns: '1fr',
     },
-  },
-});
-
-export const primaryBtn = style({
-  alignSelf: 'end',
-  background: 'var(--color-primary)',
-  border: 'none',
-  borderRadius: 'var(--radius-sm)',
-  color: 'var(--color-basic-bg)',
-  cursor: 'pointer',
-  font: 'inherit',
-  fontWeight: 700,
-  minHeight: '42px',
-  padding: '0.65rem 1rem',
-
-  ':hover': {
-    filter: 'brightness(0.96)',
-  },
-});
-
-export const dangerBtn = style({
-  background: 'transparent',
-  border: '0.5px solid color-mix(in srgb, var(--color-error) 35%, var(--color-bg-divider))',
-  borderRadius: 'var(--radius-sm)',
-  color: 'var(--color-error)',
-  cursor: 'pointer',
-  font: 'inherit',
-  fontSize: '0.78rem',
-  fontWeight: 700,
-  minHeight: '34px',
-  padding: '0.35rem 0.65rem',
-  transition: 'background 0.2s ease, border-color 0.2s ease',
-
-  ':hover': {
-    background: 'color-mix(in srgb, var(--color-error) 10%, transparent)',
-    borderColor: 'var(--color-error)',
-  },
-});
-
-export const printBtn = style({
-  background: 'transparent',
-  border: '0.5px solid color-mix(in srgb, var(--color-primary) 35%, var(--color-bg-divider))',
-  borderRadius: 'var(--radius-sm)',
-  color: 'var(--color-primary)',
-  cursor: 'pointer',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  font: 'inherit',
-  fontSize: '0.78rem',
-  fontWeight: 700,
-  minHeight: '34px',
-  padding: '0.35rem 0.65rem',
-  textDecoration: 'none',
-  transition: 'background 0.2s ease, border-color 0.2s ease',
-
-  ':hover': {
-    background: 'color-mix(in srgb, var(--color-primary) 10%, transparent)',
-    borderColor: 'var(--color-primary)',
   },
 });
 
@@ -409,31 +285,10 @@ export const mutedText = style({
   marginTop: '0.2rem',
 });
 
-export const sectionHeadingRow = style({
-  alignItems: 'flex-start',
-  display: 'flex',
-  gap: 'var(--space-sm)',
-  justifyContent: 'space-between',
-
-  '@media': {
-    '(max-width: 768px)': {
-      alignItems: 'stretch',
-      flexDirection: 'column',
-    },
-  },
-});
-
 export const chartSection = style({
+  padding: 'var(--space-sm)',
   position: 'relative',
   zIndex: 3,
-});
-
-globalStyle(`${chartSection} .${sectionHeadingRow}`, {
-  marginBottom: '1.25rem',
-});
-
-globalStyle(`${chartSection} .${sectionSubtitle}`, {
-  marginBottom: '0.5rem',
 });
 
 export const chartLegend = style({
@@ -495,41 +350,6 @@ export const chartActions = style({
       alignItems: 'flex-start',
     },
   },
-});
-
-export const rangeTabs = style({
-  background: 'var(--color-code-bg)',
-  border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: 'var(--radius-full)',
-  display: 'inline-flex',
-  gap: 'var(--space-2xs)',
-  padding: '0.25rem',
-});
-
-globalStyle(`${rangeTabs} a, ${rangeTabs} button`, {
-  borderRadius: 'var(--radius-full)',
-  color: 'var(--color-sub)',
-  fontSize: '0.8rem',
-  fontWeight: 600,
-  lineHeight: 1,
-  padding: '0.45rem 0.75rem',
-  textDecoration: 'none',
-  transition: 'background 0.2s ease, color 0.2s ease',
-  whiteSpace: 'nowrap',
-  background: 'transparent',
-  border: 0,
-  cursor: 'pointer',
-  font: 'inherit',
-});
-
-globalStyle(`${rangeTabs} a.${active}, ${rangeTabs} button.${active}`, {
-  background: 'var(--color-primary)',
-  color: 'var(--color-basic-bg)',
-});
-
-globalStyle(`${rangeTabs} a:hover:not(.${active}), ${rangeTabs} button:hover:not(.${active})`, {
-  background: 'var(--color-surface-hover)',
-  color: 'var(--color-bold)',
 });
 
 export const trafficSummaryGrid = style({
@@ -682,6 +502,7 @@ export const detailsGrid = style({
 
 export const detailsCard = style({
   minWidth: 0,
+  padding: 'var(--space-sm)',
 });
 
 export const tableCard = style({
@@ -722,8 +543,36 @@ export const pathCell = style({
   whiteSpace: 'nowrap',
 });
 
+export const noWrapCell = style({
+  whiteSpace: 'nowrap',
+});
+
+export const timeColumn = style({
+  width: '140px',
+});
+
+/* Self-contained (not pathCell + modifier) so no two classes compete on maxWidth */
+export const referrerCell = style({
+  maxWidth: '200px',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
+export const uaCell = style({
+  maxWidth: '280px',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
 export const num = style({
   textAlign: 'right',
+});
+
+/* Progress-bar metric columns (평균 스크롤 / 본문 진행) need room for the mini bars */
+export const progressHeaderCell = style({
+  minWidth: '100px',
 });
 
 export const actionCell = style({
@@ -738,10 +587,11 @@ export const flexCard = style({
   gap: '1.5rem',
 });
 
+// No gap: SectionHeading's built-in bottom margin supplies the heading→content
+// spacing (previously this gap) so switching to SectionHeading doesn't double it.
 export const subSection = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: 'var(--space-sm)',
 });
 
 export const spacerTop = style({
@@ -776,37 +626,6 @@ export const labelText = style({
 
 export const labelVal = style({
   color: 'var(--color-sub)',
-});
-
-export const progressBar = style({
-  background: 'var(--color-bg-subdivider)',
-  borderRadius: 'var(--radius-xs)',
-  height: '6px',
-  overflow: 'hidden',
-  width: '100%',
-});
-
-export const progressFill = style({
-  borderRadius: 'var(--radius-xs)',
-  height: '100%',
-  transition: 'width 0.3s ease',
-
-  selectors: {
-    [`&.${blue}`]: {
-      background: 'var(--color-cat-frameworks)',
-    },
-    [`&.${green}`]: {
-      background: 'var(--color-primary)',
-    },
-  },
-});
-
-export const emptyState = style({
-  color: 'var(--color-sub)',
-  opacity: 0.8,
-  fontSize: '0.9rem',
-  padding: '2rem 0',
-  textAlign: 'center',
 });
 
 /* Mini progress bars for table cells */
@@ -1083,6 +902,12 @@ export const timelineBarRow = style({
   gap: '0.4rem',
 });
 
+// width:100% is load-bearing: without it the flex item collapses and the track renders zero-width
+export const timelineBar = style({
+  maxWidth: '120px',
+  width: '100%',
+});
+
 export const timelineBarLabel = style({
   color: 'var(--color-sub)',
   fontSize: '0.68rem',
@@ -1166,40 +991,6 @@ export const filterLabel = style({
   whiteSpace: 'nowrap',
 });
 
-export const filterTabs = style({
-  background: 'var(--color-code-bg)',
-  border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: 'var(--radius-full)',
-  display: 'inline-flex',
-  gap: '0.15rem',
-  padding: '0.2rem',
-});
-
-globalStyle(`${filterTabs} button`, {
-  background: 'transparent',
-  border: 0,
-  borderRadius: 'var(--radius-full)',
-  color: 'var(--color-sub)',
-  cursor: 'pointer',
-  font: 'inherit',
-  fontSize: '0.76rem',
-  fontWeight: 600,
-  lineHeight: 1,
-  padding: '0.35rem 0.65rem',
-  transition: 'background 0.2s ease, color 0.2s ease',
-  whiteSpace: 'nowrap',
-});
-
-globalStyle(`${filterTabs} button:hover:not(.${active})`, {
-  background: 'var(--color-surface-hover)',
-  color: 'var(--color-bold)',
-});
-
-globalStyle(`${filterTabs} button.${active}`, {
-  background: 'var(--color-primary)',
-  color: 'var(--color-basic-bg)',
-});
-
 /* Link cell in sessions table */
 
 export const linkCell = style({
@@ -1252,6 +1043,12 @@ export const linkSlugCell = style({
 export const linkCompanyCell = style({
   fontWeight: 600,
   color: 'var(--color-bold)',
+});
+
+export const linkDateCell = style({
+  color: 'var(--color-sub)',
+  fontSize: '0.8rem',
+  whiteSpace: 'nowrap',
 });
 
 export const linkProjectCell = style({

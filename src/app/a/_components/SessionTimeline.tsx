@@ -1,3 +1,4 @@
+import ProgressBar from '@/components/ui/ProgressBar';
 import type { SessionDetail } from '@/lib/server/admin/dashboardData';
 
 import * as styles from './admin.css';
@@ -77,11 +78,8 @@ export function SessionTimeline({ detail }: SessionTimelineProps) {
                     {pv.scrollDepth > 0 && (
                       <div className={styles.timelineBarRow}>
                         <span className={styles.timelineBarLabel}>스크롤</span>
-                        <div className={styles.progressBar} style={{ maxWidth: '120px' }}>
-                          <div
-                            className={`${styles.progressFill} ${styles.blue}`}
-                            style={{ width: `${pv.scrollDepth}%` }}
-                          />
+                        <div className={styles.timelineBar}>
+                          <ProgressBar value={pv.scrollDepth} tone="success" />
                         </div>
                         <span className={styles.timelineBarVal}>{pv.scrollDepth}%</span>
                       </div>
@@ -89,11 +87,8 @@ export function SessionTimeline({ detail }: SessionTimelineProps) {
                     {pv.articleProgress > 0 && (
                       <div className={styles.timelineBarRow}>
                         <span className={styles.timelineBarLabel}>본문</span>
-                        <div className={styles.progressBar} style={{ maxWidth: '120px' }}>
-                          <div
-                            className={`${styles.progressFill} ${styles.green}`}
-                            style={{ width: `${pv.articleProgress}%` }}
-                          />
+                        <div className={styles.timelineBar}>
+                          <ProgressBar value={pv.articleProgress} tone="primary" />
                         </div>
                         <span className={styles.timelineBarVal}>{pv.articleProgress}%</span>
                       </div>

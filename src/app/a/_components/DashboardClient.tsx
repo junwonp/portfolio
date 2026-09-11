@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import Button from '@/components/ui/Button';
 import type { SessionDetail, SessionRow } from '@/lib/server/admin/dashboardData';
 import { logout } from '../actions';
 import * as styles from './admin.css';
@@ -120,39 +121,40 @@ export function DashboardClient({
           <p className={styles.subtitle}>Cloudflare Edge 기반 실시간 방문자 행동 분석</p>
         </div>
         <form action={logout}>
-          <button type="submit" className={styles.logoutBtn}>
+          <Button variant="outline" size="md" shape="rounded" type="submit">
             로그아웃
-          </button>
+          </Button>
         </form>
       </header>
 
-      <section
-        className={`${styles.dashboardViewSwitcher} ${styles.glass}`}
-        aria-label="대시보드 화면 선택"
-      >
+      <section className={styles.dashboardViewSwitcher} aria-label="대시보드 화면 선택">
         <div className={styles.switcherCopy}>
           <span>{activeTab === 'analytics' ? '기본 화면' : '관리 화면'}</span>
           <strong>{activeTab === 'analytics' ? '분석 지표' : '지원 링크 생성 및 관리'}</strong>
         </div>
         <div className={styles.segmentedControl} role="tablist">
-          <button
+          <Button
+            variant={activeTab === 'analytics' ? 'primary' : 'ghost'}
+            size="sm"
+            shape="pill"
             type="button"
             role="tab"
             aria-selected={activeTab === 'analytics'}
-            className={activeTab === 'analytics' ? styles.active : ''}
             onClick={() => setActiveTab('analytics')}
           >
             분석
-          </button>
-          <button
+          </Button>
+          <Button
+            variant={activeTab === 'links' ? 'primary' : 'ghost'}
+            size="sm"
+            shape="pill"
             type="button"
             role="tab"
             aria-selected={activeTab === 'links'}
-            className={activeTab === 'links' ? styles.active : ''}
             onClick={() => setActiveTab('links')}
           >
             링크
-          </button>
+          </Button>
         </div>
       </section>
 

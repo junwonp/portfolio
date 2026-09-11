@@ -4,6 +4,7 @@ import { getAdminDashboardData } from '@/lib/server/admin/dashboardData';
 import { isAdminWriteEnabledForCurrentRuntime } from '@/lib/server/admin/request';
 import { getDb } from '@/lib/server/infrastructure/database';
 
+import * as styles from './admin.css';
 import { DashboardClient } from './DashboardClient';
 
 export async function AdminDashboard({
@@ -16,7 +17,7 @@ export async function AdminDashboard({
 
   if (!db && process.env.NODE_ENV !== 'development') {
     return (
-      <div style={{ color: 'var(--color-error)', padding: '2rem', textAlign: 'center' }}>
+      <div className={styles.databaseError}>
         <p>Database is not bound. If local, run Next.js with Cloudflare bindings.</p>
       </div>
     );

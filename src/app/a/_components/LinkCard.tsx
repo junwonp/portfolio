@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '@/components/ui/Button';
 import { formatDateTime } from '@/lib/utils/date';
 import { deleteApplicationLink } from '../actions';
 import * as styles from './admin.css';
@@ -63,32 +64,36 @@ export function LinkCard({ link, projectOptions, writesEnabled }: LinkCardProps)
       </td>
       <td className={styles.num}>{link.sessions}</td>
       <td className={styles.num}>{link.views}</td>
-      <td style={{ whiteSpace: 'nowrap', fontSize: '0.8rem', color: 'var(--color-sub)' }}>
+      <td className={styles.linkDateCell}>
         {link.lastSeenAt ? formatDateTime(link.lastSeenAt) : '-'}
       </td>
-      <td style={{ whiteSpace: 'nowrap', fontSize: '0.8rem', color: 'var(--color-sub)' }}>
-        {formatDateTime(link.expiresAt)}
-      </td>
+      <td className={styles.linkDateCell}>{formatDateTime(link.expiresAt)}</td>
       <td className={styles.actionCell}>
-        <a
+        <Button
+          as="a"
+          variant="outline"
+          size="sm"
+          shape="rounded"
           href={`/resume?slug=${link.slug}`}
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.printBtn}
           title="이 단축 링크가 포함된 이력서 버전을 열어 PDF로 저장할 수 있습니다."
         >
           이력서
-        </a>
+        </Button>
       </td>
       <td className={styles.actionCell}>
-        <a
+        <Button
+          as="a"
+          variant="outline"
+          size="sm"
+          shape="rounded"
           href={`/print?slug=${link.slug}`}
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.printBtn}
         >
           인쇄
-        </a>
+        </Button>
       </td>
       <td className={styles.actionCell}>
         <form
@@ -104,9 +109,11 @@ export function LinkCard({ link, projectOptions, writesEnabled }: LinkCardProps)
           }}
         >
           <input type="hidden" name="linkId" value={link.id} />
-          <button
+          <Button
+            variant="danger"
+            size="sm"
+            shape="rounded"
             type="submit"
-            className={styles.dangerBtn}
             disabled={!writesEnabled}
             title={
               writesEnabled
@@ -115,7 +122,7 @@ export function LinkCard({ link, projectOptions, writesEnabled }: LinkCardProps)
             }
           >
             삭제
-          </button>
+          </Button>
         </form>
       </td>
     </tr>

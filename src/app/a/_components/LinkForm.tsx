@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import Button from '@/components/ui/Button';
 import Select from '@/components/ui/Select';
 import { createApplicationLink } from '../actions';
 import * as styles from './admin.css';
@@ -121,9 +122,9 @@ export function LinkForm({ applicationProjectOptions, writesEnabled }: LinkFormP
         </div>
       </div>
 
-      <button type="submit" className={styles.primaryBtn} disabled={!writesEnabled}>
+      <Button variant="primary" size="md" shape="rounded" type="submit" disabled={!writesEnabled}>
         링크 생성
-      </button>
+      </Button>
     </form>
   );
 }

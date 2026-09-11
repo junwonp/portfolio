@@ -1,3 +1,8 @@
+import Card from '@/components/ui/Card';
+import EmptyState from '@/components/ui/EmptyState';
+import ProgressBar from '@/components/ui/ProgressBar';
+import SectionHeading from '@/components/ui/SectionHeading';
+
 import * as styles from './admin.css';
 
 interface DetailsGridProps {
@@ -24,10 +29,10 @@ interface DetailsGridProps {
 export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }: DetailsGridProps) {
   return (
     <div className={styles.detailsGrid}>
-      <div className={`${styles.detailsCard} ${styles.glass} ${styles.tableCard}`}>
-        <h3>가장 많이 방문한 페이지</h3>
+      <Card variant="glass" radius="sm" className={`${styles.detailsCard} ${styles.tableCard}`}>
+        <SectionHeading level={3} title="가장 많이 방문한 페이지" />
         {topPages.length === 0 ? (
-          <div className={styles.emptyState}>아직 기록된 방문자 정보가 없습니다.</div>
+          <EmptyState message="아직 기록된 방문자 정보가 없습니다." />
         ) : (
           <div className={styles.tableScroll}>
             <table>
@@ -37,12 +42,8 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
                   <th className={styles.num}>조회 수</th>
                   <th className={styles.num}>평균 체류</th>
                   <th className={styles.num}>활성 시간</th>
-                  <th className={styles.num} style={{ minWidth: '100px' }}>
-                    평균 스크롤
-                  </th>
-                  <th className={styles.num} style={{ minWidth: '100px' }}>
-                    본문 진행
-                  </th>
+                  <th className={`${styles.num} ${styles.progressHeaderCell}`}>평균 스크롤</th>
+                  <th className={`${styles.num} ${styles.progressHeaderCell}`}>본문 진행</th>
                 </tr>
               </thead>
               <tbody>
@@ -82,13 +83,13 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
             </table>
           </div>
         )}
-      </div>
+      </Card>
 
-      <div className={`${styles.detailsCard} ${styles.glass} ${styles.flexCard}`}>
+      <Card variant="glass" radius="sm" className={`${styles.detailsCard} ${styles.flexCard}`}>
         <div className={styles.subSection}>
-          <h3>주요 유입 소스 (Referrer)</h3>
+          <SectionHeading level={3} title="주요 유입 소스 (Referrer)" />
           {topReferrers.length === 0 ? (
-            <div className={styles.emptyState}>기록된 유입 경로 정보가 없습니다.</div>
+            <EmptyState message="기록된 유입 경로 정보가 없습니다." />
           ) : (
             <ul className={styles.progressList}>
               {topReferrers.map((ref) => (
@@ -99,14 +100,10 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
                     </span>
                     <span className={styles.labelVal}>{ref.count}</span>
                   </div>
-                  <div className={styles.progressBar}>
-                    <div
-                      className={`${styles.progressFill} ${styles.blue}`}
-                      style={{
-                        width: `${(ref.count / Math.max(...topReferrers.map((r) => r.count))) * 100}%`,
-                      }}
-                    ></div>
-                  </div>
+                  <ProgressBar
+                    value={(ref.count / Math.max(...topReferrers.map((r) => r.count))) * 100}
+                    tone="success"
+                  />
                 </li>
               ))}
             </ul>
@@ -114,9 +111,9 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
         </div>
 
         <div className={`${styles.subSection} ${styles.spacerTop}`}>
-          <h3>주요 접속 국가</h3>
+          <SectionHeading level={3} title="주요 접속 국가" />
           {topCountries.length === 0 ? (
-            <div className={styles.emptyState}>기록된 국가 정보가 없습니다.</div>
+            <EmptyState message="기록된 국가 정보가 없습니다." />
           ) : (
             <ul className={styles.progressList}>
               {topCountries.map((c) => (
@@ -127,14 +124,10 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
                     </span>
                     <span className={styles.labelVal}>{c.count}</span>
                   </div>
-                  <div className={styles.progressBar}>
-                    <div
-                      className={`${styles.progressFill} ${styles.green}`}
-                      style={{
-                        width: `${(c.count / Math.max(...topCountries.map((co) => co.count))) * 100}%`,
-                      }}
-                    ></div>
-                  </div>
+                  <ProgressBar
+                    value={(c.count / Math.max(...topCountries.map((co) => co.count))) * 100}
+                    tone="primary"
+                  />
                 </li>
               ))}
             </ul>
@@ -142,9 +135,9 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
         </div>
 
         <div className={`${styles.subSection} ${styles.spacerTop}`}>
-          <h3>코어 웹 바이탈</h3>
+          <SectionHeading level={3} title="코어 웹 바이탈" />
           {webVitals.length === 0 ? (
-            <div className={styles.emptyState}>기록된 Web Vitals 샘플이 없습니다.</div>
+            <EmptyState message="기록된 Web Vitals 샘플이 없습니다." />
           ) : (
             <ul className={styles.progressList}>
               {webVitals.map((metric) => (
@@ -163,7 +156,7 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
             </ul>
           )}
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

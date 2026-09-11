@@ -2,8 +2,9 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import ButtonGroup from '@/components/ui/ButtonGroup';
+
 import * as styles from './admin.css';
-import { FilterTabs } from './FilterTabs';
 
 interface SessionFiltersProps {
   classification?: 'bot' | 'suspected' | 'human';
@@ -40,18 +41,26 @@ export function SessionFilters({ classification, timeRange }: SessionFiltersProp
 
   return (
     <div className={styles.sessionFilters}>
-      <FilterTabs
-        label="유형"
-        options={CLASSIFICATION_OPTIONS}
-        selected={classification ?? ''}
-        onChange={(v) => updateParam('classification', v)}
-      />
-      <FilterTabs
-        label="기간"
-        options={TIME_RANGE_OPTIONS}
-        selected={timeRange ?? 'all'}
-        onChange={(v) => updateParam('timeRange', v)}
-      />
+      <div className={styles.filterGroup}>
+        <span className={styles.filterLabel}>유형</span>
+        <ButtonGroup
+          options={CLASSIFICATION_OPTIONS}
+          value={classification ?? ''}
+          onChange={(v) => updateParam('classification', v)}
+          size="sm"
+          ariaLabel="세션 유형 필터"
+        />
+      </div>
+      <div className={styles.filterGroup}>
+        <span className={styles.filterLabel}>기간</span>
+        <ButtonGroup
+          options={TIME_RANGE_OPTIONS}
+          value={timeRange ?? 'all'}
+          onChange={(v) => updateParam('timeRange', v)}
+          size="sm"
+          ariaLabel="세션 기간 필터"
+        />
+      </div>
     </div>
   );
 }

@@ -1,8 +1,12 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import ButtonGroup from '@/components/ui/ButtonGroup';
+import Card from '@/components/ui/Card';
+import EmptyState from '@/components/ui/EmptyState';
+import SectionHeading from '@/components/ui/SectionHeading';
+
 import * as styles from './admin.css';
-import { FilterTabs } from './FilterTabs';
 
 interface TrendChartProps {
   trafficRange: {
@@ -102,40 +106,40 @@ export function TrendChart({
   }
 
   return (
-    <section className={`${styles.chartSection} ${styles.glass}`}>
-      <div className={styles.sectionHeadingRow}>
-        <div>
-          <h3>{trafficRange.label} 트래픽</h3>
-          <p className={styles.sectionSubtitle}>
-            {formatChartDate(trafficSummary.rangeStart)}–{formatChartDate(trafficSummary.rangeEnd)}
-            기준, 기록이 없는 {trafficRange.bucket === 'month' ? '월' : '날짜'}은 0으로 표시
-          </p>
-          <div className={styles.chartLegend}>
-            <span className={styles.legendItem}>
-              <span className={`${styles.legendColor} ${styles.views}`}></span>
-              <span className={styles.legendText}>조회 수 (Views)</span>
-            </span>
-            <span className={styles.legendItem}>
-              <span className={`${styles.legendColor} ${styles.sessions}`}></span>
-              <span className={styles.legendText}>세션 수 (Sessions)</span>
-            </span>
+    <Card variant="glass" radius="sm" as="section" className={styles.chartSection}>
+      <SectionHeading
+        level={3}
+        title={`${trafficRange.label} 트래픽`}
+        subtitle={`${formatChartDate(trafficSummary.rangeStart)}–${formatChartDate(trafficSummary.rangeEnd)} 기준, 기록이 없는 ${trafficRange.bucket === 'month' ? '월' : '날짜'}은 0으로 표시`}
+        action={
+          <div className={styles.chartActions}>
+            <ButtonGroup
+              options={[
+                { label: '7일', value: '7d' },
+                { label: '30일', value: '30d' },
+                { label: '1년', value: '1y' },
+              ]}
+              value={trafficRange.value}
+              onChange={navigateRange}
+              size="sm"
+              ariaLabel="트래픽 기간 선택"
+            />
+            <div className={styles.rangeBadge}>
+              {trafficSummary.activeDays}
+              {trafficRange.bucket === 'month' ? '개월' : '일'} 활성
+            </div>
           </div>
-        </div>
-        <div className={styles.chartActions}>
-          <FilterTabs
-            options={[
-              { label: '7일', value: '7d' },
-              { label: '30일', value: '30d' },
-              { label: '1년', value: '1y' },
-            ]}
-            selected={trafficRange.value}
-            onChange={navigateRange}
-          />
-          <div className={styles.rangeBadge}>
-            {trafficSummary.activeDays}
-            {trafficRange.bucket === 'month' ? '개월' : '일'} 활성
-          </div>
-        </div>
+        }
+      />
+      <div className={styles.chartLegend}>
+        <span className={styles.legendItem}>
+          <span className={`${styles.legendColor} ${styles.views}`}></span>
+          <span className={styles.legendText}>조회 수 (Views)</span>
+        </span>
+        <span className={styles.legendItem}>
+          <span className={`${styles.legendColor} ${styles.sessions}`}></span>
+          <span className={styles.legendText}>세션 수 (Sessions)</span>
+        </span>
       </div>
 
       <div className={styles.trafficSummaryGrid}>
@@ -162,7 +166,7 @@ export function TrendChart({
       </div>
 
       {dailyChart.length === 0 ? (
-        <div className={styles.emptyState}>트렌드 차트를 표시할 데이터가 없습니다.</div>
+        <EmptyState message="트렌드 차트를 표시할 데이터가 없습니다." />
       ) : (
         <div className={styles.chartWrapper}>
           <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className={styles.svgChart}>
@@ -316,6 +320,6 @@ export function TrendChart({
           )}
         </div>
       )}
-    </section>
+    </Card>
   );
 }

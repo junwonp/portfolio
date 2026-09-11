@@ -1,3 +1,7 @@
+import Card from '@/components/ui/Card';
+import EmptyState from '@/components/ui/EmptyState';
+import SectionHeading from '@/components/ui/SectionHeading';
+
 import * as styles from './admin.css';
 import { LinkCard } from './LinkCard';
 import { LinkForm } from './LinkForm';
@@ -36,46 +40,45 @@ export function DashboardLinksPanel({
 }: DashboardLinksPanelProps) {
   return (
     <div className={styles.dashboardPanel} role="tabpanel">
-      <section
-        className={`${styles.applicationLinkCard} ${styles.glass}`}
+      <Card
+        variant="glass"
+        radius="sm"
+        as="section"
+        className={styles.applicationLinkCard}
         aria-labelledby="link-create-title"
       >
         <div className={styles.applicationLinkPanel}>
-          <div className={styles.sectionHeadingRow}>
-            <div>
-              <h3 id="link-create-title">지원 링크 생성</h3>
-              <p className={styles.sectionSubtitle}>
-                회사별 짧은 URL과 맞춤 프로젝트 순서를 설정합니다.
-              </p>
-              {writesDisabledReason && (
-                <p className={styles.sectionSubtitle}>{writesDisabledReason}</p>
-              )}
-            </div>
-          </div>
+          <SectionHeading
+            level={3}
+            title="지원 링크 생성"
+            subtitle={`회사별 짧은 URL과 맞춤 프로젝트 순서를 설정합니다.${writesDisabledReason ? ` ${writesDisabledReason}` : ''}`}
+            id="link-create-title"
+          />
           <LinkForm
             applicationProjectOptions={applicationProjectOptions}
             writesEnabled={writesEnabled}
           />
         </div>
-      </section>
+      </Card>
 
-      <section
-        className={`${styles.applicationLinkCard} ${styles.glass}`}
+      <Card
+        variant="glass"
+        radius="sm"
+        as="section"
+        className={styles.applicationLinkCard}
         aria-labelledby="link-list-title"
       >
         <div className={styles.applicationLinkPanel}>
-          <div className={styles.sectionHeadingRow}>
-            <div>
-              <h3 id="link-list-title">생성된 링크</h3>
-              <p className={styles.sectionSubtitle}>
-                활성 링크 목록입니다. 상세 지표는 분석 화면에서 확인하세요.
-              </p>
-            </div>
-            <div className={styles.rangeBadge}>{applicationLinks.length}개 활성 링크</div>
-          </div>
+          <SectionHeading
+            level={3}
+            title="생성된 링크"
+            subtitle="활성 링크 목록입니다. 상세 지표는 분석 화면에서 확인하세요."
+            action={<div className={styles.rangeBadge}>{applicationLinks.length}개 활성 링크</div>}
+            id="link-list-title"
+          />
 
           {applicationLinks.length === 0 ? (
-            <div className={styles.emptyState}>아직 생성된 지원 링크가 없습니다.</div>
+            <EmptyState message="아직 생성된 지원 링크가 없습니다." />
           ) : (
             <div className={styles.tableScroll}>
               <table className={styles.linkTable}>
@@ -108,7 +111,7 @@ export function DashboardLinksPanel({
             </div>
           )}
         </div>
-      </section>
+      </Card>
     </div>
   );
 }

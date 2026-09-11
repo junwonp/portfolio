@@ -1,5 +1,7 @@
 'use client';
 
+import Card from '@/components/ui/Card';
+import SectionHeading from '@/components/ui/SectionHeading';
 import Select from '@/components/ui/Select';
 import type { SessionDetail, SessionRow } from '@/lib/server/admin/dashboardData';
 
@@ -92,16 +94,19 @@ export function DashboardAnalyticsPanel({
 
   return (
     <div className={styles.dashboardPanel} role="tabpanel">
-      <section
-        className={`${styles.metricFilterCard} ${styles.glass}`}
+      <Card
+        variant="glass"
+        radius="sm"
+        as="section"
+        className={styles.metricFilterCard}
         aria-labelledby="metric-filter-title"
       >
-        <div>
-          <h3 id="metric-filter-title">지표 범위</h3>
-          <p className={styles.sectionSubtitle}>
-            전체 방문 또는 특정 회사/라벨 링크 기준으로 지표를 나눠 봅니다.
-          </p>
-        </div>
+        <SectionHeading
+          level={3}
+          title="지표 범위"
+          subtitle="전체 방문 또는 특정 회사/라벨 링크 기준으로 지표를 나눠 봅니다."
+          id="metric-filter-title"
+        />
         <form className={styles.metricFilterForm} method="GET" action="/a">
           <input type="hidden" name="range" value={trafficRange.value} />
           <input type="hidden" name="tab" value="analytics" />
@@ -117,7 +122,7 @@ export function DashboardAnalyticsPanel({
             />
           </label>
         </form>
-      </section>
+      </Card>
 
       <StatsGrid stats={stats} />
 

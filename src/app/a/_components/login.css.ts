@@ -45,6 +45,16 @@ export const subtitle = style({
   },
 });
 
+// Compound selector (two classes) beats `.subtitle`'s single-class color
+// regardless of stylesheet order, so the error tint stays deterministic.
+export const subtitleError = style({
+  selectors: {
+    [`&.${subtitle}`]: {
+      color: 'var(--color-error)',
+    },
+  },
+});
+
 export const errorContainer = style({
   background: 'rgba(238, 0, 0, 0.05)',
   border: '1px solid rgba(238, 0, 0, 0.15)',
@@ -87,25 +97,7 @@ export const errorMessage = style({
   textAlign: 'left',
 });
 
-export const loginButton = style({
-  background: 'var(--color-primary, #000)',
-  border: 'none',
-  borderRadius: '0.625rem',
-  color: 'white',
-  cursor: 'pointer',
-  fontSize: '1rem',
-  fontWeight: 600,
-  padding: '0.85rem',
-  transition: 'opacity 0.2s ease',
+// Layout only — sizing, colors, and interaction states come from the Button primitive.
+export const submitButton = style({
   width: '100%',
-
-  selectors: {
-    '&:hover:not(:disabled)': {
-      opacity: 0.9,
-    },
-    '&:disabled': {
-      cursor: 'not-allowed',
-      opacity: 0.5,
-    },
-  },
 });

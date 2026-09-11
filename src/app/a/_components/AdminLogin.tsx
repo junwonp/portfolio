@@ -1,6 +1,9 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+
+import Button from '@/components/ui/Button';
+
 import { login } from '../actions';
 import * as styles from './login.css';
 
@@ -38,16 +41,21 @@ export function AdminLogin({ isLocal, error }: AdminLoginProps) {
             <form onSubmit={handleLogin}>
               {unauthorized && <p className={styles.errorMessage}>인가 요청이 거부되었습니다.</p>}
 
-              <button type="submit" disabled={isPending} className={styles.loginButton}>
+              <Button
+                variant="primary"
+                size="md"
+                shape="rounded"
+                type="submit"
+                disabled={isPending}
+                className={styles.submitButton}
+              >
                 {isPending ? '진입 중...' : '로컬 개발자 우회 로그인'}
-              </button>
+              </Button>
             </form>
           </>
         ) : (
           <>
-            <p className={styles.subtitle} style={{ color: 'var(--color-error, #e00)' }}>
-              접근 거부됨
-            </p>
+            <p className={`${styles.subtitle} ${styles.subtitleError}`}>접근 거부됨</p>
 
             <div className={styles.errorContainer}>
               <p className={styles.errorDescription}>
