@@ -57,6 +57,85 @@
           "style": { "noDescendingSpecificity": "off" }
         }
       }
+    },
+    {
+      "includes": ["src/components/ui/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@/components/portfolio/**",
+                      "@/components/resume/**",
+                      "@/components/print/**",
+                      "@/components/analytics/**",
+                      "@/components/admin/**",
+                      "@/lib/portfolio/**",
+                      "@/app/**"
+                    ],
+                    "message": "UI primitives must stay domain-agnostic (see docs/architecture.md)."
+                  },
+                  {
+                    "group": ["next/navigation"],
+                    "message": "UI primitives must not depend on routing (see docs/architecture.md)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "src/components/portfolio/**",
+        "src/components/resume/**",
+        "src/components/print/**",
+        "src/components/analytics/**",
+        "src/components/admin/**",
+        "src/lib/**"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["@/app/**"],
+                    "message": "Lower layers must not import route/app code (see docs/architecture.md)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/lib/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["@/components/**"],
+                    "message": "lib must not depend on UI components (see docs/architecture.md)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   ],
   "linter": {
