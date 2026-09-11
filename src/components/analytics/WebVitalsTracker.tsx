@@ -5,7 +5,7 @@ import { useReportWebVitals } from 'next/web-vitals';
 import {
   getOrInitializeAnalyticsSession,
   sendAnalyticsPayload,
-} from '@/components/analytics/analyticsTransport';
+} from '@/lib/analytics/analyticsTransport';
 
 type ReportWebVitalsCallback = Parameters<typeof useReportWebVitals>[0];
 

@@ -12,27 +12,9 @@ const WorkAccordion = dynamic(() => import('@/components/portfolio/home/WorkAcco
 import PortfolioContentLayout from '@/components/portfolio/layout/PortfolioContentLayout';
 import DeferredMobileStickyHeader from '@/components/portfolio/navigation/DeferredMobileStickyHeader';
 import DesktopSideNav from '@/components/portfolio/navigation/DesktopSideNav';
-import type { IntroductionProps, OtherExperienceProps } from '@/lib/portfolio/homeTypes';
-import type { Labels } from '@/lib/portfolio/labels';
-import type { ResumeData } from '@/lib/portfolio/resume';
-import type { Language } from '@/lib/utils/language';
+import type { HomePageData } from '@/lib/portfolio/homeTypes';
 
 import * as styles from './HomePage.css';
-
-interface NavSection {
-  id: string;
-  label: string;
-}
-
-export interface HomePageData {
-  featuredWebProjects: OtherExperienceProps[];
-  featuredProjectsMode: 'role-fit' | 'selected';
-  labels: Labels;
-  locale: Language;
-  navSections: NavSection[];
-  resumeData: ResumeData;
-  summaryIntroduction: IntroductionProps;
-}
 
 interface Props {
   data: HomePageData;

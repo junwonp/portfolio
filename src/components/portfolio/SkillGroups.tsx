@@ -1,6 +1,5 @@
+import SkillChip from '@/components/ui/SkillChip';
 import { segmentSkillsByCategory } from '@/lib/portfolio/techStack';
-
-import SkillChip from './SkillChip';
 import * as styles from './SkillGroups.css';
 
 interface SkillGroupsProps {

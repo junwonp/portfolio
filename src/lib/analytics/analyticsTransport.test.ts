@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { sendAnalyticsPayload } from '@/components/analytics/analyticsTransport';
+import { sendAnalyticsPayload } from '@/lib/analytics/analyticsTransport';
 
 const sendBeacon = vi.fn();
 

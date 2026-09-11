@@ -1,5 +1,5 @@
-import type { HomePageData } from '@/components/portfolio/home/HomePage';
 import { PROJECT_ID, type ProjectId } from '@/lib/portfolio/catalog';
+import type { HomePageData } from '@/lib/portfolio/homeTypes';
 import { getLabels } from '@/lib/portfolio/labels';
 import type { SummaryPresetId, TailoredViewOverride } from '@/lib/portfolio/resume';
 import {

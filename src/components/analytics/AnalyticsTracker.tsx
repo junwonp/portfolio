@@ -9,11 +9,11 @@ import {
   type ReachedSection,
   selectFarthestVisibleSection,
   type VisibleSection,
-} from '@/components/analytics/analyticsEngagement';
+} from '@/lib/analytics/analyticsEngagement';
 import {
   getOrInitializeAnalyticsSession,
   sendAnalyticsPayload,
-} from '@/components/analytics/analyticsTransport';
+} from '@/lib/analytics/analyticsTransport';
 import { parseHeading } from '@/lib/utils/markdown';
 
 function readVisibleSections(article: Element, scrollTop: number): VisibleSection[] {

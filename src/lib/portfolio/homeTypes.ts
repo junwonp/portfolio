@@ -1,3 +1,7 @@
+import type { Labels } from '@/lib/portfolio/labels';
+import type { ResumeData } from '@/lib/portfolio/resume';
+import type { Language } from '@/lib/utils/language';
+
 export interface MetricItem {
   label: string;
   value: string;
@@ -82,3 +86,18 @@ export type SkillProps = {
   list: string[];
   title: string;
 };
+
+export interface NavSection {
+  id: string;
+  label: string;
+}
+
+export interface HomePageData {
+  featuredWebProjects: OtherExperienceProps[];
+  featuredProjectsMode: 'role-fit' | 'selected';
+  labels: Labels;
+  locale: Language;
+  navSections: NavSection[];
+  resumeData: ResumeData;
+  summaryIntroduction: IntroductionProps;
+}

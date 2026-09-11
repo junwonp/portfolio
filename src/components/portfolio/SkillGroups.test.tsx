@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
-import SkillGroups from '@/components/ui/SkillGroups';
+import SkillGroups from '@/components/portfolio/SkillGroups';
 import * as styles from './SkillGroups.css';
 
 const escapeForRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

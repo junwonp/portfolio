@@ -4,7 +4,7 @@ import {
   calculateArticleProgress,
   calculateScrollDepth,
   selectFarthestVisibleSection,
-} from '@/components/analytics/analyticsEngagement';
+} from '@/lib/analytics/analyticsEngagement';
 
 describe('analytics engagement helpers', () => {
   it('calculates document scroll depth as a clamped percentage', () => {

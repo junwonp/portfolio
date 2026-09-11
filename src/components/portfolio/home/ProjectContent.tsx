@@ -2,11 +2,11 @@
 
 import React from 'react';
 
+import SkillGroups from '@/components/portfolio/SkillGroups';
 import ArrowLink from '@/components/ui/ArrowLink';
 import Collapse from '@/components/ui/Collapse';
 import Period from '@/components/ui/Period';
 import RichText from '@/components/ui/RichText';
-import SkillGroups from '@/components/ui/SkillGroups';
 import type { ProjectItem as ProjectItemType } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
 import { parseMarkdown } from '@/lib/utils/markdown';

@@ -3,10 +3,10 @@
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
-import { reportInteraction } from '@/components/analytics/analyticsTransport';
 import Badge from '@/components/ui/Badge';
 import Collapse from '@/components/ui/Collapse';
 import { cardSurface } from '@/components/ui/surface.css';
+import { reportInteraction } from '@/lib/analytics/analyticsTransport';
 import { markdownInlineToHtml } from '@/lib/utils/markdown';
 import { sanitizeProjectHtml } from '@/lib/utils/safeHtml';
 

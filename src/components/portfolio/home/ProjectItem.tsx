@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import { reportInteraction } from '@/components/analytics/analyticsTransport';
 import ProjectContent from '@/components/portfolio/home/ProjectContent';
+import { reportInteraction } from '@/lib/analytics/analyticsTransport';
 import type { ProjectItem as ProjectItemType } from '@/lib/portfolio/homeTypes';
 import type { Labels } from '@/lib/portfolio/labels';
 import { useAccordionState } from '@/lib/states/accordion';

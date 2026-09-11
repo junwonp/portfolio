@@ -3,8 +3,8 @@
 import { ArrowLeft } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-import Github from '@/components/ui/Icon/Github';
-import Globe from '@/components/ui/Icon/Globe';
+import Github from '@/components/ui/icon/Github';
+import Globe from '@/components/ui/icon/Globe';
 import { circleButton, pillButton } from '@/components/ui/surface.css';
 import { useLocale } from '@/lib/contexts/LocaleContext';
 import { getPageScrollY, scrollPageTo, useScrollSpy } from '@/lib/hooks/useScrollSpy';

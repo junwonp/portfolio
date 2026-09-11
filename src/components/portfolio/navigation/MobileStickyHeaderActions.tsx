@@ -3,10 +3,9 @@
 import { Check, Ellipsis, Printer, Share2 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
-
-import Github from '@/components/ui/Icon/Github';
-import Linkedin from '@/components/ui/Icon/Linkedin';
 import IconLink from '@/components/ui/IconLink';
+import Github from '@/components/ui/icon/Github';
+import Linkedin from '@/components/ui/icon/Linkedin';
 import { circleButton, pillButton } from '@/components/ui/surface.css';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { useLocale } from '@/lib/contexts/LocaleContext';
