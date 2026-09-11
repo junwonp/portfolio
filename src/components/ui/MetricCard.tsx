@@ -11,8 +11,8 @@ interface MetricCardProps {
 export default function MetricCard({ value, label, description }: MetricCardProps) {
   return (
     <div className={`${metricCard} ${cardSurface}`}>
-      <dd className={metricValue}>{value}</dd>
       <dt className={metricLabel}>{label}</dt>
+      <dd className={metricValue}>{value}</dd>
       {description && <small className={metricDesc}>{description}</small>}
     </div>
   );

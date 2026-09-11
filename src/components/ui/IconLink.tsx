@@ -21,7 +21,6 @@ export default function IconLink({
   type = 'normal',
   className = '',
 }: Props) {
-  const rel = type === 'github' ? 'external noopener noreferrer' : 'noopener noreferrer';
   const typeClass = typeVariants[type] || '';
   const combinedClass = `${iconLink} ${typeClass} ${className}`.trim();
 
@@ -29,7 +28,7 @@ export default function IconLink({
     <a
       href={href}
       target="_blank"
-      rel={rel}
+      rel="noopener noreferrer"
       className={combinedClass}
       title={title}
       aria-label={ariaLabel || title}

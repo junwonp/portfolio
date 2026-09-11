@@ -9,7 +9,9 @@ export interface Option {
 
 interface SelectProps {
   disabled?: boolean;
+  id?: string;
   name?: string;
+  'aria-label'?: string;
   onChange?: (value: string) => void;
   options: readonly Option[];
   placeholder?: string;
@@ -18,7 +20,9 @@ interface SelectProps {
 
 export default function Select({
   disabled = false,
+  id,
   name = '',
+  'aria-label': ariaLabel,
   onChange,
   options,
   placeholder = '선택해주세요',
@@ -29,10 +33,12 @@ export default function Select({
   return (
     <span className={customSelectContainer}>
       <select
+        id={id}
         className={selectControl}
         name={name}
         value={value}
         disabled={disabled}
+        aria-label={ariaLabel}
         onChange={(event) => onChange?.(event.target.value)}
       >
         {showPlaceholder && <option value="">{placeholder}</option>}

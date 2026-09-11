@@ -32,4 +32,10 @@ describe('ProgressBar', () => {
     expect(html).toContain(styles.tone.success);
     expect(html).not.toContain(styles.tone.primary);
   });
+
+  it('exposes an optional label as the accessible name', () => {
+    const html = renderToStaticMarkup(<ProgressBar value={70} label="본문 진행률" />);
+
+    expect(html).toContain('aria-label="본문 진행률"');
+  });
 });

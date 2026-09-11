@@ -14,6 +14,8 @@ export default function Globe({ width = 24, height = 24, ...props }: IconProps) 
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
       {...props}
     >
       <circle cx="12" cy="12" r="10" />

@@ -2,32 +2,41 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'reac
 
 import * as styles from './Button.css';
 
-// Native props of both targets intersected: `type` narrows to the button
-// literal union and the rest merge cleanly, so one interface covers both tags.
-type NativeButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
-  AnchorHTMLAttributes<HTMLAnchorElement>;
+type ButtonVariant = 'primary' | 'ghost' | 'outline' | 'danger';
+type ButtonSize = 'sm' | 'md';
+type ButtonShape = 'pill' | 'circle' | 'rounded';
 
-interface ButtonProps extends NativeButtonProps {
-  variant: 'primary' | 'ghost' | 'outline' | 'danger';
-  size: 'sm' | 'md';
-  shape: 'pill' | 'circle' | 'rounded';
+interface ButtonOwnProps {
+  variant: ButtonVariant;
+  size: ButtonSize;
+  shape: ButtonShape;
   iconOnly?: boolean;
-  as?: 'button' | 'a';
+  className?: string;
   children: ReactNode;
 }
 
-export default function Button({
-  as = 'button',
-  variant,
-  size,
-  shape,
-  iconOnly = false,
-  className = '',
-  children,
-  ...rest
-}: ButtonProps) {
+// Discriminated on `as` so button-only props (e.g. `type`, `disabled`) never
+// leak onto the anchor branch, and `href` is required when rendering an anchor.
+type ButtonAsButtonProps = ButtonOwnProps & {
+  as?: 'button';
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonOwnProps | 'as'>;
+
+type ButtonAsAnchorProps = ButtonOwnProps & {
+  as: 'a';
+  href: string;
+} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof ButtonOwnProps | 'as' | 'href'>;
+
+type ButtonProps = ButtonAsButtonProps | ButtonAsAnchorProps;
+
+function buildClasses(
+  variant: ButtonVariant,
+  size: ButtonSize,
+  shape: ButtonShape,
+  iconOnly: boolean,
+  className: string,
+): string {
   const iconOnlyClass = iconOnly ? (size === 'sm' ? styles.iconOnlySm : styles.iconOnlyMd) : '';
-  const classes = [
+  return [
     styles.base,
     styles.variant[variant],
     styles.size[size],
@@ -37,18 +46,44 @@ export default function Button({
   ]
     .filter(Boolean)
     .join(' ');
+}
 
-  if (as === 'a') {
+export default function Button(props: ButtonProps) {
+  if (props.as === 'a') {
+    const {
+      as,
+      variant,
+      size,
+      shape,
+      iconOnly = false,
+      className = '',
+      children,
+      ...anchorProps
+    } = props;
     return (
-      <a className={classes} {...rest}>
+      <a className={buildClasses(variant, size, shape, iconOnly, className)} {...anchorProps}>
         {children}
       </a>
     );
   }
 
+  const {
+    as,
+    variant,
+    size,
+    shape,
+    iconOnly = false,
+    className = '',
+    children,
+    ...buttonProps
+  } = props;
   // Default to type="button" so buttons never submit ancestor forms by accident
   return (
-    <button className={classes} {...rest} type={rest.type ?? 'button'}>
+    <button
+      className={buildClasses(variant, size, shape, iconOnly, className)}
+      {...buttonProps}
+      type={buttonProps.type ?? 'button'}
+    >
       {children}
     </button>
   );

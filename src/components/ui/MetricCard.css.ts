@@ -19,12 +19,15 @@ export const metricCard = style({
   },
 });
 
+// The card is a column flexbox; `order` keeps the visual order (value, label,
+// description) while the DOM stays valid `<dl>` order (`dt` before `dd`).
 export const metricValue = style({
   color: 'var(--color-primary)',
   fontSize: '1.25rem',
   fontWeight: 700,
   lineHeight: 1.2,
   margin: 0,
+  order: 0,
 });
 
 export const metricLabel = style({
@@ -32,6 +35,7 @@ export const metricLabel = style({
   fontSize: '0.78rem',
   lineHeight: 1.3,
   margin: 0,
+  order: 1,
 });
 
 export const metricDesc = style({
@@ -40,4 +44,5 @@ export const metricDesc = style({
   fontSize: '0.7rem',
   lineHeight: 1.3,
   margin: 0,
+  order: 2,
 });
