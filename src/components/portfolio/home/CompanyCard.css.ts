@@ -31,6 +31,7 @@ export const companyCard = style({
   minWidth: 0,
   overflow: 'hidden',
   padding: '1.5rem',
+  position: 'relative',
   border: '0.5px solid color-mix(in srgb, var(--color-bg-divider) 40%, transparent)',
 
   selectors: {
@@ -66,6 +67,17 @@ export const companyHeader = style({
   padding: 0,
   textAlign: 'left',
   width: '100%',
+
+  selectors: {
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    },
+  },
 
   ':focus-visible': {
     outline: '2px solid var(--color-primary)',
@@ -204,6 +216,9 @@ globalStyle(`${highlights} li`, {
   display: 'flex',
   gap: '0.75rem',
   padding: 0,
+  // Keep list items in the static layer so the toggle button's stretched
+  // hit-area (::after) covers them; otherwise the global `ul li` position:relative wins.
+  position: 'static',
 });
 
 globalStyle(`${highlights} li:before`, {
@@ -235,6 +250,8 @@ export const projectList = style({
   margin: '0.75rem -1.5rem -1.5rem -1.5rem',
   minWidth: 0,
   padding: 0,
+  position: 'relative',
+  zIndex: 1,
 
   '@media': {
     '(max-width: 576px)': {
@@ -254,6 +271,8 @@ export const additionalLink = style({
   fontWeight: 600,
   marginTop: '0.75rem',
   textDecoration: 'none',
+  position: 'relative',
+  zIndex: 1,
 
   ':hover': {
     textDecoration: 'underline',
