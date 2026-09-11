@@ -10,8 +10,8 @@ const BentoSkills = dynamic(() => import('@/components/portfolio/home/BentoSkill
 const WorkAccordion = dynamic(() => import('@/components/portfolio/home/WorkAccordion'));
 
 import PortfolioContentLayout from '@/components/portfolio/layout/PortfolioContentLayout';
-import DeferredMobileStickyHeader from '@/components/portfolio/navigation/DeferredMobileStickyHeader';
 import DesktopSideNav from '@/components/portfolio/navigation/DesktopSideNav';
+import MobileStickyHeader from '@/components/portfolio/navigation/MobileStickyHeader';
 import type { HomePageData } from '@/lib/portfolio/homeTypes';
 
 import * as styles from './HomePage.css';
@@ -30,7 +30,7 @@ export default function HomePage({ data }: Props) {
       : labels.sectionSelectedProjects;
 
   const mobileHeader = (
-    <DeferredMobileStickyHeader
+    <MobileStickyHeader
       githubLink={resumeData.introduction.githubLink}
       linkedinLink={resumeData.introduction.linkedinLink}
       name={resumeData.introduction.name}
