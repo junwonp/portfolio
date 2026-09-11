@@ -13,17 +13,18 @@ interface LinkFormProps {
   writesEnabled: boolean;
 }
 
-export function LinkForm({ applicationProjectOptions, writesEnabled }: LinkFormProps) {
-  const positioningOptions = [
-    { value: 'web', label: '웹 프론트엔드' },
-    { value: 'ops-data', label: '운영/데이터 웹' },
-    { value: 'web-rn', label: '웹/모바일 공유 구조' },
-    { value: 'mobile', label: '모바일 프론트엔드' },
-    { value: 'ai', label: 'AI 활용 프론트엔드' },
-    { value: 'default', label: '기본 포트폴리오' },
-  ];
+const POSITIONING_OPTIONS = [
+  { value: 'web', label: '웹 프론트엔드' },
+  { value: 'ops-data', label: '운영/데이터 웹' },
+  { value: 'web-rn', label: '웹/모바일 공유 구조' },
+  { value: 'mobile', label: '모바일 프론트엔드' },
+  { value: 'ai', label: 'AI 활용 프론트엔드' },
+  { value: 'default', label: '기본 포트폴리오' },
+];
 
-  const selectRanks = [1, 2, 3, 4];
+const SELECT_RANKS = [1, 2, 3, 4];
+
+export function LinkForm({ applicationProjectOptions, writesEnabled }: LinkFormProps) {
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>(['', '', '', '']);
   const [positioning, setPositioning] = useState('web');
 
@@ -76,7 +77,7 @@ export function LinkForm({ applicationProjectOptions, writesEnabled }: LinkFormP
           disabled={!writesEnabled}
           value={positioning}
           onChange={setPositioning}
-          options={positioningOptions}
+          options={POSITIONING_OPTIONS}
         />
       </label>
 
@@ -99,7 +100,7 @@ export function LinkForm({ applicationProjectOptions, writesEnabled }: LinkFormP
           프로젝트와 요약 포지셔닝을 바꿉니다.
         </p>
         <div className={styles.projectOrderGrid}>
-          {selectRanks.map((rank, i) => {
+          {SELECT_RANKS.map((rank, i) => {
             const projectOptions = [
               { value: '', label: '선택 안 함' },
               ...getSelectableProjectOptions(i).map((p) => ({

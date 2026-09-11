@@ -33,6 +33,21 @@ function readVisibleSections(article: Element, scrollTop: number): VisibleSectio
   });
 }
 
+function getScrollMetrics() {
+  // When html has height:100%, body becomes the actual scroll container
+  // even though document.scrollingElement still points to html
+  const bodyScrolls = document.body.scrollHeight > document.body.clientHeight;
+  const se = document.scrollingElement;
+  const seScrolls = se != null && se.scrollHeight > se.clientHeight;
+
+  const scrollContainer = seScrolls ? se : bodyScrolls ? document.body : null;
+  const scrollTop = scrollContainer?.scrollTop ?? window.scrollY ?? 0;
+  const scrollHeight =
+    scrollContainer?.scrollHeight ?? se?.scrollHeight ?? document.documentElement.scrollHeight;
+  const clientHeight = document.documentElement.clientHeight;
+  return { scrollTop, scrollHeight, clientHeight };
+}
+
 export default function AnalyticsTracker() {
   const pathname = usePathname();
   const [sessionId, setSessionId] = useState('');
@@ -50,21 +65,6 @@ export default function AnalyticsTracker() {
 
     activeTimeMsRef.current += Math.max(0, now - activeStartedAtRef.current);
     activeStartedAtRef.current = document.visibilityState === 'visible' ? now : null;
-  }
-
-  function getScrollMetrics() {
-    // When html has height:100%, body becomes the actual scroll container
-    // even though document.scrollingElement still points to html
-    const bodyScrolls = document.body.scrollHeight > document.body.clientHeight;
-    const se = document.scrollingElement;
-    const seScrolls = se != null && se.scrollHeight > se.clientHeight;
-
-    const scrollContainer = seScrolls ? se : bodyScrolls ? document.body : null;
-    const scrollTop = scrollContainer?.scrollTop ?? window.scrollY ?? 0;
-    const scrollHeight =
-      scrollContainer?.scrollHeight ?? se?.scrollHeight ?? document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
-    return { scrollTop, scrollHeight, clientHeight };
   }
 
   function updateEngagementMetrics() {
