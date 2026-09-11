@@ -30,7 +30,7 @@ export default function PortfolioContentLayout({
   const hasSideNav = sideNav !== null && sideNav !== undefined && sideNav !== false;
 
   return (
-    <article
+    <div
       className={cx(styles.surface, hasDesktopHeader && styles.hasDesktopHeader, className)}
       data-portfolio-layout="true"
     >
@@ -48,15 +48,15 @@ export default function PortfolioContentLayout({
 
       <div className={styles.layout}>
         {hasSideNav && (
-          <aside className={styles.navWrapper} data-layout-slot="side-nav">
+          <div className={styles.navWrapper} data-layout-slot="side-nav">
             {sideNav}
-          </aside>
+          </div>
         )}
 
         <div className={styles.mainContent} data-layout-slot="main-content">
           <div className={cx(styles.content, contentClassName)}>{children}</div>
         </div>
       </div>
-    </article>
+    </div>
   );
 }

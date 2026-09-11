@@ -28,6 +28,7 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
 
   const [errorMessage, setErrorMessage] = useState('');
   const [isCopied, setIsCopied] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -85,6 +86,7 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
       <div className={`${styles.langToggleWrapper} ${styles.pcOnly}`}>
         <button
           className={`${styles.langToggle} ${pillButton} glass-effect`}
+          type="button"
           onClick={toggleLanguage}
           title={labels.toggleLanguage}
         >
@@ -95,6 +97,7 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
       <div className={`${styles.actionGroup} glass-effect`}>
         <button
           className={`${styles.langToggleBtn} ${circleButton} ${styles.mobileOnly}`}
+          type="button"
           onClick={toggleLanguage}
           aria-label={labels.toggleLanguage}
           title={labels.toggleLanguage}
@@ -112,14 +115,25 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
           <button
             ref={menuButtonRef}
             className={`${styles.moreButton} ${circleButton}`}
+            type="button"
             onClick={positionMenu}
             popoverTarget={MORE_MENU_ID}
             aria-label="More actions"
+            aria-controls={MORE_MENU_ID}
+            aria-expanded={isMenuOpen}
           >
             <Ellipsis size={20} />
           </button>
 
-          <div id={MORE_MENU_ID} ref={menuRef} popover="auto" className={styles.dropdownMenu}>
+          <div
+            id={MORE_MENU_ID}
+            ref={menuRef}
+            popover="auto"
+            className={styles.dropdownMenu}
+            onToggle={(event) => {
+              setIsMenuOpen(event.newState === 'open');
+            }}
+          >
             {isHome && (
               <>
                 <ThemeToggle
@@ -130,11 +144,11 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
                   iconSize={16}
                   onToggle={closeMenu}
                 />
-                <div className={styles.menuDivider} />
+                <hr className={styles.menuDivider} />
               </>
             )}
 
-            <button className={styles.dropdownItem} onClick={sharePage}>
+            <button className={styles.dropdownItem} type="button" onClick={sharePage}>
               {isCopied ? (
                 <>
                   <Check size={16} />
@@ -148,10 +162,11 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
               )}
             </button>
 
-            <div className={styles.menuDivider} />
+            <hr className={styles.menuDivider} />
 
             <button
               className={styles.dropdownItem}
+              type="button"
               onClick={() => {
                 if (typeof window !== 'undefined') window.print();
                 closeMenu();
@@ -163,7 +178,7 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
 
             {linkedinLink && (
               <>
-                <div className={styles.menuDivider} />
+                <hr className={styles.menuDivider} />
                 <a
                   className={styles.dropdownItem}
                   href={linkedinLink}

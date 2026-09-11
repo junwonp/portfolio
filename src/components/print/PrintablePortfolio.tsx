@@ -35,7 +35,7 @@ export default function PrintablePortfolio({
   const roleLabel = (role && roleLabels[role]) || defaultRoleLabel;
 
   return (
-    <div className={styles.shell}>
+    <main className={styles.shell}>
       <PrintToolbar ariaLabel="Portfolio print actions" />
 
       <article className={styles.document} aria-label="Junwon Park portfolio summary">
@@ -47,7 +47,7 @@ export default function PrintablePortfolio({
                 <p className={styles.headerRole}>{roleLabel}</p>
                 {companyName && <p className={styles.headerCompany}>지원: {companyName}</p>}
               </div>
-              <div className={styles.headerLinks}>
+              <nav className={styles.headerLinks} aria-label="Profile links">
                 <a
                   href={GITHUB_PROFILE}
                   target="_blank"
@@ -64,7 +64,7 @@ export default function PrintablePortfolio({
                 >
                   LinkedIn
                 </a>
-              </div>
+              </nav>
             </div>
             <hr className={styles.headerDivider} />
           </header>
@@ -72,27 +72,27 @@ export default function PrintablePortfolio({
           {projects.length > 0 && (
             <section className={styles.projectsSection} aria-label="Featured projects">
               <h2 className={styles.projectsHeading}>대표 프로젝트</h2>
-              <div className={styles.projectList}>
+              <ul className={styles.projectList}>
                 {projects.slice(0, 4).map((project) => (
-                  <div key={project.title} className={styles.projectCard}>
+                  <li key={project.title} className={styles.projectCard}>
                     <h3 className={styles.projectTitle}>{project.title}</h3>
                     <p className={styles.projectDescription}>{project.description}</p>
                     {project.skills.length > 0 && (
-                      <div className={styles.skillTags}>
+                      <ul className={styles.skillTags}>
                         {project.skills.slice(0, 5).map((skill) => (
-                          <span key={skill} className={styles.skillTag}>
+                          <li key={skill} className={styles.skillTag}>
                             {skill}
-                          </span>
+                          </li>
                         ))}
-                      </div>
+                      </ul>
                     )}
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </section>
           )}
 
-          <section className={styles.ctaSection}>
+          <section className={styles.ctaSection} aria-label="Portfolio visit">
             <a
               href={portfolioUrl}
               target="_blank"
@@ -121,6 +121,6 @@ export default function PrintablePortfolio({
           </footer>
         </div>
       </article>
-    </div>
+    </main>
   );
 }

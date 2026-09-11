@@ -241,6 +241,7 @@ export const menuDivider = style({
   // Light value equals --color-border-subtle exactly, but dark (0.08 ≠ 0.06)
   // would change; kept as literals
   background: 'rgba(0, 0, 0, 0.06)',
+  border: 'none',
   height: '0.5px',
   margin: '4px 6px',
 

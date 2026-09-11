@@ -171,6 +171,9 @@ export const projectList = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.6rem',
+  listStyle: 'none',
+  margin: 0,
+  padding: 0,
 });
 
 export const projectCard = style({
@@ -213,6 +216,9 @@ export const skillTags = style({
   display: 'flex',
   gap: '0.35rem',
   flexWrap: 'wrap',
+  listStyle: 'none',
+  margin: 0,
+  padding: 0,
 });
 
 export const skillTag = style({
@@ -235,6 +241,12 @@ export const skillTag = style({
       border: '1px solid #ccc',
     },
   },
+});
+
+// Reset the site-wide ul li bullet/padding so list semantics stay invisible
+globalStyle(`${projectList} li::before, ${skillTags} li::before`, {
+  content: 'none',
+  display: 'none',
 });
 
 /* ── CTA Section ── */

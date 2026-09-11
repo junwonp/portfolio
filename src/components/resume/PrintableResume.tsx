@@ -41,6 +41,8 @@ const renderBulletList = (bullets: ResumeTextPart[][]) => {
   );
 };
 
+const sectionClassName = `${styles.section} ${styles.sectionFrame}`;
+
 const renderWorkEntry = (entry: ResumeWorkEntry) => (
   <article
     className={styles.workEntry}
@@ -62,7 +64,7 @@ const renderWorkEntry = (entry: ResumeWorkEntry) => (
     {entry.projects.map((project) => (
       <section className={styles.projectBlock} key={project.title}>
         <div className={styles.projectHeader}>
-          <h4>{project.title}</h4>
+          {entry.companyName ? <h4>{project.title}</h4> : <h3>{project.title}</h3>}
           {project.period && <p className={styles.projectPeriod}>{project.period}</p>}
         </div>
         {project.summary && <p className={styles.projectSummary}>{renderParts(project.summary)}</p>}
@@ -72,10 +74,10 @@ const renderWorkEntry = (entry: ResumeWorkEntry) => (
   </article>
 );
 
-const renderSection = (section: ResumePageSection) => {
+const renderSection = (section: ResumePageSection, sectionIndex: number) => {
   if (section.type === 'work') {
     return (
-      <section className={styles.section}>
+      <section className={sectionClassName} key={`${section.type}-${sectionIndex}`}>
         {section.title && <h2>{section.title}</h2>}
         {section.entries.map(renderWorkEntry)}
       </section>
@@ -84,7 +86,7 @@ const renderSection = (section: ResumePageSection) => {
 
   if (section.type === 'skills') {
     return (
-      <section className={styles.section}>
+      <section className={sectionClassName} key={`${section.type}-${sectionIndex}`}>
         <h2>{section.title}</h2>
         <dl className={styles.skills}>
           {section.groups.map((group) => (
@@ -99,7 +101,7 @@ const renderSection = (section: ResumePageSection) => {
   }
 
   return (
-    <section className={styles.section}>
+    <section className={sectionClassName} key={`${section.type}-${sectionIndex}`}>
       <h2>{section.title}</h2>
       <div className={styles.simpleList}>
         {section.items.map((item) => (
@@ -118,7 +120,7 @@ const renderSection = (section: ResumePageSection) => {
 
 export default function PrintableResume({ resume }: PrintableResumeProps) {
   return (
-    <div className={styles.resumeShell}>
+    <main className={styles.resumeShell}>
       {/*
         Scoped to this document so the resume prints at true A4 size with no
         browser scaling; the page element below carries its own padding
@@ -201,14 +203,10 @@ export default function PrintableResume({ resume }: PrintableResumeProps) {
               </header>
             )}
 
-            {page.sections.map((section, sectionIndex) => (
-              <div className={styles.sectionFrame} key={`${section.type}-${sectionIndex}`}>
-                {renderSection(section)}
-              </div>
-            ))}
+            {page.sections.map((section, sectionIndex) => renderSection(section, sectionIndex))}
           </section>
         ))}
       </article>
-    </div>
+    </main>
   );
 }

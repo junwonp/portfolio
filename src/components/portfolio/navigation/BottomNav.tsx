@@ -187,6 +187,7 @@ export default function BottomNav({ isProject = false }: Props) {
       >
         <div
           className={`${styles.activeBg} ${isDragging ? styles.dragging : ''}`}
+          aria-hidden="true"
           style={{
             transform: `translateX(${pillLeft + (isDragging ? dragOffset : 0)}px)`,
             width: `${pillWidth}px`,
@@ -199,6 +200,7 @@ export default function BottomNav({ isProject = false }: Props) {
             className={`${styles.tab} ${pillButton} ${
               (isDragging ? dragHoveredId === tab.id : activeId === tab.id) ? styles.active : ''
             }`}
+            type="button"
             onClick={() => {
               if (!isDragging) scrollToTarget(tab.id);
             }}
@@ -216,6 +218,7 @@ export default function BottomNav({ isProject = false }: Props) {
       <div className={`${styles.islandSlot} ${styles.left}`}>
         <button
           className={`${styles.island} ${styles.circle} ${circleButton} ${styles.backBtn} glass-effect`}
+          type="button"
           aria-label="Go back"
           onClick={() => {
             if (typeof window !== 'undefined') history.back();
@@ -238,6 +241,7 @@ export default function BottomNav({ isProject = false }: Props) {
           >
             <div
               className={`${styles.activeBg} ${isDragging ? styles.dragging : ''}`}
+              aria-hidden="true"
               style={{
                 transform: `translateX(${pillLeft + (isDragging ? dragOffset : 0)}px)`,
                 width: `${pillWidth}px`,
@@ -252,6 +256,7 @@ export default function BottomNav({ isProject = false }: Props) {
                     ? styles.active
                     : ''
                 }`}
+                type="button"
                 onClick={() => {
                   if (!isDragging) scrollToTarget(section.id);
                 }}

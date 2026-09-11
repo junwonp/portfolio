@@ -59,6 +59,7 @@ export default function BaseSideNav({
       <div className={styles.navListWrapper}>
         <div
           className={styles.activeBg}
+          aria-hidden="true"
           style={{
             transform: `translateY(${activeTop}px)`,
             height: `${activeHeight}px`,
@@ -75,6 +76,7 @@ export default function BaseSideNav({
             >
               <button
                 className={`${styles.navItem} ${activeId === section.id ? styles.active : ''}`}
+                type="button"
                 onClick={() => {
                   onselect(section.id);
                 }}

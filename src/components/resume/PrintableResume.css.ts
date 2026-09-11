@@ -355,7 +355,7 @@ export const projectHeader = style({
   },
 });
 
-globalStyle(`${projectHeader} h4`, {
+globalStyle(`${projectHeader} h3, ${projectHeader} h4`, {
   color: '#000000',
   fontSize: '12.7pt',
   fontWeight: 800,

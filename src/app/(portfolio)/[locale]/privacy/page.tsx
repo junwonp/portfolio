@@ -48,8 +48,8 @@ export default async function PrivacyPage({ params }: PrivacyPageProps) {
   const PrivacyContent = privacyContent[locale];
 
   return (
-    <div className={styles.privacyContent}>
+    <article className={styles.privacyContent}>
       <PrivacyContent />
-    </div>
+    </article>
   );
 }
