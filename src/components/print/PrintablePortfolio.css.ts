@@ -28,48 +28,6 @@ export const shell = style({
   },
 });
 
-/* ── Toolbar ── */
-
-export const toolbar = style({
-  bottom: 'calc(1.5rem + env(safe-area-inset-bottom))',
-  display: 'flex',
-  justifyContent: 'center',
-  left: '50%',
-  position: 'fixed',
-  transform: 'translateX(-50%)',
-  zIndex: 'var(--z-sticky)',
-
-  '@media': {
-    print: {
-      display: 'none',
-    },
-  },
-});
-
-export const printButton = style({
-  alignItems: 'center',
-  background: 'rgba(255, 255, 255, 0.8)',
-  border: '1px solid rgba(0, 0, 0, 0.1)',
-  borderRadius: 'var(--radius-full)',
-  color: '#111',
-  cursor: 'pointer',
-  display: 'inline-flex',
-  font: '700 0.875rem/1 sans-serif',
-  gap: 'var(--space-xs)',
-  height: '48px',
-  padding: '0 1.25rem',
-  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
-
-  selectors: {
-    '.dark &': {
-      background: 'rgba(15, 23, 42, 0.8)',
-      borderColor: 'rgba(255, 255, 255, 0.12)',
-      color: '#f1f5f9',
-      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
-    },
-  },
-});
-
 /* ── Document & Page ── */
 
 export const document = style({

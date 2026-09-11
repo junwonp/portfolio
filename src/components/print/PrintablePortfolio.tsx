@@ -1,10 +1,9 @@
 'use client';
 
-import { Printer } from 'lucide-react';
-
 import { GITHUB_PROFILE, LINKEDIN_PROFILE } from '@/config/site';
 
 import * as styles from './PrintablePortfolio.css';
+import PrintToolbar from './PrintToolbar';
 
 interface PrintProjectData {
   title: string;
@@ -37,12 +36,7 @@ export default function PrintablePortfolio({
 
   return (
     <div className={styles.shell}>
-      <div className={styles.toolbar} aria-label="Portfolio print actions">
-        <button className={styles.printButton} type="button" onClick={() => window.print()}>
-          <Printer aria-hidden="true" size={16} />
-          <span>PDF 저장 / 인쇄</span>
-        </button>
-      </div>
+      <PrintToolbar ariaLabel="Portfolio print actions" />
 
       <article className={styles.document} aria-label="Junwon Park portfolio summary">
         <div className={styles.page}>

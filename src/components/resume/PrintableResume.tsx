@@ -1,3 +1,4 @@
+import PrintToolbar from '@/components/print/PrintToolbar';
 import type {
   PrintableResumeData,
   ResumePageSection,
@@ -6,7 +7,6 @@ import type {
 } from '@/content/printableResume';
 
 import * as styles from './PrintableResume.css';
-import PrintableResumeToolbar from './PrintableResumeToolbar';
 
 interface PrintableResumeProps {
   resume: PrintableResumeData;
@@ -124,7 +124,7 @@ export default function PrintableResume({ resume }: PrintableResumeProps) {
         browser scaling; the page element below carries its own padding
       */}
       <style>{'@page { size: A4; margin: 0 }'}</style>
-      <PrintableResumeToolbar />
+      <PrintToolbar ariaLabel="Resume actions" />
       <article className={styles.resumeDocument} aria-label="Junwon Park printable resume">
         {resume.pages.map((page, pageIndex) => (
           <section

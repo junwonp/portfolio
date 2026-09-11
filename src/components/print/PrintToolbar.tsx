@@ -2,11 +2,15 @@
 
 import { Printer } from 'lucide-react';
 
-import * as styles from './PrintableResume.css';
+import * as styles from './PrintToolbar.css';
 
-export default function PrintableResumeToolbar() {
+interface PrintToolbarProps {
+  ariaLabel?: string;
+}
+
+export default function PrintToolbar({ ariaLabel }: PrintToolbarProps) {
   return (
-    <div className={styles.toolbar} aria-label="Resume actions">
+    <div className={styles.toolbar} aria-label={ariaLabel}>
       <button className={styles.printButton} type="button" onClick={() => window.print()}>
         <Printer aria-hidden="true" size={16} />
         <span>PDF 저장 / 인쇄</span>
