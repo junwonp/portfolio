@@ -29,7 +29,7 @@ export function SessionTimeline({ detail }: SessionTimelineProps) {
   const totalDwell = detail.pageViews.reduce((sum, pv) => sum + pv.dwellTime, 0);
 
   return (
-    <div className={styles.timeline}>
+    <ol className={styles.timeline}>
       {timelineItems.map((item) => {
         if (item.kind === 'pageView') {
           const pv = item.data;
@@ -41,7 +41,7 @@ export function SessionTimeline({ detail }: SessionTimelineProps) {
           const showNavArrow = pv.previousPath && pv.previousPath !== pv.path;
 
           return (
-            <div key={`${pv.createdAt}-${pv.path}`} className={styles.timelineItem}>
+            <li key={`${pv.createdAt}-${pv.path}`} className={styles.timelineItem}>
               <div className={styles.timelineDot} />
               <div className={styles.timelineContent}>
                 {showNavArrow && (
@@ -102,14 +102,14 @@ export function SessionTimeline({ detail }: SessionTimelineProps) {
                   <span className={styles.timelineActive}>활성 {pv.activeTime}초</span>
                 )}
               </div>
-            </div>
+            </li>
           );
         }
 
         // Interaction item
         const ix = item.data;
         return (
-          <div key={`ix-${ix.id}`} className={styles.timelineItem}>
+          <li key={`ix-${ix.id}`} className={styles.timelineItem}>
             <div className={styles.timelineDotSmall} />
             <div className={styles.timelineContent}>
               <div className={styles.timelineRow}>
@@ -121,18 +121,20 @@ export function SessionTimeline({ detail }: SessionTimelineProps) {
                 <span className={styles.timelineInteractionLabel}>{ix.interactionLabel}</span>
               </div>
             </div>
-          </div>
+          </li>
         );
       })}
 
       {totalDwell > 0 && (
-        <div className={styles.timelineTotal}>
-          총 체류 시간:{' '}
-          {totalDwell >= 60
-            ? `${Math.floor(totalDwell / 60)}분 ${totalDwell % 60}초`
-            : `${totalDwell}초`}
-        </div>
+        <li className={styles.timelineTotalItem}>
+          <p className={styles.timelineTotal}>
+            총 체류 시간:{' '}
+            {totalDwell >= 60
+              ? `${Math.floor(totalDwell / 60)}분 ${totalDwell % 60}초`
+              : `${totalDwell}초`}
+          </p>
+        </li>
       )}
-    </div>
+    </ol>
   );
 }

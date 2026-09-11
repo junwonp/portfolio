@@ -6,6 +6,8 @@ export const timeline = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.15rem',
+  listStyle: 'none',
+  margin: 0,
   padding: '0.75rem 1rem 0.75rem 2rem',
   position: 'relative',
 
@@ -23,8 +25,14 @@ export const timeline = style({
 export const timelineItem = style({
   display: 'flex',
   gap: '0.6rem',
+  lineHeight: 'inherit',
   padding: '0.35rem 0',
   position: 'relative',
+});
+
+export const timelineTotalItem = style({
+  lineHeight: 'inherit',
+  padding: 0,
 });
 
 export const timelineDot = style({
@@ -166,7 +174,8 @@ export const timelineTotal = style({
   color: 'var(--color-sub)',
   fontSize: '0.78rem',
   fontWeight: 600,
-  marginTop: '0.6rem',
+  lineHeight: 'inherit',
+  margin: '0.6rem 0 0',
   paddingTop: '0.6rem',
   paddingLeft: '1.3rem',
 });

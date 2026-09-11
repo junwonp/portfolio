@@ -28,8 +28,8 @@ export function AdminLogin({ isLocal, error }: AdminLoginProps) {
 
   return (
     <div className={styles.loginContainer}>
-      <div className={styles.loginCard}>
-        <h2>관리자 로그인</h2>
+      <section className={styles.loginCard} aria-labelledby="login-title">
+        <h1 id="login-title">관리자 로그인</h1>
 
         {isLocal ? (
           <>
@@ -39,7 +39,11 @@ export function AdminLogin({ isLocal, error }: AdminLoginProps) {
             </p>
 
             <form onSubmit={handleLogin}>
-              {unauthorized && <p className={styles.errorMessage}>인가 요청이 거부되었습니다.</p>}
+              {unauthorized && (
+                <p className={styles.errorMessage} role="alert">
+                  인가 요청이 거부되었습니다.
+                </p>
+              )}
 
               <Button
                 variant="primary"
@@ -58,7 +62,7 @@ export function AdminLogin({ isLocal, error }: AdminLoginProps) {
             <p className={`${styles.subtitle} ${styles.subtitleError}`}>접근 거부됨</p>
 
             <div className={styles.errorContainer}>
-              <p className={styles.errorDescription}>
+              <p className={styles.errorDescription} role="alert">
                 {error || '이메일 인증 정보가 유효하지 않습니다.'}
               </p>
               <p className={styles.errorActionHint}>
@@ -68,7 +72,7 @@ export function AdminLogin({ isLocal, error }: AdminLoginProps) {
             </div>
           </>
         )}
-      </div>
+      </section>
     </div>
   );
 }

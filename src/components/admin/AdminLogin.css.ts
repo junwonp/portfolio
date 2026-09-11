@@ -25,8 +25,13 @@ export const loginCard = style({
   },
 });
 
-globalStyle(`${loginCard} h2`, {
+// h1 carries the page outline; the h2-era type scale is preserved explicitly
+// because the global h1 rule is heavier and tighter than h2.
+globalStyle(`${loginCard} h1`, {
   fontSize: '1.75rem',
+  fontWeight: 700,
+  letterSpacing: 'normal',
+  lineHeight: 'var(--line-height-heading)',
   margin: '0 0 0.5rem 0',
   textAlign: 'center',
 });

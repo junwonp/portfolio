@@ -17,9 +17,9 @@ export async function AdminDashboard({
 
   if (!db && process.env.NODE_ENV !== 'development') {
     return (
-      <div className={styles.databaseError}>
+      <section className={styles.databaseError} role="alert">
         <p>Database is not bound. If local, run Next.js with Cloudflare bindings.</p>
-      </div>
+      </section>
     );
   }
 

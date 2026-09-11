@@ -41,8 +41,8 @@ export function SessionFilters({ classification, timeRange }: SessionFiltersProp
 
   return (
     <div className={styles.sessionFilters}>
-      <div className={styles.filterGroup}>
-        <span className={styles.filterLabel}>유형</span>
+      <fieldset className={styles.filterGroup}>
+        <legend className={styles.filterLabel}>유형</legend>
         <ButtonGroup
           options={CLASSIFICATION_OPTIONS}
           value={classification ?? ''}
@@ -50,9 +50,9 @@ export function SessionFilters({ classification, timeRange }: SessionFiltersProp
           size="sm"
           ariaLabel="세션 유형 필터"
         />
-      </div>
-      <div className={styles.filterGroup}>
-        <span className={styles.filterLabel}>기간</span>
+      </fieldset>
+      <fieldset className={styles.filterGroup}>
+        <legend className={styles.filterLabel}>기간</legend>
         <ButtonGroup
           options={TIME_RANGE_OPTIONS}
           value={timeRange ?? 'all'}
@@ -60,7 +60,7 @@ export function SessionFilters({ classification, timeRange }: SessionFiltersProp
           size="sm"
           ariaLabel="세션 기간 필터"
         />
-      </div>
+      </fieldset>
     </div>
   );
 }

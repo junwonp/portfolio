@@ -31,7 +31,7 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
   return (
     <div className={styles.detailsGrid}>
       <Card variant="glass" radius="sm" className={`${styles.detailsCard} ${styles.tableCard}`}>
-        <SectionHeading level={3} title="가장 많이 방문한 페이지" />
+        <SectionHeading level={2} title="가장 많이 방문한 페이지" />
         {topPages.length === 0 ? (
           <EmptyState message="아직 기록된 방문자 정보가 없습니다." />
         ) : (
@@ -39,12 +39,22 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
             <table>
               <thead>
                 <tr>
-                  <th>페이지 경로</th>
-                  <th className={shared.num}>조회 수</th>
-                  <th className={shared.num}>평균 체류</th>
-                  <th className={shared.num}>활성 시간</th>
-                  <th className={`${shared.num} ${styles.progressHeaderCell}`}>평균 스크롤</th>
-                  <th className={`${shared.num} ${styles.progressHeaderCell}`}>본문 진행</th>
+                  <th scope="col">페이지 경로</th>
+                  <th scope="col" className={shared.num}>
+                    조회 수
+                  </th>
+                  <th scope="col" className={shared.num}>
+                    평균 체류
+                  </th>
+                  <th scope="col" className={shared.num}>
+                    활성 시간
+                  </th>
+                  <th scope="col" className={`${shared.num} ${styles.progressHeaderCell}`}>
+                    평균 스크롤
+                  </th>
+                  <th scope="col" className={`${shared.num} ${styles.progressHeaderCell}`}>
+                    본문 진행
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -58,7 +68,14 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
                     <td className={shared.num}>{page.avgActive}초</td>
                     <td className={shared.num}>
                       <span className={styles.miniProgressCell}>
-                        <span className={styles.miniProgressBar}>
+                        <span
+                          className={styles.miniProgressBar}
+                          role="progressbar"
+                          aria-label="평균 스크롤"
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                          aria-valuenow={page.avgScroll}
+                        >
                           <span
                             className={`${styles.miniProgressFill} ${styles.scrollBar}`}
                             style={{ width: `${page.avgScroll}%` }}
@@ -69,7 +86,14 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
                     </td>
                     <td className={shared.num}>
                       <span className={styles.miniProgressCell}>
-                        <span className={styles.miniProgressBar}>
+                        <span
+                          className={styles.miniProgressBar}
+                          role="progressbar"
+                          aria-label="본문 진행"
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                          aria-valuenow={page.avgArticleProgress}
+                        >
                           <span
                             className={`${styles.miniProgressFill} ${styles.readBar}`}
                             style={{ width: `${page.avgArticleProgress}%` }}
@@ -88,7 +112,7 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
 
       <Card variant="glass" radius="sm" className={`${styles.detailsCard} ${styles.flexCard}`}>
         <div className={styles.subSection}>
-          <SectionHeading level={3} title="주요 유입 소스 (Referrer)" />
+          <SectionHeading level={2} title="주요 유입 소스 (Referrer)" />
           {topReferrers.length === 0 ? (
             <EmptyState message="기록된 유입 경로 정보가 없습니다." />
           ) : (
@@ -104,6 +128,7 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
                   <ProgressBar
                     value={(ref.count / Math.max(...topReferrers.map((r) => r.count))) * 100}
                     tone="success"
+                    label={`${ref.referrer} 유입 비중`}
                   />
                 </li>
               ))}
@@ -112,7 +137,7 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
         </div>
 
         <div className={`${styles.subSection} ${shared.spacerTop}`}>
-          <SectionHeading level={3} title="주요 접속 국가" />
+          <SectionHeading level={2} title="주요 접속 국가" />
           {topCountries.length === 0 ? (
             <EmptyState message="기록된 국가 정보가 없습니다." />
           ) : (
@@ -128,6 +153,7 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
                   <ProgressBar
                     value={(c.count / Math.max(...topCountries.map((co) => co.count))) * 100}
                     tone="primary"
+                    label={`${c.country === 'unknown' ? '직접 유입 / VPN' : c.country} 접속 비중`}
                   />
                 </li>
               ))}
@@ -136,7 +162,7 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
         </div>
 
         <div className={`${styles.subSection} ${shared.spacerTop}`}>
-          <SectionHeading level={3} title="코어 웹 바이탈" />
+          <SectionHeading level={2} title="코어 웹 바이탈" />
           {webVitals.length === 0 ? (
             <EmptyState message="기록된 Web Vitals 샘플이 없습니다." />
           ) : (

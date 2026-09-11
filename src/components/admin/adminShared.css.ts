@@ -49,6 +49,19 @@ export const num = style({
   textAlign: 'right',
 });
 
+// Visually hidden but exposed to assistive tech (table header names, submit buttons)
+export const srOnly = style({
+  border: 0,
+  clipPath: 'inset(50%)',
+  height: '1px',
+  margin: '-1px',
+  overflow: 'hidden',
+  padding: 0,
+  position: 'absolute',
+  whiteSpace: 'nowrap',
+  width: '1px',
+});
+
 export const rangeBadge = style({
   border: '0.5px solid var(--color-bg-divider)',
   borderRadius: 'var(--radius-full)',

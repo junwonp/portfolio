@@ -61,6 +61,21 @@ export const linkProjectCell = style({
   },
 });
 
+export const linkProjectList = style({
+  listStyle: 'none',
+  margin: 0,
+  padding: 0,
+});
+
+globalStyle(`${linkProjectList} li`, {
+  lineHeight: 'inherit',
+  padding: 0,
+});
+
+globalStyle(`${linkProjectList} li::before`, {
+  content: 'none',
+});
+
 export const actionCell = style({
   textAlign: 'right',
   whiteSpace: 'nowrap',
@@ -69,11 +84,13 @@ export const actionCell = style({
 export const linkConfigList = style({
   display: 'grid',
   gap: '0.45rem',
+  listStyle: 'none',
   margin: 0,
   minWidth: '260px',
+  padding: 0,
 });
 
-globalStyle(`${linkConfigList} > div`, {
+globalStyle(`${linkConfigList} > li`, {
   alignItems: 'start',
   display: 'grid',
   gap: '0.75rem',

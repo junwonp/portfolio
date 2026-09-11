@@ -15,10 +15,14 @@ export const applicationForm = style({
 export const error = style({});
 
 export const projectOrderField = style({
+  border: 0,
   display: 'flex',
   flexDirection: 'column',
   gap: '0.4rem',
   gridColumn: '1 / -1',
+  margin: 0,
+  minWidth: 0,
+  padding: 0,
 });
 
 globalStyle(`${applicationForm} label`, {
@@ -27,10 +31,17 @@ globalStyle(`${applicationForm} label`, {
   gap: '0.4rem',
 });
 
-globalStyle(`${applicationForm} span, ${projectOrderField} > span`, {
+globalStyle(`${applicationForm} span, ${projectOrderField} > legend`, {
   color: 'var(--color-sub)',
   fontSize: '0.78rem',
   fontWeight: 700,
+});
+
+// Keeps the legend in normal flow so the fieldset lays out exactly like the
+// div it replaced (a rendered legend otherwise sits outside the flex content box)
+globalStyle(`${projectOrderField} > legend`, {
+  float: 'left',
+  padding: 0,
 });
 
 export const fieldHelp = style({

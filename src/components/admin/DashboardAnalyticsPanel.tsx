@@ -94,7 +94,14 @@ export function DashboardAnalyticsPanel({
   ];
 
   return (
-    <div className={shared.dashboardPanel} role="tabpanel">
+    <div
+      id="dashboard-panel-analytics"
+      className={shared.dashboardPanel}
+      role="tabpanel"
+      aria-labelledby="dashboard-tab-analytics"
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: the ARIA tabs pattern requires a focusable tabpanel
+      tabIndex={0}
+    >
       <Card
         variant="glass"
         radius="sm"
@@ -103,7 +110,7 @@ export function DashboardAnalyticsPanel({
         aria-labelledby="metric-filter-title"
       >
         <SectionHeading
-          level={3}
+          level={2}
           title="지표 범위"
           subtitle="전체 방문 또는 특정 회사/라벨 링크 기준으로 지표를 나눠 봅니다."
           id="metric-filter-title"
@@ -111,9 +118,10 @@ export function DashboardAnalyticsPanel({
         <form className={styles.metricFilterForm} method="GET" action="/a">
           <input type="hidden" name="range" value={trafficRange.value} />
           <input type="hidden" name="tab" value="analytics" />
-          <label>
+          <label htmlFor="metric-filter-link">
             <span>회사 / 라벨</span>
             <Select
+              id="metric-filter-link"
               name="linkId"
               value={selectedApplicationLinkId}
               options={filterOptions}
@@ -122,6 +130,9 @@ export function DashboardAnalyticsPanel({
               }}
             />
           </label>
+          <button type="submit" className={shared.srOnly}>
+            조회 적용
+          </button>
         </form>
       </Card>
 

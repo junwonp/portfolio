@@ -13,8 +13,16 @@ globalStyle(`${dashboardContainer} h1`, {
   margin: 0,
 });
 
-globalStyle(`${dashboardContainer} h3`, {
+globalStyle(`${dashboardContainer} h2`, {
   margin: 0,
+});
+
+// Section headings are level 2 for the outline but keep the previous level-3
+// scale so the dashboard's visual density does not shift.
+globalStyle(`${dashboardContainer} div h2`, {
+  fontSize: 'var(--font-h3)',
+  fontWeight: 700,
+  letterSpacing: 'normal',
 });
 
 export const dashboardHeader = style({

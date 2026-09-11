@@ -107,9 +107,15 @@ export function TrendChart({
   }
 
   return (
-    <Card variant="glass" radius="sm" as="section" className={shared.chartSection}>
+    <Card
+      variant="glass"
+      radius="sm"
+      as="section"
+      className={shared.chartSection}
+      aria-labelledby="traffic-chart-title"
+    >
       <SectionHeading
-        level={3}
+        level={2}
         title={`${trafficRange.label} 트래픽`}
         subtitle={`${formatChartDate(trafficSummary.rangeStart)}–${formatChartDate(trafficSummary.rangeEnd)} 기준, 기록이 없는 ${trafficRange.bucket === 'month' ? '월' : '날짜'}은 0으로 표시`}
         action={
@@ -131,46 +137,60 @@ export function TrendChart({
             </div>
           </div>
         }
+        id="traffic-chart-title"
       />
-      <div className={styles.chartLegend}>
-        <span className={styles.legendItem}>
+      <ul className={styles.chartLegend}>
+        <li className={styles.legendItem}>
           <span className={`${styles.legendColor} ${styles.views}`}></span>
           <span className={styles.legendText}>조회 수 (Views)</span>
-        </span>
-        <span className={styles.legendItem}>
+        </li>
+        <li className={styles.legendItem}>
           <span className={`${styles.legendColor} ${styles.sessions}`}></span>
           <span className={styles.legendText}>세션 수 (Sessions)</span>
-        </span>
-      </div>
+        </li>
+      </ul>
 
-      <div className={styles.trafficSummaryGrid}>
+      <dl className={styles.trafficSummaryGrid}>
         <div className={styles.summaryItem}>
-          <span className={styles.summaryLabel}>기간 조회</span>
-          <strong>{trafficSummary.rangeViews}</strong>
+          <dt className={styles.summaryLabel}>기간 조회</dt>
+          <dd>
+            <strong>{trafficSummary.rangeViews}</strong>
+          </dd>
         </div>
         <div className={styles.summaryItem}>
-          <span className={styles.summaryLabel}>기간 세션</span>
-          <strong>{trafficSummary.rangeSessions}</strong>
+          <dt className={styles.summaryLabel}>기간 세션</dt>
+          <dd>
+            <strong>{trafficSummary.rangeSessions}</strong>
+          </dd>
         </div>
         <div className={styles.summaryItem}>
-          <span className={styles.summaryLabel}>
+          <dt className={styles.summaryLabel}>
             활성 {trafficRange.bucket === 'month' ? '월' : '일'}
-          </span>
-          <strong>{trafficSummary.activeDays}</strong>
+          </dt>
+          <dd>
+            <strong>{trafficSummary.activeDays}</strong>
+          </dd>
         </div>
         <div className={styles.summaryItem}>
-          <span className={styles.summaryLabel}>
+          <dt className={styles.summaryLabel}>
             무기록 {trafficRange.bucket === 'month' ? '월' : '일'}
-          </span>
-          <strong>{trafficSummary.quietDays}</strong>
+          </dt>
+          <dd>
+            <strong>{trafficSummary.quietDays}</strong>
+          </dd>
         </div>
-      </div>
+      </dl>
 
       {dailyChart.length === 0 ? (
         <EmptyState message="트렌드 차트를 표시할 데이터가 없습니다." />
       ) : (
-        <div className={styles.chartWrapper}>
-          <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className={styles.svgChart}>
+        <figure className={styles.chartWrapper} aria-labelledby="traffic-chart-title">
+          <svg
+            viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+            className={styles.svgChart}
+            role="img"
+            aria-label={`${trafficRange.label} 트래픽 추이 차트`}
+          >
             <line
               x1={paddingLeft}
               y1={paddingTop}
@@ -319,7 +339,30 @@ export function TrendChart({
               )}
             </div>
           )}
-        </div>
+
+          {/* Screen readers get the full series; the SVG above stays a single image. */}
+          <div className={shared.srOnly}>
+            <table>
+              <caption>{`${trafficRange.label} 트래픽 데이터`}</caption>
+              <thead>
+                <tr>
+                  <th scope="col">날짜</th>
+                  <th scope="col">세션 수</th>
+                  <th scope="col">조회 수</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dailyChart.map((day) => (
+                  <tr key={day.date}>
+                    <th scope="row">{day.date}</th>
+                    <td>{day.sessions}</td>
+                    <td>{day.views}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </figure>
       )}
     </Card>
   );

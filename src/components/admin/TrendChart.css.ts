@@ -4,13 +4,21 @@ export const chartLegend = style({
   alignItems: 'center',
   display: 'flex',
   gap: 'var(--space-sm)',
-  marginTop: 0,
+  listStyle: 'none',
+  margin: 0,
+  padding: 0,
 });
 
 export const legendItem = style({
   alignItems: 'center',
   display: 'flex',
   gap: '0.35rem',
+  lineHeight: 'inherit',
+  padding: 0,
+});
+
+globalStyle(`${legendItem}::before`, {
+  content: 'none',
 });
 
 export const views = style({});
@@ -55,7 +63,7 @@ export const trafficSummaryGrid = style({
   display: 'grid',
   gap: '0.75rem',
   gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
-  marginBottom: '1.25rem',
+  margin: '0 0 1.25rem',
 
   '@media': {
     '(max-width: 768px)': {
@@ -80,6 +88,10 @@ globalStyle(`${summaryItem} strong`, {
   fontSize: '1.25rem',
 });
 
+globalStyle(`${summaryItem} dd`, {
+  margin: 0,
+});
+
 export const summaryLabel = style({
   color: 'var(--color-sub)',
   fontSize: '0.75rem',
@@ -87,6 +99,7 @@ export const summaryLabel = style({
 });
 
 export const chartWrapper = style({
+  margin: 0,
   position: 'relative',
   width: '100%',
 });

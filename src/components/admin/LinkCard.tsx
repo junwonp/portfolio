@@ -60,16 +60,28 @@ export function LinkCard({ link, projectOptions, writesEnabled }: LinkCardProps)
         </span>
       </td>
       <td className={styles.linkProjectCell}>
-        {link.projectIds.length > 0
-          ? projectLines.map((line, i) => <div key={link.projectIds[i]}>{line}</div>)
-          : '-'}
+        {link.projectIds.length > 0 ? (
+          <ul className={styles.linkProjectList}>
+            {projectLines.map((line, i) => (
+              <li key={link.projectIds[i]}>{line}</li>
+            ))}
+          </ul>
+        ) : (
+          '-'
+        )}
       </td>
       <td className={shared.num}>{link.sessions}</td>
       <td className={shared.num}>{link.views}</td>
       <td className={styles.linkDateCell}>
-        {link.lastSeenAt ? formatDateTime(link.lastSeenAt) : '-'}
+        {link.lastSeenAt ? (
+          <time dateTime={link.lastSeenAt}>{formatDateTime(link.lastSeenAt)}</time>
+        ) : (
+          '-'
+        )}
       </td>
-      <td className={styles.linkDateCell}>{formatDateTime(link.expiresAt)}</td>
+      <td className={styles.linkDateCell}>
+        <time dateTime={link.expiresAt}>{formatDateTime(link.expiresAt)}</time>
+      </td>
       <td className={styles.actionCell}>
         <Button
           as="a"

@@ -37,12 +37,14 @@ export function SessionsTable({
       radius="sm"
       as="section"
       className={`${shared.chartSection} ${shared.spacerTop}`}
+      aria-labelledby="sessions-table-title"
     >
       <SectionHeading
-        level={3}
+        level={2}
         title="접속 세션"
         subtitle="행을 클릭하면 방문자의 전체 페이지 뷰와 인터랙션 타임라인을 확인할 수 있습니다."
         action={<div className={shared.rangeBadge}>{totalCount}개 세션</div>}
+        id="sessions-table-title"
       />
 
       <SessionFilters classification={classification} timeRange={timeRange} />
@@ -54,13 +56,17 @@ export function SessionsTable({
           <table>
             <thead>
               <tr>
-                <th className={styles.timeColumn}>접속 시각</th>
-                <th>유형</th>
-                <th>단축 링크</th>
-                <th>국가</th>
-                <th>유입 경로</th>
-                <th className={shared.num}>조회</th>
-                <th>정보</th>
+                <th scope="col" className={styles.timeColumn}>
+                  접속 시각
+                </th>
+                <th scope="col">유형</th>
+                <th scope="col">단축 링크</th>
+                <th scope="col">국가</th>
+                <th scope="col">유입 경로</th>
+                <th scope="col" className={shared.num}>
+                  조회
+                </th>
+                <th scope="col">정보</th>
               </tr>
             </thead>
             <tbody>
@@ -83,7 +89,9 @@ export function SessionsTable({
                           >
                             ▸
                           </span>
-                          {formatDateTime(session.createdAt)}
+                          <time dateTime={session.createdAt}>
+                            {formatDateTime(session.createdAt)}
+                          </time>
                         </button>
                       </td>
                       <td className={styles.noWrapCell}>

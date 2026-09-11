@@ -40,7 +40,14 @@ export function DashboardLinksPanel({
   writesEnabled,
 }: DashboardLinksPanelProps) {
   return (
-    <div className={shared.dashboardPanel} role="tabpanel">
+    <div
+      id="dashboard-panel-links"
+      className={shared.dashboardPanel}
+      role="tabpanel"
+      aria-labelledby="dashboard-tab-links"
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: the ARIA tabs pattern requires a focusable tabpanel
+      tabIndex={0}
+    >
       <Card
         variant="glass"
         radius="sm"
@@ -50,7 +57,7 @@ export function DashboardLinksPanel({
       >
         <div className={styles.applicationLinkPanel}>
           <SectionHeading
-            level={3}
+            level={2}
             title="지원 링크 생성"
             subtitle={`회사별 짧은 URL과 맞춤 프로젝트 순서를 설정합니다.${writesDisabledReason ? ` ${writesDisabledReason}` : ''}`}
             id="link-create-title"
@@ -71,7 +78,7 @@ export function DashboardLinksPanel({
       >
         <div className={styles.applicationLinkPanel}>
           <SectionHeading
-            level={3}
+            level={2}
             title="생성된 링크"
             subtitle="활성 링크 목록입니다. 상세 지표는 분석 화면에서 확인하세요."
             action={<div className={shared.rangeBadge}>{applicationLinks.length}개 활성 링크</div>}
@@ -85,17 +92,28 @@ export function DashboardLinksPanel({
               <table className={styles.linkTable}>
                 <thead>
                   <tr>
-                    <th>Slug</th>
-                    <th>회사명</th>
-                    <th>라벨</th>
-                    <th>포지셔닝</th>
-                    <th>노출 프로젝트</th>
-                    <th className={shared.num}>세션</th>
-                    <th className={shared.num}>조회</th>
-                    <th>최근 방문</th>
-                    <th>만료</th>
-                    <th></th>
-                    <th></th>
+                    <th scope="col">Slug</th>
+                    <th scope="col">회사명</th>
+                    <th scope="col">라벨</th>
+                    <th scope="col">포지셔닝</th>
+                    <th scope="col">노출 프로젝트</th>
+                    <th scope="col" className={shared.num}>
+                      세션
+                    </th>
+                    <th scope="col" className={shared.num}>
+                      조회
+                    </th>
+                    <th scope="col">최근 방문</th>
+                    <th scope="col">만료</th>
+                    <th scope="col">
+                      <span className={shared.srOnly}>이력서</span>
+                    </th>
+                    <th scope="col">
+                      <span className={shared.srOnly}>인쇄</span>
+                    </th>
+                    <th scope="col">
+                      <span className={shared.srOnly}>삭제</span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
