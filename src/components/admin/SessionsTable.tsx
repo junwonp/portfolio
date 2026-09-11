@@ -9,8 +9,9 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import type { SessionDetail, SessionRow } from '@/lib/server/admin/dashboardData';
 import { formatDateTime } from '@/lib/utils/date';
 
-import * as styles from './admin.css';
+import * as shared from './adminShared.css';
 import { SessionFilters } from './SessionFilters';
+import * as styles from './SessionsTable.css';
 import { SessionTimeline } from './SessionTimeline';
 
 interface SessionsTableProps {
@@ -35,13 +36,13 @@ export function SessionsTable({
       variant="glass"
       radius="sm"
       as="section"
-      className={`${styles.chartSection} ${styles.spacerTop}`}
+      className={`${shared.chartSection} ${shared.spacerTop}`}
     >
       <SectionHeading
         level={3}
         title="접속 세션"
         subtitle="행을 클릭하면 방문자의 전체 페이지 뷰와 인터랙션 타임라인을 확인할 수 있습니다."
-        action={<div className={styles.rangeBadge}>{totalCount}개 세션</div>}
+        action={<div className={shared.rangeBadge}>{totalCount}개 세션</div>}
       />
 
       <SessionFilters classification={classification} timeRange={timeRange} />
@@ -49,7 +50,7 @@ export function SessionsTable({
       {sessions.length === 0 ? (
         <EmptyState message="조건에 맞는 세션 정보가 없습니다." />
       ) : (
-        <div className={styles.tableScroll}>
+        <div className={shared.tableScroll}>
           <table>
             <thead>
               <tr>
@@ -58,7 +59,7 @@ export function SessionsTable({
                 <th>단축 링크</th>
                 <th>국가</th>
                 <th>유입 경로</th>
-                <th className={styles.num}>조회</th>
+                <th className={shared.num}>조회</th>
                 <th>정보</th>
               </tr>
             </thead>
@@ -110,7 +111,7 @@ export function SessionsTable({
                       <td className={styles.referrerCell} title={session.referrer}>
                         {session.referrer}
                       </td>
-                      <td className={styles.num}>{session.pageViewsCount}</td>
+                      <td className={shared.num}>{session.pageViewsCount}</td>
                       <td className={styles.uaCell}>
                         <span className={styles.uaPreview} title={session.userAgent}>
                           {session.userAgent

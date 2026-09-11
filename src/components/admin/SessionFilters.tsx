@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import ButtonGroup from '@/components/ui/ButtonGroup';
 
-import * as styles from './admin.css';
+import * as styles from './SessionFilters.css';
 
 interface SessionFiltersProps {
   classification?: 'bot' | 'suspected' | 'human';

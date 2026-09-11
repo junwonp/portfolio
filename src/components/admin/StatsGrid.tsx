@@ -1,6 +1,6 @@
 import MetricCard from '@/components/ui/MetricCard';
 
-import * as styles from './admin.css';
+import * as styles from './StatsGrid.css';
 
 interface StatsGridProps {
   stats: {

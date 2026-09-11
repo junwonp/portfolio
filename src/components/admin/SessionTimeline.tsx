@@ -1,7 +1,7 @@
 import ProgressBar from '@/components/ui/ProgressBar';
 import type { SessionDetail } from '@/lib/server/admin/dashboardData';
 
-import * as styles from './admin.css';
+import * as styles from './SessionTimeline.css';
 
 interface SessionTimelineProps {
   detail: SessionDetail;

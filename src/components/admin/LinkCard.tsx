@@ -1,9 +1,11 @@
 'use client';
 
 import Button from '@/components/ui/Button';
+import { deleteApplicationLink } from '@/lib/server/admin/actions';
 import { formatDateTime } from '@/lib/utils/date';
-import { deleteApplicationLink } from '../actions';
-import * as styles from './admin.css';
+
+import * as shared from './adminShared.css';
+import * as styles from './LinkCard.css';
 
 interface LinkCardProps {
   link: {
@@ -62,8 +64,8 @@ export function LinkCard({ link, projectOptions, writesEnabled }: LinkCardProps)
           ? projectLines.map((line, i) => <div key={link.projectIds[i]}>{line}</div>)
           : '-'}
       </td>
-      <td className={styles.num}>{link.sessions}</td>
-      <td className={styles.num}>{link.views}</td>
+      <td className={shared.num}>{link.sessions}</td>
+      <td className={shared.num}>{link.views}</td>
       <td className={styles.linkDateCell}>
         {link.lastSeenAt ? formatDateTime(link.lastSeenAt) : '-'}
       </td>

@@ -6,7 +6,8 @@ import Card from '@/components/ui/Card';
 import EmptyState from '@/components/ui/EmptyState';
 import SectionHeading from '@/components/ui/SectionHeading';
 
-import * as styles from './admin.css';
+import * as shared from './adminShared.css';
+import * as styles from './TrendChart.css';
 
 interface TrendChartProps {
   trafficRange: {
@@ -106,7 +107,7 @@ export function TrendChart({
   }
 
   return (
-    <Card variant="glass" radius="sm" as="section" className={styles.chartSection}>
+    <Card variant="glass" radius="sm" as="section" className={shared.chartSection}>
       <SectionHeading
         level={3}
         title={`${trafficRange.label} 트래픽`}
@@ -124,7 +125,7 @@ export function TrendChart({
               size="sm"
               ariaLabel="트래픽 기간 선택"
             />
-            <div className={styles.rangeBadge}>
+            <div className={shared.rangeBadge}>
               {trafficSummary.activeDays}
               {trafficRange.bucket === 'month' ? '개월' : '일'} 활성
             </div>

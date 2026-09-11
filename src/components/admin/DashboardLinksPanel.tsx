@@ -2,7 +2,8 @@ import Card from '@/components/ui/Card';
 import EmptyState from '@/components/ui/EmptyState';
 import SectionHeading from '@/components/ui/SectionHeading';
 
-import * as styles from './admin.css';
+import * as shared from './adminShared.css';
+import * as styles from './DashboardLinksPanel.css';
 import { LinkCard } from './LinkCard';
 import { LinkForm } from './LinkForm';
 
@@ -39,7 +40,7 @@ export function DashboardLinksPanel({
   writesEnabled,
 }: DashboardLinksPanelProps) {
   return (
-    <div className={styles.dashboardPanel} role="tabpanel">
+    <div className={shared.dashboardPanel} role="tabpanel">
       <Card
         variant="glass"
         radius="sm"
@@ -73,14 +74,14 @@ export function DashboardLinksPanel({
             level={3}
             title="생성된 링크"
             subtitle="활성 링크 목록입니다. 상세 지표는 분석 화면에서 확인하세요."
-            action={<div className={styles.rangeBadge}>{applicationLinks.length}개 활성 링크</div>}
+            action={<div className={shared.rangeBadge}>{applicationLinks.length}개 활성 링크</div>}
             id="link-list-title"
           />
 
           {applicationLinks.length === 0 ? (
             <EmptyState message="아직 생성된 지원 링크가 없습니다." />
           ) : (
-            <div className={styles.tableScroll}>
+            <div className={shared.tableScroll}>
               <table className={styles.linkTable}>
                 <thead>
                   <tr>
@@ -89,8 +90,8 @@ export function DashboardLinksPanel({
                     <th>라벨</th>
                     <th>포지셔닝</th>
                     <th>노출 프로젝트</th>
-                    <th className={styles.num}>세션</th>
-                    <th className={styles.num}>조회</th>
+                    <th className={shared.num}>세션</th>
+                    <th className={shared.num}>조회</th>
                     <th>최근 방문</th>
                     <th>만료</th>
                     <th></th>

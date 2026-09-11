@@ -4,8 +4,9 @@ import { useState } from 'react';
 
 import Button from '@/components/ui/Button';
 import Select from '@/components/ui/Select';
-import { createApplicationLink } from '../actions';
-import * as styles from './admin.css';
+import { createApplicationLink } from '@/lib/server/admin/actions';
+
+import * as styles from './LinkForm.css';
 
 interface LinkFormProps {
   applicationProjectOptions: { id: string; title: string }[];

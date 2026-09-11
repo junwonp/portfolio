@@ -5,8 +5,8 @@ application short links, and the metrics dashboard.
 
 ## Runtime Surfaces
 
-- `/a`: private admin dashboard. It renders analytics and link-management tabs through `src/app/a/_components/AdminDashboard.tsx` and `src/app/a/_components/DashboardClient.tsx`.
-- `/a/actions.ts`: Server Actions for local dev login, logout, short-link creation, and short-link deletion.
+- `/a`: private admin dashboard. It renders analytics and link-management tabs through `src/components/admin/AdminDashboard.tsx` and `src/components/admin/DashboardClient.tsx`.
+- `src/lib/server/admin/actions.ts`: Server Actions for local dev login, logout, short-link creation, and short-link deletion.
 - `/:slug`: public short URL route rewritten internally to `src/app/(portfolio)/[locale]/[slug]/page.tsx`. It loads active rows from `application_links`, applies tailored homepage presets, and returns 404 for expired or reserved slugs.
 - `/api/analytics/track`: public analytics Route Handler. It receives browser beacons from `AnalyticsTracker`, validates/clamps payloads, and writes to D1.
 
@@ -86,7 +86,7 @@ The public short URL page:
 
 ## Dashboard Metrics
 
-`src/app/a/_components/AdminDashboard.tsx` reads D1 directly and sends prepared values to the client dashboard.
+`src/components/admin/AdminDashboard.tsx` reads D1 directly and sends prepared values to the client dashboard.
 
 Global and link-filtered metrics include:
 

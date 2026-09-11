@@ -5,7 +5,8 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import Select from '@/components/ui/Select';
 import type { SessionDetail, SessionRow } from '@/lib/server/admin/dashboardData';
 
-import * as styles from './admin.css';
+import * as shared from './adminShared.css';
+import * as styles from './DashboardAnalyticsPanel.css';
 import { DetailsGrid } from './DetailsGrid';
 import { SessionsTable } from './SessionsTable';
 import { StatsGrid } from './StatsGrid';
@@ -93,7 +94,7 @@ export function DashboardAnalyticsPanel({
   ];
 
   return (
-    <div className={styles.dashboardPanel} role="tabpanel">
+    <div className={shared.dashboardPanel} role="tabpanel">
       <Card
         variant="glass"
         radius="sm"

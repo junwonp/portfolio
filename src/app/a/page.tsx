@@ -1,9 +1,8 @@
 import { redirect } from 'next/navigation';
 
+import { AdminDashboard } from '@/components/admin/AdminDashboard';
+import { AdminLogin } from '@/components/admin/AdminLogin';
 import { getCurrentAdminAccessDecision } from '@/lib/server/admin/request';
-
-import { AdminDashboard } from './_components/AdminDashboard';
-import { AdminLogin } from './_components/AdminLogin';
 
 export default async function AdminPage(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

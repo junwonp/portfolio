@@ -3,10 +3,11 @@
 import { useState } from 'react';
 
 import Button from '@/components/ui/Button';
+import { logout } from '@/lib/server/admin/actions';
 import type { SessionDetail, SessionRow } from '@/lib/server/admin/dashboardData';
-import { logout } from '../actions';
-import * as styles from './admin.css';
+
 import { DashboardAnalyticsPanel } from './DashboardAnalyticsPanel';
+import * as styles from './DashboardClient.css';
 import { DashboardLinksPanel } from './DashboardLinksPanel';
 
 interface DashboardClientProps {

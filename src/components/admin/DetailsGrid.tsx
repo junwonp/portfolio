@@ -3,7 +3,8 @@ import EmptyState from '@/components/ui/EmptyState';
 import ProgressBar from '@/components/ui/ProgressBar';
 import SectionHeading from '@/components/ui/SectionHeading';
 
-import * as styles from './admin.css';
+import * as shared from './adminShared.css';
+import * as styles from './DetailsGrid.css';
 
 interface DetailsGridProps {
   topPages: {
@@ -34,16 +35,16 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
         {topPages.length === 0 ? (
           <EmptyState message="아직 기록된 방문자 정보가 없습니다." />
         ) : (
-          <div className={styles.tableScroll}>
+          <div className={shared.tableScroll}>
             <table>
               <thead>
                 <tr>
                   <th>페이지 경로</th>
-                  <th className={styles.num}>조회 수</th>
-                  <th className={styles.num}>평균 체류</th>
-                  <th className={styles.num}>활성 시간</th>
-                  <th className={`${styles.num} ${styles.progressHeaderCell}`}>평균 스크롤</th>
-                  <th className={`${styles.num} ${styles.progressHeaderCell}`}>본문 진행</th>
+                  <th className={shared.num}>조회 수</th>
+                  <th className={shared.num}>평균 체류</th>
+                  <th className={shared.num}>활성 시간</th>
+                  <th className={`${shared.num} ${styles.progressHeaderCell}`}>평균 스크롤</th>
+                  <th className={`${shared.num} ${styles.progressHeaderCell}`}>본문 진행</th>
                 </tr>
               </thead>
               <tbody>
@@ -52,10 +53,10 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
                     <td className={styles.pathCell} title={page.path}>
                       {page.path}
                     </td>
-                    <td className={styles.num}>{page.views}</td>
-                    <td className={styles.num}>{page.avgDwell}초</td>
-                    <td className={styles.num}>{page.avgActive}초</td>
-                    <td className={styles.num}>
+                    <td className={shared.num}>{page.views}</td>
+                    <td className={shared.num}>{page.avgDwell}초</td>
+                    <td className={shared.num}>{page.avgActive}초</td>
+                    <td className={shared.num}>
                       <span className={styles.miniProgressCell}>
                         <span className={styles.miniProgressBar}>
                           <span
@@ -66,7 +67,7 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
                         <span className={styles.miniProgressVal}>{page.avgScroll}%</span>
                       </span>
                     </td>
-                    <td className={styles.num}>
+                    <td className={shared.num}>
                       <span className={styles.miniProgressCell}>
                         <span className={styles.miniProgressBar}>
                           <span
@@ -110,7 +111,7 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
           )}
         </div>
 
-        <div className={`${styles.subSection} ${styles.spacerTop}`}>
+        <div className={`${styles.subSection} ${shared.spacerTop}`}>
           <SectionHeading level={3} title="주요 접속 국가" />
           {topCountries.length === 0 ? (
             <EmptyState message="기록된 국가 정보가 없습니다." />
@@ -134,7 +135,7 @@ export function DetailsGrid({ topPages, topReferrers, topCountries, webVitals }:
           )}
         </div>
 
-        <div className={`${styles.subSection} ${styles.spacerTop}`}>
+        <div className={`${styles.subSection} ${shared.spacerTop}`}>
           <SectionHeading level={3} title="코어 웹 바이탈" />
           {webVitals.length === 0 ? (
             <EmptyState message="기록된 Web Vitals 샘플이 없습니다." />

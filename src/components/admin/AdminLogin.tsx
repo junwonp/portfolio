@@ -3,9 +3,9 @@
 import { useState, useTransition } from 'react';
 
 import Button from '@/components/ui/Button';
+import { login } from '@/lib/server/admin/actions';
 
-import { login } from '../actions';
-import * as styles from './login.css';
+import * as styles from './AdminLogin.css';
 
 interface AdminLoginProps {
   isLocal: boolean;

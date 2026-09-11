@@ -4,7 +4,7 @@ import { getAdminDashboardData } from '@/lib/server/admin/dashboardData';
 import { isAdminWriteEnabledForCurrentRuntime } from '@/lib/server/admin/request';
 import { getDb } from '@/lib/server/infrastructure/database';
 
-import * as styles from './admin.css';
+import * as styles from './AdminDashboard.css';
 import { DashboardClient } from './DashboardClient';
 
 export async function AdminDashboard({
