@@ -17,12 +17,12 @@ export default function WorkAccordion({ experiences, locale }: Props) {
   const isFiltered = false;
 
   return (
-    <div className={styles.accordion}>
+    <ul className={styles.accordion}>
       {experiences.map((exp) => {
         return (
           <CompanyCard key={exp.companyName} exp={exp} isFiltered={isFiltered} labels={labels} />
         );
       })}
-    </div>
+    </ul>
   );
 }

@@ -2,7 +2,7 @@
 'use client';
 
 import { ChevronLeft, ChevronRight, Image as ImageIcon, X, ZoomIn } from 'lucide-react';
-import { type KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { type KeyboardEvent, useEffect, useId, useRef, useState } from 'react';
 
 import { cardSurface } from '@/components/ui/surface.css';
 import { getResponsiveImageProps } from '@/lib/utils/image';
@@ -63,6 +63,7 @@ function LightboxViewer({ images, initialIndex, onClose }: ViewerProps) {
   const activeIndexRef = useRef(initialIndex);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const captionId = useId();
   const activeImage = images[activeIndex];
 
   useEffect(() => {
@@ -123,6 +124,8 @@ function LightboxViewer({ images, initialIndex, onClose }: ViewerProps) {
       <div
         ref={trackRef}
         className={styles.carouselTrack}
+        role="group"
+        aria-label="Image carousel"
         onScroll={(event) => {
           const index = getVisibleImageIndex(event.currentTarget, images.length);
           activeIndexRef.current = index;
@@ -134,7 +137,9 @@ function LightboxViewer({ images, initialIndex, onClose }: ViewerProps) {
             key={image.src}
             className={styles.carouselSlide}
             role="group"
+            aria-roledescription="slide"
             aria-label={`Image ${index + 1} of ${images.length}`}
+            aria-describedby={index === activeIndex && activeImage?.caption ? captionId : undefined}
           >
             <ResponsiveImage image={image} fullscreen />
           </div>
@@ -162,10 +167,14 @@ function LightboxViewer({ images, initialIndex, onClose }: ViewerProps) {
           </button>
         </>
       )}
-      <div className={styles.overlayFooter}>
-        {activeImage?.caption && <p className={styles.overlayCaption}>{activeImage.caption}</p>}
+      <footer className={styles.overlayFooter}>
+        {activeImage?.caption && (
+          <p id={captionId} className={styles.overlayCaption}>
+            {activeImage.caption}
+          </p>
+        )}
         {images.length > 1 && (
-          <div className={styles.overlayDots}>
+          <div className={styles.overlayDots} role="group" aria-label="Choose image">
             {images.map((image, index) => (
               <button
                 type="button"
@@ -178,7 +187,7 @@ function LightboxViewer({ images, initialIndex, onClose }: ViewerProps) {
             ))}
           </div>
         )}
-      </div>
+      </footer>
     </dialog>
   );
 }
@@ -187,32 +196,39 @@ export default function ProjectLightbox({ images, variant = 'default' }: Props) 
   const [openedIndex, setOpenedIndex] = useState<number | null>(null);
   return (
     <>
-      <div
-        className={`${styles.lightboxMasonry} ${variant === 'phone' ? styles.phonePreview : ''}`}
-      >
-        {images.map((image, index) => (
-          <button
-            type="button"
-            key={image.src}
-            className={`${styles.masonryItem} ${cardSurface}`}
-            onClick={() => setOpenedIndex(index)}
-            aria-label={`View ${image.alt} fullscreen`}
-          >
-            <ResponsiveImage image={image} />
-            <span className={styles.zoomHint} aria-hidden="true">
-              <ZoomIn size={18} />
-            </span>
-            {index === 0 && images.length > 1 && (
-              <span className={styles.moreIndicator} aria-hidden="true">
-                <span className={styles.indicatorContent}>
-                  <ImageIcon size={24} />
-                  <span className={styles.label}>{images.length} photos</span>
+      {images.length > 0 && (
+        <ul
+          className={`${styles.lightboxMasonry} ${variant === 'phone' ? styles.phonePreview : ''}`}
+        >
+          {images.map((image, index) => (
+            <li key={image.src} className={styles.masonryItemCell}>
+              <button
+                type="button"
+                className={`${styles.masonryItem} ${cardSurface}`}
+                onClick={() => setOpenedIndex(index)}
+                aria-label={
+                  index === 0 && images.length > 1
+                    ? `View ${image.alt} fullscreen, ${images.length} photos`
+                    : `View ${image.alt} fullscreen`
+                }
+              >
+                <ResponsiveImage image={image} />
+                <span className={styles.zoomHint} aria-hidden="true">
+                  <ZoomIn size={18} />
                 </span>
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
+                {index === 0 && images.length > 1 && (
+                  <span className={styles.moreIndicator} aria-hidden="true">
+                    <span className={styles.indicatorContent}>
+                      <ImageIcon size={24} />
+                      <span className={styles.label}>{images.length} photos</span>
+                    </span>
+                  </span>
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
       {openedIndex !== null && images[openedIndex] && (
         <LightboxViewer
           images={images}

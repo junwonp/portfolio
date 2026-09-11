@@ -4,10 +4,25 @@ export const spotlightList = style({
   display: 'flex',
   flexDirection: 'column',
   gap: 'var(--space-md)',
+  listStyle: 'none',
+  margin: 0,
+  padding: 0,
 });
 
 export const isLink = style({});
 export const hasThumbnail = style({});
+
+export const spotlightItem = style({
+  lineHeight: 'inherit',
+  padding: 0,
+  position: 'static',
+
+  selectors: {
+    '&::before': {
+      display: 'none',
+    },
+  },
+});
 
 export const card = style({
   alignItems: 'start',
@@ -15,14 +30,19 @@ export const card = style({
   border: '0.5px solid color-mix(in srgb, var(--color-bg-divider) 40%, transparent)',
   display: 'grid',
   gap: '1.25rem',
+  lineHeight: 'inherit',
   minWidth: 0,
   overflow: 'hidden',
   padding: '1rem',
+  position: 'static',
   textDecoration: 'none',
   color: 'inherit',
   transition: 'box-shadow 0.2s ease, transform 0.2s var(--ease-emphasized), border-color 0.2s ease',
 
   selectors: {
+    '&::before': {
+      display: 'none',
+    },
     [`&.${isLink}`]: {
       cursor: 'pointer',
     },
@@ -116,14 +136,21 @@ export const resumeList = style({
   display: 'flex',
   flexDirection: 'column',
   gap: 0,
+  listStyle: 'none',
+  margin: 0,
+  padding: 0,
 });
 
 export const resumeRow = style({
   borderBottom: 'none',
-  paddingTop: '0.75rem',
-  paddingBottom: '0.75rem',
+  lineHeight: 'inherit',
+  padding: '0.75rem 0',
+  position: 'static',
 
   selectors: {
+    '&::before': {
+      display: 'none',
+    },
     '&:first-child': {
       paddingTop: 0,
     },

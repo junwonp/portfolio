@@ -5,12 +5,37 @@ export const skillGroup = style({
   alignItems: 'center',
   flexWrap: 'wrap',
   gap: '0.35rem',
+  listStyle: 'none',
+  margin: 0,
+  padding: 0,
+});
+
+export const skillItem = style({
+  display: 'flex',
+  lineHeight: 'inherit',
+  padding: 0,
+  position: 'static',
+
+  selectors: {
+    '&::before': {
+      display: 'none',
+    },
+  },
 });
 
 export const lastChipWrapper = style({
   display: 'inline-flex',
   alignItems: 'center',
   whiteSpace: 'nowrap',
+  lineHeight: 'inherit',
+  padding: 0,
+  position: 'static',
+
+  selectors: {
+    '&::before': {
+      display: 'none',
+    },
+  },
 });
 
 export const divider = style({

@@ -149,7 +149,9 @@ export const pillars = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.65rem',
+  listStyle: 'none',
   margin: 'var(--space-sm) 0 var(--space-md)',
+  padding: 0,
 });
 
 export const pillar = style({
@@ -158,10 +160,15 @@ export const pillar = style({
   borderRadius: 'var(--radius-md)',
   display: 'flex',
   gap: '0.75rem',
+  lineHeight: 'inherit',
   padding: '0.75rem var(--space-sm)',
+  position: 'static',
   border: '0.5px solid rgba(0, 0, 0, 0.03)',
 
   selectors: {
+    '&::before': {
+      display: 'none',
+    },
     '.dark &': {
       backgroundColor: 'rgba(255, 255, 255, 0.02)',
       border: '0.5px solid rgba(255, 255, 255, 0.04)',

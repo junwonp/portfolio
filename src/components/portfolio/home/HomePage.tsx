@@ -56,8 +56,12 @@ export default function HomePage({ data }: Props) {
         {workExperiences.length > 0 && (
           <>
             {featuredWebProjects.length > 0 && (
-              <AnimatedSection id="section-featured" delay={90}>
-                <SectionHeading title={featuredProjectsTitle} />
+              <AnimatedSection
+                id="section-featured"
+                delay={90}
+                aria-labelledby="section-featured-heading"
+              >
+                <SectionHeading id="section-featured-heading" title={featuredProjectsTitle} />
                 <ProjectSpotlightList
                   experiences={featuredWebProjects}
                   labels={labels}
@@ -67,34 +71,46 @@ export default function HomePage({ data }: Props) {
               </AnimatedSection>
             )}
 
-            <AnimatedSection id="section-work" delay={180}>
-              <SectionHeading title={labels.sectionWork} />
+            <AnimatedSection id="section-work" delay={180} aria-labelledby="section-work-heading">
+              <SectionHeading id="section-work-heading" title={labels.sectionWork} />
               <WorkAccordion experiences={workExperiences} locale={locale} />
             </AnimatedSection>
           </>
         )}
 
-        <AnimatedSection id="section-skills" delay={270}>
-          <SectionHeading title={labels.sectionSkills} />
+        <AnimatedSection id="section-skills" delay={270} aria-labelledby="section-skills-heading">
+          <SectionHeading id="section-skills-heading" title={labels.sectionSkills} />
           {skills && <BentoSkills locale={locale} skills={skills} />}
         </AnimatedSection>
 
         {otherExperiences.length > 0 && (
-          <AnimatedSection id="section-projects" delay={360}>
-            <SectionHeading title={labels.sectionAwards} />
+          <AnimatedSection
+            id="section-projects"
+            delay={360}
+            aria-labelledby="section-projects-heading"
+          >
+            <SectionHeading id="section-projects-heading" title={labels.sectionAwards} />
             <ProjectSpotlightList experiences={otherExperiences} labels={labels} variant="resume" />
           </AnimatedSection>
         )}
 
         {archives.length > 0 && (
-          <AnimatedSection id="section-archives" delay={450}>
-            <SectionHeading title={labels.sectionArchives} />
+          <AnimatedSection
+            id="section-archives"
+            delay={450}
+            aria-labelledby="section-archives-heading"
+          >
+            <SectionHeading id="section-archives-heading" title={labels.sectionArchives} />
             <ProjectSpotlightList experiences={archives} labels={labels} variant="resume" />
           </AnimatedSection>
         )}
 
-        <AnimatedSection id="section-education" delay={540}>
-          <SectionHeading title={labels.sectionEducation} />
+        <AnimatedSection
+          id="section-education"
+          delay={540}
+          aria-labelledby="section-education-heading"
+        >
+          <SectionHeading id="section-education-heading" title={labels.sectionEducation} />
           {resumeData.education && <EducationList education={resumeData.education} />}
         </AnimatedSection>
       </div>

@@ -5,6 +5,9 @@ export const bentoGrid = style({
   gridTemplateColumns: 'repeat(2, 1fr)',
   gridAutoFlow: 'dense',
   gap: '1.25rem',
+  listStyle: 'none',
+  margin: 0,
+  padding: 0,
 
   '@media': {
     '(max-width: 768px)': {
@@ -20,10 +23,15 @@ export const card = style({
   padding: '1.5rem',
   display: 'flex',
   flexDirection: 'column',
+  lineHeight: 'inherit',
   minWidth: 0,
+  position: 'static',
   border: '0.5px solid rgba(0, 0, 0, 0.06)',
 
   selectors: {
+    '&::before': {
+      display: 'none',
+    },
     'html.dark &': {
       background: 'var(--color-code-bg)',
       boxShadow: 'var(--shadow-card)',
@@ -65,7 +73,23 @@ export const tagList = style({
   display: 'flex',
   flexWrap: 'wrap',
   gap: 'var(--space-xs)',
+  listStyle: 'none',
+  margin: 0,
   minWidth: 0,
+  padding: 0,
+});
+
+export const tagItem = style({
+  display: 'flex',
+  lineHeight: 'inherit',
+  padding: 0,
+  position: 'static',
+
+  selectors: {
+    '&::before': {
+      display: 'none',
+    },
+  },
 });
 
 export const cardFooter = style({

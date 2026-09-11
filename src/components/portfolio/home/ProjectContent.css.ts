@@ -144,18 +144,6 @@ export const resumeHeader = style({
       paddingLeft: '1.5rem',
       paddingRight: '1.5rem',
     },
-    '&[role="button"]': {
-      cursor: 'pointer',
-      transition: 'background-color 0.2s',
-    },
-    '&[role="button"]:hover': {
-      backgroundColor: 'var(--color-surface-hover)',
-    },
-  },
-
-  ':focus-visible': {
-    outline: '2px solid var(--color-primary)',
-    outlineOffset: '-2px',
   },
 
   '@media': {
@@ -172,6 +160,43 @@ export const resumeHeader = style({
         },
       },
     },
+  },
+});
+
+export const resumeHeaderInteractive = style({
+  cursor: 'pointer',
+  transition: 'background-color 0.2s',
+
+  selectors: {
+    '&:hover': {
+      backgroundColor: 'var(--color-surface-hover)',
+    },
+  },
+});
+
+export const resumeHeading = style({
+  color: 'inherit',
+  flex: 1,
+  font: 'inherit',
+  margin: 0,
+  minWidth: 0,
+});
+
+export const resumeToggle = style({
+  alignItems: 'center',
+  background: 'transparent',
+  border: 'none',
+  color: 'inherit',
+  cursor: 'pointer',
+  display: 'flex',
+  font: 'inherit',
+  padding: 0,
+  textAlign: 'left',
+  width: '100%',
+
+  ':focus-visible': {
+    outline: '2px solid var(--color-primary)',
+    outlineOffset: '-2px',
   },
 });
 
@@ -224,8 +249,10 @@ export const metaRow = style({
 
 export const resumeTitle = style({
   color: 'var(--color-bold)',
+  fontFamily: 'var(--font-family-text), sans-serif',
   fontSize: 'var(--font-h3)',
   fontWeight: 600,
+  lineHeight: 'var(--line-height-heading)',
   margin: 0,
   overflowWrap: 'anywhere',
 
@@ -304,6 +331,7 @@ export const detailGrid = style({
   display: 'flex',
   flexDirection: 'column',
   gap: 'var(--space-sm)',
+  margin: 0,
 });
 
 export const detailRow = style({
@@ -333,6 +361,7 @@ export const detailText = style({
   fontSize: '1rem',
   lineHeight: 1.6,
   flex: 1,
+  margin: 0,
   minWidth: 0,
   overflowWrap: 'anywhere',
 });

@@ -8,7 +8,9 @@ export const active = style({});
 export const lightboxMasonry = style({
   columns: 2,
   columnGap: '24px',
-  marginBottom: '48px',
+  margin: '0 0 48px',
+  padding: 0,
+  listStyle: 'none',
 
   selectors: {
     [`&.${phonePreview}`]: {
@@ -23,6 +25,30 @@ export const lightboxMasonry = style({
       gap: '16px',
     },
   },
+});
+
+export const masonryItemCell = style({
+  breakInside: 'avoid',
+  margin: 0,
+  padding: 0,
+  lineHeight: 'inherit',
+  width: '100%',
+
+  '@media': {
+    '(max-width: 640px)': {
+      selectors: {
+        '&:not(:first-child)': { display: 'none' },
+        [`.${phonePreview} &`]: {
+          maxWidth: 'min(100%, 340px)',
+        },
+      },
+    },
+  },
+});
+
+// Suppress the global prose list bullet on the masonry cells.
+globalStyle(`${masonryItemCell}::before`, {
+  content: 'none',
 });
 
 export const masonryItem = style({
@@ -51,17 +77,6 @@ export const masonryItem = style({
     },
     'html.dark &:hover': {
       boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
-    },
-  },
-
-  '@media': {
-    '(max-width: 640px)': {
-      selectors: {
-        '&:not(:first-child)': { display: 'none' },
-        [`.${phonePreview} &`]: {
-          maxWidth: 'min(100%, 340px)',
-        },
-      },
     },
   },
 });

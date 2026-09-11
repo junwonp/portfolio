@@ -36,6 +36,7 @@ export default function AutoVideo({ src, title, width, height }: Props) {
       ref={videoRef}
       src={src}
       title={title}
+      aria-label={title}
       width={width}
       height={height}
       loop

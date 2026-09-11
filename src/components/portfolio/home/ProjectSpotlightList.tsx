@@ -26,7 +26,7 @@ export default function ProjectSpotlightList({
   const effectiveSkillLimit = isSpotlight ? (skillLimit ?? 6) : skillLimit;
 
   return (
-    <div className={isSpotlight ? styles.spotlightList : styles.resumeList}>
+    <ul className={isSpotlight ? styles.spotlightList : styles.resumeList}>
       {experiences.map((experience, index) => {
         const project = experience.project[0];
         if (!project) return null;
@@ -72,31 +72,32 @@ export default function ProjectSpotlightList({
 
           if (project.detailLink) {
             return (
-              <a
-                key={project.id}
-                href={project.detailLink}
-                className={`${styles.card} ${cardSurface} ${styles.isLink} ${project.thumbnail ? styles.hasThumbnail : ''}`}
-                data-project-link-card="true"
-                data-project-surface="spotlight"
-              >
-                {cardContent}
-              </a>
+              <li key={project.id} className={styles.spotlightItem}>
+                <a
+                  href={project.detailLink}
+                  className={`${styles.card} ${cardSurface} ${styles.isLink} ${project.thumbnail ? styles.hasThumbnail : ''}`}
+                  data-project-link-card="true"
+                  data-project-surface="spotlight"
+                >
+                  {cardContent}
+                </a>
+              </li>
             );
           }
 
           return (
-            <div
+            <li
               key={project.id}
               className={`${styles.card} ${cardSurface} ${project.thumbnail ? styles.hasThumbnail : ''}`}
               data-project-surface="spotlight"
             >
               {cardContent}
-            </div>
+            </li>
           );
         }
 
         return (
-          <div key={project.id} className={styles.resumeRow} data-project-surface="resume">
+          <li key={project.id} className={styles.resumeRow} data-project-surface="resume">
             <ProjectContent
               project={project}
               titleBadge={experience.titleBadge}
@@ -107,9 +108,9 @@ export default function ProjectSpotlightList({
               reloadDetailLink
               labels={labels}
             />
-          </div>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }

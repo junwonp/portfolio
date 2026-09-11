@@ -4,6 +4,9 @@ export const educationList = style({
   display: 'flex',
   flexDirection: 'column',
   gap: 'var(--space-md)',
+  listStyle: 'none',
+  margin: 0,
+  padding: 0,
 });
 
 export const item = style({
@@ -11,6 +14,15 @@ export const item = style({
   justifyContent: 'space-between',
   alignItems: 'flex-start',
   gap: 'var(--space-md)',
+  lineHeight: 'inherit',
+  padding: 0,
+  position: 'static',
+
+  selectors: {
+    '&::before': {
+      display: 'none',
+    },
+  },
 
   '@media': {
     '(max-width: 768px)': {

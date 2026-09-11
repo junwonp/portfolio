@@ -25,19 +25,21 @@ export default function SkillGroups({ skills }: SkillGroupsProps) {
         const lastSkill = segment.skills[segment.skills.length - 1];
 
         return (
-          <span key={`${segment.category}-${segment.skills[0]}`} className={styles.skillGroup}>
+          <ul key={`${segment.category}-${segment.skills[0]}`} className={styles.skillGroup}>
             {nonLastSkills.map((skill) => (
-              <SkillChip key={skill} skill={skill} />
+              <li key={skill} className={styles.skillItem}>
+                <SkillChip skill={skill} />
+              </li>
             ))}
-            <span className={styles.lastChipWrapper}>
+            <li className={styles.lastChipWrapper}>
               <SkillChip skill={lastSkill} />
               {showDivider && (
                 <span className={styles.divider} aria-hidden="true">
                   /
                 </span>
               )}
-            </span>
-          </span>
+            </li>
+          </ul>
         );
       })}
     </>

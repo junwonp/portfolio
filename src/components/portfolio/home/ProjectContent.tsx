@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useId } from 'react';
 
 import SkillGroups from '@/components/portfolio/SkillGroups';
 import ArrowLink from '@/components/ui/ArrowLink';
@@ -24,6 +24,10 @@ interface ProjectContentProps {
   isLinkWrapped?: boolean;
   reloadDetailLink?: boolean;
   headerProps?: React.HTMLAttributes<HTMLDivElement>;
+  isToggleHeader?: boolean;
+  isExpanded?: boolean;
+  onToggleHeader?: () => void;
+  titleLevel?: 3 | 4;
   labels: Labels;
 }
 
@@ -45,8 +49,14 @@ export default function ProjectContent({
   isLinkWrapped = false,
   reloadDetailLink = false,
   headerProps,
+  isToggleHeader = false,
+  isExpanded = false,
+  onToggleHeader,
+  titleLevel = 3,
   labels,
 }: ProjectContentProps) {
+  const collapseId = useId();
+  const TitleTag = titleLevel === 4 ? 'h4' : 'h3';
   const { visibleSkills, hiddenSkillCount, hiddenSkillsSummary } = (() => {
     const projectSkills = sortSkills(project.skills ?? []);
     if (skillLimit === undefined) {
@@ -107,18 +117,45 @@ export default function ProjectContent({
 
   return (
     <div className={styles.resumeContent}>
-      <div className={styles.resumeHeader} {...headerProps}>
-        <div className={styles.titleGroupInline}>
-          <div className={styles.titleRow}>
-            <h3 className={styles.resumeTitle}>{project.title}</h3>
+      <div
+        className={`${styles.resumeHeader}${isToggleHeader ? ` ${styles.resumeHeaderInteractive}` : ''}`}
+        {...headerProps}
+      >
+        {isToggleHeader ? (
+          <TitleTag className={styles.resumeHeading}>
+            <button
+              type="button"
+              className={styles.resumeToggle}
+              onClick={onToggleHeader}
+              aria-controls={collapseId}
+              aria-expanded={isExpanded}
+            >
+              <span className={styles.titleGroupInline}>
+                <span className={styles.titleRow}>
+                  <span className={styles.resumeTitle}>{project.title}</span>
+                </span>
+                <span className={styles.metaRow}>
+                  {titleBadge && <span className={styles.badge}>{titleBadge}</span>}
+                  <span className={styles.resumePeriod}>
+                    <Period dateFrom={project.dateFrom} dateTo={project.dateTo} />
+                  </span>
+                </span>
+              </span>
+            </button>
+          </TitleTag>
+        ) : (
+          <div className={styles.titleGroupInline}>
+            <div className={styles.titleRow}>
+              <TitleTag className={styles.resumeTitle}>{project.title}</TitleTag>
+            </div>
+            <div className={styles.metaRow}>
+              {titleBadge && <span className={styles.badge}>{titleBadge}</span>}
+              <span className={styles.resumePeriod}>
+                <Period dateFrom={project.dateFrom} dateTo={project.dateTo} />
+              </span>
+            </div>
           </div>
-          <div className={styles.metaRow}>
-            {titleBadge && <span className={styles.badge}>{titleBadge}</span>}
-            <span className={styles.resumePeriod}>
-              <Period dateFrom={project.dateFrom} dateTo={project.dateTo} />
-            </span>
-          </div>
-        </div>
+        )}
 
         {project.detailLink && (
           <div className={styles.resumeLinkArea}>
@@ -135,30 +172,30 @@ export default function ProjectContent({
         )}
       </div>
 
-      <Collapse isOpen={showBody}>
+      <Collapse id={collapseId} isOpen={showBody}>
         <div className={styles.resumeBody}>
           <p className={styles.resumeDescription}>
             <span>{project.description}</span>
           </p>
 
           {showDetails && project.detail && project.detail.length > 0 && (
-            <div className={styles.detailGrid}>
+            <dl className={styles.detailGrid}>
               {project.detail.map((line: string) => {
                 const parsed = parseDetailLine(line);
                 return (
                   <div className={styles.detailRow} key={line}>
                     {parsed.label && (
-                      <div className={styles.detailLabel}>
+                      <dt className={styles.detailLabel}>
                         <span className={styles.labelPill}>{parsed.label}</span>
-                      </div>
+                      </dt>
                     )}
-                    <div className={styles.detailText}>
+                    <dd className={styles.detailText}>
                       <RichText parts={parseMarkdown(parsed.content)} />
-                    </div>
+                    </dd>
                   </div>
                 );
               })}
-            </div>
+            </dl>
           )}
 
           {visibleSkills.length > 0 && (

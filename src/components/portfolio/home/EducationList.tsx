@@ -9,9 +9,9 @@ interface Props {
 
 export default function EducationList({ education }: Props) {
   return (
-    <div className={styles.educationList}>
+    <ul className={styles.educationList}>
       {education.map((item) => (
-        <div className={styles.item} key={item.school}>
+        <li className={styles.item} key={item.school}>
           <div className={styles.info}>
             <h3 className={styles.school}>{item.school}</h3>
             {item.major && <p className={styles.major}>{item.major}</p>}
@@ -19,8 +19,8 @@ export default function EducationList({ education }: Props) {
           <div className={styles.dateWrapper}>
             <Period dateFrom={item.dateFrom} dateTo={item.dateTo} />
           </div>
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

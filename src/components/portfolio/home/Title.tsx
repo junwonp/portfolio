@@ -19,17 +19,17 @@ export default function Title({ name, pillars, role, tagline }: Props) {
       <p className={styles.tagline}>{tagline}</p>
 
       {pillars && pillars.length > 0 && (
-        <div className={styles.pillars}>
+        <ul className={styles.pillars}>
           {pillars.map((pillar) => (
-            <div className={styles.pillar} key={pillar.index}>
+            <li className={styles.pillar} key={pillar.index}>
               <span className={styles.pillarIndex}>{pillar.index}</span>
               <div className={styles.pillarContent}>
                 <span className={styles.pillarTitle}>{pillar.title}</span>
                 <span className={styles.pillarDesc}>{pillar.description}</span>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </header>
   );

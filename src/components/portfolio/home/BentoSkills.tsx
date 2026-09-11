@@ -21,12 +21,12 @@ export default function BentoSkills({
   const labels = getLabels(locale);
 
   return (
-    <div className={styles.bentoGrid}>
+    <ul className={styles.bentoGrid}>
       {skills.map((skill) => {
         const isSpan2 = skill.id === 'ui';
 
         return (
-          <div
+          <li
             key={skill.title}
             className={`${styles.card} ${cardSurface} ${isSpan2 ? styles.span2 : ''}`}
             style={
@@ -38,11 +38,13 @@ export default function BentoSkills({
             <div className={styles.cardHeader}>
               <h3 className={styles.cardTitle}>{skill.title}</h3>
             </div>
-            <div className={styles.tagList}>
+            <ul className={styles.tagList}>
               {skill.list.map((item) => (
-                <SkillChip key={item} skill={item} />
+                <li key={item} className={styles.tagItem}>
+                  <SkillChip skill={item} />
+                </li>
               ))}
-            </div>
+            </ul>
             {skill.detailLink && (
               <div className={styles.cardFooter}>
                 {skill.description && (
@@ -58,9 +60,9 @@ export default function BentoSkills({
                 />
               </div>
             )}
-          </div>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }

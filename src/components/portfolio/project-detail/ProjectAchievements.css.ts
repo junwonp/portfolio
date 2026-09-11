@@ -4,7 +4,9 @@ export const achievements = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.75rem',
-  marginBottom: '56px',
+  margin: '0 0 56px',
+  padding: 0,
+  listStyle: 'none',
 });
 
 export const open = style({});
@@ -13,6 +15,8 @@ export const achCard = style({
   background: 'var(--color-basic-bg)',
   overflow: 'hidden',
   minWidth: 0,
+  padding: 0,
+  lineHeight: 'inherit',
   transition: 'transform 0.2s var(--ease-emphasized), box-shadow 0.2s ease',
 
   ':hover': {
@@ -37,6 +41,11 @@ export const achCard = style({
   },
 });
 
+// Suppress the global prose list bullet so the card renders as a plain surface.
+globalStyle(`${achCard}::before`, {
+  content: 'none',
+});
+
 export const achHeader = style({
   width: '100%',
   padding: '16px 20px',
@@ -49,6 +58,8 @@ export const achHeader = style({
   background: 'transparent',
   border: 'none',
   textAlign: 'left',
+  font: 'inherit',
+  color: 'inherit',
 
   '@media': {
     '(max-width: 640px)': {
@@ -81,6 +92,8 @@ export const achTag = style({
 });
 
 export const achTitle = style({
+  margin: 0,
+  fontFamily: 'inherit',
   fontSize: '1.0625rem',
   fontWeight: 600,
   color: 'var(--color-bold)',

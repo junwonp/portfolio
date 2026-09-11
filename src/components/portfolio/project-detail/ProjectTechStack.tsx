@@ -1,4 +1,7 @@
+import { useId } from 'react';
+
 import SkillChip from '@/components/ui/SkillChip';
+import { getLabels } from '@/lib/portfolio/labels';
 import { getProjectTechStackGroups } from '@/lib/portfolio/techStack';
 import type { Language } from '@/lib/utils/language';
 
@@ -10,22 +13,29 @@ interface Props {
 }
 
 export default function ProjectTechStack({ techStack, locale }: Props) {
+  const labels = getLabels(locale);
+  const headingId = useId();
   const techStackByCategory = getProjectTechStackGroups(techStack, locale);
 
   return (
-    <div className={styles.projectTechStack}>
-      <div className={styles.techCategoryGrid}>
+    <section className={styles.projectTechStack} aria-labelledby={headingId}>
+      <h2 id={headingId} className={styles.visuallyHidden}>
+        {labels.techStack}
+      </h2>
+      <ul className={styles.techCategoryGrid}>
         {techStackByCategory.map((group) => (
-          <div key={group.id} className={styles.techCategory}>
-            <span className={styles.categoryTitle}>{group.title}</span>
-            <div className={styles.techGrid}>
+          <li key={group.id} className={styles.techCategory}>
+            <h3 className={styles.categoryTitle}>{group.title}</h3>
+            <ul className={styles.techGrid}>
               {group.skills.map((tech) => (
-                <SkillChip key={tech} skill={tech} />
+                <li key={tech}>
+                  <SkillChip skill={tech} />
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </section>
   );
 }

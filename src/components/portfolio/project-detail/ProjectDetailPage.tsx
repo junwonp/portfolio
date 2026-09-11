@@ -67,7 +67,7 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
   );
 
   const desktopHeader = (
-    <div className={styles.topbarLinks}>
+    <nav className={styles.topbarLinks} aria-label="Project links">
       <ProjectBackButton
         label={labels.goBack}
         className={`${circleButton} glass-effect ${styles.backCircle}`}
@@ -97,7 +97,7 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
           </a>
         )}
       </div>
-    </div>
+    </nav>
   );
 
   return (
@@ -107,14 +107,14 @@ export default function ProjectDetailPage({ children, slug, locale, metadata }: 
         productLink={metadata.productLink}
       />
 
-      <div id="intro-header-sentinel"></div>
+      <div id="intro-header-sentinel" aria-hidden="true" />
 
       <PortfolioContentLayout
         contentClassName={styles.content}
         desktopHeader={desktopHeader}
         sideNav={<ProjectToc />}
       >
-        <div className={styles.hero}>{heroContent}</div>
+        <header className={styles.hero}>{heroContent}</header>
 
         <article className={`project-article ${styles.projectArticle}`}>{children}</article>
       </PortfolioContentLayout>

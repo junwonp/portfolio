@@ -5,6 +5,21 @@ import { projectItem } from './ProjectItem.css';
 export const companyWrapper = style({
   display: 'flex',
   flexDirection: 'column',
+  lineHeight: 'inherit',
+  padding: 0,
+  position: 'static',
+
+  selectors: {
+    '&::before': {
+      display: 'none',
+    },
+  },
+});
+
+export const companyHeading = style({
+  color: 'inherit',
+  font: 'inherit',
+  margin: 0,
 });
 
 export const open = style({});
@@ -41,15 +56,21 @@ export const companyCard = style({
 export const companyHeader = style({
   background: 'transparent',
   border: 'none',
+  color: 'inherit',
   cursor: 'pointer',
   display: 'flex',
   flexDirection: 'column',
   gap: 'var(--space-xs)',
+  font: 'inherit',
   marginBottom: 0,
   padding: 0,
   textAlign: 'left',
   width: '100%',
-  fontFamily: 'inherit',
+
+  ':focus-visible': {
+    outline: '2px solid var(--color-primary)',
+    outlineOffset: '-2px',
+  },
 });
 
 export const companyTop = style({
@@ -174,6 +195,7 @@ export const highlights = style({
   gap: '0.75rem',
   listStyle: 'none',
   margin: 0,
+  marginTop: 'var(--space-xs)',
   padding: 0,
 });
 
@@ -209,8 +231,10 @@ export const projectList = style({
   borderTop: '0.5px solid var(--color-bg-divider)',
   display: 'flex',
   flexDirection: 'column',
+  listStyle: 'none',
   margin: '0.75rem -1.5rem -1.5rem -1.5rem',
   minWidth: 0,
+  padding: 0,
 
   '@media': {
     '(max-width: 576px)': {

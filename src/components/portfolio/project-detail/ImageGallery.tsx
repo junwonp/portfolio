@@ -24,11 +24,12 @@ export default function ImageGallery({ children }: Props) {
   };
 
   return (
-    <div className={styles.imageGallery}>
+    <section className={styles.imageGallery} aria-label="Image gallery">
       <div
         ref={sliderRef}
         className={styles.sliderContainer}
-        role="group"
+        role="region"
+        aria-roledescription="carousel"
         aria-label="Image gallery"
         tabIndex={itemCount > 1 ? 0 : undefined}
         onKeyDown={handleKeyDown}
@@ -37,10 +38,10 @@ export default function ImageGallery({ children }: Props) {
         {children}
       </div>
       {itemCount > 1 && (
-        <div className={styles.pager} aria-live="polite" aria-atomic="true">
+        <div className={styles.pager} role="status">
           {currentIndex + 1}/{itemCount}
         </div>
       )}
-    </div>
+    </section>
   );
 }

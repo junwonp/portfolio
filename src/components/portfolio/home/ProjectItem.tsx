@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import ProjectContent from '@/components/portfolio/home/ProjectContent';
 import { reportInteraction } from '@/lib/analytics/analyticsTransport';
 import type { ProjectItem as ProjectItemType } from '@/lib/portfolio/homeTypes';
@@ -47,32 +45,7 @@ export default function ProjectItem({
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (isCompact) return;
-    if (!isFiltered && (e.key === 'Enter' || e.key === ' ')) {
-      e.preventDefault();
-      reportInteraction({
-        interactionType: 'accordion_project',
-        interactionLabel: `${companyName}::${project.title}`,
-        action: isOpen ? 'close' : 'open',
-      });
-      toggleProject(companyName, project.title);
-    }
-  };
-
   const containerClassName = `project-item ${ProjectItemStyles.projectItem}`.trim();
-
-  const headerProps = isCompact
-    ? {
-        style: { cursor: 'default' },
-      }
-    : {
-        role: 'button',
-        tabIndex: 0,
-        onClick: handleToggle,
-        onKeyDown: handleKeyDown,
-        'aria-expanded': isOpen,
-      };
 
   const content = (
     <ProjectContent
@@ -84,14 +57,18 @@ export default function ProjectItem({
         shouldRenderProjectDetails(detailsMode, project.detail, Boolean(project.detailLink))
       }
       isLinkWrapped={false}
-      headerProps={headerProps}
+      headerProps={isCompact ? { style: { cursor: 'default' } } : undefined}
+      isToggleHeader={!isCompact}
+      isExpanded={isOpen}
+      onToggleHeader={handleToggle}
+      titleLevel={isCompact ? 4 : 3}
       labels={labels}
     />
   );
 
   return (
-    <div className={containerClassName} data-project-surface="resume">
+    <li className={containerClassName} data-project-surface="resume">
       {content}
-    </div>
+    </li>
   );
 }

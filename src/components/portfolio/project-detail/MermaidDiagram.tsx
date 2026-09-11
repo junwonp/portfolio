@@ -31,7 +31,7 @@ export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Pr
           src={asset.light}
           width={asset.width}
           height={asset.height}
-          alt={title}
+          alt=""
           unoptimized
         />
         <Image
@@ -39,7 +39,7 @@ export default function MermaidDiagram({ chart, eyebrow = 'Diagram', title }: Pr
           src={asset.dark}
           width={asset.width}
           height={asset.height}
-          alt={title}
+          alt=""
           unoptimized
         />
       </div>

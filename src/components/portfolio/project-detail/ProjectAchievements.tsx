@@ -1,7 +1,7 @@
 'use client';
 
 import { ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 
 import Badge from '@/components/ui/Badge';
 import Collapse from '@/components/ui/Collapse';
@@ -32,25 +32,38 @@ function AchievementItem({
   isOpen: boolean;
   onToggle: () => void;
 }) {
+  const id = useId();
+  const headerId = `${id}-header`;
+  const panelId = `${id}-panel`;
+
   return (
-    <div className={`${styles.achCard} ${cardSurface} ${isOpen ? styles.open : ''}`}>
-      <button className={styles.achHeader} onClick={onToggle} aria-expanded={isOpen}>
-        <div className={styles.achTitleRow}>
-          <Badge
-            text={achievement.tag}
-            color={achievement.accent ? 'green' : 'primary'}
-            className={styles.achTag}
-          />
-          <span className={styles.achTitle}>{achievement.title}</span>
-        </div>
-        <div className={styles.achHeaderRight}>
-          <div className={`${styles.achChevron} ${isOpen ? styles.open : ''}`}>
-            <ChevronDown size={18} strokeWidth={2} />
-          </div>
-        </div>
-      </button>
-      <Collapse isOpen={isOpen}>
-        <div className={styles.achBody}>
+    <li className={`${styles.achCard} ${cardSurface} ${isOpen ? styles.open : ''}`}>
+      <h3 className={styles.achTitle}>
+        <button
+          type="button"
+          id={headerId}
+          className={styles.achHeader}
+          onClick={onToggle}
+          aria-expanded={isOpen}
+          aria-controls={panelId}
+        >
+          <span className={styles.achTitleRow}>
+            <Badge
+              text={achievement.tag}
+              color={achievement.accent ? 'green' : 'primary'}
+              className={styles.achTag}
+            />
+            {achievement.title}
+          </span>
+          <span className={styles.achHeaderRight}>
+            <span className={`${styles.achChevron} ${isOpen ? styles.open : ''}`}>
+              <ChevronDown size={18} strokeWidth={2} />
+            </span>
+          </span>
+        </button>
+      </h3>
+      <Collapse isOpen={isOpen} id={panelId}>
+        <div className={styles.achBody} role="region" aria-labelledby={headerId}>
           {/* detail is sanitized via sanitizeProjectHtml before it reaches here */}
           <div
             className={styles.achDesc}
@@ -59,7 +72,7 @@ function AchievementItem({
           />
         </div>
       </Collapse>
-    </div>
+    </li>
   );
 }
 
@@ -85,7 +98,7 @@ export default function ProjectAchievements({ achievements }: Props) {
   };
 
   return (
-    <div className={styles.achievements}>
+    <ul className={styles.achievements}>
       {sanitizedAchievements.map((achievement, i) => (
         <AchievementItem
           key={achievement.title}
@@ -94,6 +107,6 @@ export default function ProjectAchievements({ achievements }: Props) {
           onToggle={() => toggle(i)}
         />
       ))}
-    </div>
+    </ul>
   );
 }
