@@ -6,6 +6,8 @@ import PrivacyEn from '@/content/privacy/privacy.en.mdx';
 import PrivacyKo from '@/content/privacy/privacy.ko.mdx';
 import { isValidLanguage, type Language } from '@/lib/utils/language';
 
+import * as styles from './privacy.css';
+
 interface PrivacyPageProps {
   params: Promise<{ locale: string }>;
 }
@@ -46,7 +48,7 @@ export default async function PrivacyPage({ params }: PrivacyPageProps) {
   const PrivacyContent = privacyContent[locale];
 
   return (
-    <div style={{ marginTop: 'var(--space-md)', paddingBottom: 'var(--space-lg)' }}>
+    <div className={styles.privacyContent}>
       <PrivacyContent />
     </div>
   );
