@@ -68,6 +68,8 @@ export const vars = createGlobalThemeContract(
       cardLifted: null,
       floating: null,
       menu: null,
+      glass: null,
+      glassLifted: null,
     },
     color: {
       bold: null,
@@ -106,6 +108,11 @@ export const vars = createGlobalThemeContract(
       catPerformance: null,
       catBackend: null,
       catDevops: null,
+      scrim: null,
+      scrimSoft: null,
+      borderSubtle: null,
+      platformIos: null,
+      platformWeb: null,
     },
     glass: {
       bg: null,
@@ -199,6 +206,10 @@ createGlobalTheme(':root', vars, {
     cardLifted: '0 8px 30px rgba(0, 0, 0, 0.05)',
     floating: '0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
     menu: '0 16px 40px rgba(0, 0, 0, 0.06)',
+    // Glass elevation — glass preserves the duplicated BottomNav/ProjectDetailPage
+    // shadows; glassLifted escalates along the card → cardLifted pattern
+    glass: '0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
+    glassLifted: '0 12px 40px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
   },
   color: {
     bold: 'oklch(0% 0 0)',
@@ -239,6 +250,13 @@ createGlobalTheme(':root', vars, {
     catPerformance: 'oklch(62% 0.16 55)',
     catBackend: 'oklch(62% 0.15 95)',
     catDevops: 'oklch(62% 0.16 195)',
+    // Overlay scrims — light dims less than dark so both modes read as "curtain"
+    scrim: 'oklch(0% 0 0 / 0.55)',
+    scrimSoft: 'oklch(0% 0 0 / 0.45)',
+    borderSubtle: 'oklch(0% 0 0 / 0.06)',
+    // Platform brand colors — Apple iOS blue / web red, dark variants from Apple HIG
+    platformIos: '#007aff',
+    platformWeb: '#d62d20',
   },
   glass: {
     bg: 'oklch(100% 0 0 / 0.45)',
@@ -284,6 +302,14 @@ globalStyle('html.dark', {
     [vars.shadow.floating]:
       '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
     [vars.shadow.menu]: '0 16px 40px rgba(0, 0, 0, 0.45)',
+    [vars.shadow.glass]: '0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+    [vars.shadow.glassLifted]:
+      '0 12px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
+    [vars.color.scrim]: 'oklch(0% 0 0 / 0.65)',
+    [vars.color.scrimSoft]: 'oklch(0% 0 0 / 0.55)',
+    [vars.color.borderSubtle]: 'oklch(100% 0 0 / 0.06)',
+    [vars.color.platformIos]: '#0a84ff',
+    [vars.color.platformWeb]: '#ff453a',
     [vars.glass.bg]: 'oklch(100% 0 0 / 0.06)',
     [vars.glass.border]: '1px solid oklch(100% 0 0 / 0.12)',
   },

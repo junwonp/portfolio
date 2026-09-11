@@ -184,6 +184,7 @@ export const dropdownMenu = style({
   background: 'rgba(255, 255, 255, 0.94)',
   backdropFilter: 'saturate(140%) blur(20px)',
   WebkitBackdropFilter: 'saturate(140%) blur(20px)',
+  // 0.08 ≠ --color-border-subtle (0.06 in both modes); kept
   border: '0.5px solid rgba(0, 0, 0, 0.08)',
   borderRadius: 'var(--radius-lg)',
   boxShadow: 'var(--shadow-menu)',
@@ -237,6 +238,8 @@ export const moreButton = style({
 });
 
 export const menuDivider = style({
+  // Light value equals --color-border-subtle exactly, but dark (0.08 ≠ 0.06)
+  // would change; kept as literals
   background: 'rgba(0, 0, 0, 0.06)',
   height: '0.5px',
   margin: '4px 6px',

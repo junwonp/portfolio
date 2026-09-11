@@ -251,13 +251,13 @@ globalStyle('html.dark .badge.android', {
 });
 
 globalStyle('.badge.ios', {
-  backgroundColor: 'rgba(0, 122, 255, 0.1)',
-  color: '#007aff',
+  backgroundColor: 'color-mix(in srgb, var(--color-platform-ios) 10%, transparent)',
+  color: 'var(--color-platform-ios)',
 });
 
 globalStyle('html.dark .badge.ios', {
-  backgroundColor: 'rgba(10, 132, 255, 0.15)',
-  color: '#0a84ff',
+  backgroundColor: 'color-mix(in srgb, var(--color-platform-ios) 15%, transparent)',
+  color: 'var(--color-platform-ios)',
 });
 
 globalStyle('.badge.macos', {
@@ -271,13 +271,15 @@ globalStyle('html.dark .badge.macos', {
 });
 
 globalStyle('.badge.web', {
+  // Tint intentionally stays Apple systemRed (#ff3b30) — distinct from the
+  // #d62d20 text color — so the literal is kept to preserve the computed value.
   backgroundColor: 'rgba(255, 59, 48, 0.1)',
-  color: '#d62d20',
+  color: 'var(--color-platform-web)',
 });
 
 globalStyle('html.dark .badge.web', {
-  backgroundColor: 'rgba(255, 69, 58, 0.15)',
-  color: '#ff453a',
+  backgroundColor: 'color-mix(in srgb, var(--color-platform-web) 15%, transparent)',
+  color: 'var(--color-platform-web)',
 });
 
 globalStyle('pre', {

@@ -45,6 +45,7 @@ export const masonryItem = style({
 
   selectors: {
     'html.dark &': {
+      // 0.05 ≠ --color-border-subtle dark (0.06); kept to preserve the dark hairline
       border: '0.5px solid rgba(255, 255, 255, 0.05)',
       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.2)',
     },
@@ -97,6 +98,7 @@ export const zoomHint = style({
   position: 'absolute',
   bottom: '12px',
   right: '12px',
+  // 0.6 matches no scrim token (0.55/0.65, 0.45/0.55); kept
   background: 'rgba(0, 0, 0, 0.6)',
   color: '#fff',
   borderRadius: 'var(--radius-sm)',
@@ -120,6 +122,8 @@ export const moreIndicator = style({
   '@media': { '(min-width: 641px)': { display: 'none' } },
   position: 'absolute',
   inset: 0,
+  // Base/hover match --color-scrim-soft/--color-scrim in light mode only; the
+  // dark token values (0.55/0.65) would deepen the dark-mode scrim, so literals stay
   background: 'rgba(0, 0, 0, 0.45)',
   display: 'flex',
   alignItems: 'center',
@@ -164,6 +168,7 @@ export const overlay = style({
   position: 'fixed',
   inset: 0,
   zIndex: 'var(--z-overlay)',
+  // Near-opaque lightbox curtain; the scrim tokens (0.55/0.65) are far lighter
   background: 'rgba(0, 0, 0, 0.92)',
   backdropFilter: 'blur(8px)',
   overflow: 'hidden',
@@ -182,6 +187,7 @@ export const overlayClose = style({
   top: '16px',
   right: '16px',
   zIndex: 'var(--z-elevated)',
+  // Control-surface translucency, deliberately lighter than the curtain scrims
   background: 'rgba(0, 0, 0, 0.3)',
   backdropFilter: 'blur(8px)',
   WebkitBackdropFilter: 'blur(8px)',
@@ -252,6 +258,7 @@ export const overlayFooter = style({
   justifyContent: 'center',
   gap: 'var(--space-xs)',
   padding: '8px 24px',
+  // Gradient fade; the scrim tokens are flat colors
   background:
     'linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%)',
   backdropFilter: 'blur(4px)',
@@ -279,6 +286,7 @@ export const overlayNav = style({
   top: '50%',
   transform: 'translateY(-50%)',
   zIndex: 'var(--z-elevated)',
+  // Control-surface translucency, deliberately lighter than the curtain scrims
   background: 'rgba(0, 0, 0, 0.35)',
   backdropFilter: 'blur(8px)',
   WebkitBackdropFilter: 'blur(8px)',

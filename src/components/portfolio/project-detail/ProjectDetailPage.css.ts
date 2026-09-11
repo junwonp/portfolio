@@ -355,14 +355,8 @@ export const backCircle = style({
   flexShrink: 0,
   height: '36px',
   width: '36px',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
+  boxShadow: 'var(--shadow-glass)',
   transition: 'background 0.15s, color 0.15s',
-
-  selectors: {
-    'html.dark &': {
-      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-    },
-  },
 
   ':hover': {
     background: 'var(--color-disabled-bg)',

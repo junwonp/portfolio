@@ -17,14 +17,9 @@ export const tabBar = style({
   width: 'calc(100% - 1.5rem)',
   maxWidth: '500px',
   zIndex: 'var(--z-sticky)',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
+  // Token flips automatically under html.dark, replacing the old per-selector override
+  boxShadow: 'var(--shadow-glass)',
   touchAction: 'none',
-
-  selectors: {
-    'html.dark &': {
-      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-    },
-  },
 
   '@media': {
     '(min-width: 961px)': {
@@ -148,14 +143,8 @@ export const islandSlot = style({
 
 export const island = style({
   borderRadius: 'var(--radius-full)',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.8)',
+  boxShadow: 'var(--shadow-glass)',
   pointerEvents: 'auto',
-
-  selectors: {
-    'html.dark &': {
-      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15)',
-    },
-  },
 });
 
 globalStyle(`${projectNav} ${tabBar}`, {
