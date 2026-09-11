@@ -1,10 +1,10 @@
 import dynamic from 'next/dynamic';
-import type { CSSProperties } from 'react';
 
+import AnimatedSection from '@/components/portfolio/home/AnimatedSection';
 import EducationList from '@/components/portfolio/home/EducationList';
 import ProjectSpotlightList from '@/components/portfolio/home/ProjectSpotlightList';
-import SectionHeader from '@/components/portfolio/home/SectionHeader';
 import Title from '@/components/portfolio/home/Title';
+import SectionHeading from '@/components/ui/SectionHeading';
 
 const BentoSkills = dynamic(() => import('@/components/portfolio/home/BentoSkills'));
 const WorkAccordion = dynamic(() => import('@/components/portfolio/home/WorkAccordion'));
@@ -61,100 +61,60 @@ export default function HomePage({ data }: Props) {
       mobileHeader={mobileHeader}
       sideNav={<DesktopSideNav sections={navSections} />}
     >
-      <section
-        id="section-intro"
-        className={styles.fadeSlideEnter}
-        style={{ '--enter-delay': '0ms' } as CSSProperties}
-      >
+      <AnimatedSection id="section-intro" delay={0}>
         <Title
           name={data.summaryIntroduction.name}
           pillars={data.summaryIntroduction.pillars}
           role={data.summaryIntroduction.role}
           tagline={data.summaryIntroduction.tagline}
         />
-      </section>
+      </AnimatedSection>
 
       <div className={styles.contentWrapper}>
         {workExperiences.length > 0 && (
           <>
             {featuredWebProjects.length > 0 && (
-              <section
-                id="section-featured"
-                className={styles.fadeSlideEnter}
-                style={{ '--enter-delay': '90ms' } as CSSProperties}
-              >
-                <div className={styles.sectionHeadingRow}>
-                  <SectionHeader title={featuredProjectsTitle} />
-                </div>
+              <AnimatedSection id="section-featured" delay={90}>
+                <SectionHeading title={featuredProjectsTitle} />
                 <ProjectSpotlightList
                   experiences={featuredWebProjects}
                   labels={labels}
                   variant="spotlight"
                   skillLimit={6}
                 />
-              </section>
+              </AnimatedSection>
             )}
 
-            <section
-              id="section-work"
-              className={styles.fadeSlideEnter}
-              style={{ '--enter-delay': '180ms' } as CSSProperties}
-            >
-              <div className={styles.sectionHeadingRow}>
-                <SectionHeader title={labels.sectionWork} />
-              </div>
+            <AnimatedSection id="section-work" delay={180}>
+              <SectionHeading title={labels.sectionWork} />
               <WorkAccordion experiences={workExperiences} locale={locale} />
-            </section>
+            </AnimatedSection>
           </>
         )}
 
-        <section
-          id="section-skills"
-          className={styles.fadeSlideEnter}
-          style={{ '--enter-delay': '270ms' } as CSSProperties}
-        >
-          <div className={styles.sectionHeadingRow}>
-            <SectionHeader title={labels.sectionSkills} />
-          </div>
+        <AnimatedSection id="section-skills" delay={270}>
+          <SectionHeading title={labels.sectionSkills} />
           {skills && <BentoSkills locale={locale} skills={skills} />}
-        </section>
+        </AnimatedSection>
 
         {otherExperiences.length > 0 && (
-          <section
-            id="section-projects"
-            className={styles.fadeSlideEnter}
-            style={{ '--enter-delay': '360ms' } as CSSProperties}
-          >
-            <div className={styles.sectionHeadingRow}>
-              <SectionHeader title={labels.sectionAwards} />
-            </div>
+          <AnimatedSection id="section-projects" delay={360}>
+            <SectionHeading title={labels.sectionAwards} />
             <ProjectSpotlightList experiences={otherExperiences} labels={labels} variant="resume" />
-          </section>
+          </AnimatedSection>
         )}
 
         {archives.length > 0 && (
-          <section
-            id="section-archives"
-            className={styles.fadeSlideEnter}
-            style={{ '--enter-delay': '450ms' } as CSSProperties}
-          >
-            <div className={styles.sectionHeadingRow}>
-              <SectionHeader title={labels.sectionArchives} />
-            </div>
+          <AnimatedSection id="section-archives" delay={450}>
+            <SectionHeading title={labels.sectionArchives} />
             <ProjectSpotlightList experiences={archives} labels={labels} variant="resume" />
-          </section>
+          </AnimatedSection>
         )}
 
-        <section
-          id="section-education"
-          className={styles.fadeSlideEnter}
-          style={{ '--enter-delay': '540ms' } as CSSProperties}
-        >
-          <div className={styles.sectionHeadingRow}>
-            <SectionHeader title={labels.sectionEducation} />
-          </div>
+        <AnimatedSection id="section-education" delay={540}>
+          <SectionHeading title={labels.sectionEducation} />
           {resumeData.education && <EducationList education={resumeData.education} />}
-        </section>
+        </AnimatedSection>
       </div>
     </PortfolioContentLayout>
   );
