@@ -19,6 +19,16 @@ const project: ProjectItem = {
 const renderResume = (): string =>
   renderToStaticMarkup(<ProjectContent project={project} variant="resume" labels={labelsMap.ko} />);
 
+const renderResumeWithToggle = (expanded: boolean): string =>
+  renderToStaticMarkup(
+    <ProjectContent
+      project={project}
+      variant="resume"
+      toggle={{ expanded, onToggle: () => {} }}
+      labels={labelsMap.ko}
+    />,
+  );
+
 const escapeForRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const extractDescriptionParagraph = (html: string): string => {
@@ -53,5 +63,17 @@ describe('ProjectContent resume variant', () => {
     expect(html).toContain('TypeScript');
     expect(html).toContain('Expo');
     expect(html).toContain('/');
+  });
+
+  it('renders an interactive header button reflecting the toggle expanded state', () => {
+    expect(renderResumeWithToggle(true)).toContain('aria-expanded="true"');
+    expect(renderResumeWithToggle(false)).toContain('aria-expanded="false"');
+  });
+
+  it('renders the static header without a toggle button when toggle is omitted', () => {
+    const html = renderResume();
+
+    expect(html).not.toContain('<button');
+    expect(html).not.toContain('aria-expanded');
   });
 });

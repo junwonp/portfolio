@@ -24,9 +24,7 @@ interface ProjectContentProps {
   isLinkWrapped?: boolean;
   reloadDetailLink?: boolean;
   headerProps?: React.HTMLAttributes<HTMLDivElement>;
-  isToggleHeader?: boolean;
-  isExpanded?: boolean;
-  onToggleHeader?: () => void;
+  toggle?: { expanded: boolean; onToggle: () => void };
   titleLevel?: 3 | 4;
   labels: Labels;
 }
@@ -49,13 +47,12 @@ export default function ProjectContent({
   isLinkWrapped = false,
   reloadDetailLink = false,
   headerProps,
-  isToggleHeader = false,
-  isExpanded = false,
-  onToggleHeader,
+  toggle,
   titleLevel = 3,
   labels,
 }: ProjectContentProps) {
   const collapseId = useId();
+  const isToggleHeader = Boolean(toggle);
   const TitleTag = titleLevel === 4 ? 'h4' : 'h3';
   const { visibleSkills, hiddenSkillCount, hiddenSkillsSummary } = (() => {
     const projectSkills = sortSkills(project.skills ?? []);
@@ -126,9 +123,9 @@ export default function ProjectContent({
             <button
               type="button"
               className={styles.resumeToggle}
-              onClick={onToggleHeader}
+              onClick={toggle?.onToggle}
               aria-controls={collapseId}
-              aria-expanded={isExpanded}
+              aria-expanded={toggle?.expanded}
             >
               <span className={styles.titleGroupInline}>
                 <span className={styles.titleRow}>

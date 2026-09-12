@@ -58,9 +58,7 @@ export default function ProjectItem({
       }
       isLinkWrapped={false}
       headerProps={isCompact ? { style: { cursor: 'default' } } : undefined}
-      isToggleHeader={!isCompact}
-      isExpanded={isOpen}
-      onToggleHeader={handleToggle}
+      toggle={isCompact ? undefined : { expanded: isOpen, onToggle: handleToggle }}
       titleLevel={isCompact ? 4 : 3}
       labels={labels}
     />
