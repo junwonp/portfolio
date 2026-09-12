@@ -9,7 +9,7 @@ This repository is operated through `vinext`. Use the package scripts below for 
 - **Framework**: [vinext](https://www.npmjs.com/package/vinext) with the [Next.js 16](https://nextjs.org/) App Router API
 - **Build Tool**: Vite
 - **Language**: TypeScript
-- **Styling**: Vanilla CSS with CSS Custom Properties
+- **Styling**: [vanilla-extract](https://vanilla-extract.style/) (CSS-in-TS) with CSS custom properties
 - **Content**: MDX
 - **Database**: Cloudflare D1
 - **Storage**: Cloudflare R2
@@ -31,7 +31,10 @@ pnpm build
 pnpm exec vinext check
 
 # Run the full unit test suite
-pnpm exec vitest run
+pnpm test
+
+# Run tests with coverage (enforces the coverage ratchet)
+pnpm test:coverage
 
 # Type-check without emitting files
 pnpm exec tsc --noEmit --pretty false
@@ -47,22 +50,33 @@ pnpm deploy
 
 ```
 src/
-├── app/              # Next.js App Router pages and layouts
+├── app/          # App Router routes, layouts, route handlers, and global styles
+├── components/   # React components grouped by feature (admin, portfolio, print, resume, ui)
+├── config/       # Site configuration
+├── content/      # MDX project/privacy content and home/career/profile data
+├── generated/    # Generated diagram manifest
 ├── lib/
-│   ├── components/   # React components
-│   ├── content/      # MDX project content
-│   ├── data/         # Static data and constants
-│   ├── hooks/        # Custom React hooks
-│   ├── server/       # Server-side utilities (D1, R2)
-│   ├── types/        # TypeScript type definitions
-│   └── utils/        # Shared utility functions
-└── proxy.ts          # Request proxy
+│   ├── analytics/  # Client analytics helpers
+│   ├── contexts/   # React context providers
+│   ├── hooks/      # Custom React hooks
+│   ├── mdx/        # MDX rehype/remark plugins
+│   ├── portfolio/  # Portfolio domain: catalog, skills, resume, metadata
+│   ├── server/     # Server-side: admin, analytics, application links, assets, D1
+│   ├── states/     # Small state utilities
+│   ├── stores/     # External stores
+│   ├── styles/     # vanilla-extract theme tokens and generated font CSS
+│   └── utils/      # Shared utility functions
+└── proxy.ts      # Request proxy (locale, CSP, cache headers)
 ```
+
+## Verification
+
+`pnpm install` activates the repository pre-commit hook (`git config core.hooksPath .githooks`). The hook blocks a commit unless Biome, `tsc`, and the unit tests pass; CI runs the same checks in `.github/workflows/verify.yml`, and React Doctor runs in blocking mode.
 
 ## Operational Notes
 
 - Runtime-specific imports such as `cloudflare:workers` are part of the supported production path.
-- `src/lib/server/cloudflare-workers.mock.ts` exists only for Vitest aliases and is not a fallback for a plain `next build` workflow.
+- `src/lib/server/infrastructure/cloudflare-workers.mock.ts` exists only for Vitest aliases and is not a fallback for a plain `next build` workflow.
 - For production-shape validation, prefer `pnpm build`, `pnpm exec vinext check`, and `pnpm exec wrangler deploy --dry-run`.
 - The `develop` deploy environment is intentionally read-only: admin writes stay disabled even if the app is pointed at production-backed bindings.
 - The printable resume is served from `/resume`; production also maps `resume.junwon.dev` to the same Worker via a Cloudflare Workers custom domain route.
