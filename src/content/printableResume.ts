@@ -264,13 +264,28 @@ const kftcProjectItem: ResumeSimpleItem = {
   ],
 };
 
-const camerafiStudioBlock: ResumeProjectBlock = {
+const camerafiStudioMeta = {
   title: 'CameraFi Studio - 웹 오버레이 스코어보드',
   period: '2022.02 – 2023.06',
-  summary: [
-    strong('1인 개발로 시작해 사내 두 번째 메인 수익 모델'),
-    '로 성장시킨 스포츠 중계 오버레이 웹 SaaS입니다.',
-  ],
+};
+
+const camerafiStudioSummary: ResumeTextPart[] = [
+  strong('1인 개발로 시작해 사내 두 번째 메인 수익 모델'),
+  '로 성장시킨 스포츠 중계 오버레이 웹 SaaS입니다.',
+];
+
+const adminDashboardMeta = {
+  title: 'Internal Admin Dashboard',
+  period: '2022.03 – 2023.06',
+};
+
+const adminDashboardSummary: ResumeTextPart[] = [
+  '계정, 구독, 제품 사용량, 매출 지표를 관리하는 내부 운영 도구를 구축했습니다.',
+];
+
+const camerafiStudioBlock: ResumeProjectBlock = {
+  ...camerafiStudioMeta,
+  summary: camerafiStudioSummary,
   bullets: [
     [
       'Webpack Tree Shaking, Code Splitting, Dynamic Import로 메인 번들 사이즈를 ',
@@ -291,12 +306,8 @@ const camerafiStudioBlock: ResumeProjectBlock = {
 
 // ops-data 변형용 축소판 — 결제·구독 라이프사이클이 운영 관점의 핵심
 const camerafiStudioBlockOpsData: ResumeProjectBlock = {
-  title: 'CameraFi Studio - 웹 오버레이 스코어보드',
-  period: '2022.02 – 2023.06',
-  summary: [
-    strong('1인 개발로 시작해 사내 두 번째 메인 수익 모델'),
-    '로 성장시킨 스포츠 중계 오버레이 웹 SaaS입니다.',
-  ],
+  ...camerafiStudioMeta,
+  summary: camerafiStudioSummary,
   bullets: [
     [
       '글로벌 구독 사용자의 결제 누락 및 상태 불일치를 방지하기 위해 ',
@@ -308,9 +319,8 @@ const camerafiStudioBlockOpsData: ResumeProjectBlock = {
 
 // ops-data 변형용 강화판 — 정량 성과와 상태 경계 설계를 전면에
 const adminDashboardBlockOpsData: ResumeProjectBlock = {
-  title: 'Internal Admin Dashboard',
-  period: '2022.03 – 2023.06',
-  summary: ['계정, 구독, 제품 사용량, 매출 지표를 관리하는 내부 운영 도구를 구축했습니다.'],
+  ...adminDashboardMeta,
+  summary: adminDashboardSummary,
   bullets: [
     [
       '신규 관리 화면 추가 시 반복되는 개발 비용을 절감하기 위해 React Table과 MUI 기반의 재사용 가능한 ',
@@ -331,12 +341,8 @@ const adminDashboardBlockOpsData: ResumeProjectBlock = {
 
 // 크로스플랫폼 변형용 축소판 — RN 관점이 없는 web SaaS이므로 핵심 수치만 유지
 const camerafiStudioBlockWebRn: ResumeProjectBlock = {
-  title: 'CameraFi Studio - 웹 오버레이 스코어보드',
-  period: '2022.02 – 2023.06',
-  summary: [
-    strong('1인 개발로 시작해 사내 두 번째 메인 수익 모델'),
-    '로 성장시킨 스포츠 중계 오버레이 웹 SaaS입니다.',
-  ],
+  ...camerafiStudioMeta,
+  summary: camerafiStudioSummary,
   bullets: [
     [
       'Webpack Tree Shaking, Code Splitting, Dynamic Import로 메인 번들 사이즈를 ',
@@ -347,9 +353,8 @@ const camerafiStudioBlockWebRn: ResumeProjectBlock = {
 };
 
 const adminDashboardBlock: ResumeProjectBlock = {
-  title: 'Internal Admin Dashboard',
-  period: '2022.03 – 2023.06',
-  summary: ['계정, 구독, 제품 사용량, 매출 지표를 관리하는 내부 운영 도구를 구축했습니다.'],
+  ...adminDashboardMeta,
+  summary: adminDashboardSummary,
   bullets: [
     [
       '신규 관리 화면 추가 시 반복되는 개발 비용을 절감하기 위해 React Table과 MUI 기반의 재사용 가능한 ',
@@ -430,8 +435,6 @@ const summaries: Record<ResumeVariantId, { bullets: ResumeTextPart[][]; title: s
   },
 };
 
-// Scannable number badges in the hero — values and labels mirror the
-// portfolio project metrics (detail MDX frontmatter)
 const heroMetricsByVariant: Record<ResumeVariantId, ResumeHeroMetric[]> = {
   web: [
     { value: '15%', label: '번들 감량' },

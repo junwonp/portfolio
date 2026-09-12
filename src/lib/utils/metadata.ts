@@ -16,16 +16,23 @@ export interface MetadataContent {
   authorName: string;
 }
 
+type MetadataCopy = Omit<
+  MetadataContent,
+  'ogDescription' | 'ogTitle' | 'twitterDescription' | 'twitterTitle'
+>;
+
+const withSocialCopy = (copy: MetadataCopy): MetadataContent => ({
+  ...copy,
+  ogTitle: copy.title,
+  ogDescription: copy.description,
+  twitterTitle: copy.title,
+  twitterDescription: copy.description,
+});
+
 export const metadataMap: Record<Language, MetadataContent> = {
-  ko: {
+  ko: withSocialCopy({
     title: '박준원 | 프로필',
     description:
-      '프론트엔드 개발자 박준원의 프로필. AI 챗봇 앱 스타트업 공동 창업자이자 프론트엔드 리드로 Expo 기반 앱 기획부터 배포, 운영, 수익화까지의 전 과정을 주도했습니다.',
-    ogTitle: '박준원 | 프로필',
-    ogDescription:
-      '프론트엔드 개발자 박준원의 프로필. AI 챗봇 앱 스타트업 공동 창업자이자 프론트엔드 리드로 Expo 기반 앱 기획부터 배포, 운영, 수익화까지의 전 과정을 주도했습니다.',
-    twitterTitle: '박준원 | 프로필',
-    twitterDescription:
       '프론트엔드 개발자 박준원의 프로필. AI 챗봇 앱 스타트업 공동 창업자이자 프론트엔드 리드로 Expo 기반 앱 기획부터 배포, 운영, 수익화까지의 전 과정을 주도했습니다.',
     imageAlt: '박준원 - 프론트엔드 개발자 프로필',
     siteName: '박준원 | 프로필',
@@ -35,16 +42,10 @@ export const metadataMap: Record<Language, MetadataContent> = {
       '5년 차 프론트엔드 개발자. AI 챗봇 앱 스타트업 공동 창업자이자 프론트엔드 리드로 Expo 기반 앱 기획부터 배포, 운영, 수익화까지의 전 과정을 주도했습니다.',
     projectTitleSuffix: '프로젝트',
     authorName: '박준원',
-  },
-  en: {
+  }),
+  en: withSocialCopy({
     title: 'Junwon Park | Profile',
     description:
-      "Frontend developer Junwon Park's profile. Co-founder and frontend lead of an AI chatbot app startup, leading the entire process from planning to deployment, operations, and monetization of an Expo-based app.",
-    ogTitle: 'Junwon Park | Profile',
-    ogDescription:
-      "Frontend developer Junwon Park's profile. Co-founder and frontend lead of an AI chatbot app startup, leading the entire process from planning to deployment, operations, and monetization of an Expo-based app.",
-    twitterTitle: 'Junwon Park | Profile',
-    twitterDescription:
       "Frontend developer Junwon Park's profile. Co-founder and frontend lead of an AI chatbot app startup, leading the entire process from planning to deployment, operations, and monetization of an Expo-based app.",
     imageAlt: 'Junwon Park - Frontend Developer Profile',
     siteName: 'Junwon Park | Profile',
@@ -54,7 +55,7 @@ export const metadataMap: Record<Language, MetadataContent> = {
       '5-year frontend developer. Co-founder and frontend lead of an AI chatbot app startup, leading the entire process from planning to deployment, operations, and monetization of an Expo-based app.',
     projectTitleSuffix: 'Project',
     authorName: 'Junwon Park',
-  },
+  }),
 };
 
 export const getMetadata = (lang: Language): MetadataContent => {
