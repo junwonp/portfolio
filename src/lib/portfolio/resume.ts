@@ -1,5 +1,5 @@
-import type { ProfileData } from '@/content/home';
-import { credentials, defaultProfile, profilePresets } from '@/content/home';
+import { credentials } from '@/content/home/credentials';
+import { defaultProfile, type ProfileData, profilePresets } from '@/content/home/profile';
 import {
   careerCatalog,
   getProjectsByCareerId,

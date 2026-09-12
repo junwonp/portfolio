@@ -1,5 +1,8 @@
-import type { CareerCatalogEntry, CareerLocaleContent } from '@/content/home';
-import { careerCatalog } from '@/content/home';
+import {
+  type CareerCatalogEntry,
+  type CareerLocaleContent,
+  careerCatalog,
+} from '@/content/home/careers';
 import AdminDashboardEn, {
   frontmatter as adminDashboardEnMetadata,
 } from '@/content/projects/admin-dashboard/detail.en.mdx';

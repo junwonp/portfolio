@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { defaultProfile, profilePresets } from '@/content/home';
+import { defaultProfile, profilePresets } from '@/content/home/profile';
 import {
   getFeaturedWebProjects,
   getResumeData,
