@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import ButtonGroup from '@/components/ui/ButtonGroup';
+import { mergeAdminSearchParams } from '@/lib/utils/adminSearchParams';
 
 import * as styles from './SessionFilters.css';
 
@@ -29,14 +30,8 @@ export function SessionFilters({ classification, timeRange }: SessionFiltersProp
   const searchParams = useSearchParams();
 
   function updateParam(key: string, value: string) {
-    const params = new URLSearchParams(searchParams.toString());
-    if (value) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
-    }
-    params.set('tab', 'analytics');
-    router.push(`/a?${params.toString()}`, { scroll: false });
+    const params = mergeAdminSearchParams(searchParams, { [key]: value || null });
+    router.push(`/a?${params}`, { scroll: false });
   }
 
   return (

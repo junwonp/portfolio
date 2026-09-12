@@ -680,8 +680,7 @@ const getSessions = async (
 
   // Run the listing and the total count together — the two queries are
   // independent, so awaiting them in parallel avoids a second round trip
-  const listStmt = db
-    .prepare(`SELECT
+  const listSql = `SELECT
         s.id,
         COALESCE(s.ip_address, 'unknown') as ipAddress,
         s.ip_country as ipCountry,
@@ -700,9 +699,14 @@ const getSessions = async (
        ${linkJoin}
        ${whereClause}
        GROUP BY s.id, s.ip_address, s.ip_country, s.user_agent, s.referrer, s.created_at
-       ORDER BY s.created_at DESC
-       LIMIT ? OFFSET ?`)
-    .bind(...binds, params.limit, params.offset);
+       ORDER BY s.created_at DESC`;
+
+  // Classification is derived in JS, so a classification filter must see every
+  // matching session before pagination — otherwise the limit hides matches.
+  const filtersByClassification = Boolean(params.classification);
+  const listStmt = filtersByClassification
+    ? db.prepare(listSql).bind(...binds)
+    : db.prepare(`${listSql} LIMIT ? OFFSET ?`).bind(...binds, params.limit, params.offset);
   const countStmt = db
     .prepare(`SELECT COUNT(*) as total
        FROM user_sessions s
@@ -735,7 +739,6 @@ const getSessions = async (
       row.pageViewsCount,
     );
 
-    // Filter by classification in JS
     return {
       id: row.id,
       ipAddress: row.ipAddress,
@@ -750,48 +753,16 @@ const getSessions = async (
     };
   });
 
-  // Apply classification filter in JS (since classification is computed, not stored)
-  const filtered = params.classification
-    ? sessions.filter((s) => s.classification === params.classification)
-    : sessions;
-
-  // Recompute total after classification filter
-  let total = countResult?.total ?? filtered.length;
-  if (params.classification) {
-    // Fetch all without limit to count by classification
-    const allResult = await db
-      .prepare(
-        `SELECT
-          s.user_agent as userAgent,
-          COUNT(p.id) as pageViewsCount,
-          SUM(COALESCE(p.dwell_time, 0)) as totalDwellTime,
-          SUM(COALESCE(p.scroll_depth, 0)) as totalScrollDepth
-         FROM user_sessions s
-         LEFT JOIN page_views p ON p.session_id = s.id
-         ${linkJoin}
-         ${whereClause}
-         GROUP BY s.id`,
-      )
-      .bind(...binds)
-      .all<{
-        userAgent: string;
-        pageViewsCount: number;
-        totalDwellTime: number;
-        totalScrollDepth: number;
-      }>();
-
-    total = allResult.results.filter(
-      (row) =>
-        classifySession(
-          row.userAgent,
-          row.totalDwellTime,
-          row.totalScrollDepth,
-          row.pageViewsCount,
-        ) === params.classification,
-    ).length;
+  if (!filtersByClassification) {
+    return { sessions, total: countResult?.total ?? sessions.length };
   }
 
-  return { sessions: filtered, total };
+  const classified = sessions.filter((session) => session.classification === params.classification);
+
+  return {
+    sessions: classified.slice(params.offset, params.offset + params.limit),
+    total: classified.length,
+  };
 };
 
 const getSessionDetails = async (

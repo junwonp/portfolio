@@ -1,9 +1,12 @@
-import { useRouter } from 'next/navigation';
+'use client';
+
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import ButtonGroup from '@/components/ui/ButtonGroup';
 import Card from '@/components/ui/Card';
 import EmptyState from '@/components/ui/EmptyState';
 import SectionHeading from '@/components/ui/SectionHeading';
+import { mergeAdminSearchParams } from '@/lib/utils/adminSearchParams';
 
 import * as shared from './adminShared.css';
 import { TrafficChartLegend } from './TrafficChartLegend';
@@ -31,15 +34,14 @@ export function TrendChart({
   selectedApplicationLinkId,
 }: TrendChartProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   function navigateRange(value: string) {
-    const params = new URLSearchParams();
-    params.set('range', value);
-    params.set('tab', 'analytics');
-    if (selectedApplicationLinkId) {
-      params.set('linkId', selectedApplicationLinkId);
-    }
-    router.push(`/a?${params.toString()}`, { scroll: false });
+    const params = mergeAdminSearchParams(searchParams, {
+      linkId: selectedApplicationLinkId || null,
+      range: value,
+    });
+    router.push(`/a?${params}`, { scroll: false });
   }
 
   return (

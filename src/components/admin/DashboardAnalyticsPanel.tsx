@@ -62,6 +62,8 @@ export function DashboardAnalyticsPanel({
         <form className={styles.metricFilterForm} method="GET" action="/a">
           <input type="hidden" name="range" value={trafficRange.value} />
           <input type="hidden" name="tab" value="analytics" />
+          {classification && <input type="hidden" name="classification" value={classification} />}
+          {timeRange && <input type="hidden" name="timeRange" value={timeRange} />}
           <label htmlFor="metric-filter-link">
             <span>회사 / 라벨</span>
             <Select
