@@ -3,7 +3,7 @@
 import Card from '@/components/ui/Card';
 import SectionHeading from '@/components/ui/SectionHeading';
 import Select from '@/components/ui/Select';
-import type { SessionDetail, SessionRow } from '@/lib/server/admin/dashboardData';
+import type { DashboardAnalyticsPanelProps } from '@/lib/server/admin/dashboardData';
 
 import * as shared from './adminShared.css';
 import * as styles from './DashboardAnalyticsPanel.css';
@@ -11,62 +11,6 @@ import { DetailsGrid } from './DetailsGrid';
 import { SessionsTable } from './SessionsTable';
 import { StatsGrid } from './StatsGrid';
 import { TrendChart } from './TrendChart';
-
-interface DashboardAnalyticsPanelProps {
-  stats: {
-    avgActiveTime: number;
-    avgArticleProgress: number;
-    avgDwellTime: number;
-    avgScrollDepth: number;
-    totalPageViews: number;
-    totalSessions: number;
-  };
-  applicationFilterOptions: {
-    companyName: string;
-    id: number;
-    label: string;
-    slug: string;
-  }[];
-  selectedApplicationLinkId: string;
-  trafficRange: {
-    bucket: 'day' | 'month';
-    days: number;
-    label: string;
-    value: '7d' | '30d' | '1y';
-  };
-  trafficSummary: {
-    activeDays: number;
-    quietDays: number;
-    rangeEnd: string;
-    rangeSessions: number;
-    rangeStart: string;
-    rangeViews: number;
-  };
-  dailyChart: { date: string; hasData: boolean; sessions: number; views: number }[];
-  topPages: {
-    avgActive: number;
-    avgArticleProgress: number;
-    avgDwell: number;
-    avgScroll: number;
-    path: string;
-    views: number;
-  }[];
-  topReferrers: { count: number; referrer: string }[];
-  topCountries: { country: string; count: number }[];
-  webVitals: {
-    avgValue: number;
-    good: number;
-    metricName: string;
-    needsImprovement: number;
-    poor: number;
-    samples: number;
-  }[];
-  sessions: SessionRow[];
-  totalSessionCount: number;
-  sessionDetails: Record<string, SessionDetail>;
-  classification?: 'bot' | 'suspected' | 'human';
-  timeRange?: '7d' | '30d' | 'all';
-}
 
 export function DashboardAnalyticsPanel({
   stats,

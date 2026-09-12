@@ -118,6 +118,37 @@ export interface AdminDashboardData {
   writesEnabled: boolean;
 }
 
+export type DashboardSessionFilter = {
+  classification?: GetSessionsParams['classification'];
+  timeRange?: GetSessionsParams['timeRange'];
+};
+
+export type DashboardAnalyticsPanelProps = Pick<
+  AdminDashboardData,
+  | 'applicationFilterOptions'
+  | 'dailyChart'
+  | 'selectedApplicationLinkId'
+  | 'sessionDetails'
+  | 'sessions'
+  | 'stats'
+  | 'topCountries'
+  | 'topPages'
+  | 'topReferrers'
+  | 'totalSessionCount'
+  | 'trafficRange'
+  | 'trafficSummary'
+  | 'webVitals'
+> &
+  DashboardSessionFilter;
+
+export type DashboardLinksPanelProps = Pick<
+  AdminDashboardData,
+  'applicationLinks' | 'applicationProjectOptions' | 'writesDisabledReason' | 'writesEnabled'
+>;
+
+export type DashboardClientProps = Omit<AdminDashboardData, 'sessionFilters'> &
+  DashboardSessionFilter;
+
 interface GetAdminDashboardDataInput {
   applicationProjectOptions: ApplicationProjectOption[];
   db: D1Database | undefined;

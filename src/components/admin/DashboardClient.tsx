@@ -4,7 +4,7 @@ import { type KeyboardEvent, useState } from 'react';
 
 import Button from '@/components/ui/Button';
 import { logout } from '@/lib/server/admin/actions';
-import type { SessionDetail, SessionRow } from '@/lib/server/admin/dashboardData';
+import type { DashboardClientProps } from '@/lib/server/admin/dashboardData';
 
 import { DashboardAnalyticsPanel } from './DashboardAnalyticsPanel';
 import * as styles from './DashboardClient.css';
@@ -23,86 +23,6 @@ const PANEL_IDS: Record<DashboardTab, string> = {
   analytics: 'dashboard-panel-analytics',
   links: 'dashboard-panel-links',
 };
-
-interface DashboardClientProps {
-  stats: {
-    avgActiveTime: number;
-    avgArticleProgress: number;
-    avgDwellTime: number;
-    avgScrollDepth: number;
-    totalPageViews: number;
-    totalSessions: number;
-  };
-  applicationFilterOptions: {
-    companyName: string;
-    id: number;
-    label: string;
-    slug: string;
-  }[];
-  applicationLinks: {
-    avgActiveTime: number;
-    avgArticleProgress: number;
-    avgDwellTime: number;
-    avgScrollDepth: number;
-    companyName: string;
-    createdAt: string;
-    expiresAt: string;
-    id: number;
-    interactionCount: number;
-    interactionLabels: string[];
-    label: string;
-    lastSeenAt: string | null;
-    projectIds: string[];
-    role: 'web' | 'mobile' | 'ai' | null;
-    sessions: number;
-    slug: string;
-    summaryPreset: string;
-    views: number;
-  }[];
-  applicationProjectOptions: { id: string; title: string }[];
-  dailyChart: { date: string; hasData: boolean; sessions: number; views: number }[];
-  selectedApplicationLinkId: string;
-  topCountries: { country: string; count: number }[];
-  topPages: {
-    avgActive: number;
-    avgArticleProgress: number;
-    avgDwell: number;
-    avgScroll: number;
-    path: string;
-    views: number;
-  }[];
-  topReferrers: { count: number; referrer: string }[];
-  trafficRange: {
-    bucket: 'day' | 'month';
-    days: number;
-    label: string;
-    value: '7d' | '30d' | '1y';
-  };
-  trafficSummary: {
-    activeDays: number;
-    quietDays: number;
-    rangeEnd: string;
-    rangeSessions: number;
-    rangeStart: string;
-    rangeViews: number;
-  };
-  webVitals: {
-    avgValue: number;
-    good: number;
-    metricName: string;
-    needsImprovement: number;
-    poor: number;
-    samples: number;
-  }[];
-  initialTab: 'analytics' | 'links';
-  sessions: SessionRow[];
-  totalSessionCount: number;
-  sessionDetails: Record<string, SessionDetail>;
-  classification?: 'bot' | 'suspected' | 'human';
-  timeRange?: '7d' | '30d' | 'all';
-  writesDisabledReason: string | null;
-  writesEnabled: boolean;
-}
 
 export function DashboardClient({
   stats,

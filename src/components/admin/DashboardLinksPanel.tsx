@@ -1,37 +1,12 @@
 import Card from '@/components/ui/Card';
 import EmptyState from '@/components/ui/EmptyState';
 import SectionHeading from '@/components/ui/SectionHeading';
+import type { DashboardLinksPanelProps } from '@/lib/server/admin/dashboardData';
 
 import * as shared from './adminShared.css';
 import * as styles from './DashboardLinksPanel.css';
 import { LinkCard } from './LinkCard';
 import { LinkForm } from './LinkForm';
-
-interface DashboardLinksPanelProps {
-  applicationLinks: {
-    avgActiveTime: number;
-    avgArticleProgress: number;
-    avgDwellTime: number;
-    avgScrollDepth: number;
-    companyName: string;
-    createdAt: string;
-    expiresAt: string;
-    id: number;
-    interactionCount: number;
-    interactionLabels: string[];
-    label: string;
-    lastSeenAt: string | null;
-    projectIds: string[];
-    role: 'web' | 'mobile' | 'ai' | null;
-    sessions: number;
-    slug: string;
-    summaryPreset: string;
-    views: number;
-  }[];
-  applicationProjectOptions: { id: string; title: string }[];
-  writesDisabledReason: string | null;
-  writesEnabled: boolean;
-}
 
 export function DashboardLinksPanel({
   applicationLinks,
