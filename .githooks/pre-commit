@@ -1,0 +1,20 @@
+#!/bin/sh
+# Blocking gate: format/lint, types, and unit tests must pass before a commit lands.
+# Activate with: git config core.hooksPath .githooks
+
+set -e
+cd "$(git rev-parse --show-toplevel)"
+
+printf '\n==> pre-commit: biome\n'
+pnpm exec biome check
+
+printf '\n==> pre-commit: tsc\n'
+pnpm exec tsc --noEmit --pretty false
+
+printf '\n==> pre-commit: vitest\n'
+pnpm exec vitest run
+
+if [ -x './node_modules/.bin/react-doctor' ]; then
+  printf '\n==> pre-commit: react-doctor\n'
+  ./node_modules/.bin/react-doctor --staged --blocking warning
+fi

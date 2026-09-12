@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import { defineConfig } from 'vitest/config';
 
-import rehypeHeadingIds from './src/lib/mdx/rehypeHeadingIds';
+import rehypeHeadingIds from './src/lib/mdx/rehypeHeadingIds.ts';
 
 export default defineConfig({
   plugins: [
@@ -27,5 +27,26 @@ export default defineConfig({
   },
   test: {
     environment: 'node',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text-summary', 'html', 'json-summary'],
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: [
+        'src/**/*.test.{ts,tsx}',
+        'src/**/*.d.ts',
+        'src/**/*.css.ts',
+        'src/env.d.ts',
+        'src/generated/**',
+        'src/lib/generated/**',
+        'src/lib/server/infrastructure/cloudflare-workers.mock.ts',
+      ],
+      // Ratchet: floor of the 2026-09 baseline. Raise when coverage improves.
+      thresholds: {
+        statements: 40,
+        branches: 34,
+        functions: 37,
+        lines: 41,
+      },
+    },
   },
 });

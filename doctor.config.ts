@@ -18,6 +18,13 @@ export default defineConfig({
         files: ['src/components/portfolio/navigation/BaseSideNav.tsx'],
         rules: ['react-doctor/no-adjust-state-on-prop-change'],
       },
+      {
+        // Both effects are intentionally mount-only / stable-ref driven (see
+        // the matching biome-ignore notes); listing the ref-held helpers as
+        // dependencies would re-run them on every render.
+        files: ['src/components/analytics/AnalyticsTracker.tsx'],
+        rules: ['react-doctor/exhaustive-deps'],
+      },
     ],
   },
 });
