@@ -14,23 +14,14 @@ import {
   getOrInitializeAnalyticsSession,
   sendAnalyticsPayload,
 } from '@/lib/analytics/analyticsTransport';
-import { parseHeading } from '@/lib/utils/markdown';
+import { readArticleHeadings } from '@/lib/utils/articleSections';
 
 function readVisibleSections(article: Element, scrollTop: number): VisibleSection[] {
-  return Array.from(article.querySelectorAll<HTMLElement>('h2')).flatMap((heading) => {
-    if (!heading.id) {
-      return [];
-    }
-
-    const { main } = parseHeading(heading.textContent || '');
-    return [
-      {
-        id: heading.id,
-        label: main || heading.textContent || heading.id,
-        top: heading.getBoundingClientRect().top + scrollTop,
-      },
-    ];
-  });
+  return readArticleHeadings(article).map((heading) => ({
+    id: heading.id,
+    label: heading.label || heading.element.textContent || heading.id,
+    top: heading.element.getBoundingClientRect().top + scrollTop,
+  }));
 }
 
 function getScrollMetrics() {
