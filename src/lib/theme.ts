@@ -1,3 +1,5 @@
+import { prefersReducedMotion } from '@/lib/utils/motion';
+
 export type Theme = 'light' | 'dark';
 export type ThemePreference = Theme | null; // null = follow the OS
 
@@ -23,11 +25,6 @@ export function readThemePreference(): ThemePreference {
   } catch {
     return null;
   }
-}
-
-function prefersReducedMotion(): boolean {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 }
 
 export function applyTheme(isDark: boolean): void {

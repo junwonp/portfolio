@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { getPageScrollElement, prefersReducedMotion, scrollPageTo } from './useScrollSpy';
+import { prefersReducedMotion } from '@/lib/utils/motion';
+import { getPageScrollElement, scrollPageTo } from './useScrollSpy';
 
 // scrollPageTo reads window/document directly, so mock the minimal surface it touches
 function setupDom(reducedMotion: boolean): { scrollTo: ReturnType<typeof vi.fn> } {

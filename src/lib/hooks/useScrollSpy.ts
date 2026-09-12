@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { prefersReducedMotion } from '@/lib/utils/motion';
+
 export function getPageScrollElement(): HTMLElement {
   if (typeof document === 'undefined') return {} as HTMLElement;
   const body = document.body;
@@ -30,11 +32,6 @@ export function getPageScrollY(): number {
   if (typeof window === 'undefined') return 0;
   const scrollElement = getPageScrollElement();
   return scrollElement === document.body ? document.body.scrollTop : window.scrollY;
-}
-
-export function prefersReducedMotion(): boolean {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 }
 
 export function scrollPageTo(top: number, behavior: ScrollBehavior = 'smooth'): void {

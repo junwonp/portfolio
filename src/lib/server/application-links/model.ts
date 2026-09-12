@@ -63,13 +63,6 @@ export const APPLICATION_LINK_TTL_DAYS = 60;
 
 const APPLICATION_SLUG_ALPHABET = '23456789abcdefghijkmnopqrstuvwxyz';
 
-export const getDefaultExpiresAt = (date = new Date()): string => {
-  const expiresAt = new Date(date);
-  expiresAt.setUTCDate(expiresAt.getUTCDate() + APPLICATION_LINK_TTL_DAYS);
-
-  return toSqlDateTime(expiresAt);
-};
-
 export const toSqlDateTime = (date: Date): string =>
   date.toISOString().replace('T', ' ').slice(0, 19);
 

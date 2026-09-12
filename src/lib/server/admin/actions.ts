@@ -121,6 +121,7 @@ export async function createApplicationLink(formData: FormData): Promise<void> {
     isReservedApplicationSlug,
     normalizeApplicationProjectIds,
     toSqlDateTime,
+    APPLICATION_LINK_TTL_DAYS,
   } = await import('@/lib/server/application-links/model');
 
   const getExpiresAt = (ttlDays: number): string => {
@@ -133,7 +134,7 @@ export async function createApplicationLink(formData: FormData): Promise<void> {
   const customSlug = normalizeApplicationSlug((formData.get('slug') as string) || '');
   const label = ((formData.get('label') as string) || '').slice(0, 160) || companyName;
   const positioningStr = (formData.get('positioning') as string) || 'web';
-  const ttlDays = Number(formData.get('ttlDays') || '60');
+  const ttlDays = Number(formData.get('ttlDays') || String(APPLICATION_LINK_TTL_DAYS));
   const projectIds = normalizeApplicationProjectIds(
     formData
       .getAll('projectIds')
