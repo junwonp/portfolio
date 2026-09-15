@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import * as styles from './not-found.css';
+
+export const metadata: Metadata = {
+  title: '페이지를 찾을 수 없습니다 | 박준원',
+  description: '요청한 페이지를 찾을 수 없습니다.',
+};
 
 export default function NotFound() {
   return (

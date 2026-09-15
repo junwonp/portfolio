@@ -12,18 +12,22 @@ import { getApplicationLinkUrl } from '@/lib/server/application-links/url';
 import { getDb } from '@/lib/server/infrastructure/database';
 
 const RESUME_URL = 'https://resume.junwon.dev';
+const RESUME_TITLE = '박준원 이력서';
+const RESUME_DESCRIPTION = '프론트엔드 개발자 박준원의 인쇄용 이력서입니다.';
+const RESUME_PREVIEW_IMAGE = '/opengraph-image.png';
 
 export const metadata: Metadata = {
-  title: '박준원 이력서',
-  description: '프론트엔드 개발자 박준원의 인쇄용 이력서입니다.',
+  title: RESUME_TITLE,
+  description: RESUME_DESCRIPTION,
   alternates: {
     canonical: RESUME_URL,
   },
   openGraph: {
-    title: '박준원 이력서',
-    description: '프론트엔드 개발자 박준원의 인쇄용 이력서입니다.',
+    title: RESUME_TITLE,
+    description: RESUME_DESCRIPTION,
     type: 'profile',
     url: RESUME_URL,
+    images: [RESUME_PREVIEW_IMAGE],
   },
 };
 

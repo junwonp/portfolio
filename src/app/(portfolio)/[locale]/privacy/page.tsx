@@ -4,6 +4,7 @@ import type { ComponentType } from 'react';
 
 import PrivacyEn from '@/content/privacy/privacy.en.mdx';
 import PrivacyKo from '@/content/privacy/privacy.ko.mdx';
+import { getPrivacyMetadata } from '@/lib/portfolio/metadata';
 import { isValidLanguage, type Language } from '@/lib/utils/language';
 
 import * as styles from './privacy.css';
@@ -17,17 +18,6 @@ const privacyContent: Record<Language, ComponentType> = {
   ko: PrivacyKo,
 };
 
-const privacyMetadata: Record<Language, Metadata> = {
-  en: {
-    title: "Privacy Policy | Junwon's Portfolio",
-    description: "Privacy Policy for Junwon's personal portfolio website.",
-  },
-  ko: {
-    title: '개인정보 처리방침 | 박준원 포트폴리오',
-    description: '박준원의 개인 포트폴리오 웹사이트 개인정보 처리방침입니다.',
-  },
-};
-
 export async function generateMetadata({ params }: PrivacyPageProps): Promise<Metadata> {
   const { locale } = await params;
 
@@ -35,7 +25,7 @@ export async function generateMetadata({ params }: PrivacyPageProps): Promise<Me
     notFound();
   }
 
-  return privacyMetadata[locale];
+  return getPrivacyMetadata(locale);
 }
 
 export default async function PrivacyPage({ params }: PrivacyPageProps) {

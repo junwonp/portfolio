@@ -18,11 +18,17 @@ const getLanguageAlternates = (pathname: string) => ({
   'en-US': getAbsoluteUrl(pathname, 'en'),
 });
 
+const getOgImagePath = (locale: Language): string =>
+  locale === 'en' ? '/en/opengraph-image.png' : '/opengraph-image.png';
+
+const getTwitterImagePath = (locale: Language): string =>
+  locale === 'en' ? '/en/twitter-image.png' : '/twitter-image.png';
+
 export const getHomeMetadata = (locale: Language): Metadata => {
   const content = metadataMap[locale];
   const canonical = getAbsoluteUrl('/', locale);
-  const ogImageUrl = locale === 'en' ? '/en/opengraph-image.png' : '/opengraph-image.png';
-  const twitterImageUrl = locale === 'en' ? '/en/twitter-image.png' : '/twitter-image.png';
+  const ogImageUrl = getOgImagePath(locale);
+  const twitterImageUrl = getTwitterImagePath(locale);
 
   return {
     title: content.title,
@@ -68,6 +74,48 @@ export const getShortUrlMetadata = (locale: Language): Metadata => ({
   robots: { index: false, follow: false },
 });
 
+const privacyMetadataCopy: Record<Language, { title: string; description: string }> = {
+  en: {
+    title: "Privacy Policy | Junwon's Portfolio",
+    description: "Privacy Policy for Junwon's personal portfolio website.",
+  },
+  ko: {
+    title: '개인정보 처리방침 | 박준원 포트폴리오',
+    description: '박준원의 개인 포트폴리오 웹사이트 개인정보 처리방침입니다.',
+  },
+};
+
+export const getPrivacyMetadata = (locale: Language): Metadata => {
+  const copy = privacyMetadataCopy[locale];
+  const content = metadataMap[locale];
+  const pathname = '/privacy';
+  const canonical = getAbsoluteUrl(pathname, locale);
+
+  return {
+    title: copy.title,
+    description: copy.description,
+    alternates: {
+      canonical,
+      languages: getLanguageAlternates(pathname),
+    },
+    openGraph: {
+      type: 'website',
+      url: canonical,
+      title: copy.title,
+      description: copy.description,
+      siteName: content.siteName,
+      locale: content.locale,
+      images: [getOgImagePath(locale)],
+    },
+    twitter: {
+      card: 'summary',
+      title: copy.title,
+      description: copy.description,
+      images: [getTwitterImagePath(locale)],
+    },
+  };
+};
+
 export const getProjectPageMetadata = ({ locale, slug }: ProjectMetadataInput): Metadata => {
   const rawMetadata = getProjectMetadata(slug, locale);
   if (!rawMetadata) return {};
@@ -89,13 +137,13 @@ export const getProjectPageMetadata = ({ locale, slug }: ProjectMetadataInput): 
       title,
       description,
       url: canonical,
-      images: rawMetadata.image ? [{ url: rawMetadata.image }] : [],
+      images: [rawMetadata.image ?? getOgImagePath(locale)],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: rawMetadata.image ? [rawMetadata.image] : [],
+      images: [rawMetadata.image ?? getTwitterImagePath(locale)],
     },
   };
 };
