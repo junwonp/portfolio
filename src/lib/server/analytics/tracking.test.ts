@@ -313,7 +313,7 @@ describe('recordAnalyticsPayload', () => {
     const db = new D1Mock();
     db.applicationLinks.set('p48r', { id: 7 });
 
-    // New tab opened from junwon.dev/p48r: initial beacon carries the referrer
+    // New tab opened from junwon.dev/r/p48r: initial beacon carries the referrer
     // but no slug-bearing path
     const payload: AnalyticsPayloadBody = {
       eventType: 'page',
@@ -322,7 +322,7 @@ describe('recordAnalyticsPayload', () => {
       dwellTime: 0,
       isInitial: true,
       path: undefined,
-      referrer: 'https://junwon.dev/p48r',
+      referrer: 'https://junwon.dev/r/p48r',
       scrollDepth: 0,
       sessionId: 'session-new-tab',
       userAgent: 'Vitest',

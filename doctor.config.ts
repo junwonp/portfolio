@@ -25,6 +25,16 @@ export default defineConfig({
         files: ['src/components/analytics/AnalyticsTracker.tsx'],
         rules: ['react-doctor/exhaustive-deps'],
       },
+      {
+        // This legacy route is a migration shim: it only ever returns a
+        // permanent redirect to the /r/ short-link namespace or a 404, so it
+        // never renders a document that a search preview could describe.
+        // The pattern is glob-escaped: `[[]x[]]` matches a literal `[x]`
+        // directory, and `*` stands in for the `(portfolio)` route group
+        // because backslash escaping is normalised away.
+        files: ['src/app/*/[[]locale[]]/[[]slug[]]/page.tsx'],
+        rules: ['react-doctor/nextjs-missing-metadata'],
+      },
     ],
   },
 });

@@ -9,11 +9,12 @@ const ASSET_CACHE_HEADER = 'public, max-age=31536000, immutable';
 // HTML bounded after a deploy while serving repeat visits from the edge.
 const PUBLIC_PAGE_CACHE_HEADER = 'public, max-age=0, s-maxage=60, stale-while-revalidate=3600';
 const PRIVATE_PAGE_CACHE_HEADER = 'private, no-cache, no-store, must-revalidate';
-const PRIVATE_ROBOTS_PATHS = [
+const PRIVATE_NONCE_PATHS = [
   /^\/admin(?:\/|$)/,
   /^\/a(?:\/|$)/,
   /^\/api(?:\/|$)/,
   /^\/print(?:\/|$)/,
+  /^\/(?:en\/)?r(?:\/|$)/,
 ];
 const DEFAULT_LOCALE_REWRITE_EXCLUSIONS = [
   /^\/_next(?:\/|$)/,
@@ -30,6 +31,7 @@ const PUBLIC_FILE_PATH_PATTERN = /\/[^/.][^/]*\.[^/]+$/;
 const PUBLIC_METADATA_ROUTE_PATHS = new Set(['/opengraph-image', '/twitter-image']);
 const PROJECT_DETAIL_PATH_PATTERN = /^\/projects\/[^/]+\/?$/;
 const SINGLE_SEGMENT_PATH_PATTERN = /^\/([^/]+)\/?$/;
+const APPLICATION_LINK_PATH_PATTERN = /^\/r\/[^/]+\/?$/;
 const RESUME_HOST = 'resume.junwon.dev';
 
 const SECURITY_HEADERS = {
@@ -64,8 +66,25 @@ export const getContentSecurityPolicyForPath = (pathname: string, nonce: string)
   // trusted MDX with no user input, so inline scripts are acceptable there.
   // Authenticated/user-data surfaces keep the strict per-request nonce policy
   // (vinext applies the nonce from this header to all streamed scripts).
-  const isPrivatePath = PRIVATE_ROBOTS_PATHS.some((regex) => regex.test(pathname));
+  const isPrivatePath = PRIVATE_NONCE_PATHS.some((regex) => regex.test(pathname));
   return buildContentSecurityPolicy(isPrivatePath ? `'nonce-${nonce}'` : "'unsafe-inline'");
+};
+
+// Application links live under /r/. Root-level single segments still resolve as
+// legacy links so already-submitted URLs keep their private, noindex treatment
+// until the migration window closes.
+const isApplicationLinkPath = (pathname: string): boolean => {
+  const canonicalPath = stripLocalePathPrefix(pathname);
+
+  if (APPLICATION_LINK_PATH_PATTERN.test(canonicalPath)) {
+    return true;
+  }
+
+  const slug = canonicalPath.match(SINGLE_SEGMENT_PATH_PATTERN)?.[1];
+
+  return Boolean(
+    slug && !isReservedApplicationSlug(slug) && !PUBLIC_FILE_PATH_PATTERN.test(canonicalPath),
+  );
 };
 
 export const getCacheControlForPath = (pathname: string): string => {
@@ -73,19 +92,22 @@ export const getCacheControlForPath = (pathname: string): string => {
     return ASSET_CACHE_HEADER;
   }
 
-  if (PRIVATE_ROBOTS_PATHS.some((regex) => regex.test(pathname)) || pathname === '/resume') {
+  if (PRIVATE_NONCE_PATHS.some((regex) => regex.test(pathname)) || pathname === '/resume') {
     return PRIVATE_PAGE_CACHE_HEADER;
   }
 
-  const canonicalPath = stripLocalePathPrefix(pathname);
-  const slug = canonicalPath.match(SINGLE_SEGMENT_PATH_PATTERN)?.[1];
   // Revocation and expiry must take effect on the next request, not after a CDN TTL.
-  if (slug && !isReservedApplicationSlug(slug) && !PUBLIC_FILE_PATH_PATTERN.test(canonicalPath)) {
+  if (isApplicationLinkPath(pathname)) {
     return PRIVATE_PAGE_CACHE_HEADER;
   }
 
   return PUBLIC_PAGE_CACHE_HEADER;
 };
+
+export const getRobotsTagForPath = (pathname: string): string =>
+  PRIVATE_NONCE_PATHS.some((regex) => regex.test(pathname)) || isApplicationLinkPath(pathname)
+    ? 'noindex, nofollow'
+    : 'index, follow';
 
 export const getDefaultLocaleRedirectPathname = (pathname: string): string | null => {
   if (pathname === '/ko' || pathname.startsWith('/ko/')) {
@@ -108,7 +130,12 @@ export const getDefaultLocaleRewritePathname = (pathname: string): string | null
     return null;
   }
 
-  if (pathname === '/' || pathname === '/privacy' || PROJECT_DETAIL_PATH_PATTERN.test(pathname)) {
+  if (
+    pathname === '/' ||
+    pathname === '/privacy' ||
+    PROJECT_DETAIL_PATH_PATTERN.test(pathname) ||
+    APPLICATION_LINK_PATH_PATTERN.test(pathname)
+  ) {
     return pathname === '/' ? '/ko' : `/ko${pathname}`;
   }
 
@@ -147,11 +174,7 @@ const applyResponseHeaders = (response: NextResponse, pathname: string, nonce: s
     response.headers.set('X-Locale', locale);
   }
 
-  if (PRIVATE_ROBOTS_PATHS.some((regex) => regex.test(pathname))) {
-    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
-  } else {
-    response.headers.set('X-Robots-Tag', 'index, follow');
-  }
+  response.headers.set('X-Robots-Tag', getRobotsTagForPath(pathname));
 };
 
 export function proxy(request: NextRequest) {

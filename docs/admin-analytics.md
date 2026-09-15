@@ -7,7 +7,8 @@ application short links, and the metrics dashboard.
 
 - `/a`: private admin dashboard. It renders analytics and link-management tabs through `src/components/admin/AdminDashboard.tsx` and `src/components/admin/DashboardClient.tsx`.
 - `src/lib/server/admin/actions.ts`: Server Actions for local dev login, logout, short-link creation, and short-link deletion.
-- `/:slug`: public short URL route rewritten internally to `src/app/(portfolio)/[locale]/[slug]/page.tsx`. It loads active rows from `application_links`, applies tailored homepage presets, and returns 404 for expired or reserved slugs.
+- `/r/:slug`: public short URL route rewritten internally to `src/app/(portfolio)/[locale]/r/[slug]/page.tsx`. It loads active rows from `application_links`, applies tailored homepage presets, and returns 404 for expired slugs. Build these URLs with `getApplicationLinkPathname()` / `getApplicationLinkUrl()` from `src/lib/utils/applicationSlug.ts`.
+- `/:slug`: legacy single-segment short URL for links submitted before the `/r/` namespace existed. It resolves the slug against D1 and then permanently redirects (308) to `/r/:slug`. Safe to delete once every issued link has expired.
 - `/api/analytics/track`: public analytics Route Handler. It receives browser beacons from `AnalyticsTracker`, validates/clamps payloads, and writes to D1.
 
 ## Admin Access and Write Gates
@@ -42,7 +43,7 @@ Required Worker settings for production admin access:
 
 1. `src/components/analytics/AnalyticsTracker.tsx` creates a session id in `sessionStorage`.
 2. It sends an initial beacon with referrer/user agent and page flush beacons with path, dwell time, active time, document scroll depth, project-article progress, and farthest visible section.
-3. Single-segment public paths such as `/abcd` are interpreted as application-link slugs by `src/lib/utils/applicationSlug.ts`.
+3. Short-link paths such as `/r/abcd` are interpreted as application-link slugs by `src/lib/utils/applicationSlug.ts`. Legacy `/:slug` links redirect to this namespace, so beacons and referrers only ever observe the `/r/` shape.
 4. `/api/analytics/track` bypasses local, owner-device, and `IGNORE_IPS` traffic.
 5. `src/components/analytics/WebVitalsTracker.tsx` reports Next.js Web Vitals to the same endpoint.
 6. `src/lib/server/analytics/payload.ts` validates payload shape, clamps dwell/active/scroll/article-progress values, and normalizes optional slugs.
@@ -60,7 +61,7 @@ Payload rules:
 - `maxVisibleSectionId` and `maxVisibleSectionLabel` capture the farthest reached project `h2`.
 - Web Vital payloads require `metricId`, `metricName`, `metricValue`, and `metricDelta`; rating is normalized to `good`, `needs-improvement`, `poor`, or `unknown`.
 - `referrer` and `userAgent` are trimmed with safe fallbacks.
-- Explicit `applicationSlug` wins; otherwise the server can infer it from a valid single-segment path.
+- Explicit `applicationSlug` wins; otherwise the server can infer it from a valid `/r/` short-link path.
 
 The server performs a lightweight analytics schema bootstrap before writes. Existing D1 databases get the newer `page_views` columns, `client_page_view_id` unique index, and `web_vitals` table without requiring a full table rebuild.
 
@@ -75,14 +76,14 @@ The server performs a lightweight analytics schema bootstrap before writes. Exis
 - `ttlDays`: clamped to `1..90`; default UI value is 60 days.
 - `projectIds`: up to four ordered project ids from the admin UI.
 
-Reserved slugs include `a`, `admin`, `api`, `projects`, asset paths, and social redirect paths. If a submitted slug is empty or reserved, the server generates a four-character slug from the safe alphabet.
+Reserved slugs include `a`, `admin`, `api`, `r`, `projects`, asset paths, and social redirect paths. Because short links are served under the `/r/` namespace, only that prefix needs reserving; new top-level routes do not require a new reserved slug. If a submitted slug is empty or reserved, the server generates a four-character slug from the safe alphabet.
 
 The public short URL page:
 
-- rejects reserved slugs before D1 lookup,
 - fetches only active rows where `expires_at > datetime('now')`,
 - applies `project_ids` to the featured project order,
-- applies `summary_preset` to homepage introduction copy.
+- applies `summary_preset` to homepage introduction copy,
+- is served `private, no-cache, no-store` with a `noindex` robots tag so revocation and expiry take effect on the next request.
 
 ## Dashboard Metrics
 

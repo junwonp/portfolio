@@ -61,6 +61,13 @@ export const getHomeMetadata = (locale: Language): Metadata => {
   };
 };
 
+// A short link serves the same tailored home view as its target, so only the
+// indexing policy differs from the home page.
+export const getShortUrlMetadata = (locale: Language): Metadata => ({
+  ...getHomeMetadata(locale),
+  robots: { index: false, follow: false },
+});
+
 export const getProjectPageMetadata = ({ locale, slug }: ProjectMetadataInput): Metadata => {
   const rawMetadata = getProjectMetadata(slug, locale);
   if (!rawMetadata) return {};

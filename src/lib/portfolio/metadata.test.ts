@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { getHomeMetadata, getProjectPageMetadata } from '@/lib/portfolio/metadata';
+import {
+  getHomeMetadata,
+  getProjectPageMetadata,
+  getShortUrlMetadata,
+} from '@/lib/portfolio/metadata';
 
 describe('portfolio metadata', () => {
   it('keeps Korean canonical URLs prefixless and English URLs under /en', () => {
@@ -23,5 +27,16 @@ describe('portfolio metadata', () => {
       'en-US': 'https://junwon.dev/en/projects/aira',
       'ko-KR': 'https://junwon.dev/projects/aira',
     });
+  });
+
+  it('gives short links the home title while keeping them out of the index', () => {
+    const korean = getShortUrlMetadata('ko');
+    const english = getShortUrlMetadata('en');
+
+    expect(korean.title).toBe('박준원 | 프로필');
+    expect(korean.alternates?.canonical).toBe('https://junwon.dev/');
+    expect(english.title).toBe('Junwon Park | Profile');
+    expect(korean.robots).toEqual({ index: false, follow: false });
+    expect(english.robots).toEqual({ index: false, follow: false });
   });
 });

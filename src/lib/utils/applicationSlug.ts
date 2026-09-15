@@ -1,5 +1,9 @@
 export const APPLICATION_SLUG_LENGTH = 4;
 
+// Short links live under their own /r/ namespace so they can never shadow a
+// top-level route; only the prefix itself is reserved, not every route name.
+export const APPLICATION_LINK_PATH_PREFIX = 'r';
+
 export const RESERVED_APPLICATION_SLUGS = new Set([
   'a',
   'admin',
@@ -13,6 +17,7 @@ export const RESERVED_APPLICATION_SLUGS = new Set([
   'linkedin',
   'print',
   'privacy',
+  'r',
   'resume',
   'opengraph-image',
   'twitter-image',
@@ -20,6 +25,9 @@ export const RESERVED_APPLICATION_SLUGS = new Set([
   'projects',
   'robots.txt',
 ]);
+
+export const getApplicationLinkPathname = (slug: string): string =>
+  `/${APPLICATION_LINK_PATH_PREFIX}/${slug}`;
 
 export const normalizeApplicationSlug = (value: string): string =>
   value
@@ -31,19 +39,21 @@ export const normalizeApplicationSlug = (value: string): string =>
 export const isReservedApplicationSlug = (slug: string): boolean =>
   RESERVED_APPLICATION_SLUGS.has(slug.toLowerCase());
 
+const applicationLinkPathPattern = /^\/(?:en\/)?r\/([^/]+)\/?$/;
+
 export const extractApplicationSlugFromPath = (path: string | undefined): string | undefined => {
   if (!path) {
     return undefined;
   }
 
-  const match = /^\/(?:en\/)?([^/]+)\/?$/.exec(path);
+  const match = applicationLinkPathPattern.exec(path);
   if (!match) {
     return undefined;
   }
 
   const segment = match[1].trim();
   const slug = normalizeApplicationSlug(segment);
-  if (!slug || slug !== segment.toLowerCase() || isReservedApplicationSlug(slug)) {
+  if (!slug || slug !== segment.toLowerCase()) {
     return undefined;
   }
 

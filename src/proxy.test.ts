@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+
 import { describe, expect, it } from 'vitest';
 
 import {
@@ -6,6 +8,7 @@ import {
   getDefaultLocaleRedirectPathname,
   getDefaultLocaleRewritePathname,
   getResumeRewritePathname,
+  getRobotsTagForPath,
 } from '@/proxy';
 
 describe('getCacheControlForPath', () => {
@@ -30,12 +33,16 @@ describe('getCacheControlForPath', () => {
     expect(getCacheControlForPath('/a')).toBe('private, no-cache, no-store, must-revalidate');
   });
 
-  it.each(['/application-slug', '/ko/application-slug', '/en/application-slug/'])(
-    'never caches revocable application link %s',
-    (pathname) => {
-      expect(getCacheControlForPath(pathname)).toBe('private, no-cache, no-store, must-revalidate');
-    },
-  );
+  it.each([
+    '/application-slug',
+    '/ko/application-slug',
+    '/en/application-slug/',
+    '/r/application-slug',
+    '/ko/r/application-slug',
+    '/en/r/application-slug/',
+  ])('never caches revocable application link %s', (pathname) => {
+    expect(getCacheControlForPath(pathname)).toBe('private, no-cache, no-store, must-revalidate');
+  });
 
   it.each(['/privacy', '/en/privacy', '/opengraph-image', '/en'])(
     'preserves caching for fixed public route %s',
@@ -61,6 +68,38 @@ describe('getContentSecurityPolicyForPath', () => {
   });
 });
 
+describe('getRobotsTagForPath', () => {
+  it.each([
+    '/',
+    '/ko',
+    '/projects/aira',
+    '/privacy',
+    '/en/privacy',
+    '/opengraph-image',
+    '/robots.txt',
+  ])('keeps public route %s indexable', (pathname) => {
+    expect(getRobotsTagForPath(pathname)).toBe('index, follow');
+  });
+
+  it.each(['/a', '/a/applications', '/admin', '/api/analytics', '/print'])(
+    'keeps private surface %s out of the index',
+    (pathname) => {
+      expect(getRobotsTagForPath(pathname)).toBe('noindex, nofollow');
+    },
+  );
+
+  it.each([
+    '/application-slug',
+    '/ko/application-slug',
+    '/en/application-slug/',
+    '/r/application-slug',
+    '/ko/r/application-slug',
+    '/en/r/application-slug/',
+  ])('keeps revocable application link %s out of the index', (pathname) => {
+    expect(getRobotsTagForPath(pathname)).toBe('noindex, nofollow');
+  });
+});
+
 describe('getDefaultLocaleRedirectPathname', () => {
   it('redirects Korean-prefixed URLs to the no-prefix canonical path', () => {
     expect(getDefaultLocaleRedirectPathname('/ko')).toBe('/');
@@ -79,6 +118,8 @@ describe('getDefaultLocaleRewritePathname', () => {
     expect(getDefaultLocaleRewritePathname('/projects/aira')).toBe('/ko/projects/aira');
     expect(getDefaultLocaleRewritePathname('/privacy')).toBe('/ko/privacy');
     expect(getDefaultLocaleRewritePathname('/application-slug')).toBe('/ko/application-slug');
+    expect(getDefaultLocaleRewritePathname('/r/application-slug')).toBe('/ko/r/application-slug');
+    expect(getDefaultLocaleRewritePathname('/r/application-slug/')).toBe('/ko/r/application-slug/');
   });
 
   it('leaves explicit locale paths unchanged', () => {
@@ -135,5 +176,38 @@ describe('getResumeRewritePathname', () => {
     expect(getResumeRewritePathname('resume.junwon.dev', '/projects/aira')).toBeNull();
     expect(getResumeRewritePathname('junwon.dev', '/')).toBeNull();
     expect(getResumeRewritePathname('localhost:3000', '/')).toBeNull();
+  });
+});
+
+const readDisallowedPrefixesForAllAgents = (): string[] => {
+  const robotsTxt = readFileSync(new URL('../public/robots.txt', import.meta.url), 'utf8');
+  const wildcardBlock = robotsTxt
+    .split(/^User-agent:/m)
+    .slice(1)
+    .find((block) => block.trimStart().startsWith('*'));
+
+  if (!wildcardBlock) {
+    return [];
+  }
+
+  return wildcardBlock
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.toLowerCase().startsWith('disallow:'))
+    .map((line) => line.slice('disallow:'.length).trim());
+};
+
+describe('public/robots.txt', () => {
+  it('only disallows prefixes the proxy also marks noindex', () => {
+    const prefixes = readDisallowedPrefixesForAllAgents();
+
+    expect(prefixes.length).toBeGreaterThan(0);
+    for (const prefix of prefixes) {
+      expect(getRobotsTagForPath(`${prefix}sample`)).toBe('noindex, nofollow');
+    }
+  });
+
+  it('disallows the application-link namespace', () => {
+    expect(readDisallowedPrefixesForAllAgents()).toContain('/r/');
   });
 });

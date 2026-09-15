@@ -87,12 +87,12 @@ describe('parseAnalyticsPayloadBody', () => {
     });
   });
 
-  it('infers application link slugs from single-segment public paths', () => {
+  it('infers application link slugs from /r/ short-link paths', () => {
     expect(
       parseAnalyticsPayloadBody({
         dwellTime: 0,
         isInitial: false,
-        path: '/abcd',
+        path: '/r/abcd',
         referrer: 'direct',
         scrollDepth: 0,
         sessionId: 'session-1',
