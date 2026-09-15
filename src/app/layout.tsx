@@ -13,6 +13,8 @@ import { resolvePortfolioLocale } from '@/lib/server/portfolioLocale';
 
 export const metadata: Metadata = {
   metadataBase: new URL(PORTFOLIO_URL),
+  // Deliberately excluded from search indexes; see public/robots.txt.
+  robots: { index: false, follow: false },
 };
 
 export default async function RootLayout({

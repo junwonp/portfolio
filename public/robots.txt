@@ -1,3 +1,7 @@
+# This site is deliberately kept out of search indexes: every response sends
+# `X-Robots-Tag: noindex, nofollow`. Crawling stays allowed so crawlers can
+# read that directive and drop already-indexed pages; a blanket `Disallow: /`
+# would hide it and leave those pages listed.
 User-agent: *
 Allow: /
 Disallow: /admin/

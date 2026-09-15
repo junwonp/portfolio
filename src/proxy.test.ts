@@ -8,7 +8,7 @@ import {
   getDefaultLocaleRedirectPathname,
   getDefaultLocaleRewritePathname,
   getResumeRewritePathname,
-  getRobotsTagForPath,
+  ROBOTS_TAG_EXCLUDED,
 } from '@/proxy';
 
 describe('getCacheControlForPath', () => {
@@ -68,35 +68,17 @@ describe('getContentSecurityPolicyForPath', () => {
   });
 });
 
-describe('getRobotsTagForPath', () => {
-  it.each([
-    '/',
-    '/ko',
-    '/projects/aira',
-    '/privacy',
-    '/en/privacy',
-    '/opengraph-image',
-    '/robots.txt',
-  ])('keeps public route %s indexable', (pathname) => {
-    expect(getRobotsTagForPath(pathname)).toBe('index, follow');
+describe('search indexing policy', () => {
+  it('excludes every response from search indexes', () => {
+    expect(ROBOTS_TAG_EXCLUDED).toBe('noindex, nofollow');
   });
 
-  it.each(['/a', '/a/applications', '/admin', '/api/analytics', '/print'])(
-    'keeps private surface %s out of the index',
-    (pathname) => {
-      expect(getRobotsTagForPath(pathname)).toBe('noindex, nofollow');
-    },
-  );
+  it('keeps crawling allowed so the noindex directive stays discoverable', () => {
+    expect(readDisallowedPrefixesForAllAgents()).not.toContain('/');
+  });
 
-  it.each([
-    '/application-slug',
-    '/ko/application-slug',
-    '/en/application-slug/',
-    '/r/application-slug',
-    '/ko/r/application-slug',
-    '/en/r/application-slug/',
-  ])('keeps revocable application link %s out of the index', (pathname) => {
-    expect(getRobotsTagForPath(pathname)).toBe('noindex, nofollow');
+  it('disallows the application-link namespace', () => {
+    expect(readDisallowedPrefixesForAllAgents()).toContain('/r/');
   });
 });
 
@@ -196,18 +178,3 @@ const readDisallowedPrefixesForAllAgents = (): string[] => {
     .filter((line) => line.toLowerCase().startsWith('disallow:'))
     .map((line) => line.slice('disallow:'.length).trim());
 };
-
-describe('public/robots.txt', () => {
-  it('only disallows prefixes the proxy also marks noindex', () => {
-    const prefixes = readDisallowedPrefixesForAllAgents();
-
-    expect(prefixes.length).toBeGreaterThan(0);
-    for (const prefix of prefixes) {
-      expect(getRobotsTagForPath(`${prefix}sample`)).toBe('noindex, nofollow');
-    }
-  });
-
-  it('disallows the application-link namespace', () => {
-    expect(readDisallowedPrefixesForAllAgents()).toContain('/r/');
-  });
-});

@@ -9,6 +9,11 @@ const ASSET_CACHE_HEADER = 'public, max-age=31536000, immutable';
 // HTML bounded after a deploy while serving repeat visits from the edge.
 const PUBLIC_PAGE_CACHE_HEADER = 'public, max-age=0, s-maxage=60, stale-while-revalidate=3600';
 const PRIVATE_PAGE_CACHE_HEADER = 'private, no-cache, no-store, must-revalidate';
+// The site is deliberately kept out of search indexes. This header is the
+// authoritative signal: it also drops pages that are already indexed, which a
+// robots.txt disallow could not do, because crawlers never fetch the page to
+// read the directive.
+export const ROBOTS_TAG_EXCLUDED = 'noindex, nofollow';
 const PRIVATE_NONCE_PATHS = [
   /^\/admin(?:\/|$)/,
   /^\/a(?:\/|$)/,
@@ -104,11 +109,6 @@ export const getCacheControlForPath = (pathname: string): string => {
   return PUBLIC_PAGE_CACHE_HEADER;
 };
 
-export const getRobotsTagForPath = (pathname: string): string =>
-  PRIVATE_NONCE_PATHS.some((regex) => regex.test(pathname)) || isApplicationLinkPath(pathname)
-    ? 'noindex, nofollow'
-    : 'index, follow';
-
 export const getDefaultLocaleRedirectPathname = (pathname: string): string | null => {
   if (pathname === '/ko' || pathname.startsWith('/ko/')) {
     return stripLocalePathPrefix(pathname);
@@ -174,7 +174,7 @@ const applyResponseHeaders = (response: NextResponse, pathname: string, nonce: s
     response.headers.set('X-Locale', locale);
   }
 
-  response.headers.set('X-Robots-Tag', getRobotsTagForPath(pathname));
+  response.headers.set('X-Robots-Tag', ROBOTS_TAG_EXCLUDED);
 };
 
 export function proxy(request: NextRequest) {
