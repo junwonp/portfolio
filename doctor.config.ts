@@ -35,6 +35,14 @@ export default defineConfig({
         files: ['src/app/*/[[]locale[]]/[[]slug[]]/page.tsx'],
         rules: ['react-doctor/nextjs-missing-metadata'],
       },
+      {
+        // Pre-existing and intentional: this theme initializer must run
+        // synchronously before first paint to apply the stored theme without a
+        // flash, so it stays a blocking native script. Converting it to
+        // next/script is behaviour-sensitive and belongs in its own change.
+        files: ['src/app/layout.tsx'],
+        rules: ['react-doctor/nextjs-no-native-script'],
+      },
     ],
   },
 });
