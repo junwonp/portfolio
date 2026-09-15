@@ -9,6 +9,7 @@ import {
 import { defaultSelectedProjectIds } from '@/lib/portfolio/homePage';
 import { type RolePresetId, rolePresets } from '@/lib/portfolio/resume';
 import { getActiveApplicationLinkBySlug } from '@/lib/server/application-links/store';
+import { getApplicationLinkUrl } from '@/lib/server/application-links/url';
 import { getDb } from '@/lib/server/infrastructure/database';
 
 export const metadata: Metadata = {
@@ -66,7 +67,7 @@ export default async function PrintPage({ searchParams }: PrintPageProps) {
     ];
   });
 
-  const portfolioUrl = slug ? `${PORTFOLIO_URL}/${slug}` : PORTFOLIO_URL;
+  const portfolioUrl = slug ? getApplicationLinkUrl(slug) : PORTFOLIO_URL;
 
   return (
     <PrintablePortfolio

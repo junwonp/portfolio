@@ -2,6 +2,7 @@
 
 import Button from '@/components/ui/Button';
 import { deleteApplicationLink } from '@/lib/server/admin/actions';
+import { getApplicationLinkPathname } from '@/lib/utils/applicationSlug';
 import { formatDateTime } from '@/lib/utils/date';
 
 import * as shared from './adminShared.css';
@@ -44,12 +45,12 @@ export function LinkCard({ link, projectOptions, writesEnabled }: LinkCardProps)
     <tr>
       <td>
         <a
-          href={`/${link.slug}`}
+          href={getApplicationLinkPathname(link.slug)}
           target="_blank"
           rel="noopener noreferrer"
           className={styles.linkSlugCell}
         >
-          /{link.slug}
+          {getApplicationLinkPathname(link.slug)}
         </a>
       </td>
       <td className={styles.linkCompanyCell}>{link.companyName}</td>
@@ -117,7 +118,7 @@ export function LinkCard({ link, projectOptions, writesEnabled }: LinkCardProps)
               e.preventDefault();
               return;
             }
-            if (!confirm(`/${link.slug} 링크를 삭제할까요?`)) {
+            if (!confirm(`${getApplicationLinkPathname(link.slug)} 링크를 삭제할까요?`)) {
               e.preventDefault();
             }
           }}

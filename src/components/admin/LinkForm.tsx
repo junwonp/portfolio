@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Button from '@/components/ui/Button';
 import Select from '@/components/ui/Select';
 import { createApplicationLink } from '@/lib/server/admin/actions';
+import { getApplicationLinkPathname, normalizeApplicationSlug } from '@/lib/utils/applicationSlug';
 
 import * as styles from './LinkForm.css';
 
@@ -23,10 +24,16 @@ const POSITIONING_OPTIONS = [
 ];
 
 const SELECT_RANKS = [1, 2, 3, 4];
+const AUTO_SLUG_PLACEHOLDER = 'abcd';
 
 export function LinkForm({ applicationProjectOptions, writesEnabled }: LinkFormProps) {
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>(['', '', '', '']);
   const [positioning, setPositioning] = useState('web');
+  const [slug, setSlug] = useState('');
+
+  const previewPathname = getApplicationLinkPathname(
+    normalizeApplicationSlug(slug) || AUTO_SLUG_PLACEHOLDER,
+  );
 
   function getSelectableProjectOptions(index: number) {
     const selectedByOtherControls = new Set(
@@ -71,16 +78,25 @@ export function LinkForm({ applicationProjectOptions, writesEnabled }: LinkFormP
         />
       </label>
 
-      <label htmlFor="link-slug">
-        <span>커스텀 slug</span>
-        <input
-          id="link-slug"
-          name="slug"
-          placeholder="비워두면 4자리 자동 생성"
-          maxLength={32}
-          disabled={!writesEnabled}
-        />
-      </label>
+      <div className={styles.slugField}>
+        <label htmlFor="link-slug">
+          <span>커스텀 slug</span>
+          <input
+            id="link-slug"
+            name="slug"
+            placeholder="비워두면 4자리 자동 생성"
+            maxLength={32}
+            disabled={!writesEnabled}
+            aria-describedby="link-slug-help"
+            value={slug}
+            onChange={(event) => setSlug(event.target.value)}
+          />
+        </label>
+        <p id="link-slug-help" className={styles.fieldHelp}>
+          링크는 <code>{previewPathname}</code> 형식으로 생성됩니다. 비워두면 4자리 slug를 자동
+          생성합니다.
+        </p>
+      </div>
 
       <label htmlFor="link-positioning">
         <span>포지셔닝</span>

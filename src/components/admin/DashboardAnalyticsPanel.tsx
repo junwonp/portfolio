@@ -4,6 +4,7 @@ import Card from '@/components/ui/Card';
 import SectionHeading from '@/components/ui/SectionHeading';
 import Select from '@/components/ui/Select';
 import type { DashboardAnalyticsPanelProps } from '@/lib/server/admin/dashboardData';
+import { getApplicationLinkPathname } from '@/lib/utils/applicationSlug';
 
 import * as shared from './adminShared.css';
 import * as styles from './DashboardAnalyticsPanel.css';
@@ -33,7 +34,7 @@ export function DashboardAnalyticsPanel({
     { value: '', label: '전체 방문' },
     ...applicationFilterOptions.map((link) => ({
       value: String(link.id),
-      label: `${link.companyName} · ${link.label} · /${link.slug}`,
+      label: `${link.companyName} · ${link.label} · ${getApplicationLinkPathname(link.slug)}`,
     })),
   ];
 

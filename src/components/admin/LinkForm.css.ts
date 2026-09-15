@@ -51,6 +51,13 @@ export const fieldHelp = style({
   margin: '-0.1rem 0 0',
 });
 
+export const slugField = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.4rem',
+  minWidth: 0,
+});
+
 globalStyle(`${applicationForm} input`, {
   background: 'var(--color-code-bg)',
   border: '0.5px solid var(--color-bg-divider)',

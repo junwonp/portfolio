@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 
 import PrintableResume from '@/components/resume/PrintableResume';
-import { PORTFOLIO_URL } from '@/config/site';
 import {
   getPrintableResume,
   parseResumeVariant,
@@ -9,6 +8,7 @@ import {
   resolveResumeVariant,
 } from '@/content/printableResume';
 import { getActiveApplicationLinkBySlug } from '@/lib/server/application-links/store';
+import { getApplicationLinkUrl } from '@/lib/server/application-links/url';
 import { getDb } from '@/lib/server/infrastructure/database';
 
 const RESUME_URL = 'https://resume.junwon.dev';
@@ -53,7 +53,7 @@ export default async function ResumePage({ searchParams }: ResumePageProps) {
       const link = await getActiveApplicationLinkBySlug(db, slug);
       if (link) {
         const variant = resolveResumeVariant(link.role, link.summaryPreset);
-        resume = getPrintableResume(variant, `${PORTFOLIO_URL}/${slug}`);
+        resume = getPrintableResume(variant, getApplicationLinkUrl(slug));
       }
     }
   } else if (variantParam) {
