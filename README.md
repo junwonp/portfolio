@@ -46,6 +46,12 @@ pnpm preview
 pnpm deploy
 ```
 
+## Local Configuration
+
+`wrangler.jsonc` and `wrangler.preview.jsonc` hold bindings, so they are committed. Account-specific identifiers (`account_id`, KV namespace id, D1 database id) belong in them; secrets never do. Set `ADMIN_SESSION_SECRET` and `CF_ACCESS_AUD` with `pnpm exec wrangler secret put <NAME>` for production, and keep local values in a gitignored `.dev.vars`.
+
+A pre-commit privacy gate (`scripts/privacy-gate.mjs`) blocks secrets, secret-bearing files, and Cloudflare identifiers committed outside the wrangler configs, and warns when a real identifier is staged there. Add a `privacy-gate:allow` comment on a line to confirm a false positive. A companion `commit-msg` hook rejects commit messages carrying agent or attribution traces.
+
 ## Project Structure
 
 ```
