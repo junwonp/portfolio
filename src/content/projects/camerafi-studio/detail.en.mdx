@@ -7,7 +7,6 @@ title: CameraFi Studio
 description: Web Overlay Scoreboard Service
 role: 'Frontend Engineer'
 date: '2022-02 ~ 2023-06'
-image: '/images/camerafi-studio/optimization_chart.webp'
 productLink: 'https://studio.camerafi.com'
 platforms: ['Web']
 metrics: [{ value: '15%', label: 'Bundle Size Reduced' }, { value: '47KB', label: 'JS Saved' }]
@@ -61,7 +60,7 @@ The live link is provided for reference, and the current UI may differ from the 
     {
       tag: 'Performance',
       title: '15% bundle size reduction via Webpack config optimization (324KB → 277KB)',
-      detail: `Audited the production bundle with <strong>webpack-bundle-analyzer</strong> to identify size bottlenecks, then applied targeted Webpack configuration changes:<ul><li><strong>Tree Shaking (lodash):</strong> Replaced whole-library <code>import _ from 'lodash'</code> calls with per-method imports (<code>import debounce from 'lodash/debounce'</code>), eliminating ~200+ unused utility functions from the build.</li><li><strong>Dynamic Import (code splitting):</strong> Wrapped heavy UI panels — charts, overlay editors, modal-heavy screens — in <code>React.lazy()</code> with <code>next/dynamic</code>, moving them out of the initial chunk.</li><li><strong>Vendor chunk tuning:</strong> Configured <code>splitChunks.cacheGroups</code> to group stable third-party libraries into a separate vendor bundle, improving long-term cache reuse across deployments.</li></ul>Result: main entry bundle dropped from <strong>324KB → 277KB (~15%, 47KB saved)</strong>, with a measurable reduction in TTI (Time to Interactive) on first load.<br/><img src="/images/camerafi-studio/optimization_chart.webp" alt="Bundle size reduction chart" style="margin-top:12px;border-radius:8px;width:100%;" />`,
+      detail: `Audited the production bundle with <strong>webpack-bundle-analyzer</strong> to identify size bottlenecks, then applied targeted Webpack configuration changes:<ul><li><strong>Tree Shaking (lodash):</strong> Replaced whole-library <code>import _ from 'lodash'</code> calls with per-method imports (<code>import debounce from 'lodash/debounce'</code>), eliminating ~200+ unused utility functions from the build.</li><li><strong>Dynamic Import (code splitting):</strong> Wrapped heavy UI panels — charts, overlay editors, modal-heavy screens — in <code>React.lazy()</code> with <code>next/dynamic</code>, moving them out of the initial chunk.</li><li><strong>Vendor chunk tuning:</strong> Configured <code>splitChunks.cacheGroups</code> to group stable third-party libraries into a separate vendor bundle, improving long-term cache reuse across deployments.</li></ul>Result: main entry bundle dropped from <strong>324KB → 277KB (~15%, 47KB saved)</strong>, with a measurable reduction in TTI (Time to Interactive) on first load.`,
     },
     {
       tag: 'Auth',
