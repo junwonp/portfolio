@@ -33,7 +33,6 @@ export interface ApplicationFilterOption {
 export interface SessionRow {
   createdAt: string;
   id: string;
-  ipAddress: string;
   ipCountry: string;
   pageViewsCount: number;
   referrer: string;
@@ -682,7 +681,6 @@ const getSessions = async (
   // independent, so awaiting them in parallel avoids a second round trip
   const listSql = `SELECT
         s.id,
-        COALESCE(s.ip_address, 'unknown') as ipAddress,
         s.ip_country as ipCountry,
         s.user_agent as userAgent,
         s.referrer,
@@ -698,7 +696,7 @@ const getSessions = async (
        LEFT JOIN application_links al ON al.id = alv_link.application_link_id AND al.deleted_at IS NULL
        ${linkJoin}
        ${whereClause}
-       GROUP BY s.id, s.ip_address, s.ip_country, s.user_agent, s.referrer, s.created_at
+       GROUP BY s.id, s.ip_country, s.user_agent, s.referrer, s.created_at
        ORDER BY s.created_at DESC`;
 
   // Classification is derived in JS, so a classification filter must see every
@@ -718,7 +716,6 @@ const getSessions = async (
     listStmt.all<{
       createdAt: string;
       id: string;
-      ipAddress: string;
       ipCountry: string;
       pageViewsCount: number;
       referrer: string;
@@ -741,7 +738,6 @@ const getSessions = async (
 
     return {
       id: row.id,
-      ipAddress: row.ipAddress,
       ipCountry: row.ipCountry,
       userAgent: row.userAgent,
       referrer: row.referrer,

@@ -20,7 +20,7 @@ function createSqlRecordingDb() {
   return { db, sqls };
 }
 
-const SESSION_LIST_MARKER = 'COALESCE(s.ip_address, ';
+const SESSION_LIST_MARKER = 's.ip_country as ipCountry';
 
 function getSessionListQuery(sqls: string[]): string | undefined {
   return sqls.find(
@@ -83,6 +83,21 @@ describe('getAdminDashboardData session filters', () => {
     });
 
     expect(getSessionListQuery(sqls)).toContain('LIMIT ?');
+  });
+
+  it('does not select the raw visitor IP in the session list', async () => {
+    const { db, sqls } = createSqlRecordingDb();
+
+    await getAdminDashboardData({
+      applicationProjectOptions: [],
+      db,
+      searchParams: {},
+      writesEnabled: false,
+    });
+
+    const listQuery = getSessionListQuery(sqls);
+    expect(listQuery).toBeDefined();
+    expect(listQuery).not.toContain('ip_address');
   });
 
   it('drops the SQL LIMIT when filtering by classification', async () => {

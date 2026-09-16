@@ -5,7 +5,6 @@ import { extractApplicationSlugFromReferrer } from '@/lib/utils/applicationSlug'
 
 interface RecordAnalyticsPayloadInput {
   country: string;
-  ipAddress: string;
   db: D1Database;
   payload: AnalyticsPayloadBody;
 }
@@ -14,7 +13,6 @@ const bindNullableText = (value: string | undefined): string | null => value ?? 
 
 export const recordAnalyticsPayload = async ({
   country,
-  ipAddress,
   db,
   payload,
 }: RecordAnalyticsPayloadInput): Promise<void> => {
@@ -22,10 +20,10 @@ export const recordAnalyticsPayload = async ({
 
   await db
     .prepare(
-      `INSERT OR IGNORE INTO user_sessions (id, ip_address, ip_country, user_agent, referrer, is_admin)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+      `INSERT OR IGNORE INTO user_sessions (id, ip_country, user_agent, referrer, is_admin)
+       VALUES (?, ?, ?, ?, ?)`,
     )
-    .bind(payload.sessionId, ipAddress, country, payload.userAgent, payload.referrer, 0)
+    .bind(payload.sessionId, country, payload.userAgent, payload.referrer, 0)
     .run();
 
   // Recover attribution for new-tab navigation: the path has no slug, but the
