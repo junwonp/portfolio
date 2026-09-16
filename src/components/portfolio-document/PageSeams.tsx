@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 import * as styles from './PageSeams.css';
+import { pageGap } from './PortfolioDocument.css';
 import {
   PAGE_CONTENT_HEIGHT_PX,
   PAGE_GAP_PX,
   PAGE_HEIGHT_PX,
   PAGE_PADDING_BOTTOM_PX,
   PAGE_PADDING_TOP_PX,
-  pageGap,
-} from './PortfolioDocument.css';
+} from './pageGeometry';
 import {
   computePageBreaks,
   type PageBreakInput,
@@ -36,6 +36,8 @@ const TAIL_PADDING_PROPERTY = '--doc-tail-padding';
 const SHEET_SELECTOR = '[data-document-sheet]';
 
 interface PageLayout {
+  contentKey?: string;
+  issue?: 'oversized' | 'invalid';
   /** The sheet's left edge against the preview layer. */
   left: number;
   pageCount: number;
@@ -56,14 +58,20 @@ interface MeasuredItem {
 }
 
 /** Heights are wrong until eager figures have settled; a settled failure is still a height. */
-const whenImageSettled = (image: HTMLImageElement): Promise<void> =>
+const whenImageSettled = (image: HTMLImageElement, signal: AbortSignal): Promise<void> =>
   image.complete
     ? Promise.resolve()
     : new Promise((resolve) => {
-        const settle = () => resolve();
+        const settle = () => {
+          image.removeEventListener('error', settle);
+          image.removeEventListener('load', settle);
+          signal.removeEventListener('abort', settle);
+          resolve();
+        };
 
         image.addEventListener('error', settle, { once: true });
         image.addEventListener('load', settle, { once: true });
+        signal.addEventListener('abort', settle, { once: true });
       });
 
 const measureBlock = (element: HTMLElement, origin: number): MeasuredItem => {
@@ -186,7 +194,17 @@ const measureLayout = (
   // drift away from the printed page count it exists to mirror.
   clearPreview(sheet, applied);
   const measured = measureItems(sheet);
-  const packing = computePageBreaks(toBreakInputs(measured), PAGE_CONTENT_HEIGHT_PX);
+  let packing: PagePacking;
+  try {
+    packing = computePageBreaks(toBreakInputs(measured), PAGE_CONTENT_HEIGHT_PX);
+  } catch (error) {
+    if (!(error instanceof RangeError)) throw error;
+    return { ...emptyLayout, issue: 'invalid' };
+  }
+
+  if (packing.oversizedItemIndexes.length > 0) {
+    return { ...emptyLayout, issue: 'oversized' };
+  }
 
   applyPagination(sheet, measured, packing, applied);
 
@@ -204,10 +222,11 @@ const measureLayout = (
   };
 };
 
-export default function PageSeams() {
+export default function PageSeams({ contentKey }: { contentKey: string }) {
   const layerRef = useRef<HTMLDivElement>(null);
   const appliedGapsRef = useRef(new Set<HTMLElement>());
   const [layout, setLayout] = useState<PageLayout>(emptyLayout);
+  const currentLayout = layout.contentKey === contentKey ? layout : emptyLayout;
 
   useEffect(() => {
     const layer = layerRef.current;
@@ -217,11 +236,12 @@ export default function PageSeams() {
     const applied = appliedGapsRef.current;
     let cancelled = false;
     let frame = 0;
+    const controller = new AbortController();
 
     const apply = () => {
       if (cancelled) return;
 
-      setLayout(measureLayout(sheet, layer, applied));
+      setLayout({ ...measureLayout(sheet, layer, applied), contentKey });
     };
 
     const schedule = () => {
@@ -231,40 +251,59 @@ export default function PageSeams() {
 
     const settle = async () => {
       await document.fonts.ready;
-      await Promise.all(Array.from(sheet.querySelectorAll('img'), whenImageSettled));
+      if (cancelled) return;
+      await Promise.all(
+        Array.from(sheet.querySelectorAll('img'), (image) =>
+          whenImageSettled(image, controller.signal),
+        ),
+      );
+      if (cancelled) return;
       apply();
+      window.addEventListener('resize', schedule);
     };
 
     void settle();
-    window.addEventListener('resize', schedule);
 
     return () => {
       cancelled = true;
+      controller.abort();
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', schedule);
       clearPreview(sheet, applied);
     };
-  }, []);
+  }, [contentKey]);
 
   return (
-    <div
-      aria-hidden="true"
-      className={styles.layer}
-      data-page-count={layout.pageCount}
-      ref={layerRef}
-    >
-      {Array.from({ length: layout.pageCount }, (_, index) => (
-        <div
-          className={styles.pageSheet}
-          key={layout.top + index * PAGE_PITCH_PX}
-          style={{
-            height: PAGE_HEIGHT_PX,
-            left: layout.left,
-            top: layout.top + index * PAGE_PITCH_PX,
-            width: layout.width,
-          }}
-        />
-      ))}
-    </div>
+    <>
+      {currentLayout.issue && (
+        <p className={styles.warning} role="status">
+          A4 preview unavailable:{' '}
+          {currentLayout.issue === 'oversized'
+            ? `a block exceeds the ${PAGE_CONTENT_HEIGHT_PX}px page budget`
+            : 'invalid block geometry'}
+          . Print pagination must be checked.
+        </p>
+      )}
+      <div
+        aria-hidden="true"
+        className={styles.layer}
+        data-page-count={currentLayout.pageCount}
+        data-preview-issue={currentLayout.issue}
+        ref={layerRef}
+      >
+        {Array.from({ length: currentLayout.pageCount }, (_, index) => (
+          <div
+            className={styles.pageSheet}
+            key={currentLayout.top + index * PAGE_PITCH_PX}
+            style={{
+              height: PAGE_HEIGHT_PX,
+              left: currentLayout.left,
+              top: currentLayout.top + index * PAGE_PITCH_PX,
+              width: currentLayout.width,
+            }}
+          />
+        ))}
+      </div>
+    </>
   );
 }

@@ -2,15 +2,12 @@ import { globalStyle, style } from '@vanilla-extract/css';
 
 import { FIGURE_CELL_BORDER_PX, FIGURE_CELL_GAP_PX, FIGURE_CELL_PADDING_PX } from './figureRow';
 
-/* Page geometry at 96dpi. Shared with PageSeams so the preview's sheets and
- * page spacing stay in step with the sheet; keep these in step with @page. */
-export const PAGE_HEIGHT_PX = 1122.24;
-export const PAGE_PADDING_TOP_PX = 57.6;
-export const PAGE_PADDING_BOTTOM_PX = 48;
-export const PAGE_SIDE_PADDING = '0.62in';
-export const PAGE_GAP_PX = 24;
-/** What a printed page's content box can hold: A4 minus its vertical margins. */
-export const PAGE_CONTENT_HEIGHT_PX = PAGE_HEIGHT_PX - PAGE_PADDING_TOP_PX - PAGE_PADDING_BOTTOM_PX;
+import {
+  PAGE_PADDING_BOTTOM_PX,
+  PAGE_PADDING_TOP_PX,
+  PAGE_SIDE_PADDING,
+  PAGE_WIDTH,
+} from './pageGeometry';
 
 const textFont = "var(--font-family-text), 'Wanted Sans', sans-serif";
 // Geist Mono lacks Hangul, so the text font follows it to keep Korean inline code machine-independent.
@@ -88,7 +85,7 @@ export const sheet = style({
   margin: '0 auto',
   overflowWrap: 'anywhere',
   padding: `${PAGE_PADDING_TOP_PX}px ${PAGE_SIDE_PADDING} ${PAGE_PADDING_BOTTOM_PX}px`,
-  width: '8.27in',
+  width: PAGE_WIDTH,
   wordBreak: 'keep-all',
 
   selectors: {
@@ -125,6 +122,11 @@ globalStyle(`${sheet} a`, {
   color: 'inherit',
   fontWeight: 'inherit',
   textDecoration: 'none',
+});
+
+// The site-wide important inline-code rule otherwise discards the Hangul fallback.
+globalStyle(`${sheet}[data-document-sheet] code:not(pre code)`, {
+  fontFamily: `${codeFont} !important`,
 });
 
 export const masthead = style({

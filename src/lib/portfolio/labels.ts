@@ -20,6 +20,7 @@ export interface Labels {
   navAriaLabel: string;
   pageNotFound: string;
   printPage: string;
+  printButtonLabel: string;
   printHint: string;
   present: string;
   project: string;
@@ -72,6 +73,7 @@ export const labelsMap: Record<Language, Labels> = {
     navAriaLabel: '섹션 탐색',
     pageNotFound: '페이지를 찾을 수 없습니다',
     printPage: '인쇄 / PDF',
+    printButtonLabel: 'PDF 저장 / 인쇄',
     printHint: '인쇄 → PDF로 저장 · 여백: 기본값 · 배경 그래픽: 켜기',
     present: '현재',
     project: '프로젝트',
@@ -122,6 +124,7 @@ export const labelsMap: Record<Language, Labels> = {
     navAriaLabel: 'Section navigation',
     pageNotFound: 'Page not found',
     printPage: 'Print / PDF',
+    printButtonLabel: 'Save PDF / Print',
     printHint: 'Print → Save as PDF · Margins: Default · Background graphics: on',
     present: 'Present',
     project: 'Project',

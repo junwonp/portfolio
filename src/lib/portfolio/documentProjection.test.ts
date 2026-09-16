@@ -1,23 +1,29 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { GITHUB_PROFILE, LINKEDIN_PROFILE } from '@/config/site';
 import generatedImages from '@/lib/generated/images.json';
 import generatedProjectImages from '@/lib/generated/projectImages.json';
 import { projectCatalog } from '@/lib/portfolio/catalog';
 import {
   buildPortfolioDocument,
   type DocumentProjectBlock,
+  type DocumentProjectSection,
+  type DocumentSection,
+  formatPeriod,
   type PortfolioDocument,
 } from '@/lib/portfolio/documentProjection';
 import { getLabels } from '@/lib/portfolio/labels';
+import * as resume from '@/lib/portfolio/resume';
 import { getResumeData } from '@/lib/portfolio/resume';
 import { PROJECT_ID, type ProjectContentEntry } from '@/lib/portfolio/types';
 
 import {
   extractDeclaredImages,
   extractProjectImages,
+  MAX_PROJECT_IMAGES,
 } from '../../../scripts/lib/projectImages.mjs';
 
 const locales = ['ko', 'en'] as const;
@@ -39,10 +45,15 @@ const catalogProjectById = new Map<string, ProjectContentEntry>(
   projectCatalog.map((project) => [project.id, project]),
 );
 
+const isProjectSection = (section: DocumentSection): section is DocumentProjectSection =>
+  section.kind !== 'skills' && section.kind !== 'education';
+
 const collectBlocks = (document: PortfolioDocument): DocumentProjectBlock[] =>
-  document.sections.flatMap((section) => section.projects);
+  document.sections.flatMap((section) => (isProjectSection(section) ? section.projects : []));
 
 describe('buildPortfolioDocument', () => {
+  afterEach(() => vi.restoreAllMocks());
+
   it('orders sections skills → work → other → archive → education in every locale', () => {
     for (const lang of locales) {
       const document = buildPortfolioDocument(lang);
@@ -59,6 +70,24 @@ describe('buildPortfolioDocument', () => {
       // The renderer derives the numbers from this order; the labels carry no number.
       expect(kinds.indexOf('skills')).toBe(0);
       expect(kinds.indexOf('education')).toBe(kinds.length - 1);
+    }
+  });
+
+  it('carries the skills groups and education entries on their own sections', () => {
+    for (const lang of locales) {
+      const { education, skills } = getResumeData(lang);
+      const sections = buildPortfolioDocument(lang).sections;
+
+      expect(sections[0]).toEqual({
+        groups: skills.map((skill) => ({ title: skill.title, list: [...skill.list] })),
+        kind: 'skills',
+        title: getLabels(lang).sectionSkills,
+      });
+      expect(sections.at(-1)).toEqual({
+        entries: [...education],
+        kind: 'education',
+        title: getLabels(lang).sectionEducation,
+      });
     }
   });
 
@@ -87,15 +116,101 @@ describe('buildPortfolioDocument', () => {
     }
   });
 
-  it('carries the experience role on every work block', () => {
-    const workSection = buildPortfolioDocument('ko').sections.find(
-      (section) => section.kind === 'work',
-    );
-
-    expect(workSection?.projects.length).toBeGreaterThan(0);
-    for (const block of workSection?.projects ?? []) {
-      expect((block.role ?? '').trim()).not.toBe('');
+  it.each(locales)('uses each project role before the career role in %s', (lang) => {
+    const blocks = collectBlocks(buildPortfolioDocument(lang));
+    const careers = getResumeData(lang).workExperiences;
+    for (const project of projectCatalog) {
+      const companyRole = careers.find((career) =>
+        career.project.some((item) => item.id === project.id),
+      )?.role;
+      expect(blocks.find((block) => block.id === project.id)?.role, project.slug).toBe(
+        project.content[lang].detailMetadata?.role || companyRole,
+      );
     }
+  });
+
+  it.each(['hanyang-chatbot', 'kftc-platform', 'election-aggregator'])(
+    'preserves the localized MDX role for %s',
+    (slug) => {
+      const project = projectCatalog.find((entry) => entry.slug === slug);
+      expect(project).toBeDefined();
+      for (const lang of locales) {
+        const source = project?.content[lang].detailMetadata?.role;
+        expect(source).toBeTruthy();
+        expect(
+          collectBlocks(buildPortfolioDocument(lang)).find((block) => block.id === project?.id)
+            ?.role,
+        ).toBe(source);
+      }
+    },
+  );
+
+  it.each(locales)('uses the detail-page date verbatim, including KFTC, in %s', (lang) => {
+    const blocks = collectBlocks(buildPortfolioDocument(lang));
+    for (const project of projectCatalog) {
+      const date = project.content[lang].detailMetadata?.date;
+      // ProjectDetailPage passes this field directly to its date badge.
+      if (date)
+        expect(blocks.find((block) => block.id === project.id)?.period, project.slug).toBe(date);
+    }
+  });
+
+  it.each(locales)(
+    'renders the normalized mnd-dashboard date in the shared scheme in %s',
+    (lang) => {
+      const block = collectBlocks(buildPortfolioDocument(lang)).find(
+        (project) => project.id === PROJECT_ID.mndDashboard,
+      );
+      expect(
+        catalogProjectById.get(PROJECT_ID.mndDashboard)?.content[lang].detailMetadata?.date,
+      ).toBe('2019-06 ~ 2019-09');
+      expect(block?.period).toBe('2019-06 ~ 2019-09');
+    },
+  );
+
+  it.each(locales)('renders every project period in the shared scheme in %s', (lang) => {
+    const { present } = getLabels(lang);
+    // A project without a canonical date used to fall back to a dotted en-dash style; this locks
+    // one scheme for the whole document, with the ongoing word localized.
+    const shared = new RegExp(`^\\d{4}(?:-\\d{2})?(?: ~ (?:\\d{4}(?:-\\d{2})?|${present}))?$`);
+
+    for (const block of collectBlocks(buildPortfolioDocument(lang))) {
+      expect(block.period, block.id).toMatch(shared);
+    }
+  });
+
+  it.each([
+    // Frontmatter carries the canonical `date`, but the projection still needs a fallback for a
+    // project that omits it; the fallback has to match the canonical scheme, not invented months.
+    ['2019-06', '2019-09', '현재', '2019-06 ~ 2019-09'],
+    ['2024', undefined, '현재', '2024 ~ 현재'],
+    ['2026-04', undefined, 'Present', '2026-04 ~ Present'],
+    ['2021-11', '2021-11', 'Present', '2021-11'],
+    ['2026-04-22', '2026-05-03', 'Present', '2026-04 ~ 2026-05'],
+    ['', '2019-09', 'Present', ''],
+  ])(
+    'formats structured dates (%s, %s) as the fallback period',
+    (dateFrom, dateTo, presentLabel, expected) => {
+      expect(formatPeriod(dateFrom, dateTo, presentLabel)).toBe(expected);
+    },
+  );
+
+  it.each(locales)('emits directly usable absolute contact URLs in %s', (lang) => {
+    const { contact } = buildPortfolioDocument(lang);
+    expect(contact).toEqual({ githubLink: GITHUB_PROFILE, linkedinLink: LINKEDIN_PROFILE });
+    for (const link of Object.values(contact)) {
+      expect(new URL(link).protocol).toBe('https:');
+    }
+  });
+
+  it('preserves replacement absolute contact URLs and hides empty contacts', () => {
+    const source = getResumeData('ko');
+    const contact = { githubLink: 'https://github.com/example', linkedinLink: '' };
+    vi.spyOn(resume, 'getResumeData').mockReturnValue({
+      ...source,
+      introduction: { ...source.introduction, ...contact },
+    });
+    expect(buildPortfolioDocument('ko').contact).toEqual(contact);
   });
 
   it('caps bullets at six whole strings and keeps their raw markdown', () => {
@@ -177,7 +292,7 @@ describe('buildPortfolioDocument', () => {
         const screenshot = project?.content[lang].detailMetadata?.image;
         const hasScreenshot = Boolean(screenshot) && screenshot !== 'null';
 
-        expect(block.images.length).toBeLessThanOrEqual(3);
+        expect(block.images.length).toBeLessThanOrEqual(MAX_PROJECT_IMAGES);
         expect(new Set(block.images).size).toBe(block.images.length);
         expect(block.images.every((image) => image.startsWith('/images/'))).toBe(true);
         // ProjectItem.thumbnail prefers the icon; the document never shows it.

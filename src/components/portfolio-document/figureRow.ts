@@ -9,8 +9,7 @@
  * row, exactly the cap the single-figure layout gave that image.
  */
 
-/** A4 content box at 96dpi: the sheet's 8.27in width less its 0.62in side margins (see @page). */
-export const DOC_CONTENT_WIDTH_PX = 8.27 * 96 - 2 * 0.62 * 96;
+import { DOC_CONTENT_WIDTH_PX } from './pageGeometry';
 
 const INCH_PX = 96;
 const MM_PX = INCH_PX / 25.4;
@@ -45,10 +44,21 @@ export interface FigureRow {
   cells: FigureRowCell[];
 }
 
-/** Null when any image lacks a recorded size; the caller then renders the natural-size figure. */
+/** Invalid geometry cannot be sized safely; the caller omits the row. */
 export const layoutFigureRow = (images: readonly FigureRowImage[]): FigureRow | null => {
   if (images.length === 0) return null;
-  if (images.some((image) => !(image.width > 0 && image.height > 0))) return null;
+  if (
+    images.some(
+      (image) =>
+        !Number.isFinite(image.width) ||
+        !Number.isFinite(image.height) ||
+        image.width <= 0 ||
+        image.height <= 0 ||
+        image.width > Number.MAX_SAFE_INTEGER ||
+        image.height > Number.MAX_SAFE_INTEGER,
+    )
+  )
+    return null;
 
   const aspectRatios = images.map((image) => image.width / image.height);
   const caps = images.map((image) =>
@@ -63,6 +73,13 @@ export const layoutFigureRow = (images: readonly FigureRowImage[]): FigureRow | 
     // Floored so the row can never round past the content width.
     Math.floor((availableWidth / aspectRatios.reduce((sum, ratio) => sum + ratio, 0)) * 100) / 100,
   );
+  // Chromium cannot represent image content smaller than one LayoutUnit.
+  if (
+    !Number.isFinite(contentHeight) ||
+    contentHeight < 1 / 64 ||
+    aspectRatios.some((ratio) => !Number.isFinite(ratio) || contentHeight * ratio < 1 / 64)
+  )
+    return null;
 
   return {
     cells: images.map((image) => ({

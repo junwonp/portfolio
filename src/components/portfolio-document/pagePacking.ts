@@ -46,6 +46,21 @@ export const computePageBreaks = (
   items: readonly PageBreakInput[],
   pageContentHeight: number,
 ): PagePacking => {
+  const isPositiveLength = (value: number): boolean =>
+    Number.isFinite(value) && value > 0 && value <= Number.MAX_SAFE_INTEGER;
+  if (!isPositiveLength(pageContentHeight)) {
+    throw new RangeError('Page height must be a finite positive length');
+  }
+  const totalHeight = items.reduce((total, item) => {
+    if (!isPositiveLength(item.height) || !Number.isFinite(item.gapBefore)) {
+      throw new RangeError('Item geometry must be finite with a positive height');
+    }
+    return total + item.height + Math.max(0, item.gapBefore);
+  }, 0);
+  if (!Number.isFinite(totalHeight) || totalHeight > Number.MAX_SAFE_INTEGER) {
+    throw new RangeError('Document geometry exceeds safe numeric precision');
+  }
+
   const pages: PageSpan[] = [];
   const oversizedItemIndexes: number[] = [];
 

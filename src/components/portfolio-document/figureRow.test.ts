@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-  DOC_CONTENT_WIDTH_PX,
   FIGURE_CELL_BORDER_PX,
   FIGURE_CELL_GAP_PX,
   FIGURE_CELL_PADDING_PX,
@@ -9,6 +8,7 @@ import {
   type FigureRowImage,
   layoutFigureRow,
 } from './figureRow';
+import { DOC_CONTENT_WIDTH_PX } from './pageGeometry';
 
 const MM_PX = 96 / 25.4;
 const CHROME_PX = 2 * (FIGURE_CELL_PADDING_PX + FIGURE_CELL_BORDER_PX);
@@ -39,6 +39,19 @@ const contentRatio = (cell: FigureRowCell): number =>
   (cell.width - CHROME_PX) / (cell.height - CHROME_PX);
 
 describe('layoutFigureRow', () => {
+  it.each([NaN, Infinity, -Infinity, 0, -1, Number.MAX_VALUE])(
+    'rejects invalid dimensions: %s',
+    (dimension) => {
+      expect(layoutFigureRow([{ src: '/bad.jpg', width: dimension, height: 1 }])).toBeNull();
+      expect(layoutFigureRow([{ src: '/bad.jpg', width: 1, height: dimension }])).toBeNull();
+    },
+  );
+
+  it('rejects ratios that collapse the image content below a LayoutUnit', () => {
+    expect(layoutFigureRow([{ src: '/bad.jpg', width: 1e9, height: 1 }])).toBeNull();
+    expect(layoutFigureRow([{ src: '/bad.jpg', width: 1, height: 1e9 }])).toBeNull();
+  });
+
   it('keeps a single figure at the cap the previous layout gave it', () => {
     const [landscape] = cellsOf([desktopShot]);
     const [portrait] = cellsOf([phoneShot]);

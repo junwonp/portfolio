@@ -2,13 +2,12 @@ import Image from 'next/image';
 import type { ReactNode } from 'react';
 
 import PrintToolbar from '@/components/print/PrintToolbar';
-import { GITHUB_PROFILE, LINKEDIN_PROFILE } from '@/config/site';
 import type {
   DocumentProjectBlock,
   DocumentSection,
   PortfolioDocument as PortfolioDocumentData,
 } from '@/lib/portfolio/documentProjection';
-import type { EducationProps, MetricItem } from '@/lib/portfolio/homeTypes';
+import type { MetricItem } from '@/lib/portfolio/homeTypes';
 import { getLabels, type Labels } from '@/lib/portfolio/labels';
 import { getPrintImageUrl, getResponsiveImageProps } from '@/lib/utils/image';
 import { parseMarkdown, type TextPart } from '@/lib/utils/markdown';
@@ -16,6 +15,7 @@ import { parseMarkdown, type TextPart } from '@/lib/utils/markdown';
 import { type FigureRowImage, layoutFigureRow } from './figureRow';
 import PageSeams from './PageSeams';
 import * as styles from './PortfolioDocument.css';
+import { PAGE_RULE } from './pageGeometry';
 
 interface PortfolioDocumentProps {
   document: PortfolioDocumentData;
@@ -201,20 +201,18 @@ const formatEducationPeriod = (
 };
 
 interface SectionBlockProps {
-  education: EducationProps[];
   index: number;
   labels: Labels;
   section: DocumentSection;
-  skills: PortfolioDocumentData['skills'];
 }
 
-const SectionBlock = ({ education, index, labels, section, skills }: SectionBlockProps) => {
+const SectionBlock = ({ index, labels, section }: SectionBlockProps) => {
   let body: ReactNode;
 
   if (section.kind === 'skills') {
     body = (
       <dl className={styles.skillList}>
-        {skills.map((group) => (
+        {section.groups.map((group) => (
           <div className={styles.skillRow} key={group.title}>
             <dt className={styles.skillTitle}>{group.title}</dt>
             <dd className={styles.skillValues}>{group.list.join(' · ')}</dd>
@@ -225,7 +223,7 @@ const SectionBlock = ({ education, index, labels, section, skills }: SectionBloc
   } else if (section.kind === 'education') {
     body = (
       <div className={styles.educationList}>
-        {education.map((entry) => (
+        {section.entries.map((entry) => (
           <div className={styles.educationRow} key={entry.school}>
             <div>
               <h3 className={styles.educationSchool}>{entry.school}</h3>
@@ -258,14 +256,18 @@ export default function PortfolioDocument({ document }: PortfolioDocumentProps) 
   const { contact } = document;
 
   return (
-    <main className={styles.shell}>
+    <main className={styles.shell} lang={document.locale}>
       {/* Scoped to this document so only this route prints at true A4 size. */}
-      <style>{'@page { size: A4; margin: 0.6in 0.62in 0.5in }'}</style>
+      <style>{PAGE_RULE}</style>
 
-      <PrintToolbar ariaLabel={labels.printPage} hint={labels.printHint} />
+      <PrintToolbar
+        ariaLabel={labels.printPage}
+        hint={labels.printHint}
+        buttonLabel={labels.printButtonLabel}
+      />
 
       {/* Screen-only preview paper; precedes the sheet so it paints behind it. */}
-      <PageSeams />
+      <PageSeams contentKey={JSON.stringify(document)} />
 
       <article
         aria-label={`${document.name} ${labels.resumeTitle}`}
@@ -281,15 +283,12 @@ export default function PortfolioDocument({ document }: PortfolioDocumentProps) 
             <address className={styles.contact}>
               {contact.githubLink && (
                 <span className={styles.contactItem}>
-                  {/* The projection carries a site path (/github); paper needs the profile URL. */}
-                  <a href={GITHUB_PROFILE}>{GITHUB_PROFILE.replace('https://', '')}</a>
+                  <a href={contact.githubLink}>{toPrintableUrl(contact.githubLink)}</a>
                 </span>
               )}
               {contact.linkedinLink && (
                 <span className={styles.contactItem}>
-                  <a href={LINKEDIN_PROFILE}>
-                    {LINKEDIN_PROFILE.replace(/^https:\/\/(www\.)?/, '')}
-                  </a>
+                  <a href={contact.linkedinLink}>{toPrintableUrl(contact.linkedinLink)}</a>
                 </span>
               )}
             </address>
@@ -313,14 +312,7 @@ export default function PortfolioDocument({ document }: PortfolioDocumentProps) 
         )}
 
         {document.sections.map((section, index) => (
-          <SectionBlock
-            education={document.education}
-            index={index}
-            key={section.kind}
-            labels={labels}
-            section={section}
-            skills={document.skills}
-          />
+          <SectionBlock index={index} key={section.kind} labels={labels} section={section} />
         ))}
       </article>
     </main>

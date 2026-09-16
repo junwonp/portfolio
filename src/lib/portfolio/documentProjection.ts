@@ -1,16 +1,17 @@
-import { GITHUB_PROFILE } from '@/config/site';
+import { GITHUB_PROFILE, GITHUB_USERNAME, LINKEDIN_PROFILE } from '@/config/site';
 import generatedProjectImages from '@/lib/generated/projectImages.json';
 import { projectCatalog } from '@/lib/portfolio/catalog';
 import type { EducationProps, MetricItem, PillarItem } from '@/lib/portfolio/homeTypes';
 import { getLabels } from '@/lib/portfolio/labels';
 import { getResumeData } from '@/lib/portfolio/resume';
 import type { ProjectContentEntry } from '@/lib/portfolio/types';
+import { getGithubHref } from '@/lib/utils/github';
 import type { Language } from '@/lib/utils/language';
+
+import { MAX_PROJECT_IMAGES } from '../../../scripts/lib/projectImages.mjs';
 
 /** summaryDetails is long-form; the document shows at most six lines per project. */
 const maxBulletsPerProject = 6;
-/** Three screenshots share one figure row; more would have to shrink past legibility. */
-const maxImagesPerProject = 3;
 
 export interface DocumentProjectBlock {
   id: string;
@@ -28,11 +29,33 @@ export interface DocumentProjectBlock {
   images: string[];
 }
 
-export interface DocumentSection {
-  kind: 'work' | 'other' | 'archive' | 'skills' | 'education';
+export interface DocumentSkillGroup {
+  title: string;
+  list: string[];
+}
+
+export interface DocumentProjectSection {
+  kind: 'work' | 'other' | 'archive';
   title: string;
   projects: DocumentProjectBlock[];
 }
+
+export interface DocumentSkillsSection {
+  kind: 'skills';
+  title: string;
+  groups: DocumentSkillGroup[];
+}
+
+export interface DocumentEducationSection {
+  kind: 'education';
+  title: string;
+  entries: EducationProps[];
+}
+
+export type DocumentSection =
+  | DocumentEducationSection
+  | DocumentProjectSection
+  | DocumentSkillsSection;
 
 export interface PortfolioDocument {
   name: string;
@@ -45,8 +68,6 @@ export interface PortfolioDocument {
   heroMetrics: MetricItem[];
   pillars: PillarItem[];
   sections: DocumentSection[];
-  education: EducationProps[];
-  skills: { title: string; list: string[] }[];
   locale: Language;
 }
 
@@ -58,7 +79,7 @@ interface BlockDraft {
   featuredSkills?: readonly string[];
   id: string;
   metrics?: readonly MetricItem[];
-  role?: string;
+  companyRole?: string;
   skills?: readonly string[];
   title: string;
 }
@@ -71,11 +92,13 @@ const formatYearMonth = (value: string): string => {
   const [year, month] = value.split('-');
   if (!year) return '';
 
-  // Year-only periods ('2024') stay as-is; day-precision metadata ('2026-04-22') trims to the month.
-  return month ? `${year}.${month}` : year;
+  // Year-only periods ('2024') stay as-is rather than gaining a made-up month;
+  // day-precision metadata ('2026-04-22') trims to the month.
+  return month ? `${year}-${month}` : year;
 };
 
-const formatPeriod = (
+/** Fallback for a project whose frontmatter has no `date`, keeping one scheme across the document. */
+export const formatPeriod = (
   dateFrom: string,
   dateTo: string | undefined,
   presentLabel: string,
@@ -84,28 +107,44 @@ const formatPeriod = (
   if (!start) return '';
 
   // A missing end date means the work is ongoing; the shared label keeps both locales in sync.
-  if (!dateTo) return `${start} – ${presentLabel}`;
+  if (!dateTo) return `${start} ~ ${presentLabel}`;
   // Period.tsx drops a duplicated end date, so a one-month project reads as a single date here too.
   if (dateTo === dateFrom) return start;
 
-  return `${start} – ${formatYearMonth(dateTo)}`;
+  return `${start} ~ ${formatYearMonth(dateTo)}`;
 };
 
 const hasText = (value: string | null | undefined): value is string =>
   typeof value === 'string' && value.trim().length > 0;
 
+const resolveProjectRole = (
+  role: string | undefined,
+  companyRole: string | undefined,
+): string | undefined => (hasText(role) ? role : companyRole);
+
+const resolveProjectPeriod = (
+  date: string | undefined,
+  draft: BlockDraft,
+  presentLabel: string,
+): string => (hasText(date) ? date : formatPeriod(draft.dateFrom, draft.dateTo, presentLabel));
+
+const resolveContactLink = (link: string, alias: string, profile: string): string => {
+  if (!hasText(link)) return '';
+  return link === alias ? profile : new URL(link, `${profile}/`).href;
+};
+
 /** Frontmatter stores a bare repo path; paper needs the URL a reader can type. */
 const resolveGithubLink = (link: string | null | undefined): string | undefined => {
   if (!hasText(link)) return undefined;
 
-  return link.startsWith('http') ? link : `${GITHUB_PROFILE}/${link}`;
+  return getGithubHref(link.startsWith('http') ? link : `${GITHUB_USERNAME}/${link}`);
 };
 
 const generatedImages: Readonly<Record<string, readonly string[]>> = generatedProjectImages;
 
 /** The MDX bodies hold the curated screenshots; the script in scripts/ extracts them per project. */
 const resolveImages = (slug: string): string[] =>
-  (generatedImages[slug] ?? []).filter(hasText).slice(0, maxImagesPerProject);
+  (generatedImages[slug] ?? []).filter(hasText).slice(0, MAX_PROJECT_IMAGES);
 
 const toBlock = (draft: BlockDraft, lang: Language, presentLabel: string): DocumentProjectBlock => {
   const entry = projectById.get(draft.id);
@@ -113,17 +152,13 @@ const toBlock = (draft: BlockDraft, lang: Language, presentLabel: string): Docum
   const techStack = draft.skills?.length ? draft.skills : (draft.featuredSkills ?? []);
   const productLink = hasText(metadata?.productLink) ? metadata.productLink : undefined;
   const githubLink = resolveGithubLink(metadata?.githubLink);
+  const role = resolveProjectRole(metadata?.role, draft.companyRole);
 
   return {
     id: draft.id,
     title: draft.title,
-    // A project without its own dates still needs a period, so the catalog date is the last resort.
-    period: formatPeriod(
-      draft.dateFrom || metadata?.date || '',
-      draft.dateTo ?? metadata?.dateTo,
-      presentLabel,
-    ),
-    ...(draft.role ? { role: draft.role } : {}),
+    period: resolveProjectPeriod(metadata?.date, draft, presentLabel),
+    ...(role ? { role } : {}),
     ...(draft.description ? { summary: draft.description } : {}),
     metrics: [...(draft.metrics ?? [])],
     techStack: [...techStack],
@@ -161,8 +196,12 @@ export function buildPortfolioDocument(lang: Language): PortfolioDocument {
   const sections: DocumentSection[] = [
     // Skills lead: the stack is what a reader scans first, and the renderer
     // derives the section numbers from this order.
-    // The list renders from the top-level field, so this section stays empty.
-    { kind: 'skills', title: labels.sectionSkills, projects: [] },
+    {
+      kind: 'skills',
+      title: labels.sectionSkills,
+      // skillGroupTitles is already applied by getResumeData; no display string is invented here.
+      groups: skills.map((skill) => ({ title: skill.title, list: [...skill.list] })),
+    },
     {
       kind: 'work',
       title: labels.sectionWork,
@@ -174,7 +213,7 @@ export function buildPortfolioDocument(lang: Language): PortfolioDocument {
               // Company dates cover a project that carries no dates of its own.
               dateFrom: project.dateFrom || experience.dateFrom,
               dateTo: project.dateTo ?? experience.dateTo,
-              role: experience.role,
+              companyRole: experience.role,
             },
             lang,
             labels.present,
@@ -206,8 +245,7 @@ export function buildPortfolioDocument(lang: Language): PortfolioDocument {
         ),
       ],
     },
-    // Education renders from the top-level field, so its section stays empty.
-    { kind: 'education', title: labels.sectionEducation, projects: [] },
+    { kind: 'education', title: labels.sectionEducation, entries: [...education] },
   ];
 
   return {
@@ -215,15 +253,12 @@ export function buildPortfolioDocument(lang: Language): PortfolioDocument {
     role: introduction.role,
     tagline: introduction.tagline,
     contact: {
-      githubLink: introduction.githubLink,
-      linkedinLink: introduction.linkedinLink,
+      githubLink: resolveContactLink(introduction.githubLink, '/github', GITHUB_PROFILE),
+      linkedinLink: resolveContactLink(introduction.linkedinLink, '/linkedin', LINKEDIN_PROFILE),
     },
     heroMetrics: [...(introduction.metrics ?? [])],
     pillars: [...(introduction.pillars ?? [])],
     sections,
-    education: [...education],
-    // skillGroupTitles is already applied by getResumeData; no display string is invented here.
-    skills: skills.map((skill) => ({ title: skill.title, list: [...skill.list] })),
     locale: lang,
   };
 }

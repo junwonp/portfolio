@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-
+import { PAGE_CONTENT_HEIGHT_PX } from './pageGeometry';
 import { computePageBreaks, type PageBreakInput } from './pagePacking';
 
 const item = (height: number, gapBefore = 0, forcedBreakBefore = false): PageBreakInput => ({
@@ -9,6 +9,26 @@ const item = (height: number, gapBefore = 0, forcedBreakBefore = false): PageBre
 });
 
 describe('computePageBreaks', () => {
+  it('matches the measured Chromium fragmentainer boundary on its LayoutUnit grid', () => {
+    expect(PAGE_CONTENT_HEIGHT_PX).toBe(1017);
+    expect(computePageBreaks([item(1000), item(17)], PAGE_CONTENT_HEIGHT_PX).pageCount).toBe(1);
+    expect(
+      computePageBreaks([item(1000), item(17 + 1 / 64)], PAGE_CONTENT_HEIGHT_PX).pageCount,
+    ).toBe(2);
+  });
+
+  it.each([NaN, Infinity, -Infinity, 0, -1, Number.MAX_VALUE])(
+    'rejects invalid heights: %s',
+    (height) => {
+      expect(() => computePageBreaks([item(height)], 100)).toThrow(RangeError);
+      expect(() => computePageBreaks([item(10)], height)).toThrow(RangeError);
+    },
+  );
+
+  it.each([NaN, Infinity, Number.MAX_VALUE])('rejects invalid gaps: %s', (gap) => {
+    expect(() => computePageBreaks([item(10, gap)], 100)).toThrow(RangeError);
+  });
+
   it('keeps an exact fit on one page', () => {
     const packing = computePageBreaks([item(60), item(40)], 100);
 

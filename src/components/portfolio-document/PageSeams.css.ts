@@ -1,5 +1,13 @@
 import { style } from '@vanilla-extract/css';
 
+export const warning = style({
+  background: 'var(--doc-paper)',
+  color: 'var(--doc-ink)',
+  padding: '1rem',
+  border: '2px solid currentColor',
+  '@media': { print: { display: 'none' } },
+});
+
 /*
  * The preview's paper, screen only. The printed page breaks belong to the print
  * engine, so this layer gives the preview the same page units by painting one A4
