@@ -38,7 +38,14 @@ for (const file of (await readdir(root, { recursive: true })).sort()) {
     for (const theme of themes) {
       const svgPath = resolve(output, `${hash}-${theme}.svg`);
       await run(input, svgPath, {
-        puppeteerConfig: executablePath ? { executablePath } : {},
+        // `run()` drops mermaid-cli's `headless: 'shell'` default (only its CLI
+        // path sets it), which otherwise boots full Chrome. The shell binary is
+        // faster and ships as a bare Mach-O, so macOS never registers the
+        // transient render processes in the Dock.
+        puppeteerConfig: {
+          headless: 'shell',
+          ...(executablePath ? { executablePath } : {}),
+        },
         parseMMDOptions: {
           backgroundColor: 'transparent',
           mermaidConfig: {
