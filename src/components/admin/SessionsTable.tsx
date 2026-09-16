@@ -33,6 +33,14 @@ const formatLocation = (city: string, regionCode: string): string =>
     .filter((part) => part.length > 0)
     .join(', ');
 
+// timezone/colo are NULL on rows recorded before those columns existed, so an
+// absent or 'unknown' value renders nothing instead of a literal placeholder.
+const formatOptionalLabel = (value: string): string => {
+  const trimmed = value?.trim() ?? '';
+
+  return trimmed.toLowerCase() === 'unknown' ? '' : trimmed;
+};
+
 interface SessionsTableProps {
   sessions: SessionRow[];
   totalCount: number;
@@ -98,6 +106,8 @@ export function SessionsTable({
                 const browserLabel = formatDerivedLabel(session.browser);
                 const osLabel = formatDerivedLabel(session.os);
                 const locationLabel = formatLocation(session.city, session.regionCode);
+                const timezoneLabel = formatOptionalLabel(session.timezone);
+                const coloLabel = formatOptionalLabel(session.colo);
 
                 return (
                   <Fragment key={session.id}>
@@ -154,8 +164,16 @@ export function SessionsTable({
                           {browserLabel} / {osLabel}
                         </span>
                       </td>
-                      <td className={styles.locationCell} title={locationLabel || undefined}>
-                        {locationLabel || <span className={styles.mutedCell}>-</span>}
+                      <td
+                        className={styles.locationCell}
+                        title={
+                          [locationLabel, timezoneLabel].filter(Boolean).join(' · ') || undefined
+                        }
+                      >
+                        <span>{locationLabel || <span className={styles.mutedCell}>-</span>}</span>
+                        {timezoneLabel && (
+                          <span className={styles.deviceDetail}>{timezoneLabel}</span>
+                        )}
                       </td>
                       <td className={styles.noWrapCell}>
                         {formatAcceptLanguage(session.acceptLanguage)}
@@ -164,6 +182,9 @@ export function SessionsTable({
                     {isExpanded && (
                       <tr className={`${styles.expandedRow} ${styles.detailRow}`}>
                         <td className={styles.detailCell} colSpan={9}>
+                          {coloLabel && (
+                            <p className={styles.detailNote}>Cloudflare 엣지: {coloLabel}</p>
+                          )}
                           {detail && detail.pageViews.length > 0 ? (
                             <SessionTimeline detail={detail} />
                           ) : (

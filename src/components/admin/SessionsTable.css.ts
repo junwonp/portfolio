@@ -85,6 +85,14 @@ export const detailCell = style({
   padding: '0 !important',
 });
 
+/* detailCell zeroes its padding, so the note carries its own */
+export const detailNote = style({
+  color: 'var(--color-sub)',
+  fontSize: '0.75rem',
+  margin: 0,
+  padding: '0.75rem 1rem 0',
+});
+
 /* Link cell in sessions table */
 
 export const linkCell = style({

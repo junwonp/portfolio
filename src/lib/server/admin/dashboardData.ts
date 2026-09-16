@@ -36,6 +36,8 @@ export interface SessionRow {
   ipCountry: string;
   city: string;
   regionCode: string;
+  timezone: string;
+  colo: string;
   acceptLanguage: string;
   browser: string;
   os: string;
@@ -733,6 +735,8 @@ const getSessions = async (
         s.ip_country as ipCountry,
         s.city,
         s.region_code as regionCode,
+        s.timezone as timezone,
+        s.colo as colo,
         s.accept_language as acceptLanguage,
         s.browser,
         s.os,
@@ -751,7 +755,7 @@ const getSessions = async (
        LEFT JOIN application_links al ON al.id = alv_link.application_link_id AND al.deleted_at IS NULL
        ${linkJoin}
        ${whereClause}
-       GROUP BY s.id, s.ip_country, s.city, s.region_code, s.accept_language, s.browser, s.os, s.device_type, s.is_bot, s.referrer, s.created_at
+       GROUP BY s.id, s.ip_country, s.city, s.region_code, s.timezone, s.colo, s.accept_language, s.browser, s.os, s.device_type, s.is_bot, s.referrer, s.created_at
        ORDER BY s.created_at DESC`;
 
   // Classification is derived in JS, so a classification filter must see every
@@ -774,6 +778,8 @@ const getSessions = async (
       ipCountry: string;
       city: string;
       regionCode: string;
+      timezone: string;
+      colo: string;
       acceptLanguage: string;
       browser: string;
       os: string;
@@ -802,6 +808,8 @@ const getSessions = async (
       ipCountry: row.ipCountry,
       city: row.city,
       regionCode: row.regionCode,
+      timezone: row.timezone,
+      colo: row.colo,
       acceptLanguage: row.acceptLanguage,
       browser: row.browser,
       os: row.os,
