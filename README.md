@@ -73,6 +73,8 @@ src/
 
 `pnpm install` activates the repository pre-commit hook (`git config core.hooksPath .githooks`). The hook blocks a commit unless Biome, `tsc`, and the unit tests pass; CI runs the same checks in `.github/workflows/verify.yml`, and React Doctor runs in blocking mode.
 
+The A4 print document has an additional layout gate that CI does not run, because it needs a browser: with `pnpm dev` running, `node scripts/verify-print-layout.mjs` measures every project block and section group in both locales against the printable height, compares the on-screen preview's page count with a headless-Chrome PDF, reports the worst block and its headroom, and exits non-zero on any violation. Run it after content or document-style changes.
+
 ## Operational Notes
 
 - Runtime-specific imports such as `cloudflare:workers` are part of the supported production path.
@@ -80,6 +82,7 @@ src/
 - For production-shape validation, prefer `pnpm build`, `pnpm exec vinext check`, and `pnpm exec wrangler deploy --dry-run`.
 - The `develop` deploy environment is intentionally read-only: admin writes stay disabled even if the app is pointed at production-backed bindings.
 - The printable resume is served from `/resume`; production also maps `resume.junwon.dev` to the same Worker via a Cloudflare Workers custom domain route.
+- The A4 portfolio document is served from `/portfolio`, with `?lang=en` selecting English. Like the `/print` routes it is a light-only paper document, and it shares `PrintToolbar` with the resume.
 
 ## Admin Analytics and Short Links
 

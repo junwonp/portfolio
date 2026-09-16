@@ -15,7 +15,7 @@ Four layers, from most reusable to most application-specific. Dependencies flow 
 |---|---|---|---|
 | **Shared infra** | `src/lib/**`, `src/config/**` | Non-UI logic: hooks, utils, styles/tokens, stores, server, domain data models | Reused anywhere, never imports UI |
 | **Primitives (`ui`)** | `src/components/ui/**` | Domain-agnostic building blocks: `Button`, `ButtonGroup`, `Card`, `SectionHeading`, `ProgressBar`, `EmptyState`, `Badge`, `SkillChip`, `Select`, `Collapse`, `ui/icon/*`, … | Reused across all domains |
-| **Domain / feature** | `src/components/portfolio/**`, `src/components/resume/**`, `src/components/print/**`, `src/components/analytics/**`, `src/components/admin/**` | Composed UI owned by one product area (home, navigation, layout, project-detail, resume, print, admin). Domain-aware grouping such as `portfolio/SkillGroups` lives here, not in `ui`. | Reused within that area |
+| **Domain / feature** | `src/components/portfolio/**`, `src/components/portfolio-document/**`, `src/components/resume/**`, `src/components/print/**`, `src/components/analytics/**`, `src/components/admin/**` | Composed UI owned by one product area (home, navigation, layout, project-detail, the A4 print document, resume, print, admin). Domain-aware grouping such as `portfolio/SkillGroups` lives here, not in `ui`. | Reused within that area |
 | **Route / app** | `src/app/**` route files and co-located `_components/` (e.g. `src/app/(portfolio)/_components/`) | Page-specific composition, data wiring, route shells | Not reused elsewhere |
 
 Non-UI logic that several domains share lives in `src/lib/**` (e.g. `lib/analytics/*` for engagement/transport, `lib/server/admin/actions.ts` for admin server actions).
@@ -70,7 +70,7 @@ Prefer moving a component **down** a layer only when it becomes genuinely reused
 The import direction is enforced by **Biome** via `noRestrictedImports` overrides in `biome.json`:
 
 - `src/components/ui/**` may not import any `components/<domain>/**`, `@/lib/portfolio/**`, `@/app/**`, or `next/navigation`.
-- `src/components/{portfolio,resume,print,analytics,admin}/**` and `src/lib/**` may not import `@/app/**`.
+- `src/components/{portfolio,portfolio-document,resume,print,analytics,admin}/**` and `src/lib/**` may not import `@/app/**`.
 - `src/lib/**` may not import `@/components/**`.
 
 Run `pnpm exec biome check` to verify. These rules are path-scoped; if a legitimate exception appears, prefer relocating the dependency over widening the rule.

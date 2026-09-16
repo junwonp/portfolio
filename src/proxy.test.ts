@@ -121,6 +121,8 @@ describe('getDefaultLocaleRewritePathname', () => {
     '/a/applications',
     '/admin',
     '/admin/settings',
+    '/portfolio',
+    '/portfolio/anything',
     '/print',
     '/print/portfolio',
     '/resume',

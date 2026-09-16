@@ -70,6 +70,7 @@
                   {
                     "group": [
                       "@/components/portfolio/**",
+                      "@/components/portfolio-document/**",
                       "@/components/resume/**",
                       "@/components/print/**",
                       "@/components/analytics/**",
@@ -93,6 +94,7 @@
     {
       "includes": [
         "src/components/portfolio/**",
+        "src/components/portfolio-document/**",
         "src/components/resume/**",
         "src/components/print/**",
         "src/components/analytics/**",

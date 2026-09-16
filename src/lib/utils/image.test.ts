@@ -1,4 +1,9 @@
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it, vi } from 'vitest';
+
+import projectImages from '@/lib/generated/projectImages.json';
 
 vi.mock('@/lib/generated/images.json', () => ({
   default: {
@@ -102,5 +107,51 @@ describe('print image assets', () => {
     expect(getPrintImageUrl('/images/empty-print.png')).toBe(
       '/images/generated/empty-print-600.webp',
     );
+  });
+});
+
+interface PrintAsset {
+  printVariants?: { src: string; width: number }[];
+}
+
+/*
+ * The PDF path depends on these JPEGs: Skia re-encodes a WebP losslessly on the
+ * way in (several times larger) while a JPEG embeds as-is. The projection test
+ * only checks that a manifest key exists, so swapping a document screenshot for
+ * one that was never generated would pass every test and silently inflate the
+ * PDF through the WebP fallback. This is the guard for that.
+ */
+describe('document print assets', () => {
+  const publicDirectory = fileURLToPath(new URL('../../../public', import.meta.url));
+
+  it('gives every document image a JPEG print variant that exists on disk', async () => {
+    const actual = await vi.importActual<{ default: Record<string, PrintAsset> }>(
+      '@/lib/generated/images.json',
+    );
+    const images = actual.default;
+    const documentImages = Object.entries(projectImages).flatMap(([slug, sources]) =>
+      sources.map((src) => ({ slug, src })),
+    );
+
+    expect(documentImages.length).toBeGreaterThan(0);
+
+    for (const { slug, src } of documentImages) {
+      const label = `${slug} → ${src}`;
+      const asset = images[src];
+
+      expect(asset, `${label}: the image manifest records no such asset`).toBeDefined();
+      if (!asset) continue;
+
+      const printVariants = asset.printVariants ?? [];
+      expect(printVariants.length, `${label}: no JPEG print variants`).toBeGreaterThan(0);
+
+      for (const variant of printVariants) {
+        expect(variant.src, `${label}: print variant is not a JPEG`).toMatch(/\.jpg$/);
+        expect(
+          existsSync(path.join(publicDirectory, variant.src)),
+          `${label}: ${variant.src} is missing on disk — re-run pnpm generate:media`,
+        ).toBe(true);
+      }
+    }
   });
 });

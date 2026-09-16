@@ -1,7 +1,8 @@
 // Runs before first paint so the saved theme preference applies without a flash.
-// Print routes are light-only documents; portfolio dark mode never applies there.
+// Paper documents (/print, /portfolio) are light-only: their fixed paper/ink
+// values cannot follow the dark palette and would render at unreadable contrast.
 (() => {
-  if (/^\/print(?:\/|$)/.test(location.pathname)) return;
+  if (/^\/(?:print|portfolio)(?:\/|$)/.test(location.pathname)) return;
 
   var theme = null;
   try {
