@@ -1,0 +1,22 @@
+#!/bin/sh
+# Block agent and attribution traces in commit messages so history always reads
+# as if written by the repository owner.
+# Activate with: git config core.hooksPath .githooks
+
+msg_file="$1"
+[ -f "$msg_file" ] || exit 0
+
+# Git strips lines starting with '#' itself, so commented hints must not trip this.
+content=$(grep -v '^#' "$msg_file" || true)
+
+pattern='co-authored-by:[[:space:]]*(claude|cursor|copilot|codex|opencode|gemini)|made-with:[[:space:]]*(cursor|claude|copilot|opencode)|generated (with|by)[[:space:]]*\[?(claude|cursor|copilot|opencode|codex)|assisted-by:|noreply@anthropic\.com|🤖'
+
+if printf '%s' "$content" | grep -Eiq "$pattern"; then
+  printf '\ncommit-msg: blocked — the message carries an agent or attribution trace.\n\n'
+  printf 'Remove the offending line. Commit messages must read as if written by a human developer.\n\n'
+  printf '%s\n' "$content" | grep -Ein "$pattern" | sed 's/^/  /'
+  printf '\n'
+  exit 1
+fi
+
+exit 0
