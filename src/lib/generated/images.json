@@ -55,6 +55,16 @@
         "src": "/images/generated/353204a0d75ea88b-1600.webp",
         "width": 1600
       }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/55663e6cf2830385-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/55663e6cf2830385-768.jpg",
+        "width": 768
+      }
     ]
   },
   "/images/aira/desktop_chat_mobile.jpg": {
@@ -98,6 +108,16 @@
       {
         "src": "/images/generated/0a2d9495c392af6d-1600.webp",
         "width": 1600
+      }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/ed30edc208dffcbc-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/ed30edc208dffcbc-768.jpg",
+        "width": 768
       }
     ]
   },
@@ -209,6 +229,16 @@
         "src": "/images/generated/acdb22e50925a2f1-1206.webp",
         "width": 1206
       }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/4d282c17b2df1556-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/4d282c17b2df1556-768.jpg",
+        "width": 768
+      }
     ]
   },
   "/images/camerafi-studio/icon.webp": {
@@ -296,6 +326,16 @@
       {
         "src": "/images/generated/ba3c17ae9f85d83c-1600.webp",
         "width": 1600
+      }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/611209e35924fd7e-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/611209e35924fd7e-768.jpg",
+        "width": 768
       }
     ]
   },
@@ -517,6 +557,16 @@
         "src": "/images/generated/4e2a071a154c7f5d-1600.webp",
         "width": 1600
       }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/136599cd6f0092e9-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/136599cd6f0092e9-768.jpg",
+        "width": 768
+      }
     ]
   },
   "/images/election-aggregator/2_mobile.jpg": {
@@ -560,6 +610,16 @@
       {
         "src": "/images/generated/21fa833ee6869481-1600.webp",
         "width": 1600
+      }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/ecda3a3aa00b012b-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/ecda3a3aa00b012b-768.jpg",
+        "width": 768
       }
     ]
   },
@@ -861,6 +921,16 @@
         "src": "/images/generated/d6e884989491fd11-800.webp",
         "width": 800
       }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/295335aec875cfbd-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/295335aec875cfbd-768.jpg",
+        "width": 768
+      }
     ]
   },
   "/images/hanyang-chatbot/fullscreen.webp": {
@@ -886,6 +956,16 @@
       {
         "src": "/images/generated/97d613b3fb2b3a12-1600.webp",
         "width": 1600
+      }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/ef8a09f0838f08be-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/ef8a09f0838f08be-768.jpg",
+        "width": 768
       }
     ]
   },
@@ -913,6 +993,16 @@
         "src": "/images/generated/2845e517da8ccd4e-1600.webp",
         "width": 1600
       }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/7e62aa1ec9589b48-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/7e62aa1ec9589b48-768.jpg",
+        "width": 768
+      }
     ]
   },
   "/images/nextjs-portfolio/2.webp": {
@@ -931,6 +1021,16 @@
         "src": "/images/generated/f8216a9b5b7db42d-860.webp",
         "width": 860
       }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/0c548efd87e9553e-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/0c548efd87e9553e-768.jpg",
+        "width": 768
+      }
     ]
   },
   "/images/oneline-bank/1.webp": {
@@ -943,6 +1043,16 @@
       },
       {
         "src": "/images/generated/e0566687d354182a-564.webp",
+        "width": 564
+      }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/14f602d1477832a1-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/14f602d1477832a1-564.jpg",
         "width": 564
       }
     ]
@@ -959,6 +1069,16 @@
         "src": "/images/generated/d5bc1bcd7ec59618-520.webp",
         "width": 520
       }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/2e4ebc8bd4b6d7c5-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/2e4ebc8bd4b6d7c5-520.jpg",
+        "width": 520
+      }
     ]
   },
   "/images/oneline-bank/3.webp": {
@@ -971,6 +1091,16 @@
       },
       {
         "src": "/images/generated/e6c1eb2f30351a56-564.webp",
+        "width": 564
+      }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/40a50156864be8cc-480.jpg",
+        "width": 480
+      },
+      {
+        "src": "/images/generated/40a50156864be8cc-564.jpg",
         "width": 564
       }
     ]
@@ -1067,6 +1197,12 @@
     "variants": [
       {
         "src": "/images/generated/99f29427e4ce8873-430.webp",
+        "width": 430
+      }
+    ],
+    "printVariants": [
+      {
+        "src": "/images/generated/d13a3080ff4ddc1a-430.jpg",
         "width": 430
       }
     ]

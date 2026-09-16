@@ -1,0 +1,23 @@
+{
+  "aira": [
+    "/images/aira/v2_main.webp",
+    "/images/aira/desktop_main.webp",
+    "/images/aira/desktop_chat.webp"
+  ],
+  "election-aggregator": [
+    "/images/election-aggregator/1.webp",
+    "/images/election-aggregator/2.webp",
+    "/images/election-aggregator/3.webp"
+  ],
+  "hanyang-chatbot": [
+    "/images/hanyang-chatbot/fullscreen.webp",
+    "/images/hanyang-chatbot/chat-closeup.webp"
+  ],
+  "nextjs-portfolio": ["/images/nextjs-portfolio/1.webp", "/images/nextjs-portfolio/2.webp"],
+  "oneline-bank": [
+    "/images/oneline-bank/1.webp",
+    "/images/oneline-bank/2.webp",
+    "/images/oneline-bank/3.webp"
+  ],
+  "today-weather": ["/images/today-weather/web-home.png"]
+}

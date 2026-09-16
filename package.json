@@ -18,7 +18,7 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "prepare": "git config core.hooksPath .githooks || true",
-    "generate:media": "node scripts/generate-images.mjs && node scripts/generate-diagrams.mjs"
+    "generate:media": "node scripts/generate-images.mjs && node scripts/generate-diagrams.mjs && node scripts/generate-project-images.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
