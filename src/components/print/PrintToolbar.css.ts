@@ -16,6 +16,32 @@ export const toolbar = style({
   },
 });
 
+export const hint = style({
+  // Plain text: shaped as a glass pill it read as a second button beside the print button.
+  color: '#3f3f3f',
+  font: '500 0.72rem/1.3 var(--font-family-text), sans-serif',
+  left: '50%',
+  margin: 0,
+  position: 'absolute',
+  textAlign: 'center',
+  transform: 'translateX(-50%)',
+  whiteSpace: 'nowrap',
+  // Sits above the fixed button so it never collides with the viewport edge.
+  bottom: 'calc(100% + 0.5rem)',
+
+  '@media': {
+    '(max-width: 420px)': {
+      font: '500 0.66rem/1.3 var(--font-family-text), sans-serif',
+    },
+  },
+
+  selectors: {
+    '.dark &': {
+      color: '#cbd5e1',
+    },
+  },
+});
+
 export const printButton = style({
   alignItems: 'center',
   background: 'rgba(255, 255, 255, 0.75)',

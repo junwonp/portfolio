@@ -20,7 +20,9 @@ export interface Labels {
   navAriaLabel: string;
   pageNotFound: string;
   paradigmAgentic: string;
+  paradigmLegend: string;
   printPage: string;
+  printHint: string;
   paradigmAssisted: string;
   present: string;
   project: string;
@@ -32,6 +34,7 @@ export interface Labels {
   sectionEducation: string;
   sectionIntro: string;
   sectionAwards: string;
+  sectionProjects: string;
   sectionSkills: string;
   sectionWork: string;
   tabEducation: string;
@@ -72,7 +75,9 @@ export const labelsMap: Record<Language, Labels> = {
     navAriaLabel: '섹션 탐색',
     pageNotFound: '페이지를 찾을 수 없습니다',
     paradigmAgentic: 'AI 보조·검증형',
+    paradigmLegend: '"AI 보조" 표시는 AI 도구를 활용해 개발하고 검증한 프로젝트를 뜻합니다',
     printPage: '인쇄 / PDF',
+    printHint: '인쇄 → PDF로 저장 · 여백: 기본값 · 배경 그래픽: 켜기',
     paradigmAssisted: 'AI 보조',
     present: '현재',
     project: '프로젝트',
@@ -84,6 +89,7 @@ export const labelsMap: Record<Language, Labels> = {
     sectionEducation: '학력',
     sectionIntro: '소개',
     sectionAwards: '수상 및 프로젝트',
+    sectionProjects: '프로젝트',
     sectionSkills: '기술 스택',
     sectionWork: '경력',
     tabEducation: '학력',
@@ -122,7 +128,9 @@ export const labelsMap: Record<Language, Labels> = {
     navAriaLabel: 'Section navigation',
     pageNotFound: 'Page not found',
     paradigmAgentic: 'AI-assisted & verified',
+    paradigmLegend: '"AI Assisted" marks projects built and verified with AI tooling',
     printPage: 'Print / PDF',
+    printHint: 'Print → Save as PDF · Margins: Default · Background graphics: on',
     paradigmAssisted: 'AI Assisted',
     present: 'Present',
     project: 'Project',
@@ -134,6 +142,7 @@ export const labelsMap: Record<Language, Labels> = {
     sectionEducation: 'Education',
     sectionIntro: 'Introduction',
     sectionAwards: 'Awards & Projects',
+    sectionProjects: 'Projects',
     sectionSkills: 'Skills Set',
     sectionWork: 'Work Experience',
     tabEducation: 'Education',
