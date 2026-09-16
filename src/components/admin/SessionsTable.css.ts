@@ -16,8 +16,21 @@ export const referrerCell = style({
   whiteSpace: 'nowrap',
 });
 
-export const uaCell = style({
-  maxWidth: '280px',
+export const deviceCell = style({
+  maxWidth: '240px',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
+export const deviceDetail = style({
+  color: 'var(--color-sub)',
+  fontSize: '0.75rem',
+  marginLeft: '0.35rem',
+});
+
+export const locationCell = style({
+  maxWidth: '180px',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
@@ -70,11 +83,6 @@ export const detailRow = style({
 
 export const detailCell = style({
   padding: '0 !important',
-});
-
-export const uaPreview = style({
-  color: 'var(--color-sub)',
-  fontSize: '0.75rem',
 });
 
 /* Link cell in sessions table */

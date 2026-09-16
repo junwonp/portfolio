@@ -37,6 +37,9 @@ export function DashboardClient({
   trafficRange,
   trafficSummary,
   webVitals,
+  localeSwitches,
+  outboundLinks,
+  themeToggles,
   initialTab,
   sessions,
   totalSessionCount,
@@ -139,6 +142,9 @@ export function DashboardClient({
           topReferrers={topReferrers}
           topCountries={topCountries}
           webVitals={webVitals}
+          localeSwitches={localeSwitches}
+          outboundLinks={outboundLinks}
+          themeToggles={themeToggles}
           sessions={sessions}
           totalSessionCount={totalSessionCount}
           sessionDetails={sessionDetails}

@@ -9,6 +9,7 @@ import { getApplicationLinkPathname } from '@/lib/utils/applicationSlug';
 import * as shared from './adminShared.css';
 import * as styles from './DashboardAnalyticsPanel.css';
 import { DetailsGrid } from './DetailsGrid';
+import { InteractionInsightsPanel } from './InteractionInsightsPanel';
 import { SessionsTable } from './SessionsTable';
 import { StatsGrid } from './StatsGrid';
 import { TrendChart } from './TrendChart';
@@ -24,6 +25,9 @@ export function DashboardAnalyticsPanel({
   topReferrers,
   topCountries,
   webVitals,
+  outboundLinks,
+  themeToggles,
+  localeSwitches,
   sessions,
   totalSessionCount,
   sessionDetails,
@@ -97,6 +101,12 @@ export function DashboardAnalyticsPanel({
         topReferrers={topReferrers}
         topCountries={topCountries}
         webVitals={webVitals}
+      />
+
+      <InteractionInsightsPanel
+        outboundLinks={outboundLinks}
+        themeToggles={themeToggles}
+        localeSwitches={localeSwitches}
       />
 
       <SessionsTable

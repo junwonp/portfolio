@@ -34,9 +34,15 @@ export interface SessionRow {
   createdAt: string;
   id: string;
   ipCountry: string;
+  city: string;
+  regionCode: string;
+  acceptLanguage: string;
+  browser: string;
+  os: string;
+  deviceType: string;
+  isBot: number;
   pageViewsCount: number;
   referrer: string;
-  userAgent: string;
   classification: 'bot' | 'suspected' | 'human';
   applicationLinkSlug: string | null;
   applicationLinkLabel: string | null;
@@ -74,11 +80,19 @@ export interface GetSessionsParams {
   offset: number;
 }
 
+export interface InteractionCount {
+  count: number;
+  label: string;
+}
+
 export interface AdminDashboardData {
   applicationFilterOptions: ApplicationFilterOption[];
   applicationLinks: ApplicationLinkStats[];
   applicationProjectOptions: ApplicationProjectOption[];
   dailyChart: DailyChartPoint[];
+  localeSwitches: InteractionCount[];
+  outboundLinks: InteractionCount[];
+  themeToggles: InteractionCount[];
   initialTab: 'analytics' | 'links';
   selectedApplicationLinkId: string;
   stats: {
@@ -126,10 +140,13 @@ export type DashboardAnalyticsPanelProps = Pick<
   AdminDashboardData,
   | 'applicationFilterOptions'
   | 'dailyChart'
+  | 'localeSwitches'
+  | 'outboundLinks'
   | 'selectedApplicationLinkId'
   | 'sessionDetails'
   | 'sessions'
   | 'stats'
+  | 'themeToggles'
   | 'topCountries'
   | 'topPages'
   | 'topReferrers'
@@ -221,6 +238,9 @@ const createEmptyAdminDashboardData = ({
     applicationLinks: [],
     applicationProjectOptions,
     dailyChart,
+    localeSwitches: [],
+    outboundLinks: [],
+    themeToggles: [],
     initialTab: getInitialTab(searchParams),
     selectedApplicationLinkId: '',
     stats: {
@@ -529,6 +549,62 @@ const getTopReferrers = async ({
   return result.results;
 };
 
+const INTERACTION_TOP_LIMIT = 10;
+
+type InteractionCountField = 'localeSwitches' | 'outboundLinks' | 'themeToggles';
+
+// Accordion rows are session detail, not dashboard insight, so only the three
+// aggregate interaction types map to an insight panel.
+const INTERACTION_COUNT_FIELD_BY_TYPE: Record<string, InteractionCountField> = {
+  locale_switch: 'localeSwitches',
+  outbound_link: 'outboundLinks',
+  theme_toggle: 'themeToggles',
+};
+
+const getInteractionCounts = async ({
+  db,
+  rangeEnd,
+  rangeStart,
+}: AdminDashboardQueryContext): Promise<Pick<AdminDashboardData, InteractionCountField>> => {
+  // One grouped query covers all three types: a per-type SQL LIMIT could let
+  // one type starve the others, so the cut to ten happens per type in JS.
+  const result = await db
+    .prepare(
+      `SELECT
+        analytics_interactions.interaction_type as interactionType,
+        analytics_interactions.interaction_label as label,
+        COUNT(*) as count
+       FROM analytics_interactions
+       JOIN user_sessions s ON s.id = analytics_interactions.session_id
+       WHERE strftime('%Y-%m-%d', analytics_interactions.created_at) BETWEEN ? AND ?
+        AND s.is_admin = 0
+       GROUP BY analytics_interactions.interaction_type, analytics_interactions.interaction_label
+       ORDER BY count DESC`,
+    )
+    .bind(rangeStart, rangeEnd)
+    .all<{ count: number; interactionType: string; label: string }>();
+
+  const counts: Record<InteractionCountField, InteractionCount[]> = {
+    localeSwitches: [],
+    outboundLinks: [],
+    themeToggles: [],
+  };
+
+  for (const row of result.results) {
+    const field = INTERACTION_COUNT_FIELD_BY_TYPE[row.interactionType];
+
+    if (field) {
+      counts[field].push({ count: row.count, label: row.label });
+    }
+  }
+
+  return {
+    localeSwitches: counts.localeSwitches.slice(0, INTERACTION_TOP_LIMIT),
+    outboundLinks: counts.outboundLinks.slice(0, INTERACTION_TOP_LIMIT),
+    themeToggles: counts.themeToggles.slice(0, INTERACTION_TOP_LIMIT),
+  };
+};
+
 const getTopCountries = async ({
   db,
   hasApplicationFilter,
@@ -611,39 +687,12 @@ const getApplicationLinks = async (db: D1Database): Promise<ApplicationLinkStats
 };
 
 const classifySession = (
-  ua: string,
+  isBot: number,
   totalDwell: number,
   totalScroll: number,
   views: number,
 ): 'bot' | 'suspected' | 'human' => {
-  const lowercaseUa = ua.toLowerCase();
-
-  const botKeywords = [
-    'bot',
-    'spider',
-    'crawler',
-    'python-requests',
-    'go-http-client',
-    'curl',
-    'wget',
-    'http-client',
-    'zgrab',
-    'censys',
-    'masscan',
-    'headlesschrome',
-    'http_request',
-    'axios',
-    'node-fetch',
-    'fetch',
-    'java/',
-    'scrip',
-  ];
-
-  if (!ua || ua === 'unknown' || ua.trim() === '') {
-    return 'bot';
-  }
-
-  if (botKeywords.some((keyword) => lowercaseUa.includes(keyword))) {
+  if (isBot === 1) {
     return 'bot';
   }
 
@@ -682,7 +731,13 @@ const getSessions = async (
   const listSql = `SELECT
         s.id,
         s.ip_country as ipCountry,
-        s.user_agent as userAgent,
+        s.city,
+        s.region_code as regionCode,
+        s.accept_language as acceptLanguage,
+        s.browser,
+        s.os,
+        s.device_type as deviceType,
+        s.is_bot as isBot,
         s.referrer,
         s.created_at as createdAt,
         COUNT(p.id) as pageViewsCount,
@@ -696,7 +751,7 @@ const getSessions = async (
        LEFT JOIN application_links al ON al.id = alv_link.application_link_id AND al.deleted_at IS NULL
        ${linkJoin}
        ${whereClause}
-       GROUP BY s.id, s.ip_country, s.user_agent, s.referrer, s.created_at
+       GROUP BY s.id, s.ip_country, s.city, s.region_code, s.accept_language, s.browser, s.os, s.device_type, s.is_bot, s.referrer, s.created_at
        ORDER BY s.created_at DESC`;
 
   // Classification is derived in JS, so a classification filter must see every
@@ -717,9 +772,15 @@ const getSessions = async (
       createdAt: string;
       id: string;
       ipCountry: string;
+      city: string;
+      regionCode: string;
+      acceptLanguage: string;
+      browser: string;
+      os: string;
+      deviceType: string;
+      isBot: number;
       pageViewsCount: number;
       referrer: string;
-      userAgent: string;
       totalDwellTime: number;
       totalScrollDepth: number;
       applicationLinkSlug: string | null;
@@ -730,7 +791,7 @@ const getSessions = async (
 
   const sessions = result.results.map((row) => {
     const classification = classifySession(
-      row.userAgent,
+      row.isBot,
       row.totalDwellTime,
       row.totalScrollDepth,
       row.pageViewsCount,
@@ -739,7 +800,13 @@ const getSessions = async (
     return {
       id: row.id,
       ipCountry: row.ipCountry,
-      userAgent: row.userAgent,
+      city: row.city,
+      regionCode: row.regionCode,
+      acceptLanguage: row.acceptLanguage,
+      browser: row.browser,
+      os: row.os,
+      deviceType: row.deviceType,
+      isBot: row.isBot,
       referrer: row.referrer,
       createdAt: row.createdAt,
       pageViewsCount: row.pageViewsCount,
@@ -905,6 +972,7 @@ export const getAdminDashboardData = async ({
       topCountries,
       applicationLinks,
       webVitals,
+      interactionCounts,
       sessionsResult,
     ] = await Promise.all([
       getStats(context),
@@ -914,6 +982,7 @@ export const getAdminDashboardData = async ({
       getTopCountries(context),
       getApplicationLinks(db),
       getWebVitals(context),
+      getInteractionCounts(context),
       getSessions(db, sessionFilters),
     ]);
 
@@ -924,6 +993,9 @@ export const getAdminDashboardData = async ({
       applicationLinks,
       applicationProjectOptions,
       dailyChart,
+      localeSwitches: interactionCounts.localeSwitches,
+      outboundLinks: interactionCounts.outboundLinks,
+      themeToggles: interactionCounts.themeToggles,
       initialTab: getInitialTab(searchParams),
       selectedApplicationLinkId: selectedApplicationLinkId?.toString() ?? '',
       stats,

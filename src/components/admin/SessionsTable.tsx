@@ -10,9 +10,28 @@ import type { SessionDetail, SessionRow } from '@/lib/server/admin/dashboardData
 import { formatDateTime } from '@/lib/utils/date';
 
 import * as shared from './adminShared.css';
+import { formatAcceptLanguage } from './dashboardLabels';
 import { SessionFilters } from './SessionFilters';
 import * as styles from './SessionsTable.css';
 import { SessionTimeline } from './SessionTimeline';
+
+const UNKNOWN_LABEL = '알 수 없음';
+
+const formatDerivedLabel = (value: string): string => {
+  const trimmed = value?.trim() ?? '';
+
+  if (!trimmed || trimmed.toLowerCase() === 'unknown') {
+    return UNKNOWN_LABEL;
+  }
+
+  return `${trimmed.charAt(0).toUpperCase()}${trimmed.slice(1)}`;
+};
+
+const formatLocation = (city: string, regionCode: string): string =>
+  [city, regionCode]
+    .map((part) => part?.trim() ?? '')
+    .filter((part) => part.length > 0)
+    .join(', ');
 
 interface SessionsTableProps {
   sessions: SessionRow[];
@@ -66,13 +85,19 @@ export function SessionsTable({
                 <th scope="col" className={shared.num}>
                   조회
                 </th>
-                <th scope="col">정보</th>
+                <th scope="col">기기</th>
+                <th scope="col">위치</th>
+                <th scope="col">언어</th>
               </tr>
             </thead>
             <tbody>
               {sessions.map((session) => {
                 const isExpanded = expandedSession === session.id;
                 const detail = sessionDetails[session.id];
+                const deviceLabel = formatDerivedLabel(session.deviceType);
+                const browserLabel = formatDerivedLabel(session.browser);
+                const osLabel = formatDerivedLabel(session.os);
+                const locationLabel = formatLocation(session.city, session.regionCode);
 
                 return (
                   <Fragment key={session.id}>
@@ -120,17 +145,25 @@ export function SessionsTable({
                         {session.referrer}
                       </td>
                       <td className={shared.num}>{session.pageViewsCount}</td>
-                      <td className={styles.uaCell}>
-                        <span className={styles.uaPreview} title={session.userAgent}>
-                          {session.userAgent
-                            .replace(/Mozilla\/5\.0\s*\(/.exec(session.userAgent)?.[0] ?? '', '')
-                            .slice(0, 60)}
+                      <td
+                        className={styles.deviceCell}
+                        title={`${deviceLabel} · ${browserLabel} / ${osLabel}`}
+                      >
+                        <span>{deviceLabel}</span>
+                        <span className={styles.deviceDetail}>
+                          {browserLabel} / {osLabel}
                         </span>
+                      </td>
+                      <td className={styles.locationCell} title={locationLabel || undefined}>
+                        {locationLabel || <span className={styles.mutedCell}>-</span>}
+                      </td>
+                      <td className={styles.noWrapCell}>
+                        {formatAcceptLanguage(session.acceptLanguage)}
                       </td>
                     </tr>
                     {isExpanded && (
                       <tr className={`${styles.expandedRow} ${styles.detailRow}`}>
-                        <td className={styles.detailCell} colSpan={7}>
+                        <td className={styles.detailCell} colSpan={9}>
                           {detail && detail.pageViews.length > 0 ? (
                             <SessionTimeline detail={detail} />
                           ) : (
