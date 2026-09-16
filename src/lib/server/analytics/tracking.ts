@@ -1,29 +1,72 @@
 import type { AnalyticsPayloadBody } from '@/lib/server/analytics/payload';
 import { ensureAnalyticsStorageSchema } from '@/lib/server/analytics/schema';
+import { parseUserAgent } from '@/lib/server/analytics/userAgent';
 import type { ApplicationLinkRow } from '@/lib/server/application-links/model';
 import { extractApplicationSlugFromReferrer } from '@/lib/utils/applicationSlug';
 
 interface RecordAnalyticsPayloadInput {
+  acceptLanguage: string;
+  city: string;
+  colo: string;
   country: string;
   db: D1Database;
   payload: AnalyticsPayloadBody;
+  regionCode: string;
+  timezone: string;
+  userAgentHeader: string;
 }
 
 const bindNullableText = (value: string | undefined): string | null => value ?? null;
 
 export const recordAnalyticsPayload = async ({
+  acceptLanguage,
+  city,
+  colo,
   country,
   db,
   payload,
+  regionCode,
+  timezone,
+  userAgentHeader,
 }: RecordAnalyticsPayloadInput): Promise<void> => {
   await ensureAnalyticsStorageSchema(db);
 
+  const { browser, deviceType, isBot, os } = parseUserAgent(userAgentHeader);
+
   await db
     .prepare(
-      `INSERT OR IGNORE INTO user_sessions (id, ip_country, user_agent, referrer, is_admin)
-       VALUES (?, ?, ?, ?, ?)`,
+      `INSERT OR IGNORE INTO user_sessions (
+        id,
+        ip_country,
+        referrer,
+        is_admin,
+        city,
+        region_code,
+        timezone,
+        colo,
+        accept_language,
+        browser,
+        os,
+        device_type,
+        is_bot
+      )
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
-    .bind(payload.sessionId, country, payload.userAgent, payload.referrer, 0)
+    .bind(
+      payload.sessionId,
+      country,
+      payload.referrer,
+      0,
+      city,
+      regionCode,
+      timezone,
+      colo,
+      acceptLanguage,
+      browser,
+      os,
+      deviceType,
+      isBot,
+    )
     .run();
 
   // Recover attribution for new-tab navigation: the path has no slug, but the

@@ -8,6 +8,15 @@ CREATE TABLE IF NOT EXISTS user_sessions (
   user_agent TEXT,
   referrer TEXT,
   is_admin INTEGER DEFAULT 0,
+  city TEXT,
+  region_code TEXT,
+  timezone TEXT,
+  colo TEXT,
+  accept_language TEXT,
+  browser TEXT,
+  os TEXT,
+  device_type TEXT,
+  is_bot INTEGER DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

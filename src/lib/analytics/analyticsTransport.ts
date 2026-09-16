@@ -57,7 +57,6 @@ export function sendAnalyticsPayload(
     // even when the session-creating initial beacon is lost
     referrer: document.referrer || 'direct',
     sessionId: currentSessionId,
-    userAgent: navigator.userAgent,
     ...data,
   });
 

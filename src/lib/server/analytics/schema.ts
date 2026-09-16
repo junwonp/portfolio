@@ -18,7 +18,15 @@ export const ensureAnalyticsStorageSchema = async (db: D1Database): Promise<void
     return;
   }
 
-  await addColumnIfMissing(db, 'ALTER TABLE user_sessions ADD COLUMN ip_address TEXT');
+  await addColumnIfMissing(db, 'ALTER TABLE user_sessions ADD COLUMN city TEXT');
+  await addColumnIfMissing(db, 'ALTER TABLE user_sessions ADD COLUMN region_code TEXT');
+  await addColumnIfMissing(db, 'ALTER TABLE user_sessions ADD COLUMN timezone TEXT');
+  await addColumnIfMissing(db, 'ALTER TABLE user_sessions ADD COLUMN colo TEXT');
+  await addColumnIfMissing(db, 'ALTER TABLE user_sessions ADD COLUMN accept_language TEXT');
+  await addColumnIfMissing(db, 'ALTER TABLE user_sessions ADD COLUMN browser TEXT');
+  await addColumnIfMissing(db, 'ALTER TABLE user_sessions ADD COLUMN os TEXT');
+  await addColumnIfMissing(db, 'ALTER TABLE user_sessions ADD COLUMN device_type TEXT');
+  await addColumnIfMissing(db, 'ALTER TABLE user_sessions ADD COLUMN is_bot INTEGER DEFAULT 0');
 
   await addColumnIfMissing(db, 'ALTER TABLE page_views ADD COLUMN client_page_view_id TEXT');
   await addColumnIfMissing(db, 'ALTER TABLE page_views ADD COLUMN active_time INTEGER DEFAULT 0');

@@ -12,7 +12,6 @@ describe('parseAnalyticsPayloadBody', () => {
         referrer: '  https://example.com  ',
         scrollDepth: 120,
         sessionId: 'session-1',
-        userAgent: 'Vitest',
       }),
     ).toEqual({
       applicationSlug: undefined,
@@ -28,7 +27,6 @@ describe('parseAnalyticsPayloadBody', () => {
       referrer: 'https://example.com',
       scrollDepth: 100,
       sessionId: 'session-1',
-      userAgent: 'Vitest',
     });
   });
 
@@ -45,7 +43,6 @@ describe('parseAnalyticsPayloadBody', () => {
         referrer: 'direct',
         scrollDepth: 86,
         sessionId: 'session-1',
-        userAgent: 'Vitest',
       }),
     ).toMatchObject({
       activeTime: 45,
@@ -70,7 +67,6 @@ describe('parseAnalyticsPayloadBody', () => {
         path: '/projects/aira',
         referrer: 'direct',
         sessionId: 'session-1',
-        userAgent: 'Vitest',
       }),
     ).toEqual({
       eventType: 'web-vital',
@@ -83,7 +79,6 @@ describe('parseAnalyticsPayloadBody', () => {
       path: '/projects/aira',
       referrer: 'direct',
       sessionId: 'session-1',
-      userAgent: 'Vitest',
     });
   });
 
@@ -96,7 +91,6 @@ describe('parseAnalyticsPayloadBody', () => {
         referrer: 'direct',
         scrollDepth: 0,
         sessionId: 'session-1',
-        userAgent: 'Vitest',
       })?.applicationSlug,
     ).toBe('abcd');
   });
@@ -110,7 +104,6 @@ describe('parseAnalyticsPayloadBody', () => {
         referrer: 'direct',
         scrollDepth: 0,
         sessionId: 'session-1',
-        userAgent: 'Vitest',
       })?.applicationSlug,
     ).toBeUndefined();
 
@@ -122,7 +115,6 @@ describe('parseAnalyticsPayloadBody', () => {
         referrer: 'direct',
         scrollDepth: 0,
         sessionId: 'session-1',
-        userAgent: 'Vitest',
       })?.applicationSlug,
     ).toBeUndefined();
   });

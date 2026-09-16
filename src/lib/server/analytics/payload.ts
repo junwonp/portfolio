@@ -18,7 +18,6 @@ export interface AnalyticsPayload {
   referrer: string;
   scrollDepth: number;
   sessionId: string;
-  userAgent: string;
 }
 
 export interface WebVitalAnalyticsPayload {
@@ -33,7 +32,6 @@ export interface WebVitalAnalyticsPayload {
   path?: string;
   referrer: string;
   sessionId: string;
-  userAgent: string;
 }
 
 export interface InteractionPayload {
@@ -45,7 +43,6 @@ export interface InteractionPayload {
   path?: string;
   referrer: string;
   sessionId: string;
-  userAgent: string;
 }
 
 export type AnalyticsPayloadBody = AnalyticsPayload | WebVitalAnalyticsPayload | InteractionPayload;
@@ -61,7 +58,6 @@ const MAX_SECTION_ID_LENGTH = 256;
 const MAX_SECTION_LABEL_LENGTH = 240;
 const MAX_SESSION_ID_LENGTH = 128;
 const MAX_URL_PATH_LENGTH = 2048;
-const MAX_USER_AGENT_LENGTH = 500;
 
 const getClampedInteger = (value: unknown, min: number, max: number): number => {
   if (typeof value !== 'number' || !Number.isFinite(value)) {
@@ -153,7 +149,6 @@ export const parseAnalyticsPayloadBody = (rawBody: unknown): AnalyticsPayloadBod
   const applicationSlug =
     getOptionalSlug(body.applicationSlug) ?? extractApplicationSlugFromPath(path);
   const referrer = getStringOrFallback(body.referrer, 'direct', MAX_REFERRER_LENGTH);
-  const userAgent = getStringOrFallback(body.userAgent, 'unknown', MAX_USER_AGENT_LENGTH);
 
   if (body.eventType === 'web-vital') {
     const metricId = getRequiredString(body.metricId, MAX_METRIC_ID_LENGTH);
@@ -181,7 +176,6 @@ export const parseAnalyticsPayloadBody = (rawBody: unknown): AnalyticsPayloadBod
       path,
       referrer,
       sessionId,
-      userAgent,
     };
   }
 
@@ -204,7 +198,6 @@ export const parseAnalyticsPayloadBody = (rawBody: unknown): AnalyticsPayloadBod
       path,
       referrer,
       sessionId,
-      userAgent,
     };
   }
 
@@ -226,6 +219,5 @@ export const parseAnalyticsPayloadBody = (rawBody: unknown): AnalyticsPayloadBod
     referrer,
     scrollDepth: getClampedInteger(body.scrollDepth, 0, 100),
     sessionId,
-    userAgent,
   };
 };

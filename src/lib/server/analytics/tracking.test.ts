@@ -3,6 +3,24 @@ import { describe, expect, it } from 'vitest';
 import type { AnalyticsPayloadBody } from '@/lib/server/analytics/payload';
 import { recordAnalyticsPayload } from '@/lib/server/analytics/tracking';
 
+const CHROME_DESKTOP_UA =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
+  'Chrome/120.0.0.0 Safari/537.36';
+
+const SAFARI_IOS_UA =
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) ' +
+  'Version/17.0 Mobile/15E148 Safari/604.1';
+
+const SESSION_CONTEXT = {
+  acceptLanguage: 'en-us',
+  city: 'Seoul',
+  colo: 'ICN',
+  country: 'KR',
+  regionCode: '11',
+  timezone: 'Asia/Seoul',
+  userAgentHeader: CHROME_DESKTOP_UA,
+};
+
 class D1Mock {
   applicationLinks = new Map<string, { id: number }>();
   applicationLinkVisits: Array<{ application_link_id: number; session_id: string }> = [];
@@ -19,11 +37,19 @@ class D1Mock {
     session_id: string;
   }> = [];
   userSessions: Array<{
+    accept_language: string;
+    browser: string;
+    city: string;
+    colo: string;
+    device_type: string;
     id: string;
     ip_country: string;
     is_admin: number;
+    is_bot: number;
+    os: string;
     referrer: string;
-    user_agent: string;
+    region_code: string;
+    timezone: string;
   }> = [];
   webVitals: Array<{
     delta: number;
@@ -54,9 +80,17 @@ class D1Mock {
             this.userSessions.push({
               id: String(values[0]),
               ip_country: String(values[1]),
-              user_agent: String(values[2]),
-              referrer: String(values[3]),
-              is_admin: Number(values[4]),
+              referrer: String(values[2]),
+              is_admin: Number(values[3]),
+              city: String(values[4]),
+              region_code: String(values[5]),
+              timezone: String(values[6]),
+              colo: String(values[7]),
+              accept_language: String(values[8]),
+              browser: String(values[9]),
+              os: String(values[10]),
+              device_type: String(values[11]),
+              is_bot: Number(values[12]),
             });
           }
 
@@ -142,11 +176,10 @@ describe('recordAnalyticsPayload', () => {
       referrer: 'https://example.com',
       scrollDepth: 86,
       sessionId: 'session-1',
-      userAgent: 'Vitest',
     };
 
     await recordAnalyticsPayload({
-      country: 'KR',
+      ...SESSION_CONTEXT,
       db: db as unknown as D1Database,
       payload,
     });
@@ -155,9 +188,17 @@ describe('recordAnalyticsPayload', () => {
       {
         id: 'session-1',
         ip_country: 'KR',
-        is_admin: 0,
         referrer: 'https://example.com',
-        user_agent: 'Vitest',
+        is_admin: 0,
+        city: 'Seoul',
+        region_code: '11',
+        timezone: 'Asia/Seoul',
+        colo: 'ICN',
+        accept_language: 'en-us',
+        browser: 'Chrome',
+        os: 'Windows',
+        device_type: 'desktop',
+        is_bot: 0,
       },
     ]);
     expect(db.applicationLinkVisits).toEqual([{ application_link_id: 7, session_id: 'session-1' }]);
@@ -177,6 +218,56 @@ describe('recordAnalyticsPayload', () => {
     ]);
   });
 
+  it('derives browser, os, device type, and bot flag from the request User-Agent', async () => {
+    const db = new D1Mock();
+
+    await recordAnalyticsPayload({
+      ...SESSION_CONTEXT,
+      db: db as unknown as D1Database,
+      payload: {
+        activeTime: 0,
+        articleProgress: 0,
+        dwellTime: 0,
+        eventType: 'page',
+        isInitial: true,
+        path: '/',
+        referrer: 'direct',
+        scrollDepth: 0,
+        sessionId: 'session-mobile',
+      },
+      userAgentHeader: SAFARI_IOS_UA,
+    });
+    await recordAnalyticsPayload({
+      ...SESSION_CONTEXT,
+      db: db as unknown as D1Database,
+      payload: {
+        activeTime: 0,
+        articleProgress: 0,
+        dwellTime: 0,
+        eventType: 'page',
+        isInitial: true,
+        path: '/',
+        referrer: 'direct',
+        scrollDepth: 0,
+        sessionId: 'session-bot',
+      },
+      userAgentHeader: 'curl/8.4.0',
+    });
+
+    expect(db.userSessions[0]).toMatchObject({
+      browser: 'Safari',
+      device_type: 'mobile',
+      is_bot: 0,
+      os: 'iOS',
+    });
+    expect(db.userSessions[1]).toMatchObject({
+      browser: 'Unknown',
+      device_type: 'bot',
+      is_bot: 1,
+      os: 'Unknown',
+    });
+  });
+
   it('updates an existing page view instead of inserting duplicate flush rows', async () => {
     const db = new D1Mock();
     const basePayload: AnalyticsPayloadBody = {
@@ -192,16 +283,15 @@ describe('recordAnalyticsPayload', () => {
       referrer: 'direct',
       scrollDepth: 30,
       sessionId: 'session-1',
-      userAgent: 'Vitest',
     };
 
     await recordAnalyticsPayload({
-      country: 'KR',
+      ...SESSION_CONTEXT,
       db: db as unknown as D1Database,
       payload: basePayload,
     });
     await recordAnalyticsPayload({
-      country: 'KR',
+      ...SESSION_CONTEXT,
       db: db as unknown as D1Database,
       payload: {
         ...basePayload,
@@ -239,11 +329,10 @@ describe('recordAnalyticsPayload', () => {
       referrer: 'direct',
       scrollDepth: 60,
       sessionId: 'session-nav',
-      userAgent: 'Vitest',
     };
 
     await recordAnalyticsPayload({
-      country: 'KR',
+      ...SESSION_CONTEXT,
       db: db as unknown as D1Database,
       payload,
     });
@@ -277,11 +366,10 @@ describe('recordAnalyticsPayload', () => {
       path: '/projects/aira',
       referrer: 'direct',
       sessionId: 'session-1',
-      userAgent: 'Vitest',
     };
 
     await recordAnalyticsPayload({
-      country: 'KR',
+      ...SESSION_CONTEXT,
       db: db as unknown as D1Database,
       payload,
     });
@@ -317,11 +405,10 @@ describe('recordAnalyticsPayload', () => {
       referrer: 'https://junwon.dev/r/p48r',
       scrollDepth: 0,
       sessionId: 'session-new-tab',
-      userAgent: 'Vitest',
     };
 
     await recordAnalyticsPayload({
-      country: 'KR',
+      ...SESSION_CONTEXT,
       db: db as unknown as D1Database,
       payload,
     });
@@ -345,11 +432,10 @@ describe('recordAnalyticsPayload', () => {
       referrer: 'https://github.com/user/repo',
       scrollDepth: 0,
       sessionId: 'session-github',
-      userAgent: 'Vitest',
     };
 
     await recordAnalyticsPayload({
-      country: 'KR',
+      ...SESSION_CONTEXT,
       db: db as unknown as D1Database,
       payload,
     });
@@ -373,10 +459,10 @@ describe('recordAnalyticsPayload', () => {
       referrer: 'direct',
       scrollDepth: 10,
       sessionId: 'session-2',
-      userAgent: 'Vitest',
     };
 
     await recordAnalyticsPayload({
+      ...SESSION_CONTEXT,
       country: 'unknown',
       db: db as unknown as D1Database,
       payload,

@@ -16,12 +16,30 @@ vi.mock('@/lib/server/analytics/tracking', () => ({ recordAnalyticsPayload: mock
 
 import { POST } from './route';
 
-const request = (body: string, host = 'junwon.dev') =>
-  new Request(`https://${host}/api/analytics/track`, {
+const CHROME_DESKTOP_UA =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
+  'Chrome/120.0.0.0 Safari/537.36';
+
+interface TestRequestOptions {
+  cf?: Record<string, unknown>;
+  headers?: Record<string, string>;
+}
+
+const request = (body: string, host = 'junwon.dev', options: TestRequestOptions = {}) => {
+  const req = new Request(`https://${host}/api/analytics/track`, {
     method: 'POST',
     body,
-    headers: { host, 'CF-Connecting-IP': '192.0.2.1' },
-  }) as NextRequest;
+    headers: {
+      host,
+      'CF-Connecting-IP': '192.0.2.1',
+      ...options.headers,
+    },
+  });
+  if (options.cf) {
+    Object.defineProperty(req, 'cf', { value: options.cf });
+  }
+  return req as NextRequest;
+};
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -60,13 +78,72 @@ describe('analytics endpoint protection', () => {
     expect((await POST(request('x'.repeat(8193)))).status).toBe(413);
     expect(mocks.record).not.toHaveBeenCalled();
   });
-  it('records a valid request', async () => {
+  it('bypasses collection when DNT is enabled', async () => {
     const response = await POST(
-      request(
-        JSON.stringify({ path: '/', sessionId: 'test', userAgent: 'test', referrer: 'direct' }),
-      ),
+      request(JSON.stringify({ sessionId: 'test' }), 'junwon.dev', { headers: { dnt: '1' } }),
     );
+
     expect(response.status).toBe(200);
-    expect(mocks.record).toHaveBeenCalledOnce();
+    expect(await response.json()).toEqual({ success: true, bypassed: true });
+    expect(mocks.limit).not.toHaveBeenCalled();
+    expect(mocks.record).not.toHaveBeenCalled();
+  });
+  it('bypasses collection when Sec-GPC is enabled', async () => {
+    const response = await POST(
+      request(JSON.stringify({ sessionId: 'test' }), 'junwon.dev', {
+        headers: { 'sec-gpc': '1' },
+      }),
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ success: true, bypassed: true });
+    expect(mocks.record).not.toHaveBeenCalled();
+  });
+  it('records a valid request with cf geolocation and header-derived fields', async () => {
+    const response = await POST(
+      request(JSON.stringify({ path: '/', sessionId: 'test' }), 'junwon.dev', {
+        cf: {
+          city: 'Seoul',
+          colo: 'ICN',
+          country: 'KR',
+          regionCode: '11',
+          timezone: 'Asia/Seoul',
+        },
+        headers: {
+          'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8',
+          'user-agent': CHROME_DESKTOP_UA,
+        },
+      }),
+    );
+
+    expect(response.status).toBe(200);
+    expect(mocks.record).toHaveBeenCalledWith({
+      acceptLanguage: 'ko-kr',
+      city: 'Seoul',
+      colo: 'ICN',
+      country: 'KR',
+      db: {},
+      payload: expect.objectContaining({ path: '/', sessionId: 'test' }),
+      regionCode: '11',
+      timezone: 'Asia/Seoul',
+      userAgentHeader: CHROME_DESKTOP_UA,
+    });
+  });
+  it('falls back to the cf-ipcountry header when request.cf is unavailable', async () => {
+    await POST(
+      request(JSON.stringify({ path: '/', sessionId: 'test' }), 'junwon.dev', {
+        headers: { 'cf-ipcountry': 'JP' },
+      }),
+    );
+
+    expect(mocks.record).toHaveBeenCalledWith(
+      expect.objectContaining({
+        city: 'unknown',
+        colo: 'unknown',
+        country: 'JP',
+        regionCode: 'unknown',
+        timezone: 'unknown',
+      }),
+    );
   });
 });

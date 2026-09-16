@@ -7,7 +7,7 @@ const sendBeacon = vi.fn();
 function stubBrowser(referrer: string) {
   vi.stubGlobal('window', { location: { pathname: '/projects/aira' } });
   vi.stubGlobal('localStorage', { getItem: vi.fn(() => null) });
-  vi.stubGlobal('navigator', { sendBeacon, userAgent: 'Vitest' });
+  vi.stubGlobal('navigator', { sendBeacon });
   vi.stubGlobal('document', { referrer });
 }
 
