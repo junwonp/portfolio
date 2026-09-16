@@ -75,21 +75,16 @@ const toProjectLinks = (project: DocumentProjectBlock): ProjectLink[] => {
 };
 
 interface ProjectMetaProps {
-  labels: Labels;
   project: DocumentProjectBlock;
 }
 
-const ProjectMeta = ({ labels, project }: ProjectMetaProps) => {
+const ProjectMeta = ({ project }: ProjectMetaProps) => {
   const links = toProjectLinks(project);
-  const paradigm = project.paradigm
-    ? labels[project.paradigm === 'agentic' ? 'paradigmAgentic' : 'paradigmAssisted']
-    : undefined;
 
-  if (project.platforms.length === 0 && links.length === 0 && !paradigm) return null;
+  if (project.platforms.length === 0 && links.length === 0) return null;
 
   return (
     <div className={styles.projectMeta}>
-      {paradigm && <span className={styles.paradigmBadge}>{paradigm}</span>}
       {project.platforms.length > 0 && (
         <span className={styles.projectPlatforms}>{project.platforms.join(' · ')}</span>
       )}
@@ -152,11 +147,10 @@ const ProjectFigures = ({ images, title }: { images: string[]; title: string }) 
 };
 
 interface ProjectBlockProps {
-  labels: Labels;
   project: DocumentProjectBlock;
 }
 
-const ProjectBlock = ({ labels, project }: ProjectBlockProps) => (
+const ProjectBlock = ({ project }: ProjectBlockProps) => (
   <article className={styles.project}>
     <div className={styles.projectHeader}>
       <h3 className={styles.projectTitle}>{project.title}</h3>
@@ -165,7 +159,7 @@ const ProjectBlock = ({ labels, project }: ProjectBlockProps) => (
 
     {project.role && <p className={styles.projectRole}>{project.role}</p>}
 
-    <ProjectMeta labels={labels} project={project} />
+    <ProjectMeta project={project} />
 
     <MetricStrip metrics={project.metrics} />
 
@@ -245,9 +239,7 @@ const SectionBlock = ({ education, index, labels, section, skills }: SectionBloc
       </div>
     );
   } else {
-    body = section.projects.map((project) => (
-      <ProjectBlock key={project.id} labels={labels} project={project} />
-    ));
+    body = section.projects.map((project) => <ProjectBlock key={project.id} project={project} />);
   }
 
   return (
@@ -319,8 +311,6 @@ export default function PortfolioDocument({ document }: PortfolioDocumentProps) 
             ))}
           </ul>
         )}
-
-        <p className={styles.paradigmLegend}>{labels.paradigmLegend}</p>
 
         {document.sections.map((section, index) => (
           <SectionBlock

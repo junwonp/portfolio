@@ -300,15 +300,6 @@ export const pillarDescription = style({
   maxWidth: '5.4in',
 });
 
-// Almost every project carries the badge, so the cover states its meaning once, quietly.
-export const paradigmLegend = style({
-  color: 'var(--doc-muted)',
-  fontSize: '9.5pt',
-  lineHeight: 1.35,
-  margin: 'var(--doc-space-3) 0 0',
-  maxWidth: '5.4in',
-});
-
 // Neutralize the site-wide `ul li` bullet/padding so list semantics stay invisible.
 globalStyle(`${pillars} li`, {
   lineHeight: 1.3,
@@ -433,19 +424,6 @@ export const projectPlatforms = style({
 export const projectLink = style({
   color: 'var(--doc-muted)',
   fontSize: '9.5pt',
-});
-
-export const paradigmBadge = style({
-  border: 'var(--doc-hairline-width) solid var(--doc-hairline)',
-  borderRadius: 'var(--doc-radius-chip)',
-  color: 'var(--doc-secondary)',
-  fontSize: '9pt',
-  fontWeight: 600,
-  lineHeight: 1.3,
-  padding: '0.008in 0.04in',
-  printColorAdjust: 'exact',
-  WebkitPrintColorAdjust: 'exact',
-  whiteSpace: 'nowrap',
 });
 
 export const summary = style({

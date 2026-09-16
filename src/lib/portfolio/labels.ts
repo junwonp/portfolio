@@ -19,11 +19,8 @@ export interface Labels {
   languageToggleError: string;
   navAriaLabel: string;
   pageNotFound: string;
-  paradigmAgentic: string;
-  paradigmLegend: string;
   printPage: string;
   printHint: string;
-  paradigmAssisted: string;
   present: string;
   project: string;
   resumeTitle: string;
@@ -74,11 +71,8 @@ export const labelsMap: Record<Language, Labels> = {
     languageToggleError: '언어 전환에 실패했습니다.',
     navAriaLabel: '섹션 탐색',
     pageNotFound: '페이지를 찾을 수 없습니다',
-    paradigmAgentic: 'AI 보조·검증형',
-    paradigmLegend: '"AI 보조" 표시는 AI 도구를 활용해 개발하고 검증한 프로젝트를 뜻합니다',
     printPage: '인쇄 / PDF',
     printHint: '인쇄 → PDF로 저장 · 여백: 기본값 · 배경 그래픽: 켜기',
-    paradigmAssisted: 'AI 보조',
     present: '현재',
     project: '프로젝트',
     resumeTitle: '포트폴리오',
@@ -127,11 +121,8 @@ export const labelsMap: Record<Language, Labels> = {
     languageToggleError: 'Failed to switch language.',
     navAriaLabel: 'Section navigation',
     pageNotFound: 'Page not found',
-    paradigmAgentic: 'AI-assisted & verified',
-    paradigmLegend: '"AI Assisted" marks projects built and verified with AI tooling',
     printPage: 'Print / PDF',
     printHint: 'Print → Save as PDF · Margins: Default · Background graphics: on',
-    paradigmAssisted: 'AI Assisted',
     present: 'Present',
     project: 'Project',
     resumeTitle: 'Portfolio',

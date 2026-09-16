@@ -21,7 +21,6 @@ export interface DocumentProjectBlock {
   metrics: MetricItem[];
   techStack: string[];
   platforms: string[];
-  paradigm?: 'agentic' | 'assisted';
   productLink?: string;
   githubLink?: string;
   bullets: string[];
@@ -129,8 +128,6 @@ const toBlock = (draft: BlockDraft, lang: Language, presentLabel: string): Docum
     metrics: [...(draft.metrics ?? [])],
     techStack: [...techStack],
     platforms: (metadata?.platforms ?? []).filter(hasText),
-    // paradigm is shared reading of the Korean frontmatter, so it is read from the catalog entry.
-    ...(entry?.paradigm ? { paradigm: entry.paradigm } : {}),
     ...(productLink ? { productLink } : {}),
     ...(githubLink ? { githubLink } : {}),
     // Whole bullets only: a mid-string cut would leave an unclosed markdown marker.

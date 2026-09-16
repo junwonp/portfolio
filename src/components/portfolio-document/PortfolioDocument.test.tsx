@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 
 import PortfolioDocument from '@/components/portfolio-document/PortfolioDocument';
 import { buildPortfolioDocument } from '@/lib/portfolio/documentProjection';
-import { getLabels } from '@/lib/portfolio/labels';
 
 const locales = ['ko', 'en'] as const;
 
@@ -48,7 +47,6 @@ describe('PortfolioDocument', () => {
 
   it.each(locales)('renders per-project metadata in the %s document', (locale) => {
     const portfolioDocument = buildPortfolioDocument(locale);
-    const labels = getLabels(locale);
     const html = renderDocument(locale);
     const text = textOf(html);
     const projects = portfolioDocument.sections.flatMap((section) => section.projects);
@@ -56,13 +54,6 @@ describe('PortfolioDocument', () => {
     for (const project of projects) {
       if (project.platforms.length > 0) {
         expect(text).toContain(project.platforms.join(' · '));
-      }
-
-      if (project.paradigm) {
-        const paradigmLabel =
-          project.paradigm === 'agentic' ? labels.paradigmAgentic : labels.paradigmAssisted;
-
-        expect(text).toContain(paradigmLabel);
       }
     }
 
@@ -94,7 +85,6 @@ describe('PortfolioDocument', () => {
     const { pillars } = portfolioDocument;
     const [firstPillar] = pillars;
     const firstSection = portfolioDocument.sections[0];
-    const legend = getLabels(locale).paradigmLegend;
     const text = textOf(renderDocument(locale));
 
     expect(firstPillar).toBeDefined();
@@ -105,10 +95,6 @@ describe('PortfolioDocument', () => {
       expect(text).toContain(pillar.title);
       expect(text).toContain(pillar.description);
     }
-
-    // The badge legend belongs to the cover: under the pillars, above every section.
-    expect(text.indexOf(legend)).toBeGreaterThan(text.indexOf(firstPillar.title));
-    expect(text.indexOf(legend)).toBeLessThan(text.indexOf(firstSection.title));
 
     // The cover is the masthead plus pillars; the first section must still follow it.
     expect(text.indexOf(firstPillar.title)).toBeLessThan(text.indexOf(firstSection.title));

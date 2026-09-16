@@ -110,21 +110,18 @@ describe('buildPortfolioDocument', () => {
     }
   });
 
-  it('exposes per-locale platforms, paradigm, and resolved links', () => {
+  it('exposes per-locale platforms and resolved links', () => {
     const aira = collectBlocks(buildPortfolioDocument('ko')).find(
       (block) => block.id === PROJECT_ID.aira,
     );
 
     expect(aira?.platforms).toEqual(['Android', 'iOS', 'Web']);
-    expect(aira?.paradigm).toBe('assisted');
 
     for (const lang of locales) {
       for (const block of collectBlocks(buildPortfolioDocument(lang))) {
         const project = catalogProjectById.get(block.id);
 
         expect(block.platforms).toEqual(project?.content[lang].detailMetadata?.platforms ?? []);
-        // paradigm is shared across locales, so both documents must agree.
-        expect(block.paradigm).toBe(project?.paradigm);
       }
     }
 
