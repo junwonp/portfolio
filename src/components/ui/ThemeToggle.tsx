@@ -3,6 +3,7 @@
 import { Moon, Sun } from 'lucide-react';
 import { useSyncExternalStore } from 'react';
 
+import { reportInteraction } from '@/lib/analytics/analyticsTransport';
 import { getThemeSnapshot, readThemePreference, subscribeTheme, toggleTheme } from '@/lib/theme';
 
 import * as styles from './ThemeToggle.css';
@@ -33,7 +34,12 @@ export default function ThemeToggle({
   const label = preference === 'dark' ? darkLabel : preference === 'light' ? lightLabel : autoLabel;
 
   const handleClick = () => {
-    toggleTheme();
+    const nextIsDark = toggleTheme();
+    reportInteraction({
+      interactionType: 'theme_toggle',
+      interactionLabel: nextIsDark ? 'dark' : 'light',
+      action: 'open',
+    });
     onToggle?.();
   };
 

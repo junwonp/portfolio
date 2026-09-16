@@ -4,6 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 
 import Github from '@/components/ui/icon/Github';
 import Globe from '@/components/ui/icon/Globe';
+import OutboundLink from '@/components/ui/OutboundLink';
 import { circleButton, pillButton } from '@/components/ui/surface.css';
 import { getGithubHref } from '@/lib/utils/github';
 
@@ -93,26 +94,18 @@ export default function ProjectNav({ githubLink, productLink, tabs }: Props) {
         {(resolvedGithubHref || productLink) && (
           <div className={`${styles.island} ${styles.linksPill} glass-effect`}>
             {resolvedGithubHref && (
-              <a
+              <OutboundLink
                 href={resolvedGithubHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
+                ariaLabel="GitHub"
                 className={styles.linkItem}
               >
                 <Github width={20} height={20} />
-              </a>
+              </OutboundLink>
             )}
             {productLink && (
-              <a
-                href={productLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit site"
-                className={styles.linkItem}
-              >
+              <OutboundLink href={productLink} ariaLabel="Visit site" className={styles.linkItem}>
                 <Globe width={20} height={20} />
-              </a>
+              </OutboundLink>
             )}
           </div>
         )}

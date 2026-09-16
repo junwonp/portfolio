@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { iconLink, typeVariants } from './IconLink.css';
+import OutboundLink from './OutboundLink';
 
 interface Props {
   href: string;
@@ -25,15 +26,13 @@ export default function IconLink({
   const combinedClass = `${iconLink} ${typeClass} ${className}`.trim();
 
   return (
-    <a
+    <OutboundLink
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
       className={combinedClass}
       title={title}
-      aria-label={ariaLabel || title}
+      ariaLabel={ariaLabel || title}
     >
       {children}
-    </a>
+    </OutboundLink>
   );
 }

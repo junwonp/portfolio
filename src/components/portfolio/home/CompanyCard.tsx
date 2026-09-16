@@ -5,6 +5,7 @@ import { useId } from 'react';
 
 import Badge from '@/components/ui/Badge';
 import Collapse from '@/components/ui/Collapse';
+import OutboundLink from '@/components/ui/OutboundLink';
 import Period from '@/components/ui/Period';
 import RichText from '@/components/ui/RichText';
 import { cardSurface } from '@/components/ui/surface.css';
@@ -41,14 +42,9 @@ export default function CompanyCard({ exp, isFiltered, labels }: Props) {
 
   const renderAdditionalLink = () =>
     exp.additional ? (
-      <a
-        href={exp.additional.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.additionalLink}
-      >
+      <OutboundLink href={exp.additional.link} className={styles.additionalLink}>
         {exp.additional.label} →
-      </a>
+      </OutboundLink>
     ) : null;
 
   return (

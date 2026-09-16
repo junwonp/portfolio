@@ -6,8 +6,10 @@ import { useRef, useState } from 'react';
 import IconLink from '@/components/ui/IconLink';
 import Github from '@/components/ui/icon/Github';
 import Linkedin from '@/components/ui/icon/Linkedin';
+import OutboundLink from '@/components/ui/OutboundLink';
 import { circleButton, pillButton } from '@/components/ui/surface.css';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import { reportInteraction } from '@/lib/analytics/analyticsTransport';
 import { useLocale } from '@/lib/contexts/LocaleContext';
 
 import * as styles from './MobileStickyHeader.css';
@@ -50,6 +52,11 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
     try {
       const newLang = locale === 'ko' ? 'en' : 'ko';
       setLocale(newLang);
+      reportInteraction({
+        interactionType: 'locale_switch',
+        interactionLabel: newLang,
+        action: 'open',
+      });
     } catch {
       setErrorMessage(labels.languageToggleError);
     }
@@ -179,16 +186,14 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
             {linkedinLink && (
               <>
                 <hr className={styles.menuDivider} />
-                <a
+                <OutboundLink
                   className={styles.dropdownItem}
                   href={linkedinLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   onClick={closeMenu}
                 >
                   <Linkedin width={16} height={16} />
                   <span>{labels.goToLinkedinPage}</span>
-                </a>
+                </OutboundLink>
               </>
             )}
           </div>
