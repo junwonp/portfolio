@@ -9,13 +9,27 @@ import {
   pageCountViolation,
   pdfPageCount,
 } from './lib/printLayout.mjs';
+import {
+  collectDetailSurface,
+  collectDocumentBlocks,
+  collectIndexProjectSlugs,
+  evaluateParity,
+} from './lib/printParity.mjs';
 
 /*
- * Manual/local gate for the A4 print document at /portfolio. Nothing else checks
- * that every project block still fits the printable height, or that the screen
- * preview's page count still equals the real PDF's — the audit reproduced a
- * content edit that pushed a block to 1023.8px, kept the preview at 13 pages,
- * and made the PDF 14 with a project's title and image on different pages.
+ * Manual/local gate for the A4 print document at /portfolio. Two invariants, in
+ * one run:
+ *
+ * 1. Layout: every project block still fits the printable height, and the screen
+ *    preview's page count still equals the real PDF's — the audit reproduced a
+ *    content edit that pushed a block to 1023.8px, kept the preview at 13 pages,
+ *    and made the PDF 14 with a project's title and image on different pages.
+ *
+ * 2. Parity: the document projects the same MDX frontmatter and src/content/home
+ *    files the site renders, so each project's role line, period and links must
+ *    match its detail page. The same audit found the document showing a company
+ *    job title instead of the project's own role and a period built from a
+ *    different date field, which no page measurement can see.
  *
  * Run `pnpm dev` first, then `node scripts/verify-print-layout.mjs`. Not wired
  * into CI: it needs a running dev server and a browser.
@@ -28,9 +42,17 @@ import {
 const root = fileURLToPath(new URL('../', import.meta.url));
 const baseUrl = process.env.PRINT_VERIFY_BASE_URL ?? 'http://localhost:3000';
 const targets = [
-  { label: 'ko', path: '/portfolio' },
-  { label: 'en', path: '/portfolio?lang=en' },
+  { indexPath: '/', label: 'ko', path: '/portfolio', projectPrefix: '/projects' },
+  { indexPath: '/en', label: 'en', path: '/portfolio?lang=en', projectPrefix: '/en/projects' },
 ];
+
+/** Directory names are the catalog slugs; the catalog reads its MDX from here. */
+const contentDirectory = path.join(root, 'src/content/projects');
+const projectSlugs = async () =>
+  (await readdir(contentDirectory, { withFileTypes: true }))
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
 
 /** The store path carries the version, so read the entry point from the package's own export map. */
 const importPuppeteer = async () => {
@@ -83,6 +105,74 @@ const measureDocument = () => {
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const formatPx = (value) => `${value.toFixed(2)}px`;
+
+/*
+ * Cross-checks the document against the same locale's project detail pages. Runs
+ * on a page of its own: the layout pass still needs its own document page for the
+ * PDF. The index is the site's own statement of which projects have a detail
+ * route, so a route that stops resolving fails here rather than quietly leaving
+ * the compared set smaller; the content tree supplies the candidate routes, and a
+ * candidate that answers 404 is reported as skipped.
+ */
+const verifyParity = async (browser, target) => {
+  const failures = [];
+  const notes = [];
+  const answers = new Map();
+  const projects = [];
+  const skipped = [];
+  const page = await browser.newPage();
+
+  try {
+    await page.goto(`${baseUrl}${target.indexPath}`, {
+      timeout: 60_000,
+      waitUntil: 'domcontentloaded',
+    });
+    const linked = new Set(await page.evaluate(collectIndexProjectSlugs, target.projectPrefix));
+
+    for (const slug of await projectSlugs()) {
+      const route = `${target.projectPrefix}/${slug}`;
+      const response = await page.goto(`${baseUrl}${route}`, {
+        timeout: 60_000,
+        waitUntil: 'domcontentloaded',
+      });
+      const answer = response?.status() ?? 0;
+      answers.set(slug, answer);
+
+      if (answer === 404) {
+        skipped.push(slug);
+        continue;
+      }
+
+      // Any other answer is a broken route, not a project without a detail page.
+      if (answer !== 200) {
+        failures.push(`${route} answered ${answer} — the detail page cannot be read`);
+        continue;
+      }
+
+      await page.waitForSelector('[data-layout-slot="main-content"] h1', { timeout: 60_000 });
+      projects.push({ detail: await page.evaluate(collectDetailSurface), slug });
+    }
+
+    for (const slug of linked) {
+      if (projects.some((project) => project.slug === slug)) continue;
+      failures.push(
+        `the site index links ${target.projectPrefix}/${slug}, but that route answered ${answers.get(slug) ?? 'nothing'} instead of a project page`,
+      );
+    }
+
+    await page.goto(`${baseUrl}${target.path}`, { timeout: 60_000, waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('[data-document-sheet]', { timeout: 60_000 });
+    const blocks = await page.evaluate(collectDocumentBlocks);
+
+    const parity = evaluateParity({ blocks, projects, skippedSlugs: skipped });
+    failures.push(...parity.failures);
+    notes.push(...parity.notes);
+
+    return { failures, matched: parity.matched, notes, skipped: parity.skipped };
+  } finally {
+    await page.close();
+  }
+};
 
 const puppeteer = await importPuppeteer();
 const failures = [];
@@ -140,6 +230,21 @@ try {
           `  worst section group: “${layout.worstGroup.label}” ${formatPx(layout.worstGroup.height)} (headroom ${formatPx(PAGE_CONTENT_HEIGHT_PX - layout.worstGroup.height)})\n`,
         );
       }
+
+      try {
+        const parity = await verifyParity(browser, target);
+        const skipped = parity.skipped.length ? `: ${parity.skipped.join(', ')}` : ' (none)';
+        process.stdout.write(
+          `  parity: ${parity.matched} project(s) compared against ${target.projectPrefix}/*, ${parity.skipped.length} skipped (no detail route)${skipped}\n`,
+        );
+        for (const note of parity.notes) process.stdout.write(`  parity note: ${note}\n`);
+        for (const failure of parity.failures) failures.push(`${target.label}: ${failure}`);
+      } catch (error) {
+        const message = String(error?.message ?? error);
+        failures.push(`${target.label}: parity — ${message}`);
+        process.stdout.write(`  parity: FAIL — ${message}\n`);
+      }
+
       process.stdout.write('\n');
     } catch (error) {
       const message = String(error?.message ?? error).includes('ERR_CONNECTION_REFUSED')
@@ -163,6 +268,6 @@ if (failures.length > 0) {
   process.exitCode = 1;
 } else {
   process.stdout.write(
-    'PASS: every block fits the page budget and preview page counts match the PDF.\n',
+    'PASS: every block fits the page budget, preview page counts match the PDF, and the document agrees with the project detail pages.\n',
   );
 }

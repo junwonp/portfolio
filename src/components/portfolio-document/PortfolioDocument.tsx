@@ -154,10 +154,21 @@ const ProjectBlock = ({ project }: ProjectBlockProps) => (
   <article className={styles.project}>
     <div className={styles.projectHeader}>
       <h3 className={styles.projectTitle}>{project.title}</h3>
-      {project.period && <p className={styles.projectPeriod}>{project.period}</p>}
+      {/* data-project-field marks the two lines scripts/verify-print-layout.mjs
+          compares against the detail page; without it the fields are only
+          distinguishable by DOM order. */}
+      {project.period && (
+        <p className={styles.projectPeriod} data-project-field="period">
+          {project.period}
+        </p>
+      )}
     </div>
 
-    {project.role && <p className={styles.projectRole}>{project.role}</p>}
+    {project.role && (
+      <p className={styles.projectRole} data-project-field="role">
+        {project.role}
+      </p>
+    )}
 
     <ProjectMeta project={project} />
 
