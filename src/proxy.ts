@@ -26,6 +26,7 @@ const DEFAULT_LOCALE_REWRITE_EXCLUSIONS = [
   /^\/api(?:\/|$)/,
   /^\/a(?:\/|$)/,
   /^\/admin(?:\/|$)/,
+  /^\/portfolio(?:\/|$)/,
   /^\/print(?:\/|$)/,
   /^\/resume(?:\/|$)/,
   /^\/fonts(?:\/|$)/,

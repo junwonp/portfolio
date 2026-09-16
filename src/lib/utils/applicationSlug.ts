@@ -15,6 +15,7 @@ export const RESERVED_APPLICATION_SLUGS = new Set([
   'images',
   'ko',
   'linkedin',
+  'portfolio',
   'print',
   'privacy',
   'r',
