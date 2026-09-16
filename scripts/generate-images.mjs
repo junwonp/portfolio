@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
+import { assertProjectContent, LOCALES } from './lib/projectContent.mjs';
 import { extractProjectImages } from './lib/projectImages.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -35,12 +36,16 @@ const printSurface = '#f7f8fa';
  * extra bytes beats a locale flip silently falling back to the WebP encoding.
  */
 const printSources = new Set();
-for (const entry of await readdir(contentDirectory, { withFileTypes: true })) {
-  if (!entry.isDirectory()) continue;
+const projectEntries = (await readdir(contentDirectory, { withFileTypes: true }))
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name);
 
-  for (const locale of ['ko', 'en']) {
+assertProjectContent(root, contentDirectory, projectEntries);
+
+for (const entry of projectEntries) {
+  for (const locale of LOCALES) {
     const source = await readFile(
-      path.join(contentDirectory, entry.name, `detail.${locale}.mdx`),
+      path.join(contentDirectory, entry, `detail.${locale}.mdx`),
       'utf8',
     );
 

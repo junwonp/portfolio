@@ -2,6 +2,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { assertProjectContent, CANONICAL_LOCALE, LOCALES } from './lib/projectContent.mjs';
 import { extractDeclaredImages, extractProjectImages } from './lib/projectImages.mjs';
 
 /*
@@ -14,8 +15,7 @@ import { extractDeclaredImages, extractProjectImages } from './lib/projectImages
  * by silently picking one side.
  */
 
-const locales = ['ko', 'en'];
-const canonicalLocale = 'ko';
+const canonicalLocale = CANONICAL_LOCALE;
 const root = fileURLToPath(new URL('../', import.meta.url));
 const contentDirectory = path.join(root, 'src/content/projects');
 const manifestPath = path.join(root, 'src/lib/generated/projectImages.json');
@@ -25,11 +25,13 @@ const entries = (await readdir(contentDirectory, { withFileTypes: true }))
   .map((entry) => entry.name)
   .sort();
 
-const docImages = new Map(locales.map((locale) => [locale, new Map()]));
-const declaredImages = new Map(locales.map((locale) => [locale, new Map()]));
+assertProjectContent(root, contentDirectory, entries);
+
+const docImages = new Map(LOCALES.map((locale) => [locale, new Map()]));
+const declaredImages = new Map(LOCALES.map((locale) => [locale, new Map()]));
 
 for (const slug of entries) {
-  for (const locale of locales) {
+  for (const locale of LOCALES) {
     const source = await readFile(
       path.join(contentDirectory, slug, `detail.${locale}.mdx`),
       'utf8',
@@ -44,11 +46,11 @@ const canonical = docImages.get(canonicalLocale);
 const divergences = [];
 
 for (const slug of entries) {
-  for (const locale of locales) {
+  for (const locale of LOCALES) {
     if (locale === canonicalLocale) continue;
 
     // Compared uncapped, so a divergence past the third image still surfaces.
-    const declared = locales.map((entry) => declaredImages.get(entry).get(slug).join(', '));
+    const declared = LOCALES.map((entry) => declaredImages.get(entry).get(slug).join(', '));
     if (declared[0] !== declared[1]) divergences.push({ declared, locale, slug });
   }
 }
