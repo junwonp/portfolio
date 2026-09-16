@@ -16,6 +16,16 @@ Always follow these rules when editing or creating project content, metadata, or
 3. **TypeScript & Test Gates**: Run `pnpm exec tsc --noEmit --pretty false` and `pnpm exec vitest run` after any changes. Ambient types for MDX are declared in `src/env.d.ts`, and Vitest runs with a mock loader plugin for `.mdx` imports.
 <!-- END:project-metadata-rules -->
 
+<!-- BEGIN:document-parity-rules -->
+# Print Document Projection Rules
+
+The A4 document at `/portfolio` is a projection of the site's content, not a second copy of it:
+
+1. **One content source**: `/portfolio` renders the same MDX frontmatter (`src/content/projects/*/detail.<locale>.mdx`) and `src/content/home/*` data the site renders. Never hard-code or re-author a project's display metadata — title, description, role, period/dates, metrics, links, tech — in route, component, or catalog code; read it from those files. `/resume`'s hand-written `src/content/printableResume.ts` predates this rule: it is an exception, not a pattern to copy.
+2. **Same field, same formatter**: a field the document shares with a project detail page must be read from the field that page renders (`metadata.role`, `metadata.date`, `productLink`, `githubLink`). If only the formatting differs, share one formatter — a parallel one is how the document drifted to a company job title and a different date field.
+3. **Parity gate, both locales**: after touching project content, `src/content/home/*`, the document projection, or the document components, run `node scripts/verify-print-layout.mjs` with `pnpm dev` up. It measures the page budget and compares every routed project's role, period and links against its detail page in `ko` and `en`, lists the projects it skipped for having no detail route, and exits non-zero on any divergence. Keep the document's `data-project-field` hooks — the gate reads the fields through them.
+<!-- END:document-parity-rules -->
+
 <!-- BEGIN:verification-workflow-rules -->
 # Regression Prevention & Automated Verification Rules
 

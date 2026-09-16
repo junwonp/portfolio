@@ -73,7 +73,7 @@ src/
 
 `pnpm install` activates the repository pre-commit hook (`git config core.hooksPath .githooks`). The hook blocks a commit unless Biome, `tsc`, and the unit tests pass; CI runs the same checks in `.github/workflows/verify.yml`, and React Doctor runs in blocking mode.
 
-The A4 print document has an additional layout gate that CI does not run, because it needs a browser: with `pnpm dev` running, `node scripts/verify-print-layout.mjs` measures every project block and section group in both locales against the printable height, compares the on-screen preview's page count with a headless-Chrome PDF, reports the worst block and its headroom, and exits non-zero on any violation. Run it after content or document-style changes.
+The A4 print document has an additional layout gate that CI does not run, because it needs a browser: with `pnpm dev` running, `node scripts/verify-print-layout.mjs` measures every project block and section group in both locales against the printable height, compares the on-screen preview's page count with a headless-Chrome PDF, cross-checks each routed project's role, period and links against its detail page in both locales (listing any project it skips for having no detail route), reports the worst block and its headroom, and exits non-zero on any violation. Run it after content or document-style changes.
 
 ## Operational Notes
 
