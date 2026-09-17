@@ -42,8 +42,9 @@ pnpm exec tsc --noEmit --pretty false
 # Start the local production server
 pnpm preview
 
-# Deploy to Cloudflare Workers
-pnpm deploy
+# Deploy to Cloudflare Workers. Pushing to main also deploys, via Workers Builds.
+# Use `pnpm run deploy` — a bare `pnpm deploy` hits pnpm's built-in deploy command.
+pnpm run deploy
 ```
 
 ## Local Configuration
