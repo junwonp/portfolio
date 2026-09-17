@@ -1,36 +1,24 @@
-import { fileURLToPath } from 'node:url';
-import mdx from '@mdx-js/rollup';
-import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
-import remarkFrontmatter from 'remark-frontmatter';
-import remarkGfm from 'remark-gfm';
-import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import { defineConfig } from 'vitest/config';
 
-import rehypeHeadingIds from './src/lib/mdx/rehypeHeadingIds.ts';
-
+// Three projects, each with an explicit `include` so a test file can only ever
+// land in one of them:
+//   node    - pure logic, MDX/catalog tests, and the jsdom-docblock files (mocked bindings)
+//   workers - `*.workers.test.ts` inside the real Workers runtime with real D1/KV/R2
+//   browser - `*.browser.test.tsx` in Chromium for real layout measurements
+// Coverage is a Vitest-level option, so it stays here and spans all projects.
 export default defineConfig({
-  plugins: [
-    mdx({
-      providerImportSource: '@/mdx-components',
-      rehypePlugins: [rehypeHeadingIds],
-      remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
-    }),
-    vanillaExtractPlugin(),
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      'cloudflare:workers': fileURLToPath(
-        new URL('./src/lib/server/infrastructure/cloudflare-workers.mock.ts', import.meta.url),
-      ),
-    },
-  },
   test: {
-    clearMocks: true,
-    environment: 'node',
-    fsModuleCache: true,
+    projects: [
+      './vitest.node.config.ts',
+      './vitest.workers.config.ts',
+      './vitest.browser.config.ts',
+    ],
     coverage: {
-      provider: 'v8',
+      // Istanbul, not v8: `@cloudflare/vitest-plugin` throws for the v8 provider
+      // because it needs `node:inspector`, which is a stub inside workerd.
+      // Istanbul instruments source and runs on any runtime, so all three
+      // projects stay in one coverage run.
+      provider: 'istanbul',
       reporter: ['text-summary', 'html', 'json-summary'],
       include: ['src/**/*.{ts,tsx}'],
       exclude: [
@@ -49,8 +37,8 @@ export default defineConfig({
       thresholds: {
         statements: 57,
         branches: 48,
-        functions: 55,
-        lines: 58,
+        functions: 57,
+        lines: 59,
       },
     },
   },

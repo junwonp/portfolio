@@ -9,6 +9,11 @@ ignoredBuiltDependencies:
   - unrs-resolver
 
 minimumReleaseAge: 1440
+# Security: freshly published test tooling required by the Vitest 4 baseline.
+minimumReleaseAgeExclude:
+  - "@cloudflare/vitest-plugin@1.1.11"
+  - "wrangler@4.133.0"
+  - "miniflare@5.20260916.0-alpha"
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - "eslint-import-resolver-typescript@3.10.1"
