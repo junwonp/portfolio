@@ -66,6 +66,16 @@ describe('getContentSecurityPolicyForPath', () => {
     expect(policy).toContain("script-src 'self' 'unsafe-inline'");
     expect(policy).not.toContain('nonce');
   });
+
+  it('allows the Cloudflare Web Analytics beacon on every path', () => {
+    // Blocked by CSP, the beacon fails silently: no console error in the app and
+    // no data in Web Analytics, so only a test keeps this origin in place.
+    for (const pathname of ['/a', '/ko/projects/aira']) {
+      expect(getContentSecurityPolicyForPath(pathname, 'some-nonce')).toContain(
+        'https://static.cloudflareinsights.com',
+      );
+    }
+  });
 });
 
 describe('search indexing policy', () => {

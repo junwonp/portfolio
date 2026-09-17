@@ -51,10 +51,17 @@ const SECURITY_HEADERS = {
 
 const createNonce = () => Buffer.from(crypto.randomUUID()).toString('base64');
 
-const buildContentSecurityPolicy = (scriptSrc: string) =>
-  [
+// Cloudflare injects its Web Analytics (RUM) beacon into HTML responses. That
+// script carries no nonce, so its origin has to be allowed here explicitly or
+// the beacon is blocked and Web Analytics silently collects nothing.
+const CLOUDFLARE_WEB_ANALYTICS_ORIGIN = 'https://static.cloudflareinsights.com';
+
+const buildContentSecurityPolicy = (scriptSrc: string) => {
+  const devEval = process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : '';
+
+  return [
     "default-src 'self'",
-    `script-src 'self' ${scriptSrc}${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''}`,
+    `script-src 'self' ${scriptSrc} ${CLOUDFLARE_WEB_ANALYTICS_ORIGIN}${devEval}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
@@ -65,6 +72,7 @@ const buildContentSecurityPolicy = (scriptSrc: string) =>
     "form-action 'self'",
     "frame-ancestors 'none'",
   ].join('; ');
+};
 
 export const getContentSecurityPolicyForPath = (pathname: string, nonce: string): string => {
   // Public pages are KV-prerendered at deploy time, so their streamed inline
