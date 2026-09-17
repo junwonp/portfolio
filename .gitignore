@@ -47,7 +47,8 @@ next-env.d.ts
 .antigravitycli/
 .dev.vars
 .open-next/
-.agents/
+.agents/*
+!.agents/skills/
 # Agent config is shared; runtime state is machine-local.
 .omo/*
 !.omo/omo.jsonc
