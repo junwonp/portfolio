@@ -6,7 +6,6 @@ interface RouteParams {
 }
 
 export async function GET(_request: Request, { params }: RouteParams) {
-  const { filename } = await params;
-  const cloudflareEnv = await getCloudflareEnv();
+  const [{ filename }, cloudflareEnv] = await Promise.all([params, getCloudflareEnv()]);
   return getAssetObjectResponse(cloudflareEnv?.portfolio_assets, filename);
 }
