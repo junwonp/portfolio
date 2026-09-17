@@ -16,7 +16,9 @@ export function useDeferredClientRender(timeoutMs = 1200): boolean {
       const idleId = window.requestIdleCallback(render, { timeout: timeoutMs });
 
       return () => {
-        window.cancelIdleCallback(idleId);
+        if ('cancelIdleCallback' in window) {
+          window.cancelIdleCallback(idleId);
+        }
       };
     }
 
