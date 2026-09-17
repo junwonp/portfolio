@@ -48,8 +48,11 @@ next-env.d.ts
 .dev.vars
 .open-next/
 .agents/
-.claude/
-.omo/
+# Agent config is shared; runtime state is machine-local.
+.omo/*
+!.omo/omo.jsonc
+.claude/*
+!.claude/.mcp.json
 
 # vscode
 .vscode/
