@@ -3,13 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS user_sessions (
   id TEXT PRIMARY KEY,
-  -- Legacy: nothing reads or writes these any more, but the currently deployed
-  -- Worker still does. Drop them (and these lines) only AFTER deploying the code
-  -- that stopped using them — dropping first fails every analytics write with
-  -- SQLITE_ERROR "no such column".
-  ip_address TEXT,
   ip_country TEXT,
-  user_agent TEXT,
   referrer TEXT,
   is_admin INTEGER DEFAULT 0,
   city TEXT,
