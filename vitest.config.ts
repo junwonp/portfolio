@@ -45,12 +45,12 @@ export default defineConfig({
         '**/projectTypes.ts',
         '**/projectDetailMdx.ts',
       ],
-      // Ratchet: floor of the 2026-09 baseline. Raise when coverage improves.
+      // Ratchet: kept a few points under measured coverage so a modest refactor cannot fail the gate.
       thresholds: {
-        statements: 40,
-        branches: 34,
-        functions: 37,
-        lines: 41,
+        statements: 57,
+        branches: 48,
+        functions: 55,
+        lines: 58,
       },
     },
   },
