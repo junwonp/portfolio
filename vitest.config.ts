@@ -26,7 +26,9 @@ export default defineConfig({
     },
   },
   test: {
+    clearMocks: true,
     environment: 'node',
+    fsModuleCache: true,
     coverage: {
       provider: 'v8',
       reporter: ['text-summary', 'html', 'json-summary'],
@@ -35,10 +37,13 @@ export default defineConfig({
         'src/**/*.test.{ts,tsx}',
         'src/**/*.d.ts',
         'src/**/*.css.ts',
-        'src/env.d.ts',
+        '**/env.d.ts',
         'src/generated/**',
         'src/lib/generated/**',
-        'src/lib/server/infrastructure/cloudflare-workers.mock.ts',
+        '**/cloudflare-workers.mock.ts',
+        '**/homeTypes.ts',
+        '**/projectTypes.ts',
+        '**/projectDetailMdx.ts',
       ],
       // Ratchet: floor of the 2026-09 baseline. Raise when coverage improves.
       thresholds: {
