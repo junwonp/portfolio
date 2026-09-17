@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import { Component, type ReactNode } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -130,6 +131,23 @@ describe('LocaleProvider', () => {
     fireEvent.click(screen.getByRole('button', { name: 'switch' }));
 
     expect(routerPush).not.toHaveBeenCalled();
+  });
+
+  it('switches the locale and re-renders the labels from a real user click', async () => {
+    const user = userEvent.setup();
+    window.history.pushState({}, '', '/ko/foo');
+
+    render(
+      <LocaleProvider initialLocale="ko">
+        <LocaleProbe targetLocale="en" />
+      </LocaleProvider>,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'switch' }));
+
+    expect(routerPush).toHaveBeenCalledWith('/en/foo');
+    expect(screen.getByTestId('locale').textContent).toBe('en');
+    expect(screen.getByTestId('labels').textContent).toBe(JSON.stringify(getLabels('en')));
   });
 
   it('resets the active locale when the initialLocale prop changes', () => {
