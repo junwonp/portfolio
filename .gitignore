@@ -65,3 +65,8 @@ next-env.d.ts
 /dist/
 .vinext/
 .playwright-cli/
+
+# quality tooling artifacts
+/.lighthouseci/
+/.stryker-tmp/
+/reports/
