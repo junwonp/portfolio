@@ -1,3 +1,4 @@
+// @module-tag runtime
 import { cleanup, render } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -15,8 +16,7 @@ const measureTrackAndFill = () => {
   };
 };
 
-// jsdom reports every getBoundingClientRect() width as 0, so a non-zero track
-// width proves a real layout engine rendered this component.
+// jsdom reports every getBoundingClientRect() width as 0, so a non-zero track width proves a real layout engine rendered this.
 describe('ProgressBar layout in a real browser', () => {
   it('clamps an over-range value and fills the whole track', () => {
     render(<ProgressBar value={150} label="Delivery progress" />);

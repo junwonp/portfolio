@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
+// @module-tag dom
 import { act, cleanup, renderHook } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
 
 afterEach(() => {
-  // Vitest globals are off, so RTL's auto-cleanup never registers; unmount explicitly.
   cleanup();
   vi.unstubAllGlobals();
 });
