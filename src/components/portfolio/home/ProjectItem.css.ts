@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-export const isLink = style({});
+const isLink = style({});
 
 export const projectItem = style({
   lineHeight: 'inherit',

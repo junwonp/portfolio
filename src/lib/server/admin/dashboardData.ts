@@ -18,12 +18,12 @@ export type AdminDashboardSearchParams = {
   [key: string]: string | string[] | undefined;
 };
 
-export interface ApplicationProjectOption {
+interface ApplicationProjectOption {
   id: string;
   title: string;
 }
 
-export interface ApplicationFilterOption {
+interface ApplicationFilterOption {
   companyName: string;
   id: number;
   label: string;
@@ -50,7 +50,7 @@ export interface SessionRow {
   applicationLinkLabel: string | null;
 }
 
-export interface RecentInteraction {
+interface RecentInteraction {
   id: number;
   sessionId: string;
   path: string;
@@ -74,7 +74,7 @@ export interface SessionDetail {
   }[];
 }
 
-export interface GetSessionsParams {
+interface GetSessionsParams {
   classification?: 'bot' | 'suspected' | 'human';
   timeRange?: '7d' | '30d' | 'all';
   linkId?: number;
@@ -133,7 +133,7 @@ export interface AdminDashboardData {
   writesEnabled: boolean;
 }
 
-export type DashboardSessionFilter = {
+type DashboardSessionFilter = {
   classification?: GetSessionsParams['classification'];
   timeRange?: GetSessionsParams['timeRange'];
 };
@@ -200,7 +200,7 @@ const MISSING_DB_WRITES_DISABLED_REASON =
 const RUNTIME_WRITES_DISABLED_REASON =
   'develop 환경에서는 production D1/R2 공유를 막기 위해 링크 생성과 삭제가 비활성화됩니다.';
 
-export const isMissingAdminDashboardSchemaError = (error: unknown): boolean =>
+const isMissingAdminDashboardSchemaError = (error: unknown): boolean =>
   error instanceof Error &&
   ADMIN_DASHBOARD_TABLES.some((table) => error.message.includes(`no such table: ${table}`));
 

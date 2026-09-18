@@ -1,22 +1,5 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 
-/* Link card grid */
-
-export const linkCard = style({
-  background: 'var(--color-code-bg)',
-  border: '0.5px solid var(--color-bg-divider)',
-  borderRadius: '0.625rem',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.85rem',
-  padding: '1rem 1.1rem',
-  transition: 'border-color 0.2s ease',
-
-  ':hover': {
-    borderColor: 'color-mix(in srgb, var(--color-primary) 30%, var(--color-bg-divider))',
-  },
-});
-
 /* Link card header */
 
 export const linkCardBadge = style({
@@ -81,7 +64,7 @@ export const actionCell = style({
   whiteSpace: 'nowrap',
 });
 
-export const linkConfigList = style({
+const linkConfigList = style({
   display: 'grid',
   gap: '0.45rem',
   listStyle: 'none',

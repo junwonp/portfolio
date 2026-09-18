@@ -9,7 +9,7 @@ export interface ArticleHeading extends ArticleSection {
   element: HTMLElement;
 }
 
-export const ARTICLE_SELECTOR = '.project-article';
+const ARTICLE_SELECTOR = '.project-article';
 
 export function readArticleHeadings(article: Element): ArticleHeading[] {
   return Array.from(article.querySelectorAll<HTMLElement>('h2')).map((element, index) => {

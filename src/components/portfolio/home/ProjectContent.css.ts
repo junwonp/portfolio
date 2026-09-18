@@ -112,19 +112,6 @@ export const description = style({
   overflowWrap: 'anywhere',
 });
 
-export const metrics = style({
-  display: 'grid',
-  gap: 'var(--space-xs)',
-  gridTemplateColumns: 'repeat(var(--metric-count), minmax(0, 1fr))',
-  margin: 0,
-
-  '@media': {
-    '(max-width: 768px)': {
-      gridTemplateColumns: '1fr',
-    },
-  },
-});
-
 export const resumeContent = style({
   display: 'flex',
   flexDirection: 'column',

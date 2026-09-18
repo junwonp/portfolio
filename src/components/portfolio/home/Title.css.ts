@@ -6,7 +6,7 @@ export const header = style({
   justifyContent: 'space-between',
 });
 
-export const withBack = style({});
+const withBack = style({});
 
 export const titleContainer = style({
   alignItems: 'center',
@@ -35,7 +35,7 @@ export const titleContainer = style({
   },
 });
 
-export const backButton = style({
+const backButton = style({
   display: 'none',
   alignItems: 'center',
   padding: 'var(--space-sm)',
@@ -120,31 +120,6 @@ export const tagline = style({
   },
 });
 
-export const metricsGrid = style({
-  display: 'grid',
-  gap: '0.75rem',
-  gridTemplateColumns: 'repeat(var(--metric-count), minmax(0, 1fr))',
-  margin: 'var(--space-md) 0 var(--space-sm)',
-  width: '100%',
-
-  selectors: {
-    '.dark &': {
-      background: 'transparent',
-      boxShadow: 'none',
-      border: 'none',
-    },
-  },
-
-  '@media': {
-    '(max-width: 640px)': {
-      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-    },
-    '(max-width: 360px)': {
-      gridTemplateColumns: '1fr',
-    },
-  },
-});
-
 export const pillars = style({
   display: 'flex',
   flexDirection: 'column',
@@ -204,14 +179,6 @@ export const pillarDesc = style({
   '@media': {
     '(max-width: 576px)': {
       display: 'none',
-    },
-  },
-});
-
-export const metricValue = style({
-  '@media': {
-    '(max-width: 960px)': {
-      fontSize: '1.25rem',
     },
   },
 });

@@ -87,7 +87,7 @@ export type SkillProps = {
   title: string;
 };
 
-export interface NavSection {
+interface NavSection {
   id: string;
   label: string;
 }

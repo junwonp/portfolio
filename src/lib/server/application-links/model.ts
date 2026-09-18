@@ -3,8 +3,6 @@ import type { RolePresetId, SummaryPresetId } from '@/lib/portfolio/resume';
 import { APPLICATION_SLUG_LENGTH } from '@/lib/utils/applicationSlug';
 
 export {
-  APPLICATION_SLUG_LENGTH,
-  extractApplicationSlugFromPath,
   isReservedApplicationSlug,
   normalizeApplicationSlug,
   RESERVED_APPLICATION_SLUGS,
@@ -75,7 +73,7 @@ export const generateApplicationSlug = (): string => {
   ).join('');
 };
 
-export const parseProjectIds = (value: string): string[] => {
+const parseProjectIds = (value: string): string[] => {
   try {
     const parsed: unknown = JSON.parse(value);
 

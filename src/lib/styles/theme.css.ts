@@ -3,7 +3,7 @@ import { createGlobalTheme, createGlobalThemeContract, globalStyle } from '@vani
 const kebabCase = (str: string) => str.replace(/([A-Z])/g, '-$1').toLowerCase();
 
 // 1. Create a global theme contract with custom names to match existing CSS custom properties
-export const vars = createGlobalThemeContract(
+const vars = createGlobalThemeContract(
   {
     space: {
       '2xs': null,

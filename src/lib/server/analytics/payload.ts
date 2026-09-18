@@ -3,7 +3,7 @@ import {
   normalizeApplicationSlug,
 } from '@/lib/utils/applicationSlug';
 
-export interface AnalyticsPayload {
+interface AnalyticsPayload {
   applicationSlug?: string;
   eventType: 'page';
   activeTime: number;
@@ -20,7 +20,7 @@ export interface AnalyticsPayload {
   sessionId: string;
 }
 
-export interface WebVitalAnalyticsPayload {
+interface WebVitalAnalyticsPayload {
   applicationSlug?: string;
   eventType: 'web-vital';
   metricDelta: number;
@@ -34,7 +34,7 @@ export interface WebVitalAnalyticsPayload {
   sessionId: string;
 }
 
-export interface InteractionPayload {
+interface InteractionPayload {
   applicationSlug?: string;
   eventType: 'interaction';
   interactionType: string;

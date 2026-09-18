@@ -2,7 +2,7 @@ import type { CareerId } from '@/lib/portfolio/types';
 import { CAREER_ID } from '@/lib/portfolio/types';
 import type { Language } from '@/lib/utils/language';
 
-export interface CareerLocaleContent {
+interface CareerLocaleContent {
   additional?: { label: string; link: string };
   companyName: string;
   dateFrom: string;
@@ -12,7 +12,7 @@ export interface CareerLocaleContent {
   titleBadge?: string;
 }
 
-export interface CareerCatalogEntry {
+interface CareerCatalogEntry {
   content: Record<Language, CareerLocaleContent>;
   id: CareerId;
 }

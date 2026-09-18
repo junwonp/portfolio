@@ -52,7 +52,7 @@ const appendValues = (params: URLSearchParams, key: string, values: string[]) =>
 const hasAnyParam = (searchParams: PageSearchParamsRecord, keys: string[]): boolean =>
   keys.some((key) => getParamValues(searchParams, key).length > 0);
 
-export const toHomeUrlSearchParams = (searchParams: PageSearchParamsRecord): URLSearchParams => {
+const toHomeUrlSearchParams = (searchParams: PageSearchParamsRecord): URLSearchParams => {
   const params = new URLSearchParams();
 
   for (const [key, value] of Object.entries(searchParams)) {

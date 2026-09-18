@@ -1,8 +1,4 @@
-import {
-  type CareerCatalogEntry,
-  type CareerLocaleContent,
-  careerCatalog,
-} from '@/content/home/careers';
+import { careerCatalog } from '@/content/home/careers';
 import AdminDashboardEn, {
   frontmatter as adminDashboardEnMetadata,
 } from '@/content/projects/admin-dashboard/detail.en.mdx';
@@ -101,7 +97,7 @@ interface ProjectMdxModule {
   frontmatter: PostMetadata;
 }
 
-export type { CareerCatalogEntry, CareerId, CareerLocaleContent, ProjectId };
+export type { CareerId, ProjectId };
 export { CAREER_ID, careerCatalog, PROJECT_ID };
 
 interface ProjectDefinition {
@@ -290,15 +286,11 @@ export const projectCatalog: ProjectContentEntry[] = projectDefinitions.map((def
   };
 });
 
-export const resumeProjectCatalog = projectCatalog.filter(
-  (project) => project.section !== 'standalone',
-);
+const resumeProjectCatalog = projectCatalog.filter((project) => project.section !== 'standalone');
 
 export const applicationProjectCatalog = resumeProjectCatalog;
 
-export const detailProjectCatalog = projectCatalog.filter((project) => project.detailPath);
-
-export const projectSlugs = projectCatalog.map((project) => project.slug);
+const detailProjectCatalog = projectCatalog.filter((project) => project.detailPath);
 
 export const detailProjectSlugs = detailProjectCatalog.map((project) => project.slug);
 
@@ -338,7 +330,7 @@ export const normalizeApplicationProjectIdentifiers = (
   identifiers: readonly string[],
 ): ProjectId[] => normalizeProjectIdentifiersWithMap(identifiers, applicationProjectIdentifierToId);
 
-export const getProjectBySlug = (slug: string): ProjectContentEntry | undefined =>
+const getProjectBySlug = (slug: string): ProjectContentEntry | undefined =>
   projectCatalog.find((project) => project.slug === slug);
 
 export const getProjectMetadata = (slug: string, locale: Language): PostMetadata | undefined => {

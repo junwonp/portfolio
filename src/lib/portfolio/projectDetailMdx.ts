@@ -4,7 +4,7 @@ import type { ComponentType } from 'react';
 import type { PostMetadata } from '@/lib/portfolio/projectTypes';
 import type { Language } from '@/lib/utils/language';
 
-export interface ProjectDetailMdxProps extends MDXProps {
+interface ProjectDetailMdxProps extends MDXProps {
   locale: Language;
   metadata: PostMetadata;
 }

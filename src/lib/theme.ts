@@ -1,6 +1,6 @@
 import { prefersReducedMotion } from '@/lib/utils/motion';
 
-export type Theme = 'light' | 'dark';
+type Theme = 'light' | 'dark';
 export type ThemePreference = Theme | null; // null = follow the OS
 
 const THEME_STORAGE_KEY = 'theme';

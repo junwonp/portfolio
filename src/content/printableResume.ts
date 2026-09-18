@@ -1,22 +1,22 @@
-export interface ResumeTextStrongPart {
+interface ResumeTextStrongPart {
   strong: true;
   text: string;
 }
 
-export interface ResumeTextCodePart {
+interface ResumeTextCodePart {
   code: true;
   text: string;
 }
 
 export type ResumeTextPart = string | ResumeTextStrongPart | ResumeTextCodePart;
 
-export interface ResumeContactItem {
+interface ResumeContactItem {
   href?: string;
   label: string;
   value: string;
 }
 
-export interface ResumeHeroMetric {
+interface ResumeHeroMetric {
   label: string;
   value: string;
 }
@@ -36,7 +36,7 @@ export interface ResumeWorkEntry {
   role?: string;
 }
 
-export interface ResumeSkillGroup {
+interface ResumeSkillGroup {
   label: string;
   values: string[];
 }

@@ -2,7 +2,7 @@ import { ChevronsUpDown } from 'lucide-react';
 
 import { customSelectContainer, selectControl, triggerIcon } from './Select.css';
 
-export interface Option {
+interface Option {
   value: string;
   label: string;
 }

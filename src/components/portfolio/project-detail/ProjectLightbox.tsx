@@ -9,7 +9,7 @@ import { getResponsiveImageProps } from '@/lib/utils/image';
 import { getVisibleImageIndex, scrollToImage } from './nativeGallery';
 import * as styles from './ProjectLightbox.css';
 
-export interface LightboxImage {
+interface LightboxImage {
   src: string;
   mobileSrc?: string;
   alt: string;

@@ -3,7 +3,7 @@
 import Button from './Button';
 import * as styles from './ButtonGroup.css';
 
-export interface ButtonGroupOption {
+interface ButtonGroupOption {
   value: string;
   label: string;
 }

@@ -12,8 +12,6 @@ export const applicationForm = style({
   },
 });
 
-export const error = style({});
-
 export const projectOrderField = style({
   border: 0,
   display: 'flex',

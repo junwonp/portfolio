@@ -12,7 +12,7 @@ import { sanitizeProjectHtml } from '@/lib/utils/safeHtml';
 
 import * as styles from './ProjectAchievements.css';
 
-export interface Achievement {
+interface Achievement {
   tag: string;
   accent?: boolean;
   title: string;

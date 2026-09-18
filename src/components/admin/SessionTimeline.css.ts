@@ -182,7 +182,7 @@ export const timelineTotal = style({
 
 /* Interaction events panel */
 
-export const interactionGroup = style({
+const interactionGroup = style({
   display: 'flex',
   flexDirection: 'column',
   gap: 'var(--space-xs)',
@@ -195,17 +195,6 @@ globalStyle(`${interactionGroup} ul`, {
   listStyle: 'none',
   margin: 0,
   padding: 0,
-});
-
-export const interactionLabel = style({
-  color: 'var(--color-bold)',
-  fontSize: '0.85rem',
-  fontWeight: 600,
-  marginRight: 'auto',
-  maxWidth: '300px',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
 });
 
 export const interactionAction = style({

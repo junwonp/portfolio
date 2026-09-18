@@ -29,7 +29,7 @@ export interface DocumentProjectBlock {
   images: string[];
 }
 
-export interface DocumentSkillGroup {
+interface DocumentSkillGroup {
   title: string;
   list: string[];
 }
@@ -40,13 +40,13 @@ export interface DocumentProjectSection {
   projects: DocumentProjectBlock[];
 }
 
-export interface DocumentSkillsSection {
+interface DocumentSkillsSection {
   kind: 'skills';
   title: string;
   groups: DocumentSkillGroup[];
 }
 
-export interface DocumentEducationSection {
+interface DocumentEducationSection {
   kind: 'education';
   title: string;
   entries: EducationProps[];

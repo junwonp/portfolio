@@ -11,9 +11,9 @@ export interface RawDailyChartPoint {
   views: number;
 }
 
-export type TrafficBucket = 'day' | 'month';
+type TrafficBucket = 'day' | 'month';
 
-export type TrafficRangeValue = '7d' | '30d' | '1y';
+type TrafficRangeValue = '7d' | '30d' | '1y';
 
 export interface TrafficRangeConfig {
   bucket: TrafficBucket;
@@ -54,14 +54,13 @@ const TRAFFIC_RANGE_CONFIGS: Record<TrafficRangeValue, TrafficRangeConfig> = {
   },
 };
 
-export const getIsoDate = (date: Date): string => date.toISOString().slice(0, 10);
+const getIsoDate = (date: Date): string => date.toISOString().slice(0, 10);
 
-export const addUtcDays = (date: Date, days: number): Date =>
-  new Date(date.getTime() + days * MS_PER_DAY);
+const addUtcDays = (date: Date, days: number): Date => new Date(date.getTime() + days * MS_PER_DAY);
 
-export const getIsoMonth = (date: Date): string => date.toISOString().slice(0, 7);
+const getIsoMonth = (date: Date): string => date.toISOString().slice(0, 7);
 
-export const addUtcMonths = (date: Date, months: number): Date =>
+const addUtcMonths = (date: Date, months: number): Date =>
   new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + months, 1));
 
 export const getTrafficRangeConfig = (value: string | null): TrafficRangeConfig => {
