@@ -38,7 +38,7 @@ export function PortfolioClientShell({ children, locale }: PortfolioClientShellP
         <div className="content-wrapper">
           <main
             id="main-content"
-            className={`content ${isProjectPage ? 'is-project' : ''}`}
+            className={`content${isProjectPage ? ' is-project' : ''}`}
             tabIndex={-1}
           >
             {children}

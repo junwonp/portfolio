@@ -2,7 +2,7 @@
 
 import { Check, Ellipsis, Printer, Share2 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import IconLink from '@/components/ui/IconLink';
 import Github from '@/components/ui/icon/Github';
 import Linkedin from '@/components/ui/icon/Linkedin';
@@ -34,6 +34,13 @@ export default function MobileStickyHeaderActions({ githubLink, linkedinLink, na
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // The copied-label reset timer must not fire after the component unmounts.
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+    };
+  }, []);
 
   const closeMenu = () => menuRef.current?.hidePopover();
 
