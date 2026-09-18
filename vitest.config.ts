@@ -8,6 +8,14 @@ import { defineConfig } from 'vitest/config';
 // Coverage is a Vitest-level option, so it stays here and spans all projects.
 export default defineConfig({
   test: {
+    // `runtime` marks files that boot a real runtime (workerd via Miniflare, or
+    // Chromium), so `--tagsFilter runtime` selects the slow half and
+    // `--tagsFilter '!runtime'` the fast node half. `dom` marks the jsdom-backed
+    // files whose timer/observer lifecycle is what `detectAsyncLeaks` watches.
+    tags: [
+      { name: 'runtime', description: 'Boots a real runtime (workerd or Chromium), slower.' },
+      { name: 'dom', description: 'Runs against jsdom instead of the Node environment.' },
+    ],
     projects: [
       './vitest.node.config.ts',
       './vitest.workers.config.ts',
@@ -23,6 +31,10 @@ export default defineConfig({
       include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'src/**/*.test.{ts,tsx}',
+        // Type-level tests and benchmarks are tooling, not shipped code, so they
+        // stay out of the production denominator the same way *.test.* does.
+        'src/**/*.test-d.ts',
+        'src/**/*.bench.{ts,tsx}',
         'src/**/*.d.ts',
         'src/**/*.css.ts',
         '**/env.d.ts',
@@ -35,10 +47,10 @@ export default defineConfig({
       ],
       // Ratchet: kept a few points under measured coverage so a modest refactor cannot fail the gate.
       thresholds: {
-        statements: 57,
-        branches: 48,
-        functions: 57,
-        lines: 59,
+        statements: 85,
+        branches: 78,
+        functions: 85,
+        lines: 87,
       },
     },
   },

@@ -17,6 +17,9 @@ minimumReleaseAgeExclude:
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - "eslint-import-resolver-typescript@3.10.1"
+  # Lighthouse CI 0.15.1 pulls a legacy tree (express 4, inquirer 6, yargs 15)
+  # that resolves semver 5.x; same accepted-downgrade class as semver@6.3.1.
+  - "semver@5.7.2"
   - "semver@6.3.1"
 blockExoticSubdeps: true
 # Security: keep transitive tooling deps past published advisories.
@@ -24,3 +27,5 @@ overrides:
   browserslist: ^4.28.7
   toml: ^4.2.0
   sharp: ^0.35.4
+patchedDependencies:
+  '@stryker-mutator/instrumenter@10.0.0': patches/@stryker-mutator__instrumenter@10.0.0.patch

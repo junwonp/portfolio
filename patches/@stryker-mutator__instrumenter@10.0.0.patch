@@ -1,0 +1,24 @@
+diff --git a/dist/src/util/syntax-helpers.js b/dist/src/util/syntax-helpers.js
+index 9318ad6d9b1856c7dc5c4b7f2e6a677a2f8ae6b9..822fd69254c6f1ebd088d54829ff16204b0ff848 100644
+--- a/dist/src/util/syntax-helpers.js
++++ b/dist/src/util/syntax-helpers.js
+@@ -115,6 +115,10 @@ export function mutationCoverageSequenceExpression(mutants, targetExpression) {
+ }
+ export function isTypeNode(path) {
+     return (path.isTypeAnnotation() ||
++        // Patched (stryker-js#6208): `expr as T` wraps a RUNTIME expression, so
++        // skipping the node itself discarded every mutant inside it - `as const`
++        // objects produced none. Skip only its type-position children instead.
++        path.isTSType() ||
+         flowTypeAnnotationNodeTypes.includes(path.node.type) ||
+         tsTypeAnnotationNodeTypes.includes(path.node.type) ||
+         isDeclareVariableStatement(path) ||
+@@ -137,7 +141,7 @@ function isDeclareModule(path) {
+     return path.isTSModuleDeclaration() && (path.node.declare ?? false);
+ }
+ const tsTypeAnnotationNodeTypes = Object.freeze([
+-    'TSAsExpression',
++    // 'TSAsExpression' removed by patch - handled in isTypeNode (stryker-js#6208).
+     'TSInterfaceDeclaration',
+     'TSTypeAnnotation',
+     'TSTypeAliasDeclaration',

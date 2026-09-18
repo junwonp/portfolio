@@ -31,10 +31,16 @@ export default defineConfig({
   test: {
     name: 'node',
     clearMocks: true,
+    // Surfaces a timer, interval, or observer a test forgot to release. The
+    // timer/observer-driven jsdom hook tests live in this project.
+    detectAsyncLeaks: true,
     environment: 'node',
     experimental: {
       fsModuleCache: true,
     },
+    // jest-dom only here and in the browser project; the workers runtime has no
+    // DOM and its config deliberately does not load this.
+    setupFiles: ['./vitest.setup.jest-dom.ts'],
     include: ['src/**/*.test.{ts,tsx}', 'scripts/**/*.test.mjs'],
     exclude: [
       ...configDefaults.exclude,

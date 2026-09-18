@@ -7,6 +7,11 @@ import { configDefaults, defineConfig } from 'vitest/config';
 // Node project's `include` cannot also claim them.
 export default defineConfig({
   plugins: [vanillaExtractPlugin()],
+  // The jest-dom setup import is otherwise optimized on first use, which
+  // reloads the page mid-test in browser mode.
+  optimizeDeps: {
+    include: ['@testing-library/jest-dom/vitest'],
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -15,6 +20,7 @@ export default defineConfig({
   test: {
     name: 'browser',
     clearMocks: true,
+    setupFiles: ['./vitest.setup.jest-dom.ts'],
     include: ['src/**/*.browser.test.{ts,tsx}'],
     exclude: configDefaults.exclude,
     browser: {
