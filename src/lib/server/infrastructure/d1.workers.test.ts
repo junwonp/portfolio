@@ -1,3 +1,4 @@
+// @module-tag runtime
 import { env } from 'cloudflare:workers';
 import { describe, expect, it } from 'vitest';
 import type { AnalyticsPayloadBody } from '@/lib/server/analytics/payload';
@@ -6,10 +7,7 @@ import schemaSql from '../../../../schema.sql?raw';
 
 const db = env.portfolio_db;
 
-// D1 `exec()` rejects a batch whose lines are not complete statements, and
-// `schema.sql` documents itself with `--` comments, so strip comments and split
-// on `;` to assert every statement is independently valid. Comments carry no
-// DDL, the tested schema is still the deployed file verbatim.
+// D1 `exec()` needs complete statements, so strip `schema.sql`'s `--` comments and split on `;` before batching every statement.
 const toStatements = (sql: string): string[] =>
   sql
     .split('\n')
