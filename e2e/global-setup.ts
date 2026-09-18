@@ -1,47 +1,32 @@
 import { type BrowserContext, chromium, type FullConfig, type Page } from '@playwright/test';
 
+import { ADMIN_COOKIE } from '../src/lib/server/admin/access';
+
 /*
- * Settles the dev server's Vite dependency optimizer before any test navigates.
+ * Settles the dev server's lazy dependency optimizer before any test navigates.
  *
- * The optimizer is lazy: the first module that imports a dependency triggers its
- * (re)bundle, which bumps that dependency's URL hash, answers the already-served
- * URL with 504 "Outdated Optimize Dep", and sends every connected page
- * `{"type":"full-reload","path":"*"}`. On a cold `node_modules/.vite` — what a
- * fresh `pnpm install` leaves in CI, and what the first run after a dependency
- * change leaves locally — that re-bundle lands in the middle of the first tests
- * that load pages, and the client-initiated reload aborts their in-flight
- * navigation as `net::ERR_ABORTED`.
+ * On a cold `node_modules/.vite` the first import of a dependency triggers a
+ * re-bundle that answers already-served URLs with a 504 and broadcasts
+ * `full-reload`, aborting in-flight navigations as `net::ERR_ABORTED` — measured
+ * at 1 failure in 5 runs of the specs' `/` → `/en/projects/*` sequence. Only a
+ * browser requests the bundle that triggers this, so plain HTTP requests cannot
+ * settle it.
  *
- * Reproduced on the cold cache, failing 1 of 5 runs of the specs' own
- * `/` → `/en/projects/*` sequence; every abort was preceded by the full-reload
- * and a 504 for `node_modules/.vite/deps/react-dom.js`.
+ * Each attempt keeps one connection open across two passes of the route list.
+ * Vite buffers a `full-reload` emitted while no page is connected and delivers it
+ * to the next client, so the first pass triggers the optimizer's last pass and the
+ * second is the window in which it finishes; attempts repeat until one observes
+ * neither event. An abort during warm-up is retried, not reported.
  *
- * So every route the specs visit is loaded here, in a real browser, before any
- * test runs: the optimizer only discovers a dependency when a module imports it,
- * and only a browser requests the resulting client bundle, so an HTTP request
- * alone would not settle it.
- *
- * A single pass is not enough, and neither is a single connection, both measured
- * rather than assumed. Vite buffers a full-reload emitted while no page is
- * connected and hands it to the next client that connects (dist/node/chunks/node.js:
- * `if (payload.type === "full-reload" && !wss.clients.size) bufferedMessage =
- * payload`), so a pass that settles the optimizer after the warm-up's page closed
- * is delivered to the first test — exactly the abort this file exists to prevent.
- * An attempt therefore opens a fresh connection, which drains whatever was buffered
- * for it, and stays connected through two passes of the route list: the first
- * triggers the optimizer's last pass, the second is the window in which that pass
- * finishes, so its reload arrives live instead of being buffered. Attempts repeat
- * until one observes neither a full-reload nor an outdated-dep 504, which is the
- * same condition the tests need. The warm-up's own navigations absorb the churn it
- * exists to trigger: an abort here is retried, not reported.
- *
- * The route list is the union of what the five specs visit, taken from their
- * `page.goto` targets. A new spec that navigates somewhere new should add its
- * route here; `/github` is deliberately absent because the proxy answers it with
- * an external redirect, not a page.
+ * Add a route here when a spec navigates somewhere new. `/github` is deliberately
+ * absent (the proxy answers it with an external redirect), and the admin routes
+ * are warmed separately below because their dashboard chunks need the cookie.
  */
 
 const MAX_ATTEMPTS = 3;
+
+// The login gate and the dashboard are different module graphs; /a is warmed unauthenticated and again behind ADMIN_COOKIE.
+const AUTHENTICATED_ROUTES = ['/a', '/a?tab=links'];
 
 interface OptimizerChurn {
   outdated: number;
@@ -59,27 +44,31 @@ const watchChurn = (page: Page, churn: OptimizerChurn): void => {
   });
 };
 
-/** The optimizer's re-bundle can abort the very navigation that triggers it. */
-const visit = async (page: Page, route: string): Promise<void> => {
+/** Reports failure instead of throwing: warm-up exists to reduce flake, so it must never be what fails the run. */
+const visit = async (page: Page, route: string): Promise<boolean> => {
   for (let attempt = 1; ; attempt += 1) {
     try {
       await page.goto(route, { waitUntil: 'load' });
 
-      return;
+      return true;
     } catch (error) {
-      if (attempt >= 3 || !String(error).includes('ERR_ABORTED')) throw error;
+      if (attempt >= 3 || !String(error).includes('ERR_ABORTED')) return false;
     }
   }
 };
 
-/*
- * The route list is the union of what the five specs visit, taken from their
- * `page.goto` targets; `/github` is absent because the proxy answers it with an
- * external redirect, not a page. The two project routes come from the index's own
- * first card, which is the card the specs open, rather than a hard-coded slug.
- */
+const visitAll = async (page: Page, routes: string[]): Promise<boolean> => {
+  const outcomes: boolean[] = [];
+
+  for (const route of routes) outcomes.push(await visit(page, route));
+
+  return outcomes.every(Boolean);
+};
+
+// The two project routes come from the index's own first card, the one the specs open, not a hard-coded slug.
 const collectRoutes = async (context: BrowserContext): Promise<string[]> => {
   const page = await context.newPage();
+  let slug: string | undefined;
 
   try {
     await visit(page, '/');
@@ -88,24 +77,29 @@ const collectRoutes = async (context: BrowserContext): Promise<string[]> => {
       .locator('a[data-project-link-card="true"][href^="/projects/"]')
       .first()
       .getAttribute('href');
-    const slug = href?.split('/').pop();
-
-    return [
-      '/',
-      '/ko',
-      '/en',
-      '/portfolio',
-      '/portfolio?lang=en',
-      '/resume',
-      '/projects/not-a-real-project',
-      '/r/zzzz',
-      '/en/r/zzzz',
-      '/zzzz',
-      ...(slug ? [`/projects/${slug}`, `/en/projects/${slug}`] : []),
-    ];
+    slug = href?.split('/').pop();
+  } catch (error) {
+    process.stdout.write(
+      `e2e warm-up: could not read the project slug (${String(error)}); warming the static routes only.\n`,
+    );
   } finally {
     await page.close();
   }
+
+  return [
+    '/',
+    '/ko',
+    '/en',
+    '/a',
+    '/portfolio',
+    '/portfolio?lang=en',
+    '/resume',
+    '/projects/not-a-real-project',
+    '/r/zzzz',
+    '/en/r/zzzz',
+    '/zzzz',
+    ...(slug ? [`/projects/${slug}`, `/en/projects/${slug}`] : []),
+  ];
 };
 
 export default async function warmUpDevServer(config: FullConfig): Promise<void> {
@@ -123,17 +117,24 @@ export default async function warmUpDevServer(config: FullConfig): Promise<void>
       const churn: OptimizerChurn = { outdated: 0, reloads: 0 };
       watchChurn(page, churn);
 
+      let settled: boolean;
+
       try {
-        for (const route of routes) await visit(page, route);
-        for (const route of routes) await visit(page, route);
+        settled = await visitAll(page, routes);
+        settled = (await visitAll(page, routes)) && settled;
+
+        // The authenticated pass runs after the open passes so /a warms both the gate and the cookie-only dashboard chunks.
+        await context.addCookies([{ name: ADMIN_COOKIE, value: 'true', url: baseURL }]);
+        settled = (await visitAll(page, AUTHENTICATED_ROUTES)) && settled;
+        settled = (await visitAll(page, AUTHENTICATED_ROUTES)) && settled;
       } finally {
         await page.close();
       }
 
-      if (churn.reloads === 0 && churn.outdated === 0) return;
+      if (settled && churn.reloads === 0 && churn.outdated === 0) return;
 
       process.stdout.write(
-        `e2e warm-up: attempt ${attempt} saw ${churn.reloads} full-reload(s) and ${churn.outdated} outdated-dep 504(s); retrying.\n`,
+        `e2e warm-up: attempt ${attempt} saw ${churn.reloads} full-reload(s), ${churn.outdated} outdated-dep 504(s)${settled ? '' : ' and a failed navigation'}; retrying.\n`,
       );
     }
 
